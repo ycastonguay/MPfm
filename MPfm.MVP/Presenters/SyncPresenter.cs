@@ -36,13 +36,15 @@ namespace MPfm.MVP.Presenters
 	public class SyncPresenter : BasePresenter<ISyncView>, ISyncPresenter
 	{
         readonly ISyncDiscoveryService _syncDiscoveryService;
+        readonly ISyncClientService _syncClientService;
         readonly MobileNavigationManager _mobileNavigationManager;
         readonly NavigationManager _navigationManager;
 	    readonly ISyncDeviceSpecifications _deviceSpecifications;
         List<SyncDevice> _devices = new List<SyncDevice>();
 
-        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncDeviceSpecifications deviceSpecifications)
-		{            
+        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncClientService syncClientService, ISyncDeviceSpecifications deviceSpecifications)
+		{
+            _syncClientService = syncClientService;            
             _deviceSpecifications = deviceSpecifications;
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
@@ -131,7 +133,8 @@ namespace MPfm.MVP.Presenters
                 string ip = _deviceSpecifications.GetIPAddress();
                 View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
 
-                var devices = _syncDiscoveryService.GetDeviceList();
+                //var devices = _syncDiscoveryService.GetDeviceList();
+                var devices = GetTestDeviceList();
                 View.RefreshDevices(devices);
 
                 if(_syncDiscoveryService.IsRunning)
@@ -148,6 +151,21 @@ namespace MPfm.MVP.Presenters
                 Tracing.Log("SyncPresenter - RefreshDevices - Failed to refresh devices: {0}", ex);
                 View.SyncError(ex);
             }
+        }
+
+        private List<SyncDevice> GetTestDeviceList()
+        {
+            var list = new List<SyncDevice>();
+            list.Add(new SyncDevice() { Name = "Nexus 5", DeviceType = SyncDeviceType.AndroidPhone });
+            list.Add(new SyncDevice() { Name = "Nexus 10", DeviceType = SyncDeviceType.AndroidTablet });
+            list.Add(new SyncDevice() { Name = "iPhone 5", DeviceType = SyncDeviceType.iPhone });
+            list.Add(new SyncDevice() { Name = "iPad Air", DeviceType = SyncDeviceType.iPad }); 
+            list.Add(new SyncDevice() { Name = "Nokia Lumia 920", DeviceType = SyncDeviceType.WindowsPhone }); 
+            list.Add(new SyncDevice() { Name = "Surface 2", DeviceType = SyncDeviceType.WindowsStore }); 
+            list.Add(new SyncDevice() { Name = "Windows 8.1", DeviceType = SyncDeviceType.Windows }); 
+            list.Add(new SyncDevice() { Name = "Ubuntu 13.08", DeviceType = SyncDeviceType.Linux }); 
+            list.Add(new SyncDevice() { Name = "MacBook Pro", DeviceType = SyncDeviceType.OSX }); 
+            return list;
         }
     }
 }

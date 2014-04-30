@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
+using MPfm.Player.Objects;
 
 namespace MPfm.Library.Objects
 {
@@ -29,6 +30,7 @@ namespace MPfm.Library.Objects
         public SyncDeviceType DeviceType { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
+        public PlayerMetadata PlayerMetadata { get; set; }
 	}
 	
 	/// <summary>
@@ -40,9 +42,11 @@ namespace MPfm.Library.Objects
 		Linux = 1, 
         OSX = 2, 
         Windows = 3, 
-        iOS = 4, 
-        Android = 5,
-        WindowsPhone = 6,
-        WindowsStore = 7
+        iPhone = 4, 
+        iPad = 5,
+        AndroidPhone = 6,
+        AndroidTablet = 7,
+        WindowsPhone = 8,
+        WindowsStore = 9
 	}
 }

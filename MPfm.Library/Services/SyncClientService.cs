@@ -119,12 +119,25 @@ namespace MPfm.Library.Services
                 return;
             }
 
-            string url = e.UserState.ToString();
-            Console.WriteLine("SyncClientService - Finished downloading index. Deserializing XML...", url);
-            _audioFiles = XmlSerialization.Deserialize<List<AudioFile>>(e.Result);
-            Console.WriteLine("SyncClientService - XML deserialized!");
-            if (OnReceivedIndex != null)
-                OnReceivedIndex(null);
+            var requestType = (RequestTypes)e.UserState;
+            switch (requestType)
+            {
+                case RequestTypes.DownloadIndex:
+                    Console.WriteLine("SyncClientService - Finished downloading index. Deserializing XML...");
+                    _audioFiles = XmlSerialization.Deserialize<List<AudioFile>>(e.Result);
+                    Console.WriteLine("SyncClientService - XML deserialized!");
+                    if (OnReceivedIndex != null)
+                        OnReceivedIndex(null);
+                    break;
+                case RequestTypes.GetPlayerStatus:
+                    break;
+                case RequestTypes.GetPlaylist:
+                    break;
+                case RequestTypes.Remote:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void HandleDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -187,11 +200,23 @@ namespace MPfm.Library.Services
 
 		public void DownloadIndex(SyncDevice device)
         {
+            if (string.IsNullOrEmpty(device.Url))
+                return;
+
 			var url = new Uri(new Uri(device.Url), "/api/index/xml");
             Cancel();
 
             Console.WriteLine("SyncClientService - Downloading index from {0}...", url);
-            _webClient.DownloadStringAsync(url, url);
+            _webClient.DownloadStringAsync(url, RequestTypes.DownloadIndex);
+        }
+
+        public void GetPlayerStatus(string deviceUrl)
+        {
+            var url = new Uri(new Uri(deviceUrl), "/api/player");
+            Cancel();
+
+            Console.WriteLine("SyncClientService - Downloading index from {0}...", url);
+            _webClient.DownloadStringAsync(url, RequestTypes.GetPlayerStatus);
         }
 
         public List<string> GetDistinctArtistNames()
@@ -285,6 +310,11 @@ namespace MPfm.Library.Services
                 Directory.CreateDirectory(folderPath);
 
             return Path.Combine(folderPath, fileName);
+        }
+
+        public enum RequestTypes
+        {
+            DownloadIndex = 0, GetPlayerStatus = 1, GetPlaylist = 2, Remote = 3
         }
     }
 }

@@ -179,6 +179,16 @@ namespace MPfm.Mac
             return new NSString();
         }
 
+        [Export ("tableViewSelectionDidChange:")]
+        public void SelectionDidChange(NSNotification notification)
+        {
+            Console.WriteLine("SelectionDidChange");
+            if (tableViewDevices.SelectedRow < 0)
+                return;
+
+            RefreshDeviceDetails(_items [tableViewDevices.SelectedRow]);
+        }
+
         [Export ("tableView:viewForTableColumn:row:")]
         public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
@@ -200,19 +210,31 @@ namespace MPfm.Mac
                 switch (_items[row].DeviceType)
                 {
                     case SyncDeviceType.Linux:
-                        iconName = "icon_linux";
+                        iconName = "pc_linux";
                         break;
                     case SyncDeviceType.OSX:
-                        iconName = "icon_osx";
+                        iconName = "pc_mac";
                         break;
                     case SyncDeviceType.Windows:
-                        iconName = "icon_windows";
+                        iconName = "pc_windows";
                         break;
-                    case SyncDeviceType.iOS:
-                        iconName = "icon_phone";
+                    case SyncDeviceType.iPhone:
+                        iconName = "phone_iphone";
                         break;
-                    case SyncDeviceType.Android:
-                        iconName = "icon_android";
+                    case SyncDeviceType.iPad:
+                        iconName = "tablet_ipad";
+                        break;
+                    case SyncDeviceType.AndroidPhone:
+                        iconName = "phone_android";
+                        break;
+                    case SyncDeviceType.AndroidTablet:
+                        iconName = "tablet_android";
+                        break;
+                    case SyncDeviceType.WindowsPhone:
+                        iconName = "phone_windows";
+                        break;
+                    case SyncDeviceType.WindowsStore:
+                        iconName = "tablet_windows";
                         break;
                 }
                 var frameImageView = view.ImageView.Frame;
@@ -220,8 +242,7 @@ namespace MPfm.Mac
                 frameImageView.Width = 24;
                 frameImageView.Y -= 6;
                 view.ImageView.Frame = frameImageView;
-                view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "phone_iphone");// iconName);
-                //view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
+                view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
             }
 
             var frame = view.TextField.Frame;
@@ -239,6 +260,51 @@ namespace MPfm.Mac
             //Console.WriteLine("=======> GetRowView - row: {0}", row);
             var rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
             return rowView;
+        }
+
+        private void RefreshDeviceDetails(SyncDevice device)
+        {
+            string iconName = string.Empty;
+            switch (device.DeviceType)
+            {
+                case SyncDeviceType.Linux:
+                    iconName = "pc_linux_large";
+                    break;
+                case SyncDeviceType.OSX:
+                    iconName = "pc_mac_large";
+                    break;
+                case SyncDeviceType.Windows:
+                    iconName = "pc_windows_large";
+                    break;
+                case SyncDeviceType.iPhone:
+                    iconName = "phone_iphone_large";
+                    break;
+                case SyncDeviceType.iPad:
+                    iconName = "tablet_ipad_large";
+                    break;
+                case SyncDeviceType.AndroidPhone:
+                    iconName = "phone_android_large";
+                    break;
+                case SyncDeviceType.AndroidTablet:
+                    iconName = "tablet_android_large";
+                    break;
+                case SyncDeviceType.WindowsPhone:
+                    iconName = "phone_windows_large";
+                    break;
+                case SyncDeviceType.WindowsStore:
+                    iconName = "tablet_windows_large";
+                    break;
+            }
+
+            lblDeviceName.StringValue = device.Name;
+            lblDeviceUrl.StringValue = string.IsNullOrEmpty(device.Url) ? "Unknown" : device.Url;
+            lblPlayerStatus.StringValue = "Unavailable";
+            imageViewDeviceType.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
+
+            lblArtistName.StringValue = string.Empty;
+            lblAlbumTitle.StringValue = string.Empty;
+            lblSongTitle.StringValue = string.Empty;
+            lblPosition.StringValue = string.Empty;
         }
 
         #region ISyncView implementation
