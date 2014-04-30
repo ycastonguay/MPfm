@@ -61,10 +61,76 @@ namespace MPfm.MVP.Presenters
             view.OnOpenConnectDevice = OpenConnectDevice;
             view.OnCancelDiscovery = CancelDiscovery;
             view.OnStartDiscovery = RefreshDevices;
+
+            view.OnRemotePlayPause = RemotePlayPause;
+            view.OnRemotePrevious = RemotePrevious;
+            view.OnRemoteNext = RemoteNext;
+            view.OnRemoteShuffle = RemoteShuffle;
+            view.OnRemoteRepeat = RemoteRepeat;
             base.BindView(view);
 
             Initialize();
         }       
+
+        private void RemotePlayPause(SyncDevice device)
+        {
+            try
+            {
+                _syncDeviceManagerService.RemotePause(device);
+            }
+            catch(Exception ex)
+            {
+                View.SyncError(ex);
+            }
+        }
+
+        private void RemotePrevious(SyncDevice device)
+        {
+            try
+            {
+                _syncDeviceManagerService.RemotePrevious(device);
+            }
+            catch(Exception ex)
+            {
+                View.SyncError(ex);
+            }
+        }
+
+        private void RemoteNext(SyncDevice device)
+        {
+            try
+            {
+                _syncDeviceManagerService.RemoteNext(device);
+            }
+            catch(Exception ex)
+            {
+                View.SyncError(ex);
+            }
+        }
+
+        private void RemoteShuffle(SyncDevice device)
+        {
+            try
+            {
+                _syncDeviceManagerService.RemoteShuffle(device);
+            }
+            catch(Exception ex)
+            {
+                View.SyncError(ex);
+            }
+        }
+
+        private void RemoteRepeat(SyncDevice device)
+        {
+            try
+            {
+                _syncDeviceManagerService.RemoteRepeat(device);
+            }
+            catch(Exception ex)
+            {
+                View.SyncError(ex);
+            }
+        }
 
         private void Initialize()
         {

@@ -38,5 +38,13 @@ namespace MPfm.Library.Services.Interfaces
 
         void AddDevice(SyncDevice device);
         void RemoveDevice(SyncDevice device);
+
+        void RemotePlay(SyncDevice device);
+        void RemotePause(SyncDevice device);
+        void RemoteStop(SyncDevice device);
+        void RemotePrevious(SyncDevice device);
+        void RemoteNext(SyncDevice device);
+        void RemoteRepeat(SyncDevice device);
+        void RemoteShuffle(SyncDevice device);
     }
 }

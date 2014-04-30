@@ -286,18 +286,6 @@ namespace MPfm.Library.Services
             }
         }
 
-//        public static PlayerPositionEntity GetPositionEntity(long positionBytes, long lengthBytes, uint bitsPerSample, uint sampleRate)
-//        {
-//            PlayerPositionEntity entity = new PlayerPositionEntity();
-//            entity.PositionBytes = positionBytes;
-//            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, bitsPerSample, 2);
-//            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
-//            //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-//            entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-//            entity.PositionPercentage = ((float)positionBytes / (float)lengthBytes) * 100;
-//            return entity;
-//        }
-
         private void ProcessGetAudioFileCommand(HttpListenerContext httpContext, string command)
         {
             try

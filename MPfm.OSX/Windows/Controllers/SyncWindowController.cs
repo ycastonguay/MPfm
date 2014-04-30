@@ -77,6 +77,7 @@ namespace MPfm.Mac
             tableViewDevices.WeakDataSource = this;
 
             lblStatus.StringValue = "Loading...";
+            BindRemotePlayerButtons();
             LoadFontsAndImages();
             ResetFields();
             OnViewReady(this);
@@ -146,6 +147,36 @@ namespace MPfm.Mac
             btnNext.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_next");
             btnRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat");
             btnShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
+        }
+
+        private void BindRemotePlayerButtons()
+        {
+            btnPlayPause.OnButtonSelected += (button) => 
+            {  
+                if(tableViewDevices.SelectedRow == -1) return;
+                OnRemotePlayPause(_items[tableViewDevices.SelectedRow]); 
+            };
+            btnPrevious.OnButtonSelected += (button) =>
+            {
+                if(tableViewDevices.SelectedRow == -1) return;
+                OnRemotePrevious(_items [tableViewDevices.SelectedRow]);
+            };
+            btnNext.OnButtonSelected += (button) =>
+            {
+                if(tableViewDevices.SelectedRow == -1) return;
+                OnRemoteNext(_items [tableViewDevices.SelectedRow]);
+            };
+            btnRepeat.OnButtonSelected += (button) =>
+            {
+                if(tableViewDevices.SelectedRow == -1) return;
+                OnRemoteRepeat(_items [tableViewDevices.SelectedRow]);
+            };
+            btnShuffle.OnButtonSelected += (button) =>
+            {
+                if(tableViewDevices.SelectedRow == -1) return;
+                OnRemoteShuffle(_items [tableViewDevices.SelectedRow]);
+            };
+
         }
 
         private void ResetFields()
@@ -323,7 +354,7 @@ namespace MPfm.Mac
                 lblSongTitle.StringValue = device.PlayerMetadata.CurrentAudioFile.Title;
                 lblPosition.StringValue = string.Format("{0} / {1}", device.PlayerMetadata.Position, device.PlayerMetadata.Length);
                 lblPlaylist.StringValue = string.Format("On-the-fly Playlist ({0}/{1})", device.PlayerMetadata.PlaylistIndex, device.PlayerMetadata.PlaylistCount);
-                LoadAlbumArt(device.PlayerMetadata.AlbumArt);
+                LoadAlbumArt(device.AlbumArt);
             } 
             else
             {
@@ -386,6 +417,12 @@ namespace MPfm.Mac
         public Action OnStartDiscovery { get; set; }
         public Action OnCancelDiscovery { get; set; }
         public Action OnOpenConnectDevice { get; set; }
+
+        public Action<SyncDevice> OnRemotePlayPause { get; set; }
+        public Action<SyncDevice> OnRemotePrevious { get; set; }
+        public Action<SyncDevice> OnRemoteNext { get; set; }
+        public Action<SyncDevice> OnRemoteRepeat { get; set; }
+        public Action<SyncDevice> OnRemoteShuffle { get; set; }
 
         public void SyncError(Exception ex)
         {

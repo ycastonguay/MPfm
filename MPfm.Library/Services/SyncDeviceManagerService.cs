@@ -35,6 +35,7 @@ namespace MPfm.Library.Services
         private readonly ISyncDiscoveryService _discoveryService;
         private readonly ISyncDeviceSpecifications _deviceSpecifications;
         private readonly WebClientTimeout _webClient;
+        private readonly WebClientTimeout _webClientRemote;
         private List<SyncDevice> _devices;
 
         public event StatusUpdated OnStatusUpdated;
@@ -56,6 +57,7 @@ namespace MPfm.Library.Services
             _discoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
             _discoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
             _webClient = new WebClientTimeout(3000);
+            _webClientRemote = new WebClientTimeout(3000);
 
             InitializeLooper();
         }
@@ -78,7 +80,7 @@ namespace MPfm.Library.Services
                         if(item != null)
                         {
                             // Check timestamp; do not update status more often than 5 seconds
-                            if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(15))
+                            if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(5))
                             {
                                 string url = string.Format("{0}api/player", item.Url);
                                 OnStatusUpdated(string.Format("Updating status from {0}...", item.Name));
@@ -100,24 +102,28 @@ namespace MPfm.Library.Services
                                     Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
                                 }
 
-                                string albumArtUrl = string.Format("{0}api/albumart/{1}", item.Url, item.PlayerMetadata.CurrentAudioFile.Id);
-                                OnStatusUpdated(string.Format("Downloading album art from {0}...", item.Name));
-                                Console.WriteLine("SyncDeviceManagerService - Downloading album art - url: {0}", albumArtUrl);
-                                try
+                                string albumArtKey = string.Format("{0}_{1}", item.PlayerMetadata.CurrentAudioFile.ArtistName, item.PlayerMetadata.CurrentAudioFile.AlbumTitle);
+                                if(!string.Equals(albumArtKey, item.AlbumArtKey, StringComparison.InvariantCultureIgnoreCase))
                                 {
-                                    byte[] data = _webClient.DownloadData(albumArtUrl);
-                                    item.PlayerMetadata.AlbumArt = data;
+                                    string albumArtUrl = string.Format("{0}api/albumart/{1}", item.Url, item.PlayerMetadata.CurrentAudioFile.Id);
+                                    OnStatusUpdated(string.Format("Downloading album art from {0}...", item.Name));
+                                    Console.WriteLine("SyncDeviceManagerService - Downloading album art - url: {0}", albumArtUrl);
+                                    try
+                                    {
+                                        byte[] data = _webClient.DownloadData(albumArtUrl);
+                                        item.AlbumArt = data;
+                                        item.AlbumArtKey = albumArtKey;
 
-                                    //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
-                                    OnStatusUpdated(string.Format("Downloading album art from {0}... finished!", item.Name));
-                                    OnDeviceUpdated(item);
+                                        //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
+                                        OnStatusUpdated(string.Format("Downloading album art from {0}... finished!", item.Name));
+                                        OnDeviceUpdated(item);
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        item.LastUpdated = DateTime.Now;
+                                        Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                    }
                                 }
-                                catch(Exception ex)
-                                {
-                                    item.LastUpdated = DateTime.Now;
-                                    Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
-                                }
-
                             }
                             else
                             {
@@ -190,6 +196,50 @@ namespace MPfm.Library.Services
                 _devices.Remove(device);
             }
             OnDeviceRemoved(device);
+        }
+
+        private void RemoteCommand(SyncDevice device, string command)
+        {
+            if (device == null || string.IsNullOrEmpty(device.Url))
+                return;
+
+            string remoteUrl = string.Format("{0}api/remote/{1}", device.Url, command);
+            _webClientRemote.DownloadStringAsync(new Uri(remoteUrl));
+        }
+
+        public void RemotePlay(SyncDevice device)
+        {
+            RemoteCommand(device, "play");
+        }
+
+        public void RemotePause(SyncDevice device)
+        {
+            RemoteCommand(device, "pause");
+        }
+
+        public void RemoteStop(SyncDevice device)
+        {
+            RemoteCommand(device, "stop");
+        }
+
+        public void RemotePrevious(SyncDevice device)
+        {
+            RemoteCommand(device, "previous");
+        }
+
+        public void RemoteNext(SyncDevice device)
+        {
+            RemoteCommand(device, "next");
+        }
+
+        public void RemoteRepeat(SyncDevice device)
+        {
+            RemoteCommand(device, "repeat");
+        }
+
+        public void RemoteShuffle(SyncDevice device)
+        {
+            RemoteCommand(device, "shuffle");
         }
 
         private void StartDiscovery()

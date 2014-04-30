@@ -80,11 +80,11 @@
                     </customView>
                     <customView id="Ys7-l5-6Xr" customClass="MPfmView">
                         <rect key="frame" x="315" y="144" width="300" height="356"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                         <subviews>
                             <button verticalHuggingPriority="750" id="24" customClass="MPfmButton">
                                 <rect key="frame" x="161" y="207" width="139" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Sync Library" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="25">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="12" name="HelveticaNeue"/>
@@ -92,7 +92,7 @@
                             </button>
                             <button verticalHuggingPriority="750" id="Hkb-j5-KaA" customClass="MPfmButton">
                                 <rect key="frame" x="9" y="207" width="141" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Resume Playback" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3nk-J8-JZz">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="12" name="HelveticaNeue"/>
@@ -139,72 +139,72 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Hhb-Lf-tyr"/>
                             </imageView>
                             <textField verticalHuggingPriority="750" id="CL6-UO-xfZ">
-                                <rect key="frame" x="74" y="301" width="180" height="20"/>
+                                <rect key="frame" x="74" y="301" width="213" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Device Name]" id="rVu-5W-Qez">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Device Name]" id="rVu-5W-Qez">
                                     <font key="font" size="13" name="HelveticaNeue"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="58Q-Rw-WUR">
-                                <rect key="frame" x="74" y="282" width="180" height="20"/>
+                                <rect key="frame" x="74" y="282" width="219" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Device Url]" id="qO5-Wi-x0p">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Device Url]" id="qO5-Wi-x0p">
                                     <font key="font" size="12" name="HelveticaNeue"/>
                                     <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="39i-r8-4wt">
-                                <rect key="frame" x="95" y="149" width="180" height="20"/>
+                                <rect key="frame" x="95" y="149" width="198" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Artist Name]" id="B4d-K1-k4y">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Artist Name]" id="B4d-K1-k4y">
                                     <font key="font" size="13" name="HelveticaNeue"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="IEB-sJ-6hQ">
-                                <rect key="frame" x="95" y="126" width="180" height="20"/>
+                                <rect key="frame" x="95" y="126" width="198" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Album Title]" id="Fre-3R-aHz">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Album Title]" id="Fre-3R-aHz">
                                     <font key="font" size="12" name="HelveticaNeue"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="wpS-MP-tXa">
-                                <rect key="frame" x="95" y="106" width="180" height="20"/>
+                                <rect key="frame" x="95" y="106" width="198" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Song Title]" id="rYy-cq-oSk">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Song Title]" id="rYy-cq-oSk">
                                     <font key="font" size="12" name="HelveticaNeue"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="yuz-po-SJ9">
-                                <rect key="frame" x="95" y="87" width="180" height="20"/>
+                                <rect key="frame" x="95" y="87" width="192" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Position / Length]" id="oDa-dH-vI1">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Position / Length]" id="oDa-dH-vI1">
                                     <font key="font" size="11" name="HelveticaNeue"/>
                                     <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="K7o-M8-EjC">
-                                <rect key="frame" x="7" y="63" width="286" height="20"/>
+                                <rect key="frame" x="7" y="66" width="286" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Playlist]" id="aIw-7N-9Cm">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Playlist]" id="aIw-7N-9Cm">
                                     <font key="font" size="11" name="HelveticaNeue"/>
                                     <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="Oql-Et-EhQ">
-                                <rect key="frame" x="74" y="262" width="180" height="20"/>
+                                <rect key="frame" x="74" y="262" width="219" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Player Status]" id="L64-HA-J3c">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Player Status]" id="L64-HA-J3c">
                                     <font key="font" size="11" name="HelveticaNeue"/>
                                     <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -233,7 +233,7 @@
                             <textField verticalHuggingPriority="750" id="elp-aP-rH6">
                                 <rect key="frame" x="6" y="240" width="287" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[LastUpdated]" id="ZJ0-bL-aV5">
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[LastUpdated]" id="ZJ0-bL-aV5">
                                     <font key="font" size="11" name="HelveticaNeue"/>
                                     <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -432,9 +432,9 @@
                         </tableHeaderView>
                     </scrollView>
                     <textField verticalHuggingPriority="750" id="XcF-sw-fmX">
-                        <rect key="frame" x="30" y="118" width="276" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Status]" id="0tx-0M-sZe">
+                        <rect key="frame" x="30" y="118" width="586" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Status]" id="0tx-0M-sZe">
                             <font key="font" size="12" name="HelveticaNeue"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

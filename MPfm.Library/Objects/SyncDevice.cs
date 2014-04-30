@@ -31,6 +31,8 @@ namespace MPfm.Library.Objects
         public string Name { get; set; }
         public string Url { get; set; }
         public DateTime LastUpdated { get; set; }
+        public byte[] AlbumArt { get; set; }
+        public string AlbumArtKey { get; set; }
         public PlayerMetadata PlayerMetadata { get; set; }
 	}
 	

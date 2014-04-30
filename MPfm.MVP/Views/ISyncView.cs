@@ -33,6 +33,12 @@ namespace MPfm.MVP.Views
         Action OnStartDiscovery { get; set; }
         Action OnCancelDiscovery { get; set; }
 
+        Action<SyncDevice> OnRemotePlayPause { get; set; }
+        Action<SyncDevice> OnRemotePrevious { get; set; }
+        Action<SyncDevice> OnRemoteNext { get; set; }
+        Action<SyncDevice> OnRemoteRepeat { get; set; }
+        Action<SyncDevice> OnRemoteShuffle { get; set; }
+
         void SyncError(Exception ex);
         void RefreshIPAddress(string address);
         void RefreshDiscoveryProgress(float percentageDone, string status);

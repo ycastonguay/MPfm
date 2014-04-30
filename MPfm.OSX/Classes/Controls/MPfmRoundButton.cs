@@ -47,6 +47,9 @@ namespace MPfm.Mac.Classes.Controls
         public CGColor MouseOverBorderColor { get; set; }
         public NSImageView ImageView { get; private set; }
 
+        public delegate void ButtonSelected(MPfmRoundButton button);
+        public event ButtonSelected OnButtonSelected;
+
         [Export("init")]
         public MPfmRoundButton() : base(NSObjectFlag.Empty)
         {
@@ -122,6 +125,8 @@ namespace MPfm.Mac.Classes.Controls
             _layerCircle.FillColor = BackgroundMouseOverColor;
             _layerCircle.StrokeColor = MouseOverBorderColor;
             SetNeedsDisplay();
+            if(OnButtonSelected != null)
+                OnButtonSelected(this);
         }
 
         [Export("mouseEntered:")]
