@@ -24,6 +24,7 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.Mac.Classes.Objects;
 using MPfm.Mac.Classes.Helpers;
+using MPfm.Mac.Classes.Controls;
 
 namespace MPfm.Mac
 {
@@ -55,9 +56,12 @@ namespace MPfm.Mac
         {
             base.WindowDidLoad();
 
-            btnConnect.Enabled = false;
+            tableViewDevices.RowHeight = 28;
             tableViewDevices.WeakDelegate = this;
             tableViewDevices.WeakDataSource = this;
+
+            imageViewDeviceType.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "tablet_android_large");
+
             LoadFontsAndImages();
             OnViewReady.Invoke(this);
         }
@@ -71,6 +75,9 @@ namespace MPfm.Mac
 
             viewDeviceDetailsHeader.BackgroundColor1 = GlobalTheme.AlbumCoverBackgroundColor1;
             viewDeviceDetailsHeader.BackgroundColor2 = GlobalTheme.AlbumCoverBackgroundColor2;
+            viewRemotePlayerHeader.BackgroundColor1 = GlobalTheme.AlbumCoverBackgroundColor1;
+            viewRemotePlayerHeader.BackgroundColor2 = GlobalTheme.AlbumCoverBackgroundColor2;
+
             viewSubtitleHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewSubtitleHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
             viewConnectManualHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
@@ -83,6 +90,7 @@ namespace MPfm.Mac
             lblSubtitle.Font = subtitleFont;
             lblConnectManual.Font = subtitleFont;
             lblDeviceDetails.Font = subtitleFont;
+            lblRemotePlayer.Font = subtitleFont;
 
             var textFont = NSFont.FromFontName("Roboto", 12f);
             var textColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
@@ -100,11 +108,27 @@ namespace MPfm.Mac
             lblLibraryUrl.Font = noteFont;
             lblLibraryUrl.TextColor = noteColor;           
 
+            lblDeviceName.Font = NSFont.FromFontName("Roboto", 13f);
+            lblDeviceUrl.Font = NSFont.FromFontName("Roboto Light", 12f);
+            lblPlayerStatus.Font = NSFont.FromFontName("Roboto Light", 11f);
+
+            lblArtistName.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblAlbumTitle.Font = NSFont.FromFontName("Roboto", 14f);
+            lblSongTitle.Font = NSFont.FromFontName("Roboto", 13f);
+            lblPosition.Font = NSFont.FromFontName("Roboto Light", 11f);
+
             btnRefreshDevices.StringValue = "Cancel refresh";
 
-            btnConnect.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_connect");
-            btnConnectManual.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnSyncLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_library");
+            btnResumePlayback.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
+            btnConnectManual.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_refresh");
+
+            btnPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
+            btnPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
+            btnNext.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_next");
+            btnRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat");
+            btnShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
         }
 
         private void RefreshDeviceListButton()
@@ -121,13 +145,13 @@ namespace MPfm.Mac
             }
         }
 
-        partial void actionConnect(NSObject sender)
-        {
-            if(tableViewDevices.SelectedRow == -1)
-                return;
-
-            OnConnectDevice(_items[tableViewDevices.SelectedRow]);
-        }
+//        partial void actionConnect(NSObject sender)
+//        {
+//            if(tableViewDevices.SelectedRow == -1)
+//                return;
+//
+//            OnConnectDevice(_items[tableViewDevices.SelectedRow]);
+//        }
 
         partial void actionConnectManual(NSObject sender)
         {
@@ -167,10 +191,9 @@ namespace MPfm.Mac
             else
             {
                 view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
-                view.TextField.StringValue = _items[row].Url;
+                view.TextField.StringValue = "Unavailable"; //_items[row].Url;
             }
 
-            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             if (view.ImageView != null)
             {
                 string iconName = string.Empty;
@@ -192,9 +215,30 @@ namespace MPfm.Mac
                         iconName = "icon_android";
                         break;
                 }
-                view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
+                var frameImageView = view.ImageView.Frame;
+                frameImageView.Height = 24;
+                frameImageView.Width = 24;
+                frameImageView.Y -= 6;
+                view.ImageView.Frame = frameImageView;
+                view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "phone_iphone");// iconName);
+                //view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
             }
+
+            var frame = view.TextField.Frame;
+            frame.X = tableColumn.Identifier == "columnDeviceName" ? 30 : -2;
+            frame.Y = view.Frame.Height - 19;
+            view.TextField.Frame = frame;
+            view.TextField.Font = NSFont.FromFontName("Roboto", 12);
+
             return view;
+        }
+
+        [Export ("tableView:rowViewForRow:")]
+        private NSTableRowView GetRowView(NSTableView tableView, int row)
+        {
+            //Console.WriteLine("=======> GetRowView - row: {0}", row);
+            var rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
+            return rowView;
         }
 
         #region ISyncView implementation

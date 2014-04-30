@@ -179,7 +179,27 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("toolbar_preferences"),
                 NSImage.ImageNamed("toolbar_previous"),
                 NSImage.ImageNamed("toolbar_repeat"),
-                NSImage.ImageNamed("toolbar_shuffle")
+                NSImage.ImageNamed("toolbar_shuffle"),
+                NSImage.ImageNamed("pc_android"),
+                NSImage.ImageNamed("pc_android_large"),
+                NSImage.ImageNamed("pc_linux"),
+                NSImage.ImageNamed("pc_linux_large"),
+                NSImage.ImageNamed("pc_mac"),
+                NSImage.ImageNamed("pc_mac_large"),
+                NSImage.ImageNamed("pc_windows"),
+                NSImage.ImageNamed("pc_windows_large"),
+                NSImage.ImageNamed("phone_android"),
+                NSImage.ImageNamed("phone_android_large"),
+                NSImage.ImageNamed("phone_iphone"),
+                NSImage.ImageNamed("phone_iphone_large"),
+                NSImage.ImageNamed("phone_windows"),
+                NSImage.ImageNamed("phone_windows_large"),
+                NSImage.ImageNamed("tablet_android"),
+                NSImage.ImageNamed("tablet_android_large"),
+                NSImage.ImageNamed("tablet_ipad"),
+                NSImage.ImageNamed("tablet_ipad_large"),
+                NSImage.ImageNamed("tablet_windows"),
+                NSImage.ImageNamed("tablet_windows_large")
             };
         }
     }

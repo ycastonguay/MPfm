@@ -55,7 +55,7 @@ namespace MPfm.Mac.Classes.Controls
         private void Initialize()
         {
             this.BackgroundColor = NSColor.Blue;
-            this.SelectionHighlightStyle = NSTableViewSelectionHighlightStyle.None;          
+            //this.SelectionHighlightStyle = NSTableViewSelectionHighlightStyle.None;          
             GradientColor1 = new CGColor(1.0f, 1.0f, 1.0f);
             GradientColor2 = new CGColor(0.8f, 0.8f, 0.8f);
         }
@@ -84,13 +84,25 @@ namespace MPfm.Mac.Classes.Controls
 
         public override void DrawBackground(RectangleF dirtyRect)
         {
-            base.DrawBackground(dirtyRect); // WTF Backgrounn? Must be a naming bug in MonoMac.
+            //base.DrawBackground(dirtyRect);
+            //Console.WriteLine("DrawBackground");
 
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
             CoreGraphicsHelper.FillRect(context, dirtyRect, new CGColor(1, 1, 1));
 
             if(IsBorderVisible)
                 CoreGraphicsHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.7f, 0.7f, 0.7f));
+        }
+
+        public override void DrawSelection(RectangleF dirtyRect)
+        {
+            //base.DrawSelection(dirtyRect);
+            //Console.WriteLine("DrawSelection");
+            if (SelectionHighlightStyle == NSTableViewSelectionHighlightStyle.None)
+                return;
+
+            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            CoreGraphicsHelper.FillRect(context, dirtyRect, new CGColor(1, 0, 0));
         }
     }
 }

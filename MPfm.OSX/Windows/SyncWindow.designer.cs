@@ -13,13 +13,43 @@ namespace MPfm.Mac
 	partial class SyncWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSButton btnConnect { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSButton btnConnectManual { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnNext { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnPlayPause { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnPrevious { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton btnRefreshDevices { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnRepeat { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnResumePlayback { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnShuffle { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnSyncLibrary { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSImageView imageViewAlbum { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSImageView imageViewDeviceType { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblAlbumTitle { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblArtistName { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblConnectManual { get; set; }
@@ -34,7 +64,25 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblDeviceDetails { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblDeviceName { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblDeviceUrl { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibraryUrl { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPlayerStatus { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblRemotePlayer { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSongTitle { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSubtitle { get; set; }
@@ -64,13 +112,13 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmView viewDeviceDetailsHeader { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewRemotePlayerHeader { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewSubtitleHeader { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewTitleHeader { get; set; }
-
-		[Action ("actionConnect:")]
-		partial void actionConnect (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionConnectManual:")]
 		partial void actionConnectManual (MonoMac.Foundation.NSObject sender);
@@ -80,11 +128,6 @@ namespace MPfm.Mac
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnConnect != null) {
-				btnConnect.Dispose ();
-				btnConnect = null;
-			}
-
 			if (btnConnectManual != null) {
 				btnConnectManual.Dispose ();
 				btnConnectManual = null;
@@ -108,6 +151,11 @@ namespace MPfm.Mac
 			if (lblConnectManualUrl != null) {
 				lblConnectManualUrl.Dispose ();
 				lblConnectManualUrl = null;
+			}
+
+			if (lblDeviceDetails != null) {
+				lblDeviceDetails.Dispose ();
+				lblDeviceDetails = null;
 			}
 
 			if (lblLibraryUrl != null) {
@@ -155,6 +203,11 @@ namespace MPfm.Mac
 				viewDetails = null;
 			}
 
+			if (viewDeviceDetailsHeader != null) {
+				viewDeviceDetailsHeader.Dispose ();
+				viewDeviceDetailsHeader = null;
+			}
+
 			if (viewSubtitleHeader != null) {
 				viewSubtitleHeader.Dispose ();
 				viewSubtitleHeader = null;
@@ -165,14 +218,94 @@ namespace MPfm.Mac
 				viewTitleHeader = null;
 			}
 
-			if (lblDeviceDetails != null) {
-				lblDeviceDetails.Dispose ();
-				lblDeviceDetails = null;
+			if (lblDeviceName != null) {
+				lblDeviceName.Dispose ();
+				lblDeviceName = null;
 			}
 
-			if (viewDeviceDetailsHeader != null) {
-				viewDeviceDetailsHeader.Dispose ();
-				viewDeviceDetailsHeader = null;
+			if (lblDeviceUrl != null) {
+				lblDeviceUrl.Dispose ();
+				lblDeviceUrl = null;
+			}
+
+			if (imageViewDeviceType != null) {
+				imageViewDeviceType.Dispose ();
+				imageViewDeviceType = null;
+			}
+
+			if (btnPrevious != null) {
+				btnPrevious.Dispose ();
+				btnPrevious = null;
+			}
+
+			if (btnPlayPause != null) {
+				btnPlayPause.Dispose ();
+				btnPlayPause = null;
+			}
+
+			if (btnNext != null) {
+				btnNext.Dispose ();
+				btnNext = null;
+			}
+
+			if (btnRepeat != null) {
+				btnRepeat.Dispose ();
+				btnRepeat = null;
+			}
+
+			if (btnShuffle != null) {
+				btnShuffle.Dispose ();
+				btnShuffle = null;
+			}
+
+			if (lblPlayerStatus != null) {
+				lblPlayerStatus.Dispose ();
+				lblPlayerStatus = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblSongTitle != null) {
+				lblSongTitle.Dispose ();
+				lblSongTitle = null;
+			}
+
+			if (imageViewAlbum != null) {
+				imageViewAlbum.Dispose ();
+				imageViewAlbum = null;
+			}
+
+			if (lblPosition != null) {
+				lblPosition.Dispose ();
+				lblPosition = null;
+			}
+
+			if (lblRemotePlayer != null) {
+				lblRemotePlayer.Dispose ();
+				lblRemotePlayer = null;
+			}
+
+			if (viewRemotePlayerHeader != null) {
+				viewRemotePlayerHeader.Dispose ();
+				viewRemotePlayerHeader = null;
+			}
+
+			if (btnSyncLibrary != null) {
+				btnSyncLibrary.Dispose ();
+				btnSyncLibrary = null;
+			}
+
+			if (btnResumePlayback != null) {
+				btnResumePlayback.Dispose ();
+				btnResumePlayback = null;
 			}
 		}
 	}
