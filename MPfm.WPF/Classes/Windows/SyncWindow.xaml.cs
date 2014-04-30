@@ -87,7 +87,12 @@ namespace MPfm.WPF.Classes.Windows
         public Action OnOpenConnectDevice { get; set; }
         public Action OnStartDiscovery { get; set; }
         public Action OnCancelDiscovery { get; set; }
-        
+        public Action<SyncDevice> OnRemotePlayPause { get; set; }
+        public Action<SyncDevice> OnRemotePrevious { get; set; }
+        public Action<SyncDevice> OnRemoteNext { get; set; }
+        public Action<SyncDevice> OnRemoteRepeat { get; set; }
+        public Action<SyncDevice> OnRemoteShuffle { get; set; }
+
         public void SyncError(Exception ex)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -134,6 +139,22 @@ namespace MPfm.WPF.Classes.Windows
                 progressBar.Visibility = Visibility.Hidden;
                 RefreshDeviceListButton();
             }));
+        }
+
+        public void RefreshStatus(string status)
+        {
+        }
+
+        public void NotifyAddedDevice(SyncDevice device)
+        {
+        }
+
+        public void NotifyRemovedDevice(SyncDevice device)
+        {
+        }
+
+        public void NotifyUpdatedDevice(SyncDevice device)
+        {
         }
 
         public void SyncDevice(SyncDevice device)
