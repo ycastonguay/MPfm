@@ -24,7 +24,10 @@ namespace MPfm.Player.Objects
     public class PlayerMetadata
     {
         public AudioFile CurrentAudioFile { get; set; }
+        public byte[] AlbumArt { get; set; }
         public PlayerStatus Status { get; set; }
+        public int PlaylistIndex { get; set; }
+        public int PlaylistCount { get; set; }
         public string Position { get; set; }
         public string Length { get; set; }
 

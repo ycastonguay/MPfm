@@ -59,13 +59,13 @@ namespace MPfm.Library.Services
         /// <param name="baseIP">Base IP address (i.e. 192.168.1)</param>
         public void SearchForDevices(string baseIP)
         {
-            Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
+            //Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
             var commonIPs = new List<string>();
             commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".0"), IPAddress.Parse(baseIP + ".25")).ToList());
             commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".100"), IPAddress.Parse(baseIP + ".125")).ToList());
             SearchForDevices(commonIPs, (commonDevices) => {
 
-                Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
+                //Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
                 _isCancelling = false;
                 if(OnDiscoveryEnded != null)
                     OnDiscoveryEnded(commonDevices);
@@ -114,11 +114,11 @@ namespace MPfm.Library.Services
             _cancellationTokenSource = new CancellationTokenSource();
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.CancellationToken = _cancellationTokenSource.Token;
-            parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount * 2;            
+            parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount;// * 2;            
             _currentTask = Task.Factory.StartNew(() => {
                 try
                 {
-                    Console.WriteLine("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
+                    //Console.WriteLine("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
                     IsRunning = true;
                     ConcurrentBag<SyncDevice> devices = new ConcurrentBag<SyncDevice>();
                     Parallel.For(1, ips.Count, parallelOptions, (index, state) =>
@@ -139,7 +139,7 @@ namespace MPfm.Library.Services
                             WebClientTimeout client = new WebClientTimeout(800);
                             string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
 
-                            Console.WriteLine("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
+                            //Console.WriteLine("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
                             var device = XmlSerialization.Deserialize<SyncDevice>(content);
                             if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
                             {
@@ -151,10 +151,9 @@ namespace MPfm.Library.Services
                                     _devices.Add(device);
                                 }
 
-                                Console.WriteLine("SyncDiscoveryService - Raising OnDeviceFound event...");
+                                //Console.WriteLine("SyncDiscoveryService - The following host is available: {0}", ips[index]);
                                 if (OnDeviceFound != null)
                                     OnDeviceFound(device);
-                                Console.WriteLine("SyncDiscoveryService - The following host is available: {0}", ips[index]);
                             }
                         }
                         catch (Exception ex)
@@ -172,7 +171,7 @@ namespace MPfm.Library.Services
 
                     IsRunning = false;
 
-                    Console.WriteLine("SyncDiscoveryService - Discovery done!");
+                    //Console.WriteLine("SyncDiscoveryService - Discovery done!");
                     if (actionDiscoveryEnded != null)
                         actionDiscoveryEnded(devices);
                 }

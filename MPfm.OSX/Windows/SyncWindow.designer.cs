@@ -25,9 +25,6 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnPrevious { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnRefreshDevices { get; set; }
-
-		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnRepeat { get; set; }
 
 		[Outlet]
@@ -70,10 +67,16 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblDeviceUrl { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblLastUpdated { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibraryUrl { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblPlayerStatus { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPlaylist { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
@@ -83,6 +86,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSongTitle { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblStatus { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSubtitle { get; set; }
@@ -122,9 +128,6 @@ namespace MPfm.Mac
 
 		[Action ("actionConnectManual:")]
 		partial void actionConnectManual (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionRefreshDevices:")]
-		partial void actionRefreshDevices (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -133,9 +136,59 @@ namespace MPfm.Mac
 				btnConnectManual = null;
 			}
 
-			if (btnRefreshDevices != null) {
-				btnRefreshDevices.Dispose ();
-				btnRefreshDevices = null;
+			if (btnNext != null) {
+				btnNext.Dispose ();
+				btnNext = null;
+			}
+
+			if (btnPlayPause != null) {
+				btnPlayPause.Dispose ();
+				btnPlayPause = null;
+			}
+
+			if (btnPrevious != null) {
+				btnPrevious.Dispose ();
+				btnPrevious = null;
+			}
+
+			if (btnRepeat != null) {
+				btnRepeat.Dispose ();
+				btnRepeat = null;
+			}
+
+			if (btnResumePlayback != null) {
+				btnResumePlayback.Dispose ();
+				btnResumePlayback = null;
+			}
+
+			if (btnShuffle != null) {
+				btnShuffle.Dispose ();
+				btnShuffle = null;
+			}
+
+			if (btnSyncLibrary != null) {
+				btnSyncLibrary.Dispose ();
+				btnSyncLibrary = null;
+			}
+
+			if (imageViewAlbum != null) {
+				imageViewAlbum.Dispose ();
+				imageViewAlbum = null;
+			}
+
+			if (imageViewDeviceType != null) {
+				imageViewDeviceType.Dispose ();
+				imageViewDeviceType = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
 			}
 
 			if (lblConnectManual != null) {
@@ -158,9 +211,39 @@ namespace MPfm.Mac
 				lblDeviceDetails = null;
 			}
 
+			if (lblDeviceName != null) {
+				lblDeviceName.Dispose ();
+				lblDeviceName = null;
+			}
+
+			if (lblDeviceUrl != null) {
+				lblDeviceUrl.Dispose ();
+				lblDeviceUrl = null;
+			}
+
 			if (lblLibraryUrl != null) {
 				lblLibraryUrl.Dispose ();
 				lblLibraryUrl = null;
+			}
+
+			if (lblPlayerStatus != null) {
+				lblPlayerStatus.Dispose ();
+				lblPlayerStatus = null;
+			}
+
+			if (lblPosition != null) {
+				lblPosition.Dispose ();
+				lblPosition = null;
+			}
+
+			if (lblRemotePlayer != null) {
+				lblRemotePlayer.Dispose ();
+				lblRemotePlayer = null;
+			}
+
+			if (lblSongTitle != null) {
+				lblSongTitle.Dispose ();
+				lblSongTitle = null;
 			}
 
 			if (lblSubtitle != null) {
@@ -208,6 +291,11 @@ namespace MPfm.Mac
 				viewDeviceDetailsHeader = null;
 			}
 
+			if (viewRemotePlayerHeader != null) {
+				viewRemotePlayerHeader.Dispose ();
+				viewRemotePlayerHeader = null;
+			}
+
 			if (viewSubtitleHeader != null) {
 				viewSubtitleHeader.Dispose ();
 				viewSubtitleHeader = null;
@@ -218,94 +306,19 @@ namespace MPfm.Mac
 				viewTitleHeader = null;
 			}
 
-			if (lblDeviceName != null) {
-				lblDeviceName.Dispose ();
-				lblDeviceName = null;
+			if (lblStatus != null) {
+				lblStatus.Dispose ();
+				lblStatus = null;
 			}
 
-			if (lblDeviceUrl != null) {
-				lblDeviceUrl.Dispose ();
-				lblDeviceUrl = null;
+			if (lblLastUpdated != null) {
+				lblLastUpdated.Dispose ();
+				lblLastUpdated = null;
 			}
 
-			if (imageViewDeviceType != null) {
-				imageViewDeviceType.Dispose ();
-				imageViewDeviceType = null;
-			}
-
-			if (btnPrevious != null) {
-				btnPrevious.Dispose ();
-				btnPrevious = null;
-			}
-
-			if (btnPlayPause != null) {
-				btnPlayPause.Dispose ();
-				btnPlayPause = null;
-			}
-
-			if (btnNext != null) {
-				btnNext.Dispose ();
-				btnNext = null;
-			}
-
-			if (btnRepeat != null) {
-				btnRepeat.Dispose ();
-				btnRepeat = null;
-			}
-
-			if (btnShuffle != null) {
-				btnShuffle.Dispose ();
-				btnShuffle = null;
-			}
-
-			if (lblPlayerStatus != null) {
-				lblPlayerStatus.Dispose ();
-				lblPlayerStatus = null;
-			}
-
-			if (lblArtistName != null) {
-				lblArtistName.Dispose ();
-				lblArtistName = null;
-			}
-
-			if (lblAlbumTitle != null) {
-				lblAlbumTitle.Dispose ();
-				lblAlbumTitle = null;
-			}
-
-			if (lblSongTitle != null) {
-				lblSongTitle.Dispose ();
-				lblSongTitle = null;
-			}
-
-			if (imageViewAlbum != null) {
-				imageViewAlbum.Dispose ();
-				imageViewAlbum = null;
-			}
-
-			if (lblPosition != null) {
-				lblPosition.Dispose ();
-				lblPosition = null;
-			}
-
-			if (lblRemotePlayer != null) {
-				lblRemotePlayer.Dispose ();
-				lblRemotePlayer = null;
-			}
-
-			if (viewRemotePlayerHeader != null) {
-				viewRemotePlayerHeader.Dispose ();
-				viewRemotePlayerHeader = null;
-			}
-
-			if (btnSyncLibrary != null) {
-				btnSyncLibrary.Dispose ();
-				btnSyncLibrary = null;
-			}
-
-			if (btnResumePlayback != null) {
-				btnResumePlayback.Dispose ();
-				btnResumePlayback = null;
+			if (lblPlaylist != null) {
+				lblPlaylist.Dispose ();
+				lblPlaylist = null;
 			}
 		}
 	}

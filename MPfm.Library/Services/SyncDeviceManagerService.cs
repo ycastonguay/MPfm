@@ -25,6 +25,7 @@ using MPfm.Player.Objects;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace MPfm.Library.Services
 {
@@ -36,12 +37,14 @@ namespace MPfm.Library.Services
         private readonly WebClientTimeout _webClient;
         private List<SyncDevice> _devices;
 
+        public event StatusUpdated OnStatusUpdated;
         public event DeviceUpdated OnDeviceUpdated;
         public event DeviceUpdated OnDeviceAdded;
         public event DeviceUpdated OnDeviceRemoved;
 
         public SyncDeviceManagerService(ISyncDeviceSpecifications deviceSpecifications, ISyncDiscoveryService discoveryService)
         {
+            OnStatusUpdated += (status) => {};
             OnDeviceUpdated += (device) => {};
             OnDeviceAdded += (device) => {};
             OnDeviceRemoved += (device) => {};
@@ -60,58 +63,79 @@ namespace MPfm.Library.Services
         private void InitializeLooper()
         {
             var thread = new Thread(new ThreadStart(() =>
-            {
-                // Try not to iterate through a collection that can be modified
-                int a = 0;
-                while (true)
                 {
-                    SyncDevice item = null;
-                    lock(_locker)
+                    // Try not to iterate through a collection that can be modified
+                    int a = 0;
+                    while (true)
                     {
-                        //Console.WriteLine("SyncDeviceManagerService - a: {0} devices.Count: {1}", a, _devices.Count);
-                        item = _devices.Count - 1 >= a ? _devices[a] : null;
-                    }
-
-                    if(item != null)
-                    {
-                        // Check timestamp; do not update status more often than 5 seconds
-                        if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(5))
+                        SyncDevice item = null;
+                        lock(_locker)
                         {
-                            string url = string.Format("{0}api/player", item.Url);
-                            Console.WriteLine("SyncDeviceManagerService - Downloading player status - url: {0}", url);
-                            try
+                            //Console.WriteLine("SyncDeviceManagerService - a: {0} devices.Count: {1}", a, _devices.Count);
+                            item = _devices.Count - 1 >= a ? _devices[a] : null;
+                        }
+
+                        if(item != null)
+                        {
+                            // Check timestamp; do not update status more often than 5 seconds
+                            if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(15))
                             {
-                                string json = _webClient.DownloadString(url);
-                                var metadata = JsonConvert.DeserializeObject<PlayerMetadata>(json);
-                                item.PlayerMetadata = metadata;
-                                item.LastUpdated = DateTime.Now;
-                                Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
-                                OnDeviceUpdated(item);
+                                string url = string.Format("{0}api/player", item.Url);
+                                OnStatusUpdated(string.Format("Updating status from {0}...", item.Name));
+                                Console.WriteLine("SyncDeviceManagerService - Downloading player status - url: {0}", url);
+                                try
+                                {
+                                    string json = _webClient.DownloadString(url);
+                                    var metadata = JsonConvert.DeserializeObject<PlayerMetadata>(json);
+                                    item.PlayerMetadata = metadata;
+                                    item.LastUpdated = DateTime.Now;
+
+                                    //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
+                                    OnStatusUpdated(string.Format("Updating status from {0}... finished!", item.Name));
+                                    OnDeviceUpdated(item);
+                                }
+                                catch(Exception ex)
+                                {
+                                    item.LastUpdated = DateTime.Now;
+                                    Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                }
+
+                                string albumArtUrl = string.Format("{0}api/albumart/{1}", item.Url, item.PlayerMetadata.CurrentAudioFile.Id);
+                                OnStatusUpdated(string.Format("Downloading album art from {0}...", item.Name));
+                                Console.WriteLine("SyncDeviceManagerService - Downloading album art - url: {0}", albumArtUrl);
+                                try
+                                {
+                                    byte[] data = _webClient.DownloadData(albumArtUrl);
+                                    item.PlayerMetadata.AlbumArt = data;
+
+                                    //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
+                                    OnStatusUpdated(string.Format("Downloading album art from {0}... finished!", item.Name));
+                                    OnDeviceUpdated(item);
+                                }
+                                catch(Exception ex)
+                                {
+                                    item.LastUpdated = DateTime.Now;
+                                    Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                }
 
                             }
-                            catch(Exception ex)
+                            else
                             {
-                                item.LastUpdated = DateTime.Now;
-                                Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                //Console.WriteLine("SyncDeviceManagerService - No need to update item {0}", a);
                             }
+
+                            // Move to next device
+                            a++;
                         }
                         else
                         {
-                            //Console.WriteLine("SyncDeviceManagerService - No need to update item {0}", a);
+                            // Move back to start
+                            a = 0;
                         }
 
-                        // Move to next device
-                        a++;
+                        Thread.Sleep(250);
                     }
-                    else
-                    {
-                        // Move back to start
-                        a = 0;
-                    }
-
-                    Thread.Sleep(250);
-                }
-            }));
+                }));
             thread.IsBackground = true;
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -175,26 +199,31 @@ namespace MPfm.Library.Services
             var split = ip.Split('.');
             string baseIP = split[0] + "." + split[1] + "." + split[2];
 
+            OnStatusUpdated("Finding devices on your local network...");
             _discoveryService.SearchForDevices(baseIP);
         }
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
-            Console.WriteLine("SyncDeviceManagerService - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+            //Console.WriteLine("SyncDeviceManagerService - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+            OnStatusUpdated(string.Format("New device found: {0}", deviceFound.Name));
             AddDevice(deviceFound);
         }
 
         private void HandleOnDiscoveryProgress(float percentageDone, string status)
         {
+            //OnStatusUpdated(string.Format("Discovery status: {0} {1}", percentageDone, status));
             //Console.WriteLine("SyncDeviceManagerService - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
         }
 
         private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
         {
-            Console.WriteLine("SyncDeviceManagerService - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
-            // TODO: Start again?
-            StartDiscovery();
+            //Console.WriteLine("SyncDeviceManagerService - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
+            Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(2500);
+                StartDiscovery();
+            });
         }
-
     }
 }

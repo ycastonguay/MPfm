@@ -30,7 +30,7 @@ namespace MPfm.Mac
 
         public override void AwakeFromNib()
         {
-            BackgroundColor = GlobalTheme.MainWindowColor;
+            BackgroundColor = GlobalTheme.SecondaryWindowColor;
         }       
     }
 }

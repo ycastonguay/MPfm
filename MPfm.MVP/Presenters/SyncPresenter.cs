@@ -42,6 +42,7 @@ namespace MPfm.MVP.Presenters
         public SyncPresenter(ISyncDeviceManagerService syncDeviceManagerService)
 		{
             _syncDeviceManagerService = syncDeviceManagerService;
+            _syncDeviceManagerService.OnStatusUpdated += HandleOnStatusUpdated;
             _syncDeviceManagerService.OnDeviceAdded += HandleOnDeviceAdded;
             _syncDeviceManagerService.OnDeviceRemoved += HandleOnDeviceRemoved;
             _syncDeviceManagerService.OnDeviceUpdated += HandleOnDeviceUpdated;
@@ -73,20 +74,25 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDeviceAdded(SyncDevice device)
         {
-            Console.WriteLine("SyncPresenter - HandleOnDeviceAdded");
+            //Console.WriteLine("SyncPresenter - HandleOnDeviceAdded");
             View.NotifyAddedDevice(device);
         }
 
         private void HandleOnDeviceRemoved(SyncDevice device)
         {
-            Console.WriteLine("SyncPresenter - HandleOnDeviceRemoved");
+            //Console.WriteLine("SyncPresenter - HandleOnDeviceRemoved");
             View.NotifyRemovedDevice(device);
         }
 
         private void HandleOnDeviceUpdated(SyncDevice device)
         {
-            Console.WriteLine("SyncPresenter - HandleOnDeviceUpdated");
+            //Console.WriteLine("SyncPresenter - HandleOnDeviceUpdated");
             View.NotifyUpdatedDevice(device);
+        }
+
+        private void HandleOnStatusUpdated(string status)
+        {
+            View.RefreshStatus(status);
         }
 
 //        private void HandleOnDeviceFound(SyncDevice deviceFound)

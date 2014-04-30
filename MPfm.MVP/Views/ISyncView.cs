@@ -38,6 +38,7 @@ namespace MPfm.MVP.Views
         void RefreshDiscoveryProgress(float percentageDone, string status);
         void RefreshDevices(IEnumerable<SyncDevice> devices);
         void RefreshDevicesEnded();
+        void RefreshStatus(string status);
         void NotifyAddedDevice(SyncDevice device);
         void NotifyRemovedDevice(SyncDevice device);
         void NotifyUpdatedDevice(SyncDevice device);

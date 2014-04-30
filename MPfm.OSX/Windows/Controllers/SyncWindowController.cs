@@ -25,6 +25,8 @@ using MonoMac.Foundation;
 using MPfm.Mac.Classes.Objects;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Controls;
+using System.Timers;
+using System.Threading.Tasks;
 
 namespace MPfm.Mac
 {
@@ -33,6 +35,7 @@ namespace MPfm.Mac
         private readonly object _locker = new object();
         private bool _isDiscovering;
         private List<SyncDevice> _items = new List<SyncDevice>();
+        private Timer _timer;
 
         // Called when created from unmanaged code
         public SyncWindowController(IntPtr handle) : base (handle)
@@ -57,14 +60,26 @@ namespace MPfm.Mac
         {
             base.WindowDidLoad();
 
+            _timer = new Timer(250);
+            _timer.Elapsed += (sender, e) => {
+                InvokeOnMainThread(() => {
+                    double currentValue = progressIndicator.DoubleValue;
+                    double newValue = currentValue + 1;
+                    if(newValue > 100)
+                        newValue = 0;
+                    progressIndicator.DoubleValue = newValue;
+                });
+            };
+            _timer.Start();
+
             tableViewDevices.RowHeight = 28;
             tableViewDevices.WeakDelegate = this;
             tableViewDevices.WeakDataSource = this;
 
-            imageViewDeviceType.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "tablet_android_large");
-
+            lblStatus.StringValue = "Loading...";
             LoadFontsAndImages();
-            OnViewReady.Invoke(this);
+            ResetFields();
+            OnViewReady(this);
         }
 
         private void LoadFontsAndImages()
@@ -108,7 +123,10 @@ namespace MPfm.Mac
             var noteColor = NSColor.FromDeviceRgba(0.7f, 0.7f, 0.7f, 1);
             lblLibraryUrl.Font = noteFont;
             lblLibraryUrl.TextColor = noteColor;           
+            lblLastUpdated.Font = noteFont;
+            lblLastUpdated.TextColor = noteColor;
 
+            lblStatus.Font = NSFont.FromFontName("Roboto Light", 12f);
             lblDeviceName.Font = NSFont.FromFontName("Roboto", 13f);
             lblDeviceUrl.Font = NSFont.FromFontName("Roboto Light", 12f);
             lblPlayerStatus.Font = NSFont.FromFontName("Roboto Light", 11f);
@@ -117,13 +135,11 @@ namespace MPfm.Mac
             lblAlbumTitle.Font = NSFont.FromFontName("Roboto", 14f);
             lblSongTitle.Font = NSFont.FromFontName("Roboto", 13f);
             lblPosition.Font = NSFont.FromFontName("Roboto Light", 11f);
-
-            btnRefreshDevices.StringValue = "Cancel refresh";
+            lblPlaylist.Font = NSFont.FromFontName("Roboto Light", 12f);
 
             btnSyncLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_library");
             btnResumePlayback.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnConnectManual.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_refresh");
 
             btnPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
@@ -132,18 +148,20 @@ namespace MPfm.Mac
             btnShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
         }
 
-        private void RefreshDeviceListButton()
+        private void ResetFields()
         {
-            if (_isDiscovering)
-            {
-                btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_cancel");
-                btnRefreshDevices.Title = "Cancel refresh";
-            }
-            else
-            {
-                btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_refresh");
-                btnRefreshDevices.Title = "Refresh devices";
-            }
+            lblDeviceName.StringValue = string.Empty;
+            lblDeviceUrl.StringValue = string.Empty;
+            lblArtistName.StringValue = string.Empty;
+            lblAlbumTitle.StringValue = string.Empty;
+            lblSongTitle.StringValue = string.Empty;
+            lblPlaylist.StringValue = string.Empty;
+            lblPosition.StringValue = string.Empty;
+            lblLastUpdated.StringValue = string.Empty;
+            lblPlayerStatus.StringValue = string.Empty;
+
+            imageViewAlbum.Image = null;
+            imageViewDeviceType.Image = null;
         }
 
 //        partial void actionConnect(NSObject sender)
@@ -156,16 +174,7 @@ namespace MPfm.Mac
 
         partial void actionConnectManual(NSObject sender)
         {
-            // Show dialog box
             //OnConnectDeviceManually();
-        }
-
-        partial void actionRefreshDevices(NSObject sender)
-        {
-            if (_isDiscovering)
-                OnCancelDiscovery();
-            else
-                OnStartDiscovery();
         }
 
         [Export ("numberOfRowsInTableView:")]
@@ -177,17 +186,21 @@ namespace MPfm.Mac
         [Export ("tableView:dataCellForTableColumn:row:")]
         public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
-            return new NSString();
+            return new NSString(_items[row].Name);
+            //return new NSString();
         }
 
         [Export ("tableViewSelectionDidChange:")]
         public void SelectionDidChange(NSNotification notification)
         {
-            Console.WriteLine("SelectionDidChange");
+            //Console.WriteLine("SelectionDidChange");
             if (tableViewDevices.SelectedRow < 0)
+            {
+                ResetFields();
                 return;
+            }
 
-            RefreshDeviceDetails(_items [tableViewDevices.SelectedRow]);
+            RefreshDeviceDetails(_items[tableViewDevices.SelectedRow]);
         }
 
         [Export ("tableView:viewForTableColumn:row:")]
@@ -301,11 +314,69 @@ namespace MPfm.Mac
             lblDeviceUrl.StringValue = string.IsNullOrEmpty(device.Url) ? "Unknown" : device.Url;
             lblPlayerStatus.StringValue = "Unavailable";
             imageViewDeviceType.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
+            lblLastUpdated.StringValue = string.Format("Last updated: {0}", device.LastUpdated);
 
-            lblArtistName.StringValue = string.Empty;
-            lblAlbumTitle.StringValue = string.Empty;
-            lblSongTitle.StringValue = string.Empty;
-            lblPosition.StringValue = string.Empty;
+            if (device.PlayerMetadata != null)
+            {
+                lblArtistName.StringValue = device.PlayerMetadata.CurrentAudioFile.ArtistName;
+                lblAlbumTitle.StringValue = device.PlayerMetadata.CurrentAudioFile.AlbumTitle;
+                lblSongTitle.StringValue = device.PlayerMetadata.CurrentAudioFile.Title;
+                lblPosition.StringValue = string.Format("{0} / {1}", device.PlayerMetadata.Position, device.PlayerMetadata.Length);
+                lblPlaylist.StringValue = string.Format("On-the-fly Playlist ({0}/{1})", device.PlayerMetadata.PlaylistIndex, device.PlayerMetadata.PlaylistCount);
+                LoadAlbumArt(device.PlayerMetadata.AlbumArt);
+            } 
+            else
+            {
+                lblArtistName.StringValue = string.Empty;
+                lblAlbumTitle.StringValue = string.Empty;
+                lblSongTitle.StringValue = string.Empty;
+                lblPosition.StringValue = string.Empty;
+                lblPlaylist.StringValue = string.Empty;
+            }
+        }
+
+        private async void LoadAlbumArt(byte[] bytesImage)
+        {
+            if (bytesImage == null)
+            {
+                imageViewAlbum.Image = null;
+                return;
+            }
+
+            var task = Task<NSImage>.Factory.StartNew(() => {
+                try
+                {
+                    NSImage image = null;
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        InvokeOnMainThread(() => {
+                            image = new NSImage(imageData);
+                        });
+                    }
+                    return image;
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
+                }
+
+                return null;
+            });
+
+            NSImage imageFromTask = await task;
+            if(imageFromTask == null)
+                return;
+
+            InvokeOnMainThread(() => {
+                try
+                {
+                    imageViewAlbum.Image = imageFromTask;
+                }
+                catch(Exception ex)
+                {
+                    //Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                }
+            });
         }
 
         #region ISyncView implementation
@@ -338,7 +409,6 @@ namespace MPfm.Mac
                 {
                     _isDiscovering = true;
                     progressIndicator.Hidden = false;
-                    RefreshDeviceListButton();
                 }
             });
         }
@@ -358,7 +428,13 @@ namespace MPfm.Mac
                 Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
                 progressIndicator.Hidden = true;
                 _isDiscovering = false;
-                RefreshDeviceListButton();
+            });
+        }
+
+        public void RefreshStatus(string status)
+        {
+            InvokeOnMainThread(() => {
+                lblStatus.StringValue = status;
             });
         }
 
@@ -371,6 +447,7 @@ namespace MPfm.Mac
             }
 
             InvokeOnMainThread(() => {
+                //tableViewDevices.ReloadData(NSIndexSet.FromIndex(_items.IndexOf(device)), NSIndexSet.FromIndex(0));
                 tableViewDevices.ReloadData();
             });
         }
@@ -391,7 +468,16 @@ namespace MPfm.Mac
         {
             // Should be the same instance... do we need to update the list?
             InvokeOnMainThread(() => {
+                //tableViewDevices.ReloadData(NSIndexSet.FromIndex(_items.IndexOf(device)), NSIndexSet.FromIndex(0));
+                int row = tableViewDevices.SelectedRow;
                 tableViewDevices.ReloadData();
+                if(row >= 0)
+                {
+                    tableViewDevices.SelectRow(row, false);
+
+                    if(_items[row] == device)
+                        RefreshDeviceDetails(device);
+                }
             });
         }
 

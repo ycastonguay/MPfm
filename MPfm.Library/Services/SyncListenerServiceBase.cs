@@ -155,7 +155,7 @@ namespace MPfm.Library.Services
 
         protected void WriteResponse(HttpListenerContext context, string response, HttpStatusCode statusCode, string contentType)
         {
-            byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(response);
+            byte[] responseBytes = Encoding.UTF8.GetBytes(response);
             context.Response.ContentType = contentType;
             context.Response.StatusCode = (int)statusCode;
             context.Response.ContentLength64 = responseBytes.Length;
@@ -193,9 +193,15 @@ namespace MPfm.Library.Services
             }
         }
 
-        protected void WriteFileResponse(HttpListenerContext context, Stream stream, string fileName)
+        protected void WriteBinaryResponse(HttpListenerContext context, byte[] data)
         {
-            Console.WriteLine("SyncListenerService - WriteFileResponse - fileName: {0}", fileName);
+            var stream = new MemoryStream(data);
+            WriteStreamResponse(context, stream);
+        }
+
+        protected void WriteStreamResponse(HttpListenerContext context, Stream stream)
+        {
+            //Console.WriteLine("SyncListenerService - WriteFileResponse - fileName: {0}", fileName);
             var response = context.Response;
 //            string extension = Path.GetExtension(fileName);
 //            if (extension.ToUpper().Contains("CSS"))

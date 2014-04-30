@@ -108,6 +108,10 @@ namespace MPfm.Library.Services
             {
                 ProcessGetAudioFileCommand(httpContext, command);
             }
+            else if(command.ToUpper().StartsWith("/API/ALBUMART"))
+            {
+                ProcessGetAlbumArtCommand(httpContext, command);
+            }
             else if(command.ToUpper().StartsWith("/API/PLAYER"))
             {
                 ProcessGetPlayerCommand(httpContext);
@@ -263,8 +267,15 @@ namespace MPfm.Library.Services
                 var metadata = new PlayerMetadata();
                 metadata.CurrentAudioFile = player.Playlist.CurrentItem.AudioFile;
                 metadata.Status = player.IsPlaying ? player.IsPaused ? PlayerMetadata.PlayerStatus.Paused : PlayerMetadata.PlayerStatus.Playing : PlayerMetadata.PlayerStatus.Stopped;
-                metadata.Position = player.GetPosition().ToString();
                 metadata.Length = player.Playlist.CurrentItem.LengthString;
+                metadata.PlaylistCount = player.Playlist.Items.Count;
+                metadata.PlaylistIndex = player.Playlist.CurrentItemIndex;
+
+                long bytes = player.GetPosition();
+                long samples = ConvertAudio.ToPCM(bytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                long ms = (int)ConvertAudio.ToMS(samples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
+                string position = Conversion.MillisecondsToTimeString((ulong)ms);
+                metadata.Position = position;
 
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(metadata);
                 WriteJSONResponse(httpContext, json);
@@ -274,6 +285,18 @@ namespace MPfm.Library.Services
                 WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while fetching player metadata.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
             }
         }
+
+//        public static PlayerPositionEntity GetPositionEntity(long positionBytes, long lengthBytes, uint bitsPerSample, uint sampleRate)
+//        {
+//            PlayerPositionEntity entity = new PlayerPositionEntity();
+//            entity.PositionBytes = positionBytes;
+//            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, bitsPerSample, 2);
+//            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
+//            //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+//            entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+//            entity.PositionPercentage = ((float)positionBytes / (float)lengthBytes) * 100;
+//            return entity;
+//        }
 
         private void ProcessGetAudioFileCommand(HttpListenerContext httpContext, string command)
         {
@@ -288,6 +311,29 @@ namespace MPfm.Library.Services
                     return;
                 }
                 WriteFileResponse(httpContext, audioFile.FilePath, true);
+            }
+            catch (Exception ex)
+            {
+                WriteHTMLResponse(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private void ProcessGetAlbumArtCommand(HttpListenerContext httpContext, string command)
+        {
+            try
+            {
+                // This returns audio files in binary format
+                string[] split = command.Split(new char[1] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+                var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(split[2]));
+                if (audioFile == null)
+                {
+                    WriteHTMLResponse(httpContext, String.Format("<h2>Content could not be found.</h2>"), HttpStatusCode.NotFound);
+                    return;
+                }
+
+                // TODO: Cache! Also protect from spamming
+                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                WriteBinaryResponse(httpContext, bytesImage);
             }
             catch (Exception ex)
             {
@@ -347,7 +393,7 @@ namespace MPfm.Library.Services
             if (info != null)
             {
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-                    WriteFileResponse(httpContext, stream, info.FileName);
+                    WriteStreamResponse(httpContext, stream);
             }
             else
             {

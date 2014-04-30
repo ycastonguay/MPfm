@@ -23,9 +23,11 @@ using MPfm.Sound.AudioFiles;
 namespace MPfm.Library.Services.Interfaces
 {
     public delegate void DeviceUpdated(SyncDevice device);
+    public delegate void StatusUpdated(string status);
 
     public interface ISyncDeviceManagerService
     {
+        event StatusUpdated OnStatusUpdated;
         event DeviceUpdated OnDeviceUpdated;
         event DeviceUpdated OnDeviceAdded;
         event DeviceUpdated OnDeviceRemoved;
