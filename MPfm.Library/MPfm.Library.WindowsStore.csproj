@@ -165,6 +165,9 @@
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
     <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
         <Compile Include="Services\SyncListenerServiceBase.cs" />
+            <Compile Include="Services\SyncDeviceManagerService.cs" />
+    <Compile Include="Services\Interfaces\ISyncDeviceManagerService.cs" />
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">

@@ -58,6 +58,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ISyncClientService, SyncClientService>().AsMultiInstance();
             container.Register<ISyncListenerService, SyncListenerService>().AsSingleton();
             container.Register<ISyncDiscoveryService, SyncDiscoveryService>().AsSingleton();
+            container.Register<ISyncDeviceManagerService, SyncDeviceManagerService>().AsSingleton();
             container.Register<ICloudLibraryService, CloudLibraryService>().AsSingleton();
 
             // Register presenters

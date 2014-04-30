@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
 using MPfm.Player.Objects;
 
 namespace MPfm.Library.Objects
@@ -30,6 +30,7 @@ namespace MPfm.Library.Objects
         public SyncDeviceType DeviceType { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
+        public DateTime LastUpdated { get; set; }
         public PlayerMetadata PlayerMetadata { get; set; }
 	}
 	

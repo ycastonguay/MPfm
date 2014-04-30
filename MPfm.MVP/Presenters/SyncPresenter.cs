@@ -37,15 +37,23 @@ namespace MPfm.MVP.Presenters
 	{
         readonly ISyncDiscoveryService _syncDiscoveryService;
         readonly ISyncClientService _syncClientService;
+        readonly ISyncDeviceManagerService _syncDeviceManagerService;
         readonly MobileNavigationManager _mobileNavigationManager;
         readonly NavigationManager _navigationManager;
 	    readonly ISyncDeviceSpecifications _deviceSpecifications;
         List<SyncDevice> _devices = new List<SyncDevice>();
 
-        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncClientService syncClientService, ISyncDeviceSpecifications deviceSpecifications)
+        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncClientService syncClientService, ISyncDeviceSpecifications deviceSpecifications,
+                             ISyncDeviceManagerService syncDeviceManagerService)
 		{
-            _syncClientService = syncClientService;            
             _deviceSpecifications = deviceSpecifications;
+            _syncClientService = syncClientService;            
+
+            _syncDeviceManagerService = syncDeviceManagerService;
+            _syncDeviceManagerService.OnDeviceAdded += HandleOnDeviceAdded;
+            _syncDeviceManagerService.OnDeviceRemoved += HandleOnDeviceRemoved;
+            _syncDeviceManagerService.OnDeviceUpdated += HandleOnDeviceUpdated;
+
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
             _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
@@ -72,12 +80,28 @@ namespace MPfm.MVP.Presenters
 
         private void Initialize()
         {
-            RefreshDevices();
+            _syncDeviceManagerService.Start();
+            //RefreshDevices();
+        }
+
+        private void HandleOnDeviceAdded(SyncDevice device)
+        {
+            Console.WriteLine("SyncPresenter - HandleOnDeviceAdded");
+        }
+
+        private void HandleOnDeviceRemoved(SyncDevice device)
+        {
+            Console.WriteLine("SyncPresenter - HandleOnDeviceRemoved");
+        }
+
+        private void HandleOnDeviceUpdated(SyncDevice device)
+        {
+            Console.WriteLine("SyncPresenter - HandleOnDeviceUpdated");
         }
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
-            Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+            //Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
             var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
             if(device == null)
                 _devices.Add(deviceFound);
@@ -87,13 +111,13 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDiscoveryProgress(float percentageDone, string status)
         {
-            Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
+            //Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
             View.RefreshDiscoveryProgress(percentageDone, status);
         }
 
         private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
         {
-            Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
+            //Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
             View.RefreshDevicesEnded();
         }
 

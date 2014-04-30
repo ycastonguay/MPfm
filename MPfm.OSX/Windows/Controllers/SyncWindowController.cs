@@ -254,13 +254,13 @@ namespace MPfm.Mac
             return view;
         }
 
-        [Export ("tableView:rowViewForRow:")]
-        private NSTableRowView GetRowView(NSTableView tableView, int row)
-        {
-            //Console.WriteLine("=======> GetRowView - row: {0}", row);
-            var rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
-            return rowView;
-        }
+//        [Export ("tableView:rowViewForRow:")]
+//        private NSTableRowView GetRowView(NSTableView tableView, int row)
+//        {
+//            //Console.WriteLine("=======> GetRowView - row: {0}", row);
+//            var rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
+//            return rowView;
+//        }
 
         private void RefreshDeviceDetails(SyncDevice device)
         {
