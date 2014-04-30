@@ -30,8 +30,9 @@ namespace MPfm.Mac
 {
     public partial class SyncWindowController : BaseWindowController, ISyncView
     {
-        bool _isDiscovering;
-        List<SyncDevice> _items = new List<SyncDevice>();
+        private readonly object _locker = new object();
+        private bool _isDiscovering;
+        private List<SyncDevice> _items = new List<SyncDevice>();
 
         // Called when created from unmanaged code
         public SyncWindowController(IntPtr handle) : base (handle)
@@ -240,7 +241,7 @@ namespace MPfm.Mac
                 var frameImageView = view.ImageView.Frame;
                 frameImageView.Height = 24;
                 frameImageView.Width = 24;
-                frameImageView.Y -= 6;
+                frameImageView.Y = view.Frame.Height - 26;
                 view.ImageView.Frame = frameImageView;
                 view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
             }
@@ -358,6 +359,39 @@ namespace MPfm.Mac
                 progressIndicator.Hidden = true;
                 _isDiscovering = false;
                 RefreshDeviceListButton();
+            });
+        }
+
+        public void NotifyAddedDevice(SyncDevice device)
+        {
+            // We need an approach where the whole list isn't refreshed at once or we will lose selection
+            lock (_locker)
+            {
+                _items.Add(device);
+            }
+
+            InvokeOnMainThread(() => {
+                tableViewDevices.ReloadData();
+            });
+        }
+
+        public void NotifyRemovedDevice(SyncDevice device)
+        {
+            lock (_locker)
+            {
+                _items.Remove(device);
+            }
+
+            InvokeOnMainThread(() => {
+                tableViewDevices.ReloadData();
+            });
+        }
+
+        public void NotifyUpdatedDevice(SyncDevice device)
+        {
+            // Should be the same instance... do we need to update the list?
+            InvokeOnMainThread(() => {
+                tableViewDevices.ReloadData();
             });
         }
 

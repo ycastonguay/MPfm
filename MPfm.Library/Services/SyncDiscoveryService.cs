@@ -64,19 +64,25 @@ namespace MPfm.Library.Services
             commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".0"), IPAddress.Parse(baseIP + ".25")).ToList());
             commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".100"), IPAddress.Parse(baseIP + ".125")).ToList());
             SearchForDevices(commonIPs, (commonDevices) => {
-                Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
-                var uncommonIPs = new List<string>();
-                uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".26"), IPAddress.Parse(baseIP + ".99")).ToList());
-                uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".126"), IPAddress.Parse(baseIP + ".255")).ToList());
-                SearchForDevices(uncommonIPs, (uncommonDevices) => {
-                    Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
-                    _isCancelling = false;
-                    var allDevices = new List<SyncDevice>();
-                    allDevices.AddRange(commonDevices);
-                    allDevices.AddRange(uncommonDevices);
-                    if(OnDiscoveryEnded != null)
-                        OnDiscoveryEnded(allDevices);
-                });
+
+                Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
+                _isCancelling = false;
+                if(OnDiscoveryEnded != null)
+                    OnDiscoveryEnded(commonDevices);
+
+                //Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
+//                var uncommonIPs = new List<string>();
+//                uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".26"), IPAddress.Parse(baseIP + ".99")).ToList());
+//                uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".126"), IPAddress.Parse(baseIP + ".255")).ToList());
+//                SearchForDevices(uncommonIPs, (uncommonDevices) => {
+//                    Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
+//                    _isCancelling = false;
+//                    var allDevices = new List<SyncDevice>();
+//                    allDevices.AddRange(commonDevices);
+//                    allDevices.AddRange(uncommonDevices);
+//                    if(OnDiscoveryEnded != null)
+//                        OnDiscoveryEnded(allDevices);
+//                });
             });
         }
 

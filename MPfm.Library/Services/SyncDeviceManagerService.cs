@@ -52,97 +52,79 @@ namespace MPfm.Library.Services
             _discoveryService.OnDeviceFound += HandleOnDeviceFound;
             _discoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
             _discoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
-
             _webClient = new WebClientTimeout(3000);
-            _webClient.DownloadStringCompleted += HandleDownloadStringCompleted;
 
             InitializeLooper();
-        }
-
-        private void HandleDownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-                return;
-
-            if (e.Error != null)
-                return;
         }
 
         private void InitializeLooper()
         {
             var thread = new Thread(new ThreadStart(() =>
+            {
+                // Try not to iterate through a collection that can be modified
+                int a = 0;
+                while (true)
                 {
-                    // Try not to iterate through a collection that can be modified
-                    int a = 0;
-                    while (true)
+                    SyncDevice item = null;
+                    lock(_locker)
                     {
-                        SyncDevice item = null;
-                        lock(_locker)
-                        {
-                            //Console.WriteLine("SyncDeviceManagerService - a: {0} devices.Count: {1}", a, _devices.Count);
-                            item = _devices.Count - 1 >= a ? _devices[a] : null;
-                        }
+                        //Console.WriteLine("SyncDeviceManagerService - a: {0} devices.Count: {1}", a, _devices.Count);
+                        item = _devices.Count - 1 >= a ? _devices[a] : null;
+                    }
 
-                        if(item != null)
+                    if(item != null)
+                    {
+                        // Check timestamp; do not update status more often than 5 seconds
+                        if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(5))
                         {
-                            // Check timestamp; do not update status more often than 5 seconds
-                            if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(5))
+                            string url = string.Format("{0}api/player", item.Url);
+                            Console.WriteLine("SyncDeviceManagerService - Downloading player status - url: {0}", url);
+                            try
                             {
-                                // Update time stamp even though the call might fail
+                                string json = _webClient.DownloadString(url);
+                                var metadata = JsonConvert.DeserializeObject<PlayerMetadata>(json);
+                                item.PlayerMetadata = metadata;
                                 item.LastUpdated = DateTime.Now;
+                                Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
+                                OnDeviceUpdated(item);
 
-                                string url = string.Format("{0}api/player", item.Url);
-                                Console.WriteLine("SyncDeviceManagerService - Downloading player status - url: {0}", url);
-                                try
-                                {
-                                    string json = _webClient.DownloadString(url);
-                                    var metadata = JsonConvert.DeserializeObject<PlayerMetadata>(json);
-                                    item.PlayerMetadata = metadata;
-                                    Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
-                                    OnDeviceUpdated(item);
-                                }
-                                catch(Exception ex)
-                                {
-                                    Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
-                                }
                             }
-                            else
+                            catch(Exception ex)
                             {
-                                //Console.WriteLine("SyncDeviceManagerService - No need to update item {0}", a);
+                                item.LastUpdated = DateTime.Now;
+                                Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
                             }
-
-                            // Move to next device
-                            a++;
                         }
                         else
                         {
-                            // Move back to start
-                            a = 0;
+                            //Console.WriteLine("SyncDeviceManagerService - No need to update item {0}", a);
                         }
 
-                        // only for async
-//                        if(!_webClient.IsBusy)
-
-                        Thread.Sleep(250);
+                        // Move to next device
+                        a++;
                     }
-                }));
+                    else
+                    {
+                        // Move back to start
+                        a = 0;
+                    }
+
+                    Thread.Sleep(250);
+                }
+            }));
             thread.IsBackground = true;
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
 
+        // Start? this is probably the wrong term. Start would start the looper, and stop the looper.
+        // the discovery service start/stop should not be controller by the user
         public void Start()
         {
             // 1) Get list of device from persistence store (this service doesn't have access to config though)
             // 2) Start looper to check device status from every device in the list
             // 3) Start discovery service in parallel
-
-            // Search for devices in subnet
-            string ip = _deviceSpecifications.GetIPAddress();
-            var split = ip.Split('.');
-            string baseIP = split[0] + "." + split[1] + "." + split[2];
-
-            _discoveryService.SearchForDevices(baseIP);
+            StartDiscovery();
         }
 
         public void Start(List<SyncDevice> devices)
@@ -162,13 +144,19 @@ namespace MPfm.Library.Services
 
         public void AddDevice(SyncDevice device)
         {
+            bool isDeviceAdded = false;
             lock (_locker)
             {
                 var deviceFound = _devices.FirstOrDefault(x => x.Url == device.Url);
                 if (deviceFound == null)
+                {
+                    isDeviceAdded = true;
                     _devices.Add(device);
+                }
             }
-            OnDeviceAdded(device);
+
+            if(isDeviceAdded)
+                OnDeviceAdded(device);
         }
 
         public void RemoveDevice(SyncDevice device)
@@ -178,6 +166,16 @@ namespace MPfm.Library.Services
                 _devices.Remove(device);
             }
             OnDeviceRemoved(device);
+        }
+
+        private void StartDiscovery()
+        {
+            // Search for devices in subnet
+            string ip = _deviceSpecifications.GetIPAddress();
+            var split = ip.Split('.');
+            string baseIP = split[0] + "." + split[1] + "." + split[2];
+
+            _discoveryService.SearchForDevices(baseIP);
         }
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
@@ -195,6 +193,7 @@ namespace MPfm.Library.Services
         {
             Console.WriteLine("SyncDeviceManagerService - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
             // TODO: Start again?
+            StartDiscovery();
         }
 
     }

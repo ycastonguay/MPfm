@@ -35,29 +35,16 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class SyncPresenter : BasePresenter<ISyncView>, ISyncPresenter
 	{
-        readonly ISyncDiscoveryService _syncDiscoveryService;
-        readonly ISyncClientService _syncClientService;
         readonly ISyncDeviceManagerService _syncDeviceManagerService;
         readonly MobileNavigationManager _mobileNavigationManager;
         readonly NavigationManager _navigationManager;
-	    readonly ISyncDeviceSpecifications _deviceSpecifications;
-        List<SyncDevice> _devices = new List<SyncDevice>();
 
-        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncClientService syncClientService, ISyncDeviceSpecifications deviceSpecifications,
-                             ISyncDeviceManagerService syncDeviceManagerService)
+        public SyncPresenter(ISyncDeviceManagerService syncDeviceManagerService)
 		{
-            _deviceSpecifications = deviceSpecifications;
-            _syncClientService = syncClientService;            
-
             _syncDeviceManagerService = syncDeviceManagerService;
             _syncDeviceManagerService.OnDeviceAdded += HandleOnDeviceAdded;
             _syncDeviceManagerService.OnDeviceRemoved += HandleOnDeviceRemoved;
             _syncDeviceManagerService.OnDeviceUpdated += HandleOnDeviceUpdated;
-
-            _syncDiscoveryService = syncDiscoveryService;
-            _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
-            _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
-            _syncDiscoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
 
 #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -87,39 +74,42 @@ namespace MPfm.MVP.Presenters
         private void HandleOnDeviceAdded(SyncDevice device)
         {
             Console.WriteLine("SyncPresenter - HandleOnDeviceAdded");
+            View.NotifyAddedDevice(device);
         }
 
         private void HandleOnDeviceRemoved(SyncDevice device)
         {
             Console.WriteLine("SyncPresenter - HandleOnDeviceRemoved");
+            View.NotifyRemovedDevice(device);
         }
 
         private void HandleOnDeviceUpdated(SyncDevice device)
         {
             Console.WriteLine("SyncPresenter - HandleOnDeviceUpdated");
+            View.NotifyUpdatedDevice(device);
         }
 
-        private void HandleOnDeviceFound(SyncDevice deviceFound)
-        {
-            //Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
-            var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
-            if(device == null)
-                _devices.Add(deviceFound);
-
-            View.RefreshDevices(_devices);
-        }
-
-        private void HandleOnDiscoveryProgress(float percentageDone, string status)
-        {
-            //Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
-            View.RefreshDiscoveryProgress(percentageDone, status);
-        }
-
-        private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
-        {
-            //Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
-            View.RefreshDevicesEnded();
-        }
+//        private void HandleOnDeviceFound(SyncDevice deviceFound)
+//        {
+//            //Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+//            var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
+//            if(device == null)
+//                _devices.Add(deviceFound);
+//
+//            View.RefreshDevices(_devices);
+//        }
+//
+//        private void HandleOnDiscoveryProgress(float percentageDone, string status)
+//        {
+//            //Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
+//            View.RefreshDiscoveryProgress(percentageDone, status);
+//        }
+//
+//        private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
+//        {
+//            //Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
+//            View.RefreshDevicesEnded();
+//        }
 
         private void ConnectDevice(SyncDevice device)
         {
@@ -146,35 +136,35 @@ namespace MPfm.MVP.Presenters
 
         private void CancelDiscovery()
         {
-            Tracing.Log("SyncPresenter - CancelDiscovery");
-            _syncDiscoveryService.Cancel();
+            //Tracing.Log("SyncPresenter - CancelDiscovery");
+            //_syncDiscoveryService.Cancel();
         }
 
         private void RefreshDevices()
         {
-            try
-            {
-                string ip = _deviceSpecifications.GetIPAddress();
-                View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
-
-                //var devices = _syncDiscoveryService.GetDeviceList();
-                var devices = GetTestDeviceList();
-                View.RefreshDevices(devices);
-
-                if(_syncDiscoveryService.IsRunning)
-                    return;
-
-                // Search for devices in subnet
-                var split = ip.Split('.');
-                string baseIP = split[0] + "." + split[1] + "." + split[2];
-                Tracing.Log("SyncPresenter - RefreshDevices with baseIP {0}", baseIP);
-                _syncDiscoveryService.SearchForDevices(baseIP);
-            }
-            catch(Exception ex)
-            {
-                Tracing.Log("SyncPresenter - RefreshDevices - Failed to refresh devices: {0}", ex);
-                View.SyncError(ex);
-            }
+//            try
+//            {
+//                string ip = _deviceSpecifications.GetIPAddress();
+//                View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
+//
+//                //var devices = _syncDiscoveryService.GetDeviceList();
+//                var devices = GetTestDeviceList();
+//                View.RefreshDevices(devices);
+//
+//                if(_syncDiscoveryService.IsRunning)
+//                    return;
+//
+//                // Search for devices in subnet
+//                var split = ip.Split('.');
+//                string baseIP = split[0] + "." + split[1] + "." + split[2];
+//                Tracing.Log("SyncPresenter - RefreshDevices with baseIP {0}", baseIP);
+//                _syncDiscoveryService.SearchForDevices(baseIP);
+//            }
+//            catch(Exception ex)
+//            {
+//                Tracing.Log("SyncPresenter - RefreshDevices - Failed to refresh devices: {0}", ex);
+//                View.SyncError(ex);
+//            }
         }
 
         private List<SyncDevice> GetTestDeviceList()
