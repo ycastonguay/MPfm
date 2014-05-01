@@ -25,6 +25,9 @@ namespace MPfm.GenericControls.Services.Objects
         public BasicRectangle BoundsBitmap { get; set; }
         public BasicRectangle BoundsWaveForm { get; set; }
         public float Zoom { get; set; }
+        public int StartTile { get; set; }
+        public int EndTile { get; set; }
+        public int TileSize { get; set; }
 
         public WaveFormBitmapRequest()
         {

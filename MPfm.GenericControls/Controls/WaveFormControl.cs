@@ -129,8 +129,6 @@ namespace MPfm.GenericControls.Controls
             set
             {
                 _zoom = value;
-                // Adjust content offset
-                //RefreshWaveFormBitmap();
                 OnInvalidateVisual();
             }
         }
@@ -153,12 +151,24 @@ namespace MPfm.GenericControls.Controls
             set
             {
                 _contentOffset = value;
-                //Console.WriteLine("WaveFormControl - ContentOffset: {0}", _contentOffset);
                 OnInvalidateVisual();
             }
         }
 
-        public WaveFormDisplayType DisplayType { get; set; }
+        private WaveFormDisplayType _displayType = WaveFormDisplayType.Stereo;
+        public WaveFormDisplayType DisplayType
+        {
+            get
+            {
+                return _displayType;
+            }
+            set
+            {
+                _displayType = value;
+                InvalidateBitmaps();
+            }
+        }
+
         public AudioFile AudioFile { get; private set; }
         public bool ShowSecondaryPosition { get; set; }
         public long Length { get; set; }
@@ -245,7 +255,7 @@ namespace MPfm.GenericControls.Controls
 
         public void InvalidateBitmaps()
         {
-            if (Frame.Width == 0)
+            if (Frame == null || Frame.Width == 0)
                 return;
 
             Console.WriteLine("=========> WaveFormControl - InvalidateBitmaps");
@@ -347,9 +357,20 @@ namespace MPfm.GenericControls.Controls
             //int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
             int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
             //var tiles = _waveFormCacheService.GetTiles(startTile, startTile + numberOfTilesToFillWidth, tileSize, Frame, Zoom);
-            var tiles = _waveFormCacheService.GetTiles(startDirtyTile, startDirtyTile + numberOfDirtyTilesToDraw, tileSize, Frame, Zoom);
-            //Console.WriteLine("WaveFormControl - #### startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+            //var tiles = _waveFormCacheService.GetTiles(startDirtyTile, startDirtyTile + numberOfDirtyTilesToDraw, tileSize, Frame, Zoom);
 
+            var request = new WaveFormBitmapRequest()
+            {
+                StartTile = startDirtyTile,
+                EndTile = startDirtyTile + numberOfDirtyTilesToDraw,
+                TileSize = tileSize,
+                BoundsWaveForm = Frame,
+                Zoom = _zoom,
+                DisplayType = _displayType
+            };
+            var tiles = _waveFormCacheService.GetTiles(request);
+
+            //Console.WriteLine("WaveFormControl - #### startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
             foreach (var tile in tiles)
             {
                 float tileDeltaZoom = Zoom / tile.Zoom;

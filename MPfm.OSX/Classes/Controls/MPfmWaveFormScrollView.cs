@@ -28,6 +28,7 @@ using System.Drawing;
 using MPfm.Mac.Classes.Controls.Helpers;
 using MPfm.GenericControls.Basics;
 using System.Timers;
+using MPfm.GenericControls.Services;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -43,10 +44,17 @@ namespace MPfm.Mac.Classes.Controls
         private long _waveFormLength = 0;
 
         private NSMenu _menu;
+        private NSMenu _menuDisplayType;
         private NSMenuItem _menuItemSelect;
         private NSMenuItem _menuItemZoomIn;
         private NSMenuItem _menuItemZoomOut;
+        private NSMenuItem _menuItemResetZoom;
         private NSMenuItem _menuItemAutoScroll;
+        private NSMenuItem _menuItemDisplayType;
+        private NSMenuItem _menuItemDisplayTypeStereo;
+        private NSMenuItem _menuItemDisplayTypeMono;
+        private NSMenuItem _menuItemDisplayTypeMonoLeft;
+        private NSMenuItem _menuItemDisplayTypeMonoRight;
 
         public MPfmWaveFormView WaveFormView { get; private set; }
         public MPfmWaveFormScaleView WaveFormScaleView { get; private set; }
@@ -153,17 +161,35 @@ namespace MPfm.Mac.Classes.Controls
         
         private void CreateContextualMenu()
         {
+            // Need to create member variables or the application will crash
             _menu = new NSMenu("Wave Form");
             _menuItemSelect = new NSMenuItem("Select", MenuSelect);
             _menuItemAutoScroll = new NSMenuItem("Enable automatic scrolling", MenuAutoScroll);
             _menuItemSelect.State = NSCellStateValue.On;
             _menuItemZoomIn = new NSMenuItem("Zoom in", MenuZoomIn);
             _menuItemZoomOut = new NSMenuItem("Zoom out", MenuZoomOut);
+            _menuItemResetZoom = new NSMenuItem("Reset zoom", MenuResetZoom);
+            _menuItemDisplayType = new NSMenuItem("Display type");
+            _menuItemDisplayTypeStereo = new NSMenuItem("Stereo", MenuDisplayType);
+            _menuItemDisplayTypeStereo.State = NSCellStateValue.On;
+            _menuItemDisplayTypeMono = new NSMenuItem("Mono (Mix)", MenuDisplayType);
+            _menuItemDisplayTypeMonoLeft = new NSMenuItem("Mono (Left)", MenuDisplayType);
+            _menuItemDisplayTypeMonoRight = new NSMenuItem("Mono (Right)", MenuDisplayType);
+
+            _menuDisplayType = new NSMenu("Display Type");
+            _menuDisplayType.AddItem(_menuItemDisplayTypeStereo);
+            _menuDisplayType.AddItem(_menuItemDisplayTypeMono);
+            _menuDisplayType.AddItem(_menuItemDisplayTypeMonoLeft);
+            _menuDisplayType.AddItem(_menuItemDisplayTypeMonoRight);
+            _menuItemDisplayType.Submenu = _menuDisplayType;
+
             _menu.AddItem(_menuItemSelect);
             _menu.AddItem(_menuItemZoomIn);
             _menu.AddItem(_menuItemZoomOut);
             _menu.AddItem(NSMenuItem.SeparatorItem);
+            _menu.AddItem(_menuItemResetZoom);
             _menu.AddItem(_menuItemAutoScroll);
+            _menu.AddItem(_menuItemDisplayType);
         }
 
         private void MenuSelect(object sender, EventArgs args)
@@ -187,10 +213,33 @@ namespace MPfm.Mac.Classes.Controls
             WaveFormView.InteractionMode = WaveFormControl.InputInteractionMode.ZoomOut;
         }
 
+        private void MenuResetZoom(object sender, EventArgs args)
+        {
+            Zoom = 1;
+            SetContentOffsetX(0);
+        }
+
         private void MenuAutoScroll(object sender, EventArgs args)
         {
             IsAutoScrollEnabled = !IsAutoScrollEnabled;
             _menuItemAutoScroll.State = IsAutoScrollEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+        }
+
+        private void MenuDisplayType(object sender, EventArgs args)
+        {
+            var displayType = WaveFormDisplayType.Stereo;
+            if (sender == _menuItemDisplayTypeMono)
+                displayType = WaveFormDisplayType.Mix;
+            else if (sender == _menuItemDisplayTypeMonoLeft)
+                displayType = WaveFormDisplayType.LeftChannel;
+            else if (sender == _menuItemDisplayTypeMonoRight)
+                displayType = WaveFormDisplayType.RightChannel;
+            WaveFormView.DisplayType = displayType;
+
+            ResetMenuDisplayTypeSelection();
+            var menuItem = sender as NSMenuItem;
+            if(menuItem != null)
+                menuItem.State = NSCellStateValue.On;
         }
         
         private void ResetMenuSelection()
@@ -198,6 +247,14 @@ namespace MPfm.Mac.Classes.Controls
             _menuItemSelect.State = NSCellStateValue.Off;
             _menuItemZoomIn.State = NSCellStateValue.Off;
             _menuItemZoomOut.State = NSCellStateValue.Off;
+        }
+
+        private void ResetMenuDisplayTypeSelection()
+        {
+            _menuItemDisplayTypeStereo.State = NSCellStateValue.Off;
+            _menuItemDisplayTypeMono.State = NSCellStateValue.Off;
+            _menuItemDisplayTypeMonoLeft.State = NSCellStateValue.Off;
+            _menuItemDisplayTypeMonoRight.State = NSCellStateValue.Off;
         }
 
         private void FrameDidChangeNotification(NSNotification notification)
@@ -297,13 +354,15 @@ namespace MPfm.Mac.Classes.Controls
         public override void ScrollWheel(NSEvent theEvent)
         {
             base.ScrollWheel(theEvent);
-            
+            var location = GenericControlHelper.GetMouseLocation(this, theEvent);
+            //Console.WriteLine("====> Wheel location: {0}", location);
+
             //Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
             if (theEvent.DeltaX > 0.2f || theEvent.DeltaX < -0.2f)
             {
                 // Scroll left/right using a trackpad
-                float deltaX = -theEvent.DeltaX;
-                SetContentOffsetX(WaveFormView.ContentOffset.X + (deltaX * 2));
+                float deltaX = -theEvent.DeltaX * 2;
+                SetContentOffsetX(WaveFormView.ContentOffset.X + deltaX);
                 return;
             }
             
@@ -315,18 +374,50 @@ namespace MPfm.Mac.Classes.Controls
             if (keysHeld.IsAltKeyHeld)
             {
                 // Zoom
-                float newZoom = Zoom + (theEvent.DeltaY / 30f);
-                if(newZoom < 1)
-                    newZoom = 1;
-//                if(newZoom > 32)
-//                    newZoom = 32;
+                float newZoom = Math.Max(1, Zoom + (theEvent.DeltaY / 30f));
                 float deltaZoom = newZoom / Zoom;
-                Zoom = newZoom;
 
                 // Adjust content offset with new zoom value
-                // TODO: Adjust content offset X when zooming depending on mouse location
-                //contentOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.ContentOffset.X * (newZoom - Zoom));
-                contentOffsetX = WaveFormView.ContentOffset.X * deltaZoom;
+//                float mouseCursorOffset = location.X - (WaveFormView.Bounds.Width / 2);
+//                float x = WaveFormView.ContentOffset.X;// + (mouseCursorOffset / deltaZoom);
+//                contentOffsetX = (x * deltaZoom) + (mouseCursorOffset / Zoom);
+                //contentOffsetX = (x * deltaZoom);// + (mouseCursorOffset / Zoom);
+
+//                float originalRange = (WaveFormView.Bounds.Width * Zoom) - WaveFormView.Bounds.Width;
+//                float newRange = (WaveFormView.Bounds.Width * newZoom) - WaveFormView.Bounds.Width;
+//
+//                float offsetOriginal = originalRange > 0 ? WaveFormView.ContentOffset.X / originalRange : 0;
+//                float newOffset = offsetOriginal * newRange;
+//
+//                // find the center of the currently visible area (i.e.: later from the mouse cursor) 
+//                float startX = WaveFormView.ContentOffset.X;
+//                float endX = startX + WaveFormView.Bounds.Width;
+//                float center = (endX - startX) / 2;
+////                float newX = startX + center;
+////                float newXPct = newX / (WaveFormView.Bounds.Width * Zoom);
+//
+//                float centerRelative = center - endX;
+//                float newXPct = centerRelative / WaveFormView.Bounds.Width;
+//
+//                float offsetPct = newXPct * newRange;
+//                Console.WriteLine(">>> contentOffsetX: {0} originalRange: {1} newRange: {2} zoom: {3} waveFormWidth: {4} centerRelative: {5} newXPct: {6} offsetPct: {7}", contentOffsetX, originalRange, newRange, _zoom, WaveFormView.Bounds.Width * _zoom, centerRelative, newXPct, offsetPct);
+                //newOffset = newOffset + offsetPct;
+
+
+                //float mouseCursorOffset = location.X - (WaveFormView.Bounds.Width / 2);
+                //float delta = mouseCursorOffset / (WaveFormView.Bounds.Width / 2);
+                //Console.WriteLine("delta: {0}", delta);
+
+                // center
+                // do we start from the principle that we zoom to the center? then we adjust the offset?
+                // google maps zooms to the center by default, but this is not google maps. 
+                // if i am at the start of the wave form, i expect it to stay there. maybe use the old way instead.
+                //contentOffsetX = newRange / 2;
+                //contentOffsetX = newOffset;
+
+                //Console.WriteLine(">>> contentOffsetX: {0} originalRange: {1} newRange: {2} zoom: {3} waveFormWidth: {4}", contentOffsetX, originalRange, newRange, _zoom, WaveFormView.Bounds.Width * _zoom);
+                contentOffsetX = (WaveFormView.ContentOffset.X * deltaZoom);// + (delta * realRange);
+                Zoom = newZoom;
             } 
             else
             {

@@ -29,6 +29,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.GenericControls.Basics;
 using System.Diagnostics;
+using MPfm.GenericControls.Services;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -114,6 +115,18 @@ namespace MPfm.Mac.Classes.Controls
             }
         }
 
+        public WaveFormDisplayType DisplayType
+        {
+            get
+            {
+                return _control.DisplayType;
+            }
+            set
+            {
+                _control.DisplayType = value;
+            }
+        }
+
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
@@ -131,11 +144,6 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
-            // Add tracking area to receive mouse move and mouse dragged events
-            //var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.EnabledDuringMouseDrag;
-//            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
-//            AddTrackingArea(trackingArea);
-
             _control = new WaveFormControl();    
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
@@ -162,13 +170,6 @@ namespace MPfm.Mac.Classes.Controls
         public override void DrawRect(RectangleF dirtyRect)
         {
             //Console.WriteLine("WaveFormView - DrawRect - dirtyRect: {0}", dirtyRect);
-
-//            if (_currentSize != Bounds.Size)
-//            {
-//                _currentSize = Bounds.Size;
-//                RefreshWaveFormBitmap((int)_currentSize.Width);
-//            }
-
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
 
@@ -218,15 +219,5 @@ namespace MPfm.Mac.Classes.Controls
         {
             _control.LoadPeakFile(audioFile);
         }
-
-//        public void RefreshWaveFormBitmap()
-//        {
-//            _control.RefreshWaveFormBitmap();
-//        }
-//
-//        public void RefreshWaveFormBitmap(int width)
-//        {
-//            _control.RefreshWaveFormBitmap(width);
-//        }
     }
 }

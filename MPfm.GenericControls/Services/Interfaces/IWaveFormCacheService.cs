@@ -35,6 +35,6 @@ namespace MPfm.GenericControls.Services.Interfaces
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
         WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
-        List<WaveFormTile> GetTiles(int startTile, int endTile, int tileSize, BasicRectangle boundsWaveForm, float zoom);
+        List<WaveFormTile> GetTiles(WaveFormBitmapRequest request);
     }
 }
