@@ -248,9 +248,10 @@ namespace MPfm.GenericControls.Controls
             if (Frame.Width == 0)
                 return;
 
+            Console.WriteLine("=========> WaveFormControl - InvalidateBitmaps");
             // Start generating the first tile
             _waveFormCacheService.FlushCache();
-            _waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
+            //_waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
 
             // Start generating all tiles for zoom @ 100%
             //for(int a = 0; a < Frame.Width; a = a + WaveFormCacheService.TileSize)
@@ -357,7 +358,9 @@ namespace MPfm.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
-                //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), _brushMarkerBackground, _penCursorLine);
+
+                // Debug overlay
+                //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
                 //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
 
@@ -417,16 +420,22 @@ namespace MPfm.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
                 DrawStatus(context, _status);
             }
-            else if (!_waveFormCacheService.IsEmpty)
+            else
             {
                 //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
                 DrawWaveFormBitmap(context);
             }
-            else
-            {
-                //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
-                context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
-            }
+
+//            else if (!_waveFormCacheService.IsEmpty)
+//            {
+//                //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
+//                DrawWaveFormBitmap(context);
+//            }
+//            else
+//            {
+//                //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
+//                context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
+//            }
 
             //stopwatch.Stop();
             //Console.WriteLine("WaveFormControl - Render - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);

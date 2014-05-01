@@ -316,8 +316,6 @@ namespace MPfm.GenericControls.Services
                     heightToRenderLine = (request.BoundsWaveForm.Height / 2);
 
                 context.DrawRectangle(new BasicRectangle(0, 0, request.BoundsBitmap.Width + 2, request.BoundsBitmap.Height), _brushBackground, _penTransparent);
-				//context.DrawText(string.Format("{0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
-				//context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
 
                 // The pen cannot be cached between refreshes because the line width changes every time the width changes
                 //context.SetLineWidth(0.2f);
@@ -329,10 +327,18 @@ namespace MPfm.GenericControls.Services
 
                 //Console.WriteLine("WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
                 //List<float> roundValues = new List<float>();
-                float widthToDraw = startLine + request.BoundsBitmap.Width;
+                float lastLine = startLine + request.BoundsBitmap.Width;
                 if (request.BoundsWaveForm.Width - request.BoundsBitmap.X < request.BoundsBitmap.Width)
-                    widthToDraw = request.BoundsWaveForm.Width - request.BoundsBitmap.X;
-                for (float i = startLine; i < widthToDraw; i += lineWidth)
+                    lastLine = request.BoundsWaveForm.Width;
+
+                //context.DrawText(string.Format("{0:0.0}", startLine), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                //context.DrawText(string.Format("{0:0.0}", lastLine), new BasicPoint(1, request.BoundsBitmap.Height - 22), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                //context.DrawText(string.Format("{0:0.0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 34), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                //context.DrawText(string.Format("{0:0.0}", request.BoundsWaveForm.Width), new BasicPoint(1, request.BoundsBitmap.Height - 46), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                //context.DrawText(string.Format("{0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                //context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+
+                for (float i = startLine; i < lastLine; i += lineWidth)
                 {
                     #if MACOSX
                     // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
