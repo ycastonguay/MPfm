@@ -6,7 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SyncWindowController">
             <connections>
-                <outlet property="btnConnectManual" destination="55" id="67"/>
+                <outlet property="btnAddDevice" destination="55" id="CD2-L0-QQW"/>
                 <outlet property="btnNext" destination="tRJ-MF-k1b" id="rqC-WP-eHE"/>
                 <outlet property="btnPlayPause" destination="8uK-tp-1Mr" id="OGc-ql-W3R"/>
                 <outlet property="btnPrevious" destination="KVW-PY-XNy" id="aCK-b8-Hqn"/>
@@ -16,11 +16,11 @@
                 <outlet property="btnSyncLibrary" destination="24" id="iQe-bI-Z9q"/>
                 <outlet property="imageViewAlbum" destination="O6E-Ha-8pN" id="GQQ-uR-5xd"/>
                 <outlet property="imageViewDeviceType" destination="Eb9-YD-7QO" id="Qng-Ou-jzj"/>
+                <outlet property="lblAddDevice" destination="gQa-Nf-GWf" id="VAa-fS-reO"/>
+                <outlet property="lblAddDevicePort" destination="9uY-xC-ITh" id="1rj-Fq-c6y"/>
+                <outlet property="lblAddDeviceUrl" destination="tII-ms-GYC" id="jR0-gN-lbW"/>
                 <outlet property="lblAlbumTitle" destination="IEB-sJ-6hQ" id="YAG-Hd-mpc"/>
                 <outlet property="lblArtistName" destination="39i-r8-4wt" id="ghq-ns-LXx"/>
-                <outlet property="lblConnectManual" destination="gQa-Nf-GWf" id="cdF-qE-OJX"/>
-                <outlet property="lblConnectManualPort" destination="9uY-xC-ITh" id="hQe-WZ-E67"/>
-                <outlet property="lblConnectManualUrl" destination="tII-ms-GYC" id="Agf-c2-u6s"/>
                 <outlet property="lblDeviceDetails" destination="tRs-kd-3H6" id="G1s-75-6hn"/>
                 <outlet property="lblDeviceDetials" destination="tRs-kd-3H6" id="AaO-fy-l8J"/>
                 <outlet property="lblDeviceName" destination="CL6-UO-xfZ" id="vR2-4F-RFo"/>
@@ -35,10 +35,11 @@
                 <outlet property="lblStatus" destination="XcF-sw-fmX" id="6vZ-Mh-FCE"/>
                 <outlet property="lblSubtitle" destination="z8t-f0-RFJ" id="0nx-Ng-HoJ"/>
                 <outlet property="lblTitle" destination="7" id="62"/>
+                <outlet property="menuItemRemoveDeviceFromList" destination="FVr-ei-mCH" id="06k-uw-RTT"/>
                 <outlet property="progressIndicator" destination="34" id="36"/>
                 <outlet property="tableViewDevices" destination="14" id="31"/>
-                <outlet property="txtConnectManualPort" destination="RV1-Kw-uWd" id="bJb-2H-Sos"/>
-                <outlet property="txtConnectManualUrl" destination="iuc-s0-rxH" id="ZJp-4B-bhq"/>
+                <outlet property="txtAddDevicePort" destination="RV1-Kw-uWd" id="Yso-te-KOF"/>
+                <outlet property="txtAddDeviceUrl" destination="iuc-s0-rxH" id="JXp-jq-VoJ"/>
                 <outlet property="viewConnectManualHeader" destination="LHe-bK-5gA" id="RLH-G2-VOK"/>
                 <outlet property="viewDetails" destination="Ys7-l5-6Xr" id="f09-D6-hQr"/>
                 <outlet property="viewDeviceDetailsHeader" destination="Gnj-3T-urL" id="5DP-6E-9PZ"/>
@@ -157,7 +158,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="39i-r8-4wt">
-                                <rect key="frame" x="95" y="149" width="198" height="20"/>
+                                <rect key="frame" x="95" y="145" width="198" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Artist Name]" id="B4d-K1-k4y">
                                     <font key="font" size="13" name="HelveticaNeue"/>
@@ -166,7 +167,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="IEB-sJ-6hQ">
-                                <rect key="frame" x="95" y="126" width="198" height="20"/>
+                                <rect key="frame" x="95" y="124" width="198" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Album Title]" id="Fre-3R-aHz">
                                     <font key="font" size="12" name="HelveticaNeue"/>
@@ -175,7 +176,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="wpS-MP-tXa">
-                                <rect key="frame" x="95" y="106" width="198" height="20"/>
+                                <rect key="frame" x="95" y="104" width="198" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Song Title]" id="rYy-cq-oSk">
                                     <font key="font" size="12" name="HelveticaNeue"/>
@@ -193,7 +194,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="K7o-M8-EjC">
-                                <rect key="frame" x="7" y="66" width="286" height="20"/>
+                                <rect key="frame" x="7" y="64" width="286" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Playlist]" id="aIw-7N-9Cm">
                                     <font key="font" size="11" name="HelveticaNeue"/>
@@ -278,9 +279,6 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="12" name="HelveticaNeue"/>
                         </buttonCell>
-                        <connections>
-                            <action selector="actionConnectManual:" target="-2" id="66"/>
-                        </connections>
                     </button>
                     <textField verticalHuggingPriority="750" id="iuc-s0-rxH">
                         <rect key="frame" x="9" y="34" width="420" height="26"/>
@@ -430,9 +428,12 @@
                             <rect key="frame" x="0.0" y="0.0" width="295" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
+                        <connections>
+                            <outlet property="menu" destination="uMB-rQ-ArJ" id="8sq-rE-3Lh"/>
+                        </connections>
                     </scrollView>
                     <textField verticalHuggingPriority="750" id="XcF-sw-fmX">
-                        <rect key="frame" x="30" y="118" width="586" height="20"/>
+                        <rect key="frame" x="30" y="116" width="586" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Status]" id="0tx-0M-sZe">
                             <font key="font" size="12" name="HelveticaNeue"/>
@@ -444,6 +445,16 @@
             </view>
         </window>
         <collectionViewItem id="NWZ-YG-T1c"/>
+        <menu title="Contextual menu" autoenablesItems="NO" id="uMB-rQ-ArJ">
+            <items>
+                <menuItem title="Remove device from list" enabled="NO" id="FVr-ei-mCH">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionRemoveDeviceFromList:" target="-2" id="Ihy-No-jph"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>

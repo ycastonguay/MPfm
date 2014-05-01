@@ -32,6 +32,7 @@ namespace MPfm.Core.Helpers
         public static string HomeDirectory { get; set; }
         public static string PeakFileDirectory { get; set; }
         public static string ConfigurationFilePath { get; set; }
+        public static string DeviceStoreFilePath { get; set; }
         public static string DatabaseFilePath { get; set; }
         public static string LogFilePath { get; set; }
 		
@@ -59,6 +60,7 @@ namespace MPfm.Core.Helpers
 #endif
 
 			ConfigurationFilePath = Path.Combine(HomeDirectory, "MPfm.Configuration.xml");
+            DeviceStoreFilePath = Path.Combine(HomeDirectory, "MPfm.Devices.json");
 			DatabaseFilePath = Path.Combine(HomeDirectory, "MPfm.Database.db");
 			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");            
 		}

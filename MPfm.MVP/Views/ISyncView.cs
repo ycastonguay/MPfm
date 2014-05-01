@@ -27,11 +27,11 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncView : IBaseView
 	{
-        Action<SyncDevice> OnConnectDevice { get; set; }
-        Action<string> OnConnectDeviceManually { get; set; }
-        Action OnOpenConnectDevice { get; set; }
-        Action OnStartDiscovery { get; set; }
-        Action OnCancelDiscovery { get; set; }
+        Action<string> OnAddDeviceFromUrl { get; set; }
+        Action<SyncDevice> OnRemoveDevice { get; set; }
+        Action<SyncDevice> OnSyncLibrary { get; set; }
+        Action<SyncDevice> OnResumePlayback { get; set; }
+        Action OnOpenAddDeviceDialog { get; set; }
 
         Action<SyncDevice> OnRemotePlayPause { get; set; }
         Action<SyncDevice> OnRemotePrevious { get; set; }
@@ -41,13 +41,11 @@ namespace MPfm.MVP.Views
 
         void SyncError(Exception ex);
         void RefreshIPAddress(string address);
-        void RefreshDiscoveryProgress(float percentageDone, string status);
-        void RefreshDevices(IEnumerable<SyncDevice> devices);
-        void RefreshDevicesEnded();
         void RefreshStatus(string status);
         void NotifyAddedDevice(SyncDevice device);
         void NotifyRemovedDevice(SyncDevice device);
         void NotifyUpdatedDevice(SyncDevice device);
+        void NotifyUpdatedDevices(IEnumerable<SyncDevice> devices);
         void SyncDevice(SyncDevice device);
 	}
 }

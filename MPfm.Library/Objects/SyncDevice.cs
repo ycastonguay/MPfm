@@ -28,9 +28,11 @@ namespace MPfm.Library.Objects
 	{
         public string SyncVersionId { get; set; }
         public SyncDeviceType DeviceType { get; set; }
+        public bool IsOnline { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
         public DateTime LastUpdated { get; set; }
+        public DateTime LastTentativeUpdate { get; set; }
         public byte[] AlbumArt { get; set; }
         public string AlbumArtKey { get; set; }
         public PlayerMetadata PlayerMetadata { get; set; }

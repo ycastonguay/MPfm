@@ -22,6 +22,7 @@ using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library.Services.Interfaces
 {
+    public delegate void DevicesUpdated(IEnumerable<SyncDevice> device);
     public delegate void DeviceUpdated(SyncDevice device);
     public delegate void StatusUpdated(string status);
 
@@ -29,14 +30,15 @@ namespace MPfm.Library.Services.Interfaces
     {
         event StatusUpdated OnStatusUpdated;
         event DeviceUpdated OnDeviceUpdated;
+        event DevicesUpdated OnDevicesUpdated;
         event DeviceUpdated OnDeviceAdded;
         event DeviceUpdated OnDeviceRemoved;
 
         void Start();
-        void Start(List<SyncDevice> devices);
         void Stop();
 
         void AddDevice(SyncDevice device);
+        void AddDeviceFromUrl(string url);
         void RemoveDevice(SyncDevice device);
 
         void RemotePlay(SyncDevice device);

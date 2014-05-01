@@ -26,6 +26,9 @@ using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using MPfm.Core.Helpers;
+using System.IO;
+using MPfm.Core;
 
 namespace MPfm.Library.Services
 {
@@ -40,6 +43,7 @@ namespace MPfm.Library.Services
 
         public event StatusUpdated OnStatusUpdated;
         public event DeviceUpdated OnDeviceUpdated;
+        public event DevicesUpdated OnDevicesUpdated;
         public event DeviceUpdated OnDeviceAdded;
         public event DeviceUpdated OnDeviceRemoved;
 
@@ -47,6 +51,7 @@ namespace MPfm.Library.Services
         {
             OnStatusUpdated += (status) => {};
             OnDeviceUpdated += (device) => {};
+            OnDevicesUpdated += (devices) => {};
             OnDeviceAdded += (device) => {};
             OnDeviceRemoved += (device) => {};
 
@@ -58,8 +63,49 @@ namespace MPfm.Library.Services
             _discoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
             _webClient = new WebClientTimeout(3000);
             _webClientRemote = new WebClientTimeout(3000);
+        }
 
-            InitializeLooper();
+        private void LoadDeviceStoreFromDisk()
+        {
+            lock (_locker)
+            {
+                try
+                {
+                    string json = string.Empty;
+                    using (var reader = File.OpenText(PathHelper.DeviceStoreFilePath))
+                    {
+                        json = reader.ReadToEnd();
+                    }
+                    var store = JsonConvert.DeserializeObject<SyncDeviceStore>(json);
+                    _devices = store.Devices;
+                }
+                catch(Exception ex)
+                {
+                    _devices = new List<SyncDevice>();
+                    Tracing.Log("SyncDeviceManagerService - Failed to load device store from disk: {0}", ex);
+                }
+            }
+        }
+
+        private void SaveDeviceStoreToDisk()
+        {
+            lock (_locker)
+            {
+                try
+                {
+                    var store = new SyncDeviceStore(_devices);
+                    string json = JsonConvert.SerializeObject(store);
+                    using (var writer = new StreamWriter(PathHelper.DeviceStoreFilePath))
+                    {
+                        writer.Write(json);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    _devices = new List<SyncDevice>();
+                    Tracing.Log("SyncDeviceManagerService - Failed to save device store to disk: {0}", ex);
+                }
+            }
         }
 
         private void InitializeLooper()
@@ -80,7 +126,7 @@ namespace MPfm.Library.Services
                         if(item != null)
                         {
                             // Check timestamp; do not update status more often than 5 seconds
-                            if(DateTime.Now - item.LastUpdated > TimeSpan.FromSeconds(5))
+                            if(DateTime.Now - item.LastTentativeUpdate > TimeSpan.FromSeconds(5))
                             {
                                 string url = string.Format("{0}api/player", item.Url);
                                 OnStatusUpdated(string.Format("Updating status from {0}...", item.Name));
@@ -91,6 +137,8 @@ namespace MPfm.Library.Services
                                     var metadata = JsonConvert.DeserializeObject<PlayerMetadata>(json);
                                     item.PlayerMetadata = metadata;
                                     item.LastUpdated = DateTime.Now;
+                                    item.LastTentativeUpdate = DateTime.Now;
+                                    item.IsOnline = true;
 
                                     //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
                                     OnStatusUpdated(string.Format("Updating status from {0}... finished!", item.Name));
@@ -98,30 +146,35 @@ namespace MPfm.Library.Services
                                 }
                                 catch(Exception ex)
                                 {
-                                    item.LastUpdated = DateTime.Now;
+                                    item.LastTentativeUpdate = DateTime.Now;
+                                    item.IsOnline = false;
                                     Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                    OnDeviceUpdated(item);
                                 }
 
-                                string albumArtKey = string.Format("{0}_{1}", item.PlayerMetadata.CurrentAudioFile.ArtistName, item.PlayerMetadata.CurrentAudioFile.AlbumTitle);
-                                if(!string.Equals(albumArtKey, item.AlbumArtKey, StringComparison.InvariantCultureIgnoreCase))
+                                if(item.PlayerMetadata != null)
                                 {
-                                    string albumArtUrl = string.Format("{0}api/albumart/{1}", item.Url, item.PlayerMetadata.CurrentAudioFile.Id);
-                                    OnStatusUpdated(string.Format("Downloading album art from {0}...", item.Name));
-                                    Console.WriteLine("SyncDeviceManagerService - Downloading album art - url: {0}", albumArtUrl);
-                                    try
+                                    string albumArtKey = string.Format("{0}_{1}", item.PlayerMetadata.CurrentAudioFile.ArtistName, item.PlayerMetadata.CurrentAudioFile.AlbumTitle);
+                                    if(!string.Equals(albumArtKey, item.AlbumArtKey, StringComparison.InvariantCultureIgnoreCase))
                                     {
-                                        byte[] data = _webClient.DownloadData(albumArtUrl);
-                                        item.AlbumArt = data;
-                                        item.AlbumArtKey = albumArtKey;
+                                        string albumArtUrl = string.Format("{0}api/albumart/{1}", item.Url, item.PlayerMetadata.CurrentAudioFile.Id);
+                                        OnStatusUpdated(string.Format("Downloading album art from {0}...", item.Name));
+                                        Console.WriteLine("SyncDeviceManagerService - Downloading album art - url: {0}", albumArtUrl);
+                                        try
+                                        {
+                                            byte[] data = _webClient.DownloadData(albumArtUrl);
+                                            item.AlbumArt = data;
+                                            item.AlbumArtKey = albumArtKey;
 
-                                        //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
-                                        OnStatusUpdated(string.Format("Downloading album art from {0}... finished!", item.Name));
-                                        OnDeviceUpdated(item);
-                                    }
-                                    catch(Exception ex)
-                                    {
-                                        item.LastUpdated = DateTime.Now;
-                                        Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                            //Console.WriteLine("SyncDeviceManagerService - Downloaded player status successfully! json: {0}", json);
+                                            OnStatusUpdated(string.Format("Downloading album art from {0}... finished!", item.Name));
+                                            OnDeviceUpdated(item);
+                                        }
+                                        catch(Exception ex)
+                                        {
+                                            item.LastUpdated = DateTime.Now;
+                                            Console.WriteLine("SyncDeviceManagerService - Error downloading player status: {0}", ex);
+                                        }
                                     }
                                 }
                             }
@@ -139,7 +192,8 @@ namespace MPfm.Library.Services
                             a = 0;
                         }
 
-                        Thread.Sleep(250);
+                        SaveDeviceStoreToDisk();
+                        Thread.Sleep(500);
                     }
                 }));
             thread.IsBackground = true;
@@ -147,23 +201,12 @@ namespace MPfm.Library.Services
             thread.Start();
         }
 
-        // Start? this is probably the wrong term. Start would start the looper, and stop the looper.
-        // the discovery service start/stop should not be controller by the user
         public void Start()
         {
-            // 1) Get list of device from persistence store (this service doesn't have access to config though)
-            // 2) Start looper to check device status from every device in the list
-            // 3) Start discovery service in parallel
+            LoadDeviceStoreFromDisk();
+            OnDevicesUpdated(_devices);
+            InitializeLooper();
             StartDiscovery();
-        }
-
-        public void Start(List<SyncDevice> devices)
-        {
-            lock (_locker)
-            {
-                _devices = devices;
-            }
-            Start();
         }
 
         public void Stop()
@@ -182,11 +225,17 @@ namespace MPfm.Library.Services
                 {
                     isDeviceAdded = true;
                     _devices.Add(device);
+                    OnStatusUpdated(string.Format("New device found: {0}", device.Name));
                 }
             }
 
             if(isDeviceAdded)
                 OnDeviceAdded(device);
+        }
+
+        public void AddDeviceFromUrl(string url)
+        {
+
         }
 
         public void RemoveDevice(SyncDevice device)
@@ -255,9 +304,12 @@ namespace MPfm.Library.Services
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
-            //Console.WriteLine("SyncDeviceManagerService - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
-            OnStatusUpdated(string.Format("New device found: {0}", deviceFound.Name));
-            AddDevice(deviceFound);
+            // Create another task because this event is inside a task from the discovery service and can affect timeout
+            Task.Factory.StartNew(() =>
+            {
+                //Console.WriteLine("SyncDeviceManagerService - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+                AddDevice(deviceFound);
+            });
         }
 
         private void HandleOnDiscoveryProgress(float percentageDone, string status)
@@ -274,6 +326,16 @@ namespace MPfm.Library.Services
                 Thread.Sleep(2500);
                 StartDiscovery();
             });
+        }
+
+        private class SyncDeviceStore
+        {
+            public List<SyncDevice> Devices { get; set; }
+
+            public SyncDeviceStore(List<SyncDevice> devices)
+            {
+                Devices = devices;
+            }
         }
     }
 }

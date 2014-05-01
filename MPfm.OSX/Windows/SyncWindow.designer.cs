@@ -13,7 +13,7 @@ namespace MPfm.Mac
 	partial class SyncWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSButton btnConnectManual { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnAddDevice { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnNext { get; set; }
@@ -43,19 +43,19 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSImageView imageViewDeviceType { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblAddDevice { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblAddDevicePort { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblAddDeviceUrl { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblAlbumTitle { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblArtistName { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblConnectManual { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblConnectManualPort { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblConnectManualUrl { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblDeviceDetails { get; set; }
@@ -97,16 +97,19 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuItemRemoveDeviceFromList { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableViewDevices { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtConnectManualPort { get; set; }
+		MonoMac.AppKit.NSTextField txtAddDevicePort { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtConnectManualUrl { get; set; }
+		MonoMac.AppKit.NSTextField txtAddDeviceUrl { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewConnectManualHeader { get; set; }
@@ -126,16 +129,11 @@ namespace MPfm.Mac
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewTitleHeader { get; set; }
 
-		[Action ("actionConnectManual:")]
-		partial void actionConnectManual (MonoMac.Foundation.NSObject sender);
+		[Action ("actionRemoveDeviceFromList:")]
+		partial void actionRemoveDeviceFromList (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnConnectManual != null) {
-				btnConnectManual.Dispose ();
-				btnConnectManual = null;
-			}
-
 			if (btnNext != null) {
 				btnNext.Dispose ();
 				btnNext = null;
@@ -191,19 +189,19 @@ namespace MPfm.Mac
 				lblArtistName = null;
 			}
 
-			if (lblConnectManual != null) {
-				lblConnectManual.Dispose ();
-				lblConnectManual = null;
+			if (lblAddDevice != null) {
+				lblAddDevice.Dispose ();
+				lblAddDevice = null;
 			}
 
-			if (lblConnectManualPort != null) {
-				lblConnectManualPort.Dispose ();
-				lblConnectManualPort = null;
+			if (lblAddDevicePort != null) {
+				lblAddDevicePort.Dispose ();
+				lblAddDevicePort = null;
 			}
 
-			if (lblConnectManualUrl != null) {
-				lblConnectManualUrl.Dispose ();
-				lblConnectManualUrl = null;
+			if (lblAddDeviceUrl != null) {
+				lblAddDeviceUrl.Dispose ();
+				lblAddDeviceUrl = null;
 			}
 
 			if (lblDeviceDetails != null) {
@@ -221,6 +219,11 @@ namespace MPfm.Mac
 				lblDeviceUrl = null;
 			}
 
+			if (lblLastUpdated != null) {
+				lblLastUpdated.Dispose ();
+				lblLastUpdated = null;
+			}
+
 			if (lblLibraryUrl != null) {
 				lblLibraryUrl.Dispose ();
 				lblLibraryUrl = null;
@@ -229,6 +232,11 @@ namespace MPfm.Mac
 			if (lblPlayerStatus != null) {
 				lblPlayerStatus.Dispose ();
 				lblPlayerStatus = null;
+			}
+
+			if (lblPlaylist != null) {
+				lblPlaylist.Dispose ();
+				lblPlaylist = null;
 			}
 
 			if (lblPosition != null) {
@@ -246,6 +254,11 @@ namespace MPfm.Mac
 				lblSongTitle = null;
 			}
 
+			if (lblStatus != null) {
+				lblStatus.Dispose ();
+				lblStatus = null;
+			}
+
 			if (lblSubtitle != null) {
 				lblSubtitle.Dispose ();
 				lblSubtitle = null;
@@ -254,6 +267,11 @@ namespace MPfm.Mac
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
+			}
+
+			if (menuItemRemoveDeviceFromList != null) {
+				menuItemRemoveDeviceFromList.Dispose ();
+				menuItemRemoveDeviceFromList = null;
 			}
 
 			if (progressIndicator != null) {
@@ -266,14 +284,14 @@ namespace MPfm.Mac
 				tableViewDevices = null;
 			}
 
-			if (txtConnectManualPort != null) {
-				txtConnectManualPort.Dispose ();
-				txtConnectManualPort = null;
+			if (txtAddDevicePort != null) {
+				txtAddDevicePort.Dispose ();
+				txtAddDevicePort = null;
 			}
 
-			if (txtConnectManualUrl != null) {
-				txtConnectManualUrl.Dispose ();
-				txtConnectManualUrl = null;
+			if (txtAddDeviceUrl != null) {
+				txtAddDeviceUrl.Dispose ();
+				txtAddDeviceUrl = null;
 			}
 
 			if (viewConnectManualHeader != null) {
@@ -306,19 +324,9 @@ namespace MPfm.Mac
 				viewTitleHeader = null;
 			}
 
-			if (lblStatus != null) {
-				lblStatus.Dispose ();
-				lblStatus = null;
-			}
-
-			if (lblLastUpdated != null) {
-				lblLastUpdated.Dispose ();
-				lblLastUpdated = null;
-			}
-
-			if (lblPlaylist != null) {
-				lblPlaylist.Dispose ();
-				lblPlaylist = null;
+			if (btnAddDevice != null) {
+				btnAddDevice.Dispose ();
+				btnAddDevice = null;
 			}
 		}
 	}

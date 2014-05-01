@@ -77,7 +77,7 @@ namespace MPfm.Mac
             tableViewDevices.WeakDataSource = this;
 
             lblStatus.StringValue = "Loading...";
-            BindRemotePlayerButtons();
+            BindButtons();
             LoadFontsAndImages();
             ResetFields();
             OnViewReady(this);
@@ -90,11 +90,10 @@ namespace MPfm.Mac
             viewDetails.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             viewDetails.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
 
-            viewDeviceDetailsHeader.BackgroundColor1 = GlobalTheme.AlbumCoverBackgroundColor1;
-            viewDeviceDetailsHeader.BackgroundColor2 = GlobalTheme.AlbumCoverBackgroundColor2;
-            viewRemotePlayerHeader.BackgroundColor1 = GlobalTheme.AlbumCoverBackgroundColor1;
-            viewRemotePlayerHeader.BackgroundColor2 = GlobalTheme.AlbumCoverBackgroundColor2;
-
+            viewDeviceDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewDeviceDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewRemotePlayerHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewRemotePlayerHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
             viewSubtitleHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewSubtitleHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
             viewConnectManualHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
@@ -105,20 +104,20 @@ namespace MPfm.Mac
 
             var subtitleFont = NSFont.FromFontName("Roboto Light", 13f);
             lblSubtitle.Font = subtitleFont;
-            lblConnectManual.Font = subtitleFont;
+            lblAddDevice.Font = subtitleFont;
             lblDeviceDetails.Font = subtitleFont;
             lblRemotePlayer.Font = subtitleFont;
 
             var textFont = NSFont.FromFontName("Roboto", 12f);
             var textColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
-            lblConnectManualUrl.Font = textFont;
-            lblConnectManualUrl.TextColor = textColor;
-            lblConnectManualPort.Font = textFont;
-            lblConnectManualPort.TextColor = textColor;
+            lblAddDeviceUrl.Font = textFont;
+            lblAddDeviceUrl.TextColor = textColor;
+            lblAddDevicePort.Font = textFont;
+            lblAddDevicePort.TextColor = textColor;
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
-            txtConnectManualUrl.Font = textBoxFont;
-            txtConnectManualPort.Font = textBoxFont;
+            txtAddDeviceUrl.Font = textBoxFont;
+            txtAddDevicePort.Font = textBoxFont;
 
             var noteFont = NSFont.FromFontName("Roboto", 11f);
             var noteColor = NSColor.FromDeviceRgba(0.7f, 0.7f, 0.7f, 1);
@@ -140,7 +139,7 @@ namespace MPfm.Mac
 
             btnSyncLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_library");
             btnResumePlayback.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
-            btnConnectManual.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAddDevice.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
 
             btnPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
@@ -149,7 +148,7 @@ namespace MPfm.Mac
             btnShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
         }
 
-        private void BindRemotePlayerButtons()
+        private void BindButtons()
         {
             btnPlayPause.OnButtonSelected += (button) => 
             {  
@@ -176,7 +175,39 @@ namespace MPfm.Mac
                 if(tableViewDevices.SelectedRow == -1) return;
                 OnRemoteShuffle(_items [tableViewDevices.SelectedRow]);
             };
+            btnSyncLibrary.OnButtonSelected += (button) =>
+            {
+                if(tableViewDevices.SelectedRow == -1) return;
+            };
+            btnResumePlayback.OnButtonSelected += (button) =>
+            {
+                if(tableViewDevices.SelectedRow == -1) return;
+            };
+            btnAddDevice.OnButtonSelected += HandleOnAddDeviceButtonSelected;
+        }
 
+        private void HandleOnAddDeviceButtonSelected(MPfmButton button)
+        {
+            // Check input url
+            string inputUrl = txtAddDeviceUrl.StringValue;
+            string baseUrl = inputUrl.ToUpper().StartsWith("HTTP://") ? inputUrl : string.Format("http://{0}", inputUrl);
+            if (string.IsNullOrEmpty(inputUrl))
+            {
+                ShowError(new Exception(string.Format("The url ({0}) is invalid!", inputUrl)));
+                return;
+            }
+
+            // Check input port
+            int port = -1;
+            int.TryParse(txtAddDevicePort.StringValue, out port);
+            if (port <= 21 || port >= 65536)
+            {
+                ShowError(new Exception(string.Format("The port value ({0}) is out of range!", port)));
+                return;
+            }
+
+            string url = string.Format("http://{0}:{1}", baseUrl, port);
+            OnAddDeviceFromUrl(url);
         }
 
         private void ResetFields()
@@ -203,9 +234,12 @@ namespace MPfm.Mac
 //            OnConnectDevice(_items[tableViewDevices.SelectedRow]);
 //        }
 
-        partial void actionConnectManual(NSObject sender)
+        partial void actionRemoveDeviceFromList(NSObject sender)
         {
-            //OnConnectDeviceManually();
+            if (tableViewDevices.SelectedRow < 0)
+                return;
+
+            OnRemoveDevice(_items[tableViewDevices.SelectedRow]);
         }
 
         [Export ("numberOfRowsInTableView:")]
@@ -225,6 +259,7 @@ namespace MPfm.Mac
         public void SelectionDidChange(NSNotification notification)
         {
             //Console.WriteLine("SelectionDidChange");
+            menuItemRemoveDeviceFromList.Enabled = tableViewDevices.SelectedRow >= 0;
             if (tableViewDevices.SelectedRow < 0)
             {
                 ResetFields();
@@ -246,7 +281,7 @@ namespace MPfm.Mac
             else
             {
                 view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
-                view.TextField.StringValue = "Unavailable"; //_items[row].Url;
+                view.TextField.StringValue = _items[row].IsOnline ? "Online" : "Offline";
             }
 
             if (view.ImageView != null)
@@ -343,9 +378,9 @@ namespace MPfm.Mac
 
             lblDeviceName.StringValue = device.Name;
             lblDeviceUrl.StringValue = string.IsNullOrEmpty(device.Url) ? "Unknown" : device.Url;
-            lblPlayerStatus.StringValue = "Unavailable";
+            lblPlayerStatus.StringValue = device.IsOnline ? "Online" : "Offline";
             imageViewDeviceType.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
-            lblLastUpdated.StringValue = string.Format("Last updated: {0}", device.LastUpdated);
+            lblLastUpdated.StringValue = device.IsOnline ? string.Format("Last updated: {0}", device.LastUpdated) : string.Format("Last seen online: {0}", device.LastUpdated);
 
             if (device.PlayerMetadata != null)
             {
@@ -412,11 +447,11 @@ namespace MPfm.Mac
 
         #region ISyncView implementation
 
-        public Action<SyncDevice> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnStartDiscovery { get; set; }
-        public Action OnCancelDiscovery { get; set; }
-        public Action OnOpenConnectDevice { get; set; }
+        public Action<string> OnAddDeviceFromUrl { get; set; }
+        public Action<SyncDevice> OnRemoveDevice { get; set; }
+        public Action<SyncDevice> OnSyncLibrary { get; set; }
+        public Action<SyncDevice> OnResumePlayback { get; set; }
+        public Action OnOpenAddDeviceDialog { get; set; }
 
         public Action<SyncDevice> OnRemotePlayPause { get; set; }
         public Action<SyncDevice> OnRemotePrevious { get; set; }
@@ -438,36 +473,6 @@ namespace MPfm.Mac
             });
         }
 
-        public void RefreshDiscoveryProgress(float percentageDone, string status)
-        {
-            InvokeOnMainThread(() => {
-                progressIndicator.DoubleValue = (double)percentageDone;
-                if (!_isDiscovering)
-                {
-                    _isDiscovering = true;
-                    progressIndicator.Hidden = false;
-                }
-            });
-        }
-
-        public void RefreshDevices(IEnumerable<SyncDevice> devices)
-        {
-            InvokeOnMainThread(() => {
-                Console.WriteLine("SyncWindowCtrl - RefreshDevices");
-                _items = devices.ToList();
-                tableViewDevices.ReloadData();
-            });
-        }
-
-        public void RefreshDevicesEnded()
-        {
-            InvokeOnMainThread(() => {
-                Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
-                progressIndicator.Hidden = true;
-                _isDiscovering = false;
-            });
-        }
-
         public void RefreshStatus(string status)
         {
             InvokeOnMainThread(() => {
@@ -477,27 +482,49 @@ namespace MPfm.Mac
 
         public void NotifyAddedDevice(SyncDevice device)
         {
-            // We need an approach where the whole list isn't refreshed at once or we will lose selection
-            lock (_locker)
-            {
-                _items.Add(device);
-            }
-
             InvokeOnMainThread(() => {
-                //tableViewDevices.ReloadData(NSIndexSet.FromIndex(_items.IndexOf(device)), NSIndexSet.FromIndex(0));
+                int row = tableViewDevices.SelectedRow;
+                SyncDevice selectedDevice = row >= 0 ? _items[row] : null;
+                lock (_locker)
+                {
+                    _items.Add(device);
+                }
+
                 tableViewDevices.ReloadData();
+                if(selectedDevice != null)
+                {
+                    int newRow = -1;
+                    lock(_locker)
+                    {
+                        newRow = _items.IndexOf(selectedDevice);
+                    }
+                    if(newRow >= 0)
+                        tableViewDevices.SelectRow(newRow, false);
+                }
             });
         }
 
         public void NotifyRemovedDevice(SyncDevice device)
         {
-            lock (_locker)
-            {
-                _items.Remove(device);
-            }
-
             InvokeOnMainThread(() => {
+                int row = tableViewDevices.SelectedRow;
+                SyncDevice selectedDevice = row >= 0 ? _items[row] : null;
+                lock (_locker)
+                {
+                    _items.Remove(device);
+                }
+
                 tableViewDevices.ReloadData();
+                if(selectedDevice != null)
+                {
+                    int newRow = -1;
+                    lock(_locker)
+                    {
+                        newRow = _items.IndexOf(selectedDevice);
+                    }
+                    if(newRow >= 0)
+                        tableViewDevices.SelectRow(newRow, false);
+                }
             });
         }
 
@@ -511,10 +538,21 @@ namespace MPfm.Mac
                 if(row >= 0)
                 {
                     tableViewDevices.SelectRow(row, false);
-
                     if(_items[row] == device)
                         RefreshDeviceDetails(device);
                 }
+            });
+        }
+
+        public void NotifyUpdatedDevices(IEnumerable<SyncDevice> devices)
+        {
+            lock (_locker)
+            {
+                _items = devices.ToList();
+            }
+
+            InvokeOnMainThread(() => {
+                tableViewDevices.ReloadData();
             });
         }
 
