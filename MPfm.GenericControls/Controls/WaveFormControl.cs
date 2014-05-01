@@ -40,6 +40,7 @@ namespace MPfm.GenericControls.Controls
         private readonly object _locker = new object();
         private IWaveFormCacheService _waveFormCacheService;
         private bool _isMouseDown;
+        private bool _showScrollBar;
         private float _density;
         private BasicPen _penTransparent;
         private BasicPen _penCursorLine;
@@ -186,6 +187,7 @@ namespace MPfm.GenericControls.Controls
 
         private void Initialize()
         {
+            _showScrollBar = true;
             DisplayType = WaveFormDisplayType.Stereo;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
@@ -349,16 +351,12 @@ namespace MPfm.GenericControls.Controls
 
         private void DrawWaveFormBitmap(IGraphicsContext context)
         {          
+            int scrollBarHeight = 30;
             int heightAvailable = (int)Frame.Height;
             int tileSize = WaveFormCacheService.TileSize;
             float deltaZoom = (float) (Zoom/Math.Floor(Zoom));
-            //int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * deltaZoom));
             int startDirtyTile = (int)Math.Floor((ContentOffset.X + context.DirtyRect.X) / ((float)tileSize * deltaZoom));
-            //int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
             int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
-            //var tiles = _waveFormCacheService.GetTiles(startTile, startTile + numberOfTilesToFillWidth, tileSize, Frame, Zoom);
-            //var tiles = _waveFormCacheService.GetTiles(startDirtyTile, startDirtyTile + numberOfDirtyTilesToDraw, tileSize, Frame, Zoom);
-
             var request = new WaveFormBitmapRequest()
             {
                 StartTile = startDirtyTile,
@@ -376,13 +374,49 @@ namespace MPfm.GenericControls.Controls
                 float tileDeltaZoom = Zoom / tile.Zoom;
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
+                float tileHeight = (_showScrollBar && Zoom > 1) ? Frame.Height - scrollBarHeight : Frame.Height;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
-                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
+
+                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
+                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, tileHeight), tile.Image.ImageSize, tile.Image.Image);
 
                 // Debug overlay
                 //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
                 //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+            }
+
+            if (_showScrollBar && Zoom > 1)
+            {
+                //int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * deltaZoom));
+                int startTile = 0;
+                int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
+                var requestScrollBar = new WaveFormBitmapRequest()
+                {
+                    StartTile = startTile,
+                    EndTile = numberOfTilesToFillWidth,
+                    TileSize = tileSize,
+                    BoundsWaveForm = Frame, //new BasicRectangle(0, 0, Frame.Width, scrollBarHeight),
+                    Zoom = 1,
+                    DisplayType = _displayType
+                };
+                // TODO: Cache those tiles, we do not need to request them continually since these tiles are always at 100%
+                var tilesScrollBar = _waveFormCacheService.GetTiles(requestScrollBar);
+                foreach (var tile in tilesScrollBar)
+                {
+                    context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - scrollBarHeight, tileSize, scrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
+                }
+
+                // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.
+                byte startAlpha = 115;
+                byte maxAlpha = 195;
+                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (60 * (Zoom / 10))));
+                var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
+                float visibleAreaWidth = (1 / Zoom) * Frame.Width;
+                float visibleAreaX = (1 / Zoom) * ContentOffset.X;
+                //context.DrawRectangle(new BasicRectangle(visibleAreaX, Frame.Height - scrollBarHeight, visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
+                context.DrawRectangle(new BasicRectangle(0, Frame.Height - scrollBarHeight, visibleAreaX, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
+                context.DrawRectangle(new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - scrollBarHeight, Frame.Width - visibleAreaX - visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
             }
 
             // Debug: indicate dirty zone
