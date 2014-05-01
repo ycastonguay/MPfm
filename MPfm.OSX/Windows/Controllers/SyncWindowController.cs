@@ -33,7 +33,6 @@ namespace MPfm.Mac
     public partial class SyncWindowController : BaseWindowController, ISyncView
     {
         private readonly object _locker = new object();
-        private bool _isDiscovering;
         private List<SyncDevice> _items = new List<SyncDevice>();
         private Timer _timer;
 
@@ -252,7 +251,6 @@ namespace MPfm.Mac
         public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
             return new NSString(_items[row].Name);
-            //return new NSString();
         }
 
         [Export ("tableViewSelectionDidChange:")]
@@ -387,7 +385,7 @@ namespace MPfm.Mac
                 lblArtistName.StringValue = device.PlayerMetadata.CurrentAudioFile.ArtistName;
                 lblAlbumTitle.StringValue = device.PlayerMetadata.CurrentAudioFile.AlbumTitle;
                 lblSongTitle.StringValue = device.PlayerMetadata.CurrentAudioFile.Title;
-                lblPosition.StringValue = string.Format("{0} / {1}", device.PlayerMetadata.Position, device.PlayerMetadata.Length);
+                lblPosition.StringValue = string.Format("{0} / {1}", device.PlayerMetadata.Position+1, device.PlayerMetadata.Length);
                 lblPlaylist.StringValue = string.Format("On-the-fly Playlist ({0}/{1})", device.PlayerMetadata.PlaylistIndex, device.PlayerMetadata.PlaylistCount);
                 LoadAlbumArt(device.AlbumArt);
             } 

@@ -69,7 +69,10 @@ namespace MPfm.Mac.Classes.Controls
             } 
         }
 
+        public delegate void TrackBarMouseEvent();
         public event TrackBarControl.TrackBarValueChanged OnTrackBarValueChanged;
+        public event TrackBarMouseEvent OnTrackBarMouseDown;
+        public event TrackBarMouseEvent OnTrackBarMouseUp;
 
         [Export("init")]
         public MPfmTrackBarView() : base(NSObjectFlag.Empty)
@@ -85,16 +88,18 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            OnTrackBarValueChanged += () => {};
+            OnTrackBarMouseDown += () => {};
+            OnTrackBarMouseUp += () => {};
+
             // Add tracking area to receive mouse move and mouse dragged events
             var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.EnabledDuringMouseDrag;
             var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
             AddTrackingArea(trackingArea);
 
             _control = new TrackBarControl();    
-            _control.OnTrackBarValueChanged += () =>
-            {
-                if (OnTrackBarValueChanged != null)
-                    OnTrackBarValueChanged();
+            _control.OnTrackBarValueChanged += () => {
+                OnTrackBarValueChanged();
             };
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
@@ -114,6 +119,7 @@ namespace MPfm.Mac.Classes.Controls
             _isMouseDown = false;
             base.MouseUp(theEvent);
             GenericControlHelper.MouseUp(this, _control, theEvent);
+            OnTrackBarMouseUp();
         }
         
         public override void MouseDown(NSEvent theEvent)
@@ -121,6 +127,7 @@ namespace MPfm.Mac.Classes.Controls
             _isMouseDown = true;
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
+            OnTrackBarMouseDown();
         }
         
         public override void MouseMoved(NSEvent theEvent)

@@ -38,16 +38,20 @@ namespace MPfm.Mac.Classes.Controls
         private float _startDragContentOffsetX;
         private PointF _startDragLocation;
         private NSTextField _lblZoom;
+        private Timer _timerFadeOutZoomLabel;
+        private DateTime _lastZoomUpdate;
+        private long _waveFormLength = 0;
+
         private NSMenu _menu;
         private NSMenuItem _menuItemSelect;
         private NSMenuItem _menuItemZoomIn;
         private NSMenuItem _menuItemZoomOut;
-        private Timer _timerFadeOutZoomLabel;
-        private DateTime _lastZoomUpdate;
-        
+        private NSMenuItem _menuItemAutoScroll;
+
         public MPfmWaveFormView WaveFormView { get; private set; }
         public MPfmWaveFormScaleView WaveFormScaleView { get; private set; }
         public override bool IsFlipped { get { return true; } }
+        public bool IsAutoScrollEnabled { get; set; }
 
         private float _zoom = 1;
         public float Zoom
@@ -73,7 +77,7 @@ namespace MPfm.Mac.Classes.Controls
                 }
             }
         }
-        
+
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
@@ -151,14 +155,17 @@ namespace MPfm.Mac.Classes.Controls
         {
             _menu = new NSMenu("Wave Form");
             _menuItemSelect = new NSMenuItem("Select", MenuSelect);
+            _menuItemAutoScroll = new NSMenuItem("Enable automatic scrolling", MenuAutoScroll);
             _menuItemSelect.State = NSCellStateValue.On;
             _menuItemZoomIn = new NSMenuItem("Zoom in", MenuZoomIn);
             _menuItemZoomOut = new NSMenuItem("Zoom out", MenuZoomOut);
             _menu.AddItem(_menuItemSelect);
             _menu.AddItem(_menuItemZoomIn);
             _menu.AddItem(_menuItemZoomOut);
+            _menu.AddItem(NSMenuItem.SeparatorItem);
+            _menu.AddItem(_menuItemAutoScroll);
         }
-        
+
         private void MenuSelect(object sender, EventArgs args)
         {
             ResetMenuSelection();
@@ -178,6 +185,12 @@ namespace MPfm.Mac.Classes.Controls
             ResetMenuSelection();
             _menuItemZoomOut.State = NSCellStateValue.On;
             WaveFormView.InteractionMode = WaveFormControl.InputInteractionMode.ZoomOut;
+        }
+
+        private void MenuAutoScroll(object sender, EventArgs args)
+        {
+            IsAutoScrollEnabled = !IsAutoScrollEnabled;
+            _menuItemAutoScroll.State = IsAutoScrollEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
         }
         
         private void ResetMenuSelection()
@@ -213,6 +226,7 @@ namespace MPfm.Mac.Classes.Controls
 
         public void SetWaveFormLength(long lengthBytes)
         {
+            _waveFormLength = lengthBytes;
             WaveFormView.SetWaveFormLength(lengthBytes);
             WaveFormScaleView.AudioFileLength = lengthBytes;
         }
@@ -220,11 +234,14 @@ namespace MPfm.Mac.Classes.Controls
         public void SetPosition(long position)
         {
             WaveFormView.Position = position;
+            if(IsAutoScrollEnabled)
+                ProcessAutoScroll(position);
         }
 
         public void SetSecondaryPosition(long position)
         {
             WaveFormView.SecondaryPosition = position;
+            ProcessAutoScroll(position);
         }
 
         public void ShowSecondaryPosition(bool show)
@@ -236,7 +253,47 @@ namespace MPfm.Mac.Classes.Controls
         {
             WaveFormView.SetMarkers(markers);
         }
-        
+
+        private void ProcessAutoScroll(long position)
+        {
+            if (_zoom == 1)
+                return;
+
+            float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
+            float positionPercentage = (float)position / (float)_waveFormLength;
+            float cursorX = positionPercentage * waveFormWidth;
+            //float scrollStartX = WaveFormView.ContentOffset.X;
+            float scrollCenterX = WaveFormView.ContentOffset.X + (Bounds.Width / 2);
+            //float scrollEndX = Bounds.Width + WaveFormView.ContentOffset.X;
+            //Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, WaveFormView.ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
+
+            if (cursorX != scrollCenterX)
+            {
+                if (cursorX < scrollCenterX)
+                {
+                    //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is left of center X!");
+                    if (WaveFormView.ContentOffset.X >= 0)
+                    {
+                        float newContentOffsetX = cursorX - (Bounds.Width / 2f);
+                        newContentOffsetX = newContentOffsetX < 0 ? 0 : newContentOffsetX;
+                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the left; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", WaveFormView.ContentOffset.X, newContentOffsetX);
+                        SetContentOffsetX(newContentOffsetX);
+                    }
+                }
+                else if(cursorX > scrollCenterX)
+                {
+                    //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is right of center X!");
+                    if (WaveFormView.ContentOffset.X < waveFormWidth - Bounds.Width)
+                    {
+                        float newContentOffsetX = cursorX - (Bounds.Width / 2f);
+                        newContentOffsetX = newContentOffsetX >  waveFormWidth - Bounds.Width ?  waveFormWidth - Bounds.Width : newContentOffsetX;
+                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the right; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", WaveFormView.ContentOffset.X, newContentOffsetX);
+                        SetContentOffsetX(newContentOffsetX);
+                    }
+                }
+            }
+        }
+
         public override void ScrollWheel(NSEvent theEvent)
         {
             base.ScrollWheel(theEvent);
@@ -261,8 +318,8 @@ namespace MPfm.Mac.Classes.Controls
                 float newZoom = Zoom + (theEvent.DeltaY / 30f);
                 if(newZoom < 1)
                     newZoom = 1;
-                if(newZoom > 32)
-                    newZoom = 32;
+//                if(newZoom > 32)
+//                    newZoom = 32;
                 float deltaZoom = newZoom / Zoom;
                 Zoom = newZoom;
 

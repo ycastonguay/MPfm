@@ -122,6 +122,10 @@ namespace MPfm.Mac
             tableMarkers.WeakDataSource = this;
             tableMarkers.DoubleClick += HandleMarkersDoubleClick;
 
+            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
+            trackBarPosition.OnTrackBarMouseDown += HandleOnTrackBarMouseDown;
+            trackBarPosition.OnTrackBarMouseUp += HandleOnTrackBarMouseUp;
+
             LoadImages();
             SetTheme();
 
@@ -551,6 +555,7 @@ namespace MPfm.Mac
 
         partial void actionRemoveMarker(NSObject sender)
         {
+
         }
 
         partial void actionContextualMenuPlay(NSObject sender)
@@ -665,6 +670,30 @@ namespace MPfm.Mac
             var requestedPosition = OnPlayerRequestPosition(position);
             trackBarPosition.Value = (int)(position * 1000);
             lblPosition.StringValue = requestedPosition.Position;
+        }
+
+        private void HandleOnTrackBarValueChanged()
+        {
+            if (OnPlayerRequestPosition == null || !_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+                return;
+
+            var position = OnPlayerRequestPosition((float)trackBarPosition.Value/1000f);
+            //Console.WriteLine("HandleOnTrackBarValueChanged - trackBarPosition.Value: {0} position: {1}", trackBarPosition.Value, position.Position);
+            lblPosition.StringValue = position.Position;
+            waveFormScrollView.SetSecondaryPosition(position.PositionBytes);
+        }
+
+        private void HandleOnTrackBarMouseDown()
+        {
+            _isPlayerPositionChanging = true;
+            waveFormScrollView.ShowSecondaryPosition(true);
+        }
+
+        private void HandleOnTrackBarMouseUp()
+        {
+            _isPlayerPositionChanging = false;
+            OnPlayerSetPosition((float) trackBarPosition.Value / 10f);
+            waveFormScrollView.ShowSecondaryPosition(false);
         }
 
         [Export ("controlTextDidChange")]
@@ -807,7 +836,7 @@ namespace MPfm.Mac
 
             InvokeOnMainThread(() => {
                 lblPosition.StringValue = entity.Position;
-                //trackBarPosition.Value = (int)(entity.PositionPercentage * 10);
+                trackBarPosition.ValueWithoutEvent = (int)(entity.PositionPercentage * 10);
                 waveFormScrollView.SetPosition(entity.PositionBytes);
             });
 		}
@@ -852,26 +881,7 @@ namespace MPfm.Mac
 
                     waveFormScrollView.SetWaveFormLength(lengthBytes);
                     waveFormScrollView.LoadPeakFile(audioFile);
-
-//                    // Set album cover
-//                    if (!String.IsNullOrEmpty(audioFile.FilePath))
-//                    {
-//                        NSImage image = AlbumCoverHelper.GetAlbumCover(audioFile.FilePath);
-//                        if (image != null)
-//                            imageAlbumCover.Image = image;
-//                        else
-//                            imageAlbumCover.Image = new NSImage();
-//                    } 
-//                    else
-//                    {
-//                        imageAlbumCover.Image = new NSImage();
-//                    }
-
-    //                if(_songBrowserSource != null)
-    //                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
-
                     songGridView.NowPlayingAudioFileId = audioFile.Id;
-
                     LoadAlbumArt(audioFile);
                 }
             });
@@ -959,8 +969,6 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 lblVolume.StringValue = entity.VolumeString;
-//                if(sliderVolume.FloatValue != entity.Volume)
-//                    sliderVolume.FloatValue = entity.Volume;
                 if(faderVolume.Value != (int)entity.Volume)
                     faderVolume.ValueWithoutEvent = (int)entity.Volume;
             });
@@ -984,10 +992,10 @@ namespace MPfm.Mac
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
-//            InvokeOnMainThread(() => {
-//                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-//                outputMeter.SetNeedsDisplayInRect(outputMeter.Bounds);
-//            });
+            InvokeOnMainThread(() => {
+                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                outputMeter.SetNeedsDisplayInRect(outputMeter.Bounds);
+            });
         }
 
         #endregion

@@ -31,6 +31,8 @@ namespace MPfm.Mac.Classes.Navigation
     /// </summary>
     public class MacNavigationManager : NavigationManager
     {
+        private ISyncView _syncView = null;
+
         public override ISplashView CreateSplashView()
         {
             ISplashView view = null;
@@ -77,6 +79,22 @@ namespace MPfm.Mac.Classes.Navigation
                 });
             }
             return view;
+
+//            if (_syncView == null)
+//            {
+//                using (var pool = new NSAutoreleasePool())
+//                {
+//                    pool.InvokeOnMainThread(delegate
+//                    {
+//                        _syncView = base.CreateSyncView();
+//                    });
+//                }
+//            } 
+//            else
+//            {
+//                _syncView.ShowView(true);
+//            }
+//            return _syncView;
         }
     }
 }
