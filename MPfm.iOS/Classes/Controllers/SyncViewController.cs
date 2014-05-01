@@ -147,6 +147,12 @@ namespace MPfm.iOS
         public Action<string> OnConnectDeviceManually { get; set; }
 		public Action OnOpenConnectDevice { get; set; }
 
+		public Action<string> OnAddDeviceFromUrl { get; set; }
+		public Action<SyncDevice> OnRemoveDevice { get; set; }
+		public Action<SyncDevice> OnSyncLibrary { get; set; }
+		public Action<SyncDevice> OnResumePlayback { get; set; }
+		public Action OnOpenAddDeviceDialog { get; set; }
+
 		public Action<SyncDevice> OnRemotePlayPause { get; set; }
 		public Action<SyncDevice> OnRemotePrevious { get; set; }
 		public Action<SyncDevice> OnRemoteNext { get; set; }
@@ -216,6 +222,11 @@ namespace MPfm.iOS
             });
         }
 
+		public void NotifyUpdatedDevices(IEnumerable<MPfm.Library.Objects.SyncDevice> devices)
+		{
+		}
+
         #endregion
+
     }
 }

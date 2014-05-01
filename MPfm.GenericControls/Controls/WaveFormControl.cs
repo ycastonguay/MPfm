@@ -86,12 +86,15 @@ namespace MPfm.GenericControls.Controls
 
                 // Calculate position
                 float positionPercentage = (float)_position / (float)Length;
-                var cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
+                float cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
+                float scrollBarCursorX = positionPercentage * Frame.Width;
 
                 // Invalidate cursor
                 float zoomAdjustment = Math.Max(1, Zoom/4);
                 var rectCursor = new BasicRectangle(cursorX - (5 * zoomAdjustment), 0, 10 * zoomAdjustment, Frame.Height);
+				var rectCursorScrollBar = new BasicRectangle(scrollBarCursorX - (5 * zoomAdjustment), Frame.Height - 30, 10 * zoomAdjustment, 30);
                 OnInvalidateVisualInRect(rectCursor);
+                OnInvalidateVisualInRect(rectCursorScrollBar); // WARNING: Maybe it is a better idea to merge the dirty rectangles.
             }
         }
 
@@ -351,7 +354,10 @@ namespace MPfm.GenericControls.Controls
 
         private void DrawWaveFormBitmap(IGraphicsContext context)
         {          
-            int scrollBarHeight = 30;
+            // The scroll bar slowly appears from zoom 100% to 200%. 
+            // This enables a smoother effect when zooming, especially with touch input.
+            const int scrollBarHeight = 20;
+            int realScrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * scrollBarHeight) : scrollBarHeight);
             int heightAvailable = (int)Frame.Height;
             int tileSize = WaveFormCacheService.TileSize;
             float deltaZoom = (float) (Zoom/Math.Floor(Zoom));
@@ -374,7 +380,7 @@ namespace MPfm.GenericControls.Controls
                 float tileDeltaZoom = Zoom / tile.Zoom;
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
-                float tileHeight = (_showScrollBar && Zoom > 1) ? Frame.Height - scrollBarHeight : Frame.Height;
+                float tileHeight = (_showScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
 
@@ -388,7 +394,6 @@ namespace MPfm.GenericControls.Controls
 
             if (_showScrollBar && Zoom > 1)
             {
-                //int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * deltaZoom));
                 int startTile = 0;
                 int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
                 var requestScrollBar = new WaveFormBitmapRequest()
@@ -404,19 +409,21 @@ namespace MPfm.GenericControls.Controls
                 var tilesScrollBar = _waveFormCacheService.GetTiles(requestScrollBar);
                 foreach (var tile in tilesScrollBar)
                 {
-                    context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - scrollBarHeight, tileSize, scrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
+                    context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
                 }
 
                 // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.
-                byte startAlpha = 115;
-                byte maxAlpha = 195;
+                byte startAlpha = 170;
+                byte maxAlpha = 210;
                 byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (60 * (Zoom / 10))));
                 var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
                 float visibleAreaWidth = (1 / Zoom) * Frame.Width;
                 float visibleAreaX = (1 / Zoom) * ContentOffset.X;
+                var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, visibleAreaX, realScrollBarHeight);
+                var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Frame.Width - visibleAreaX - visibleAreaWidth, realScrollBarHeight);
                 //context.DrawRectangle(new BasicRectangle(visibleAreaX, Frame.Height - scrollBarHeight, visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
-                context.DrawRectangle(new BasicRectangle(0, Frame.Height - scrollBarHeight, visibleAreaX, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
-                context.DrawRectangle(new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - scrollBarHeight, Frame.Width - visibleAreaX - visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
+                context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
+                context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());
             }
 
             // Debug: indicate dirty zone
@@ -425,6 +432,8 @@ namespace MPfm.GenericControls.Controls
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;
             _cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
+            float scrollBarCursorX = positionPercentage * Frame.Width;
+            float cursorHeight = heightAvailable - realScrollBarHeight;
 
             // Draw markers
             for (int a = 0; a < _markers.Count; a++)
@@ -435,7 +444,7 @@ namespace MPfm.GenericControls.Controls
                 // Draw cursor line
                 var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
                 context.SetPen(pen);
-                context.StrokeLine(new BasicPoint(x, 0), new BasicPoint(x, heightAvailable));
+                context.StrokeLine(new BasicPoint(x, 0), new BasicPoint(x, cursorHeight));
 
                 // Draw text
                 var rectText = new BasicRectangle(x, 0, 12, 12);
@@ -447,7 +456,8 @@ namespace MPfm.GenericControls.Controls
 
             // Draw cursor line
             context.SetPen(_penCursorLine);
-            context.StrokeLine(new BasicPoint(_cursorX, 0), new BasicPoint(_cursorX, heightAvailable));
+            context.StrokeLine(new BasicPoint(_cursorX, 0), new BasicPoint(_cursorX, cursorHeight));
+            context.StrokeLine(new BasicPoint(scrollBarCursorX, cursorHeight), new BasicPoint(scrollBarCursorX, heightAvailable));
 
             // Check if a secondary cursor must be drawn (i.e. when changing position)
             if (ShowSecondaryPosition)
@@ -459,7 +469,7 @@ namespace MPfm.GenericControls.Controls
 
                 // Draw cursor line
                 context.SetPen(_penSecondaryCursorLine);
-                context.StrokeLine(new BasicPoint(_secondaryCursorX, 0), new BasicPoint(_secondaryCursorX, heightAvailable));
+                context.StrokeLine(new BasicPoint(_secondaryCursorX, 0), new BasicPoint(_secondaryCursorX, cursorHeight));
             }
         }
 
