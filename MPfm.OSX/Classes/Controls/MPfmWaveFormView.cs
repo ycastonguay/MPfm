@@ -193,6 +193,7 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
+            GenericControlHelper.MouseClick(this, _control, theEvent);
         }
         
         public override void MouseMoved(NSEvent theEvent)

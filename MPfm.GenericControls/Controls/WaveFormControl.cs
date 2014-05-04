@@ -559,6 +559,17 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
+            float scrollUnit = 20 * Zoom;
+            if (_showScrollBar && y >= Frame.Height - ScrollBarHeight)
+            {
+                // Make sure we are outside the thumb/visible area
+                float visibleAreaWidth = (1 / Zoom) * Frame.Width;
+                float visibleAreaX = (1 / Zoom) * ContentOffset.X;
+                if (x < visibleAreaX)
+                    OnContentOffsetChanged(new BasicPoint(ContentOffset.X - scrollUnit, 0));
+                else if (x > visibleAreaX + visibleAreaWidth)
+                    OnContentOffsetChanged(new BasicPoint(ContentOffset.X + scrollUnit, 0));
+            } 
         }
 
         public void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
@@ -581,8 +592,8 @@ namespace MPfm.GenericControls.Controls
                         float trackWidth = Frame.Width - visibleAreaWidth;
                         float newThumbX = (x - _mouseDownX) + _thumbMouseDownX;
                         float scrollWidth = (Frame.Width * Zoom) - Frame.Width;
-                        float newTestRatio = newThumbX / trackWidth;
-                        float newContentOffsetX = newTestRatio * scrollWidth;
+                        float newThumbRatio = newThumbX / trackWidth;
+                        float newContentOffsetX = newThumbRatio * scrollWidth;
                         //Console.WriteLine("ContentOffset change to {0} - _thumbMouseDownX: {1}", newContentOffsetX, _thumbMouseDownX);
                         OnContentOffsetChanged(new BasicPoint(newContentOffsetX, 0));
                     }
