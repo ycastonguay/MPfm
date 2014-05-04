@@ -114,6 +114,7 @@ namespace MPfm.Mac.Classes.Controls
             WaveFormView = new MPfmWaveFormView();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
             WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
+            WaveFormView.OnContentOffsetChanged += (offset) => SetContentOffsetX(offset.X);
             AddSubview(WaveFormView);
 
             WaveFormScaleView = new MPfmWaveFormScaleView();
@@ -377,17 +378,25 @@ namespace MPfm.Mac.Classes.Controls
                 float newZoom = Math.Max(1, Zoom + (theEvent.DeltaY / 30f));
                 float deltaZoom = newZoom / Zoom;
 
+                //float visibleAreaWidth = (1 / Zoom) * Frame.Width;
+                //float visibleAreaX = (1 / Zoom) * WaveFormView.ContentOffset.X;
+
+                //float center = visibleAreaX + (visibleAreaWidth / 2);
+                //float test = location.X / 
+
                 // Adjust content offset with new zoom value
 //                float mouseCursorOffset = location.X - (WaveFormView.Bounds.Width / 2);
 //                float x = WaveFormView.ContentOffset.X;// + (mouseCursorOffset / deltaZoom);
 //                contentOffsetX = (x * deltaZoom) + (mouseCursorOffset / Zoom);
                 //contentOffsetX = (x * deltaZoom);// + (mouseCursorOffset / Zoom);
 
-//                float originalRange = (WaveFormView.Bounds.Width * Zoom) - WaveFormView.Bounds.Width;
-//                float newRange = (WaveFormView.Bounds.Width * newZoom) - WaveFormView.Bounds.Width;
-//
-//                float offsetOriginal = originalRange > 0 ? WaveFormView.ContentOffset.X / originalRange : 0;
-//                float newOffset = offsetOriginal * newRange;
+                float originalRange = (WaveFormView.Bounds.Width * Zoom) - WaveFormView.Bounds.Width;
+                float newRange = (WaveFormView.Bounds.Width * newZoom) - WaveFormView.Bounds.Width;
+                //float center = newRange / 2;
+                float centerOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.Bounds.Width / 2);
+
+                float offsetOriginal = originalRange > 0 ? centerOffsetX / originalRange : 0;
+                float newOffset = offsetOriginal * newRange;
 //
 //                // find the center of the currently visible area (i.e.: later from the mouse cursor) 
 //                float startX = WaveFormView.ContentOffset.X;
@@ -413,10 +422,10 @@ namespace MPfm.Mac.Classes.Controls
                 // google maps zooms to the center by default, but this is not google maps. 
                 // if i am at the start of the wave form, i expect it to stay there. maybe use the old way instead.
                 //contentOffsetX = newRange / 2;
-                //contentOffsetX = newOffset;
+                contentOffsetX = newOffset;
 
                 //Console.WriteLine(">>> contentOffsetX: {0} originalRange: {1} newRange: {2} zoom: {3} waveFormWidth: {4}", contentOffsetX, originalRange, newRange, _zoom, WaveFormView.Bounds.Width * _zoom);
-                contentOffsetX = (WaveFormView.ContentOffset.X * deltaZoom);// + (delta * realRange);
+                //contentOffsetX = (WaveFormView.ContentOffset.X * deltaZoom);// + (delta * realRange);
                 Zoom = newZoom;
             } 
             else

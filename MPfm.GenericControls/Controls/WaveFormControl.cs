@@ -37,10 +37,15 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
+        private const int ScrollBarHeight = 20;
         private readonly object _locker = new object();
         private IWaveFormCacheService _waveFormCacheService;
         private bool _isMouseDown;
+        private bool _isDraggingThumb;
+        private bool _isDraggingScrollBar;
         private bool _showScrollBar;
+        private float _thumbMouseDownX;
+        private float _mouseDownX;
         private float _density;
         private BasicPen _penTransparent;
         private BasicPen _penCursorLine;
@@ -178,10 +183,12 @@ namespace MPfm.GenericControls.Controls
         public long Length { get; set; }
 
         public delegate void ChangePosition(float position);
+        public delegate void ContentOffsetChanged(BasicPoint offset);
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
         public event ChangePosition OnChangePosition;
         public event ChangePosition OnChangeSecondaryPosition;
+        public event ContentOffsetChanged OnContentOffsetChanged;
 
         public WaveFormControl()
         {
@@ -195,6 +202,7 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
             OnChangePosition += (position) => { };
+            OnContentOffsetChanged += (offset) => { };
 
             _waveFormCacheService = Bootstrapper.GetContainer().Resolve<IWaveFormCacheService>();
             _waveFormCacheService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
@@ -356,8 +364,7 @@ namespace MPfm.GenericControls.Controls
         {          
             // The scroll bar slowly appears from zoom 100% to 200%. 
             // This enables a smoother effect when zooming, especially with touch input.
-            const int scrollBarHeight = 20;
-            int realScrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * scrollBarHeight) : scrollBarHeight);
+            int realScrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * ScrollBarHeight) : ScrollBarHeight);
             int heightAvailable = (int)Frame.Height;
             int tileSize = WaveFormCacheService.TileSize;
             float deltaZoom = (float) (Zoom/Math.Floor(Zoom));
@@ -475,7 +482,6 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
-			//Console.WriteLine("WaveFormControl - Render");
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
             Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
@@ -491,17 +497,6 @@ namespace MPfm.GenericControls.Controls
                 DrawWaveFormBitmap(context);
             }
 
-//            else if (!_waveFormCacheService.IsEmpty)
-//            {
-//                //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
-//                DrawWaveFormBitmap(context);
-//            }
-//            else
-//            {
-//                //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
-//                context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
-//            }
-
             //stopwatch.Stop();
             //Console.WriteLine("WaveFormControl - Render - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);
         }
@@ -512,11 +507,30 @@ namespace MPfm.GenericControls.Controls
             if (AudioFile == null)
                 return;
 
-            ShowSecondaryPosition = true;
-            long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
-            float positionPercentage = (float)position / (float)Length;
-            //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
-            SecondaryPosition = (long)(positionPercentage * Length);
+            if (_showScrollBar && y >= Frame.Height - ScrollBarHeight)
+            {
+                // ScrollBar area
+                _isDraggingScrollBar = true;
+                float visibleAreaWidth = (1 / Zoom) * Frame.Width;
+                float visibleAreaX = (1 / Zoom) * ContentOffset.X;
+                if (x >= visibleAreaX && x <= visibleAreaX + visibleAreaWidth)
+                {
+                    // User is dragging the thumb
+                    _isDraggingThumb = true;
+                    _mouseDownX = x;
+                    _thumbMouseDownX = visibleAreaX;
+                    //Console.WriteLine("Dragging thumb - _thumbMouseDownX: {0}", _thumbMouseDownX);
+                }
+            } 
+            else
+            {
+                // Wave form area
+                ShowSecondaryPosition = true;
+                long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
+                float positionPercentage = (float)position / (float)Length;
+                //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
+                SecondaryPosition = (long)(positionPercentage * Length);
+            }
         }
 
         public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
@@ -525,13 +539,21 @@ namespace MPfm.GenericControls.Controls
             if (AudioFile == null)
                 return;
 
-            ShowSecondaryPosition = false;
-            long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
-            float positionPercentage = (float)position / (float)Length;
-            if (button == MouseButtonType.Left)
+            if (_isDraggingScrollBar)
             {
-                Position = position;
-                OnChangePosition(positionPercentage);
+                _isDraggingThumb = false;
+                _isDraggingScrollBar = false;
+            } 
+            else
+            {
+                ShowSecondaryPosition = false;
+                long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
+                float positionPercentage = (float)position / (float)Length;
+                if (button == MouseButtonType.Left)
+                {
+                    Position = position;
+                    OnChangePosition(positionPercentage);
+                }
             }
         }
 
@@ -551,11 +573,28 @@ namespace MPfm.GenericControls.Controls
 
             if (_isMouseDown)
             {
-                long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
-                float positionPercentage = (float)position / (float)Length;
-                //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
-                SecondaryPosition = position;
-                OnChangeSecondaryPosition(positionPercentage);
+                if (_isDraggingScrollBar)
+                {
+                    if (_isDraggingThumb)
+                    {
+                        float visibleAreaWidth = (1 / Zoom) * Frame.Width;
+                        float trackWidth = Frame.Width - visibleAreaWidth;
+                        float newThumbX = (x - _mouseDownX) + _thumbMouseDownX;
+                        float scrollWidth = (Frame.Width * Zoom) - Frame.Width;
+                        float newTestRatio = newThumbX / trackWidth;
+                        float newContentOffsetX = newTestRatio * scrollWidth;
+                        //Console.WriteLine("ContentOffset change to {0} - _thumbMouseDownX: {1}", newContentOffsetX, _thumbMouseDownX);
+                        OnContentOffsetChanged(new BasicPoint(newContentOffsetX, 0));
+                    }
+                } 
+                else
+                {
+                    long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
+                    float positionPercentage = (float)position / (float)Length;
+                    //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
+                    SecondaryPosition = position;
+                    OnChangeSecondaryPosition(positionPercentage);
+                }
             } 
         }
 

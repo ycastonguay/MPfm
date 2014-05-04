@@ -129,6 +129,7 @@ namespace MPfm.Mac.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
+        public event WaveFormControl.ContentOffsetChanged OnContentOffsetChanged;
 
         [Export("init")]
         public MPfmWaveFormView() : base(NSObjectFlag.Empty)
@@ -147,6 +148,7 @@ namespace MPfm.Mac.Classes.Controls
             _control = new WaveFormControl();    
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
+            _control.OnContentOffsetChanged += (offset) => OnContentOffsetChanged(offset);
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
             

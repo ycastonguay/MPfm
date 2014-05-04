@@ -339,7 +339,8 @@ namespace MPfm.GenericControls.Controls
 
                         // Draw text at every major tick (minute count)
                         string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
-                        float y = ContentSize.Height - (ContentSize.Height/12f) - _rectText.Height - (0.5f * context.Density);                    
+                        //float y = ContentSize.Height - (ContentSize.Height/12f) - _rectText.Height - (0.5f * context.Density);                    
+                        float y = 3 * context.Density;//ContentSize.Height - _rectText.Height - (10 * context.Density); 
 						context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, FontFace, FontSize);
                     }
                 }
