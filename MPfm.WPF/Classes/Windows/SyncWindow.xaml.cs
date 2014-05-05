@@ -35,8 +35,6 @@ namespace MPfm.WPF.Classes.Windows
 {
     public partial class SyncWindow : BaseWindow, ISyncView
     {
-        private bool _isDiscovering;
-
         public SyncWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
@@ -44,26 +42,8 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
-        private void RefreshDeviceListButton()
-        {
-            if (_isDiscovering)
-            {
-                btnRefresh.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/cancel.png"));
-                btnRefresh.Title = "Cancel refresh";
-            }
-            else
-            {
-                btnRefresh.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/refresh.png"));
-                btnRefresh.Title = "Refresh devices";
-            }
-        }
-
         private void btnRefresh_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_isDiscovering)
-                OnCancelDiscovery();
-            else
-                OnStartDiscovery();   
         }
 
         private void btnConnect_OnClick(object sender, RoutedEventArgs e)
@@ -71,8 +51,7 @@ namespace MPfm.WPF.Classes.Windows
             if (listView.SelectedItems.Count == 0)
                 return;
 
-            OnCancelDiscovery();
-            OnConnectDevice((SyncDevice)listView.SelectedItems[0]);
+            //OnConnectDevice((SyncDevice)listView.SelectedItems[0]);
         }
 
         private void btnConnectManual_OnClick(object sender, RoutedEventArgs e)
@@ -82,11 +61,12 @@ namespace MPfm.WPF.Classes.Windows
 
         #region ISyncView implementation
 
-        public Action<SyncDevice> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnOpenConnectDevice { get; set; }
-        public Action OnStartDiscovery { get; set; }
-        public Action OnCancelDiscovery { get; set; }
+        public Action<string> OnAddDeviceFromUrl { get; set; }
+        public Action<SyncDevice> OnRemoveDevice { get; set; }
+        public Action<SyncDevice> OnSyncLibrary { get; set; }
+        public Action<SyncDevice> OnResumePlayback { get; set; }
+        public Action OnOpenAddDeviceDialog { get; set; }
+
         public Action<SyncDevice> OnRemotePlayPause { get; set; }
         public Action<SyncDevice> OnRemotePrevious { get; set; }
         public Action<SyncDevice> OnRemoteNext { get; set; }
@@ -109,38 +89,6 @@ namespace MPfm.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshDiscoveryProgress(float percentageDone, string status)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                if (!_isDiscovering)
-                {
-                    _isDiscovering = true;
-                    progressBar.Visibility = Visibility.Visible;                    
-                    RefreshDeviceListButton();
-                }
-                progressBar.Value = (int)percentageDone;
-            }));
-        }
-
-        public void RefreshDevices(IEnumerable<SyncDevice> devices)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                listView.ItemsSource = devices.ToList();
-            }));
-        }
-
-        public void RefreshDevicesEnded()
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                _isDiscovering = false;
-                progressBar.Visibility = Visibility.Hidden;
-                RefreshDeviceListButton();
-            }));
-        }
-
         public void RefreshStatus(string status)
         {
         }
@@ -154,6 +102,10 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         public void NotifyUpdatedDevice(SyncDevice device)
+        {
+        }
+
+        public void NotifyUpdatedDevices(IEnumerable<SyncDevice> devices)
         {
         }
 

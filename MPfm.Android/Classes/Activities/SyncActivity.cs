@@ -79,8 +79,8 @@ namespace MPfm.Android
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            OnCancelDiscovery();
-            OnConnectDevice(_devices[itemClickEventArgs.Position]);
+            //OnCancelDiscovery();
+            //OnConnectDevice(_devices[itemClickEventArgs.Position]);
         }
 
         protected override void OnStart()
@@ -126,7 +126,7 @@ namespace MPfm.Android
                 case global::Android.Resource.Id.Home:
                     var intent = new Intent(this, typeof (MainActivity));
                     intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-                    OnCancelDiscovery();
+                    //OnCancelDiscovery();
                     this.StartActivity(intent);
                     this.Finish();
                     return true;
@@ -139,17 +139,18 @@ namespace MPfm.Android
 
         public override void OnBackPressed()
         {
-            OnCancelDiscovery();
+            //OnCancelDiscovery();
             base.OnBackPressed();
         }
 
         #region ISyncView implementation
 
-        public Action<SyncDevice> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnOpenConnectDevice { get; set; }
-        public Action OnStartDiscovery { get; set; }
-        public Action OnCancelDiscovery { get; set; }
+        public Action<string> OnAddDeviceFromUrl { get; set; }
+        public Action<SyncDevice> OnRemoveDevice { get; set; }
+        public Action<SyncDevice> OnSyncLibrary { get; set; }
+        public Action<SyncDevice> OnResumePlayback { get; set; }
+        public Action OnOpenAddDeviceDialog { get; set; }
+
         public Action<SyncDevice> OnRemotePlayPause { get; set; }
         public Action<SyncDevice> OnRemotePrevious { get; set; }
         public Action<SyncDevice> OnRemoteNext { get; set; }
@@ -168,24 +169,20 @@ namespace MPfm.Android
             });
         }
 
-        public void RefreshDiscoveryProgress(float percentageDone, string status)
-        {
-            RunOnUiThread(() => {
-                _lblStatus.Text = status;
-            });
-        }
+        //public void RefreshDiscoveryProgress(float percentageDone, string status)
+        //{
+        //    RunOnUiThread(() => {
+        //        _lblStatus.Text = status;
+        //    });
+        //}
 
-        public void RefreshDevices(IEnumerable<SyncDevice> devices)
-        {
-            RunOnUiThread(() => {
-                _devices = devices.ToList();
-                _listAdapter.SetData(_devices);
-            });
-        }
-
-        public void RefreshDevicesEnded()
-        {
-        }
+        //public void RefreshDevices(IEnumerable<SyncDevice> devices)
+        //{
+        //    RunOnUiThread(() => {
+        //        _devices = devices.ToList();
+        //        _listAdapter.SetData(_devices);
+        //    });
+        //}
 
         public void RefreshStatus(string status)
         {
@@ -200,6 +197,10 @@ namespace MPfm.Android
         }
 
         public void NotifyUpdatedDevice(SyncDevice device)
+        {
+        }
+
+        public void NotifyUpdatedDevices(IEnumerable<SyncDevice> devices)
         {
         }
 
