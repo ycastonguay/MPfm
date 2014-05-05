@@ -141,13 +141,17 @@ namespace MPfm.Android.Classes.Controls.Graphics
             {
                 AntiAlias = true,
                 Color = GenericControlHelper.ToColor(color),
-                TextSize = fontSize * Density
+                TextSize = fontSize * Density,
             };
-            _canvas.DrawText(text, point.X, point.Y, paint);
+            var boundsText = new Rect();
+            paint.GetTextBounds(text, 0, text.Length, boundsText);
+            _canvas.DrawText(text, point.X - boundsText.Left, point.Y - boundsText.Top, paint);
+            //_canvas.DrawText(text, point.X, point.Y, paint);
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
+            throw new NotImplementedException();
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)

@@ -137,24 +137,28 @@ namespace MPfm.MVP.Navigation
             #endif
 
             //Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2} resumePlayback.positionPercentage: {3}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId, AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage);
+            bool didCreateView = false;
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
                 //Tracing.Log("MobileNavigationManager - ContinueAfterSplash - First run of the application; launching FirstRun activity...");
                 CreateFirstRunView();
+                didCreateView = true;
             }
             else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
             {
                 var resumePlaybackService = Bootstrapper.GetContainer().Resolve<IResumePlaybackService>();
                 _resumeCloudDeviceInfo = resumePlaybackService.GetResumePlaybackInfo();
-                if(_resumeCloudDeviceInfo != null)
+                if (_resumeCloudDeviceInfo != null)
+                {
                     CreatePlayerView(MobileNavigationTabType.Playlists);
+                    didCreateView = true;
+                }
             }
-            else
-            {
-                #if ANDROID
+
+            #if ANDROID
+            if(!didCreateView)
                 CreateMobileMainView();
-                #endif
-            }
+            #endif
 
             // Shouldn't this be done by the presenter instead, who notifies the view? This should be the ONLY view that the NavMgr calls directly...
             _splashView.DestroyView();
