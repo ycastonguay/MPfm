@@ -49,6 +49,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnTestAudioSettings { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSButton checkEnableLibraryService { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton checkEnableResumePlayback { get; set; }
 
 		[Outlet]
@@ -94,6 +97,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblGeneralUpdateFrequency { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblHttpPort { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblHz { get; set; }
 
 		[Outlet]
@@ -101,6 +107,12 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibraryPreferences { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblLibraryService { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblLibraryServiceNote { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibrarySize { get; set; }
@@ -181,6 +193,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField txtCustomDirectory { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField txtHttpPort { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField txtMaximumPeakFolderSize { get; set; }
 
 		[Outlet]
@@ -223,6 +238,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmView viewLibraryPreferencesHeader { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewLibraryServiceHeader { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewMixerHeader { get; set; }
 
 		[Outlet]
@@ -236,12 +254,25 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewUpdateFrequencyHeader { get; set; }
+
+		[Action ("actionMatrixPeakFiles:")]
+		partial void actionMatrixPeakFiles (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (btnAddFolder != null) {
 				btnAddFolder.Dispose ();
 				btnAddFolder = null;
+			}
+
+			if (btnBrowseCustomDirectory != null) {
+				btnBrowseCustomDirectory.Dispose ();
+				btnBrowseCustomDirectory = null;
+			}
+
+			if (btnDeletePeakFiles != null) {
+				btnDeletePeakFiles.Dispose ();
+				btnDeletePeakFiles = null;
 			}
 
 			if (btnLoginDropbox != null) {
@@ -349,6 +380,11 @@ namespace MPfm.Mac
 				lblEvery4 = null;
 			}
 
+			if (lblGeneralPeakFiles != null) {
+				lblGeneralPeakFiles.Dispose ();
+				lblGeneralPeakFiles = null;
+			}
+
 			if (lblGeneralPreferences != null) {
 				lblGeneralPreferences.Dispose ();
 				lblGeneralPreferences = null;
@@ -372,6 +408,21 @@ namespace MPfm.Mac
 			if (lblLibraryPreferences != null) {
 				lblLibraryPreferences.Dispose ();
 				lblLibraryPreferences = null;
+			}
+
+			if (lblLibrarySize != null) {
+				lblLibrarySize.Dispose ();
+				lblLibrarySize = null;
+			}
+
+			if (lblMaximumPeakFolderSize != null) {
+				lblMaximumPeakFolderSize.Dispose ();
+				lblMaximumPeakFolderSize = null;
+			}
+
+			if (lblMB != null) {
+				lblMB.Dispose ();
+				lblMB = null;
 			}
 
 			if (lblMS != null) {
@@ -404,6 +455,11 @@ namespace MPfm.Mac
 				lblOutputMeter = null;
 			}
 
+			if (lblPeakFileFolderSize != null) {
+				lblPeakFileFolderSize.Dispose ();
+				lblPeakFileFolderSize = null;
+			}
+
 			if (lblResumePlaybackNote != null) {
 				lblResumePlaybackNote.Dispose ();
 				lblResumePlaybackNote = null;
@@ -429,6 +485,11 @@ namespace MPfm.Mac
 				lblUpdatePeriod = null;
 			}
 
+			if (matrixPeakFiles != null) {
+				matrixPeakFiles.Dispose ();
+				matrixPeakFiles = null;
+			}
+
 			if (popupOutputDevice != null) {
 				popupOutputDevice.Dispose ();
 				popupOutputDevice = null;
@@ -449,6 +510,11 @@ namespace MPfm.Mac
 				trackBufferSize = null;
 			}
 
+			if (trackMaximumPeakFolderSize != null) {
+				trackMaximumPeakFolderSize.Dispose ();
+				trackMaximumPeakFolderSize = null;
+			}
+
 			if (trackOutputMeter != null) {
 				trackOutputMeter.Dispose ();
 				trackOutputMeter = null;
@@ -467,6 +533,16 @@ namespace MPfm.Mac
 			if (txtBufferSize != null) {
 				txtBufferSize.Dispose ();
 				txtBufferSize = null;
+			}
+
+			if (txtCustomDirectory != null) {
+				txtCustomDirectory.Dispose ();
+				txtCustomDirectory = null;
+			}
+
+			if (txtMaximumPeakFolderSize != null) {
+				txtMaximumPeakFolderSize.Dispose ();
+				txtMaximumPeakFolderSize = null;
 			}
 
 			if (txtOutputMeter != null) {
@@ -504,6 +580,16 @@ namespace MPfm.Mac
 				viewCloudPreferencesHeader = null;
 			}
 
+			if (viewDropboxHeader != null) {
+				viewDropboxHeader.Dispose ();
+				viewDropboxHeader = null;
+			}
+
+			if (viewFoldersHeader != null) {
+				viewFoldersHeader.Dispose ();
+				viewFoldersHeader = null;
+			}
+
 			if (viewGeneralPreferences != null) {
 				viewGeneralPreferences.Dispose ();
 				viewGeneralPreferences = null;
@@ -524,79 +610,14 @@ namespace MPfm.Mac
 				viewLibraryPreferencesHeader = null;
 			}
 
-			if (viewOutputHeader != null) {
-				viewOutputHeader.Dispose ();
-				viewOutputHeader = null;
-			}
-
 			if (viewMixerHeader != null) {
 				viewMixerHeader.Dispose ();
 				viewMixerHeader = null;
 			}
 
-			if (viewStatusHeader != null) {
-				viewStatusHeader.Dispose ();
-				viewStatusHeader = null;
-			}
-
-			if (viewFoldersHeader != null) {
-				viewFoldersHeader.Dispose ();
-				viewFoldersHeader = null;
-			}
-
-			if (viewDropboxHeader != null) {
-				viewDropboxHeader.Dispose ();
-				viewDropboxHeader = null;
-			}
-
-			if (viewUpdateFrequencyHeader != null) {
-				viewUpdateFrequencyHeader.Dispose ();
-				viewUpdateFrequencyHeader = null;
-			}
-
-			if (lblMaximumPeakFolderSize != null) {
-				lblMaximumPeakFolderSize.Dispose ();
-				lblMaximumPeakFolderSize = null;
-			}
-
-			if (trackMaximumPeakFolderSize != null) {
-				trackMaximumPeakFolderSize.Dispose ();
-				trackMaximumPeakFolderSize = null;
-			}
-
-			if (lblMB != null) {
-				lblMB.Dispose ();
-				lblMB = null;
-			}
-
-			if (txtMaximumPeakFolderSize != null) {
-				txtMaximumPeakFolderSize.Dispose ();
-				txtMaximumPeakFolderSize = null;
-			}
-
-			if (btnDeletePeakFiles != null) {
-				btnDeletePeakFiles.Dispose ();
-				btnDeletePeakFiles = null;
-			}
-
-			if (lblPeakFileFolderSize != null) {
-				lblPeakFileFolderSize.Dispose ();
-				lblPeakFileFolderSize = null;
-			}
-
-			if (txtCustomDirectory != null) {
-				txtCustomDirectory.Dispose ();
-				txtCustomDirectory = null;
-			}
-
-			if (btnBrowseCustomDirectory != null) {
-				btnBrowseCustomDirectory.Dispose ();
-				btnBrowseCustomDirectory = null;
-			}
-
-			if (matrixPeakFiles != null) {
-				matrixPeakFiles.Dispose ();
-				matrixPeakFiles = null;
+			if (viewOutputHeader != null) {
+				viewOutputHeader.Dispose ();
+				viewOutputHeader = null;
 			}
 
 			if (viewPeakFilesHeader != null) {
@@ -604,14 +625,44 @@ namespace MPfm.Mac
 				viewPeakFilesHeader = null;
 			}
 
-			if (lblGeneralPeakFiles != null) {
-				lblGeneralPeakFiles.Dispose ();
-				lblGeneralPeakFiles = null;
+			if (viewStatusHeader != null) {
+				viewStatusHeader.Dispose ();
+				viewStatusHeader = null;
 			}
 
-			if (lblLibrarySize != null) {
-				lblLibrarySize.Dispose ();
-				lblLibrarySize = null;
+			if (viewUpdateFrequencyHeader != null) {
+				viewUpdateFrequencyHeader.Dispose ();
+				viewUpdateFrequencyHeader = null;
+			}
+
+			if (viewLibraryServiceHeader != null) {
+				viewLibraryServiceHeader.Dispose ();
+				viewLibraryServiceHeader = null;
+			}
+
+			if (lblLibraryService != null) {
+				lblLibraryService.Dispose ();
+				lblLibraryService = null;
+			}
+
+			if (lblLibraryServiceNote != null) {
+				lblLibraryServiceNote.Dispose ();
+				lblLibraryServiceNote = null;
+			}
+
+			if (txtHttpPort != null) {
+				txtHttpPort.Dispose ();
+				txtHttpPort = null;
+			}
+
+			if (checkEnableLibraryService != null) {
+				checkEnableLibraryService.Dispose ();
+				checkEnableLibraryService = null;
+			}
+
+			if (lblHttpPort != null) {
+				lblHttpPort.Dispose ();
+				lblHttpPort = null;
 			}
 		}
 	}

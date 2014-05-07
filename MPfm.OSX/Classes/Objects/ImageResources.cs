@@ -150,6 +150,7 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_button_goto"),
                 NSImage.ImageNamed("icon_button_library"),
                 NSImage.ImageNamed("icon_button_ok"),
+                NSImage.ImageNamed("icon_button_open"),
                 NSImage.ImageNamed("icon_button_play"),
                 NSImage.ImageNamed("icon_button_refresh"),
                 NSImage.ImageNamed("icon_button_reset"),

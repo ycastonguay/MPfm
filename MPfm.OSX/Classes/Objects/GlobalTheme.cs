@@ -31,6 +31,7 @@ namespace MPfm.Mac.Classes.Objects
         public static NSColor SecondaryWindowColor = NSColor.FromDeviceRgba(83f/255f, 104f/255f, 119f/255f, 1);
 
         public static CGColor ButtonBackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+        public static CGColor ButtonDisabledBackgroundColor = new CGColor(105f/255f, 62f/255f, 58f/255f, 1);
         public static CGColor ButtonBackgroundMouseDownColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
         public static CGColor ButtonBackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
         public static CGColor ButtonBorderColor = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);

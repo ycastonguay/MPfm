@@ -38,9 +38,23 @@ namespace MPfm.Mac.Classes.Controls
         public int RoundedRadius { get; set; }
         public CGColor TextColor { get; set; }
         public CGColor BackgroundColor { get; set; }
+        public CGColor DisabledBackgroundColor { get; set; }
         public CGColor BackgroundMouseDownColor { get; set; }
         public CGColor BackgroundMouseOverColor { get; set; }
         public CGColor BorderColor { get; set; }
+
+        public override bool Enabled
+        {
+            get
+            {
+                return base.Enabled;
+            }
+            set
+            {
+                base.Enabled = value;
+                SetNeedsDisplay();
+            }
+        }
 
         public delegate void ButtonSelected(MPfmButton button);
         public event ButtonSelected OnButtonSelected;
@@ -65,6 +79,7 @@ namespace MPfm.Mac.Classes.Controls
             RoundedRadius = 6;
             TextColor = GlobalTheme.ButtonTextColor;
             BackgroundColor = GlobalTheme.ButtonBackgroundColor;
+            DisabledBackgroundColor = GlobalTheme.ButtonDisabledBackgroundColor;
             BackgroundMouseDownColor = GlobalTheme.ButtonBackgroundMouseDownColor;
             BackgroundMouseOverColor = GlobalTheme.ButtonBackgroundMouseOverColor;
             BorderColor = GlobalTheme.ButtonBorderColor;
@@ -86,7 +101,7 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseUp(theEvent);
             _isMouseDown = false;
-            if(OnButtonSelected != null)
+            if(OnButtonSelected != null && Enabled)
                 OnButtonSelected(this);
             SetNeedsDisplay();
         }
@@ -117,7 +132,9 @@ namespace MPfm.Mac.Classes.Controls
 
             if (RoundedRadius == 0)
             {
-                if (_isMouseDown)
+                if (!Enabled)
+                    CoreGraphicsHelper.FillRect(context, Bounds, DisabledBackgroundColor);
+                else if (_isMouseDown)
                     CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
                 else if (_isMouseOver)
                     CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
@@ -130,7 +147,9 @@ namespace MPfm.Mac.Classes.Controls
             {
                 var path = NSBezierPath.FromRoundedRect(Bounds, RoundedRadius, RoundedRadius);
                 NSColor nsColor = null;
-                if (_isMouseDown)
+                if(!Enabled)
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(DisabledBackgroundColor));
+                else if (_isMouseDown)
                     nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundMouseDownColor));
                 else if (_isMouseOver)
                     nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundMouseOverColor));

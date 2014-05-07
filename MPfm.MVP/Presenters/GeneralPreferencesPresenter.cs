@@ -48,11 +48,19 @@ namespace MPfm.MVP.Presenters
             RefreshPreferences();
         }
 
-        private void SetGeneralPreferences(GeneralAppConfig generalAppConfig)
+        private void SetGeneralPreferences(GeneralAppConfig config)
         {
             try
             {
-                AppConfigManager.Instance.Root.General = generalAppConfig;
+//                // Validate preferences before saving them
+//                // Check if custom peak folder exists
+//                if (config.UseCustomPeakFileFolder && !Directory.Exists(config.CustomPeakFileFolder))
+//                {
+//                    View.GeneralPreferencesError(new Exception("The custom peak file folder you have entered is invalid or the folder does not exist."));
+//                    return;
+//                }
+
+                AppConfigManager.Instance.Root.General = config;
                 AppConfigManager.Instance.Save();
                 RefreshPreferences();
             }
