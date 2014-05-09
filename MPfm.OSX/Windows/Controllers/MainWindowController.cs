@@ -76,21 +76,20 @@ namespace MPfm.Mac
             Tracing.Log("MainWindowController.WindowDidLoad -- Initializing user interface...");
             //this.Window.Title = "Sessions " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 
-            LoadTrackBars();
-            LoadComboBoxes();
-            LoadTreeViews();
-            LoadTableViews();
-            LoadImages();
             LoadButtons();
+            LoadComboBoxes();
+            LoadTableViews();
+            LoadTrackBars();
+            LoadTreeViews();
+            LoadImages();
             SetTheme();
 
-            //ShowUpdateLibraryView(false);
+            splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
             splitMain.PostsFrameChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, SplitViewFrameDidChangeNotification, splitMain);
 
             viewUpdateLibrary.Hidden = true;
-            splitMain.Delegate = new MainSplitViewDelegate();
             waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
@@ -189,10 +188,6 @@ namespace MPfm.Mac
             btnPlayLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnPlayLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnPlayLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            //btnStopLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            //btnStopLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            //btnStopLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            //btnStopLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
             btnAddLoop.RoundedRadius = 0;
             btnAddLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnAddLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
@@ -233,12 +228,9 @@ namespace MPfm.Mac
             lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
             lblSongPath.TextColor = NSColor.FromDeviceRgba(97f/255f, 122f/255f, 140f/255f, 1);
 
-            //viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
             viewSongPosition.HeaderHeight = 26;
             viewVolume.IsHeaderVisible = true;
-            //viewTimeShifting.IsHeaderVisible = true;
-            //viewPitchShifting.IsHeaderVisible = true;           
 
             lblArtistName.Font = NSFont.FromFontName("Roboto Thin", 24);
             lblAlbumTitle.Font = NSFont.FromFontName("Roboto Light", 20);
@@ -319,7 +311,6 @@ namespace MPfm.Mac
 
             btnDetectTempo.Font = NSFont.FromFontName("Roboto", 11f);
             btnPlayLoop.Font = NSFont.FromFontName("Roboto", 11f);
-            //btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnAddLoop.Font = NSFont.FromFontName("Roboto", 11f);
             btnEditLoop.Font = NSFont.FromFontName("Roboto", 11f);
             btnRemoveLoop.Font = NSFont.FromFontName("Roboto", 11f);
@@ -344,7 +335,6 @@ namespace MPfm.Mac
             btnRemoveMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnPlayLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnPlaySelectedSong.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
-            //btnStopLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_stop");
             btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
 
             btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
@@ -387,20 +377,6 @@ namespace MPfm.Mac
             viewPitchShifting.Hidden = button != btnTabPitchShifting;
             viewInformation.Hidden = button != btnTabInfo;
             viewActions.Hidden = button != btnTabActions;
-
-//            if (button == btnTabTimeShifting)
-//            {
-//
-//            } 
-//            else if (button == btnTabPitchShifting)
-//            {
-//            }
-//            else if (button == btnTabInfo)
-//            {
-//            } 
-//            else if (button == btnTabActions)
-//            {
-//            }
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)
@@ -415,7 +391,11 @@ namespace MPfm.Mac
                 openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV", "APE" };
                 openPanel.Title = "Please select audio files to add to the library";
 				openPanel.Prompt = "Add files to library";
-				openPanel.RunModal();
+
+                // Check for cancel
+                if(openPanel.RunModal() == 0)
+                    return;
+
 				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
 
@@ -434,7 +414,11 @@ namespace MPfm.Mac
 				openPanel.AllowsMultipleSelection = false;
 				openPanel.Title = "Please select a folder to add to the library";
 				openPanel.Prompt = "Add folder to library";	
-				openPanel.RunModal();
+
+                // Check for cancel
+                if(openPanel.RunModal() == 0)
+                    return;
+
 				folderPath = openPanel.Url.Path;
 			}
 
@@ -454,7 +438,11 @@ namespace MPfm.Mac
 				openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
 				openPanel.Title = "Please select audio files to play";
 				openPanel.Prompt = "Add to playlist";	
-				openPanel.RunModal();
+
+                // Check for cancel
+                if(openPanel.RunModal() == 0)
+                    return;
+
 				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
 
@@ -1271,7 +1259,7 @@ namespace MPfm.Mac
 
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
-            Console.WriteLine("IUpdateLibraryView - RefreshStatus");
+            Console.WriteLine("IUpdateLibraryView - RefreshStatus - status: {0} progress: {1}", entity.Title, entity.PercentageDone);
             InvokeOnMainThread(delegate {
                 lblUpdateLibraryStatus.StringValue = entity.Title;
                 progressUpdateLibrary.DoubleValue = Math.Min(100, entity.PercentageDone * 100);

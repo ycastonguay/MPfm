@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.MVP.Config.Models;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Views
 {
@@ -30,6 +31,7 @@ namespace MPfm.MVP.Views
         Action OnSelectFolders { get; set; }
         Action OnResetLibrary { get; set; }
         Action OnUpdateLibrary { get; set; }
+        Action<Folder> OnRemoveFolder { get; set; }
         Action<bool> OnEnableSyncListener { get; set; }
         Action<int> OnSetSyncListenerPort { get; set; }
 

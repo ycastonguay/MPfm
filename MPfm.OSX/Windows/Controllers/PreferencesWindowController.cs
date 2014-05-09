@@ -29,6 +29,7 @@ using MPfm.Mac.Classes.Objects;
 using MPfm.Core.Helpers;
 using MPfm.Mac.Classes.Helpers;
 using System.IO;
+using MPfm.Library.Objects;
 
 namespace MPfm.Mac
 {
@@ -54,6 +55,7 @@ namespace MPfm.Mac
         private void Initialize()
         {
             tableFolders.WeakDelegate = this;
+            tableFolders.WeakDataSource = this;
 
             LoadTrackBars();
             LoadComboBoxes();
@@ -314,6 +316,7 @@ namespace MPfm.Mac
         public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
             NSTableCellView view = (NSTableCellView)tableView.MakeView("cellFolderPath", this);
+            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             view.TextField.StringValue = _libraryAppConfig.Folders[row].FolderPath;
             return view;
         }
@@ -411,7 +414,11 @@ namespace MPfm.Mac
                 openPanel.AllowsMultipleSelection = false;
                 openPanel.Title = "Please select a folder for peak files";
                 openPanel.Prompt = "Select folder for peak files"; 
-                openPanel.RunModal();
+
+                // Check for cancel
+                if(openPanel.RunModal() == 0)
+                    return;
+
                 folderPath = openPanel.Url.Path;
             }
 
@@ -517,7 +524,11 @@ namespace MPfm.Mac
                 openPanel.AllowsMultipleSelection = false;
                 openPanel.Title = "Please select a folder to add to the library";
                 openPanel.Prompt = "Add folder to library"; 
-                openPanel.RunModal();
+
+                // Check for cancel
+                if(openPanel.RunModal() == 0)
+                    return;
+
                 folderPath = openPanel.Url.Path;
             }
 
@@ -527,7 +538,27 @@ namespace MPfm.Mac
 
         private void HandleOnRemoveFolderButtonSelected(MPfmButton button)
         {
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Folder will be removed from library";
+                alert.InformativeText = "Are you sure you wish to remove this folder from your library? This won't delete any audio files from your hard disk.";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
 
+                    // Remove files from database
+                    OnRemoveFolder(_libraryAppConfig.Folders[tableFolders.SelectedRow]);
+
+                    // Remove folder from list of configured folders
+                    _libraryAppConfig.Folders.RemoveAt(tableFolders.SelectedRow);
+                    OnSetLibraryPreferences(_libraryAppConfig);
+                    tableFolders.ReloadData();
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => NSApplication.SharedApplication.StopModal();
+                alert.RunModal();
+            }
         }
 
         private void HandleOnResetLibraryButtonSelected(MPfmButton button)
@@ -563,6 +594,7 @@ namespace MPfm.Mac
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
+        public Action<Folder> OnRemoveFolder { get; set; }
         public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }

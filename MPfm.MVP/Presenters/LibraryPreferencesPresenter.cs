@@ -27,6 +27,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using System.Linq;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters
 {
@@ -61,6 +62,7 @@ namespace MPfm.MVP.Presenters
             view.OnResetLibrary = ResetLibrary;
             view.OnUpdateLibrary = UpdateLibrary;
             view.OnSelectFolders = SelectFolders;
+            view.OnRemoveFolder = RemoveFolder;
             view.OnEnableSyncListener = EnableSyncService;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
@@ -85,7 +87,7 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Tracing.Log("LibraryPreferencesPresenter - SetLibraryPreferences - Failed to set preferences: {0}", ex);
+                Tracing.Log(ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -105,7 +107,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("LibraryPreferencesPresenter - ResetLibrary - Failed to reset library: {0}", ex);
+                Tracing.Log(ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -123,7 +125,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("LibraryPreferencesPresenter - UpdateLibrary - Failed to create and push update library view: {0}", ex);
+                Tracing.Log(ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -137,7 +139,20 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Tracing.Log("LibraryPreferencesPresenter - SelectFolders - Failed to create SelectFolders view: {0}", ex);
+                Tracing.Log(ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void RemoveFolder(Folder folder)
+        {
+            try
+            {
+                _libraryService.DeleteAudioFiles(folder.FolderPath);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log(ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -154,7 +169,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("LibraryPreferencesPresenter - EnableSyncListener - Failed to enable/disable sync listener: {0}", ex);
+                Tracing.Log(ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -168,7 +183,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("LibraryPreferencesPresenter - SetSyncListenerPort - Failed to set sync listener port: {0}", ex);
+                Tracing.Log(ex);
                 View.LibraryPreferencesError(ex);
             }
         }
