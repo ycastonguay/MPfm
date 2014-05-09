@@ -45,17 +45,27 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            btnOK.OnButtonSelected += (button) => Close();
-            btnCancel.OnButtonSelected += (button) => Close(); // todo: add cancel
+            Console.WriteLine("CloudConnectWindowController - Initialize");
+            btnOK.OnButtonSelected += (button) => CloseWindow();
+            btnCancel.OnButtonSelected += (button) => CloseWindow();
             progressIndicator.Indeterminate = true;
             progressIndicator.StartAnimation(this);
 
             LoadFontsAndImages();
             ShowWindowCentered();
+            Window.DidBecomeKey += HandleWindowDidBecomeKey; // this blocks the delegate used for detecting window closing
+            Console.WriteLine("CloudConnectWindowController - Initialize finished!");
+        }
+
+        private void CloseWindow()
+        {
+            //Window.DidBecomeKey -= HandleWindowDidBecomeKey;
+            Close();
         }
 
         private void HandleWindowDidBecomeKey(object sender, EventArgs e)
         {
+            Console.WriteLine("CloudConnectWindowController - HandleWindowDidBecomeKey");
             if (!_canCheckForAuthentication)
                 return;
 
@@ -64,9 +74,10 @@ namespace MPfm.Mac
 
         public override void WindowDidLoad()
         {
+            Console.WriteLine("CloudConnectWindowController - WindowDidLoad");
             base.WindowDidLoad();
-            Window.DidBecomeKey += HandleWindowDidBecomeKey;
             OnViewReady(this);
+            Console.WriteLine("CloudConnectWindowController - WindowDidLoad finished!");
         }
 
         private void LoadFontsAndImages()

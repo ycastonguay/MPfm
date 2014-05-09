@@ -16,11 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.Mac.Classes.Delegates;
 using MPfm.Mac.Classes.Helpers;
@@ -60,10 +57,9 @@ namespace MPfm.Mac
         // Shared initialization code
         void Initialize()
         {
-            windowDelegate = new MPfmWindowDelegate(() => { 
-                if(OnViewDestroy != null) OnViewDestroy.Invoke(this); 
-            });
-            this.Window.Delegate = windowDelegate;
+            Window.WillClose += (sender, e) => {
+                if(OnViewDestroy != null) OnViewDestroy(this); 
+            };
         }
         
         #endregion
