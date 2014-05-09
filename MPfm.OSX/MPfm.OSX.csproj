@@ -183,34 +183,23 @@
     <Compile Include="Classes\Navigation\MacNavigationManager.cs" />
     <Compile Include="Classes\Controls\MPfmView.cs" />
     <Compile Include="Classes\Controls\MPfmButton.cs" />
-    <Compile Include="Classes\Controls\MPfmTableCellView.cs" />
     <Compile Include="Classes\Controls\MPfmScrollView.cs" />
-    <Compile Include="Classes\Controls\MPfmAlbumCoverView.cs" />
     <Compile Include="Classes\Controls\MPfmTableRowView.cs" />
     <Compile Include="Classes\Controls\MPfmIsPlayingTableCellView.cs" />
-    <Compile Include="Classes\Controls\MPfmSliderCell.cs" />
     <Compile Include="Classes\Controls\MPfmTableHeaderView.cs" />
     <Compile Include="Classes\Controls\MPfmPopUpButton.cs" />
     <Compile Include="Classes\Objects\LibraryBrowserItem.cs" />
     <Compile Include="Classes\Objects\ImageResources.cs" />
-    <Compile Include="Classes\Objects\SongBrowserItem.cs" />
     <Compile Include="Classes\Helpers\CocoaHelper.cs" />
-    <Compile Include="Classes\Helpers\AlbumCoverHelper.cs" />
     <Compile Include="Classes\Delegates\LibraryBrowserDataSource.cs" />
     <Compile Include="Classes\Delegates\LibraryBrowserOutlineViewDelegate.cs" />
     <Compile Include="Classes\Delegates\MainSplitViewDelegate.cs" />
-    <Compile Include="Classes\Delegates\SongBrowserTableViewDelegate.cs" />
-    <Compile Include="Classes\Delegates\MPfmWindowDelegate.cs" />
     <Compile Include="Classes\Delegates\AppDelegate.cs" />
     <Compile Include="Classes\Delegates\AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Main.cs" />
-    <Compile Include="Classes\Services\AlbumCoverCacheService.cs" />
     <Compile Include="Classes\Objects\GlobalTheme.cs" />
-    <Compile Include="Classes\Delegates\AlbumCoverSource.cs" />
-    <Compile Include="Classes\Controls\MPfmSongPositionSlider.cs" />
-    <Compile Include="Classes\Delegates\SongBrowserSource.cs" />
     <Compile Include="Windows\Controllers\MainWindowController.cs" />
     <Compile Include="Windows\Controllers\SyncMenuWindowController.cs" />
     <Compile Include="Windows\SyncMenuWindow.cs" />
@@ -467,7 +456,6 @@
     <Folder Include="Resources\16x16\icomoon\" />
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Delegates\" />
-    <Folder Include="Classes\Services\" />
     <Folder Include="Resources\32x32\icomoon\" />
     <Folder Include="Resources\16x16\custom\" />
     <Folder Include="Classes\Controls\Graphics\" />

@@ -271,7 +271,7 @@ namespace MPfm.GenericControls.Controls
             if (Frame == null || Frame.Width == 0)
                 return;
 
-            Console.WriteLine("=========> WaveFormControl - InvalidateBitmaps");
+            //Console.WriteLine("=========> WaveFormControl - InvalidateBitmaps");
             // Start generating the first tile
             _waveFormCacheService.FlushCache();
             //_waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);

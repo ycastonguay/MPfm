@@ -26,7 +26,6 @@ namespace MPfm.Mac
 {
     public class BaseWindowController : MonoMac.AppKit.NSWindowController, IBaseView
     {
-        MPfmWindowDelegate windowDelegate;
         protected Action<IBaseView> OnViewReady { get; set; }
 
         #region Constructors
