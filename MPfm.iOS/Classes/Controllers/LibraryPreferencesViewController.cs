@@ -28,6 +28,7 @@ using MPfm.MVP.Navigation;
 using System.Collections.Generic;
 using MPfm.iOS.Classes.Objects;
 using System.Linq;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS
 {
@@ -162,6 +163,7 @@ namespace MPfm.iOS
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
+		public Action<Folder> OnRemoveFolder { get; set; }
 		public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 

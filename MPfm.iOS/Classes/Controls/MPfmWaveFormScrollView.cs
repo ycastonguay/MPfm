@@ -41,6 +41,8 @@ namespace MPfm.iOS.Classes.Controls
         private UILabel _lblZoom;
         private UIView _viewCenterLine;
 
+		public bool IsAutoScrollEnabled { get; set; }
+
         private WaveFormScrollViewMode _scrollViewMode = WaveFormScrollViewMode.Standard;
         public WaveFormScrollViewMode ScrollViewMode
         {
@@ -165,9 +167,14 @@ namespace MPfm.iOS.Classes.Controls
 				UIView.Animate(0.2, 0.8, UIViewAnimationOptions.CurveEaseOut, () => _lblZoom.Alpha = 0, () => {});
 			}
 
+			var location = sender.LocationInView(this);
 			float newZoom = _initialZoom * _pinchGesture.Scale;
+			float deltaZoom = newZoom / Zoom;
+			float originPointX = IsAutoScrollEnabled ? WaveFormView.ContentOffset.X + (Frame.Width / 2) : location.X + WaveFormView.ContentOffset.X;
+			float distanceToOffsetX = originPointX - WaveFormView.ContentOffset.X;
+			float contentOffsetX = (originPointX * deltaZoom) - distanceToOffsetX;
 			Zoom = Math.Max(1, newZoom);
-			SetContentOffsetX(_initialContentOffset.X * Zoom);
+			SetContentOffsetX(contentOffsetX);
 			_lblZoom.Text = (Zoom * 100).ToString("0") + "%";
 			//Console.WriteLine("HandlePinchGestureRecognizer - initialZoom: {0} newZoom: {1}", _initialZoom, newZoom);
 		}
