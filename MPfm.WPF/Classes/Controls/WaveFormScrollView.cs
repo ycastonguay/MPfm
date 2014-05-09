@@ -48,6 +48,7 @@ namespace MPfm.WPF.Classes.Controls
         private RowDefinition _rowWaveForm;
         public WaveForm WaveFormView { get; private set; }
         public WaveFormScale WaveFormScaleView { get; private set; }
+        public bool IsAutoScrollEnabled { get; set; }
 
         private float _zoom = 1;
         public float Zoom
@@ -190,22 +191,6 @@ namespace MPfm.WPF.Classes.Controls
             return base.MeasureOverride(constraint);
         }
 
-        //protected override void OnMouseWheel(MouseWheelEventArgs e)
-        //{            
-        //    var position = e.GetPosition(this);
-        //    int factor = (int)(e.Delta / 120f);
-        //    Console.WriteLine("OnMouseWheel - position: {0} delta: {1} factor: {2}", position, e.Delta, factor);
-        //    //var matrix = _grid.LayoutTransform.Value;
-        //    var matrix = _grid.RenderTransform.Value;
-        //    if (e.Delta > 0)
-        //        matrix.ScaleAt(1.5, 1, position.X, position.Y);
-        //    else
-        //        matrix.ScaleAt(1.0 / 1.5, 1, position.X, position.Y);
-        //    //_grid.LayoutTransform = new MatrixTransform(matrix);
-        //    _grid.RenderTransform = new MatrixTransform(matrix);
-        //    base.OnMouseWheel(e);
-        //}
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -250,19 +235,14 @@ namespace MPfm.WPF.Classes.Controls
             var keysHeld = GenericControlHelper.GetKeysHeld();
             if (keysHeld.IsAltKeyHeld)
             {
-                // Zoom
-                float newZoom = Zoom + (e.Delta / 300f); //(e.DeltaY / 30f);
-                if (newZoom < 1)
-                    newZoom = 1;
-                if (newZoom > 32)
-                    newZoom = 32;
+                // Zoom in/out
+                var location = e.GetPosition(this);
+                float newZoom = Math.Max(1, Zoom + (e.Delta / 30f));
                 float deltaZoom = newZoom / Zoom;
+                float originPointX = (float) (IsAutoScrollEnabled ? WaveFormView.ContentOffset.X + (ActualWidth / 2) : location.X + WaveFormView.ContentOffset.X);
+                float distanceToOffsetX = originPointX - WaveFormView.ContentOffset.X;
+                contentOffsetX = (originPointX * deltaZoom) - distanceToOffsetX;
                 Zoom = newZoom;
-
-                // Adjust content offset with new zoom value
-                // TODO: Adjust content offset X when zooming depending on mouse location
-                //contentOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.ContentOffset.X * (newZoom - Zoom));
-                contentOffsetX = WaveFormView.ContentOffset.X * deltaZoom;
             }
             else
             {

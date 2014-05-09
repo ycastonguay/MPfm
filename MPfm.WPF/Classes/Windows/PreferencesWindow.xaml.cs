@@ -243,7 +243,8 @@ namespace MPfm.WPF.Classes.Windows
 
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnResetLibrary { get; set; }
-        public Action OnUpdateLibrary { get; set; }        
+        public Action OnUpdateLibrary { get; set; }
+        public Action<Folder> OnRemoveFolder { get; set; }
         public Action OnSelectFolders { get; set; }
         public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
