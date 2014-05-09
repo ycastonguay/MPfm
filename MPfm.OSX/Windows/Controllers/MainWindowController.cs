@@ -34,6 +34,8 @@ using MPfm.Mac.Classes.Delegates;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Objects;
 using System.Threading.Tasks;
+using MPfm.Core.Helpers;
+using System.Drawing;
 
 namespace MPfm.Mac
 {
@@ -66,7 +68,50 @@ namespace MPfm.Mac
             NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
             anim.Duration = 0.25f;
             anim.StartAnimation();
+        }
 
+		public override void WindowDidLoad()
+		{
+            base.WindowDidLoad();
+            Tracing.Log("MainWindowController.WindowDidLoad -- Initializing user interface...");
+            //this.Window.Title = "Sessions " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
+
+            LoadTrackBars();
+            LoadComboBoxes();
+            LoadTreeViews();
+            LoadTableViews();
+            LoadImages();
+            LoadButtons();
+            SetTheme();
+
+            //ShowUpdateLibraryView(false);
+            splitMain.PostsBoundsChangedNotifications = true;
+            splitMain.PostsFrameChangedNotifications = true;
+            NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, SplitViewFrameDidChangeNotification, splitMain);
+
+            viewUpdateLibrary.Hidden = true;
+            splitMain.Delegate = new MainSplitViewDelegate();
+            waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
+            waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
+
+            OnViewReady(this);
+		}
+
+        private void LoadComboBoxes()
+        {
+            cboSoundFormat.RemoveAllItems();
+            cboSoundFormat.AddItem("All");
+            cboSoundFormat.AddItem("FLAC");
+            cboSoundFormat.AddItem("OGG");
+            cboSoundFormat.AddItem("MP3");
+            cboSoundFormat.AddItem("MPC");
+            cboSoundFormat.AddItem("WAV");
+            cboSoundFormat.AddItem("WV");
+        }
+
+        private void LoadTrackBars()
+        {
             faderVolume.Minimum = 0;
             faderVolume.Maximum = 100;
             faderVolume.OnFaderValueChanged += HandleOnFaderValueChanged;
@@ -75,7 +120,9 @@ namespace MPfm.Mac
             trackBarPosition.Minimum = 0;
             trackBarPosition.Maximum = 1000;
             trackBarPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarPositionValueChanged;
+            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
+            trackBarPosition.OnTrackBarMouseDown += HandleOnTrackBarMouseDown;
+            trackBarPosition.OnTrackBarMouseUp += HandleOnTrackBarMouseUp;
             trackBarPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
 
             trackBarTimeShifting.Minimum = 50;
@@ -93,84 +140,31 @@ namespace MPfm.Mac
             trackBarPitchShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
         }
 
-		public override void WindowDidLoad()
-		{
-            base.WindowDidLoad();
-
-            Tracing.Log("MainWindowController.WindowDidLoad -- Initializing user interface...");
-            //this.Window.Title = "Sessions " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
-
-            splitMain.Delegate = new MainSplitViewDelegate();
-
-            cboSoundFormat.RemoveAllItems();
-            cboSoundFormat.AddItem("All");
-            cboSoundFormat.AddItem("FLAC");
-            cboSoundFormat.AddItem("OGG");
-            cboSoundFormat.AddItem("MP3");
-            cboSoundFormat.AddItem("MPC");
-            cboSoundFormat.AddItem("WAV");
-            cboSoundFormat.AddItem("WV");
-
+        private void LoadTreeViews()
+        {
             _libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
             outlineLibraryBrowser.Delegate = _libraryBrowserOutlineViewDelegate;
             outlineLibraryBrowser.AllowsMultipleSelection = false;
             outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineLibraryBrowser);
+        }
 
+        private void LoadTableViews()
+        {
             songGridView.DoubleClick += HandleSongBrowserDoubleClick;
 
             tableMarkers.WeakDelegate = this;
             tableMarkers.WeakDataSource = this;
             tableMarkers.DoubleClick += HandleMarkersDoubleClick;
+        }
 
-            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
-            trackBarPosition.OnTrackBarMouseDown += HandleOnTrackBarMouseDown;
-            trackBarPosition.OnTrackBarMouseUp += HandleOnTrackBarMouseUp;
-
-            LoadImages();
-            SetTheme();
-
-            waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
-            waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
-
+        private void LoadButtons()
+        {
             btnTabTimeShifting.IsSelected = true;
             btnTabTimeShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabPitchShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabInfo.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabActions.OnTabButtonSelected += HandleOnTabButtonSelected;
-
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineLibraryBrowser);
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
-
-            OnViewReady.Invoke(this);
-		}
-
-        private void HandleOnTabButtonSelected(MPfmTabButton button)
-        {
-            Console.WriteLine("Test: {0}", button.Title);
-
-            btnTabTimeShifting.IsSelected = button == btnTabTimeShifting;
-            btnTabPitchShifting.IsSelected = button == btnTabPitchShifting;
-            btnTabInfo.IsSelected = button == btnTabInfo;
-            btnTabActions.IsSelected = button == btnTabActions;
-
-            viewTimeShifting.Hidden = button != btnTabTimeShifting;
-            viewPitchShifting.Hidden = button != btnTabPitchShifting;
-            viewInformation.Hidden = button != btnTabInfo;
-            viewActions.Hidden = button != btnTabActions;
-
-//            if (button == btnTabTimeShifting)
-//            {
-//
-//            } 
-//            else if (button == btnTabPitchShifting)
-//            {
-//            }
-//            else if (button == btnTabInfo)
-//            {
-//            } 
-//            else if (button == btnTabActions)
-//            {
-//            }
         }
 
         private void SetTheme()
@@ -187,6 +181,8 @@ namespace MPfm.Mac
             viewMarkersHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewSongBrowserHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewSongBrowserHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewUpdateLibraryHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewUpdateLibraryHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
             btnPlayLoop.RoundedRadius = 0;
             btnPlayLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
@@ -266,7 +262,9 @@ namespace MPfm.Mac
             lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleUpdateLibrary.Font = NSFont.FromFontName("Roboto", 13);
 
+            lblUpdateLibraryStatus.Font = NSFont.FromFontName("Roboto", 12);
             lblSearchWeb.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
@@ -368,6 +366,43 @@ namespace MPfm.Mac
             btnResetPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_reset");
         }
 
+        private void SplitViewFrameDidChangeNotification(NSNotification notification)
+        {
+            const float headerHeight = 59;
+            var frame = scrollViewLibraryBrowser.Frame;
+            frame.Y = 0;
+            frame.Height = splitMain.Frame.Height - headerHeight;
+            scrollViewLibraryBrowser.Frame = frame;
+            //Console.WriteLine("MainWindow - SplitViewFrameDidChangeNotification - splitMain.Frame: {0} viewLibraryBrowser.Frame: {1} scrollViewLibraryBrowser.Frame: {2}", splitMain.Frame, viewLibraryBrowser.Frame, scrollViewLibraryBrowser.Frame);
+        }
+
+        private void HandleOnTabButtonSelected(MPfmTabButton button)
+        {
+            btnTabTimeShifting.IsSelected = button == btnTabTimeShifting;
+            btnTabPitchShifting.IsSelected = button == btnTabPitchShifting;
+            btnTabInfo.IsSelected = button == btnTabInfo;
+            btnTabActions.IsSelected = button == btnTabActions;
+
+            viewTimeShifting.Hidden = button != btnTabTimeShifting;
+            viewPitchShifting.Hidden = button != btnTabPitchShifting;
+            viewInformation.Hidden = button != btnTabInfo;
+            viewActions.Hidden = button != btnTabActions;
+
+//            if (button == btnTabTimeShifting)
+//            {
+//
+//            } 
+//            else if (button == btnTabPitchShifting)
+//            {
+//            }
+//            else if (button == btnTabInfo)
+//            {
+//            } 
+//            else if (button == btnTabActions)
+//            {
+//            }
+        }
+
 		partial void actionAddFilesToLibrary(NSObject sender)
 		{
 			IEnumerable<string> filePaths = null;
@@ -457,10 +492,10 @@ namespace MPfm.Mac
         {
         }
 
-        partial void actionOpenMainWindow(NSObject sender)
-        {
-            this.Window.MakeKeyAndOrderFront(this);
-        }
+//        partial void actionOpenMainWindow(NSObject sender)
+//        {
+//            this.Window.MakeKeyAndOrderFront(this);
+//        }
 
 		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
@@ -500,11 +535,6 @@ namespace MPfm.Mac
         {
             OnPlayerSetVolume(faderVolume.Value);
         }       
-
-        private void HandleOnTrackBarPositionValueChanged()
-        {
-
-        }
 
         private void HandleOnTrackBarTimeShiftingValueChanged()
         {
@@ -787,6 +817,16 @@ namespace MPfm.Mac
         public void RefreshAll()
         {
             OnAudioFileFormatFilterChanged(AudioFileFormat.All);
+        }
+
+        private void ShowUpdateLibraryView(bool show)
+        {
+            float viewHeight = 85;
+            var frame = scrollViewLibraryBrowser.Frame;
+            frame.Height = show ? frame.Height - viewHeight : frame.Height + viewHeight;
+            frame.Y = show ? viewHeight : 0;
+            scrollViewLibraryBrowser.Frame = frame;
+            viewUpdateLibrary.Hidden = !show;
         }
 
         #region IPlayerView implementation
@@ -1086,16 +1126,6 @@ namespace MPfm.Mac
             }
             
             outlineLibraryBrowser.SelectRow(itemIndex, false);
-//              NSInteger itemIndex = [self rowForItem:item];
-//    if (itemIndex < 0) {
-//        [self expandParentsOfItem: item];
-//        itemIndex = [self rowForItem:item];
-//        if (itemIndex < 0)
-//            return;
-//    }
-//
-//    [self selectRowIndexes: [NSIndexSet indexSetWithIndex: itemIndex] byExtendingSelection: NO];
-//}
         }
         
         private void ExpandParentsOfItem(NSObject item)
@@ -1110,17 +1140,6 @@ namespace MPfm.Mac
                 item = parent;
             }
         }
-//        
-//        - (void)expandParentsOfItem:(id)item {
-//    while (item != nil) {
-//        id parent = [self parentForItem: item];
-//        if (![self isExpandable: parent])
-//            break;
-//        if (![self isItemExpanded: parent])
-//            [self expandItem: parent];
-//        item = parent;
-//    }
-//}
 
 		#endregion
 
@@ -1252,6 +1271,11 @@ namespace MPfm.Mac
 
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
+            Console.WriteLine("IUpdateLibraryView - RefreshStatus");
+            InvokeOnMainThread(delegate {
+                lblUpdateLibraryStatus.StringValue = entity.Title;
+                progressUpdateLibrary.DoubleValue = Math.Min(100, entity.PercentageDone * 100);
+            });
         }
 
         public void AddToLog(string entry)
@@ -1260,10 +1284,28 @@ namespace MPfm.Mac
 
         public void ProcessStarted()
         {
+            Console.WriteLine("IUpdateLibraryView - ProcessStarted");
+            InvokeOnMainThread(delegate {
+                ShowUpdateLibraryView(true);
+            });
         }
 
         public void ProcessEnded(bool canceled)
         {
+            Console.WriteLine("IUpdateLibraryView - ProcessEnded");
+            InvokeOnMainThread(delegate {
+                lblUpdateLibraryStatus.StringValue = "Update library successful.";
+                progressUpdateLibrary.DoubleValue = 100;
+            });
+
+            // Delay before closing update library panel
+            var task = TaskHelper.DelayTask(1500);
+            task.ContinueWith((a) =>
+            {
+                InvokeOnMainThread(delegate {
+                    ShowUpdateLibraryView(false);
+                });
+            });
         }
 
         #endregion

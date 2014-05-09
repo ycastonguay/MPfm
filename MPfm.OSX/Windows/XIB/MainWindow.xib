@@ -78,10 +78,13 @@
                 <outlet property="lblTitleLoops" destination="540" id="547"/>
                 <outlet property="lblTitleMarkers" destination="543" id="546"/>
                 <outlet property="lblTitleSongBrowser" destination="508" id="548"/>
+                <outlet property="lblTitleUpdateLibrary" destination="A59-NT-9q2" id="Bfb-Bf-g2I"/>
+                <outlet property="lblUpdateLibraryStatus" destination="x0c-hA-JcD" id="RUE-4u-KtS"/>
                 <outlet property="lblVolume" destination="118" id="279"/>
                 <outlet property="lblYear" destination="wlo-uZ-RIW" id="env-yq-7A8"/>
                 <outlet property="outlineLibraryBrowser" destination="20" id="498"/>
                 <outlet property="outputMeter" destination="rKj-Mz-2e5" id="GaD-8L-pNS"/>
+                <outlet property="progressUpdateLibrary" destination="Xf1-gh-xd3" id="yIl-Vm-CeC"/>
                 <outlet property="scrollViewLibraryBrowser" destination="19" id="578"/>
                 <outlet property="searchSongBrowser" destination="189" id="271"/>
                 <outlet property="songGridView" destination="eee-ms-hVD" id="wvY-nH-L9p"/>
@@ -108,6 +111,8 @@
                 <outlet property="viewSongPosition" destination="499" id="556"/>
                 <outlet property="viewTimeShifting" destination="510" id="559"/>
                 <outlet property="viewToolbar" destination="3Jn-ya-LND" id="tbr-DE-mQf"/>
+                <outlet property="viewUpdateLibrary" destination="0Fn-1c-scM" id="hdj-5V-HsW"/>
+                <outlet property="viewUpdateLibraryHeader" destination="J9d-qB-5cn" id="3i1-Z1-42W"/>
                 <outlet property="viewVolume" destination="528" id="558"/>
                 <outlet property="waveFormScrollView" destination="WCo-S4-cSR" id="NRN-89-Phw"/>
                 <outlet property="window" destination="2" id="6"/>
@@ -181,7 +186,7 @@
                                     </customView>
                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="19" customClass="MPfmScrollView">
                                         <rect key="frame" x="0.0" y="0.0" width="199" height="497"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" copiesOnScroll="NO" id="rVK-lM-QxW">
                                             <rect key="frame" x="0.0" y="0.0" width="199" height="497"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -249,6 +254,40 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
+                                    <customView id="0Fn-1c-scM" customClass="MPfmView">
+                                        <rect key="frame" x="0.0" y="0.0" width="199" height="85"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <progressIndicator maxValue="100" style="bar" id="Xf1-gh-xd3">
+                                                <rect key="frame" x="5" y="10" width="190" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            </progressIndicator>
+                                            <textField verticalHuggingPriority="750" id="x0c-hA-JcD">
+                                                <rect key="frame" x="4" y="30" width="193" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Loading..." id="U0e-g9-ive">
+                                                    <font key="font" metaFont="smallSystem"/>
+                                                    <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <customView id="J9d-qB-5cn" customClass="MPfmView">
+                                                <rect key="frame" x="0.0" y="59" width="199" height="28"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" id="A59-NT-9q2">
+                                                        <rect key="frame" x="4" y="0.0" width="169" height="24"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Update Library" id="6Hx-zm-QUr">
+                                                            <font key="font" size="13" name="HelveticaNeue-Bold"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
+                                            </customView>
+                                        </subviews>
+                                    </customView>
                                 </subviews>
                             </customView>
                             <customView id="30" customClass="MPfmView">
@@ -1313,7 +1352,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000012082711" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000006053597" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>

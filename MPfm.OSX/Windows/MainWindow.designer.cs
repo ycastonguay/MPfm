@@ -226,6 +226,12 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblTitleSongBrowser { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleUpdateLibrary { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblUpdateLibraryStatus { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblVolume { get; set; }
 
 		[Outlet]
@@ -236,6 +242,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSProgressIndicator progressUpdateLibrary { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
@@ -319,6 +328,12 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmView viewToolbar { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewUpdateLibrary { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewUpdateLibraryHeader { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
 
 		[Outlet]
@@ -377,9 +392,6 @@ namespace MPfm.Mac
 
 		[Action ("actionOpenEffectsWindow:")]
 		partial void actionOpenEffectsWindow (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionOpenMainWindow:")]
-		partial void actionOpenMainWindow (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionOpenPlaylistWindow:")]
 		partial void actionOpenPlaylistWindow (MonoMac.Foundation.NSObject sender);
@@ -967,6 +979,31 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (viewUpdateLibrary != null) {
+				viewUpdateLibrary.Dispose ();
+				viewUpdateLibrary = null;
+			}
+
+			if (viewUpdateLibraryHeader != null) {
+				viewUpdateLibraryHeader.Dispose ();
+				viewUpdateLibraryHeader = null;
+			}
+
+			if (lblTitleUpdateLibrary != null) {
+				lblTitleUpdateLibrary.Dispose ();
+				lblTitleUpdateLibrary = null;
+			}
+
+			if (lblUpdateLibraryStatus != null) {
+				lblUpdateLibraryStatus.Dispose ();
+				lblUpdateLibraryStatus = null;
+			}
+
+			if (progressUpdateLibrary != null) {
+				progressUpdateLibrary.Dispose ();
+				progressUpdateLibrary = null;
 			}
 		}
 	}
