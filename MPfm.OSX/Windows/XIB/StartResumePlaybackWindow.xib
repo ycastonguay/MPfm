@@ -18,6 +18,7 @@
                 <outlet property="lblPlaylistName" destination="NQ8-JX-VCv" id="5xD-Rr-qbh"/>
                 <outlet property="lblSongTitle" destination="rCj-dp-Ifh" id="6ot-jn-BnN"/>
                 <outlet property="lblTitle" destination="a3K-2Y-Abq" id="oY1-WE-G3s"/>
+                <outlet property="viewHeader" destination="LLc-ca-72l" id="aye-Wg-7lD"/>
                 <outlet property="window" destination="2" id="6"/>
             </connections>
         </customObject>
@@ -26,18 +27,18 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="default" id="2" customClass="StartResumePlaybackWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="131" y="74" width="490" height="348"/>
+            <rect key="contentRect" x="131" y="74" width="490" height="352"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <view key="contentView" id="3">
-                <rect key="frame" x="0.0" y="0.0" width="490" height="348"/>
+                <rect key="frame" x="0.0" y="0.0" width="490" height="352"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="hHh-MD-BD7">
-                        <rect key="frame" x="0.0" y="-11" width="511" height="359"/>
+                    <customView id="hHh-MD-BD7" customClass="MPfmView">
+                        <rect key="frame" x="0.0" y="-17" width="511" height="369"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" id="3fW-T3-7XB">
-                                <rect key="frame" x="9" y="109" width="275" height="20"/>
+                                <rect key="frame" x="9" y="107" width="275" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Last updated: 2014-02-01 14:55:49" id="nBe-7a-fhz">
                                     <font key="font" metaFont="system"/>
@@ -46,7 +47,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="e0I-y1-t0a">
-                                <rect key="frame" x="47" y="271" width="316" height="25"/>
+                                <rect key="frame" x="68" y="270" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="iPad Air de Yanick Castonguay" id="fja-BW-Z8z">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -55,7 +56,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="NQ8-JX-VCv">
-                                <rect key="frame" x="47" y="252" width="316" height="25"/>
+                                <rect key="frame" x="68" y="251" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="On-the-fly Playlist" id="Fao-90-bvF">
                                     <font key="font" metaFont="system"/>
@@ -64,7 +65,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="pBf-vG-kLc">
-                                <rect key="frame" x="125" y="206" width="316" height="25"/>
+                                <rect key="frame" x="125" y="200" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bob Dylan" id="2g2-g2-E8n">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -73,7 +74,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="xgw-3Z-aE2">
-                                <rect key="frame" x="125" y="183" width="316" height="25"/>
+                                <rect key="frame" x="125" y="177" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Blonde on Blonde" id="ewO-x7-I32">
                                     <font key="font" metaFont="system" size="14"/>
@@ -82,7 +83,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="rCj-dp-Ifh">
-                                <rect key="frame" x="125" y="158" width="316" height="25"/>
+                                <rect key="frame" x="125" y="152" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="One of Us Must Know (Sooner or Later)" id="dxs-7C-CrP">
                                     <font key="font" metaFont="cellTitle"/>
@@ -107,7 +108,7 @@
                                 </buttonCell>
                             </button>
                             <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="lZd-Ek-9Tv">
-                                <rect key="frame" x="9" y="300" width="496" height="23"/>
+                                <rect key="frame" x="9" y="308" width="496" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Sessions has detected that you have played music on another device recently:" id="MMe-je-f7h">
                                     <font key="font" metaFont="cellTitle"/>
@@ -116,24 +117,30 @@
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="eUo-9n-LeN">
-                                <rect key="frame" x="11" y="144" width="100" height="100"/>
+                                <rect key="frame" x="11" y="138" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="wdS-zp-hEL"/>
                             </imageView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Cl3-8z-YKr">
-                                <rect key="frame" x="11" y="262" width="30" height="30"/>
+                                <rect key="frame" x="10" y="249" width="54" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ikR-RV-nuC"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" id="a3K-2Y-Abq">
-                                <rect key="frame" x="9" y="323" width="177" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resume Playback" id="4b2-u4-vA2">
-                                    <font key="font" metaFont="systemBold" size="18"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                            <customView id="LLc-ca-72l" customClass="MPfmView">
+                                <rect key="frame" x="0.0" y="337" width="491" height="32"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <textField verticalHuggingPriority="750" id="a3K-2Y-Abq">
+                                        <rect key="frame" x="8" y="2" width="400" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resume Playback" id="4b2-u4-vA2">
+                                            <font key="font" metaFont="systemBold" size="14"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                            </customView>
                         </subviews>
                     </customView>
                 </subviews>

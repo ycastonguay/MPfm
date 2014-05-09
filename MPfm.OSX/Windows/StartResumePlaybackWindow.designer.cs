@@ -47,57 +47,15 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewHeader { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
-			}
-
-			if (lblNote != null) {
-				lblNote.Dispose ();
-				lblNote = null;
-			}
-
-			if (imageViewDevice != null) {
-				imageViewDevice.Dispose ();
-				imageViewDevice = null;
-			}
-
-			if (lblDeviceName != null) {
-				lblDeviceName.Dispose ();
-				lblDeviceName = null;
-			}
-
-			if (lblPlaylistName != null) {
-				lblPlaylistName.Dispose ();
-				lblPlaylistName = null;
-			}
-
-			if (imageViewAlbum != null) {
-				imageViewAlbum.Dispose ();
-				imageViewAlbum = null;
-			}
-
-			if (lblArtistName != null) {
-				lblArtistName.Dispose ();
-				lblArtistName = null;
-			}
-
-			if (lblAlbumTitle != null) {
-				lblAlbumTitle.Dispose ();
-				lblAlbumTitle = null;
-			}
-
-			if (lblSongTitle != null) {
-				lblSongTitle.Dispose ();
-				lblSongTitle = null;
-			}
-
-			if (lblLastUpdated != null) {
-				lblLastUpdated.Dispose ();
-				lblLastUpdated = null;
+			if (btnCancel != null) {
+				btnCancel.Dispose ();
+				btnCancel = null;
 			}
 
 			if (btnOK != null) {
@@ -105,9 +63,59 @@ namespace MPfm.OSX
 				btnOK = null;
 			}
 
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
+			if (imageViewAlbum != null) {
+				imageViewAlbum.Dispose ();
+				imageViewAlbum = null;
+			}
+
+			if (imageViewDevice != null) {
+				imageViewDevice.Dispose ();
+				imageViewDevice = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
+			}
+
+			if (lblDeviceName != null) {
+				lblDeviceName.Dispose ();
+				lblDeviceName = null;
+			}
+
+			if (lblLastUpdated != null) {
+				lblLastUpdated.Dispose ();
+				lblLastUpdated = null;
+			}
+
+			if (lblNote != null) {
+				lblNote.Dispose ();
+				lblNote = null;
+			}
+
+			if (lblPlaylistName != null) {
+				lblPlaylistName.Dispose ();
+				lblPlaylistName = null;
+			}
+
+			if (lblSongTitle != null) {
+				lblSongTitle.Dispose ();
+				lblSongTitle = null;
+			}
+
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
+			}
+
+			if (viewHeader != null) {
+				viewHeader.Dispose ();
+				viewHeader = null;
 			}
 		}
 	}

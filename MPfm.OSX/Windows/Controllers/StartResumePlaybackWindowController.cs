@@ -65,27 +65,58 @@ namespace MPfm.OSX
 
         private void LoadFontsAndImages()
         {
-            var headerFont = NSFont.FromFontName("Roboto Bold", 16f);
-            var noteFont = NSFont.FromFontName("Roboto", 12f);
-            var deviceNameFont = NSFont.FromFontName("Roboto Medium", 14f);
-            var playlistNameFont = NSFont.FromFontName("Roboto", 13f);
-            var lastUpdatedFont = NSFont.FromFontName("Roboto", 12f);
-            var artistNameFont = NSFont.FromFontName("Roboto Bold", 18f);
-            var albumTitleFont = NSFont.FromFontName("Roboto Medium", 16f);
-            var songTitleFont = NSFont.FromFontName("Roboto", 14f);
+            viewHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
-            lblTitle.Font = headerFont;
-            lblNote.Font = noteFont;
-            lblDeviceName.Font = deviceNameFont;
-            lblPlaylistName.Font = playlistNameFont;
-            lblArtistName.Font = artistNameFont;
-            lblAlbumTitle.Font = albumTitleFont;
-            lblSongTitle.Font = songTitleFont;
-            lblLastUpdated.Font = lastUpdatedFont;
+            lblTitle.Font = NSFont.FromFontName("Roboto Light", 16f);
+            lblNote.Font = NSFont.FromFontName("Roboto", 12f);
+            lblDeviceName.Font = NSFont.FromFontName("Roboto", 14f);
+            lblPlaylistName.Font = NSFont.FromFontName("Roboto Light", 13f);
+            lblLastUpdated.Font = NSFont.FromFontName("Roboto", 12f);
+
+            lblArtistName.Font = NSFont.FromFontName("Roboto Light", 16f);
+            lblAlbumTitle.Font = NSFont.FromFontName("Roboto", 15f);
+            lblSongTitle.Font = NSFont.FromFontName("Roboto", 14f);
 
             imageViewDevice.Image = NSImage.ImageNamed("icon_device_android");
             btnOK.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_ok");     
             btnCancel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_cancel");     
+        }
+
+        private void LoadDeviceIcon(SyncDeviceType deviceType)
+        {
+            string iconName = string.Empty;
+            switch (deviceType)
+            {
+                case SyncDeviceType.Linux:
+                    iconName = "pc_linux_large";
+                    break;
+                case SyncDeviceType.OSX:
+                    iconName = "pc_mac_large";
+                    break;
+                case SyncDeviceType.Windows:
+                    iconName = "pc_windows_large";
+                    break;
+                case SyncDeviceType.iPhone:
+                    iconName = "phone_iphone_large";
+                    break;
+                case SyncDeviceType.iPad:
+                    iconName = "tablet_ipad_large";
+                    break;
+                case SyncDeviceType.AndroidPhone:
+                    iconName = "phone_android_large";
+                    break;
+                case SyncDeviceType.AndroidTablet:
+                    iconName = "tablet_android_large";
+                    break;
+                case SyncDeviceType.WindowsPhone:
+                    iconName = "phone_windows_large";
+                    break;
+                case SyncDeviceType.WindowsStore:
+                    iconName = "tablet_windows_large";
+                    break;
+            }
+            imageViewDevice.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
         }
 
         private async void LoadAlbumArt(AudioFile audioFile)
@@ -146,6 +177,9 @@ namespace MPfm.OSX
                 lblSongTitle.StringValue = audioFile.Title;
                 lblLastUpdated.StringValue = string.Format("Last updated: {0}", info.Timestamp);
 
+                SyncDeviceType deviceType = SyncDeviceType.Unknown;
+                Enum.TryParse<SyncDeviceType>(info.DeviceType, out deviceType);
+                LoadDeviceIcon(deviceType);
                 LoadAlbumArt(audioFile);
             });
         }
