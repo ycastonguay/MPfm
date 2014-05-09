@@ -128,7 +128,7 @@ namespace MPfm.MVP.Services
             try
             {
                 _syncListenerService.SetPort(AppConfigManager.Instance.Root.Library.SyncServicePort);
-                if(AppConfigManager.Instance.Root.Library.IsSyncServiceEnabled)
+                //if(AppConfigManager.Instance.Root.Library.IsSyncServiceEnabled)
                     _syncListenerService.Start();
             }
             catch (Exception ex)

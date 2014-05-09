@@ -33,14 +33,14 @@ using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using TinyIoC;
-using MPfm.Mac.Classes.Navigation;
+using MPfm.OSX.Classes.Navigation;
 using MPfm.MVP.Config.Providers;
 using MPfm.GenericControls.Graphics;
-using MPfm.Mac.Classes.Controls.Graphics;
+using MPfm.OSX.Classes.Controls.Graphics;
 using MPfm.GenericControls.Services.Interfaces;
 using MPfm.GenericControls.Services;
 
-namespace MPfm.Mac.Classes.Delegates
+namespace MPfm.OSX.Classes.Delegates
 {
     /// <summary>
     /// App delegate. Uses TinyIoC to create the MainWindow.

@@ -22,7 +22,7 @@ using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 
-namespace MPfm.Mac.Classes.Helpers
+namespace MPfm.OSX.Classes.Helpers
 {
     /// <summary>
     /// Helper static class for Core Graphics.

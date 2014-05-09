@@ -25,9 +25,9 @@ using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using MPfm.MVP;
 using MPfm.MVP.Models;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac.Classes.Delegates
+namespace MPfm.OSX.Classes.Delegates
 {
     /// <summary>
     /// Library Browser outline view delegate.
@@ -37,7 +37,7 @@ namespace MPfm.Mac.Classes.Delegates
         readonly Action<LibraryBrowserEntity> OnTreeNodeSelected;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserOutlineViewDelegate"/> class.
+        /// Initializes a new instance of the <see cref="MPfm.OSX.LibraryBrowserOutlineViewDelegate"/> class.
         /// </summary>
         public LibraryBrowserOutlineViewDelegate(Action<LibraryBrowserEntity> onTreeNodeSelected)
         {

@@ -7,7 +7,7 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
 	[Register ("EffectsWindowController")]
 	partial class EffectsWindowController
@@ -22,7 +22,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSButton btnEQOn { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnNewPreset { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnNewPreset { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnReset { get; set; }
@@ -31,58 +31,58 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSButton btnSave { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader0 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader0 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader1 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader1 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader10 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader10 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader11 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader11 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader12 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader12 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader13 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader13 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader14 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader14 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader15 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader15 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader16 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader16 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader17 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader17 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader2 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader2 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader3 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader3 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader4 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader4 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader5 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader5 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader6 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader6 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader7 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader7 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader8 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader8 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmFaderView fader9 { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmFaderView fader9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQ0 { get; set; }
@@ -220,16 +220,16 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField txtName { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackground { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewBackground { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundFaders { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundFaders { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
 
 		[Action ("actionAutoLevel:")]
 		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);

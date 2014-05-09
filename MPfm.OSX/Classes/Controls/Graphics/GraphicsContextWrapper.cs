@@ -24,13 +24,13 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.MVP;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Objects;
+using MPfm.OSX.Classes.Helpers;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Basics;
-using MPfm.Mac.Classes.Controls.Helpers;
+using MPfm.OSX.Classes.Controls.Helpers;
 
-namespace MPfm.Mac.Classes.Controls.Graphics
+namespace MPfm.OSX.Classes.Controls.Graphics
 {
     public class GraphicsContextWrapper : NSObject, IGraphicsContext
     {

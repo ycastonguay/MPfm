@@ -22,7 +22,7 @@ using MonoMac.CoreGraphics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Basics;
 
-namespace MPfm.Mac.Classes.Controls.Graphics
+namespace MPfm.OSX.Classes.Controls.Graphics
 {
     public class MemoryGraphicsContextWrapper : GraphicsContextWrapper, IMemoryGraphicsContext
     {

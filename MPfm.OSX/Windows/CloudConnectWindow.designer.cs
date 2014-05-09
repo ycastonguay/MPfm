@@ -7,16 +7,16 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
 	[Register ("CloudConnectWindowController")]
 	partial class CloudConnectWindowController
 	{
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnCancel { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnCancel { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnOK { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnOK { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblStep1 { get; set; }

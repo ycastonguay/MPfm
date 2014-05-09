@@ -21,7 +21,7 @@ using System.IO;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 
-namespace MPfm.Mac.Classes.Objects
+namespace MPfm.OSX.Classes.Objects
 {
     /// <summary>
     /// Singleton containing all image resources for the application.

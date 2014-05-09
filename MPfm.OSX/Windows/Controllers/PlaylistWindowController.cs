@@ -23,12 +23,12 @@ using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 using MPfm.Sound.Playlists;
 using MPfm.Sound.AudioFiles;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {

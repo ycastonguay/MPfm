@@ -19,10 +19,10 @@ using System;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP.Views;
-using MPfm.Mac.Classes.Delegates;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Delegates;
+using MPfm.OSX.Classes.Helpers;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public class BaseWindowController : MonoMac.AppKit.NSWindowController, IBaseView
     {

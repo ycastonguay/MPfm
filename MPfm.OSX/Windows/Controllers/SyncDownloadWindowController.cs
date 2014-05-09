@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using MPfm.MVP.Views;
 using MPfm.Library.Objects;
 using MonoMac.AppKit;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 using System.Linq;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 using MPfm.Core;
 using MonoMac.Foundation;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class SyncDownloadWindowController : BaseWindowController, ISyncDownloadView
     {

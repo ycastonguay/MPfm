@@ -24,14 +24,14 @@ using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
-using MPfm.Mac.Classes.Controls;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Controls;
+using MPfm.OSX.Classes.Objects;
 using MPfm.Core.Helpers;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 using System.IO;
 using MPfm.Library.Objects;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class PreferencesWindowController : BaseWindowController, IDesktopPreferencesView
     {

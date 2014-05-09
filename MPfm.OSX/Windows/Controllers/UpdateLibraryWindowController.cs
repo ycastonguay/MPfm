@@ -22,7 +22,7 @@ using MPfm.MVP.Views;
 using MPfm.Library.Objects;
 using System.Collections.Generic;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     /// <summary>
     /// Update Library window controller.

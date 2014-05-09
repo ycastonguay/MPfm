@@ -17,7 +17,7 @@
 
 using MonoMac.Foundation;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
 	[Register ("UpdateLibraryWindowController")]
 	partial class UpdateLibraryWindowController

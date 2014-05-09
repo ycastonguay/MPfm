@@ -21,10 +21,10 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
-using MPfm.Mac.Classes.Controls.Graphics;
-using MPfm.Mac.Classes.Controls.Helpers;
+using MPfm.OSX.Classes.Controls.Graphics;
+using MPfm.OSX.Classes.Controls.Helpers;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmFaderView")]
     public class MPfmFaderView : NSControl

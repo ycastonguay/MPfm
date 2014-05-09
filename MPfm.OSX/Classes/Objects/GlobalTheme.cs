@@ -18,7 +18,7 @@
 using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
 
-namespace MPfm.Mac.Classes.Objects
+namespace MPfm.OSX.Classes.Objects
 {
     public static class GlobalTheme
     {

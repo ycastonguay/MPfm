@@ -6,7 +6,7 @@
 //
 using MonoMac.Foundation;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
 	[Register ("SyncDownloadWindowController")]
 	partial class SyncDownloadWindowController
@@ -21,7 +21,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnCancel { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnCancel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblStatus { get; set; }

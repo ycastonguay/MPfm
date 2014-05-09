@@ -7,46 +7,46 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
 	[Register ("PreferencesWindowController")]
 	partial class PreferencesWindowController
 	{
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnAddFolder { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnAddFolder { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnBrowseCustomDirectory { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnBrowseCustomDirectory { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnDeletePeakFiles { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnDeletePeakFiles { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnLoginDropbox { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnLoginDropbox { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveFolder { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnRemoveFolder { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnResetAudioSettings { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnResetAudioSettings { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnResetLibrary { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnResetLibrary { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabAudio { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTabButton btnTabAudio { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabCloud { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTabButton btnTabCloud { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabGeneral { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTabButton btnTabGeneral { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabLibrary { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTabButton btnTabLibrary { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnTestAudioSettings { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnTestAudioSettings { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton checkEnableLibraryService { get; set; }
@@ -166,28 +166,28 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSMatrix matrixPeakFiles { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmPopUpButton popupOutputDevice { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmPopUpButton popupOutputDevice { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmPopUpButton popupSampleRate { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmPopUpButton popupSampleRate { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableFolders { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBufferSize { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBufferSize { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackMaximumPeakFolderSize { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackMaximumPeakFolderSize { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackOutputMeter { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackOutputMeter { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackSongPosition { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackSongPosition { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackUpdatePeriod { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackUpdatePeriod { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtBufferSize { get; set; }
@@ -214,49 +214,49 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSView viewAudioPreferences { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewAudioPreferencesHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewAudioPreferencesHeader { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSView viewCloudPreferences { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewCloudPreferencesHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewCloudPreferencesHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewDropboxHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewDropboxHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewFoldersHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewFoldersHeader { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSView viewGeneralPreferences { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewGeneralPreferencesHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewGeneralPreferencesHeader { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSView viewLibraryPreferences { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewLibraryPreferencesHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewLibraryPreferencesHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewLibraryServiceHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewLibraryServiceHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewMixerHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewMixerHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewOutputHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewOutputHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewPeakFilesHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewPeakFilesHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewStatusHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewStatusHeader { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewUpdateFrequencyHeader { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmView viewUpdateFrequencyHeader { get; set; }
 
 		[Action ("actionEnableLibraryService:")]
 		partial void actionEnableLibraryService (MonoMac.Foundation.NSObject sender);

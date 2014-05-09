@@ -21,9 +21,9 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP.Views;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class SyncWebBrowserWindowController : BaseWindowController, ISyncWebBrowserView
     {

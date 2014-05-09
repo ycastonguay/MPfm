@@ -21,7 +21,7 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 
-namespace MPfm.Mac.Classes
+namespace MPfm.OSX.Classes
 {
     /// <summary>
     /// Main application method. Creates an NSApplication.

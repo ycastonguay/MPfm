@@ -23,7 +23,7 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.MVP;
 
-namespace MPfm.Mac.Classes.Delegates
+namespace MPfm.OSX.Classes.Delegates
 {
     /// <summary>
     /// Main split view delegate.

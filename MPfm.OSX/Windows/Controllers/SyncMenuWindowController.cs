@@ -26,10 +26,10 @@ using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Helpers;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class SyncMenuWindowController : BaseWindowController, ISyncMenuView
     {

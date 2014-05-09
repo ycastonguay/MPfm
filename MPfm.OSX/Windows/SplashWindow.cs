@@ -21,7 +21,7 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class SplashWindow : MonoMac.AppKit.NSWindow
     {

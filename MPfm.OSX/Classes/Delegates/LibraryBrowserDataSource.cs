@@ -23,9 +23,9 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.MVP;
 using MPfm.MVP.Models;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac.Classes.Delegates
+namespace MPfm.OSX.Classes.Delegates
 {
 	/// <summary>
 	/// Class based on NSOutlineViewDataSource for providing the data for the Library Browser.
@@ -36,7 +36,7 @@ namespace MPfm.Mac.Classes.Delegates
 		public List<LibraryBrowserItem> Items { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserDataSource"/> class.
+        /// Initializes a new instance of the <see cref="MPfm.OSX.LibraryBrowserDataSource"/> class.
         /// </summary>
         /// <param name='entities'>List of LibraryBrowserEntity</param>
         /// <param name='libraryBrowserPresenter'>Library Browser Presenter (necessary to get additional data for the data source)</param>

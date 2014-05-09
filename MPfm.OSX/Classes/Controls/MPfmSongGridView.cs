@@ -21,14 +21,14 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Controls.Graphics;
-using MPfm.Mac.Classes.Controls.Helpers;
+using MPfm.OSX.Classes.Controls.Graphics;
+using MPfm.OSX.Classes.Controls.Helpers;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
 using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmSongGridView")]
     public class MPfmSongGridView : NSView

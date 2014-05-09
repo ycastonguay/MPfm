@@ -24,9 +24,9 @@ using MonoMac.AppKit;
 using MonoMac.CoreAnimation;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     /// <summary>
     /// Custom table cell view for view-based NSTableView. Displays an animation to indicate that the song is currently playing.

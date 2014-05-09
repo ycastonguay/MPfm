@@ -20,10 +20,10 @@ using MonoMac.AppKit;
 using MPfm.GenericControls.Graphics;
 using MonoMac.Foundation;
 using System.Drawing;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 using MPfm.GenericControls.Basics;
 
-namespace MPfm.Mac.Classes.Controls.Graphics
+namespace MPfm.OSX.Classes.Controls.Graphics
 {
     public class DisposableImageFactory : NSObject, IDisposableImageFactory
     {

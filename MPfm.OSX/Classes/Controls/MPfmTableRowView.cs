@@ -23,9 +23,9 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     /// <summary>
     /// Custom table row view for view-based NSTableView.

@@ -22,9 +22,9 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class CloudConnectWindowController : BaseWindowController, ICloudConnectView
     {

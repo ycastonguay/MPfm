@@ -23,7 +23,7 @@ using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class EditLoopWindowController : BaseWindowController
     {

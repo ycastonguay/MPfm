@@ -20,18 +20,18 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
-using MPfm.Mac.Classes.Controls.Graphics;
-using MPfm.Mac.Classes.Controls.Helpers;
+using MPfm.OSX.Classes.Controls.Graphics;
+using MPfm.OSX.Classes.Controls.Helpers;
 using System;
 using MPfm.Player.Objects;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
-using MPfm.Mac.Classes.Helpers;
+using MPfm.OSX.Classes.Helpers;
 using MPfm.GenericControls.Basics;
 using System.Diagnostics;
 using MPfm.GenericControls.Services;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmWaveFormView")]
     public class MPfmWaveFormView : NSView

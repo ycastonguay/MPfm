@@ -7,7 +7,7 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
 	[Register ("SplashWindowController")]
 	partial class SplashWindowController

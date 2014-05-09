@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class PlaylistWindow : MonoMac.AppKit.NSWindow
     {

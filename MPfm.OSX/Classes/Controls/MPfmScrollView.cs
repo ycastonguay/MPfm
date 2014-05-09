@@ -24,7 +24,7 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmScrollView")]
     public class MPfmScrollView : NSScrollView

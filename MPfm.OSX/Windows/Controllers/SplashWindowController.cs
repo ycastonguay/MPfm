@@ -23,9 +23,9 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.MVP.Views;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class SplashWindowController : BaseWindowController, ISplashView
     {

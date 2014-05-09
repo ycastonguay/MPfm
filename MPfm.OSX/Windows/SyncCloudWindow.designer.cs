@@ -1,5 +1,5 @@
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     // Should subclass MonoMac.AppKit.NSWindow
     [MonoMac.Foundation.Register("SyncCloudWindow")]

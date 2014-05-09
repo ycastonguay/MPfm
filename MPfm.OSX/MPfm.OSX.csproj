@@ -8,7 +8,7 @@
     <ProjectGuid>{0BC54417-B1EB-4EE0-892D-8F1B94F88843}</ProjectGuid>
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MPfm.Mac</RootNamespace>
+    <RootNamespace>MPfm.OSX</RootNamespace>
     <AssemblyName>Sessions</AssemblyName>
     <SynchReleaseVersion>False</SynchReleaseVersion>
     <SuppressXamMacUpsell>True</SuppressXamMacUpsell>

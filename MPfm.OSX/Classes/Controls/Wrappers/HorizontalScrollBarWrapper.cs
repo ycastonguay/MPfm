@@ -19,7 +19,7 @@ using MonoMac.AppKit;
 using MPfm.GenericControls.Wrappers;
 using System;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     public class HorizontalScrollBarWrapper : NSScroller, IHorizontalScrollBarWrapper
     {

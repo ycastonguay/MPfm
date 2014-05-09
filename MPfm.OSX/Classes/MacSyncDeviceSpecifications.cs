@@ -23,7 +23,7 @@ using MonoMac.Foundation;
 using System.IO;
 using System.Collections.Generic;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     /// <summary>
     /// Device specifications for Mac. Used for identifying sync devices.

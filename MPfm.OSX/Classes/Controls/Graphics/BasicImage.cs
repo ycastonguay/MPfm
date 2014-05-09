@@ -19,7 +19,7 @@ using System;
 using MonoMac.AppKit;
 using MPfm.GenericControls.Basics;
 
-namespace MPfm.Mac.Classes.Controls.Graphics
+namespace MPfm.OSX.Classes.Controls.Graphics
 {
     public class BasicImage : IBasicImage
     {

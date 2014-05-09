@@ -20,7 +20,7 @@ using MPfm.GenericControls.Wrappers;
 using System;
 using MonoMac.Foundation;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     public class VerticalScrollBarWrapper : NSScroller, IVerticalScrollBarWrapper
     {

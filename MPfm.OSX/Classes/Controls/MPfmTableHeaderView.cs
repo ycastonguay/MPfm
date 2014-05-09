@@ -23,10 +23,10 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Helpers;
+using MPfm.OSX.Classes.Objects;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmTableHeaderView")]
     public class MPfmTableHeaderView : NSTableHeaderView

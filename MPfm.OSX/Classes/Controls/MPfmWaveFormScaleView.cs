@@ -20,14 +20,14 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
-using MPfm.Mac.Classes.Controls.Graphics;
-using MPfm.Mac.Classes.Controls.Helpers;
+using MPfm.OSX.Classes.Controls.Graphics;
+using MPfm.OSX.Classes.Controls.Helpers;
 using System;
 using MPfm.Sound.AudioFiles;
 using MPfm.GenericControls.Basics;
 using System.Diagnostics;
 
-namespace MPfm.Mac.Classes.Controls
+namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmWaveFormScaleView")]
     public class MPfmWaveFormScaleView : NSView

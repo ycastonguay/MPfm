@@ -78,6 +78,9 @@ namespace MPfm.MVP.Presenters
 
 	    private void Initialize()
         {
+            _device = new SyncDevice() {
+                Url = "http://192.168.1.100:53551"
+            };
             SetSyncDevice(_device);
         }
 

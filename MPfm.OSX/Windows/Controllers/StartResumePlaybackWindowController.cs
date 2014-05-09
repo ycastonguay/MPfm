@@ -23,11 +23,11 @@ using MonoMac.AppKit;
 using MPfm.MVP.Views;
 using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Objects;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class StartResumePlaybackWindowController : BaseWindowController, IStartResumePlaybackView
     {

@@ -21,7 +21,7 @@ using MPfm.GenericControls.Graphics;
 using MonoMac.Foundation;
 using MPfm.GenericControls.Basics;
 
-namespace MPfm.Mac.Classes.Controls.Graphics
+namespace MPfm.OSX.Classes.Controls.Graphics
 {
     public class MemoryGraphicsContextFactory : NSObject, IMemoryGraphicsContextFactory
     {

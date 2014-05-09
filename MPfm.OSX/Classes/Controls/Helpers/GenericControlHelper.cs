@@ -22,7 +22,7 @@ using MonoMac.CoreGraphics;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Interaction;
 
-namespace MPfm.Mac.Classes.Controls.Helpers
+namespace MPfm.OSX.Classes.Controls.Helpers
 {
     public static class GenericControlHelper
     {

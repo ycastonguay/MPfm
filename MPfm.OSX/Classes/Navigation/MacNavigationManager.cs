@@ -26,7 +26,7 @@ using MPfm.Library.Objects;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 
-namespace MPfm.Mac.Classes.Navigation
+namespace MPfm.OSX.Classes.Navigation
 {
     /// <summary>
     /// Navigation manager for Mac.

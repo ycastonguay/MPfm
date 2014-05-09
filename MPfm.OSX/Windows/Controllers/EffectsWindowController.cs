@@ -25,12 +25,12 @@ using MPfm.Player.Objects;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.Mac.Classes.Controls;
+using MPfm.OSX.Classes.Objects;
+using MPfm.OSX.Classes.Helpers;
+using MPfm.OSX.Classes.Controls;
 using System.Reflection;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     public partial class EffectsWindowController : BaseWindowController, IDesktopEffectsView
     {

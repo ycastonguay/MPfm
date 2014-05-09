@@ -24,7 +24,7 @@ using MonoMac.Foundation;
 using MPfm.MVP;
 using MPfm.MVP.Models;
 
-namespace MPfm.Mac.Classes.Objects
+namespace MPfm.OSX.Classes.Objects
 {
     /// <summary>
     /// Sync Menu item for the NSOutlineView.

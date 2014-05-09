@@ -29,15 +29,15 @@ using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.Mac.Classes.Controls;
-using MPfm.Mac.Classes.Delegates;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.Mac.Classes.Objects;
+using MPfm.OSX.Classes.Controls;
+using MPfm.OSX.Classes.Delegates;
+using MPfm.OSX.Classes.Helpers;
+using MPfm.OSX.Classes.Objects;
 using System.Threading.Tasks;
 using MPfm.Core.Helpers;
 using System.Drawing;
 
-namespace MPfm.Mac
+namespace MPfm.OSX
 {
     /// <summary>
     /// Main window controller.
