@@ -43,7 +43,6 @@ namespace MPfm.GenericControls.Controls
         private bool _isMouseDown;
         private bool _isDraggingThumb;
         private bool _isDraggingScrollBar;
-        private bool _showScrollBar;
         private float _thumbMouseDownX;
         private float _mouseDownX;
         private float _density;
@@ -73,6 +72,7 @@ namespace MPfm.GenericControls.Controls
 		public string FontFace { get; set; }
 		public float LetterFontSize { get; set; }
 		public string LetterFontFace { get; set; }
+        public bool ShowScrollBar { get; set; }
 
         private long _position;
         public long Position
@@ -197,7 +197,7 @@ namespace MPfm.GenericControls.Controls
 
         private void Initialize()
         {
-            _showScrollBar = true;
+            ShowScrollBar = true;
             DisplayType = WaveFormDisplayType.Stereo;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
@@ -387,7 +387,7 @@ namespace MPfm.GenericControls.Controls
                 float tileDeltaZoom = Zoom / tile.Zoom;
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
-                float tileHeight = (_showScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
+                float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
 
@@ -399,7 +399,7 @@ namespace MPfm.GenericControls.Controls
                 //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
 
-            if (_showScrollBar && Zoom > 1)
+            if (ShowScrollBar && Zoom > 1)
             {
                 int startTile = 0;
                 int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
@@ -507,7 +507,7 @@ namespace MPfm.GenericControls.Controls
             if (AudioFile == null)
                 return;
 
-            if (_showScrollBar && y >= Frame.Height - ScrollBarHeight)
+            if (ShowScrollBar && y >= Frame.Height - ScrollBarHeight)
             {
                 // ScrollBar area
                 _isDraggingScrollBar = true;
@@ -560,7 +560,7 @@ namespace MPfm.GenericControls.Controls
         public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             float scrollUnit = ScrollBarHeight * Zoom;
-            if (_showScrollBar && y >= Frame.Height - ScrollBarHeight)
+            if (ShowScrollBar && y >= Frame.Height - ScrollBarHeight)
             {
                 // Make sure we are outside the thumb/visible area
                 float visibleAreaWidth = (1 / Zoom) * Frame.Width;

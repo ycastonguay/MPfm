@@ -25,6 +25,7 @@ using Android.Widget;
 using MPfm.Android;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Core;
+using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Navigation;
@@ -102,6 +103,7 @@ namespace org.sessionsapp.android
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+        public Action<Folder> OnRemoveFolder { get; set; }
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnSelectFolders { get; set; }
         public Action<bool> OnEnableSyncListener { get; set; }

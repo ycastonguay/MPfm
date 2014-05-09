@@ -42,6 +42,8 @@ namespace org.sessionsapp.android
         protected WaveFormScaleView ScaleView { get { return WaveformLayout.ScaleView; } }
         protected WaveFormView WaveView { get { return WaveformLayout.WaveView; } }
 
+        public bool IsAutoScrollEnabled { get; set; }
+
         private float _zoom = 1;
         public float Zoom
         {
@@ -319,31 +321,33 @@ namespace org.sessionsapp.android
 
                 _startZoom = _scrollView.Zoom;
                 _startContentOffsetX = _scrollView.WaveView.ContentOffset.X;
-                SetScrollViewScale(detector.ScaleFactor);
+                SetScrollViewScale(detector.ScaleFactor, detector.FocusX);
                 return base.OnScaleBegin(detector);
             }
 
             public override bool OnScale(ScaleGestureDetector detector)
             {
                 //Console.WriteLine("ScaleListener - OnScale - scaleFactor: {0}", detector.ScaleFactor);
-                SetScrollViewScale(detector.ScaleFactor);
+                SetScrollViewScale(detector.ScaleFactor, detector.FocusX);                
                 return base.OnScale(detector);
             }
 
             public override void OnScaleEnd(ScaleGestureDetector detector)
             {
                 //Console.WriteLine("ScaleListener - OnScaleEnd - scaleFactor: {0}", detector.ScaleFactor);
-                SetScrollViewScale(detector.ScaleFactor);
+                SetScrollViewScale(detector.ScaleFactor, detector.FocusX);
                 base.OnScaleEnd(detector);
             }
 
-            private void SetScrollViewScale(float scale)
+            private void SetScrollViewScale(float scale, float focusX)
             {
-                // Adjust content offset with new zoom value
-                float contentOffsetX = _startContentOffsetX * scale;
+                // Zoom in/out
                 float zoom = _startZoom * scale;
+                float deltaZoom = zoom / _scrollView.Zoom;
+                float originPointX = _scrollView.IsAutoScrollEnabled ? _scrollView.WaveView.ContentOffset.X + (_scrollView.Width / 2) : focusX + _scrollView.WaveView.ContentOffset.X;
+                float distanceToOffsetX = originPointX - _scrollView.WaveView.ContentOffset.X;
+                float contentOffsetX = (originPointX * deltaZoom) - distanceToOffsetX;
                 zoom = Math.Max(1, zoom);
-                zoom = Math.Min(32, zoom);
                 _scrollView.Zoom = zoom;
                 _scrollView.SetContentOffsetX(contentOffsetX);
                 //Console.WriteLine("ScaleListener - SetScrollViewScale - scale: {0} zoom: {1} contentOffset: {2}", scale, _scrollView.Zoom, _scrollView.WaveView.ContentOffset);

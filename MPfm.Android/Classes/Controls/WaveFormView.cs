@@ -69,6 +69,7 @@ namespace org.sessionsapp.android
             SetBackgroundColor(Color.Black);
 
             _control = new WaveFormControl();
+            _control.ShowScrollBar = false;
             _control.Frame = new BasicRectangle(0, 0, Width, Height);
             _control.OnInvalidateVisual += () => Post(Invalidate);            
             _control.OnInvalidateVisualInRect += (rect) => Post(() => Invalidate(GenericControlHelper.ToRect(rect)));
