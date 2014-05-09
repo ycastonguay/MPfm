@@ -408,7 +408,7 @@ namespace MPfm.GenericControls.Controls
                     StartTile = startTile,
                     EndTile = numberOfTilesToFillWidth,
                     TileSize = tileSize,
-                    BoundsWaveForm = Frame, //new BasicRectangle(0, 0, Frame.Width, scrollBarHeight),
+                    BoundsWaveForm = new BasicRectangle(0, 0, Frame.Width, ScrollBarHeight), // Frame
                     Zoom = 1,
                     DisplayType = _displayType
                 };
@@ -559,7 +559,7 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
-            float scrollUnit = 20 * Zoom;
+            float scrollUnit = ScrollBarHeight * Zoom;
             if (_showScrollBar && y >= Frame.Height - ScrollBarHeight)
             {
                 // Make sure we are outside the thumb/visible area

@@ -154,8 +154,6 @@ namespace MPfm.OSX.Classes.Controls
                     NSAnimationContext.CurrentContext.Duration = 0.2;
                     (_lblZoom.Animator as NSTextField).AlphaValue = 0;
                     NSAnimationContext.EndGrouping();
-                    
-                    //WaveFormView.RefreshWaveFormBitmap();
                 }
             });
         }
@@ -330,7 +328,6 @@ namespace MPfm.OSX.Classes.Controls
             base.ScrollWheel(theEvent);
             var location = GenericControlHelper.GetMouseLocation(this, theEvent);
             //Console.WriteLine("====> Wheel location: {0}", location);
-
             //Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
             if (theEvent.DeltaX > 0.2f || theEvent.DeltaX < -0.2f)
             {
@@ -347,102 +344,12 @@ namespace MPfm.OSX.Classes.Controls
             var keysHeld = GenericControlHelper.GetKeysHeld(theEvent);
             if (keysHeld.IsAltKeyHeld)
             {
-                // Zoom
+                // Zoom in/out
                 float newZoom = Math.Max(1, Zoom + (theEvent.DeltaY / 30f));
                 float deltaZoom = newZoom / Zoom;
-                //float originalRange = (WaveFormView.Bounds.Width * Zoom) - WaveFormView.Bounds.Width;
-                //float newRange = (WaveFormView.Bounds.Width * newZoom) - WaveFormView.Bounds.Width;
-
-                // On Google Maps, the user pin points a lat/long with his mouse cursor.
-                // It makes it a bit easier to zoom in and center on the lat/long. We don't have this for wave forms.
-                // So we'll take the equivalent of song position (float 0 to 1) and try to restore that later.
-                float positionPercentageOnWaveForm = (location.X + WaveFormView.ContentOffset.X) / (WaveFormView.Frame.Width * Zoom);
-                //float positionPercentageCenterOnWaveForm = (WaveFormView.ContentOffset.X + (WaveFormView.Frame.Width / 2)) / (WaveFormView.Frame.Width * Zoom);
-                float positionPercentageOnScreen = location.X / WaveFormView.Frame.Width;
-
-                // the zooming perspective in this case is the mouse cursor
-                // calculate how much offset there is to the left. all relative to the perspective point
-                // find out what is the scale (multiplier) for the content offset, relative to the perspective point and the area available offscreen on the left.
-                //float areaWidthOnLeft = location.X + WaveFormView.ContentOffset.X;
-                //float daRatio = WaveFormView.ContentOffset.X / areaWidthOnLeft;
-                //float daRatioTest = daRatio / Zoom;
-
-                // what is the content offset x, when we want to restore the position on a specific x (perspective)
-
-                //float contentOffsetRatio = WaveFormView.ContentOffset.X / (WaveFormView.Frame.Width * Zoom);
-                //float newWaveFormWidth = WaveFormView.Bounds.Width * newZoom;
-                //float cursorX = daRatioTest * newZoom;
-                //float cursorX = positionPercentageOnWaveForm * newWaveFormWidth;
-
-                //contentOffsetX = cursorX;// - (positionPercentageOnScreen * Bounds.Width);// - (Bounds.Width / 2f);
-                //contentOffsetX = cursorX;// - (Bounds.Width / 2f);
-                //contentOffsetX = Math.Max(0, contentOffsetX);
-                //contentOffsetX = Math.Min(newWaveFormWidth - Bounds.Width, contentOffsetX);
-
-                //Console.WriteLine("location: {0} positionPercentageOnWaveForm: {1} a: {2} b: {3}", location, positionPercentageOnWaveForm, location.X + WaveFormView.ContentOffset.X, WaveFormView.Frame.Width * Zoom);
-
-//                float newOffset = 0;
-//                if (originalRange > 0)
-//                {
-//                    // how do we adjust for mouse loc? start by testing to try to zoom into the center.
-//                    // is it really possible to adjust the value BEFORE multiplying it to the new ratio?
-//                    // i.e. does the mouse loc needs to be processed before or after? 
-//                    // the idea is that the mouse pointer needs to point to the exact same location AFTER zooming in.
-//                    // i.e. think google maps: if you point a specific street corner, when you'll zoom in, you'll keep the target on
-//                    //      (almost, the target is slightly off when zooming in a lot, that's normal since the resolution at a lower zoom level is
-//                    //       much lower, so it is hard to 'pin point' the exact x.
-//
-//                    // remind yourself that the content offset x must not be multiplied by the new zoom level. it HAS to change depending on mouse location.
-//                    // what do we do with thef act that the current formula makes the zoom leaning to the left or right depending on the content offset?
-//                    // i think that's just normal behavior...
-//
-//                    float theRealContentOffsetX = WaveFormView.ContentOffset.X; // adjust for mouse loc
-//                    float contentOffsetRatio = theRealContentOffsetX / originalRange;
-//                    newOffset = contentOffsetRatio * newRange;
-//                }
-
-
-                // if the mouse cursor is at x==0, then the content offset doesn't change (stuff gets pushed to the right)
-                // if the mouse cursor is at x==width, then the content offset is * width (stuff gest pushed to the left)
-                // if the mouse cursor is at x==width/2, then the content offset is * width/2?
-
-                //float areaWidthOnLeft = location.X + WaveFormView.ContentOffset.X;
-
-                // This solution works for keeping the same content offset
-                //float contentOffsetRatio = WaveFormView.ContentOffset.X / (WaveFormView.Frame.Width * Zoom);
-                //float mouseLocationRatio = (location.X / WaveFormView.Frame.Width) / Zoom;
-                //float centerScreenRatio = WaveFormView.ContentOffset.X + (WaveFormView.Frame.Width / 2) / (WaveFormView.Frame.Width * Zoom);
-                //float mouseLocationRatio = (location.X - WaveFormView.ContentOffset.X) / (WaveFormView.Frame.Width * Zoom);
-                //float mouseLocationRatio = mouseLocationRatioOnScreen / Zoom;
-
-                //float distanceBetweenCenterAndContentOffset = (WaveFormView.ContentOffset.X + (WaveFormView.Frame.Width / 2)) - WaveFormView.ContentOffset.X;
-                //float distanceBetweenCenterAndContentOffset = WaveFormView.Frame.Width / 2;
-                //float testyRatio = distanceBetweenCenterAndContentOffset / areaWidthOnLeft;
-                //float distanceBetweenCenterAndContentOffsetRatio = distanceBetweenCenterAndContentOffset / Zoom;
-
-                // what is the distance between the perspective point and th left point
-                //float distanceToPerspectivePoint = WaveFormView.ContentOffset.X + distanceBetweenCenterAndContentOffset;
-                //float contentOffsetRatioForPerspectivePointRatio = WaveFormView.ContentOffset.X / distanceToPerspectivePoint;
-                //float newDistanceToPerspectivePoint = distanceToPerspectivePoint * deltaZoom;
-                //float newContentOffsetRatioForPerspectivePoint = contentOffsetRatioForPerspectivePointRatio * newDistanceToPerspectivePoint;
-                //float newContentOffsetRatioForPerspectivePoint = WaveFormView.ContentOffset.X * distanceToPerspectivePoint;
-                //float newContentOffsetRatioForPerspectivePoint = WaveForm;
-
-                // multiply the value of our perspective point (equal value because it's the center)
-                //float testTesty = WaveFormView.ContentOffset.X + distanceBetweenCenterAndContentOffset;
-                //float newWaveFormWidth = WaveFormView.Bounds.Width * newZoom;
-                //float cursorX = testRatio * WaveFormView.ContentOffset.X;
-                //float cursorX = contentOffsetRatio * newWaveFormWidth;
-                //cursorX = cursorX + (mouseLocationRatio * newZoom);
-                //cursorX = cursorX + (distanceBetweenCenterAndContentOffsetRatio * newZoom);
-                //float cursorX = newContentOffsetRatioForPerspectivePoint;
-                float newOffset = 0;//cursorX;
-                //Console.WriteLine("newOffset: {0}", newOffset);
-
-                contentOffsetX = newOffset;
-
-                //Console.WriteLine(">>> contentOffsetX: {0} originalRange: {1} newRange: {2} zoom: {3} waveFormWidth: {4}", contentOffsetX, originalRange, newRange, _zoom, WaveFormView.Bounds.Width * _zoom);
-                //contentOffsetX = (WaveFormView.ContentOffset.X * deltaZoom);// + (delta * realRange);
+                float originPointX = IsAutoScrollEnabled ? WaveFormView.ContentOffset.X + (Frame.Width / 2) : location.X + WaveFormView.ContentOffset.X;
+                float distanceToOffsetX = originPointX - WaveFormView.ContentOffset.X;
+                contentOffsetX = (originPointX * deltaZoom) - distanceToOffsetX;
                 Zoom = newZoom;
             } 
             else
@@ -452,7 +359,6 @@ namespace MPfm.OSX.Classes.Controls
             }            
 
             SetContentOffsetX(contentOffsetX);
-            //Console.WriteLine("WaveFormScrollView - ScrollWheel - deltaY: {0} zoom: {1}", theEvent.DeltaY, _zoom);                
         }
         
         private void SetContentOffsetX(float x)
@@ -508,8 +414,6 @@ namespace MPfm.OSX.Classes.Controls
                 //Console.WriteLine("location: {0} delta: {1}", location, delta);
             }
         }
-
-        // maybe add mouse drag over scale to scroll left/right? keep scrollbar at the bottom
 
         public override void RightMouseDown(NSEvent theEvent)
         {
