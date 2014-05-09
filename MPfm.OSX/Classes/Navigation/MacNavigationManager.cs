@@ -22,6 +22,9 @@ using MonoMac.ObjCRuntime;
 using TinyIoC;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Library.Objects;
+using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac.Classes.Navigation
 {
@@ -69,6 +72,54 @@ namespace MPfm.Mac.Classes.Navigation
             return view;
         }
 
+        public override ICloudConnectView CreateCloudConnectView()
+        {
+            ICloudConnectView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateCloudConnectView();
+                });
+            }
+            return view;
+        }
+
+        public override IDesktopEffectsView CreateEffectsView()
+        {
+            IDesktopEffectsView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateEffectsView();
+                });
+            }
+            return view;
+        }
+
+        public override IPlaylistView CreatePlaylistView()
+        {
+            IPlaylistView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreatePlaylistView();
+                });
+            }
+            return view;
+        }
+
+        public override IFirstRunView CreateFirstRunView()
+        {
+            IFirstRunView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateFirstRunView();
+                });
+            }
+            return view;
+        }
+
         public override ISyncView CreateSyncView()
         {
             ISyncView view = null;
@@ -95,6 +146,78 @@ namespace MPfm.Mac.Classes.Navigation
 //                _syncView.ShowView(true);
 //            }
 //            return _syncView;
+        }
+
+        public override ISyncCloudView CreateSyncCloudView()
+        {
+            ISyncCloudView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateSyncCloudView();
+                });
+            }
+            return view;
+        }
+
+        public override ISyncMenuView CreateSyncMenuView(SyncDevice device)
+        {
+            ISyncMenuView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateSyncMenuView(device);
+                });
+            }
+            return view;
+        }
+
+        public override ISyncDownloadView CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        {
+            ISyncDownloadView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateSyncDownloadView(device, audioFiles);
+                });
+            }
+            return view;
+        }
+
+        public override ISyncWebBrowserView CreateSyncWebBrowserView()
+        {
+            ISyncWebBrowserView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateSyncWebBrowserView();
+                });
+            }
+            return view;
+        }
+
+        public override IStartResumePlaybackView CreateStartResumePlaybackView()
+        {
+            IStartResumePlaybackView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateStartResumePlaybackView();
+                });
+            }
+            return view;
+        }
+
+        public override IEditSongMetadataView CreateEditSongMetadataView(AudioFile audioFile)
+        {
+            IEditSongMetadataView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateEditSongMetadataView(audioFile);
+                });
+            }
+            return view;
         }
     }
 }

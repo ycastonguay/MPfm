@@ -45,13 +45,12 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            LoadFontsAndImages();
             btnOK.OnButtonSelected += (button) => Close();
             btnCancel.OnButtonSelected += (button) => Close(); // todo: add cancel
             progressIndicator.Indeterminate = true;
             progressIndicator.StartAnimation(this);
 
-            Window.DidBecomeKey += HandleWindowDidBecomeKey;
+            LoadFontsAndImages();
             ShowWindowCentered();
         }
 
@@ -66,6 +65,7 @@ namespace MPfm.Mac
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
+            Window.DidBecomeKey += HandleWindowDidBecomeKey;
             OnViewReady(this);
         }
 
