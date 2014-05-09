@@ -56,6 +56,7 @@
                 <outlet property="lblSampleRate" destination="109" id="3YO-Fy-eQg"/>
                 <outlet property="lblSongPosition" destination="20" id="7lu-dX-iAs"/>
                 <outlet property="lblStatusDescription" destination="160" id="3dz-p6-nIj"/>
+                <outlet property="lblUpdateFrequencyWarning" destination="fvk-3R-zg1" id="L43-w9-cJT"/>
                 <outlet property="lblUpdatePeriod" destination="67" id="b8R-M7-HVB"/>
                 <outlet property="matrixPeakFiles" destination="zCP-QE-npX" id="okl-FE-LAq"/>
                 <outlet property="popupOutputDevice" destination="124" id="aW8-BR-jaG"/>
@@ -138,6 +139,238 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
+                            <customView id="Eq8-RF-iZt">
+                                <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" id="WiK-C7-CTG" customClass="MPfmButton">
+                                        <rect key="frame" x="10" y="265" width="136" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="smallSquare" title="Login to Dropbox" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yxC-Qa-ueW">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button id="IR7-Th-C7K">
+                                        <rect key="frame" x="9" y="237" width="321" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Enable Resume Playback with Dropbox" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="j0x-lL-ciH">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" size="13" name="LucidaGrande"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="actionEnableResumePlayback:" target="-2" id="tKP-xw-koH"/>
+                                        </connections>
+                                    </button>
+                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="FrH-9L-mlh">
+                                        <rect key="frame" x="27" y="192" width="415" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="rCi-dq-pn6">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <string key="title">Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song, or when a playlist is updated.</string>
+                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <customView id="Psh-8C-Gy7" customClass="MPfmView">
+                                        <rect key="frame" x="0.0" y="324" width="551" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" id="zLN-xU-P3i">
+                                                <rect key="frame" x="8" y="7" width="177" height="25"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cloud Preferences" id="9on-6w-3nt">
+                                                    <font key="font" metaFont="systemBold" size="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                    </customView>
+                                    <customView id="WP1-Rp-ill" customClass="MPfmView">
+                                        <rect key="frame" x="0.0" y="301" width="591" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" id="FWI-dp-unz">
+                                                <rect key="frame" x="8" y="3" width="125" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dropbox" id="fvQ-BN-qFG">
+                                                    <font key="font" metaFont="systemBold" size="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                    </customView>
+                                </subviews>
+                            </customView>
+                            <customView id="biX-iD-az1">
+                                <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" id="204" customClass="MPfmButton">
+                                        <rect key="frame" x="10" y="265" width="98" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="smallSquare" title="Add folder" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="205">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button verticalHuggingPriority="750" id="206" customClass="MPfmButton">
+                                        <rect key="frame" x="118" y="265" width="130" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="smallSquare" title="Remove folder(s)" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="207">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button verticalHuggingPriority="750" id="208" customClass="MPfmButton">
+                                        <rect key="frame" x="258" y="265" width="116" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="smallSquare" title="Reset Library" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="209">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="210">
+                                        <rect key="frame" x="10" y="162" width="530" height="94"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <clipView key="contentView" id="lTa-A9-ZLA">
+                                            <rect key="frame" x="1" y="17" width="528" height="76"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="213" id="211">
+                                                    <rect key="frame" x="0.0" y="0.0" width="528" height="76"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <size key="intercellSpacing" width="3" height="2"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                    <tableColumns>
+                                                        <tableColumn identifier="columnFolderPath" width="525" minWidth="40" maxWidth="1000" headerToolTip="" id="215">
+                                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Folder Path">
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </tableHeaderCell>
+                                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" identifier="cellFolderPath" title="Text Cell" id="218">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                        </tableColumn>
+                                                    </tableColumns>
+                                                </tableView>
+                                            </subviews>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </clipView>
+                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="212">
+                                            <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="214">
+                                            <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                        <tableHeaderView key="headerView" focusRingType="none" id="213" customClass="MPfmTableHeaderView">
+                                            <rect key="frame" x="0.0" y="0.0" width="528" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableHeaderView>
+                                    </scrollView>
+                                    <customView id="SoK-IQ-wQ1" customClass="MPfmView">
+                                        <rect key="frame" x="0.0" y="324" width="551" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" id="Rec-je-cpk">
+                                                <rect key="frame" x="8" y="7" width="177" height="25"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Library Preferences" id="75h-xJ-HKB">
+                                                    <font key="font" metaFont="systemBold" size="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                    </customView>
+                                    <customView id="Mp9-qL-mcx" customClass="MPfmView">
+                                        <rect key="frame" x="0.0" y="301" width="591" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" id="187">
+                                                <rect key="frame" x="8" y="3" width="125" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Folders" id="200">
+                                                    <font key="font" metaFont="systemBold" size="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                    </customView>
+                                    <customView id="iaS-9x-sgN" customClass="MPfmView">
+                                        <rect key="frame" x="0.0" y="106" width="591" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" id="6pH-Mx-Y1q">
+                                                <rect key="frame" x="8" y="3" width="125" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Library Service" id="9ct-gf-8nS">
+                                                    <font key="font" metaFont="systemBold" size="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                    </customView>
+                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="hKL-MP-0ci">
+                                        <rect key="frame" x="8" y="136" width="415" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Library size: Calculating..." id="SSe-iB-UwH">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <button id="O6U-fv-1Up">
+                                        <rect key="frame" x="8" y="80" width="321" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Enable Library Service" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qC2-Dj-VW3">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" size="13" name="LucidaGrande"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="actionEnableLibraryService:" target="-2" id="VKM-DM-xNe"/>
+                                        </connections>
+                                    </button>
+                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="erQ-xV-lbC">
+                                        <rect key="frame" x="27" y="58" width="382" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Allows remote devices to access this library and use the remote player" id="Ovv-og-Ojd">
+                                            <font key="font" metaFont="system" size="10"/>
+                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" id="W4U-It-Ve8">
+                                        <rect key="frame" x="409" y="75" width="73" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="HTTP Port:" id="rdN-S9-N9T">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" id="zLa-W1-Hih">
+                                        <rect key="frame" x="481" y="68" width="59" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="53551" drawsBackground="YES" id="GuG-El-FS0">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                            </customView>
                             <customView id="GG8-I1-JBZ">
                                 <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -147,7 +380,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Song position:" id="21">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -192,7 +425,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output meter:" id="23">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -253,7 +486,7 @@
                                         </subviews>
                                     </customView>
                                     <customView id="jnB-fD-twT" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="205" width="591" height="25"/>
+                                        <rect key="frame" x="0.0" y="188" width="591" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" id="gWW-6H-aZb">
@@ -268,7 +501,7 @@
                                         </subviews>
                                     </customView>
                                     <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="zCP-QE-npX">
-                                        <rect key="frame" x="10" y="159" width="531" height="38"/>
+                                        <rect key="frame" x="10" y="142" width="531" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         <size key="cellSize" width="500" height="18"/>
@@ -294,7 +527,7 @@
                                         </connections>
                                     </matrix>
                                     <textField verticalHuggingPriority="750" id="U5k-jP-EKG">
-                                        <rect key="frame" x="10" y="125" width="249" height="26"/>
+                                        <rect key="frame" x="10" y="108" width="249" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="cAH-hj-VtH">
                                             <font key="font" metaFont="system"/>
@@ -303,7 +536,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <button verticalHuggingPriority="750" id="Hhi-0y-hDl" customClass="MPfmButton">
-                                        <rect key="frame" x="275" y="127" width="106" height="26"/>
+                                        <rect key="frame" x="275" y="108" width="90" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Browse..." bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="90P-qm-D5I">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -311,7 +544,7 @@
                                         </buttonCell>
                                     </button>
                                     <button verticalHuggingPriority="750" id="1OT-ee-KHo" customClass="MPfmButton">
-                                        <rect key="frame" x="10" y="67" width="164" height="26"/>
+                                        <rect key="frame" x="10" y="72" width="130" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Delete peak files" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zI8-IK-uta">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -319,16 +552,16 @@
                                         </buttonCell>
                                     </button>
                                     <textField verticalHuggingPriority="750" id="y4A-By-Jwu">
-                                        <rect key="frame" x="8" y="100" width="135" height="17"/>
+                                        <rect key="frame" x="8" y="49" width="135" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Maximum folder size:" id="ilf-4i-mll">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="kPf-af-Ofc">
-                                        <rect key="frame" x="453" y="100" width="36" height="17"/>
+                                        <rect key="frame" x="443" y="49" width="36" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MB" id="ibn-rP-pJC">
                                             <font key="font" metaFont="cellTitle"/>
@@ -337,7 +570,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="6dM-xC-FZw">
-                                        <rect key="frame" x="388" y="93" width="59" height="26"/>
+                                        <rect key="frame" x="378" y="42" width="59" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="NJi-ik-g3i">
                                             <font key="font" metaFont="system"/>
@@ -346,11 +579,11 @@
                                         </textFieldCell>
                                     </textField>
                                     <customView id="7zh-Y4-1kr" customClass="MPfmTrackBarView">
-                                        <rect key="frame" x="149" y="95" width="231" height="26"/>
+                                        <rect key="frame" x="139" y="40" width="231" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="vB6-aG-Far">
-                                        <rect key="frame" x="180" y="66" width="253" height="23"/>
+                                        <rect key="frame" x="147" y="73" width="253" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Peak file folder size: Calculating..." id="fRC-q6-86H">
                                             <font key="font" metaFont="cellTitle"/>
@@ -358,68 +591,15 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                </subviews>
-                            </customView>
-                            <customView id="Eq8-RF-iZt">
-                                <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <button verticalHuggingPriority="750" id="WiK-C7-CTG" customClass="MPfmButton">
-                                        <rect key="frame" x="10" y="265" width="173" height="26"/>
+                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="fvk-3R-zg1">
+                                        <rect key="frame" x="8" y="219" width="431" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="smallSquare" title="Login to Dropbox" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yxC-Qa-ueW">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                    <button id="IR7-Th-C7K">
-                                        <rect key="frame" x="9" y="237" width="321" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="check" title="Enable Resume Playback with Dropbox" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="j0x-lL-ciH">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" size="13" name="LucidaGrande"/>
-                                        </buttonCell>
-                                    </button>
-                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="FrH-9L-mlh">
-                                        <rect key="frame" x="27" y="189" width="415" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="rCi-dq-pn6">
-                                            <font key="font" metaFont="cellTitle"/>
-                                            <string key="title">Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song, or when a playlist is updated.</string>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Warning: Lower values require more CPU but results in a more precise cursor." id="eti-cW-Zgj">
+                                            <font key="font" metaFont="system" size="10"/>
                                             <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <customView id="Psh-8C-Gy7" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="324" width="551" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" id="zLN-xU-P3i">
-                                                <rect key="frame" x="8" y="7" width="177" height="25"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cloud Preferences" id="9on-6w-3nt">
-                                                    <font key="font" metaFont="systemBold" size="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </customView>
-                                    <customView id="WP1-Rp-ill" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="301" width="591" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" id="FWI-dp-unz">
-                                                <rect key="frame" x="8" y="3" width="125" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dropbox" id="fvQ-BN-qFG">
-                                                    <font key="font" metaFont="systemBold" size="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </customView>
                                 </subviews>
                             </customView>
                             <customView identifier="panelGeneral" id="2Oy-aa-rj4">
@@ -431,12 +611,12 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Buffer size:" id="79">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="63">
-                                        <rect key="frame" x="446" y="187" width="36" height="17"/>
+                                        <rect key="frame" x="436" y="187" width="36" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ms" id="78">
                                             <font key="font" metaFont="cellTitle"/>
@@ -445,7 +625,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="64">
-                                        <rect key="frame" x="336" y="187" width="44" height="17"/>
+                                        <rect key="frame" x="326" y="187" width="44" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="every" id="77">
                                             <font key="font" metaFont="cellTitle"/>
@@ -454,7 +634,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="65">
-                                        <rect key="frame" x="336" y="162" width="44" height="17"/>
+                                        <rect key="frame" x="326" y="162" width="44" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="every" id="76">
                                             <font key="font" metaFont="cellTitle"/>
@@ -463,7 +643,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="66">
-                                        <rect key="frame" x="446" y="162" width="36" height="17"/>
+                                        <rect key="frame" x="436" y="162" width="36" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ms" id="75">
                                             <font key="font" metaFont="cellTitle"/>
@@ -476,12 +656,12 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Update period:" id="74">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="68">
-                                        <rect key="frame" x="381" y="178" width="59" height="26"/>
+                                        <rect key="frame" x="371" y="180" width="59" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="73">
                                             <font key="font" metaFont="system"/>
@@ -490,7 +670,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="69">
-                                        <rect key="frame" x="381" y="151" width="59" height="26"/>
+                                        <rect key="frame" x="371" y="153" width="59" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="72">
                                             <font key="font" metaFont="system"/>
@@ -503,12 +683,12 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output device:" id="121">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" id="108">
-                                        <rect key="frame" x="234" y="252" width="36" height="17"/>
+                                        <rect key="frame" x="224" y="252" width="36" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hz" id="117">
                                             <font key="font" metaFont="cellTitle"/>
@@ -521,12 +701,12 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sample rate:" id="116">
                                             <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <popUpButton verticalHuggingPriority="750" id="124" customClass="MPfmPopUpButton">
-                                        <rect key="frame" x="117" y="272" width="260" height="23"/>
+                                        <rect key="frame" x="107" y="272" width="260" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="127" id="125">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -541,7 +721,7 @@
                                         </popUpButtonCell>
                                     </popUpButton>
                                     <popUpButton verticalHuggingPriority="750" id="130" customClass="MPfmPopUpButton">
-                                        <rect key="frame" x="117" y="247" width="112" height="23"/>
+                                        <rect key="frame" x="107" y="247" width="112" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="135" id="131">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -565,7 +745,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <button verticalHuggingPriority="750" id="180" customClass="MPfmButton">
-                                        <rect key="frame" x="10" y="62" width="154" height="26"/>
+                                        <rect key="frame" x="10" y="62" width="140" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Test audio settings" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="181">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -573,7 +753,7 @@
                                         </buttonCell>
                                     </button>
                                     <button verticalHuggingPriority="750" id="182" customClass="MPfmButton">
-                                        <rect key="frame" x="178" y="62" width="133" height="26"/>
+                                        <rect key="frame" x="161" y="62" width="130" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Reset to default" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="183">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -581,11 +761,11 @@
                                         </buttonCell>
                                     </button>
                                     <customView id="Xuz-Su-8Sc" customClass="MPfmTrackBarView">
-                                        <rect key="frame" x="122" y="178" width="207" height="26"/>
+                                        <rect key="frame" x="112" y="178" width="207" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <customView id="rvV-R0-Se8" customClass="MPfmTrackBarView">
-                                        <rect key="frame" x="122" y="153" width="207" height="26"/>
+                                        <rect key="frame" x="112" y="153" width="207" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <customView id="tM4-o1-4O4" customClass="MPfmView">
@@ -650,183 +830,6 @@
                                     </customView>
                                 </subviews>
                                 <accessibility description="panelGeneral"/>
-                            </customView>
-                            <customView id="biX-iD-az1">
-                                <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <button verticalHuggingPriority="750" id="204" customClass="MPfmButton">
-                                        <rect key="frame" x="10" y="265" width="106" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="smallSquare" title="Add folder" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="205">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                    <button verticalHuggingPriority="750" id="206" customClass="MPfmButton">
-                                        <rect key="frame" x="128" y="265" width="143" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="smallSquare" title="Remove folder(s)" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="207">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                    <button verticalHuggingPriority="750" id="208" customClass="MPfmButton">
-                                        <rect key="frame" x="283" y="265" width="124" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="smallSquare" title="Reset Library" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="209">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="210">
-                                        <rect key="frame" x="10" y="164" width="530" height="94"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <clipView key="contentView" id="lTa-A9-ZLA">
-                                            <rect key="frame" x="1" y="17" width="528" height="76"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="213" id="211">
-                                                    <rect key="frame" x="0.0" y="0.0" width="528" height="76"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <size key="intercellSpacing" width="3" height="2"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                                    <tableColumns>
-                                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="215">
-                                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                <font key="font" metaFont="smallSystem"/>
-                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </tableHeaderCell>
-                                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="218">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                        </tableColumn>
-                                                        <tableColumn width="406" minWidth="40" maxWidth="1000" id="216">
-                                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                <font key="font" metaFont="smallSystem"/>
-                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </tableHeaderCell>
-                                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="217">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                        </tableColumn>
-                                                    </tableColumns>
-                                                </tableView>
-                                            </subviews>
-                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="212">
-                                            <rect key="frame" x="1" y="119" width="223" height="15"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="214">
-                                            <rect key="frame" x="224" y="17" width="15" height="102"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </scroller>
-                                        <tableHeaderView key="headerView" id="213" customClass="MPfmTableHeaderView">
-                                            <rect key="frame" x="0.0" y="0.0" width="528" height="17"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableHeaderView>
-                                    </scrollView>
-                                    <customView id="SoK-IQ-wQ1" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="324" width="551" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" id="Rec-je-cpk">
-                                                <rect key="frame" x="8" y="7" width="177" height="25"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Library Preferences" id="75h-xJ-HKB">
-                                                    <font key="font" metaFont="systemBold" size="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </customView>
-                                    <customView id="Mp9-qL-mcx" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="301" width="591" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" id="187">
-                                                <rect key="frame" x="8" y="3" width="125" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Folders" id="200">
-                                                    <font key="font" metaFont="systemBold" size="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </customView>
-                                    <customView id="iaS-9x-sgN" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="106" width="591" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" id="6pH-Mx-Y1q">
-                                                <rect key="frame" x="8" y="3" width="125" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Library Service" id="9ct-gf-8nS">
-                                                    <font key="font" metaFont="systemBold" size="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </customView>
-                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="hKL-MP-0ci">
-                                        <rect key="frame" x="8" y="138" width="415" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Library size: Calculating..." id="SSe-iB-UwH">
-                                            <font key="font" metaFont="cellTitle"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <button id="O6U-fv-1Up">
-                                        <rect key="frame" x="8" y="80" width="321" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="check" title="Enable Library Service" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qC2-Dj-VW3">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" size="13" name="LucidaGrande"/>
-                                        </buttonCell>
-                                    </button>
-                                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="erQ-xV-lbC">
-                                        <rect key="frame" x="26" y="55" width="415" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Allows remote devices to access this library and use the remote player" id="Ovv-og-Ojd">
-                                            <font key="font" metaFont="titleBar" size="12"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" id="W4U-It-Ve8">
-                                        <rect key="frame" x="8" y="34" width="73" height="17"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="HTTP Port:" id="rdN-S9-N9T">
-                                            <font key="font" metaFont="titleBar" size="12"/>
-                                            <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" id="zLa-W1-Hih">
-                                        <rect key="frame" x="87" y="29" width="59" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="53551" drawsBackground="YES" id="GuG-El-FS0">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
                             </customView>
                         </subviews>
                     </customView>

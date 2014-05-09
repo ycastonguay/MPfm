@@ -130,12 +130,12 @@ namespace MPfm.Mac.Classes.Controls
             context.TranslateCTM(0, Bounds.Height);
             context.ScaleCTM(1, -1);
 
-            if (_isMouseDown)
+            if (IsSelected && ShowSelectedBackgroundColor)
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundSelectedColor);
+            else if (_isMouseDown)
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
             else if (_isMouseOver)
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
-            else if (IsSelected && ShowSelectedBackgroundColor)
-                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundSelectedColor);
             else
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 

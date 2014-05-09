@@ -377,7 +377,7 @@ namespace MPfm.Mac
 				openPanel.CanChooseFiles = true;
 				openPanel.ReleasedWhenClosed = true;
 				openPanel.AllowsMultipleSelection = true;
-                openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
+                openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV", "APE" };
                 openPanel.Title = "Please select audio files to add to the library";
 				openPanel.Prompt = "Add files to library";
 				openPanel.RunModal();

@@ -53,11 +53,13 @@ namespace MPfm.Mac
         
         private void Initialize()
         {
+            tableFolders.WeakDelegate = this;
+
             LoadTrackBars();
             LoadComboBoxes();
             LoadTextBoxes();
             LoadFontsAndImages();
-            BindButtons();
+            LoadButtons();
             HandleOnTabButtonSelected(btnTabGeneral);
             ShowWindowCentered();
         }
@@ -92,8 +94,10 @@ namespace MPfm.Mac
             cell.PlaceholderString = PathHelper.PeakFileDirectory;
         }
 
-        private void BindButtons()
+        private void LoadButtons()
         {
+            btnRemoveFolder.Enabled = false;
+
             btnTabGeneral.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabAudio.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabLibrary.OnTabButtonSelected += HandleOnTabButtonSelected;
@@ -101,6 +105,11 @@ namespace MPfm.Mac
             btnLoginDropbox.OnButtonSelected += (button) => OnDropboxLoginLogout();
             btnDeletePeakFiles.OnButtonSelected += HandleOnDeletePeakFilesButtonSelected;
             btnBrowseCustomDirectory.OnButtonSelected += HandleOnBrowseCustomDirectoryButtonSelected;
+            btnAddFolder.OnButtonSelected += HandleOnAddFolderButtonSelected;
+            btnRemoveFolder.OnButtonSelected += HandleOnRemoveFolderButtonSelected;
+            btnResetLibrary.OnButtonSelected += HandleOnResetLibraryButtonSelected;
+            btnTestAudioSettings.OnButtonSelected += HandleOnTestAudioSettingsButtonSelected;
+            btnResetAudioSettings.OnButtonSelected += HandleOnResetAudioSettingsButtonSelected;
         }
 
         private void LoadTrackBars()
@@ -175,21 +184,14 @@ namespace MPfm.Mac
             var textFont = NSFont.FromFontName("Roboto", 12f);
             var textColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
             lblOutputDevice.Font = textFont;
-            lblOutputDevice.TextColor = textColor;
             lblSampleRate.Font = textFont;
-            lblSampleRate.TextColor = textColor;
             lblStatusDescription.Font = textFont;
             lblStatusDescription.TextColor = textColor;
             lblUpdatePeriod.Font = textFont;
-            lblUpdatePeriod.TextColor = textColor;
             lblSongPosition.Font = textFont;
-            lblSongPosition.TextColor = textColor;
             lblOutputMeter.Font = textFont;
-            lblOutputMeter.TextColor = textColor;
             lblBufferSize.Font = textFont;
-            lblBufferSize.TextColor = textColor;
             lblMaximumPeakFolderSize.Font = textFont;
-            lblMaximumPeakFolderSize.TextColor = textColor;
             lblEvery.Font = textFont;
             lblEvery.TextColor = textColor;
             lblEvery2.Font = textFont;
@@ -211,7 +213,6 @@ namespace MPfm.Mac
             lblMS.Font = textFont;
             lblMS.TextColor = textColor;
             lblHttpPort.Font = textFont;
-            lblHttpPort.TextColor = textColor;
 
             var noteFont = NSFont.FromFontName("Roboto", 11f);
             var noteColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
@@ -222,7 +223,9 @@ namespace MPfm.Mac
             lblLibrarySize.Font = noteFont;
             lblLibrarySize.TextColor = noteColor;           
             lblLibraryServiceNote.Font = noteFont;
-            lblLibraryServiceNote.TextColor = noteColor;           
+            lblLibraryServiceNote.TextColor = noteColor;   
+            lblUpdateFrequencyWarning.Font = noteFont;
+            lblUpdateFrequencyWarning.TextColor = noteColor;
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
             txtBufferSize.Font = textBoxFont;
@@ -293,6 +296,32 @@ namespace MPfm.Mac
             btnLoginDropbox.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_dropbox");
             btnBrowseCustomDirectory.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_open");
             btnDeletePeakFiles.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+        }
+
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            return _libraryAppConfig.Folders.Count;
+        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString(_libraryAppConfig.Folders[row].FolderPath);
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view = (NSTableCellView)tableView.MakeView("cellFolderPath", this);
+            view.TextField.StringValue = _libraryAppConfig.Folders[row].FolderPath;
+            return view;
+        }
+
+        [Export ("tableViewSelectionDidChange:")]
+        public void SelectionDidChange(NSNotification notification)
+        {
+            btnRemoveFolder.Enabled = tableFolders.SelectedRow >= 0;
         }
 
         private void HandleOnSongPositionTrackBarValueChanged()
@@ -413,7 +442,7 @@ namespace MPfm.Mac
                 // Should this be done in the presenter instead? 
                 if (!Directory.Exists(textField.StringValue))
                 {
-                    using(var alert = new NSAlert())
+                    using (var alert = new NSAlert())
                     {
                         alert.MessageText = "Path is invalid";
                         alert.InformativeText = "The path you have entered is invalid or the folder does not exist.";
@@ -426,6 +455,28 @@ namespace MPfm.Mac
 
                 _generalAppConfig.CustomPeakFileFolder = textField.StringValue;
                 OnSetGeneralPreferences(_generalAppConfig);
+            } 
+            else if (textField == txtHttpPort)
+            {
+                int port = 0;
+                int.TryParse(textField.StringValue, out port);
+                if (port >= 21 && port <= 65535)
+                {
+                    _libraryAppConfig.SyncServicePort = port;
+                    OnSetLibraryPreferences(_libraryAppConfig);
+                } 
+                else
+                {
+                    using (var alert = new NSAlert())
+                    {
+                        alert.MessageText = "Library service HTTP port is invalid";
+                        alert.InformativeText = "The HTTP port you have entered is invalid. It must be between 21 and 65535.";
+                        alert.AlertStyle = NSAlertStyle.Critical;
+                        var btnOK = alert.AddButton("OK");
+                        btnOK.Activated += (sender2, e2) => textField.StringValue = string.Empty;
+                    }
+                    return;
+                }
             }
         }
 
@@ -441,6 +492,70 @@ namespace MPfm.Mac
                 _generalAppConfig.UseCustomPeakFileFolder = useCustomPeakFolder;
                 OnSetGeneralPreferences(_generalAppConfig);
             }
+        }
+
+        partial void actionEnableLibraryService(NSObject sender)
+        {
+            _libraryAppConfig.IsSyncServiceEnabled = checkEnableLibraryService.State == NSCellStateValue.On;
+            OnSetLibraryPreferences(_libraryAppConfig);
+        }
+
+        partial void actionEnableResumePlayback(NSObject sender)
+        {
+            _cloudAppConfig.IsResumePlaybackEnabled = checkEnableResumePlayback.State == NSCellStateValue.On;
+            OnSetCloudPreferences(_cloudAppConfig);
+        }
+
+        private void HandleOnAddFolderButtonSelected(MPfmButton button)
+        {
+            string folderPath = string.Empty;
+            using(NSOpenPanel openPanel = new NSOpenPanel())
+            {
+                openPanel.CanChooseDirectories = true;
+                openPanel.CanChooseFiles = false;
+                openPanel.ReleasedWhenClosed = true;
+                openPanel.AllowsMultipleSelection = false;
+                openPanel.Title = "Please select a folder to add to the library";
+                openPanel.Prompt = "Add folder to library"; 
+                openPanel.RunModal();
+                folderPath = openPanel.Url.Path;
+            }
+
+//            if(!String.IsNullOrEmpty(folderPath))
+//                OnAddFolderToLibrary(folderPath);
+        }
+
+        private void HandleOnRemoveFolderButtonSelected(MPfmButton button)
+        {
+
+        }
+
+        private void HandleOnResetLibraryButtonSelected(MPfmButton button)
+        {
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Library will be reset";
+                alert.InformativeText = "Are you sure you wish to reset your library? This won't delete any audio files from your hard disk.";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnResetLibrary();
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => NSApplication.SharedApplication.StopModal();
+                alert.RunModal();
+            }
+        }
+
+        private void HandleOnTestAudioSettingsButtonSelected(MPfmButton button)
+        {
+
+        }
+
+        private void HandleOnResetAudioSettingsButtonSelected(MPfmButton button)
+        {
+
         }
 
         #region ILibraryPreferencesView implementation
@@ -459,8 +574,12 @@ namespace MPfm.Mac
 
         public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
         {
+            _libraryAppConfig = config;
             InvokeOnMainThread(() => {
                 lblLibrarySize.StringValue = string.Format("Library size: {0}", librarySize);
+                checkEnableLibraryService.State = config.IsSyncServiceEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+                txtHttpPort.StringValue = config.SyncServicePort.ToString();
+                tableFolders.ReloadData();
             });
         }
 
@@ -506,6 +625,7 @@ namespace MPfm.Mac
 
         public void RefreshCloudPreferences(CloudAppConfig config)
         {
+            _cloudAppConfig = config;
             InvokeOnMainThread(() => {
                 checkEnableResumePlayback.State = config.IsResumePlaybackEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
             });

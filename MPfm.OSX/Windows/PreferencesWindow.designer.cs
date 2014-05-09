@@ -157,6 +157,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblStatusDescription { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblUpdateFrequencyWarning { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblUpdatePeriod { get; set; }
 
 		[Outlet]
@@ -255,6 +258,12 @@ namespace MPfm.Mac
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewUpdateFrequencyHeader { get; set; }
 
+		[Action ("actionEnableLibraryService:")]
+		partial void actionEnableLibraryService (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEnableResumePlayback:")]
+		partial void actionEnableResumePlayback (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionMatrixPeakFiles:")]
 		partial void actionMatrixPeakFiles (MonoMac.Foundation.NSObject sender);
 		
@@ -318,6 +327,11 @@ namespace MPfm.Mac
 			if (btnTestAudioSettings != null) {
 				btnTestAudioSettings.Dispose ();
 				btnTestAudioSettings = null;
+			}
+
+			if (checkEnableLibraryService != null) {
+				checkEnableLibraryService.Dispose ();
+				checkEnableLibraryService = null;
 			}
 
 			if (checkEnableResumePlayback != null) {
@@ -395,6 +409,11 @@ namespace MPfm.Mac
 				lblGeneralUpdateFrequency = null;
 			}
 
+			if (lblHttpPort != null) {
+				lblHttpPort.Dispose ();
+				lblHttpPort = null;
+			}
+
 			if (lblHz != null) {
 				lblHz.Dispose ();
 				lblHz = null;
@@ -408,6 +427,16 @@ namespace MPfm.Mac
 			if (lblLibraryPreferences != null) {
 				lblLibraryPreferences.Dispose ();
 				lblLibraryPreferences = null;
+			}
+
+			if (lblLibraryService != null) {
+				lblLibraryService.Dispose ();
+				lblLibraryService = null;
+			}
+
+			if (lblLibraryServiceNote != null) {
+				lblLibraryServiceNote.Dispose ();
+				lblLibraryServiceNote = null;
 			}
 
 			if (lblLibrarySize != null) {
@@ -540,6 +569,11 @@ namespace MPfm.Mac
 				txtCustomDirectory = null;
 			}
 
+			if (txtHttpPort != null) {
+				txtHttpPort.Dispose ();
+				txtHttpPort = null;
+			}
+
 			if (txtMaximumPeakFolderSize != null) {
 				txtMaximumPeakFolderSize.Dispose ();
 				txtMaximumPeakFolderSize = null;
@@ -610,6 +644,11 @@ namespace MPfm.Mac
 				viewLibraryPreferencesHeader = null;
 			}
 
+			if (viewLibraryServiceHeader != null) {
+				viewLibraryServiceHeader.Dispose ();
+				viewLibraryServiceHeader = null;
+			}
+
 			if (viewMixerHeader != null) {
 				viewMixerHeader.Dispose ();
 				viewMixerHeader = null;
@@ -635,34 +674,9 @@ namespace MPfm.Mac
 				viewUpdateFrequencyHeader = null;
 			}
 
-			if (viewLibraryServiceHeader != null) {
-				viewLibraryServiceHeader.Dispose ();
-				viewLibraryServiceHeader = null;
-			}
-
-			if (lblLibraryService != null) {
-				lblLibraryService.Dispose ();
-				lblLibraryService = null;
-			}
-
-			if (lblLibraryServiceNote != null) {
-				lblLibraryServiceNote.Dispose ();
-				lblLibraryServiceNote = null;
-			}
-
-			if (txtHttpPort != null) {
-				txtHttpPort.Dispose ();
-				txtHttpPort = null;
-			}
-
-			if (checkEnableLibraryService != null) {
-				checkEnableLibraryService.Dispose ();
-				checkEnableLibraryService = null;
-			}
-
-			if (lblHttpPort != null) {
-				lblHttpPort.Dispose ();
-				lblHttpPort = null;
+			if (lblUpdateFrequencyWarning != null) {
+				lblUpdateFrequencyWarning.Dispose ();
+				lblUpdateFrequencyWarning = null;
 			}
 		}
 	}
