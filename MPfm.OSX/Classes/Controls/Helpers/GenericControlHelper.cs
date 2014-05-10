@@ -21,6 +21,7 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Interaction;
+using System.Collections.Generic;
 
 namespace MPfm.OSX.Classes.Controls.Helpers
 {
@@ -49,6 +50,25 @@ namespace MPfm.OSX.Classes.Controls.Helpers
         public static CGColor ToCGColor(BasicColor color)
         {
             return new CGColor(color.R/255f, color.G/255f, color.B/255f, color.A/255f);
+        }
+
+        public static CGPath ToCGPath(BasicPath path)
+        {
+            // TODO: We assume for now that only path lines can exist. 
+            var linePoints = new List<PointF>();
+            foreach (var item in path.Items)
+            {
+                if (item is BasicPathLine)
+                {
+                    var line = item as BasicPathLine;
+                    linePoints.Add(ToPoint(line.PointA));
+                    linePoints.Add(ToPoint(line.PointB));
+                }
+            }
+
+            var cgPath = new CGPath();
+            cgPath.AddLines(linePoints.ToArray());
+            return cgPath;
         }
 
         public static void MouseUp(NSView view, IControlMouseInteraction control, NSEvent theEvent)

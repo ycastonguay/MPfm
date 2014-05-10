@@ -250,6 +250,8 @@
     </Compile>
     <Compile Include="Windows\Controllers\CloudConnectWindowController.cs" />
     <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
+    <Compile Include="Classes\Controls\MPfmProgressBarView.cs" />
+    <Compile Include="Classes\Controls\MPfmCircularProgressBarView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />

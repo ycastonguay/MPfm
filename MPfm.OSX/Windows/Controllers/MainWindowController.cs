@@ -1261,7 +1261,7 @@ namespace MPfm.OSX
             Console.WriteLine("IUpdateLibraryView - RefreshStatus - status: {0} progress: {1}", entity.Title, entity.PercentageDone);
             InvokeOnMainThread(delegate {
                 lblUpdateLibraryStatus.StringValue = entity.Title;
-                progressUpdateLibrary.DoubleValue = Math.Min(100, entity.PercentageDone * 100);
+                progressBarUpdateLibrary.Value = Math.Min(1, entity.PercentageDone);
             });
         }
 
@@ -1282,7 +1282,7 @@ namespace MPfm.OSX
             Console.WriteLine("IUpdateLibraryView - ProcessEnded");
             InvokeOnMainThread(delegate {
                 lblUpdateLibraryStatus.StringValue = "Update library successful.";
-                progressUpdateLibrary.DoubleValue = 100;
+                progressBarUpdateLibrary.Value = 1;
             });
 
             // Delay before closing update library panel

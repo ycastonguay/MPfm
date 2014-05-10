@@ -46,10 +46,9 @@ namespace MPfm.OSX
         private void Initialize()
         {
             Console.WriteLine("CloudConnectWindowController - Initialize");
+            progressBar.IsIndeterminate = true;
             btnOK.OnButtonSelected += (button) => CloseWindow();
             btnCancel.OnButtonSelected += (button) => CloseWindow();
-            progressIndicator.Indeterminate = true;
-            progressIndicator.StartAnimation(this);
 
             LoadFontsAndImages();
             ShowWindowCentered();
@@ -129,9 +128,8 @@ namespace MPfm.OSX
 
                 if (entity.IsAuthenticated)
                 {
-                    progressIndicator.StopAnimation(this);
-                    progressIndicator.Indeterminate = false;
-                    progressIndicator.DoubleValue = 100;
+                    progressBar.Value = 1;
+                    progressBar.IsIndeterminate = false;
                 }
             });
         }

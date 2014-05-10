@@ -84,7 +84,7 @@
                 <outlet property="lblYear" destination="wlo-uZ-RIW" id="env-yq-7A8"/>
                 <outlet property="outlineLibraryBrowser" destination="20" id="498"/>
                 <outlet property="outputMeter" destination="rKj-Mz-2e5" id="GaD-8L-pNS"/>
-                <outlet property="progressUpdateLibrary" destination="Xf1-gh-xd3" id="yIl-Vm-CeC"/>
+                <outlet property="progressBarUpdateLibrary" destination="rNy-sE-Adq" id="NV0-Z9-gpg"/>
                 <outlet property="scrollViewLibraryBrowser" destination="19" id="578"/>
                 <outlet property="searchSongBrowser" destination="189" id="271"/>
                 <outlet property="songGridView" destination="eee-ms-hVD" id="wvY-nH-L9p"/>
@@ -258,10 +258,6 @@
                                         <rect key="frame" x="0.0" y="0.0" width="199" height="85"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <progressIndicator maxValue="100" style="bar" id="Xf1-gh-xd3">
-                                                <rect key="frame" x="5" y="10" width="190" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            </progressIndicator>
                                             <textField verticalHuggingPriority="750" id="x0c-hA-JcD">
                                                 <rect key="frame" x="4" y="30" width="193" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -285,6 +281,10 @@
                                                         </textFieldCell>
                                                     </textField>
                                                 </subviews>
+                                            </customView>
+                                            <customView id="rNy-sE-Adq" customClass="MPfmProgressBarView">
+                                                <rect key="frame" x="6" y="12" width="188" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             </customView>
                                         </subviews>
                                     </customView>
@@ -1352,7 +1352,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000006053597" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000012130005" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>

@@ -95,6 +95,11 @@
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
     <Compile Include="Basics\IBasicImage.cs" />
+        <Compile Include="Controls\ProgressBarControl.cs" />
+    <Compile Include="Controls\CircularProgressBarControl.cs" />
+    <Compile Include="Basics\BasicPath.cs" />
+    <Compile Include="Basics\IBasicPathItem.cs" />
+    <Compile Include="Basics\BasicPathLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">

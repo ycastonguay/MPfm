@@ -92,6 +92,14 @@ namespace MPfm.OSX.Classes.Controls.Graphics
             CoreGraphicsHelper.DrawLine(Context, new List<PointF>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness, true, false);
         }
 
+        public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)
+        {
+            // TODO: Add pen
+            var cgPath = GenericControlHelper.ToCGPath(path);
+            var color = GenericControlHelper.ToCGColor(brush.Color);
+            CoreGraphicsHelper.FillPath(Context, cgPath, color);
+        }
+
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
             // Very ugly fix for Roboto which is rendered too low on OS X

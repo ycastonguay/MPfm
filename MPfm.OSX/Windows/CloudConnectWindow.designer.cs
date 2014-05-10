@@ -37,13 +37,18 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmProgressBarView progressBar { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (progressIndicator != null) {
-				progressIndicator.Dispose ();
-				progressIndicator = null;
+			if (btnCancel != null) {
+				btnCancel.Dispose ();
+				btnCancel = null;
+			}
+
+			if (btnOK != null) {
+				btnOK.Dispose ();
+				btnOK = null;
 			}
 
 			if (lblStep1 != null) {
@@ -71,19 +76,14 @@ namespace MPfm.OSX
 				lblStep4 = null;
 			}
 
-			if (btnOK != null) {
-				btnOK.Dispose ();
-				btnOK = null;
-			}
-
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
-			}
-
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
+			}
+
+			if (progressBar != null) {
+				progressBar.Dispose ();
+				progressBar = null;
 			}
 		}
 	}

@@ -244,7 +244,7 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSProgressIndicator progressUpdateLibrary { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmProgressBarView progressBarUpdateLibrary { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
@@ -816,6 +816,16 @@ namespace MPfm.OSX
 				lblTitleSongBrowser = null;
 			}
 
+			if (lblTitleUpdateLibrary != null) {
+				lblTitleUpdateLibrary.Dispose ();
+				lblTitleUpdateLibrary = null;
+			}
+
+			if (lblUpdateLibraryStatus != null) {
+				lblUpdateLibraryStatus.Dispose ();
+				lblUpdateLibraryStatus = null;
+			}
+
 			if (lblVolume != null) {
 				lblVolume.Dispose ();
 				lblVolume = null;
@@ -971,16 +981,6 @@ namespace MPfm.OSX
 				viewToolbar = null;
 			}
 
-			if (viewVolume != null) {
-				viewVolume.Dispose ();
-				viewVolume = null;
-			}
-
-			if (waveFormScrollView != null) {
-				waveFormScrollView.Dispose ();
-				waveFormScrollView = null;
-			}
-
 			if (viewUpdateLibrary != null) {
 				viewUpdateLibrary.Dispose ();
 				viewUpdateLibrary = null;
@@ -991,19 +991,19 @@ namespace MPfm.OSX
 				viewUpdateLibraryHeader = null;
 			}
 
-			if (lblTitleUpdateLibrary != null) {
-				lblTitleUpdateLibrary.Dispose ();
-				lblTitleUpdateLibrary = null;
+			if (viewVolume != null) {
+				viewVolume.Dispose ();
+				viewVolume = null;
 			}
 
-			if (lblUpdateLibraryStatus != null) {
-				lblUpdateLibraryStatus.Dispose ();
-				lblUpdateLibraryStatus = null;
+			if (waveFormScrollView != null) {
+				waveFormScrollView.Dispose ();
+				waveFormScrollView = null;
 			}
 
-			if (progressUpdateLibrary != null) {
-				progressUpdateLibrary.Dispose ();
-				progressUpdateLibrary = null;
+			if (progressBarUpdateLibrary != null) {
+				progressBarUpdateLibrary.Dispose ();
+				progressBarUpdateLibrary = null;
 			}
 		}
 	}

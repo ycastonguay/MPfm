@@ -64,5 +64,10 @@
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
+        <Compile Include="Controls\ProgressBarControl.cs" />
+    <Compile Include="Controls\CircularProgressBarControl.cs" />
+    <Compile Include="Basics\BasicPath.cs" />
+    <Compile Include="Basics\IBasicPathItem.cs" />
+    <Compile Include="Basics\BasicPathLine.cs" />
   </ItemGroup>
 </Project>
