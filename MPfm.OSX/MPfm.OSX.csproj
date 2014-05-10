@@ -633,5 +633,11 @@
     <BundleResource Include="Resources\toolbar_devices%402x.png" />
     <BundleResource Include="Resources\icon_button_open.png" />
     <BundleResource Include="Resources\icon_button_open%402x.png" />
+    <BundleResource Include="Resources\toolbar_new.png" />
+    <BundleResource Include="Resources\toolbar_new%402x.png" />
+    <BundleResource Include="Resources\toolbar_open%402x.png" />
+    <BundleResource Include="Resources\toolbar_open.png" />
+    <BundleResource Include="Resources\toolbar_save.png" />
+    <BundleResource Include="Resources\toolbar_save%402x.png" />
   </ItemGroup>
 </Project>

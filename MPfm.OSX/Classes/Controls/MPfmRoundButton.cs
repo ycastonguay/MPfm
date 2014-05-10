@@ -97,7 +97,7 @@ namespace MPfm.OSX.Classes.Controls
             _layerCircle.LineWidth = 2f;
             Layer.AddSublayer(_layerCircle);
 
-            float imageSize = 50; // TODO: Maybe make a property out of this? The issue is that we might want to keep the same image size but vary button size
+            float imageSize = Bounds.Width;
             ImageView = new NSImageView();
             ImageView.Frame = new RectangleF((Frame.Width - imageSize) / 2, (Frame.Height - imageSize) / 2, imageSize, imageSize);
             AddSubview(ImageView);

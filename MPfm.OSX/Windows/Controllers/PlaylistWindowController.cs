@@ -56,83 +56,23 @@ namespace MPfm.OSX
         {
             base.WindowDidLoad();
 
-            tableView.WeakDelegate = this;
-            tableView.WeakDataSource = this;
-            LoadImages();
-            OnViewReady.Invoke(this);
+            LoadFontsAndImages();
+            OnViewReady(this);
         }
 
-        private void LoadImages()
+        private void LoadFontsAndImages()
         {
-            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarNewPlaylist").Image = ImageResources.images32x32[11];
-            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarLoadPlaylist").Image = ImageResources.images32x32[0];
-            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarSavePlaylist").Image = ImageResources.images32x32[12];
-            toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarSaveAsPlaylist").Image = ImageResources.images32x32[13];
-        }
+            viewTitle.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewTitle.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewToolbar.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
+            viewToolbar.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
-        partial void actionNewPlaylist(NSObject sender)
-        {
-        }
+            lblTitle.Font = NSFont.FromFontName("Roboto Light", 16f);
 
-        partial void actionLoadPlaylist(NSObject sender)
-        {
-        }
-
-        partial void actionSavePlaylist(NSObject sender)
-        {
-        }
-
-        partial void actionSaveAsPlaylist(NSObject sender)
-        {
-        }
-
-        [Export ("numberOfRowsInTableView:")]
-        public int GetRowCount(NSTableView tableView)
-        {
-            return _playlist.Items.Count;
-        }
-
-        [Export ("tableView:dataCellForTableColumn:row:")]
-        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
-        {
-            return new NSString();
-        }
-
-        [Export ("tableView:viewForTableColumn:row:")]
-        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
-        {
-            NSTableCellView view = null;
-            if(tableColumn.Identifier.ToString() == "columnNowPlaying")
-            {
-                view = (NSTableCellView)tableView.MakeView("cellNowPlaying", this);
-                view.TextField.StringValue = string.Empty;
-            }
-            else if(tableColumn.Identifier.ToString() == "columnTitle")
-            {
-                view = (NSTableCellView)tableView.MakeView("cellTitle", this);
-                view.TextField.StringValue = _playlist.Items[row].AudioFile.Title;
-            }
-            else if(tableColumn.Identifier.ToString() == "columnLength")
-            {
-                view = (NSTableCellView)tableView.MakeView("cellLength", this);
-                view.TextField.StringValue = _playlist.Items[row].LengthString;
-            }
-            else if(tableColumn.Identifier.ToString() == "columnArtistName")
-            {
-                view = (NSTableCellView)tableView.MakeView("cellArtistName", this);
-                view.TextField.StringValue = _playlist.Items[row].AudioFile.ArtistName;
-            }
-            else if(tableColumn.Identifier.ToString() == "columnAlbumTitle")
-            {
-                view = (NSTableCellView)tableView.MakeView("cellAlbumTitle", this);
-                view.TextField.StringValue = _playlist.Items[row].AudioFile.AlbumTitle;
-            }
-
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
-//            if (view.ImageView != null)
-//                view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_android");
-
-            return view;
+            btnToolbarNew.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_new");
+            btnToolbarOpen.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_open");
+            btnToolbarSave.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_save");
+            btnToolbarSaveAs.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_save");
         }
 
         #region IPlaylistView implementation
@@ -155,10 +95,8 @@ namespace MPfm.OSX
         public void RefreshPlaylist(Playlist playlist)
         {
             Console.WriteLine("PlaylistWindowController - RefreshPlaylist");
-            InvokeOnMainThread(() => {
-                _playlist = playlist;
-                tableView.ReloadData();
-            });
+            _playlist = playlist;
+            InvokeOnMainThread(() => songGridView.ImportPlaylist(playlist));
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)

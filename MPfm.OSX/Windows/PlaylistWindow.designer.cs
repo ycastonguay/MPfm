@@ -1,21 +1,11 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// WARNING
 //
-// This file is part of MPfm.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-// MPfm is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// MPfm is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
-
 using MonoMac.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.OSX
 {
@@ -23,33 +13,69 @@ namespace MPfm.OSX
 	partial class PlaylistWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSToolbar toolbar { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarNew { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTableView tableView { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarOpen { get; set; }
 
-		[Action ("actionNewPlaylist:")]
-		partial void actionNewPlaylist (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarSave { get; set; }
 
-		[Action ("actionLoadPlaylist:")]
-		partial void actionLoadPlaylist (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarSaveAs { get; set; }
 
-		[Action ("actionSavePlaylist:")]
-		partial void actionSavePlaylist (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
-		[Action ("actionSaveAsPlaylist:")]
-		partial void actionSaveAsPlaylist (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmSongGridView songGridView { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewTitle { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewToolbar { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (toolbar != null) {
-				toolbar.Dispose ();
-				toolbar = null;
+			if (viewTitle != null) {
+				viewTitle.Dispose ();
+				viewTitle = null;
 			}
 
-			if (tableView != null) {
-				tableView.Dispose ();
-				tableView = null;
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
+			}
+
+			if (viewToolbar != null) {
+				viewToolbar.Dispose ();
+				viewToolbar = null;
+			}
+
+			if (songGridView != null) {
+				songGridView.Dispose ();
+				songGridView = null;
+			}
+
+			if (btnToolbarNew != null) {
+				btnToolbarNew.Dispose ();
+				btnToolbarNew = null;
+			}
+
+			if (btnToolbarOpen != null) {
+				btnToolbarOpen.Dispose ();
+				btnToolbarOpen = null;
+			}
+
+			if (btnToolbarSave != null) {
+				btnToolbarSave.Dispose ();
+				btnToolbarSave = null;
+			}
+
+			if (btnToolbarSaveAs != null) {
+				btnToolbarSaveAs.Dispose ();
+				btnToolbarSaveAs = null;
 			}
 		}
 	}

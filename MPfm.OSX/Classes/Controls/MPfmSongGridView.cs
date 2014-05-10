@@ -27,6 +27,7 @@ using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
 using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.OSX.Classes.Controls
 {
@@ -135,6 +136,11 @@ namespace MPfm.OSX.Classes.Controls
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
             _control.ImportAudioFiles(audioFiles);
+        }
+
+        public void ImportPlaylist(Playlist playlist)
+        {
+            _control.ImportPlaylist(playlist);
         }
 
         public override void DrawRect(RectangleF dirtyRect)
