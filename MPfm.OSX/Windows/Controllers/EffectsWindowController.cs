@@ -65,26 +65,32 @@ namespace MPfm.OSX
             //viewBackgroundInformation.IsEnabled = false;
             //viewBackgroundFaders.IsEnabled = false;
 
-            viewBackgroundPreset.HeaderHeight = 22;
-            viewBackgroundInformation.HeaderHeight = 22;
+            viewBackgroundPreset.HeaderHeight = 25;
+            viewBackgroundInformation.HeaderHeight = 25;
+            viewTitle.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewTitle.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewEqualizer.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewEqualizer.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
 
             viewBackground.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             viewBackground.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
             viewBackgroundPreset.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             viewBackgroundPreset.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
-            viewBackgroundPreset.HeaderColor1 = GlobalTheme.PanelHeaderColor1;
-            viewBackgroundPreset.HeaderColor2 = GlobalTheme.PanelHeaderColor2;
+            viewBackgroundPreset.HeaderColor1 = GlobalTheme.PanelHeader2Color1;
+            viewBackgroundPreset.HeaderColor2 = GlobalTheme.PanelHeader2Color2;
             viewBackgroundPreset.IsHeaderVisible = true;
             viewBackgroundInformation.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             viewBackgroundInformation.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
-            viewBackgroundInformation.HeaderColor1 = GlobalTheme.PanelHeaderColor1;
-            viewBackgroundInformation.HeaderColor2 = GlobalTheme.PanelHeaderColor2;
+            viewBackgroundInformation.HeaderColor1 = GlobalTheme.PanelHeader2Color1;
+            viewBackgroundInformation.HeaderColor2 = GlobalTheme.PanelHeader2Color2;
             viewBackgroundInformation.IsHeaderVisible = true;
 
             popupPreset.Font = NSFont.FromFontName("Roboto", 11f);
+            lblTitle.Font = NSFont.FromFontName("Roboto Light", 16f);
+            lblEqualizer.Font = NSFont.FromFontName("Roboto Light", 13f);
             lblName.Font = NSFont.FromFontName("Roboto", 11f);
-            lblTitleInformation.Font = NSFont.FromFontName("Roboto", 13f);
-            lblTitlePreset.Font = NSFont.FromFontName("Roboto", 13f);
+            lblTitleInformation.Font = NSFont.FromFontName("Roboto Light", 13f);
+            lblTitlePreset.Font = NSFont.FromFontName("Roboto Light", 13f);
             lblEQOn.Font = NSFont.FromFontName("Roboto", 11f);
             lblScalePlus6.Font = NSFont.FromFontName("Roboto", 11f);
             lblScale0.Font = NSFont.FromFontName("Roboto", 11f);

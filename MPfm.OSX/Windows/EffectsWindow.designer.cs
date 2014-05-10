@@ -142,6 +142,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblEQOn { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblEqualizer { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQValue0 { get; set; }
 
 		[Outlet]
@@ -208,6 +211,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblScalePlus6 { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitle { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleInformation { get; set; }
 
 		[Outlet]
@@ -230,6 +236,12 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewEqualizer { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewTitle { get; set; }
 
 		[Action ("actionAutoLevel:")]
 		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);
@@ -607,6 +619,11 @@ namespace MPfm.OSX
 				viewBackground = null;
 			}
 
+			if (viewBackgroundFaders != null) {
+				viewBackgroundFaders.Dispose ();
+				viewBackgroundFaders = null;
+			}
+
 			if (viewBackgroundInformation != null) {
 				viewBackgroundInformation.Dispose ();
 				viewBackgroundInformation = null;
@@ -617,9 +634,24 @@ namespace MPfm.OSX
 				viewBackgroundPreset = null;
 			}
 
-			if (viewBackgroundFaders != null) {
-				viewBackgroundFaders.Dispose ();
-				viewBackgroundFaders = null;
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
+			}
+
+			if (viewTitle != null) {
+				viewTitle.Dispose ();
+				viewTitle = null;
+			}
+
+			if (lblEqualizer != null) {
+				lblEqualizer.Dispose ();
+				lblEqualizer = null;
+			}
+
+			if (viewEqualizer != null) {
+				viewEqualizer.Dispose ();
+				viewEqualizer = null;
 			}
 		}
 	}
