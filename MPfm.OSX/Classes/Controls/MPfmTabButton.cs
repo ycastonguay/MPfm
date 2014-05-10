@@ -145,7 +145,6 @@ namespace MPfm.OSX.Classes.Controls
                 CoreGraphicsHelper.DrawLine(context, new PointF[2] { new PointF(0, Bounds.Height - 1), new PointF(Bounds.Width, Bounds.Height - 1) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
 
             //CocoaHelper.DrawRect(context, Bounds, BorderColor);
-            //RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
             RectangleF rectTextSize = CoreGraphicsHelper.MeasureString(Bounds.Size, Title, "Roboto", 12);
             RectangleF rectText;
             if (Image != null)

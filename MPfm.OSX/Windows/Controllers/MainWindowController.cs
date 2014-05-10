@@ -325,7 +325,6 @@ namespace MPfm.OSX
         /// </summary>
         private void LoadImages()
         {
-            cboSoundFormat.Image = ImageResources.Roboto.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddSongToPlaylist.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");

@@ -52,19 +52,7 @@ namespace MPfm.OSX
         }
 
         private void LoadFontsAndImages()
-        {
-//            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-//            lblStatus.Font = NSFont.FromFontName("Junction", 12);
-//            lblCurrentFile.Font = NSFont.FromFontName("Junction", 12);
-//            lblCurrentFileValue.Font = NSFont.FromFontName("Junction", 12);
-//            lblDownloadSpeed.Font = NSFont.FromFontName("Junction", 12);
-//            lblDownloadSpeedValue.Font = NSFont.FromFontName("Junction", 16);
-//            lblErrors.Font = NSFont.FromFontName("Junction", 12);
-//            lblErrorsValue.Font = NSFont.FromFontName("Junction", 16);
-//            lblFilesDownloaded.Font = NSFont.FromFontName("Junction", 12);
-//            lblFilesDownloadedValue.Font = NSFont.FromFontName("Junction", 16);
-//
-//            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");     
+        {   
         }
 
         #region ISyncWebBrowserView implementation

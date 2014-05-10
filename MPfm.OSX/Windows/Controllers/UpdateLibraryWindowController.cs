@@ -51,9 +51,9 @@ namespace MPfm.OSX
         {
             base.WindowDidLoad();
 
-            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 16);
-            lblSubtitle.Font = NSFont.FromFontName("Junction", 11);
-            lblPercentageDone.Font = NSFont.FromFontName("Junction", 11);
+            lblTitle.Font = NSFont.FromFontName("Roboto", 16);
+            lblSubtitle.Font = NSFont.FromFontName("Roboto", 11);
+            lblPercentageDone.Font = NSFont.FromFontName("Roboto", 11);
 
 			lblTitle.StringValue = string.Empty;
 			lblSubtitle.StringValue = string.Empty;

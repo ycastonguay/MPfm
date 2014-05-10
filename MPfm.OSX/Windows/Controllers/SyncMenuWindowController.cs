@@ -80,12 +80,12 @@ namespace MPfm.OSX
 
         private void LoadFontsAndImages()
         {
-            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            lblSubtitle.Font = NSFont.FromFontName("Junction", 12);
-            lblSubtitle2.Font = NSFont.FromFontName("Junction", 12);
-            lblLoading.Font = NSFont.FromFontName("Junction", 13);
-            lblTotal.Font = NSFont.FromFontName("Junction", 12);
-            lblFreeSpace.Font = NSFont.FromFontName("Junction", 12);
+            lblTitle.Font = NSFont.FromFontName("Roboto", 18);
+            lblSubtitle.Font = NSFont.FromFontName("Roboto", 12);
+            lblSubtitle2.Font = NSFont.FromFontName("Roboto", 12);
+            lblLoading.Font = NSFont.FromFontName("Roboto", 13);
+            lblTotal.Font = NSFont.FromFontName("Roboto", 12);
+            lblFreeSpace.Font = NSFont.FromFontName("Roboto", 12);
 
             btnSync.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_download");
         }
@@ -158,7 +158,7 @@ namespace MPfm.OSX
             var audioFile = _selection[row];
             string title = string.Format("{0} / {1} / {2}. {3}", audioFile.ArtistName, audioFile.AlbumTitle, audioFile.TrackNumber, audioFile.Title);
             view.TextField.StringValue = title;
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             return view;
         }
 
@@ -243,7 +243,7 @@ namespace MPfm.OSX
             {
                 // Create view
                 view = (NSTableCellView)outlineView.MakeView("cellTitle", this);
-                view.TextField.Font = NSFont.FromFontName("Junction", 11);
+                view.TextField.Font = NSFont.FromFontName("Roboto", 11);
 
                 switch (syncMenuItem.Entity.ItemType)
                 {
