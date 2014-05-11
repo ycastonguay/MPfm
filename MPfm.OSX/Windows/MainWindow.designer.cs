@@ -22,6 +22,12 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSButton btnAddSongToPlaylist { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnBackLoop { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnBackMarker { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnChangeKey { get; set; }
 
 		[Outlet]
@@ -217,7 +223,13 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitleLibraryBrowser { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleLoopDetails { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleLoops { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleMarkerDetails { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleMarkers { get; set; }
@@ -298,7 +310,25 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmView viewLibraryBrowser { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewLoopDetails { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewLoopDetailsHeader { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSView viewLoops { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewLoopsHeader { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewMarkerDetails { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewMarkerDetailsHeader { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSView viewMarkers { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewMarkersHeader { get; set; }
@@ -353,6 +383,12 @@ namespace MPfm.OSX
 
 		[Action ("actionAddSongToPlaylist:")]
 		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionBackLoopDetails:")]
+		partial void actionBackLoopDetails (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionBackMarkerDetails:")]
+		partial void actionBackMarkerDetails (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionChangeKey:")]
 		partial void actionChangeKey (MonoMac.Foundation.NSObject sender);
@@ -474,6 +510,16 @@ namespace MPfm.OSX
 			if (btnAddSongToPlaylist != null) {
 				btnAddSongToPlaylist.Dispose ();
 				btnAddSongToPlaylist = null;
+			}
+
+			if (btnBackLoop != null) {
+				btnBackLoop.Dispose ();
+				btnBackLoop = null;
+			}
+
+			if (btnBackMarker != null) {
+				btnBackMarker.Dispose ();
+				btnBackMarker = null;
 			}
 
 			if (btnChangeKey != null) {
@@ -801,9 +847,19 @@ namespace MPfm.OSX
 				lblTitleLibraryBrowser = null;
 			}
 
+			if (lblTitleLoopDetails != null) {
+				lblTitleLoopDetails.Dispose ();
+				lblTitleLoopDetails = null;
+			}
+
 			if (lblTitleLoops != null) {
 				lblTitleLoops.Dispose ();
 				lblTitleLoops = null;
+			}
+
+			if (lblTitleMarkerDetails != null) {
+				lblTitleMarkerDetails.Dispose ();
+				lblTitleMarkerDetails = null;
 			}
 
 			if (lblTitleMarkers != null) {
@@ -844,6 +900,11 @@ namespace MPfm.OSX
 			if (outputMeter != null) {
 				outputMeter.Dispose ();
 				outputMeter = null;
+			}
+
+			if (progressBarUpdateLibrary != null) {
+				progressBarUpdateLibrary.Dispose ();
+				progressBarUpdateLibrary = null;
 			}
 
 			if (scrollViewLibraryBrowser != null) {
@@ -931,9 +992,39 @@ namespace MPfm.OSX
 				viewLibraryBrowser = null;
 			}
 
+			if (viewLoopDetails != null) {
+				viewLoopDetails.Dispose ();
+				viewLoopDetails = null;
+			}
+
+			if (viewLoopDetailsHeader != null) {
+				viewLoopDetailsHeader.Dispose ();
+				viewLoopDetailsHeader = null;
+			}
+
+			if (viewLoops != null) {
+				viewLoops.Dispose ();
+				viewLoops = null;
+			}
+
 			if (viewLoopsHeader != null) {
 				viewLoopsHeader.Dispose ();
 				viewLoopsHeader = null;
+			}
+
+			if (viewMarkerDetails != null) {
+				viewMarkerDetails.Dispose ();
+				viewMarkerDetails = null;
+			}
+
+			if (viewMarkerDetailsHeader != null) {
+				viewMarkerDetailsHeader.Dispose ();
+				viewMarkerDetailsHeader = null;
+			}
+
+			if (viewMarkers != null) {
+				viewMarkers.Dispose ();
+				viewMarkers = null;
 			}
 
 			if (viewMarkersHeader != null) {
@@ -999,11 +1090,6 @@ namespace MPfm.OSX
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
-			}
-
-			if (progressBarUpdateLibrary != null) {
-				progressBarUpdateLibrary.Dispose ();
-				progressBarUpdateLibrary = null;
 			}
 		}
 	}

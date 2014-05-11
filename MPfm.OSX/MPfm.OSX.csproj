@@ -513,5 +513,7 @@
     <BundleResource Include="Resources\toolbar_open.png" />
     <BundleResource Include="Resources\toolbar_save.png" />
     <BundleResource Include="Resources\toolbar_save%402x.png" />
+    <BundleResource Include="Resources\icon_button_back.png" />
+    <BundleResource Include="Resources\icon_button_back%402x.png" />
   </ItemGroup>
 </Project>

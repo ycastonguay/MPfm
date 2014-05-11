@@ -34,6 +34,7 @@ namespace MPfm.OSX.Classes.Objects
         {
             Images = new List<NSImage>() {
                 NSImage.ImageNamed("icon_button_add"),
+                NSImage.ImageNamed("icon_button_back"),
                 NSImage.ImageNamed("icon_button_cancel"),
                 NSImage.ImageNamed("icon_button_cloud"),
                 NSImage.ImageNamed("icon_button_connect"),

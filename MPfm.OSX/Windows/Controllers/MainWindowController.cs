@@ -84,6 +84,9 @@ namespace MPfm.OSX
             LoadImages();
             SetTheme();
 
+            viewMarkerDetails.Hidden = true;
+            viewLoopDetails.Hidden = true;
+
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
             splitMain.PostsFrameChangedNotifications = true;
@@ -176,8 +179,12 @@ namespace MPfm.OSX
             viewRightHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewLoopsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewLoopsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewLoopDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewLoopDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewMarkersHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewMarkersHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewMarkerDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewMarkerDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewSongBrowserHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewSongBrowserHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewUpdateLibraryHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
@@ -223,6 +230,16 @@ namespace MPfm.OSX
             btnRemoveMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemoveMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnRemoveMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnBackLoop.RoundedRadius = 0;
+            btnBackLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnBackLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnBackLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnBackLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnBackMarker.RoundedRadius = 0;
+            btnBackMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnBackMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnBackMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnBackMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
 
             lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
             lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
@@ -252,7 +269,9 @@ namespace MPfm.OSX
             lblTitleLibraryBrowser.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleLoopDetails.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleMarkerDetails.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleUpdateLibrary.Font = NSFont.FromFontName("Roboto", 13);
 
@@ -318,6 +337,8 @@ namespace MPfm.OSX
             btnAddMarker.Font = NSFont.FromFontName("Roboto", 11f);
             btnEditMarker.Font = NSFont.FromFontName("Roboto", 11f);
             btnRemoveMarker.Font = NSFont.FromFontName("Roboto", 11f);
+            btnBackLoop.Font = NSFont.FromFontName("Roboto", 11f);
+            btnBackMarker.Font = NSFont.FromFontName("Roboto", 11f);
         }
 
         /// <summary>
@@ -335,6 +356,8 @@ namespace MPfm.OSX
             btnPlayLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnPlaySelectedSong.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
+            btnBackLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
+            btnBackMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
 
             btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnToolbarPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
@@ -547,6 +570,8 @@ namespace MPfm.OSX
 
         partial void actionEditLoop(NSObject sender)
         {           
+            viewLoopDetails.Hidden = false;
+            viewLoops.Hidden = true;
         }
 
         partial void actionRemoveLoop(NSObject sender)
@@ -568,11 +593,25 @@ namespace MPfm.OSX
 
         partial void actionEditMarker(NSObject sender)
         {
+            viewMarkerDetails.Hidden = false;
+            viewMarkers.Hidden = true;
         }
 
         partial void actionRemoveMarker(NSObject sender)
         {
 
+        }
+
+        partial void actionBackLoopDetails(NSObject sender)
+        {
+            viewLoopDetails.Hidden = true;
+            viewLoops.Hidden = false;
+        }
+
+        partial void actionBackMarkerDetails(NSObject sender)
+        {
+            viewMarkerDetails.Hidden = true;
+            viewMarkers.Hidden = false;
         }
 
         partial void actionContextualMenuPlay(NSObject sender)
