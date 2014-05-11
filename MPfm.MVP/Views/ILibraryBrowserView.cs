@@ -36,6 +36,7 @@ namespace MPfm.MVP.Views
 		void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
 		void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData);
         void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity);
+        void NotifyLibraryBrowserNewNode(int position, LibraryBrowserEntity entity);
+        void NotifyLibraryBrowserRemovedNode(int position);
 	}
 }
-

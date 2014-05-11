@@ -28,6 +28,7 @@ using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.MVP.Config;
+using MPfm.Library.Messages;
 
 namespace MPfm.MVP.Presenters
 {
@@ -56,10 +57,17 @@ namespace MPfm.MVP.Presenters
             view.OnTreeNodeExpandable = TreeNodeExpandable;
             view.OnTreeNodeDoubleClicked = TreeNodeDoubleClicked;
 
+            _messageHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
+
             Initialize();
         }
         
         private void Initialize()
+        {
+            RefreshLibraryBrowser();
+        }
+
+        private void RefreshLibraryBrowser()
         {
             // Start by adding the first level nodes
             var firstLevelNodes = GetFirstLevelNodes();
@@ -124,6 +132,11 @@ namespace MPfm.MVP.Presenters
             {
                 View.RefreshLibraryBrowser(firstLevelNodes);
             }
+        }
+
+        private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage message)
+        {
+            RefreshLibraryBrowser();
         }
 
 		/// <summary>

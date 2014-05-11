@@ -39,7 +39,7 @@ namespace MPfm.MVP.Presenters
 	/// <summary>
 	/// Update Library window presenter.
 	/// </summary>
-	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
+	 public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
 	{
 	    readonly IAudioFileCacheService _audioFileCacheService;
 		readonly IUpdateLibraryService _updateLibraryService;
@@ -82,7 +82,7 @@ namespace MPfm.MVP.Presenters
             Task.Factory.StartNew(() =>
             {
                 _audioFileCacheService.RefreshCache();
-                View.ProcessEnded(e.Canceled);   
+                View.ProcessEnded(e.Canceled);  
             });
         }
 

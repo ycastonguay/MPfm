@@ -1100,7 +1100,21 @@ namespace MPfm.OSX
                 }
             });
         }
-        
+
+        public void NotifyLibraryBrowserNewNode(int position, LibraryBrowserEntity entity)
+        {
+            InvokeOnMainThread(() => {
+                outlineLibraryBrowser.ReloadData();
+            });
+        }
+
+        public void NotifyLibraryBrowserRemovedNode(int position)
+        {
+            InvokeOnMainThread(() => {
+                outlineLibraryBrowser.ReloadData();
+            });
+        }
+
         private void SelectItem(NSObject item)
         {
             int itemIndex = outlineLibraryBrowser.RowForItem(item);
