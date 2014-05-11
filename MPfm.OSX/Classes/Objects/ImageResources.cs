@@ -48,6 +48,7 @@ namespace MPfm.OSX.Classes.Objects
                 NSImage.ImageNamed("icon_button_ok"),
                 NSImage.ImageNamed("icon_button_open"),
                 NSImage.ImageNamed("icon_button_play"),
+                NSImage.ImageNamed("icon_button_punch_in"),
                 NSImage.ImageNamed("icon_button_refresh"),
                 NSImage.ImageNamed("icon_button_reset"),
                 NSImage.ImageNamed("icon_button_save"),

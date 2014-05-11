@@ -140,6 +140,14 @@ namespace MPfm.OSX
             trackBarPitchShifting.BlockValueChangeWhenDraggingMouse = true;
             trackBarPitchShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
             trackBarPitchShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
+
+            trackBarMarkerPosition.Minimum = 0;
+            trackBarMarkerPosition.Maximum = 1000;
+            trackBarMarkerPosition.BlockValueChangeWhenDraggingMouse = true;
+            //trackBarMarkerPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
+            //trackBarMarkerPosition.OnTrackBarMouseDown += HandleOnTrackBarMouseDown;
+            //trackBarMarkerPosition.OnTrackBarMouseUp += HandleOnTrackBarMouseUp;
+            trackBarMarkerPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
         }
 
         private void LoadTreeViews()
@@ -190,6 +198,7 @@ namespace MPfm.OSX
             viewUpdateLibraryHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewUpdateLibraryHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
+            // Todo: create enum for swapping themes instead of setting 4 lines of code for each control
             btnPlayLoop.RoundedRadius = 0;
             btnPlayLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnPlayLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
@@ -296,8 +305,15 @@ namespace MPfm.OSX
             lblInterval.Font = NSFont.FromFontName("Roboto Light", 12);
             lblNewKey.Font = NSFont.FromFontName("Roboto Light", 12);
 
+            lblMarkerName.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblMarkerPosition.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblMarkerPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
+
             cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Roboto", 12);
+
+            var textBoxFont = NSFont.FromFontName("Roboto", 12f);
+            txtMarkerName.Font = textBoxFont;
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
@@ -358,6 +374,7 @@ namespace MPfm.OSX
             btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
             btnBackLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnBackMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
+            btnPunchInMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
 
             btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnToolbarPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
@@ -612,6 +629,11 @@ namespace MPfm.OSX
         {
             viewMarkerDetails.Hidden = true;
             viewMarkers.Hidden = false;
+        }
+
+        partial void actionPunchInMarker(NSObject sender)
+        {
+
         }
 
         partial void actionContextualMenuPlay(NSObject sender)

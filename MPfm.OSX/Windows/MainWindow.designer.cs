@@ -64,6 +64,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSButton btnPlaySelectedSong { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnPunchInMarker { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnRemoveLoop { get; set; }
 
 		[Outlet]
@@ -170,6 +173,15 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMarkerName { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMarkerPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMarkerPositionValue { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblMonoStereo { get; set; }
@@ -280,6 +292,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarMarkerPosition { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarPitchShifting { get; set; }
 
 		[Outlet]
@@ -293,6 +308,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtIntervalValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtMarkerName { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewActions { get; set; }
@@ -449,6 +467,9 @@ namespace MPfm.OSX
 
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPunchInMarker:")]
+		partial void actionPunchInMarker (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRemoveLoop:")]
 		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
@@ -1090,6 +1111,36 @@ namespace MPfm.OSX
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (txtMarkerName != null) {
+				txtMarkerName.Dispose ();
+				txtMarkerName = null;
+			}
+
+			if (lblMarkerName != null) {
+				lblMarkerName.Dispose ();
+				lblMarkerName = null;
+			}
+
+			if (lblMarkerPosition != null) {
+				lblMarkerPosition.Dispose ();
+				lblMarkerPosition = null;
+			}
+
+			if (trackBarMarkerPosition != null) {
+				trackBarMarkerPosition.Dispose ();
+				trackBarMarkerPosition = null;
+			}
+
+			if (lblMarkerPositionValue != null) {
+				lblMarkerPositionValue.Dispose ();
+				lblMarkerPositionValue = null;
+			}
+
+			if (btnPunchInMarker != null) {
+				btnPunchInMarker.Dispose ();
+				btnPunchInMarker = null;
 			}
 		}
 	}
