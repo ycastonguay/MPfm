@@ -90,7 +90,7 @@ namespace MPfm.iOS
                 _marker.Name = txtName.Text;
                 _marker.Comments = textViewComments.Text;
                 _marker.Position = lblPosition.Text;
-                OnUpdateMarker(_marker);
+				OnUpdateMarkerDetails(_marker);
                 this.DismissViewController(true, null);
             };
             var btnBackView = new UIView(new RectangleF(0, 0, 70, 44));
@@ -113,20 +113,20 @@ namespace MPfm.iOS
         private void HandleSliderPositionValueChanged(object sender, EventArgs e)
         {
             // Calculate new position by sending a request to the presenter
-            OnChangePosition(sliderPosition.Value);
+			OnChangePositionMarkerDetails(sliderPosition.Value);
         }
 
         partial void actionDeleteMarker(NSObject sender)
         {
-            if(OnDeleteMarker != null)
-                OnDeleteMarker();
+			if(OnDeleteMarkerDetails != null)
+				OnDeleteMarkerDetails();
         }
 
         #region IMarkerDetailsView implementation
 
-        public Action<float> OnChangePosition { get; set; }
-        public Action<Marker> OnUpdateMarker { get; set; }
-        public Action OnDeleteMarker { get; set; }
+		public Action<float> OnChangePositionMarkerDetails { get; set; }
+		public Action<Marker> OnUpdateMarkerDetails { get; set; }
+		public Action OnDeleteMarkerDetails { get; set; }
 
         public void MarkerDetailsError(Exception ex)
         {
@@ -136,14 +136,14 @@ namespace MPfm.iOS
             });
         }
 
-        public void DismissView()
+		public void DismissMarkerDetailsView()
         {
             InvokeOnMainThread(() => {
                 DismissViewController(true, null);
             });
         }
 
-        public void RefreshMarker(Marker marker, AudioFile audioFile)
+		public void RefreshMarker(Marker marker, AudioFile audioFile)
         {
             InvokeOnMainThread(() => {
                 _marker = marker;
@@ -154,7 +154,7 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshMarkerPosition(string position, float positionPercentage)
+		public void RefreshMarkerPosition(string position, float positionPercentage)
         {
             InvokeOnMainThread(() => {
                 lblPosition.Text = position;

@@ -49,6 +49,14 @@ namespace MPfm.iOS
         partial void actionDeleteLoop(NSObject sender)
         {
         }
+
+		#region ILoopDetailsView implementation
+
+		public void LoopDetailsError(Exception ex)
+		{
+		}
+
+		#endregion
     }
 }
 

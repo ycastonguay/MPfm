@@ -73,6 +73,11 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 			CoreGraphicsHelper.DrawLine(Context, new List<PointF>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness, true, false);
 		}
 
+		public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)
+		{
+			throw new NotImplementedException();
+		}
+
 		public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
 		{
 			CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToColor(color).CGColor);
