@@ -102,6 +102,11 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             _context.DrawLine(GenericControlHelper.ToPen(pen), GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2));
         }
 
+        public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
             var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));

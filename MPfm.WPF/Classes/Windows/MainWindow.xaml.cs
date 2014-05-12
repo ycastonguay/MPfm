@@ -705,7 +705,14 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity)
         {
-            
+        }
+
+        public void NotifyLibraryBrowserNewNode(int position, LibraryBrowserEntity entity)
+        {
+        }
+
+        public void NotifyLibraryBrowserRemovedNode(int position)
+        {
         }
 
         #endregion
@@ -1093,5 +1100,47 @@ namespace MPfm.WPF.Classes.Windows
 
         #endregion
 
+        #region IMarkerDetailsView implementation
+
+        public Action<float> OnChangePositionMarkerDetails { get; set; }
+        public Action<Marker> OnUpdateMarkerDetails { get; set; }
+        public Action OnDeleteMarkerDetails { get; set; }
+
+        public void MarkerDetailsError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
+
+        public void DismissMarkerDetailsView()
+        {
+        }
+
+        public void RefreshMarker(Marker marker, AudioFile audioFile)
+        {
+        }
+
+        public void RefreshMarkerPosition(string position, float positionPercentage)
+        {
+        }
+
+        #endregion
+
+        #region ILoopDetailsView implementation
+
+        public void LoopDetailsError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
+
+        #endregion
+
+        #region ISegmentDetailsView implementation
+
+        public void SegmentDetailsError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
+
+        #endregion
     }
 }
