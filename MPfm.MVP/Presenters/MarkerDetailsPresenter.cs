@@ -37,7 +37,7 @@ namespace MPfm.MVP.Presenters
         private Marker _marker;
         private AudioFile _audioFile;
         private long _lengthBytes;
-        private readonly Guid _markerId;
+        private Guid _markerId;
         private readonly ILibraryService _libraryService;
         private readonly IPlayerService _playerService;
         private readonly ITinyMessengerHub _messageHub;
@@ -56,9 +56,15 @@ namespace MPfm.MVP.Presenters
             view.OnChangePositionMarkerDetails = ChangePosition;
             view.OnUpdateMarkerDetails = UpdateMarker;
             view.OnDeleteMarkerDetails = DeleteMarker;      
-
             base.BindView(view);
 
+            _messageHub.Subscribe<MarkerBeingEditedMessage>(MarkerBeingEdited);
+            RefreshMarker();
+        }
+
+        private void MarkerBeingEdited(MarkerBeingEditedMessage message)
+        {
+            _markerId = message.MarkerId;
             RefreshMarker();
         }
 
@@ -138,6 +144,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                if(_markerId == Guid.Empty)
+                    return;
+
                 // Make a local copy of data in case the song changes
                 _marker = _libraryService.SelectMarker(_markerId);
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;

@@ -101,6 +101,7 @@ namespace MPfm.OSX.Classes.Controls
         {
             base.MouseUp(theEvent);
             _isMouseDown = false;
+            _isMouseOver = false;
             if(OnButtonSelected != null && Enabled)
                 OnButtonSelected(this);
             SetNeedsDisplay();

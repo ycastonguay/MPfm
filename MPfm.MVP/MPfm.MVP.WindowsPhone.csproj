@@ -299,6 +299,13 @@
     <Compile Include="Views\ISegmentDetailsView.cs" />
     <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
+    <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
+    <Compile Include="Messages\LoopActivatedMessage.cs" />
+    <Compile Include="Messages\LoopBeingEditedMessage.cs" />
+    <Compile Include="Messages\LoopUpdatedMessage.cs" />
+    <Compile Include="Messages\SegmentActivatedMessage.cs" />
+    <Compile Include="Messages\SegmentBeingEditedMessage.cs" />
+    <Compile Include="Messages\SegmentUpdatedMessage.cs" />    
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TinyIoC">

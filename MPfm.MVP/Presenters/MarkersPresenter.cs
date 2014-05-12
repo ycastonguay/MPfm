@@ -107,7 +107,7 @@ namespace MPfm.MVP.Presenters
 #if IOS || ANDROID
             _mobileNavigationManager.CreateMarkerDetailsView(View, markerId);
 #else
-	        _navigationManager.CreateMarkerDetailsView(markerId);
+            //_navigationManager.CreateMarkerDetailsView(markerId);
 #endif
         }
 
@@ -163,6 +163,7 @@ namespace MPfm.MVP.Presenters
         private void EditMarker(Marker marker)
         {
             CreateMarkerDetailsView(marker.MarkerId);
+            _messageHub.PublishAsync<MarkerBeingEditedMessage>(new MarkerBeingEditedMessage(this, marker.MarkerId));
         }
 
         private void SelectMarker(Marker marker)

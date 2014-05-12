@@ -58,9 +58,10 @@ namespace MPfm.MVP.Navigation
 
         IMarkerDetailsView _markerDetailsView;
         IMarkerDetailsPresenter _markerDetailsPresenter;
-
         ILoopDetailsView _loopDetailsView;
         ILoopDetailsPresenter _loopDetailsPresenter;
+        ISegmentDetailsView _segmentDetailsView;
+        ISegmentDetailsPresenter _segmentDetailsPresenter;
 
         IFirstRunView _firstRunView;
         IFirstRunPresenter _firstRunPresenter;
@@ -149,8 +150,14 @@ namespace MPfm.MVP.Navigation
                 _songBrowserPresenter.BindView((ISongBrowserView)view);
                 _markersPresenter = Bootstrapper.GetContainer().Resolve<IMarkersPresenter>();
                 _markersPresenter.BindView((IMarkersView)view);
+                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads() { { "markerId", Guid.Empty } });
+                _markerDetailsPresenter.BindView((IMarkerDetailsView)view);
                 _loopsPresenter = Bootstrapper.GetContainer().Resolve<ILoopsPresenter>();
                 _loopsPresenter.BindView((ILoopsView)view);
+                _loopDetailsPresenter = Bootstrapper.GetContainer().Resolve<ILoopDetailsPresenter>(new NamedParameterOverloads() { { "loopId", Guid.Empty } });
+                _loopDetailsPresenter.BindView((ILoopDetailsView)view);
+                _segmentDetailsPresenter = Bootstrapper.GetContainer().Resolve<ISegmentDetailsPresenter>(new NamedParameterOverloads() { { "segmentId", Guid.Empty } });
+                _segmentDetailsPresenter.BindView((ISegmentDetailsView)view);
                 _timeShiftingPresenter = Bootstrapper.GetContainer().Resolve<ITimeShiftingPresenter>();
                 _timeShiftingPresenter.BindView((ITimeShiftingView)view);
                 _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
@@ -171,8 +178,14 @@ namespace MPfm.MVP.Navigation
                 _songBrowserPresenter = null;
                 _markersPresenter.ViewDestroyed();
                 _markersPresenter = null;
+                _markerDetailsPresenter.ViewDestroyed();
+                _markerDetailsPresenter = null;
                 _loopsPresenter.ViewDestroyed();
                 _loopsPresenter = null;
+                _loopDetailsPresenter.ViewDestroyed();
+                _loopDetailsPresenter = null;
+                _segmentDetailsPresenter.ViewDestroyed();
+                _segmentDetailsPresenter = null;
                 _timeShiftingPresenter.ViewDestroyed();
                 _timeShiftingPresenter = null;
                 _pitchShiftingPresenter.ViewDestroyed();

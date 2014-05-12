@@ -647,8 +647,8 @@ namespace MPfm.OSX
 
         partial void actionAddSegment(NSObject sender)
         {
-            viewLoopDetails.Hidden = true;
             viewSegmentDetails.Hidden = false;
+            viewLoopDetails.Hidden = true;
             viewLoops.Hidden = true;
         }
 
@@ -709,6 +709,10 @@ namespace MPfm.OSX
 
         partial void actionEditMarker(NSObject sender)
         {
+            if(tableMarkers.SelectedRow == -1)
+                return;
+
+            OnEditMarker(_markers[tableMarkers.SelectedRow]);
             viewMarkerDetails.Hidden = false;
             viewMarkers.Hidden = true;
         }
@@ -1506,10 +1510,19 @@ namespace MPfm.OSX
 
         public void RefreshMarker(Marker marker, AudioFile audioFile)
         {
+            InvokeOnMainThread(delegate {
+                txtMarkerName.StringValue = marker.Name;
+                lblMarkerPositionValue.StringValue = marker.Position;
+                trackBarMarkerPosition.ValueWithoutEvent = (int)(marker.PositionPercentage * 10);
+            });
         }
 
         public void RefreshMarkerPosition(string position, float positionPercentage)
         {
+            InvokeOnMainThread(delegate {
+                lblMarkerPositionValue.StringValue = position;
+                trackBarMarkerPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+            });
         }
 
         #endregion
