@@ -13,10 +13,16 @@ namespace MPfm.OSX
 	partial class MainWindowController
 	{
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmPopUpButton actionSegmentEndPositionLinkedMarker { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnAddLoop { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnAddMarker { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnAddSegment { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnAddSongToPlaylist { get; set; }
@@ -26,6 +32,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnBackMarker { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnBackSegment { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnChangeKey { get; set; }
@@ -44,6 +53,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnEditMarker { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnEditSegment { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnEditSongMetadata { get; set; }
@@ -67,10 +79,19 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmButton btnPunchInMarker { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnPunchInSegmentEndPosition { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnPunchInSegmentStartPostion { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnRemoveLoop { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnRemoveSegment { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmRoundButton btnResetPitchShifting { get; set; }
@@ -127,6 +148,18 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSButton checkEnableSegmentEndPositionLinkedMarker { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton checkEnableSegmentStartPositionLinkedMarker { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmPopUpButton comboSegmentEndPositionLinkedMarker { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmPopUpButton comboSegmentStartPositionLinkedMarker { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmFaderView faderVolume { get; set; }
 
 		[Outlet]
@@ -175,6 +208,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblLoopName { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblMarkerName { get; set; }
 
 		[Outlet]
@@ -217,6 +253,18 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblSearchWeb { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblSegmentEndPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSegmentEndPositionValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSegmentStartPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSegmentStartPositionValue { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblSongPath { get; set; }
 
 		[Outlet]
@@ -245,6 +293,12 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleMarkers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleSegmentDetails { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleSegments { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleSongBrowser { get; set; }
@@ -292,6 +346,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTableView tableSegments { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarMarkerPosition { get; set; }
 
 		[Outlet]
@@ -301,6 +358,12 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarSegmentEndPosition { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarSegmentStartPosition { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmTrackBarView trackBarTimeShifting { get; set; }
 
 		[Outlet]
@@ -308,6 +371,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtIntervalValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtLoopName { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtMarkerName { get; set; }
@@ -364,6 +430,15 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmView viewRightHeader { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewSegmentDetails { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewSegmentDetailsHeader { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewSegmentsHeader { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewSongBrowserHeader { get; set; }
 
 		[Outlet]
@@ -399,6 +474,9 @@ namespace MPfm.OSX
 		[Action ("actionAddMarker:")]
 		partial void actionAddMarker (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionAddSegment:")]
+		partial void actionAddSegment (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionAddSongToPlaylist:")]
 		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
 
@@ -407,6 +485,9 @@ namespace MPfm.OSX
 
 		[Action ("actionBackMarkerDetails:")]
 		partial void actionBackMarkerDetails (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionBackSegmentDetails:")]
+		partial void actionBackSegmentDetails (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionChangeKey:")]
 		partial void actionChangeKey (MonoMac.Foundation.NSObject sender);
@@ -426,8 +507,17 @@ namespace MPfm.OSX
 		[Action ("actionEditMarker:")]
 		partial void actionEditMarker (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionEditSegment:")]
+		partial void actionEditSegment (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionEditSongMetadata:")]
 		partial void actionEditSongMetadata (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEnableSegmentEndPositionLinkedMarker:")]
+		partial void actionEnableSegmentEndPositionLinkedMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEnableSegmentStartPositionLinkedMarker:")]
+		partial void actionEnableSegmentStartPositionLinkedMarker (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionGoToMarker:")]
 		partial void actionGoToMarker (MonoMac.Foundation.NSObject sender);
@@ -471,11 +561,20 @@ namespace MPfm.OSX
 		[Action ("actionPunchInMarker:")]
 		partial void actionPunchInMarker (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionPunchInSegmentEndPosition:")]
+		partial void actionPunchInSegmentEndPosition (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPunchInSegmentStartPosition:")]
+		partial void actionPunchInSegmentStartPosition (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionRemoveLoop:")]
 		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRemoveMarker:")]
 		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveSegment:")]
+		partial void actionRemoveSegment (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRepeatType:")]
 		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
@@ -494,6 +593,9 @@ namespace MPfm.OSX
 
 		[Action ("actionSearchLyrics:")]
 		partial void actionSearchLyrics (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSegmentStartPositionLinkedMarker:")]
+		partial void actionSegmentStartPositionLinkedMarker (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionShuffle:")]
 		partial void actionShuffle (MonoMac.Foundation.NSObject sender);
@@ -518,6 +620,11 @@ namespace MPfm.OSX
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (actionSegmentEndPositionLinkedMarker != null) {
+				actionSegmentEndPositionLinkedMarker.Dispose ();
+				actionSegmentEndPositionLinkedMarker = null;
+			}
+
 			if (btnAddLoop != null) {
 				btnAddLoop.Dispose ();
 				btnAddLoop = null;
@@ -526,6 +633,11 @@ namespace MPfm.OSX
 			if (btnAddMarker != null) {
 				btnAddMarker.Dispose ();
 				btnAddMarker = null;
+			}
+
+			if (btnAddSegment != null) {
+				btnAddSegment.Dispose ();
+				btnAddSegment = null;
 			}
 
 			if (btnAddSongToPlaylist != null) {
@@ -541,6 +653,11 @@ namespace MPfm.OSX
 			if (btnBackMarker != null) {
 				btnBackMarker.Dispose ();
 				btnBackMarker = null;
+			}
+
+			if (btnBackSegment != null) {
+				btnBackSegment.Dispose ();
+				btnBackSegment = null;
 			}
 
 			if (btnChangeKey != null) {
@@ -573,6 +690,11 @@ namespace MPfm.OSX
 				btnEditMarker = null;
 			}
 
+			if (btnEditSegment != null) {
+				btnEditSegment.Dispose ();
+				btnEditSegment = null;
+			}
+
 			if (btnEditSongMetadata != null) {
 				btnEditSongMetadata.Dispose ();
 				btnEditSongMetadata = null;
@@ -603,6 +725,21 @@ namespace MPfm.OSX
 				btnPlaySelectedSong = null;
 			}
 
+			if (btnPunchInMarker != null) {
+				btnPunchInMarker.Dispose ();
+				btnPunchInMarker = null;
+			}
+
+			if (btnPunchInSegmentEndPosition != null) {
+				btnPunchInSegmentEndPosition.Dispose ();
+				btnPunchInSegmentEndPosition = null;
+			}
+
+			if (btnPunchInSegmentStartPostion != null) {
+				btnPunchInSegmentStartPostion.Dispose ();
+				btnPunchInSegmentStartPostion = null;
+			}
+
 			if (btnRemoveLoop != null) {
 				btnRemoveLoop.Dispose ();
 				btnRemoveLoop = null;
@@ -611,6 +748,11 @@ namespace MPfm.OSX
 			if (btnRemoveMarker != null) {
 				btnRemoveMarker.Dispose ();
 				btnRemoveMarker = null;
+			}
+
+			if (btnRemoveSegment != null) {
+				btnRemoveSegment.Dispose ();
+				btnRemoveSegment = null;
 			}
 
 			if (btnResetPitchShifting != null) {
@@ -703,6 +845,26 @@ namespace MPfm.OSX
 				cboSoundFormat = null;
 			}
 
+			if (checkEnableSegmentEndPositionLinkedMarker != null) {
+				checkEnableSegmentEndPositionLinkedMarker.Dispose ();
+				checkEnableSegmentEndPositionLinkedMarker = null;
+			}
+
+			if (checkEnableSegmentStartPositionLinkedMarker != null) {
+				checkEnableSegmentStartPositionLinkedMarker.Dispose ();
+				checkEnableSegmentStartPositionLinkedMarker = null;
+			}
+
+			if (comboSegmentEndPositionLinkedMarker != null) {
+				comboSegmentEndPositionLinkedMarker.Dispose ();
+				comboSegmentEndPositionLinkedMarker = null;
+			}
+
+			if (comboSegmentStartPositionLinkedMarker != null) {
+				comboSegmentStartPositionLinkedMarker.Dispose ();
+				comboSegmentStartPositionLinkedMarker = null;
+			}
+
 			if (faderVolume != null) {
 				faderVolume.Dispose ();
 				faderVolume = null;
@@ -783,6 +945,26 @@ namespace MPfm.OSX
 				lblLength = null;
 			}
 
+			if (lblLoopName != null) {
+				lblLoopName.Dispose ();
+				lblLoopName = null;
+			}
+
+			if (lblMarkerName != null) {
+				lblMarkerName.Dispose ();
+				lblMarkerName = null;
+			}
+
+			if (lblMarkerPosition != null) {
+				lblMarkerPosition.Dispose ();
+				lblMarkerPosition = null;
+			}
+
+			if (lblMarkerPositionValue != null) {
+				lblMarkerPositionValue.Dispose ();
+				lblMarkerPositionValue = null;
+			}
+
 			if (lblMonoStereo != null) {
 				lblMonoStereo.Dispose ();
 				lblMonoStereo = null;
@@ -836,6 +1018,26 @@ namespace MPfm.OSX
 			if (lblSearchWeb != null) {
 				lblSearchWeb.Dispose ();
 				lblSearchWeb = null;
+			}
+
+			if (lblSegmentEndPosition != null) {
+				lblSegmentEndPosition.Dispose ();
+				lblSegmentEndPosition = null;
+			}
+
+			if (lblSegmentEndPositionValue != null) {
+				lblSegmentEndPositionValue.Dispose ();
+				lblSegmentEndPositionValue = null;
+			}
+
+			if (lblSegmentStartPosition != null) {
+				lblSegmentStartPosition.Dispose ();
+				lblSegmentStartPosition = null;
+			}
+
+			if (lblSegmentStartPositionValue != null) {
+				lblSegmentStartPositionValue.Dispose ();
+				lblSegmentStartPositionValue = null;
 			}
 
 			if (lblSongPath != null) {
@@ -963,6 +1165,16 @@ namespace MPfm.OSX
 				tableMarkers = null;
 			}
 
+			if (tableSegments != null) {
+				tableSegments.Dispose ();
+				tableSegments = null;
+			}
+
+			if (trackBarMarkerPosition != null) {
+				trackBarMarkerPosition.Dispose ();
+				trackBarMarkerPosition = null;
+			}
+
 			if (trackBarPitchShifting != null) {
 				trackBarPitchShifting.Dispose ();
 				trackBarPitchShifting = null;
@@ -971,6 +1183,16 @@ namespace MPfm.OSX
 			if (trackBarPosition != null) {
 				trackBarPosition.Dispose ();
 				trackBarPosition = null;
+			}
+
+			if (trackBarSegmentEndPosition != null) {
+				trackBarSegmentEndPosition.Dispose ();
+				trackBarSegmentEndPosition = null;
+			}
+
+			if (trackBarSegmentStartPosition != null) {
+				trackBarSegmentStartPosition.Dispose ();
+				trackBarSegmentStartPosition = null;
 			}
 
 			if (trackBarTimeShifting != null) {
@@ -986,6 +1208,16 @@ namespace MPfm.OSX
 			if (txtIntervalValue != null) {
 				txtIntervalValue.Dispose ();
 				txtIntervalValue = null;
+			}
+
+			if (txtLoopName != null) {
+				txtLoopName.Dispose ();
+				txtLoopName = null;
+			}
+
+			if (txtMarkerName != null) {
+				txtMarkerName.Dispose ();
+				txtMarkerName = null;
 			}
 
 			if (viewActions != null) {
@@ -1073,6 +1305,21 @@ namespace MPfm.OSX
 				viewRightHeader = null;
 			}
 
+			if (viewSegmentDetails != null) {
+				viewSegmentDetails.Dispose ();
+				viewSegmentDetails = null;
+			}
+
+			if (viewSegmentDetailsHeader != null) {
+				viewSegmentDetailsHeader.Dispose ();
+				viewSegmentDetailsHeader = null;
+			}
+
+			if (viewSegmentsHeader != null) {
+				viewSegmentsHeader.Dispose ();
+				viewSegmentsHeader = null;
+			}
+
 			if (viewSongBrowserHeader != null) {
 				viewSongBrowserHeader.Dispose ();
 				viewSongBrowserHeader = null;
@@ -1113,34 +1360,14 @@ namespace MPfm.OSX
 				waveFormScrollView = null;
 			}
 
-			if (txtMarkerName != null) {
-				txtMarkerName.Dispose ();
-				txtMarkerName = null;
+			if (lblTitleSegmentDetails != null) {
+				lblTitleSegmentDetails.Dispose ();
+				lblTitleSegmentDetails = null;
 			}
 
-			if (lblMarkerName != null) {
-				lblMarkerName.Dispose ();
-				lblMarkerName = null;
-			}
-
-			if (lblMarkerPosition != null) {
-				lblMarkerPosition.Dispose ();
-				lblMarkerPosition = null;
-			}
-
-			if (trackBarMarkerPosition != null) {
-				trackBarMarkerPosition.Dispose ();
-				trackBarMarkerPosition = null;
-			}
-
-			if (lblMarkerPositionValue != null) {
-				lblMarkerPositionValue.Dispose ();
-				lblMarkerPositionValue = null;
-			}
-
-			if (btnPunchInMarker != null) {
-				btnPunchInMarker.Dispose ();
-				btnPunchInMarker = null;
+			if (lblTitleSegments != null) {
+				lblTitleSegments.Dispose ();
+				lblTitleSegments = null;
 			}
 		}
 	}

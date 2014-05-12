@@ -86,6 +86,7 @@ namespace MPfm.OSX
 
             viewMarkerDetails.Hidden = true;
             viewLoopDetails.Hidden = true;
+            viewSegmentDetails.Hidden = true;
 
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
@@ -189,6 +190,10 @@ namespace MPfm.OSX
             viewLoopsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewLoopDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewLoopDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewSegmentsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewSegmentsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewSegmentDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewSegmentDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewMarkersHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewMarkersHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewMarkerDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
@@ -239,6 +244,21 @@ namespace MPfm.OSX
             btnRemoveMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemoveMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnRemoveMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnAddSegment.RoundedRadius = 0;
+            btnAddSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnAddSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnAddSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnAddSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnEditSegment.RoundedRadius = 0;
+            btnEditSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnEditSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnEditSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnEditSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnRemoveSegment.RoundedRadius = 0;
+            btnRemoveSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnRemoveSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnRemoveSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnRemoveSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
             btnBackLoop.RoundedRadius = 0;
             btnBackLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnBackLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
@@ -249,6 +269,11 @@ namespace MPfm.OSX
             btnBackMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnBackMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnBackMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnBackSegment.RoundedRadius = 0;
+            btnBackSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnBackSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnBackSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnBackSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
 
             lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
             lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
@@ -279,6 +304,8 @@ namespace MPfm.OSX
             lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleLoopDetails.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleSegments.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleSegmentDetails.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleMarkerDetails.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
@@ -309,11 +336,26 @@ namespace MPfm.OSX
             lblMarkerPosition.Font = NSFont.FromFontName("Roboto Light", 12);
             lblMarkerPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
 
+            lblLoopName.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblSegmentStartPosition.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblSegmentStartPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
+            lblSegmentEndPosition.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblSegmentEndPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
+
             cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Roboto", 12);
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
             txtMarkerName.Font = textBoxFont;
+            txtLoopName.Font = textBoxFont;
+
+            // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
+            var dictAttrStr1 = new NSMutableDictionary();
+            dictAttrStr1.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
+            dictAttrStr1.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
+            var attrStrLinkToMarker = new NSAttributedString("Link to Marker", dictAttrStr1);
+            checkEnableSegmentStartPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
+            checkEnableSegmentEndPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
@@ -355,6 +397,7 @@ namespace MPfm.OSX
             btnRemoveMarker.Font = NSFont.FromFontName("Roboto", 11f);
             btnBackLoop.Font = NSFont.FromFontName("Roboto", 11f);
             btnBackMarker.Font = NSFont.FromFontName("Roboto", 11f);
+            btnBackSegment.Font = NSFont.FromFontName("Roboto", 11f);
         }
 
         /// <summary>
@@ -364,17 +407,23 @@ namespace MPfm.OSX
         {
             btnAddLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAddSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddSongToPlaylist.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnEditLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
             btnEditMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
+            btnEditSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
             btnRemoveLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnRemoveMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnRemoveSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnPlayLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnPlaySelectedSong.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
             btnBackLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnBackMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
+            btnBackSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnPunchInMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
+            btnPunchInSegmentStartPostion.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
+            btnPunchInSegmentEndPosition.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
 
             btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnToolbarPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
@@ -588,11 +637,61 @@ namespace MPfm.OSX
         partial void actionEditLoop(NSObject sender)
         {           
             viewLoopDetails.Hidden = false;
+            viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
         }
 
         partial void actionRemoveLoop(NSObject sender)
         {
+        }
+
+        partial void actionAddSegment(NSObject sender)
+        {
+            viewLoopDetails.Hidden = true;
+            viewSegmentDetails.Hidden = false;
+            viewLoops.Hidden = true;
+        }
+
+        partial void actionEditSegment(NSObject sender)
+        {
+
+        }
+
+        partial void actionRemoveSegment(NSObject sender)
+        {
+
+        }
+
+        partial void actionBackSegmentDetails(NSObject sender)
+        {
+            viewLoopDetails.Hidden = false;
+            viewSegmentDetails.Hidden = true;
+            viewLoops.Hidden = true;
+        }
+
+        partial void actionEnableSegmentStartPositionLinkedMarker(NSObject sender)
+        {
+
+        }
+
+        partial void actionEnableSegmentEndPositionLinkedMarker(NSObject sender)
+        {
+
+        }
+
+        partial void actionPunchInSegmentStartPosition(NSObject sender)
+        {
+
+        }
+
+        partial void actionPunchInSegmentEndPosition(NSObject sender)
+        {
+
+        }
+
+        partial void actionSegmentStartPositionLinkedMarker(NSObject sender)
+        {
+
         }
 
         partial void actionGoToMarker(NSObject sender)
@@ -622,6 +721,7 @@ namespace MPfm.OSX
         partial void actionBackLoopDetails(NSObject sender)
         {
             viewLoopDetails.Hidden = true;
+            viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = false;
         }
 
