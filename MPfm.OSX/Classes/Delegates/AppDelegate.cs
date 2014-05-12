@@ -15,24 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using MPfm.Library;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
-using MPfm.MVP;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MonoMac.AppKit;
-using MonoMac.CoreAnimation;
-using MonoMac.CoreFoundation;
-using MonoMac.CoreGraphics;
-using MonoMac.CoreText;
 using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using TinyIoC;
 using MPfm.OSX.Classes.Navigation;
 using MPfm.MVP.Config.Providers;
 using MPfm.GenericControls.Graphics;
@@ -71,6 +61,13 @@ namespace MPfm.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, EffectsWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopPreferencesView, PreferencesWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IStartResumePlaybackView, StartResumePlaybackWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ILibraryBrowserView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISongBrowserView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ILoopsView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ILoopDetailsView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISegmentDetailsView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IMarkersView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IMarkerDetailsView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncMenuView, SyncMenuWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncDownloadView, SyncDownloadWindowController>().AsMultiInstance();
@@ -79,7 +76,6 @@ namespace MPfm.OSX.Classes.Delegates
 
             // Create and start navigation manager
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
-            //navigationManager.Start();
             _navigationManager.CreateSplashView();
         }
 	}

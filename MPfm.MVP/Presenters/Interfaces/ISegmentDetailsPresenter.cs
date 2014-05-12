@@ -15,25 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-	/// Marker details view interface.
+    /// Segment details presenter interface.
 	/// </summary>
-	public interface IMarkerDetailsView : IBaseView
-	{
-        Action<float> OnChangePositionMarkerDetails { get; set; }
-        Action<Marker> OnUpdateMarkerDetails { get; set; }
-        Action OnDeleteMarkerDetails { get; set; }
-
-        void MarkerDetailsError(Exception ex);
-        void DismissMarkerDetailsView();
-        void RefreshMarker(Marker marker, AudioFile audioFile);
-        void RefreshMarkerPosition(string position, float positionPercentage);
+    public interface ISegmentDetailsPresenter : IBasePresenter<ISegmentDetailsView>
+	{	
 	}
 }

@@ -324,5 +324,8 @@
     <Compile Include="Services\Interfaces\IResumePlaybackService.cs" />
     <Compile Include="Services\ResumePlaybackService.cs" />
     <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
+    <Compile Include="Views\ISegmentDetailsView.cs" />
+    <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
   </ItemGroup>
 </Project>

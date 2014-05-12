@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System;
 
 namespace MPfm.MVP.Views
 {
@@ -24,5 +25,6 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ILoopDetailsView : IBaseView
 	{
+        void LoopDetailsError(Exception ex);
 	}
 }

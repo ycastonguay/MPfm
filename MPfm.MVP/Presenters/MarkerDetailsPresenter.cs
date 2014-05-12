@@ -53,9 +53,9 @@ namespace MPfm.MVP.Presenters
         public override void BindView(IMarkerDetailsView view)
         {            
             // Subscribe to view actions
-            view.OnChangePosition = ChangePosition;
-            view.OnUpdateMarker = UpdateMarker;
-            view.OnDeleteMarker = DeleteMarker;      
+            view.OnChangePositionMarkerDetails = ChangePosition;
+            view.OnUpdateMarkerDetails = UpdateMarker;
+            view.OnDeleteMarkerDetails = DeleteMarker;      
 
             base.BindView(view);
 
@@ -107,7 +107,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _audioFile.Id,
                     MarkerId = _markerId
                 });
-                View.DismissView();
+                View.DismissMarkerDetailsView();
             }
             catch(Exception ex)
             {
@@ -125,7 +125,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _audioFile.Id,
                     MarkerId = _markerId
                 });
-                View.DismissView();
+                View.DismissMarkerDetailsView();
             }
             catch(Exception ex)
             {

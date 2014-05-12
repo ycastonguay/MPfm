@@ -296,6 +296,9 @@
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
     <Compile Include="Views\IDesktopEffectsView.cs" />
+    <Compile Include="Views\ISegmentDetailsView.cs" />
+    <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TinyIoC">

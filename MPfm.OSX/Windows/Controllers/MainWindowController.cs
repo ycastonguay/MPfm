@@ -1404,12 +1404,17 @@ namespace MPfm.OSX
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
+        public Action<Marker> OnUpdateMarker { get; set; }
+        public Action<Guid> OnPunchInMarker { get; set; }
+        public Action<Guid> OnUndoMarker { get; set; }
+        public Action<Guid> OnSetActiveMarker { get; set; }
+        public Action<Guid, string> OnChangeMarkerName { get; set; }
+        public Action<Guid, float> OnChangeMarkerPosition { get; set; }
+        public Action<Guid, float> OnSetMarkerPosition { get; set; }
 
         public void MarkerError(Exception ex)
         {
-            InvokeOnMainThread(delegate {
-                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Markers component: {0}", ex), NSAlertStyle.Critical);
-            });
+            ShowError(ex);
         }
 
         public void RefreshMarkers(List<Marker> markers)
@@ -1419,6 +1424,18 @@ namespace MPfm.OSX
                 tableMarkers.ReloadData();
                 waveFormScrollView.SetMarkers(_markers);
             });
+        }
+
+        public void RefreshActiveMarker(Guid markerId)
+        {
+        }
+
+        public void RefreshMarkerPosition(Marker marker)
+        {
+        }
+
+        public void RefreshMarkerPosition(Marker marker, int newIndex)
+        {
         }
 
         #endregion
@@ -1472,24 +1489,48 @@ namespace MPfm.OSX
 
         #endregion
 
-        public void RefreshMarkerPosition(Marker marker, int newIndex)
+        #region IMarkerDetailsView implementation
+
+        public Action<float> OnChangePositionMarkerDetails { get; set; }
+        public Action<Marker> OnUpdateMarkerDetails { get; set; }
+        public Action OnDeleteMarkerDetails { get; set; }
+
+        public void MarkerDetailsError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        public void DismissMarkerDetailsView()
         {
         }
 
-        public System.Action<Marker> OnUpdateMarker { get; set; }
-        public System.Action<Guid> OnPunchInMarker { get; set; }
-        public System.Action<Guid> OnUndoMarker { get; set; }
-        public System.Action<Guid> OnSetActiveMarker { get; set; }
-        public System.Action<Guid, string> OnChangeMarkerName { get; set; }
-        public System.Action<Guid, float> OnChangeMarkerPosition { get; set; }
-        public System.Action<Guid, float> OnSetMarkerPosition { get; set; }
-
-        public void RefreshActiveMarker(Guid markerId)
+        public void RefreshMarker(Marker marker, AudioFile audioFile)
         {
         }
 
-        public void RefreshMarkerPosition(Marker marker)
+        public void RefreshMarkerPosition(string position, float positionPercentage)
         {
         }
+
+        #endregion
+
+        #region ILoopDetailsView implementation
+
+        public void LoopDetailsError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        #endregion
+
+        #region ISegmentDetailsView implementation
+
+        public void SegmentDetailsError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        #endregion
+
 	}
 }
