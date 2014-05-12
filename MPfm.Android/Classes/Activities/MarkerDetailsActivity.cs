@@ -107,16 +107,16 @@ namespace MPfm.Android
 
         #region IMarkerDetailsView implementation
 
-        public Action<float> OnChangePosition { get; set; }
-        public Action<Marker> OnUpdateMarker { get; set; }
-        public Action OnDeleteMarker { get; set; }
+        public Action<float> OnChangePositionMarkerDetails { get; set; }
+        public Action<Marker> OnUpdateMarkerDetails { get; set; }
+        public Action OnDeleteMarkerDetails { get; set; }
 
         public void MarkerDetailsError(Exception ex)
         {
             ShowErrorDialog(ex);
         }
 
-        public void DismissView()
+        public void DismissMarkerDetailsView()
         {
         }
 

@@ -135,6 +135,11 @@ namespace MPfm.Android.Classes.Controls.Graphics
             _canvas.DrawLine(point.X, point.Y, point2.X, point2.Y, paint);
         }
 
+        public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
             var paint = new Paint
