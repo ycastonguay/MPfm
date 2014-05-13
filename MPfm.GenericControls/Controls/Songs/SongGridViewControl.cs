@@ -2210,11 +2210,8 @@ namespace MPfm.GenericControls.Controls.Songs
             {
                 VerticalScrollBar.Enabled = true;
 
-                // The real large change needs to be added to the LargeChange and Maximum property in order to work. 
-                int realLargeChange = _songCache.LineHeight * 5;
-
                 // Calculate the vertical scrollbar maximum
-                int vMax = _songCache.LineHeight * (_items.Count - _songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight + realLargeChange;
+                int vMax = _songCache.LineHeight * (_items.Count - _songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight;
 
                 // Add the horizontal scrollbar height if visible
                 if (HorizontalScrollBar.Visible)
@@ -2223,7 +2220,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 // Compensate for the header, and for the last line which might be truncated by the control height
                 VerticalScrollBar.Maximum = vMax;
                 VerticalScrollBar.SmallChange = _songCache.LineHeight;
-                VerticalScrollBar.LargeChange = 1 + realLargeChange;
+                VerticalScrollBar.LargeChange = 1 + _songCache.LineHeight * 5;
             }
 
             // Calculate the scrollbar offset Y
