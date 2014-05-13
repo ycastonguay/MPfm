@@ -34,17 +34,14 @@ using System.Threading;
 
 namespace MPfm.GenericControls.Services
 {
-    /// <summary>
-    /// Service for caching wave form bitmaps.
-    /// </summary>
     public class WaveFormRenderingService : IWaveFormRenderingService
     {
-		// TODO: Should be called WaveFormCacheService.
         private readonly object _locker = new object();
-        private BasicBrush _brushBackground;
-        private BasicPen _penTransparent;
         private readonly IPeakFileService _peakFileService;
         private readonly IMemoryGraphicsContextFactory _memoryGraphicsContextFactory;
+        private AudioFile _audioFile;
+        private BasicBrush _brushBackground;
+        private BasicPen _penTransparent;
         private List<WaveDataMinMax> _waveDataCache = new List<WaveDataMinMax>();
 		private BasicColor _colorBackground = new BasicColor(32, 40, 46);        
 		private BasicColor _colorWaveForm = new BasicColor(255, 255, 64);
@@ -132,7 +129,14 @@ namespace MPfm.GenericControls.Services
 
         void HandleOnPeakFileProcessDone(PeakFileDoneData data)
         {
-            //Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
+            Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
+            if (!data.Cancelled)
+            {
+                // Load the new peak file from disk
+                FlushCache();
+                LoadPeakFile(_audioFile);
+            }
+
             OnGeneratePeakFileEnded(new GeneratePeakFileEventArgs()
             {
                 AudioFilePath = data.AudioFilePath,
@@ -143,15 +147,19 @@ namespace MPfm.GenericControls.Services
 
         public void FlushCache()
         {
-            //Console.WriteLine("WaveFormRenderingService - FlushCache");
-            _waveDataCache = null;
-            _waveDataCache = new List<WaveDataMinMax>();
+            Console.WriteLine("WaveFormRenderingService - FlushCache");
+            lock (_locker)
+            {
+                _waveDataCache = null;
+                _waveDataCache = new List<WaveDataMinMax>();
+            }
         }
 
         public void LoadPeakFile(AudioFile audioFile)
         {
             // Check if another peak file is already loading
             Console.WriteLine("WaveFormRenderingService - LoadPeakFile audioFile: " + audioFile.FilePath);
+            _audioFile = audioFile;
             if (_peakFileService.IsLoading)
             {
                 //Console.WriteLine("WaveFormRenderingService - Cancelling current peak file generation...");
@@ -185,10 +193,7 @@ namespace MPfm.GenericControls.Services
                 Task<List<WaveDataMinMax>>.Factory.StartNew(() =>
                 {
                     List<WaveDataMinMax> data = null;
-
-                    // TODO: Flush cache less often. For now, flush cache every time we load a new peak file to save memory.
                     FlushCache();
-
                     try
                     {
                         Console.WriteLine("WaveFormRenderingService - Reading peak file: " + peakFilePath);
