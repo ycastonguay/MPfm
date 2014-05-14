@@ -63,6 +63,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Posix" />
@@ -135,6 +139,7 @@
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
     <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
     <Compile Include="Messages\MarkerActivatedMessage.cs" />
+    <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
     <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
@@ -326,6 +331,6 @@
     <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
     <Compile Include="Views\ISegmentDetailsView.cs" />
     <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
+    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />
   </ItemGroup>
 </Project>

@@ -74,6 +74,10 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Posix" />
@@ -330,13 +334,13 @@
     <Compile Include="Services\ResumePlaybackService.cs" />
     <Compile Include="Views\ISegmentDetailsView.cs" />
     <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
+    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />
     <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopActivatedMessage.cs" />
     <Compile Include="Messages\LoopBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopUpdatedMessage.cs" />
     <Compile Include="Messages\SegmentActivatedMessage.cs" />
     <Compile Include="Messages\SegmentBeingEditedMessage.cs" />
-    <Compile Include="Messages\SegmentUpdatedMessage.cs" />    
+    <Compile Include="Messages\SegmentUpdatedMessage.cs" />
   </ItemGroup>
 </Project>
