@@ -70,7 +70,6 @@
                 <outlet property="lblEQValue7" destination="159" id="471"/>
                 <outlet property="lblEQValue8" destination="199" id="472"/>
                 <outlet property="lblEQValue9" destination="201" id="473"/>
-                <outlet property="lblEqualizer" destination="QD0-4w-3k2" id="MGv-De-Yv0"/>
                 <outlet property="lblName" destination="388" id="547"/>
                 <outlet property="lblScale0" destination="370" id="553"/>
                 <outlet property="lblScaleMinus6" destination="374" id="554"/>
@@ -78,13 +77,15 @@
                 <outlet property="lblTitle" destination="HqA-K3-M2h" id="KE9-fc-v5t"/>
                 <outlet property="lblTitleInformation" destination="386" id="545"/>
                 <outlet property="lblTitlePreset" destination="376" id="546"/>
+                <outlet property="menuDuplicatePreset" destination="Xn6-K9-3yt" id="XuV-aj-5cJ"/>
+                <outlet property="menuExportPreset" destination="GMM-J9-eoE" id="7ul-Cc-UBm"/>
+                <outlet property="menuRemovePreset" destination="agx-py-YD4" id="fc8-bD-LLd"/>
                 <outlet property="tablePresets" destination="FQy-3d-4cQ" id="46s-cd-1B7"/>
                 <outlet property="txtName" destination="390" id="518"/>
                 <outlet property="viewBackground" destination="3" id="542"/>
                 <outlet property="viewBackgroundFaders" destination="3c1-cB-Iq2" id="o0i-ms-c4c"/>
                 <outlet property="viewBackgroundInformation" destination="549" id="551"/>
                 <outlet property="viewBackgroundPreset" destination="541" id="550"/>
-                <outlet property="viewEqualizer" destination="zhQ-Td-Gpx" id="FQy-7I-CPz"/>
                 <outlet property="viewPresetsHeader" destination="vk9-Ba-Gzg" id="eCf-xY-kLf"/>
                 <outlet property="viewTitle" destination="oyl-X7-oDk" id="7GH-RQ-Xu6"/>
                 <outlet property="window" destination="2" id="6"/>
@@ -197,6 +198,9 @@
                                     <rect key="frame" x="250" y="17" width="15" height="21"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
+                                <connections>
+                                    <outlet property="menu" destination="KnF-I6-kZI" id="Ij9-Qb-Ja0"/>
+                                </connections>
                             </scrollView>
                             <customView id="vk9-Ba-Gzg" customClass="MPfmView">
                                 <rect key="frame" x="0.0" y="164" width="281" height="27"/>
@@ -748,21 +752,6 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <customView hidden="YES" id="zhQ-Td-Gpx" customClass="MPfmView">
-                                <rect key="frame" x="127" y="3" width="275" height="25"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <textField verticalHuggingPriority="750" id="QD0-4w-3k2">
-                                        <rect key="frame" x="8" y="3" width="200" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="18-Band Equalizer" id="H9L-z3-026">
-                                            <font key="font" size="12" name="HelveticaNeue"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                            </customView>
                             <textField verticalHuggingPriority="750" id="402">
                                 <rect key="frame" x="950" y="8" width="73" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -788,6 +777,28 @@
                 </subviews>
             </view>
         </window>
+        <menu title="Contextual menu" autoenablesItems="NO" id="KnF-I6-kZI">
+            <items>
+                <menuItem title="Remove preset" enabled="NO" id="agx-py-YD4">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionRemovePreset:" target="-2" id="A6I-Zd-DhZ"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Duplicate preset" id="Xn6-K9-3yt">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionDuplicatePreset:" target="-2" id="K2U-Fg-6b8"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Export preset..." id="GMM-J9-eoE">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionExportPreset:" target="-2" id="UK0-m7-IIS"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
     </objects>
     <resources>
         <image name="NSApplicationIcon" width="128" height="128"/>

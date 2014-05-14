@@ -63,6 +63,7 @@ namespace MPfm.OSX
             LoadTableView();
             EnablePresetDetails(false);
             EnableFaders(false);
+            EnableContextMenu(false);
 
             OnViewReady(this);
         }
@@ -97,8 +98,6 @@ namespace MPfm.OSX
             viewBackgroundInformation.HeaderHeight = 25;
             viewTitle.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewTitle.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewEqualizer.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewEqualizer.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
             viewPresetsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewPresetsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
@@ -115,9 +114,7 @@ namespace MPfm.OSX
             viewBackgroundInformation.HeaderColor2 = GlobalTheme.PanelHeader2Color2;
             viewBackgroundInformation.IsHeaderVisible = true;
 
-            //popupPreset.Font = NSFont.FromFontName("Roboto", 11f);
             lblTitle.Font = NSFont.FromFontName("Roboto Light", 16f);
-            lblEqualizer.Font = NSFont.FromFontName("Roboto Light", 13f);
             lblName.Font = NSFont.FromFontName("Roboto", 11f);
             lblTitleInformation.Font = NSFont.FromFontName("Roboto Light", 13f);
             lblTitlePreset.Font = NSFont.FromFontName("Roboto Light", 13f);
@@ -197,6 +194,13 @@ namespace MPfm.OSX
             lblEQValue15.Font = NSFont.FromFontName("Roboto", 11);
             lblEQValue16.Font = NSFont.FromFontName("Roboto", 11);
             lblEQValue17.Font = NSFont.FromFontName("Roboto", 11);
+        }
+
+        private void EnableContextMenu(bool enable)
+        {
+            menuRemovePreset.Enabled = enable;
+            menuDuplicatePreset.Enabled = enable;
+            menuExportPreset.Enabled = enable;
         }
 
         private void EnablePresetDetails(bool enable)
@@ -355,6 +359,39 @@ namespace MPfm.OSX
             }
         }
 
+        partial void actionDuplicatePreset(NSObject sender)
+        {
+            if(tablePresets.SelectedRow < 0)
+                return;
+
+            var preset = _presets[tablePresets.SelectedRow];
+            OnDuplicatePreset(preset.EQPresetId);
+        }
+
+        partial void actionExportPreset(NSObject sender)
+        {
+            if(tablePresets.SelectedRow < 0)
+                return;
+
+            string filePath = string.Empty;
+            using(NSSavePanel savePanel = new NSSavePanel())
+            {
+                savePanel.AllowedFileTypes = new string[1] { "json" };
+                savePanel.ReleasedWhenClosed = true;
+                savePanel.Title = "Please choose a file path";
+                savePanel.Prompt = "Export preset as JSON";
+
+                // Check for cancel
+                if(savePanel.RunModal() == 0)
+                    return;
+
+                filePath = savePanel.Url.Path;
+            }
+
+            var preset = _presets[tablePresets.SelectedRow];
+            OnExportPreset(preset.EQPresetId, filePath);
+        }
+
         private void ConfigureFader(int index)
         {
             var fieldInfo = this.GetType().GetProperty(string.Format("fader{0}", index), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -417,6 +454,7 @@ namespace MPfm.OSX
         {
             EnablePresetDetails(tablePresets.SelectedRow >= 0);
             EnableFaders(tablePresets.SelectedRow >= 0);
+            EnableContextMenu(tablePresets.SelectedRow >= 0);
             if (tablePresets.SelectedRow < 0)
             {
                 ResetFaderValuesAndPresetDetails();
@@ -455,6 +493,8 @@ namespace MPfm.OSX
         public Action<Guid> OnLoadPreset { get; set; }
         public Action<Guid> OnEditPreset { get; set; }
         public Action<Guid> OnDeletePreset { get; set; }
+        public Action<Guid> OnDuplicatePreset { get; set; }
+        public Action<Guid, string> OnExportPreset { get; set; }
 
         public void EqualizerPresetsError(Exception ex)
         {

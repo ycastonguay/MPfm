@@ -29,6 +29,7 @@ using MPfm.MVP.Views;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
+using System.IO;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
@@ -87,6 +88,8 @@ namespace MPfm.MVP.Presenters
             view.OnLoadPreset = LoadPreset;
             view.OnEditPreset = EditPreset;
             view.OnDeletePreset = DeletePreset;
+            view.OnDuplicatePreset = DuplicatePreset;
+            view.OnExportPreset = ExportPreset;
 
             _messageHub.Subscribe<EqualizerPresetUpdatedMessage>((EqualizerPresetUpdatedMessage m) => {
                 RefreshPresets();
@@ -248,6 +251,41 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Tracing.Log("An error occured while deleting an equalizer preset: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
+        }
+
+        private void DuplicatePreset(Guid presetId)
+        {
+            try
+            {
+                var preset = _libraryService.SelectEQPreset(presetId);
+                preset.EQPresetId = Guid.NewGuid();
+                preset.Name = "Copy of " + preset.Name;
+                _libraryService.InsertEQPreset(preset);
+                RefreshPresets();
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while duplicating an equalizer preset: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
+        }
+
+        private void ExportPreset(Guid presetId, string filePath)
+        {
+            try
+            {
+                var preset = _libraryService.SelectEQPreset(presetId);
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(preset);
+                using (TextWriter textWriter = new StreamWriter(filePath))
+                {
+                    textWriter.Write(json);
+                }
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while exporting an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }

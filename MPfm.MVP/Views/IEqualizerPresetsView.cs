@@ -29,6 +29,8 @@ namespace MPfm.MVP.Views
         Action<Guid> OnLoadPreset { get; set; }
         Action<Guid> OnEditPreset { get; set; }
         Action<Guid> OnDeletePreset { get; set; }
+        Action<Guid> OnDuplicatePreset { get; set; }
+        Action<Guid, string> OnExportPreset { get; set; }
 
         void EqualizerPresetsError(Exception ex);
         void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed);

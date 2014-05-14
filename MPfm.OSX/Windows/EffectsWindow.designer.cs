@@ -142,9 +142,6 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblEQOn { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblEqualizer { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQValue0 { get; set; }
 
 		[Outlet]
@@ -220,6 +217,15 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuDuplicatePreset { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuExportPreset { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuRemovePreset { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTableView tablePresets { get; set; }
 
 		[Outlet]
@@ -238,9 +244,6 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewEqualizer { get; set; }
-
-		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewPresetsHeader { get; set; }
 
 		[Outlet]
@@ -252,8 +255,14 @@ namespace MPfm.OSX
 		[Action ("actionAutoLevel:")]
 		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionDuplicatePreset:")]
+		partial void actionDuplicatePreset (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionEQOnChange:")]
 		partial void actionEQOnChange (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionExportPreset:")]
+		partial void actionExportPreset (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionNameChanged:")]
 		partial void actionNameChanged (MonoMac.Foundation.NSObject sender);
@@ -484,11 +493,6 @@ namespace MPfm.OSX
 				lblEQOn = null;
 			}
 
-			if (lblEqualizer != null) {
-				lblEqualizer.Dispose ();
-				lblEqualizer = null;
-			}
-
 			if (lblEQValue0 != null) {
 				lblEQValue0.Dispose ();
 				lblEQValue0 = null;
@@ -614,6 +618,11 @@ namespace MPfm.OSX
 				lblTitlePreset = null;
 			}
 
+			if (tablePresets != null) {
+				tablePresets.Dispose ();
+				tablePresets = null;
+			}
+
 			if (txtName != null) {
 				txtName.Dispose ();
 				txtName = null;
@@ -639,11 +648,6 @@ namespace MPfm.OSX
 				viewBackgroundPreset = null;
 			}
 
-			if (viewEqualizer != null) {
-				viewEqualizer.Dispose ();
-				viewEqualizer = null;
-			}
-
 			if (viewPresetsHeader != null) {
 				viewPresetsHeader.Dispose ();
 				viewPresetsHeader = null;
@@ -654,9 +658,19 @@ namespace MPfm.OSX
 				viewTitle = null;
 			}
 
-			if (tablePresets != null) {
-				tablePresets.Dispose ();
-				tablePresets = null;
+			if (menuRemovePreset != null) {
+				menuRemovePreset.Dispose ();
+				menuRemovePreset = null;
+			}
+
+			if (menuDuplicatePreset != null) {
+				menuDuplicatePreset.Dispose ();
+				menuDuplicatePreset = null;
+			}
+
+			if (menuExportPreset != null) {
+				menuExportPreset.Dispose ();
+				menuExportPreset = null;
 			}
 		}
 	}

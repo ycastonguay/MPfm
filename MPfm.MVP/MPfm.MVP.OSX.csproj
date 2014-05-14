@@ -86,6 +86,9 @@
     <Reference Include="Spring.Social.Dropbox">
       <HintPath>..\MPfm.Library\Lib\Spring.Social.Dropbox.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\MPfm.Library\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
