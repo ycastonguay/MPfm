@@ -300,6 +300,7 @@ namespace MPfm.OSX
                     EnableFaders(false);
                     EnablePresetDetails(false);
                     ResetFaderValuesAndPresetDetails();
+                    _preset = null;
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -464,9 +465,18 @@ namespace MPfm.OSX
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
-            _presets = presets.ToList();
-            InvokeOnMainThread(() => {
+            InvokeOnMainThread(delegate 
+            {
+                _presets = presets.ToList();
+                                        //int row = tablePresets.SelectedRow;
+                                        //var presetId = row >= 0 && _presets.Count > row ? _presets[row].EQPresetId : Guid.Empty;
                 tablePresets.ReloadData();
+                if (_preset != null)
+                {
+                    int newRow = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
+                    if (newRow >= 0)
+                        tablePresets.SelectRow(newRow, false);
+                }
             });
         }
 
@@ -509,7 +519,6 @@ namespace MPfm.OSX
         {
             _preset = preset;
             InvokeOnMainThread(delegate {
-                //tablePresets.SelectRow(_presets.IndexOf(_preset), true);
                 int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
                 if(row >= 0)
                     tablePresets.SelectRows(NSIndexSet.FromIndex(row), false);

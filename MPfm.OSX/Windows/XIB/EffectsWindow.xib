@@ -108,17 +108,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="212" height="165"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="4Sj-B4-Bvu">
-                                    <rect key="frame" x="0.0" y="17" width="212" height="148"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="212" height="165"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" headerView="u5f-qR-2ki" viewBased="YES" id="FQy-3d-4cQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="212" height="148"/>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="FQy-3d-4cQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="212" height="165"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="columnEqualizer" width="6" minWidth="6" maxWidth="6" id="CWl-OF-6hB">
+                                                <tableColumn identifier="columnEqualizer" width="2" minWidth="2" maxWidth="2" id="CWl-OF-6hB">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                         <font key="font" size="11" name="HelveticaNeue"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -132,11 +132,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="cellEqualizer" id="lcX-Ug-aLX">
-                                                            <rect key="frame" x="1" y="1" width="6" height="20"/>
+                                                            <rect key="frame" x="1" y="1" width="2" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="61B-za-CyX">
-                                                                    <rect key="frame" x="0.0" y="3" width="6" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="3" width="4" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="GVx-U1-gnw">
                                                                         <font key="font" size="12" name="HelveticaNeue"/>
@@ -165,7 +165,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="cellName" id="o0J-s1-4rZ">
-                                                            <rect key="frame" x="10" y="1" width="200" height="17"/>
+                                                            <rect key="frame" x="6" y="1" width="200" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="fa7-2a-ahc">
@@ -197,10 +197,6 @@
                                     <rect key="frame" x="250" y="17" width="15" height="21"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <tableHeaderView key="headerView" id="u5f-qR-2ki" customClass="MPfmTableHeaderView">
-                                    <rect key="frame" x="0.0" y="0.0" width="212" height="17"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableHeaderView>
                             </scrollView>
                             <customView id="vk9-Ba-Gzg" customClass="MPfmView">
                                 <rect key="frame" x="0.0" y="164" width="281" height="27"/>

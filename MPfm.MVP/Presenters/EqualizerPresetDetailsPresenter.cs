@@ -190,7 +190,7 @@ namespace MPfm.MVP.Presenters
                     EQPresetId = _preset.EQPresetId
                 });
 
-                View.ShowMessage("Equalizer Preset", "Preset saved successfully.");
+                //View.ShowMessage("Equalizer Preset", "Preset saved successfully.");
             }
             catch(Exception ex)
             {
