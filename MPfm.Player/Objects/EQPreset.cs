@@ -65,7 +65,7 @@ namespace MPfm.Player.Objects
         /// </summary>
         public EQPreset()
         {
-            Name = "";
+            Name = "New Preset";
             EQPresetId = Guid.NewGuid();
             Reset();
         }

@@ -191,6 +191,7 @@ namespace MPfm.MVP.Presenters
                 // For desktop devices
                 var newPreset = new EQPreset();
                 _libraryService.InsertEQPreset(newPreset);
+                RefreshPresets();
                 _messageHub.PublishAsync<EqualizerPresetSelectedMessage>(new EqualizerPresetSelectedMessage(this, newPreset.EQPresetId));
             }
             catch(Exception ex)

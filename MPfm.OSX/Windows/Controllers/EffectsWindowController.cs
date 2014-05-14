@@ -62,6 +62,7 @@ namespace MPfm.OSX
             LoadFaders();
             LoadTableView();
             EnablePresetDetails(false);
+            EnableFaders(false);
 
             OnViewReady(this);
         }
@@ -138,16 +139,6 @@ namespace MPfm.OSX
             for(int a = 0; a < 18; a++)
                 ConfigureFader(a);
 
-//            // Set colors
-//            viewLeftHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewLeftHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            viewRightHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewRightHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            viewLibraryBrowser.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-
             // Set tags for fader (to find out which fader is being modified)
             fader0.Index = 0;
             fader1.Index = 1;
@@ -216,6 +207,71 @@ namespace MPfm.OSX
             btnReset.Enabled = enable;
         }
 
+        private void EnableFaders(bool enable)
+        {
+            fader0.Enabled = enable;
+            fader1.Enabled = enable;
+            fader2.Enabled = enable;
+            fader3.Enabled = enable;
+            fader4.Enabled = enable;
+            fader5.Enabled = enable;
+            fader6.Enabled = enable;
+            fader7.Enabled = enable;
+            fader8.Enabled = enable;
+            fader9.Enabled = enable;
+            fader10.Enabled = enable;
+            fader11.Enabled = enable;
+            fader12.Enabled = enable;
+            fader13.Enabled = enable;
+            fader14.Enabled = enable;
+            fader15.Enabled = enable;
+            fader16.Enabled = enable;
+            fader17.Enabled = enable;
+
+            float alpha = enable ? 1 : 0.5f;
+            fader0.AlphaValue = alpha;
+            fader1.AlphaValue = alpha;
+            fader2.AlphaValue = alpha;
+            fader3.AlphaValue = alpha;
+            fader4.AlphaValue = alpha;
+            fader5.AlphaValue = alpha;
+            fader6.AlphaValue = alpha;
+            fader7.AlphaValue = alpha;
+            fader8.AlphaValue = alpha;
+            fader9.AlphaValue = alpha;
+            fader10.AlphaValue = alpha;
+            fader11.AlphaValue = alpha;
+            fader12.AlphaValue = alpha;
+            fader13.AlphaValue = alpha;
+            fader14.AlphaValue = alpha;
+            fader15.AlphaValue = alpha;
+            fader16.AlphaValue = alpha;
+            fader17.AlphaValue = alpha;
+        }
+
+        private void ResetFaderValuesAndPresetDetails()
+        {
+            txtName.StringValue = string.Empty;
+            fader0.ValueWithoutEvent = 0;
+            fader1.ValueWithoutEvent = 0;
+            fader2.ValueWithoutEvent = 0;
+            fader3.ValueWithoutEvent = 0;
+            fader4.ValueWithoutEvent = 0;
+            fader5.ValueWithoutEvent = 0;
+            fader6.ValueWithoutEvent = 0;
+            fader7.ValueWithoutEvent = 0;
+            fader8.ValueWithoutEvent = 0;
+            fader9.ValueWithoutEvent = 0;
+            fader10.ValueWithoutEvent = 0;
+            fader11.ValueWithoutEvent = 0;
+            fader12.ValueWithoutEvent = 0;
+            fader13.ValueWithoutEvent = 0;
+            fader14.ValueWithoutEvent = 0;
+            fader15.ValueWithoutEvent = 0;
+            fader16.ValueWithoutEvent = 0;
+            fader17.ValueWithoutEvent = 0;
+        }
+
         partial void actionEQOnChange(NSObject sender)
         {
             OnBypassEqualizer();
@@ -241,6 +297,9 @@ namespace MPfm.OSX
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
                     OnDeletePreset(_preset.EQPresetId);
+                    EnableFaders(false);
+                    EnablePresetDetails(false);
+                    ResetFaderValuesAndPresetDetails();
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -265,18 +324,13 @@ namespace MPfm.OSX
                 var btnOK = alert.AddButton("OK");
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
-                    //NSApplication.SharedApplication.EndSheet((NSWindow)alert.Window); // crashes
                     OnNormalizePreset();
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
                     NSApplication.SharedApplication.StopModal();
-                    //NSApplication.SharedApplication.EndSheet((NSWindow)alert.Window); // crashes
                 };
                 alert.RunModal();
-//                alert.BeginSheet(this.Window, () => {
-//                    //this.Window.Close();
-//                });
             }
         }
 
@@ -360,10 +414,13 @@ namespace MPfm.OSX
         [Export ("tableViewSelectionDidChange:")]
         public void SelectionDidChange(NSNotification notification)
         {
-            //Console.WriteLine("SelectionDidChange");
-            EnablePresetDetails(tablePresets.SelectedRow >= 0);                 
+            EnablePresetDetails(tablePresets.SelectedRow >= 0);
+            EnableFaders(tablePresets.SelectedRow >= 0);
             if (tablePresets.SelectedRow < 0)
+            {
+                ResetFaderValuesAndPresetDetails();
                 return;
+            }
 
             var id = _presets[tablePresets.SelectedRow].EQPresetId;
             OnLoadPreset(id); // EqualizerPresets
@@ -450,10 +507,15 @@ namespace MPfm.OSX
 
         public void RefreshPreset(EQPreset preset)
         {
+            _preset = preset;
             InvokeOnMainThread(delegate {
-                _preset = preset;
-                //viewBackgroundInformation.IsEnabled = _preset != null;
-                //viewBackgroundFaders.IsEnabled = _preset != null;
+                //tablePresets.SelectRow(_presets.IndexOf(_preset), true);
+                int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
+                if(row >= 0)
+                    tablePresets.SelectRows(NSIndexSet.FromIndex(row), false);
+
+                EnableFaders(true);
+                EnablePresetDetails(true);
 
                 txtName.StringValue = _preset.Name;
                 fader0.ValueWithoutEvent = FormatFaderValue(_preset.Gain0);
