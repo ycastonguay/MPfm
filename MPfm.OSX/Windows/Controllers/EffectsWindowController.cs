@@ -34,7 +34,8 @@ namespace MPfm.OSX
 {
     public partial class EffectsWindowController : BaseWindowController, IDesktopEffectsView
     {
-        EQPreset _preset;
+        private List<EQPreset> _presets = new List<EQPreset>();
+        private EQPreset _preset;
 
         public EffectsWindowController(IntPtr handle) 
             : base (handle)
@@ -56,8 +57,34 @@ namespace MPfm.OSX
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
+            LoadButtons();
             LoadFontsAndImages();
+            LoadFaders();
+            LoadTableView();
+            EnablePresetDetails(false);
+
             OnViewReady(this);
+        }
+
+        private void LoadTableView()
+        {
+            tablePresets.RowHeight = 20;
+            tablePresets.WeakDelegate = this;
+            tablePresets.WeakDataSource = this;
+        }  
+
+        private void LoadButtons()
+        {
+            btnAddPreset.RoundedRadius = 0;
+            btnAddPreset.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnAddPreset.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnAddPreset.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnAddPreset.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnRemovePreset.RoundedRadius = 0;
+            btnRemovePreset.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnRemovePreset.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnRemovePreset.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnRemovePreset.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
         }
 
         private void LoadFontsAndImages()
@@ -71,6 +98,8 @@ namespace MPfm.OSX
             viewTitle.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewEqualizer.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewEqualizer.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewPresetsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewPresetsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
             viewBackground.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             viewBackground.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
@@ -85,7 +114,7 @@ namespace MPfm.OSX
             viewBackgroundInformation.HeaderColor2 = GlobalTheme.PanelHeader2Color2;
             viewBackgroundInformation.IsHeaderVisible = true;
 
-            popupPreset.Font = NSFont.FromFontName("Roboto", 11f);
+            //popupPreset.Font = NSFont.FromFontName("Roboto", 11f);
             lblTitle.Font = NSFont.FromFontName("Roboto Light", 16f);
             lblEqualizer.Font = NSFont.FromFontName("Roboto Light", 13f);
             lblName.Font = NSFont.FromFontName("Roboto", 11f);
@@ -95,22 +124,20 @@ namespace MPfm.OSX
             lblScalePlus6.Font = NSFont.FromFontName("Roboto", 11f);
             lblScale0.Font = NSFont.FromFontName("Roboto", 11f);
             lblScaleMinus6.Font = NSFont.FromFontName("Roboto", 11f);
-            txtName.Font = NSFont.FromFontName("Roboto", 11f);
+            txtName.Font = NSFont.FromFontName("Roboto", 12f);
 
-            btnNewPreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAutoLevel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
-            btnDelete.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
-            btnSave.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_save");
+            btnSavePreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_save");
             btnReset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnAddPreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnRemovePreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+        }
 
+        private void LoadFaders()
+        {
             for(int a = 0; a < 18; a++)
                 ConfigureFader(a);
 
-            SetTheme();
-        }
-
-        private void SetTheme()
-        {
 //            // Set colors
 //            viewLeftHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
 //            viewLeftHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
@@ -181,11 +208,12 @@ namespace MPfm.OSX
             lblEQValue17.Font = NSFont.FromFontName("Roboto", 11);
         }
 
-        partial void actionPresetChange(NSObject sender)
+        private void EnablePresetDetails(bool enable)
         {
-            string tag = popupPreset.SelectedItem.ToolTip;
-            OnLoadPreset(new Guid(tag)); // EqualizerPresets
-            OnChangePreset(new Guid(tag)); // EqualizerPresetDetails
+            txtName.Enabled = enable;
+            btnSavePreset.Enabled = enable;
+            btnAutoLevel.Enabled = enable;
+            btnReset.Enabled = enable;
         }
 
         partial void actionEQOnChange(NSObject sender)
@@ -197,17 +225,12 @@ namespace MPfm.OSX
         {
         }
 
-        partial void actionNewPreset(NSObject sender)
+        partial void actionAddPreset(NSObject sender)
         {
             OnAddPreset();
         }
 
-        partial void actionSave(NSObject sender)
-        {
-            OnSavePreset(txtName.StringValue);
-        }
-
-        partial void actionDelete(NSObject sender)
+        partial void actionRemovePreset(NSObject sender)
         {
             using(NSAlert alert = new NSAlert())
             {
@@ -225,6 +248,11 @@ namespace MPfm.OSX
                 };
                 alert.RunModal();
             }
+        }
+
+        partial void actionSavePreset(NSObject sender)
+        {
+            OnSavePreset(txtName.StringValue);
         }
 
         partial void actionAutoLevel(NSObject sender)
@@ -314,6 +342,53 @@ namespace MPfm.OSX
             return (int)(value * 10);
         }
 
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            return _presets.Count;
+        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            if (tableColumn.Identifier.ToString() == "columnName")
+                return new NSString(_presets [row].Name);
+            else
+                return new NSString();
+        }
+
+        [Export ("tableViewSelectionDidChange:")]
+        public void SelectionDidChange(NSNotification notification)
+        {
+            //Console.WriteLine("SelectionDidChange");
+            EnablePresetDetails(tablePresets.SelectedRow >= 0);                 
+            if (tablePresets.SelectedRow < 0)
+                return;
+
+            var id = _presets[tablePresets.SelectedRow].EQPresetId;
+            OnLoadPreset(id); // EqualizerPresets
+            OnChangePreset(id); // EqualizerPresetDetails
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view;
+            if(tableColumn.Identifier.ToString() == "columnName")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellName", this);
+                view.TextField.StringValue = _presets[row].Name;
+            }
+            else
+            {
+                view = (NSTableCellView)tableView.MakeView("cellEqualizer", this);
+            }
+
+            view.TextField.Font = NSFont.FromFontName("Roboto", 12);
+
+            return view;
+        }
+
         #region IEqualizerPresetsView implementation
 
         public Action OnBypassEqualizer { get; set; }
@@ -332,14 +407,9 @@ namespace MPfm.OSX
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
+            _presets = presets.ToList();
             InvokeOnMainThread(() => {
-                popupPreset.RemoveAllItems();
-                foreach(var preset in presets)
-                {
-                    popupPreset.AddItem(preset.EQPresetId.ToString());
-                    popupPreset.LastItem.Title = preset.EQPresetId.ToString(); //preset.Name;
-                    popupPreset.LastItem.ToolTip = preset.EQPresetId.ToString(); // Tag only supports an integer!
-                }
+                tablePresets.ReloadData();
             });
         }
 

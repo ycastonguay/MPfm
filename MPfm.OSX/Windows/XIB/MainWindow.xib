@@ -1119,14 +1119,14 @@
                                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 </textFieldCell>
                                                                                             </textField>
-                                                                                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="hDL-fQ-jIK" customClass="MPfmScrollView">
+                                                                                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="hDL-fQ-jIK" customClass="MPfmScrollView">
                                                                                                 <rect key="frame" x="0.0" y="0.0" width="411" height="54"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                 <clipView key="contentView" id="kJR-hz-w6H">
                                                                                                     <rect key="frame" x="0.0" y="17" width="411" height="37"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
-                                                                                                        <tableView identifier="tableLoops" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Ehj-Ek-yBF" viewBased="YES" id="GVQ-x8-fob">
+                                                                                                        <tableView identifier="tableLoops" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="15" rowSizeStyle="automatic" headerView="Ehj-Ek-yBF" viewBased="YES" id="GVQ-x8-fob">
                                                                                                             <rect key="frame" x="0.0" y="0.0" width="411" height="37"/>
                                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1904,7 +1904,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000006053591" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>

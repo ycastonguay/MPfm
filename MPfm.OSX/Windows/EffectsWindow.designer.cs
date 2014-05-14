@@ -13,22 +13,22 @@ namespace MPfm.OSX
 	partial class EffectsWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnAddPreset { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnDelete { get; set; }
+		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnEQOn { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnNewPreset { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnRemovePreset { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnReset { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnSave { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmButton btnSavePreset { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmFaderView fader0 { get; set; }
@@ -220,7 +220,7 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSPopUpButton popupPreset { get; set; }
+		MonoMac.AppKit.NSTableView tablePresets { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtName { get; set; }
@@ -241,13 +241,16 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmView viewEqualizer { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewPresetsHeader { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewTitle { get; set; }
+
+		[Action ("actionAddPreset:")]
+		partial void actionAddPreset (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionAutoLevel:")]
 		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionDelete:")]
-		partial void actionDelete (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionEQOnChange:")]
 		partial void actionEQOnChange (MonoMac.Foundation.NSObject sender);
@@ -255,28 +258,25 @@ namespace MPfm.OSX
 		[Action ("actionNameChanged:")]
 		partial void actionNameChanged (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionNewPreset:")]
-		partial void actionNewPreset (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionPresetChange:")]
-		partial void actionPresetChange (MonoMac.Foundation.NSObject sender);
+		[Action ("actionRemovePreset:")]
+		partial void actionRemovePreset (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionSave:")]
-		partial void actionSave (MonoMac.Foundation.NSObject sender);
+		[Action ("actionSavePreset:")]
+		partial void actionSavePreset (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAddPreset != null) {
+				btnAddPreset.Dispose ();
+				btnAddPreset = null;
+			}
+
 			if (btnAutoLevel != null) {
 				btnAutoLevel.Dispose ();
 				btnAutoLevel = null;
-			}
-
-			if (btnDelete != null) {
-				btnDelete.Dispose ();
-				btnDelete = null;
 			}
 
 			if (btnEQOn != null) {
@@ -284,9 +284,9 @@ namespace MPfm.OSX
 				btnEQOn = null;
 			}
 
-			if (btnNewPreset != null) {
-				btnNewPreset.Dispose ();
-				btnNewPreset = null;
+			if (btnRemovePreset != null) {
+				btnRemovePreset.Dispose ();
+				btnRemovePreset = null;
 			}
 
 			if (btnReset != null) {
@@ -294,9 +294,9 @@ namespace MPfm.OSX
 				btnReset = null;
 			}
 
-			if (btnSave != null) {
-				btnSave.Dispose ();
-				btnSave = null;
+			if (btnSavePreset != null) {
+				btnSavePreset.Dispose ();
+				btnSavePreset = null;
 			}
 
 			if (fader0 != null) {
@@ -484,6 +484,11 @@ namespace MPfm.OSX
 				lblEQOn = null;
 			}
 
+			if (lblEqualizer != null) {
+				lblEqualizer.Dispose ();
+				lblEqualizer = null;
+			}
+
 			if (lblEQValue0 != null) {
 				lblEQValue0.Dispose ();
 				lblEQValue0 = null;
@@ -594,6 +599,11 @@ namespace MPfm.OSX
 				lblScalePlus6 = null;
 			}
 
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
+			}
+
 			if (lblTitleInformation != null) {
 				lblTitleInformation.Dispose ();
 				lblTitleInformation = null;
@@ -602,11 +612,6 @@ namespace MPfm.OSX
 			if (lblTitlePreset != null) {
 				lblTitlePreset.Dispose ();
 				lblTitlePreset = null;
-			}
-
-			if (popupPreset != null) {
-				popupPreset.Dispose ();
-				popupPreset = null;
 			}
 
 			if (txtName != null) {
@@ -634,9 +639,14 @@ namespace MPfm.OSX
 				viewBackgroundPreset = null;
 			}
 
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
+			if (viewEqualizer != null) {
+				viewEqualizer.Dispose ();
+				viewEqualizer = null;
+			}
+
+			if (viewPresetsHeader != null) {
+				viewPresetsHeader.Dispose ();
+				viewPresetsHeader = null;
 			}
 
 			if (viewTitle != null) {
@@ -644,14 +654,9 @@ namespace MPfm.OSX
 				viewTitle = null;
 			}
 
-			if (lblEqualizer != null) {
-				lblEqualizer.Dispose ();
-				lblEqualizer = null;
-			}
-
-			if (viewEqualizer != null) {
-				viewEqualizer.Dispose ();
-				viewEqualizer = null;
+			if (tablePresets != null) {
+				tablePresets.Dispose ();
+				tablePresets = null;
 			}
 		}
 	}
