@@ -323,17 +323,7 @@ namespace MPfm.MVP.Services
         /// <param name="databaseFilePath">Database file path</param>
         private void CreateDatabaseFile(string databaseFilePath)
         {
-            // Create database file -- TODO: Replace by interface
-#if IOS || ANDROID || LINUX || MACOSX
-            MonoSQLiteGateway.CreateDatabaseFile(databaseFilePath);
-#elif WINDOWSSTORE || WINDOWS_PHONE
-            WinRTSQLiteGateway.CreateDatabaseFile(databaseFilePath);
-#else
-            SQLiteGateway.CreateDatabaseFile(databaseFilePath);
-#endif
-            
-
-            // Create gateway
+            DatabaseFacade.CreateDatabaseFile(databaseFilePath);
             DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
 
             // Get SQL

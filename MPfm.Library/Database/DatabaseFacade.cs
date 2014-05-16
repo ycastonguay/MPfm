@@ -51,6 +51,18 @@ namespace MPfm.Library.Database
             _gateway = new SQLiteGateway(databaseFilePath);
 #endif
         }
+
+		public static void CreateDatabaseFile(string databaseFilePath)
+		{
+			// Create database file -- TODO: Replace by interface
+			#if IOS || ANDROID || LINUX || MACOSX
+			MonoSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+			#elif WINDOWSSTORE || WINDOWS_PHONE
+			WinRTSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+			#else
+			SQLiteGateway.CreateDatabaseFile(databaseFilePath);
+			#endif
+		}
 		
         /// <summary>
         /// Executes an SQL statement.
