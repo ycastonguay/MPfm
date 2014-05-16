@@ -28,6 +28,8 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using System.Linq;
 using MPfm.Library.Objects;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Presenters
 {
@@ -41,13 +43,15 @@ namespace MPfm.MVP.Presenters
         readonly ISyncListenerService _syncListenerService;
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
+        readonly ITinyMessengerHub _messageHub;
 
         public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, 
-                                           IAudioFileCacheService audioFileCacheService)
+                                           IAudioFileCacheService audioFileCacheService, ITinyMessengerHub messageHub)
 		{	
             _syncListenerService = syncListenerService;
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
+            _messageHub = messageHub;
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -70,20 +74,21 @@ namespace MPfm.MVP.Presenters
             RefreshPreferences();
         }
 
-        private void SetLibraryPreferences(LibraryAppConfig libraryAppConfig)
+        private void SetLibraryPreferences(LibraryAppConfig config)
         {
             try
             {
                 // Save config
-                AppConfigManager.Instance.Root.Library = libraryAppConfig;
+                AppConfigManager.Instance.Root.Library = config;
                 AppConfigManager.Instance.Save();
 
                 // Update service configuration
-                EnableSyncService(libraryAppConfig.IsSyncServiceEnabled);
-                SetSyncListenerPort(libraryAppConfig.SyncServicePort);
+                EnableSyncService(config.IsSyncServiceEnabled);
+                SetSyncListenerPort(config.SyncServicePort);
 
                 // Make sure preferences are in sync
                 RefreshPreferences();
+                _messageHub.PublishAsync<LibraryAppConfigChangedMessage>(new LibraryAppConfigChangedMessage(this, config));
             }
             catch (Exception ex)
             {

@@ -81,6 +81,7 @@ namespace MPfm.MVP.Presenters
         {
             AppConfigManager.Instance.Root.Cloud = config;
             AppConfigManager.Instance.Save();
+            _messengerHub.PublishAsync<CloudAppConfigChangedMessage>(new CloudAppConfigChangedMessage(this, config));
         }
     
         private void LoginLogoutDropbox()

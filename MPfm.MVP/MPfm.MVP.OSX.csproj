@@ -337,5 +337,9 @@
     <Compile Include="Messages\SegmentActivatedMessage.cs" />
     <Compile Include="Messages\SegmentBeingEditedMessage.cs" />
     <Compile Include="Messages\SegmentUpdatedMessage.cs" />
+    <Compile Include="Messages\CloudAppConfigChangedMessage.cs" />
+    <Compile Include="Messages\GeneralAppConfigChangedMessage.cs" />
+    <Compile Include="Messages\AudioAppConfigChangedMessage.cs" />
+    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />
   </ItemGroup>
 </Project>

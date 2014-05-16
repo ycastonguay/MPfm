@@ -51,7 +51,6 @@ namespace MPfm.MVP.Presenters
         readonly NavigationManager _navigationManager;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
-        readonly ICloudLibraryService _cloudLibraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly ITinyMessengerHub _messageHub;
 #if WINDOWS_PHONE
@@ -68,23 +67,22 @@ namespace MPfm.MVP.Presenters
         private System.Timers.Timer _timerOutputMeter = null;
 #endif
 
-        public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, ICloudLibraryService cloudLibraryService)
+        public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService)
 		{	
             _messageHub = messageHub;
             _playerService = playerService;
             _audioFileCacheService = audioFileCacheService;
             _libraryService = libraryService;
-            _cloudLibraryService = cloudLibraryService;
 
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             _timerRefreshSongPosition = new System.Timers.Timer();			
-			_timerRefreshSongPosition.Interval = 100;
+            _timerRefreshSongPosition.Interval = AppConfigManager.Instance.Root.General.SongPositionUpdateFrequency;
 			_timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
             _timerSavePlayerStatus = new System.Timers.Timer();          
             _timerSavePlayerStatus.Interval = 5000;
             _timerSavePlayerStatus.Elapsed += HandleTimerSavePlayerStatusElapsed;
             _timerOutputMeter = new System.Timers.Timer();         
-            _timerOutputMeter.Interval = 40;
+            _timerOutputMeter.Interval = AppConfigManager.Instance.Root.General.OutputMeterUpdateFrequency;
             _timerOutputMeter.Elapsed += HandleOutputMeterTimerElapsed;
 #else
             _timerRefreshSongPosition = new DispatcherTimer();
@@ -99,24 +97,28 @@ namespace MPfm.MVP.Presenters
 #endif
 
             // Subscribe to events
-            messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
-                Play(audioFileCacheService.SelectAudioFiles(m.Query));
+            _messageHub.Subscribe<GeneralAppConfigChangedMessage>((GeneralAppConfigChangedMessage m) => {
+                UpdateTimerRefreshSongPositionInterval(m.Config.SongPositionUpdateFrequency);
+                UpdateTimerOutputMeterInterval(m.Config.OutputMeterUpdateFrequency);
             });
-            messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
+            _messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
+                Play(_audioFileCacheService.SelectAudioFiles(m.Query));
+            });
+            _messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
                 string filePath = m != null ? m.Item.FilePath : null;
-                Play(audioFileCacheService.SelectAudioFiles(m.Query), filePath);
+                Play(_audioFileCacheService.SelectAudioFiles(m.Query), filePath);
             });
             //messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) => {
             //    Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
             //});
-            messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
-                View.RefreshSongInformation(m.Data.AudioFileStarted, playerService.CurrentPlaylistItem.LengthBytes, 
-                                            playerService.CurrentPlaylist.Items.IndexOf(playerService.CurrentPlaylistItem), playerService.CurrentPlaylist.Items.Count);
+            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
+                View.RefreshSongInformation(m.Data.AudioFileStarted, _playerService.CurrentPlaylistItem.LengthBytes, 
+                        _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
 
-                var markers = libraryService.SelectMarkers(m.Data.AudioFileStarted.Id);
+                var markers = _libraryService.SelectMarkers(m.Data.AudioFileStarted.Id);
                 View.RefreshMarkers(markers);
             });
-            messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
+            _messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
                 View.RefreshPlayerStatus(m.Status);
 
                 if(!View.IsOutputMeterEnabled)
@@ -135,14 +137,14 @@ namespace MPfm.MVP.Presenters
                         break;
                 }
             });
-            messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
-                var markers = libraryService.SelectMarkers(m.AudioFileId);
+            _messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
+                var markers = _libraryService.SelectMarkers(m.AudioFileId);
                 View.RefreshMarkers(markers);
             });
-            messageHub.Subscribe<MarkerPositionUpdatedMessage>((MarkerPositionUpdatedMessage m) => {
+            _messageHub.Subscribe<MarkerPositionUpdatedMessage>((MarkerPositionUpdatedMessage m) => {
                 View.RefreshMarkerPosition(m.Marker);
             });
-            messageHub.Subscribe<MarkerActivatedMessage>((MarkerActivatedMessage m) => {
+            _messageHub.Subscribe<MarkerActivatedMessage>((MarkerActivatedMessage m) => {
                 View.RefreshActiveMarker(m.MarkerId);
             });
 
@@ -206,6 +208,32 @@ namespace MPfm.MVP.Presenters
             #if !IOS && !ANDROID
             _playerService.Dispose();
             #endif
+        }
+
+        private void UpdateTimerRefreshSongPositionInterval(int interval)
+        {
+            if(_timerRefreshSongPosition.Interval != interval)
+            {
+                bool isRunning = _timerRefreshSongPosition.Enabled;
+                if(isRunning)
+                    _timerRefreshSongPosition.Stop();
+                _timerRefreshSongPosition.Interval = interval;
+                if(isRunning)
+                    _timerRefreshSongPosition.Start();
+            }
+        }
+
+        private void UpdateTimerOutputMeterInterval(int interval)
+        {
+            if (_timerOutputMeter.Interval != interval)
+            {
+                bool isRunning = _timerOutputMeter.Enabled;
+                if(isRunning)
+                    _timerOutputMeter.Stop();
+                _timerOutputMeter.Interval = interval;
+                if(isRunning)
+                    _timerOutputMeter.Start();
+            }
         }
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE

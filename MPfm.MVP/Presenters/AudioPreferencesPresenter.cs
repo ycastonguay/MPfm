@@ -21,6 +21,8 @@ using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config;
 using System;
 using MPfm.Core;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Presenters
 {
@@ -29,9 +31,12 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
 	{
-        public AudioPreferencesPresenter()
-		{	
-		}
+        private readonly ITinyMessengerHub _messageHub;
+
+        public AudioPreferencesPresenter(ITinyMessengerHub messageHub)
+        {
+            _messageHub = messageHub;
+        }
 
         public override void BindView(IAudioPreferencesView view)
         {
@@ -41,13 +46,14 @@ namespace MPfm.MVP.Presenters
             RefreshPreferences();
         }
 
-        private void SetAudioPreferences(AudioAppConfig audioAppConfig)
+        private void SetAudioPreferences(AudioAppConfig config)
         {
             try
             {
-                AppConfigManager.Instance.Root.Audio = audioAppConfig;
+                AppConfigManager.Instance.Root.Audio = config;
                 AppConfigManager.Instance.Save();
                 RefreshPreferences();
+                _messageHub.PublishAsync<AudioAppConfigChangedMessage>(new AudioAppConfigChangedMessage(this, config));
             }
             catch (Exception ex)
             {

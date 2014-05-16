@@ -25,6 +25,8 @@ using MPfm.Sound.PeakFiles;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Presenters
 {
@@ -33,10 +35,12 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class GeneralPreferencesPresenter : BasePresenter<IGeneralPreferencesView>, IGeneralPreferencesPresenter
 	{
+        private readonly ITinyMessengerHub _messageHub;
         private string _peakFolderSize;
 
-        public GeneralPreferencesPresenter()
-		{	
+        public GeneralPreferencesPresenter(ITinyMessengerHub messageHub)
+		{
+            _messageHub = messageHub;
 		}
 
         public override void BindView(IGeneralPreferencesView view)
@@ -63,6 +67,7 @@ namespace MPfm.MVP.Presenters
                 AppConfigManager.Instance.Root.General = config;
                 AppConfigManager.Instance.Save();
                 RefreshPreferences();
+                _messageHub.PublishAsync<GeneralAppConfigChangedMessage>(new GeneralAppConfigChangedMessage(this, config));
             }
             catch (Exception ex)
             {
