@@ -140,15 +140,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Lib\Ninject.dll" />
-    <None Include="Lib\AutoMapper.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Services\Interfaces\" />
     <Folder Include="Presenters\Interfaces\" />
     <Folder Include="Config\" />
     <Folder Include="Messages\" />
+    <Folder Include="Lib\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
