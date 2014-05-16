@@ -166,13 +166,6 @@
     <Compile Include="Windows\MainWindow.designer.cs">
       <DependentUpon>Windows\MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Controllers\EditLoopWindowController.cs" />
-    <Compile Include="Windows\EditLoopWindow.cs" />
-    <Compile Include="Windows\EditLoopWindow.designer.cs">
-      <DependentUpon>EditLoopWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Controllers\EditMarkerWindowController.cs" />
-    <Compile Include="Windows\EditMarkerWindow.cs" />
     <Compile Include="Windows\Controllers\BaseWindowController.cs" />
     <Compile Include="Windows\Controllers\SyncWindowController.cs" />
     <Compile Include="Windows\SyncWindow.cs" />
@@ -253,6 +246,11 @@
     <Compile Include="Classes\Controls\MPfmProgressBarView.cs" />
     <Compile Include="Classes\Controls\MPfmCircularProgressBarView.cs" />
     <Compile Include="Classes\Controls\MPfmTextField.cs" />
+    <Compile Include="Windows\EditSongMetadataWindow.cs" />
+    <Compile Include="Windows\EditSongMetadataWindow.designer.cs">
+      <DependentUpon>EditSongMetadataWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\EditSongMetadataWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -265,8 +263,6 @@
     <InterfaceDefinition Include="Windows\XIB\SplashWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\MainWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\MainMenu.xib" />
-    <InterfaceDefinition Include="Windows\XIB\EditLoopWindow.xib" />
-    <InterfaceDefinition Include="Windows\XIB\EditMarkerWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncMenuWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
@@ -274,6 +270,7 @@
     <InterfaceDefinition Include="Windows\XIB\SyncWebBrowserWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\StartResumePlaybackWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\CloudConnectWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\EditSongMetadataWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

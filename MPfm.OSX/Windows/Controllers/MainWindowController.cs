@@ -36,6 +36,7 @@ using MPfm.OSX.Classes.Objects;
 using System.Threading.Tasks;
 using MPfm.Core.Helpers;
 using System.Drawing;
+using MPfm.MVP.Config.Models;
 
 namespace MPfm.OSX
 {
@@ -139,8 +140,8 @@ namespace MPfm.OSX
             trackBarPitchShifting.Maximum = 12;
             trackBarPitchShifting.Value = 0;
             trackBarPitchShifting.BlockValueChangeWhenDraggingMouse = true;
-            trackBarPitchShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
-            trackBarPitchShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
+            trackBarPitchShifting.OnTrackBarValueChanged += HandleOnTrackBarPitchShiftingValueChanged;
+            trackBarPitchShifting.SetNeedsDisplayInRect(trackBarPitchShifting.Bounds);
 
             trackBarMarkerPosition.Minimum = 0;
             trackBarMarkerPosition.Maximum = 1000;
@@ -622,8 +623,8 @@ namespace MPfm.OSX
         private void HandleOnTrackBarPitchShiftingValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
-            if (OnPlayerSetPitchShifting != null)
-                OnPlayerSetPitchShifting(trackBarPitchShifting.Value);
+            if (OnSetInterval != null)
+                OnSetInterval(trackBarPitchShifting.Value);
         }
 
         partial void actionPlayLoop(NSObject sender)

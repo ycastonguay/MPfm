@@ -63,6 +63,7 @@ namespace MPfm.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<IStartResumePlaybackView, StartResumePlaybackWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ILibraryBrowserView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISongBrowserView, MainWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IEditSongMetadataView, EditSongMetadataWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ILoopsView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ILoopDetailsView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISegmentDetailsView, MainWindowController>().AsMultiInstance();
