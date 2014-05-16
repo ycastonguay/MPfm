@@ -126,7 +126,7 @@
       <HintPath>..\MPfm.Library\Lib\iOS\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="DropBoxSync.iOS">
-      <HintPath>..\Components\dropboxsync-1.9.1\lib\ios\DropBoxSync.iOS.dll</HintPath>
+      <HintPath>Lib\DropBoxSync.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +140,7 @@
     <None Include="Lib\libbasswv.a" />
     <None Include="Lib\taglib-sharp.dll" />
     <None Include="Lib\libbassenc.a" />
+    <None Include="Lib\DropBoxSync.iOS.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Controllers\PlayerViewController.designer.cs">
@@ -698,11 +699,5 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="dropboxsync">
-      <Version>1.9.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
 </Project>

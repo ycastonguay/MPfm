@@ -273,6 +273,8 @@ namespace MPfm.iOS
         public Action<Guid> OnLoadPreset { get; set; }
         public Action<Guid> OnEditPreset { get; set; }
         public Action<Guid> OnDeletePreset { get; set; }
+		public Action<Guid> OnDuplicatePreset { get; set; }
+		public Action<Guid, string> OnExportPreset { get; set; }
 
         public void EqualizerPresetsError(Exception ex)
         {

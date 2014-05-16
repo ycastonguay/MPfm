@@ -134,6 +134,9 @@
     <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\MPfm.Library\Lib\iOS\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -381,17 +384,17 @@
     <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
     <Compile Include="Views\ISegmentDetailsView.cs" />
     <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
+    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />
     <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopActivatedMessage.cs" />
     <Compile Include="Messages\LoopBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopUpdatedMessage.cs" />
     <Compile Include="Messages\SegmentActivatedMessage.cs" />
     <Compile Include="Messages\SegmentBeingEditedMessage.cs" />
-    <Compile Include="Messages\SegmentUpdatedMessage.cs" />    
+    <Compile Include="Messages\SegmentUpdatedMessage.cs" />
     <Compile Include="Messages\CloudAppConfigChangedMessage.cs" />
     <Compile Include="Messages\GeneralAppConfigChangedMessage.cs" />
     <Compile Include="Messages\AudioAppConfigChangedMessage.cs" />
-    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />    
+    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />
   </ItemGroup>
 </Project>
