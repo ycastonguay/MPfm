@@ -325,6 +325,8 @@ namespace MPfm.GTK.Windows
         public System.Action OnRevertPreset { get; set; }
         public Action<string> OnSavePreset { get; set; }
         public Action<string, float> OnSetFaderGain { get; set; }
+		public Action<Guid> OnDuplicatePreset { get; set; }
+		public Action<Guid, string> OnExportPreset { get; set; }
 
         public void EqualizerPresetDetailsError(Exception ex)
         {

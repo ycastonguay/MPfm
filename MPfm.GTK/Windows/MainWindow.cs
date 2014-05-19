@@ -995,6 +995,18 @@ namespace MPfm.GTK.Windows
                 _storeLibraryBrowser.Remove(ref treeIterDummy);
 			});
 		}
+
+		public void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity)
+		{
+		}
+
+		public void NotifyLibraryBrowserNewNode(int position, LibraryBrowserEntity entity)
+		{
+		}
+
+		public void NotifyLibraryBrowserRemovedNode(int position)
+		{
+		}
 		
 		#endregion
 		
@@ -1080,6 +1092,30 @@ namespace MPfm.GTK.Windows
 
         #endregion
 
+		#region IMarkerDetailsView implementation
+
+		public System.Action<float> OnChangePositionMarkerDetails { get; set; }
+		public System.Action<Marker> OnUpdateMarkerDetails { get; set; }
+		public System.Action OnDeleteMarkerDetails { get; set; }
+
+		public void MarkerDetailsError(Exception ex)
+		{
+		}
+
+		public void DismissMarkerDetailsView()
+		{
+		}
+
+		public void RefreshMarker(Marker marker, AudioFile audioFile)
+		{
+		}
+
+		public void RefreshMarkerPosition(string position, float positionPercentage)
+		{
+		}
+
+		#endregion
+
         #region ILoopsView implementation
 
         public System.Action OnAddLoop { get; set; }
@@ -1099,6 +1135,23 @@ namespace MPfm.GTK.Windows
         }
 
         #endregion
+
+		#region ILoopDetailsView implementation
+
+		public void LoopDetailsError(Exception ex)
+		{
+
+		}
+
+		#endregion
+
+		#region ISegmentDetailsView implementation
+
+		public void SegmentDetailsError(Exception ex)
+		{
+		}
+
+		#endregion
 
         #region ITimeShiftingView implementation
 

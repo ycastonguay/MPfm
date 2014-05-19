@@ -29,7 +29,8 @@ namespace MPfm.GTK.Classes.Controls.Graphics
     {
         private Context _context;
 
-        public float BoundsWidth { get; private set; }
+		public BasicRectangle DirtyRect { get; private set; }
+		public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
 		public float Density { get { return 1; } }
 
@@ -51,6 +52,10 @@ namespace MPfm.GTK.Classes.Controls.Graphics
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {            
         }
+
+		public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)
+		{
+		}
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {

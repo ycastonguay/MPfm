@@ -47,7 +47,6 @@ namespace MPfm.GTK
 
 		protected override bool OnDeleteEvent(Gdk.Event evnt)
 		{
-            OnCancelDiscovery();
             return base.OnDeleteEvent(evnt);
 		}
 
@@ -106,10 +105,12 @@ namespace MPfm.GTK
                     case SyncDeviceType.Windows:
                         pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_windows.png");
                         break;
-                    case SyncDeviceType.iOS:
+					case SyncDeviceType.iPhone:
+					case SyncDeviceType.iPad:
                         pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_phone.png");
                         break;
-                    case SyncDeviceType.Android:
+                    case SyncDeviceType.AndroidPhone:
+					case SyncDeviceType.AndroidTablet:
                         pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_android.png");
                         break;
                 }
@@ -121,10 +122,10 @@ namespace MPfm.GTK
 
         protected void OnClickRefreshDeviceList(object sender, EventArgs e)
         {
-            if(_isDiscovering)
-                OnCancelDiscovery();
-            else
-                OnStartDiscovery();
+//            if(_isDiscovering)
+//                OnCancelDiscovery();
+//            else
+//                OnStartDiscovery();
         }        
 
         protected void OnClickConnectManual(object sender, EventArgs e)
@@ -139,17 +140,23 @@ namespace MPfm.GTK
             if(treeViewDevices.Selection.GetSelected(out model, out iter))
             {
                 SyncDevice device = (SyncDevice)_storeDevices.GetValue(iter, 0);                              
-                OnConnectDevice(device);
+				//OnConnectDevice(device);
             }
         }
 
         #region ISyncView implementation
 
-        public Action<SyncDevice> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        public System.Action OnStartDiscovery { get; set; }
-        public System.Action OnCancelDiscovery { get; set; }
-        public System.Action OnOpenConnectDevice { get; set; }
+		public System.Action<string> OnAddDeviceFromUrl { get; set; }
+		public System.Action<SyncDevice> OnRemoveDevice { get; set; }
+		public System.Action<SyncDevice> OnSyncLibrary { get; set; }
+		public System.Action<SyncDevice> OnResumePlayback { get; set; }
+		public System.Action OnOpenAddDeviceDialog { get; set; }
+
+		public System.Action<SyncDevice> OnRemotePlayPause { get; set; }
+		public System.Action<SyncDevice> OnRemotePrevious { get; set; }
+		public System.Action<SyncDevice> OnRemoteNext { get; set; }
+		public System.Action<SyncDevice> OnRemoteRepeat { get; set; }
+		public System.Action<SyncDevice> OnRemoteShuffle { get; set; }
 
         public void SyncError(Exception ex)
         {
@@ -204,6 +211,26 @@ namespace MPfm.GTK
                 RefreshDeviceListButton();
             });
         }
+
+		public void RefreshStatus(string status)
+		{
+		}
+
+		public void NotifyAddedDevice(SyncDevice device)
+		{
+		}
+
+		public void NotifyRemovedDevice(SyncDevice device)
+		{
+		}
+
+		public void NotifyUpdatedDevice(SyncDevice device)
+		{
+		}
+
+		public void NotifyUpdatedDevices(IEnumerable<SyncDevice> devices)
+		{
+		}
 
         public void SyncDevice(SyncDevice device)
         {

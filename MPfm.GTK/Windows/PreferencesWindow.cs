@@ -21,6 +21,7 @@ using MPfm.MVP.Views;
 using System.Collections.Generic;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
+using MPfm.Library.Objects;
 
 namespace MPfm.GTK.Windows
 {
@@ -61,6 +62,7 @@ namespace MPfm.GTK.Windows
         #region ILibraryPreferencesView implementation
 
         public System.Action OnSelectFolders { get; set; }
+		public System.Action<Folder> OnRemoveFolder { get; set; }
         public System.Action OnResetLibrary { get; set; }
         public System.Action OnUpdateLibrary { get; set; }
         public System.Action<bool> OnEnableSyncListener { get; set; }
