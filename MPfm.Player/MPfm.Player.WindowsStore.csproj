@@ -111,6 +111,7 @@
     <Compile Include="Objects\Marker.cs" />    
     <Compile Include="Events\AudioInterruptedData.cs" />
     <Compile Include="WinRT\Player.cs" />
+        <Compile Include="Objects\Segment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
