@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Library.Objects;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library.Services.Interfaces
@@ -25,19 +26,22 @@ namespace MPfm.Library.Services.Interfaces
     public delegate void ReceivedIndex(Exception ex);
     public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
     public delegate void DownloadAudioFileStatus(SyncClientDownloadAudioFileProgressEntity entity);
+    public delegate void GetEQPresetsCompleted(List<EQPreset> presets);
+    public delegate void GetMarkersCompleted(List<Marker> markers, Guid audioFileId);
+    public delegate void GetLoopsCompleted(List<Loop> loops, Guid audioFileId);
 
     /// <summary>
     /// Interface for the SyncClientService class.
     /// </summary>
     public interface ISyncClientService
     {
+        SyncDevice CurrentDevice { get; }
         event ReceivedIndex OnReceivedIndex;
         event DownloadIndexProgress OnDownloadIndexProgress;
         event DownloadAudioFileStatus OnDownloadAudioFileStarted;
         event DownloadAudioFileStatus OnDownloadAudioFileProgress;
         event DownloadAudioFileStatus OnDownloadAudioFileCompleted;
         event EventHandler OnDownloadAudioFilesCompleted;
-		SyncDevice CurrentDevice { get; }
 
         void Cancel();
 		void DownloadIndex(SyncDevice device);
@@ -47,5 +51,8 @@ namespace MPfm.Library.Services.Interfaces
         List<AudioFile> GetAudioFiles();
         List<AudioFile> GetAudioFiles(string artistName);
         List<AudioFile> GetAudioFiles(string artistName, string albumTitle);
+        void GetEQPresets(SyncDevice device);
+        void GetMarkers(SyncDevice device, Guid audioFileId);
+        void GetLoops(SyncDevice device, Guid audioFileId);
     }
 }

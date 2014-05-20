@@ -32,6 +32,8 @@ namespace MPfm.Library.Services
     public class SyncListenerService : SyncListenerServiceBase
     {
         private readonly IAudioFileCacheService _audioFileCacheService;
+        private readonly ILibraryService _libraryService;
+        private readonly ISyncDeviceManagerService _syncDeviceManagerService;
         private readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
 
         public const string SyncVersionId = "sessions_app_sync_version_1";
@@ -47,11 +49,13 @@ namespace MPfm.Library.Services
             }
         }
 
-        public SyncListenerService(IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications syncDeviceSpecifications) 
+        public SyncListenerService(IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, ISyncDeviceManagerService syncDeviceManagerService, ISyncDeviceSpecifications syncDeviceSpecifications) 
             : base()
         {
             Console.WriteLine("SyncListenerService - AuthenticationCode: {0}", AuthenticationCode);
             _audioFileCacheService = audioFileCacheService;
+            _libraryService = libraryService;
+            _syncDeviceManagerService = syncDeviceManagerService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
             _syncDeviceSpecifications.OnNetworkStateChanged += delegate(NetworkState networkState) {
                 Console.WriteLine("SyncListenerService - NetworkStateChanged isNetworkAvailable: {0} isWifiAvailable: {1} isCellularAvailable: {2}", networkState.IsNetworkAvailable, networkState.IsWifiAvailable, networkState.IsCellularAvailable);
@@ -70,7 +74,7 @@ namespace MPfm.Library.Services
 
         private static int GetRandomNumber(int min, int max)
         {
-            Random random = new Random();
+            var random = new Random();
             return random.Next(min, max);
         }
 
@@ -96,6 +100,10 @@ namespace MPfm.Library.Services
             {
                 ProcessGetVersionCommand(httpContext);
             }
+            else if (command.ToUpper() == "/API/DEVICES")
+            {
+                ProcessGetDevicesCommand(httpContext);
+            }
             else if(command.ToUpper() == "/API/INDEX/XML")
             {
                 ProcessGetIndexXmlCommand(httpContext);
@@ -120,7 +128,19 @@ namespace MPfm.Library.Services
             {
                 ProcessGetPlaylistCommand(httpContext);
             }
-            else if(command.ToUpper().StartsWith("/API/REMOTE"))
+            else if (command.ToUpper().StartsWith("/API/EQPRESETS"))
+            {
+                ProcessGetEQPresetsCommand(httpContext);
+            }
+            else if (command.ToUpper().StartsWith("/API/MARKERS"))
+            {
+                ProcessGetMarkersCommand(httpContext, command);
+            }
+            else if (command.ToUpper().StartsWith("/API/LOOPS"))
+            {
+                ProcessGetLoopsCommand(httpContext, command);
+            }
+            else if (command.ToUpper().StartsWith("/API/REMOTE"))
             {
                 ProcessRemoteCommand(httpContext, command);
             }
@@ -140,6 +160,20 @@ namespace MPfm.Library.Services
             catch (Exception ex)
             {
                 WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private void ProcessGetDevicesCommand(HttpListenerContext httpContext)
+        {
+            try
+            {
+                var devices = _syncDeviceManagerService.GetDeviceList();
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(devices);
+                WriteJSONResponse(httpContext, json);
+            }
+            catch (Exception ex)
+            {
+                WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the list of devices.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
             }
         }
 
@@ -322,6 +356,52 @@ namespace MPfm.Library.Services
                 // TODO: Cache! Also protect from spamming
                 byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
                 WriteBinaryResponse(httpContext, bytesImage);
+            }
+            catch (Exception ex)
+            {
+                WriteHTMLResponse(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private void ProcessGetEQPresetsCommand(HttpListenerContext httpContext)
+        {
+            try
+            {
+                var presets = _libraryService.SelectEQPresets();
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(presets);
+                WriteJSONResponse(httpContext, json);
+            }
+            catch (Exception ex)
+            {
+                WriteHTMLResponse(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private void ProcessGetMarkersCommand(HttpListenerContext httpContext, string command)
+        {
+            try
+            {
+                string[] split = command.Split(new char[1] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                var audioFileId = new Guid(split[2]);
+                var markers = _libraryService.SelectMarkers(audioFileId);
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(markers);
+                WriteJSONResponse(httpContext, json);
+            }
+            catch (Exception ex)
+            {
+                WriteHTMLResponse(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private void ProcessGetLoopsCommand(HttpListenerContext httpContext, string command)
+        {
+            try
+            {
+                string[] split = command.Split(new char[1] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                var audioFileId = new Guid(split[2]);
+                var loops = _libraryService.SelectLoops(audioFileId);
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(loops);
+                WriteJSONResponse(httpContext, json);
             }
             catch (Exception ex)
             {

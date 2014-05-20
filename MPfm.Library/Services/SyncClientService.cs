@@ -17,16 +17,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
-using MPfm.Core.Network;
-using MPfm.Library.Services.Interfaces;
-using MPfm.Sound.AudioFiles;
-using MPfm.Core;
-using System.Linq;
-using System.IO;
-using MPfm.Library.Objects;
-using System.Diagnostics;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using MPfm.Core;
+using MPfm.Core.Network;
+using MPfm.Sound.AudioFiles;
+using MPfm.Library.Objects;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.Library.Services
 {
@@ -198,16 +198,52 @@ namespace MPfm.Library.Services
                 _webClient.CancelAsync();
         }
 
-		public void DownloadIndex(SyncDevice device)
+        public void DownloadIndex(SyncDevice device)
         {
             if (string.IsNullOrEmpty(device.Url))
                 return;
 
-			var url = new Uri(new Uri(device.Url), "/api/index/xml");
+            var url = new Uri(new Uri(device.Url), "/api/index/xml");
             Cancel();
 
             Console.WriteLine("SyncClientService - Downloading index from {0}...", url);
             _webClient.DownloadStringAsync(url, RequestTypes.DownloadIndex);
+        }
+
+		public void GetEQPresets(SyncDevice device)
+        {
+            if (string.IsNullOrEmpty(device.Url))
+                return;
+
+			var url = new Uri(new Uri(device.Url), "/api/eqpresets");
+            Cancel();
+
+            Console.WriteLine("SyncClientService - Downloading EQ presets from {0}...", url);
+            _webClient.DownloadStringAsync(url, RequestTypes.GetEQPresets);
+        }
+
+        public void GetMarkers(SyncDevice device, Guid audioFileId)
+        {
+            if (string.IsNullOrEmpty(device.Url))
+                return;
+
+            var url = new Uri(new Uri(device.Url), string.Format("/api/markers/{0}", audioFileId));
+            Cancel();
+
+            Console.WriteLine("SyncClientService - Downloading markers from {0} (audioFileId: {1})...", url, audioFileId);
+            _webClient.DownloadStringAsync(url, RequestTypes.GetMarkers);
+        }
+
+        public void GetLoops(SyncDevice device, Guid audioFileId)
+        {
+            if (string.IsNullOrEmpty(device.Url))
+                return;
+
+            var url = new Uri(new Uri(device.Url), string.Format("/api/loops/{0}", audioFileId));
+            Cancel();
+
+            Console.WriteLine("SyncClientService - Downloading loops from {0} (audioFileId: {1})...", url, audioFileId);
+            _webClient.DownloadStringAsync(url, RequestTypes.GetLoops);
         }
 
         public void GetPlayerStatus(string deviceUrl)
@@ -314,7 +350,13 @@ namespace MPfm.Library.Services
 
         public enum RequestTypes
         {
-            DownloadIndex = 0, GetPlayerStatus = 1, GetPlaylist = 2, Remote = 3
+            DownloadIndex = 0, 
+            GetPlayerStatus = 1, 
+            GetPlaylist = 2,
+            GetEQPresets = 3,
+            GetMarkers = 4,
+            GetLoops = 5,
+            Remote = 6
         }
     }
 }

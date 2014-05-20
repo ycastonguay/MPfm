@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Library.Objects;
-using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library.Services.Interfaces
 {
@@ -40,6 +39,7 @@ namespace MPfm.Library.Services.Interfaces
         void AddDevice(SyncDevice device);
         void AddDeviceFromUrl(string url);
         void RemoveDevice(SyncDevice device);
+        IEnumerable<SyncDevice> GetDeviceList();
 
         void RemotePlay(SyncDevice device);
         void RemotePause(SyncDevice device);

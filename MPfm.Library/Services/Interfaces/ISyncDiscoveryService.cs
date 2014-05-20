@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using MPfm.Library.Objects;
 
@@ -32,13 +31,13 @@ namespace MPfm.Library.Services.Interfaces
     {
         event DeviceFound OnDeviceFound;
         event DiscoveryProgress OnDiscoveryProgress;
-        event DiscoveryEnded OnDiscoveryEnded;
 
         bool IsRunning { get; }
 
-        List<SyncDevice> GetDeviceList();
-        void SearchForDevices(List<string> ips);
-        void SearchForDevices(string baseIP);
+        void Start();
+        void AddToSearchList(string baseIP);
+        void AddDeviceToSearchList(string ip);
+        void AddDevicesToSearchList(List<string> ips);
         void Cancel();
     }
 }

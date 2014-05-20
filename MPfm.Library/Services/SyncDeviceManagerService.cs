@@ -17,18 +17,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using MPfm.Core;
+using MPfm.Core.Helpers;
 using MPfm.Core.Network;
 using MPfm.Player.Objects;
+using Newtonsoft.Json;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using MPfm.Core.Helpers;
-using System.IO;
-using MPfm.Core;
 
 namespace MPfm.Library.Services
 {
@@ -39,6 +39,7 @@ namespace MPfm.Library.Services
         private readonly ISyncDeviceSpecifications _deviceSpecifications;
         private readonly WebClientTimeout _webClient;
         private readonly WebClientTimeout _webClientRemote;
+        private bool _shouldStopLooper = false;
         private List<SyncDevice> _devices;
 
         public event StatusUpdated OnStatusUpdated;
@@ -60,9 +61,13 @@ namespace MPfm.Library.Services
             _discoveryService = discoveryService;
             _discoveryService.OnDeviceFound += HandleOnDeviceFound;
             _discoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
-            _discoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
             _webClient = new WebClientTimeout(3000);
             _webClientRemote = new WebClientTimeout(3000);
+        }
+
+        public IEnumerable<SyncDevice> GetDeviceList()
+        {
+            return _devices.ToList();
         }
 
         private void LoadDeviceStoreFromDisk()
@@ -108,7 +113,7 @@ namespace MPfm.Library.Services
             }
         }
 
-        private void InitializeLooper()
+        private void StartLooper()
         {
             var thread = new Thread(new ThreadStart(() =>
                 {
@@ -116,6 +121,13 @@ namespace MPfm.Library.Services
                     int a = 0;
                     while (true)
                     {
+                        // Check for cancelling
+                        if (_shouldStopLooper)
+                        {
+                            _shouldStopLooper = false;
+                            break;
+                        }
+
                         SyncDevice item = null;
                         lock(_locker)
                         {
@@ -205,12 +217,13 @@ namespace MPfm.Library.Services
         {
             LoadDeviceStoreFromDisk();
             OnDevicesUpdated(_devices);
-            InitializeLooper();
+            StartLooper();
             StartDiscovery();
         }
 
         public void Stop()
         {
+            _shouldStopLooper = true;
             if (_discoveryService.IsRunning)
                 _discoveryService.Cancel();
         }
@@ -235,7 +248,7 @@ namespace MPfm.Library.Services
 
         public void AddDeviceFromUrl(string url)
         {
-
+            _discoveryService.AddDeviceToSearchList(url);
         }
 
         public void RemoveDevice(SyncDevice device)
@@ -299,7 +312,7 @@ namespace MPfm.Library.Services
             string baseIP = split[0] + "." + split[1] + "." + split[2];
 
             OnStatusUpdated("Finding devices on your local network...");
-            _discoveryService.SearchForDevices(baseIP);
+            _discoveryService.AddToSearchList(baseIP);
         }
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
@@ -316,16 +329,6 @@ namespace MPfm.Library.Services
         {
             //OnStatusUpdated(string.Format("Discovery status: {0} {1}", percentageDone, status));
             //Console.WriteLine("SyncDeviceManagerService - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
-        }
-
-        private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
-        {
-            //Console.WriteLine("SyncDeviceManagerService - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
-            Task.Factory.StartNew(() =>
-            {
-                Thread.Sleep(2500);
-                StartDiscovery();
-            });
         }
 
         private class SyncDeviceStore
