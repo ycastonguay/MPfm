@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
-using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.Playlists;
@@ -30,6 +29,7 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace MPfm.Player
 {
+    public delegate void SegmentIndexChanged(int segmentIndex);
     public delegate void PlaylistIndexChanged(PlayerPlaylistIndexChangedData data);
     public delegate void AudioInterrupted(AudioInterruptedData data);
     public delegate void BPMDetected(float bpm);
@@ -51,6 +51,7 @@ namespace MPfm.Player
         bool IsPlaying { get; }
         bool UseFloatingPoint { get; }
         int MixerSampleRate { get; }
+        int CurrentSegmentIndex { get; }
         Playlist Playlist { get; }
         RepeatType RepeatType { get; set; }
         float TimeShifting { get; set; }
@@ -62,6 +63,7 @@ namespace MPfm.Player
         event PlaylistIndexChanged OnPlaylistIndexChanged;
         event AudioInterrupted OnAudioInterrupted;
         event BPMDetected OnBPMDetected;
+        event SegmentIndexChanged OnSegmentIndexChanged;
 
         void InitializeDevice();
         void InitializeDevice(Device device, int mixerSampleRate);

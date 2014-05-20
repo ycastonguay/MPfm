@@ -144,6 +144,11 @@ namespace MPfm.Player
         /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
         /// </summary>
         public event BPMDetected OnBPMDetected;
+        
+        /// <summary>
+        /// The OnSegmentIndexChanged is triggered when the segment index changes.
+        /// </summary>
+        public event SegmentIndexChanged OnSegmentIndexChanged;
 
         #endregion
 
@@ -183,6 +188,22 @@ namespace MPfm.Player
             {
                 return _useFloatingPoint;
             }
+        }       
+        
+        private bool _isEndlessLoopSegmentEnabled = false;
+        /// <summary>
+        /// Determines if the player should loop endlessly every loop segment.
+        /// </summary>
+        public bool IsEndlessLoopSegmentEnabled
+        {
+            get
+            {
+                return _isEndlessLoopSegmentEnabled;
+            }
+            set
+            {
+                _isEndlessLoopSegmentEnabled = value;
+            }            
         }
 
         private Device _device = null;
@@ -209,6 +230,15 @@ namespace MPfm.Player
             }
         }       
 
+        private int _currentSegmentIndex = 0;
+        public int CurrentSegmentIndex 
+        {
+            get
+            {
+                return _currentSegmentIndex;
+            }
+        }
+
         private RepeatType _repeatType = RepeatType.Off;
         /// <summary>
         /// Repeat type (Off, Playlist, Song)
@@ -222,7 +252,7 @@ namespace MPfm.Player
             set
             {
                 _repeatType = value;
-                Console.WriteLine("Player - RepeatType: {0}", value.ToString());
+                //Console.WriteLine("Player - RepeatType: {0}", value.ToString());
 
                 // Check if the current song exists
                 if (_playlist != null && _playlist.CurrentItem != null)
@@ -1528,9 +1558,12 @@ namespace MPfm.Player
         {
             if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
                 return;
+            
+            if(loop.Segments.Count == 0)
+                return;
 
-            long startPositionBytes = loop.StartPositionBytes;
-            long endPositionBytes = loop.EndPositionBytes;
+            long startPositionBytes = loop.Segments[_currentSegmentIndex].StartPositionBytes;
+            long endPositionBytes = loop.Segments[_currentSegmentIndex].EndPositionBytes;
 
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
@@ -2100,8 +2133,13 @@ namespace MPfm.Player
             if (Loop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
                 return;
 
+            if (Loop.Segments.Count - 1 > _currentSegmentIndex)
+                _currentSegmentIndex = 0;
+            else
+                _currentSegmentIndex++;
+            
             // Get loop start position
-            long bytes = Loop.StartPositionBytes;
+            long bytes = Loop.Segments[_currentSegmentIndex].StartPositionBytes;
             _mixerChannel.Lock(true);
 
             // Check if this is a FLAC file over 44100Hz
@@ -2119,6 +2157,9 @@ namespace MPfm.Player
             // Set offset position (for calulating current position)
             _positionOffset = bytes;
             _mixerChannel.Lock(false);
+            
+            if(OnSegmentIndexChanged != null)
+                OnSegmentIndexChanged(_currentSegmentIndex);
         }
 
         /// <summary>

@@ -115,5 +115,6 @@
     <Compile Include="Objects\CastServerParams.cs" />
     <Compile Include="Objects\CastServerMetadata.cs" />
     <Compile Include="Objects\PlayerMetadata.cs" />
+    <Compile Include="Objects\Segment.cs" />
   </ItemGroup>
 </Project>
