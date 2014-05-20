@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
+using System.Linq;
 
 namespace MPfm.Sound.PeakFiles
 {
@@ -59,9 +60,6 @@ namespace MPfm.Sound.PeakFiles
         /// </summary>
         public bool IsProcessing { get; private set; }
 
-        /// <summary>
-        /// Private value for the ProgressReportBlockInterval property.
-        /// </summary>
         private int progressReportBlockInterval = 200;
         /// <summary>
         /// Defines when the OnProgressData event is called; it will be called
@@ -409,18 +407,45 @@ namespace MPfm.Sound.PeakFiles
         /// <returns>Total size (in bytes)</returns>
         public static long CheckDirectorySize(string path)
         {
-            // Get list of files
-            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
-
-            // Loop through files and calculate total length
             long length = 0;
+            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
             foreach (string file in files)
             {
-                FileInfo fileInfo = new FileInfo(file);
+                var fileInfo = new FileInfo(file);
                 length += fileInfo.Length;
             }
 
             return length;
+        }
+        
+        public static void DeletePeakFilesWhenExceedingMaximumFolderSize(string path, long maximumFolderSize)
+        {
+            long length = 0;
+            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
+            List<Tuple<string, DateTime>> filesWithTimestamps = new List<Tuple<string, DateTime>>();
+            foreach (string file in files)
+            {
+                var fileInfo = new FileInfo(file);
+                length += fileInfo.Length;
+                filesWithTimestamps.Add(new Tuple<string, DateTime>(file, fileInfo.LastAccessTime));
+            }
+            
+            if (length > maximumFolderSize)
+            {
+                var ordered = filesWithTimestamps.OrderBy(x => x.Item2).ToList();
+                while (true)
+                {
+                    if(ordered.Count == 0)
+                        break;
+                    
+                    if(length <= maximumFolderSize)
+                        break;
+                    
+                    var item = ordered[0];
+                    File.Delete(item.Item1);
+                    ordered.Remove(item);
+                }
+            }
         }
 
         /// <summary>
