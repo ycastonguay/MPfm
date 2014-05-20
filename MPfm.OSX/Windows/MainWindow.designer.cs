@@ -316,6 +316,18 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblYear { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuAddToPlaylist { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuDeleteFromHardDisk { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuPlay { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuRemoveFromLibrary { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
 
 		[Outlet]
@@ -480,6 +492,9 @@ namespace MPfm.OSX
 		[Action ("actionAddSongToPlaylist:")]
 		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionAddToPlaylist:")]
+		partial void actionAddToPlaylist (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionBackLoopDetails:")]
 		partial void actionBackLoopDetails (MonoMac.Foundation.NSObject sender);
 
@@ -500,6 +515,9 @@ namespace MPfm.OSX
 
 		[Action ("actionDecrementTimeShifting:")]
 		partial void actionDecrementTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionDeleteFromHardDisk:")]
+		partial void actionDeleteFromHardDisk (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionEditLoop:")]
 		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
@@ -566,6 +584,9 @@ namespace MPfm.OSX
 
 		[Action ("actionPunchInSegmentStartPosition:")]
 		partial void actionPunchInSegmentStartPosition (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveFromLibrary:")]
+		partial void actionRemoveFromLibrary (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRemoveLoop:")]
 		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
@@ -1090,6 +1111,16 @@ namespace MPfm.OSX
 				lblTitleMarkers = null;
 			}
 
+			if (lblTitleSegmentDetails != null) {
+				lblTitleSegmentDetails.Dispose ();
+				lblTitleSegmentDetails = null;
+			}
+
+			if (lblTitleSegments != null) {
+				lblTitleSegments.Dispose ();
+				lblTitleSegments = null;
+			}
+
 			if (lblTitleSongBrowser != null) {
 				lblTitleSongBrowser.Dispose ();
 				lblTitleSongBrowser = null;
@@ -1360,14 +1391,24 @@ namespace MPfm.OSX
 				waveFormScrollView = null;
 			}
 
-			if (lblTitleSegmentDetails != null) {
-				lblTitleSegmentDetails.Dispose ();
-				lblTitleSegmentDetails = null;
+			if (menuPlay != null) {
+				menuPlay.Dispose ();
+				menuPlay = null;
 			}
 
-			if (lblTitleSegments != null) {
-				lblTitleSegments.Dispose ();
-				lblTitleSegments = null;
+			if (menuAddToPlaylist != null) {
+				menuAddToPlaylist.Dispose ();
+				menuAddToPlaylist = null;
+			}
+
+			if (menuRemoveFromLibrary != null) {
+				menuRemoveFromLibrary.Dispose ();
+				menuRemoveFromLibrary = null;
+			}
+
+			if (menuDeleteFromHardDisk != null) {
+				menuDeleteFromHardDisk.Dispose ();
+				menuDeleteFromHardDisk = null;
 			}
 		}
 	}

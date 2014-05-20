@@ -32,7 +32,11 @@ namespace MPfm.MVP.Views
         Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
         Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
-        
+        Action<LibraryBrowserEntity> OnAddToPlaylist { get; set; }
+        Action<LibraryBrowserEntity> OnRemoveFromLibrary { get; set; }
+        Action<LibraryBrowserEntity> OnDeleteFromHardDisk { get; set; }
+
+        void LibraryBrowserError(Exception ex);
 		void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities);
 		void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData);
         void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity);

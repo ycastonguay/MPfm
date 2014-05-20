@@ -108,6 +108,10 @@
                 <outlet property="lblUpdateLibraryStatus" destination="x0c-hA-JcD" id="RUE-4u-KtS"/>
                 <outlet property="lblVolume" destination="118" id="279"/>
                 <outlet property="lblYear" destination="wlo-uZ-RIW" id="env-yq-7A8"/>
+                <outlet property="menuAddToPlaylist" destination="858" id="FPc-1R-mJv"/>
+                <outlet property="menuDeleteFromHardDisk" destination="857" id="itp-sL-GOm"/>
+                <outlet property="menuPlay" destination="846" id="UeL-Ya-g1j"/>
+                <outlet property="menuRemoveFromLibrary" destination="845" id="7rA-Zu-8gf"/>
                 <outlet property="outlineLibraryBrowser" destination="20" id="498"/>
                 <outlet property="outputMeter" destination="rKj-Mz-2e5" id="GaD-8L-pNS"/>
                 <outlet property="progressBarUpdateLibrary" destination="rNy-sE-Adq" id="NV0-Z9-gpg"/>
@@ -1904,7 +1908,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000006053591" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000018229304" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -2052,22 +2056,31 @@
                 <outlet property="lblArtistName" destination="54" id="56"/>
             </connections>
         </window>
-        <menu title="Contextual menu" id="827">
+        <menu title="Contextual menu" autoenablesItems="NO" id="827">
             <items>
-                <menuItem title="Play" id="846">
+                <menuItem title="Play" enabled="NO" id="846">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="actionContextualMenuPlay:" target="-2" id="862"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Add to playlist" id="858">
+                <menuItem title="Add to playlist" enabled="NO" id="858">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionAddToPlaylist:" target="-2" id="YeR-aP-VR6"/>
+                    </connections>
                 </menuItem>
-                <menuItem title="Remove from library" id="845">
+                <menuItem title="Remove from library" enabled="NO" id="845">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionRemoveFromLibrary:" target="-2" id="0c5-gg-c8U"/>
+                    </connections>
                 </menuItem>
-                <menuItem title="Delete from hard disk" id="857">
+                <menuItem title="Delete from hard disk" enabled="NO" id="857">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="actionDeleteFromHardDisk:" target="-2" id="PhS-z8-HS2"/>
+                    </connections>
                 </menuItem>
             </items>
         </menu>

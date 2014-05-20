@@ -29,6 +29,8 @@ using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.MVP.Config;
 using MPfm.Library.Messages;
+using System;
+using System.IO;
 
 namespace MPfm.MVP.Presenters
 {
@@ -37,15 +39,17 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class LibraryBrowserPresenter : BasePresenter<ILibraryBrowserView>, ILibraryBrowserPresenter
 	{
-        readonly ITinyMessengerHub _messageHub;
-		readonly ILibraryService _libraryService;
+        private readonly ITinyMessengerHub _messageHub;
+        private readonly ILibraryService _libraryService;
+        private readonly IPlayerService _playerService;
 		
 		public AudioFileFormat Filter { get; private set; }
 		
-		public LibraryBrowserPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService)
+        public LibraryBrowserPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{						
             _messageHub = messageHub;
 			_libraryService = libraryService;
+            _playerService = playerService;
 		}
 		
         public override void BindView(ILibraryBrowserView view)
@@ -56,12 +60,15 @@ namespace MPfm.MVP.Presenters
             view.OnTreeNodeExpanded = TreeNodeExpanded;
             view.OnTreeNodeExpandable = TreeNodeExpandable;
             view.OnTreeNodeDoubleClicked = TreeNodeDoubleClicked;
+            view.OnAddToPlaylist = AddToPlaylist;
+            view.OnRemoveFromLibrary = RemoveFromLibrary;
+            view.OnDeleteFromHardDisk = DeleteFromHardDisk;
 
             _messageHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
 
             Initialize();
         }
-        
+
         private void Initialize()
         {
             RefreshLibraryBrowser();
@@ -239,6 +246,52 @@ namespace MPfm.MVP.Presenters
                 Query = entity.Query
             });
 		}
+
+        private void AddToPlaylist(LibraryBrowserEntity entity)
+        {
+            try
+            {
+                var audioFiles = _libraryService.SelectAudioFiles(entity.Query);
+                _playerService.CurrentPlaylist.AddItems(audioFiles);
+            }
+            catch(Exception ex)
+            {
+                View.LibraryBrowserError(ex);
+            }
+        }
+
+        private void RemoveFromLibrary(LibraryBrowserEntity entity)
+        {
+            try
+            {
+                // TODO: Optimize this by creating a single SQL query instead of a query for each file
+                var audioFiles = _libraryService.SelectAudioFiles(entity.Query);
+                foreach(var audioFile in audioFiles)
+                    _libraryService.DeleteAudioFile(audioFile.Id);
+            }
+            catch(Exception ex)
+            {
+                View.LibraryBrowserError(ex);
+            }
+        }
+
+        private void DeleteFromHardDisk(LibraryBrowserEntity entity)
+        {
+            try
+            {
+                // TODO: Optimize this by creating a single SQL query instead of a query for each file
+                var audioFiles = _libraryService.SelectAudioFiles(entity.Query);
+                foreach(var audioFile in audioFiles)
+                {
+                    _libraryService.DeleteAudioFile(audioFile.Id);
+                    File.Delete(audioFile.FilePath);
+                }
+            }
+            catch(Exception ex)
+            {
+                View.LibraryBrowserError(ex);
+            }
+        }
 
 		/// <summary>
 		/// Returns the first level nodes of the library browser.

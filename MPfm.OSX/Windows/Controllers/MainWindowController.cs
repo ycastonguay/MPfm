@@ -45,6 +45,7 @@ namespace MPfm.OSX
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
+        LibraryBrowserEntity _currentLibraryBrowserEntity;
         string _currentAlbumArtKey;
         bool _isPlayerPositionChanging = false;
         bool _isScrollViewWaveFormChangingSecondaryPosition = false;
@@ -154,7 +155,8 @@ namespace MPfm.OSX
 
         private void LoadTreeViews()
         {
-            _libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
+            //_libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
+            _libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate(LibraryBrowserTreeNodeSelected);
             outlineLibraryBrowser.Delegate = _libraryBrowserOutlineViewDelegate;
             outlineLibraryBrowser.AllowsMultipleSelection = false;
             outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
@@ -468,6 +470,19 @@ namespace MPfm.OSX
             viewActions.Hidden = button != btnTabActions;
         }
 
+        private void LibraryBrowserTreeNodeSelected(LibraryBrowserEntity entity)
+        {
+            _currentLibraryBrowserEntity = entity;
+
+            menuPlay.Enabled = entity != null;
+            menuAddToPlaylist.Enabled = entity != null;
+            menuRemoveFromLibrary.Enabled = entity != null;
+            menuDeleteFromHardDisk.Enabled = entity != null;
+
+            if(entity != null)
+                OnTreeNodeSelected(entity);
+        }
+
 		partial void actionAddFilesToLibrary(NSObject sender)
 		{
 			IEnumerable<string> filePaths = null;
@@ -743,6 +758,64 @@ namespace MPfm.OSX
 
         partial void actionContextualMenuPlay(NSObject sender)
         {
+            if(outlineLibraryBrowser.SelectedRow < 0 || _currentLibraryBrowserEntity == null)
+                return;
+
+            OnTreeNodeDoubleClicked(_currentLibraryBrowserEntity);
+        }
+
+        partial void actionAddToPlaylist(NSObject sender)
+        {
+            if(outlineLibraryBrowser.SelectedRow < 0 || _currentLibraryBrowserEntity == null)
+                return;
+
+            OnAddToPlaylist(_currentLibraryBrowserEntity);
+        }
+
+        partial void actionRemoveFromLibrary(NSObject sender)
+        {
+            if(outlineLibraryBrowser.SelectedRow < 0 || _currentLibraryBrowserEntity == null)
+                return;
+
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Audio files will be removed from library";
+                alert.InformativeText = "Are you sure you wish to remove these audio files from your library?\nThis does not delete the audio files from your hard disk.";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnRemoveFromLibrary(_currentLibraryBrowserEntity);
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
+        }
+
+        partial void actionDeleteFromHardDisk(NSObject sender)
+        {
+            if(outlineLibraryBrowser.SelectedRow < 0 || _currentLibraryBrowserEntity == null)
+                return;
+
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Audio files will be deleted from hard disk";
+                alert.InformativeText = "Are you sure you wish to delete these audio files from your hard disk?\nWARNING: This operation CANNOT be undone!";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnDeleteFromHardDisk(_currentLibraryBrowserEntity);
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
         }
 
         partial void actionTabActions(NSObject sender)
@@ -1003,6 +1076,11 @@ namespace MPfm.OSX
         public Action OnOpenEffects { get; set; }
         public Action OnOpenResumePlayback { get; set; }
 
+        public void PlayerError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
             InvokeOnMainThread(() => {
@@ -1176,13 +1254,6 @@ namespace MPfm.OSX
             });
         }
 
-        public void PlayerError(Exception ex)
-        {
-            InvokeOnMainThread(() => {
-                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Player component: {0}", ex), NSAlertStyle.Critical);
-            });
-        }
-
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
             InvokeOnMainThread(() => {
@@ -1215,6 +1286,14 @@ namespace MPfm.OSX
         public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
         public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+        public Action<LibraryBrowserEntity> OnAddToPlaylist { get; set; }
+        public Action<LibraryBrowserEntity> OnRemoveFromLibrary { get; set; }
+        public Action<LibraryBrowserEntity> OnDeleteFromHardDisk { get; set; }
+
+        public void LibraryBrowserError(Exception ex)
+        {
+            ShowError(ex);
+        }
 
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
@@ -1336,9 +1415,7 @@ namespace MPfm.OSX
 
         public void PitchShiftingError(Exception ex)
         {
-            InvokeOnMainThread(delegate {
-                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the PitchShifting component: {0}", ex), NSAlertStyle.Critical);
-            });
+            ShowError(ex);
         }
 
         public void RefreshKeys(List<Tuple<int, string>> keys)
@@ -1367,9 +1444,7 @@ namespace MPfm.OSX
 
         public void TimeShiftingError(Exception ex)
         {
-            InvokeOnMainThread(delegate {
-                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the TimeShifting component: {0}", ex), NSAlertStyle.Critical);
-            });
+            ShowError(ex);
         }
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
@@ -1391,9 +1466,7 @@ namespace MPfm.OSX
 
         public void LoopError(Exception ex)
         {
-            InvokeOnMainThread(delegate {
-                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Loops component: {0}", ex), NSAlertStyle.Critical);
-            });
+            ShowError(ex);
         }
 
         public void RefreshLoops(List<Loop> loops)

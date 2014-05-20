@@ -16,14 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MonoMac.ObjCRuntime;
-using MPfm.MVP;
 using MPfm.MVP.Models;
 using MPfm.OSX.Classes.Objects;
 
@@ -56,10 +51,10 @@ namespace MPfm.OSX.Classes.Delegates
             // Get selected row and call presenter
             var outlineView = (NSOutlineView)notification.Object;
             var item = (LibraryBrowserItem)outlineView.ItemAtRow(outlineView.SelectedRow);
-
-            // Call presenter if a valid item has been found
-            if(item != null)
+            if (item != null)
                 OnTreeNodeSelected(item.Entity);
+            else
+                OnTreeNodeSelected(null);
         }
 
         public override void ItemDidExpand(NSNotification notification)
