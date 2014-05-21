@@ -317,6 +317,7 @@ namespace MPfm.OSX.Classes.Controls
         public void SetMarkerPosition(Marker marker)
         {
             WaveFormView.SetMarkerPosition(marker);
+            ProcessAutoScroll((long)(marker.PositionPercentage * _waveFormLength));
         }
 
         private void ProcessAutoScroll(long position)

@@ -741,7 +741,25 @@ namespace MPfm.OSX
 
         partial void actionRemoveMarker(NSObject sender)
         {
+            if(tableMarkers.SelectedRow < 0)
+                return;
 
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Marker will be removed";
+                alert.InformativeText = "Are you sure you wish to remove this marker?";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnDeleteMarker(_markers[tableMarkers.SelectedRow]);
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
         }
 
         partial void actionBackLoopDetails(NSObject sender)
@@ -758,6 +776,9 @@ namespace MPfm.OSX
 
             _currentMarker.Name = txtMarkerName.StringValue;
             OnUpdateMarkerDetails(_currentMarker);
+
+            _currentMarker = null;
+            waveFormScrollView.SetActiveMarker(Guid.Empty);
         }
 
         partial void actionPunchInMarker(NSObject sender)
