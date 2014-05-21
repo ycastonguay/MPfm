@@ -11,7 +11,6 @@
                 <outlet property="btnAddLoop" destination="314" id="454"/>
                 <outlet property="btnAddMarker" destination="443" id="458"/>
                 <outlet property="btnAddSegment" destination="LKk-Vc-gxD" id="Y4I-Jt-giH"/>
-                <outlet property="btnAddSongToPlaylist" destination="183" id="475"/>
                 <outlet property="btnBackLoop" destination="C8D-vC-tvL" id="4Sv-Vc-UFt"/>
                 <outlet property="btnBackMarker" destination="U4z-5t-pZP" id="QDW-r8-pZx"/>
                 <outlet property="btnBackSegment" destination="W61-IQ-kFf" id="2wp-pe-GmY"/>
@@ -27,7 +26,6 @@
                 <outlet property="btnIncrementPitchShifting" destination="WC9-tm-Pid" id="dtf-vQ-Flu"/>
                 <outlet property="btnIncrementTimeShifting" destination="797" id="6ab-IP-x7w"/>
                 <outlet property="btnPlayLoop" destination="308" id="452"/>
-                <outlet property="btnPlaySelectedSong" destination="142" id="474"/>
                 <outlet property="btnPunchInMarker" destination="XVc-UQ-Q4t" id="cw3-BW-gxh"/>
                 <outlet property="btnPunchInSegmentEndPosition" destination="uox-8K-yS1" id="mI6-BH-a9f"/>
                 <outlet property="btnPunchInSegmentStartPostion" destination="pFw-rc-rhv" id="jmT-05-OwS"/>
@@ -1908,7 +1906,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000018229304" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -1916,36 +1914,6 @@
                                                                                     <color key="backgroundColor" red="1" green="0.98823535439999999" blue="0.98823535439999999" alpha="1" colorSpace="deviceRGB"/>
                                                                                 </searchFieldCell>
                                                                             </searchField>
-                                                                            <button hidden="YES" verticalHuggingPriority="750" id="185">
-                                                                                <rect key="frame" x="296" y="0.0" width="61" height="24"/>
-                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="smallSquare" title="Edit song metadata" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="186">
-                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                </buttonCell>
-                                                                            </button>
-                                                                            <button hidden="YES" verticalHuggingPriority="750" id="183">
-                                                                                <rect key="frame" x="233" y="-1" width="61" height="24"/>
-                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="smallSquare" title="Add song to playlist" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="184">
-                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                </buttonCell>
-                                                                                <connections>
-                                                                                    <action selector="actionAddSongToPlaylist:" target="-2" id="274"/>
-                                                                                </connections>
-                                                                            </button>
-                                                                            <button hidden="YES" verticalHuggingPriority="750" id="142">
-                                                                                <rect key="frame" x="170" y="-1" width="61" height="24"/>
-                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <buttonCell key="cell" type="smallSquare" title="Play selected song" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="143">
-                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                </buttonCell>
-                                                                                <connections>
-                                                                                    <action selector="actionPlaySelectedSong:" target="-2" id="273"/>
-                                                                                </connections>
-                                                                            </button>
                                                                         </subviews>
                                                                     </customView>
                                                                     <customView id="eee-ms-hVD" customClass="MPfmSongGridView">

@@ -50,6 +50,7 @@ namespace MPfm.GenericControls.Controls
         public int FaderHeight { get; set; }
         public int Margin { get; set; }
         public int StepSize { get; set; }
+        public int WheelStepSize { get; set; }
         public int Minimum { get; set; }
         public int Maximum { get; set; }
 
@@ -106,6 +107,7 @@ namespace MPfm.GenericControls.Controls
             Maximum = 1;
             Margin = 16;
             StepSize = 1;
+            WheelStepSize = 1;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
 
@@ -252,7 +254,7 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseWheel(float delta)
         {
-            int newValue = (int)(Value + (delta * 20));
+            int newValue = (int)(Value + (delta * WheelStepSize));
             if(newValue < Minimum)
                 newValue = Minimum;
             else if(newValue > Maximum)

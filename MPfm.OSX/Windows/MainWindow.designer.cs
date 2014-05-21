@@ -25,9 +25,6 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmButton btnAddSegment { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnAddSongToPlaylist { get; set; }
-
-		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnBackLoop { get; set; }
 
 		[Outlet]
@@ -71,9 +68,6 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSButton btnPlaySelectedSong { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnPunchInMarker { get; set; }
@@ -343,9 +337,6 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSSearchField searchSongBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
-
-		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmSongGridView songGridView { get; set; }
 
 		[Outlet]
@@ -489,9 +480,6 @@ namespace MPfm.OSX
 		[Action ("actionAddSegment:")]
 		partial void actionAddSegment (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionAddSongToPlaylist:")]
-		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionAddToPlaylist:")]
 		partial void actionAddToPlaylist (MonoMac.Foundation.NSObject sender);
 
@@ -569,9 +557,6 @@ namespace MPfm.OSX
 
 		[Action ("actionPlayLoop:")]
 		partial void actionPlayLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionPlaySelectedSong:")]
-		partial void actionPlaySelectedSong (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
@@ -661,11 +646,6 @@ namespace MPfm.OSX
 				btnAddSegment = null;
 			}
 
-			if (btnAddSongToPlaylist != null) {
-				btnAddSongToPlaylist.Dispose ();
-				btnAddSongToPlaylist = null;
-			}
-
 			if (btnBackLoop != null) {
 				btnBackLoop.Dispose ();
 				btnBackLoop = null;
@@ -739,11 +719,6 @@ namespace MPfm.OSX
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
-			}
-
-			if (btnPlaySelectedSong != null) {
-				btnPlaySelectedSong.Dispose ();
-				btnPlaySelectedSong = null;
 			}
 
 			if (btnPunchInMarker != null) {
@@ -1146,6 +1121,26 @@ namespace MPfm.OSX
 				lblYear = null;
 			}
 
+			if (menuAddToPlaylist != null) {
+				menuAddToPlaylist.Dispose ();
+				menuAddToPlaylist = null;
+			}
+
+			if (menuDeleteFromHardDisk != null) {
+				menuDeleteFromHardDisk.Dispose ();
+				menuDeleteFromHardDisk = null;
+			}
+
+			if (menuPlay != null) {
+				menuPlay.Dispose ();
+				menuPlay = null;
+			}
+
+			if (menuRemoveFromLibrary != null) {
+				menuRemoveFromLibrary.Dispose ();
+				menuRemoveFromLibrary = null;
+			}
+
 			if (outlineLibraryBrowser != null) {
 				outlineLibraryBrowser.Dispose ();
 				outlineLibraryBrowser = null;
@@ -1169,11 +1164,6 @@ namespace MPfm.OSX
 			if (searchSongBrowser != null) {
 				searchSongBrowser.Dispose ();
 				searchSongBrowser = null;
-			}
-
-			if (sliderPitchShifting != null) {
-				sliderPitchShifting.Dispose ();
-				sliderPitchShifting = null;
 			}
 
 			if (songGridView != null) {
@@ -1389,26 +1379,6 @@ namespace MPfm.OSX
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
-			}
-
-			if (menuPlay != null) {
-				menuPlay.Dispose ();
-				menuPlay = null;
-			}
-
-			if (menuAddToPlaylist != null) {
-				menuAddToPlaylist.Dispose ();
-				menuAddToPlaylist = null;
-			}
-
-			if (menuRemoveFromLibrary != null) {
-				menuRemoveFromLibrary.Dispose ();
-				menuRemoveFromLibrary = null;
-			}
-
-			if (menuDeleteFromHardDisk != null) {
-				menuDeleteFromHardDisk.Dispose ();
-				menuDeleteFromHardDisk = null;
 			}
 		}
 	}

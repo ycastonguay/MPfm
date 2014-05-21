@@ -125,6 +125,7 @@ namespace MPfm.OSX
 
             trackBarPosition.Minimum = 0;
             trackBarPosition.Maximum = 1000;
+            trackBarPosition.WheelStepSize = 20;
             trackBarPosition.BlockValueChangeWhenDraggingMouse = true;
             trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
             trackBarPosition.OnTrackBarMouseDown += HandleOnTrackBarMouseDown;
@@ -411,7 +412,6 @@ namespace MPfm.OSX
             btnAddLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnAddSongToPlaylist.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnEditLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
             btnEditMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
             btnEditSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
@@ -419,7 +419,6 @@ namespace MPfm.OSX
             btnRemoveMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnRemoveSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnPlayLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
-            btnPlaySelectedSong.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
             btnBackLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnBackMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
@@ -631,18 +630,9 @@ namespace MPfm.OSX
             OnOpenSyncWindow();
         }
 
-        partial void actionAddSongToPlaylist(NSObject sender)
-        {
-        }
-
         partial void actionEditSongMetadata(NSObject sender)
         {
-
-        }
-
-        partial void actionPlaySelectedSong(NSObject sender)
-        {
-
+            OnEditSongMetadata();
         }
 
         private void HandleOnFaderValueChanged(object sender, EventArgs e)
@@ -892,6 +882,7 @@ namespace MPfm.OSX
 
         partial void actionUseTempo(NSObject sender)
         {
+            OnUseDetectedTempo();
         }
 
         partial void actionDecrementTimeShifting(NSObject sender)
@@ -911,7 +902,7 @@ namespace MPfm.OSX
 
         partial void actionChangeKey(NSObject sender)
         {
-
+            OnChangeKey(trackBarPitchShifting.Value);
         }
 
         partial void actionDecrementPitchShifting(NSObject sender)

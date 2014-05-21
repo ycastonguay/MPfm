@@ -39,6 +39,8 @@ namespace MPfm.OSX.Classes.Controls
 
         public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
         public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
+        public int StepSize { get { return _control.StepSize; } set { _control.StepSize = value; } }
+        public int WheelStepSize { get { return _control.WheelStepSize; } set { _control.WheelStepSize = value; } }
 
         public int Value 
         { 
