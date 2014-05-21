@@ -938,6 +938,18 @@ namespace MPfm.GTK.Windows
         public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
         public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+		public System.Action<LibraryBrowserEntity> OnAddToPlaylist { get; set; }
+		public System.Action<LibraryBrowserEntity> OnRemoveFromLibrary { get; set; }
+		public System.Action<LibraryBrowserEntity> OnDeleteFromHardDisk { get; set; }
+
+		public void LibraryBrowserError(Exception ex)
+		{
+			Gtk.Application.Invoke(delegate{			
+				MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Library Browser component: {0}", ex));
+				md.Run();
+				md.Destroy();
+			});
+		}
 
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
@@ -1013,8 +1025,18 @@ namespace MPfm.GTK.Windows
 		#region ISongBrowserView implementation
 
         public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-        public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
-        public Action<string> OnSearchTerms { get; set; }
+		public System.Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
+		public System.Action<IEnumerable<AudioFile>> OnSongBrowserAddToPlaylist { get; set; }
+		public System.Action<string> OnSearchTerms { get; set; }
+
+		public void SongBrowserError(Exception ex)
+		{
+			Gtk.Application.Invoke(delegate{			
+				MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Song Browser component: {0}", ex));
+				md.Run();
+				md.Destroy();
+			});
+		}
 
 		/// <summary>
 		/// Refreshes the song browser.
@@ -1097,6 +1119,7 @@ namespace MPfm.GTK.Windows
 		public System.Action<float> OnChangePositionMarkerDetails { get; set; }
 		public System.Action<Marker> OnUpdateMarkerDetails { get; set; }
 		public System.Action OnDeleteMarkerDetails { get; set; }
+		public System.Action OnPunchInMarkerDetails { get; set; }
 
 		public void MarkerDetailsError(Exception ex)
 		{
