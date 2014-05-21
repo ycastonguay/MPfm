@@ -151,6 +151,9 @@
                         <TreeView.ContextMenu>
                             <ContextMenu x:Name="contextMenuLibraryBrowser">
                                 <MenuItem x:Name="menuItemLibraryBrowserPlay" Header="Play songs" Click="MenuItemLibraryBrowserPlay_OnClick" />
+                                <MenuItem x:Name="menuItemLibraryBrowserAddToPlaylist" Header="Add to playlist" Click="MenuItemLibraryBrowserAddToPlaylist_OnClick" />
+                                <MenuItem x:Name="menuItemLibraryBrowserRemoveFromLibrary" Header="Remove from library" Click="MenuItemLibraryBrowserRemoveFromLibrary_OnClick" />
+                                <MenuItem x:Name="menuItemLibraryBrowserDeleteFromHardDisk" Header="Delete from hard disk" Click="MenuItemLibraryBrowserDeleteFromHardDisk_OnClick" />
                             </ContextMenu>
                         </TreeView.ContextMenu>
                         <TreeView.ItemContainerStyle>

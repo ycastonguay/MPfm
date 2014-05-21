@@ -68,6 +68,7 @@ namespace MPfm.WPF.Classes.Windows
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongsNew.DoubleClick += GridViewSongsNewOnDoubleClick;
+            gridViewSongsNew.MenuItemClicked += GridViewSongsNewOnMenuItemClicked;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
@@ -210,6 +211,29 @@ namespace MPfm.WPF.Classes.Windows
                 return;
 
             OnTableRowDoubleClicked(gridViewSongsNew.SelectedItems[0].AudioFile);
+        }
+
+        private void GridViewSongsNewOnMenuItemClicked(SongGridView.MenuItemType menuItemType)
+        {
+            if (gridViewSongsNew.SelectedItems.Count == 0)
+                return;
+
+            switch (menuItemType)
+            {
+                case SongGridView.MenuItemType.PlaySongs:
+                    AudioFile audioFile = gridViewSongsNew.SelectedItems[0].AudioFile;
+                    OnTableRowDoubleClicked(audioFile);
+                    break;
+                case SongGridView.MenuItemType.AddToPlaylist:
+                    var audioFiles = new List<AudioFile>();
+                    foreach (var item in gridViewSongsNew.SelectedItems)
+                        audioFiles.Add(item.AudioFile);
+                    OnSongBrowserAddToPlaylist(audioFiles);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
         }
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
@@ -572,6 +596,41 @@ namespace MPfm.WPF.Classes.Windows
         {
             e.Handled = true;
             StartPlaybackOfSelectedLibraryBrowserTreeViewItem();
+        }
+
+        private void MenuItemLibraryBrowserAddToPlaylist_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnAddToPlaylist(entity);
+        }
+
+        private void MenuItemLibraryBrowserRemoveFromLibrary_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            if (MessageBox.Show("Are you sure you wish to remove these audio files from your library?\nThis does not delete the audio files from your hard disk.", "Audio files will be removed from library", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                return;
+
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnRemoveFromLibrary(entity);
+        }
+
+        private void MenuItemLibraryBrowserDeleteFromHardDisk_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            if (MessageBox.Show("Are you sure you wish to delete these audio files from your hard disk?\nWARNING: This operation CANNOT be undone!", "Audio files will be deleted from hard disk", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                return;
+
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnDeleteFromHardDisk(entity);
         }
 
         private void TreeViewLibrary_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -1157,5 +1216,6 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
+
     }
 }
