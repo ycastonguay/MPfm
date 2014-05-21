@@ -22,6 +22,7 @@ using System.Linq.Expressions;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -29,6 +30,7 @@ using System.Windows.Threading;
 using MPfm.Core;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
+using MPfm.GenericControls.Services;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Helpers;
@@ -38,6 +40,7 @@ namespace MPfm.WPF.Classes.Controls
     public class WaveFormScrollView : StackPanel
     {
         private bool _isDragging;
+        private long _waveFormLength;
         private float _startDragContentOffsetX;
         private Point _startDragLocation;
         private DateTime _lastZoomUpdate;
@@ -46,6 +49,18 @@ namespace MPfm.WPF.Classes.Controls
         private Label _lblZoom;
         private RowDefinition _rowScale;
         private RowDefinition _rowWaveForm;
+        private ContextMenu _contextMenuItems;
+        private MenuItem _menuItemSelect;
+        private MenuItem _menuItemAutoScroll;
+        private MenuItem _menuItemZoomIn;
+        private MenuItem _menuItemZoomOut;
+        private MenuItem _menuItemResetZoom;
+        private MenuItem _menuItemDisplayType;
+        private MenuItem _menuItemDisplayTypeStereo;
+        private MenuItem _menuItemDisplayTypeMono;
+        private MenuItem _menuItemDisplayTypeMonoLeft;
+        private MenuItem _menuItemDisplayTypeMonoRight;
+
         public WaveForm WaveFormView { get; private set; }
         public WaveFormScale WaveFormScaleView { get; private set; }
         public bool IsAutoScrollEnabled { get; set; }
@@ -121,6 +136,128 @@ namespace MPfm.WPF.Classes.Controls
             _timerFadeOutZoomLabel = new Timer(100);
             _timerFadeOutZoomLabel.Elapsed += HandleTimerFadeOutZoomLabelElapsed;
             _timerFadeOutZoomLabel.Start();
+
+            CreateContextualMenu();
+        }
+
+        private void CreateContextualMenu()
+        {
+            _contextMenuItems = new ContextMenu();
+
+            _menuItemSelect = new MenuItem();
+            _menuItemSelect.Header = "Select";
+            _menuItemSelect.Click += MenuItemSelectOnClick;
+            _contextMenuItems.Items.Add(_menuItemSelect);
+
+            _menuItemZoomIn = new MenuItem();
+            _menuItemZoomIn.Header = "Zoom in";
+            _menuItemZoomIn.Click += MenuItemZoomInOnClick;
+            _contextMenuItems.Items.Add(_menuItemZoomIn);
+
+            _menuItemZoomOut = new MenuItem();
+            _menuItemZoomOut.Header = "Zoom out";
+            _menuItemZoomOut.Click += MenuItemZoomOutOnClick;
+            _contextMenuItems.Items.Add(_menuItemZoomOut);
+            _contextMenuItems.Items.Add(new Separator());
+
+            _menuItemResetZoom = new MenuItem();
+            _menuItemResetZoom.Header = "Reset zoom";
+            _menuItemResetZoom.Click += MenuItemResetZoomOnClick;
+            _contextMenuItems.Items.Add(_menuItemResetZoom);
+
+            _menuItemAutoScroll = new MenuItem();
+            _menuItemAutoScroll.Header = "Enable automatic scrolling";
+            _menuItemAutoScroll.Click += MenuItemAutoScrollOnClick;
+            _contextMenuItems.Items.Add(_menuItemAutoScroll);
+
+            _menuItemDisplayType = new MenuItem();
+            _menuItemDisplayType.Header = "Display type";
+            _contextMenuItems.Items.Add(_menuItemDisplayType);
+
+            _menuItemDisplayTypeStereo = new MenuItem();
+            _menuItemDisplayTypeStereo.Header = "Stereo";
+            _menuItemDisplayTypeStereo.Click += MenuItemDisplayTypeOnClick;
+            _menuItemDisplayType.Items.Add(_menuItemDisplayTypeStereo);
+
+            _menuItemDisplayTypeMono = new MenuItem();
+            _menuItemDisplayTypeMono.Header = "Mono (Mix)";
+            _menuItemDisplayTypeMono.Click += MenuItemDisplayTypeOnClick;
+            _menuItemDisplayType.Items.Add(_menuItemDisplayTypeMono);
+
+            _menuItemDisplayTypeMonoLeft = new MenuItem();
+            _menuItemDisplayTypeMonoLeft.Header = "Mono (Left)";
+            _menuItemDisplayTypeMonoLeft.Click += MenuItemDisplayTypeOnClick;
+            _menuItemDisplayType.Items.Add(_menuItemDisplayTypeMonoLeft);
+
+            _menuItemDisplayTypeMonoRight = new MenuItem();
+            _menuItemDisplayTypeMonoRight.Header = "Mono (Right)";
+            _menuItemDisplayTypeMonoRight.Click += MenuItemDisplayTypeOnClick;
+            _menuItemDisplayType.Items.Add(_menuItemDisplayTypeMonoRight);
+        }
+
+        private void ResetMenuSelection()
+        {
+            _menuItemSelect.IsChecked = false;
+            _menuItemZoomIn.IsChecked = false;
+            _menuItemZoomOut.IsChecked = false;
+        }
+
+        private void ResetMenuDisplayTypeSelection()
+        {
+            _menuItemDisplayTypeStereo.IsChecked = false;
+            _menuItemDisplayTypeMono.IsChecked = false;
+            _menuItemDisplayTypeMonoLeft.IsChecked = false;
+            _menuItemDisplayTypeMonoRight.IsChecked = false;
+        }
+
+        private void MenuItemSelectOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ResetMenuSelection();
+            _menuItemSelect.IsChecked = true;
+            WaveFormView.InteractionMode = WaveFormControl.InputInteractionMode.Select;
+        }
+
+        private void MenuItemZoomInOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ResetMenuSelection();
+            _menuItemZoomIn.IsChecked = true;
+            WaveFormView.InteractionMode = WaveFormControl.InputInteractionMode.ZoomIn;
+        }
+
+        private void MenuItemZoomOutOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ResetMenuSelection();
+            _menuItemZoomOut.IsChecked = true;
+            WaveFormView.InteractionMode = WaveFormControl.InputInteractionMode.ZoomOut;
+        }
+
+        private void MenuItemResetZoomOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            Zoom = 1;
+            SetContentOffsetX(0);
+        }
+
+        private void MenuItemAutoScrollOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            IsAutoScrollEnabled = !IsAutoScrollEnabled;
+            _menuItemAutoScroll.IsChecked = IsAutoScrollEnabled;
+        }
+
+        private void MenuItemDisplayTypeOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var displayType = WaveFormDisplayType.Stereo;
+            if (sender == _menuItemDisplayTypeMono)
+                displayType = WaveFormDisplayType.Mix;
+            else if (sender == _menuItemDisplayTypeMonoLeft)
+                displayType = WaveFormDisplayType.LeftChannel;
+            else if (sender == _menuItemDisplayTypeMonoRight)
+                displayType = WaveFormDisplayType.RightChannel;
+            WaveFormView.DisplayType = displayType;
+
+            ResetMenuDisplayTypeSelection();
+            var menuItem = sender as MenuItem;
+            if (menuItem != null)
+                menuItem.IsChecked = true;
         }
 
         private void HandleTimerFadeOutZoomLabelElapsed(object sender, ElapsedEventArgs e)
@@ -149,6 +286,7 @@ namespace MPfm.WPF.Classes.Controls
 
         public void SetWaveFormLength(long lengthBytes)
         {
+            _waveFormLength = lengthBytes;
             WaveFormView.SetWaveFormLength(lengthBytes);
             WaveFormScaleView.AudioFileLength = lengthBytes;
         }
@@ -156,11 +294,14 @@ namespace MPfm.WPF.Classes.Controls
         public void SetPosition(long position)
         {
             WaveFormView.Position = position;
+            if (IsAutoScrollEnabled)
+                ProcessAutoScroll(position);
         }
 
         public void SetSecondaryPosition(long position)
         {
             WaveFormView.SecondaryPosition = position;
+            ProcessAutoScroll(position);
         }
 
         public void ShowSecondaryPosition(bool show)
@@ -173,6 +314,17 @@ namespace MPfm.WPF.Classes.Controls
             WaveFormView.SetMarkers(markers);
         }
 
+        public void SetActiveMarker(Guid markerId)
+        {
+            WaveFormView.SetActiveMarker(markerId);
+        }
+
+        public void SetMarkerPosition(Marker marker)
+        {
+            WaveFormView.SetMarkerPosition(marker);
+            ProcessAutoScroll((long)(marker.PositionPercentage * _waveFormLength));
+        }
+
         private void SetContentOffsetX(float x)
         {
             float contentOffsetX = x;
@@ -181,6 +333,20 @@ namespace MPfm.WPF.Classes.Controls
             contentOffsetX = Math.Min(contentOffsetX, maxX);
             WaveFormView.ContentOffset = new BasicPoint(contentOffsetX, 0);
             WaveFormScaleView.ContentOffset = new BasicPoint(contentOffsetX, 0);
+        }
+
+        private void ProcessAutoScroll(long position)
+        {
+            if (_zoom == 1)
+                return;
+
+            double waveFormWidth = WaveFormView.ActualWidth * Zoom;
+            double positionPercentage = (double)position / (double)_waveFormLength;
+            double cursorX = positionPercentage * waveFormWidth;
+            double newContentOffsetX = cursorX - (ActualWidth / 2f);
+            newContentOffsetX = Math.Max(0, newContentOffsetX);
+            newContentOffsetX = Math.Min(waveFormWidth - ActualWidth, newContentOffsetX);
+            SetContentOffsetX((float) newContentOffsetX);
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -201,6 +367,15 @@ namespace MPfm.WPF.Classes.Controls
                 _startDragContentOffsetX = WaveFormView.ContentOffset.X;
                 _startDragLocation = location;
             }
+        }
+
+        protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonUp(e);
+            _contextMenuItems.Placement = PlacementMode.MousePoint;
+            _contextMenuItems.PlacementTarget = this;
+            _contextMenuItems.Visibility = Visibility.Visible;
+            _contextMenuItems.IsOpen = true;
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)

@@ -672,10 +672,10 @@ namespace MPfm.WPF.Classes.Windows
             if (_currentAudioFile == null)
                 return;
 
-            contextMenuWaveForm.Placement = PlacementMode.MousePoint;
-            contextMenuWaveForm.PlacementTarget = scrollViewWaveForm;
-            contextMenuWaveForm.Visibility = Visibility.Visible;
-            contextMenuWaveForm.IsOpen = true;
+            //contextMenuWaveForm.Placement = PlacementMode.MousePoint;
+            //contextMenuWaveForm.PlacementTarget = scrollViewWaveForm;
+            //contextMenuWaveForm.Visibility = Visibility.Visible;
+            //contextMenuWaveForm.IsOpen = true;
             e.Handled = true;
         }
 

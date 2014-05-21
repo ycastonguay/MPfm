@@ -132,10 +132,10 @@ namespace MPfm.WPF.Classes.Controls
             }));
 
             // Create context menu at the end to add columns from control
-            CreateContextMenus();
+            CreateContextualMenu();
         }
 
-        private void CreateContextMenus()
+        private void CreateContextualMenu()
         {
             _contextMenuItems = new ContextMenu();
 
