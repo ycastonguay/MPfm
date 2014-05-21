@@ -45,6 +45,7 @@ namespace MPfm.OSX
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
+        Marker _currentMarker;
         LibraryBrowserEntity _currentLibraryBrowserEntity;
         string _currentAlbumArtKey;
         bool _isPlayerPositionChanging = false;
@@ -147,9 +148,7 @@ namespace MPfm.OSX
             trackBarMarkerPosition.Minimum = 0;
             trackBarMarkerPosition.Maximum = 1000;
             trackBarMarkerPosition.BlockValueChangeWhenDraggingMouse = true;
-            //trackBarMarkerPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
-            //trackBarMarkerPosition.OnTrackBarMouseDown += HandleOnTrackBarMouseDown;
-            //trackBarMarkerPosition.OnTrackBarMouseUp += HandleOnTrackBarMouseUp;
+            trackBarMarkerPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
             trackBarMarkerPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
         }
 
@@ -642,6 +641,13 @@ namespace MPfm.OSX
                 OnSetInterval(trackBarPitchShifting.Value);
         }
 
+        private void HandleOnTrackBarMarkerPositionValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnChangePositionMarkerDetails != null)
+                OnChangePositionMarkerDetails((float)trackBarMarkerPosition.Value / 1000f);
+        }
+
         partial void actionPlayLoop(NSObject sender)
         {
         }
@@ -749,11 +755,17 @@ namespace MPfm.OSX
         {
             viewMarkerDetails.Hidden = true;
             viewMarkers.Hidden = false;
+
+            _currentMarker.Name = txtMarkerName.StringValue;
+            OnUpdateMarkerDetails(_currentMarker);
         }
 
         partial void actionPunchInMarker(NSObject sender)
         {
+            if(_currentMarker == null)
+                return;
 
+            OnPunchInMarkerDetails();
         }
 
         partial void actionContextualMenuPlay(NSObject sender)
@@ -1459,22 +1471,6 @@ namespace MPfm.OSX
 
         #endregion
 
-        #region ILoopsView implementation
-
-        public Action OnAddLoop { get; set; }
-        public Action<Loop> OnEditLoop { get; set; }
-
-        public void LoopError(Exception ex)
-        {
-            ShowError(ex);
-        }
-
-        public void RefreshLoops(List<Loop> loops)
-        {
-        }
-
-        #endregion
-
         #region IMarkersView implementation
 
         public Action OnAddMarker { get; set; }
@@ -1499,8 +1495,17 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(delegate {
                 _markers = markers.ToList();
-                tableMarkers.ReloadData();
                 waveFormScrollView.SetMarkers(_markers);
+
+                int row = tableMarkers.SelectedRow;
+                var selectedMarker = row >= 0 ? _markers[row] : null;
+                tableMarkers.ReloadData();
+                if(selectedMarker != null)
+                {
+                    int newRow = _markers.IndexOf(selectedMarker);
+                    if(newRow >= 0)
+                        tableMarkers.SelectRow(newRow, false);
+                }
             });
         }
 
@@ -1514,6 +1519,80 @@ namespace MPfm.OSX
 
         public void RefreshMarkerPosition(Marker marker, int newIndex)
         {
+        }
+
+        #endregion
+
+        #region IMarkerDetailsView implementation
+
+        public Action<float> OnChangePositionMarkerDetails { get; set; }
+        public Action<Marker> OnUpdateMarkerDetails { get; set; }
+        public Action OnDeleteMarkerDetails { get; set; }
+        public Action OnPunchInMarkerDetails { get; set; }
+
+        public void MarkerDetailsError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        public void DismissMarkerDetailsView()
+        {
+        }
+
+        public void RefreshMarker(Marker marker, AudioFile audioFile)
+        {
+            InvokeOnMainThread(delegate {
+                _currentMarker = marker;
+                txtMarkerName.StringValue = marker.Name;
+                lblMarkerPositionValue.StringValue = marker.Position;
+                trackBarMarkerPosition.ValueWithoutEvent = (int)(marker.PositionPercentage * 10);
+                waveFormScrollView.SetActiveMarker(marker.MarkerId);
+            });
+        }
+
+        public void RefreshMarkerPosition(string position, float positionPercentage)
+        {
+            InvokeOnMainThread(delegate {
+                lblMarkerPositionValue.StringValue = position;
+                trackBarMarkerPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                _currentMarker.Position = position;
+                _currentMarker.PositionPercentage = positionPercentage;
+                waveFormScrollView.SetMarkerPosition(_currentMarker);
+            });
+        }
+
+        #endregion
+
+        #region ILoopsView implementation
+
+        public Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+
+        public void LoopError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
+
+        #region ILoopDetailsView implementation
+
+        public void LoopDetailsError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        #endregion
+
+        #region ISegmentDetailsView implementation
+
+        public void SegmentDetailsError(Exception ex)
+        {
+            ShowError(ex);
         }
 
         #endregion
@@ -1558,66 +1637,13 @@ namespace MPfm.OSX
             // Delay before closing update library panel
             var task = TaskHelper.DelayTask(1500);
             task.ContinueWith((a) =>
-            {
-                InvokeOnMainThread(delegate {
-                    ShowUpdateLibraryView(false);
+                {
+                    InvokeOnMainThread(delegate {
+                        ShowUpdateLibraryView(false);
+                    });
                 });
-            });
         }
 
         #endregion
-
-        #region IMarkerDetailsView implementation
-
-        public Action<float> OnChangePositionMarkerDetails { get; set; }
-        public Action<Marker> OnUpdateMarkerDetails { get; set; }
-        public Action OnDeleteMarkerDetails { get; set; }
-
-        public void MarkerDetailsError(Exception ex)
-        {
-            ShowError(ex);
-        }
-
-        public void DismissMarkerDetailsView()
-        {
-        }
-
-        public void RefreshMarker(Marker marker, AudioFile audioFile)
-        {
-            InvokeOnMainThread(delegate {
-                txtMarkerName.StringValue = marker.Name;
-                lblMarkerPositionValue.StringValue = marker.Position;
-                trackBarMarkerPosition.ValueWithoutEvent = (int)(marker.PositionPercentage * 10);
-            });
-        }
-
-        public void RefreshMarkerPosition(string position, float positionPercentage)
-        {
-            InvokeOnMainThread(delegate {
-                lblMarkerPositionValue.StringValue = position;
-                trackBarMarkerPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-            });
-        }
-
-        #endregion
-
-        #region ILoopDetailsView implementation
-
-        public void LoopDetailsError(Exception ex)
-        {
-            ShowError(ex);
-        }
-
-        #endregion
-
-        #region ISegmentDetailsView implementation
-
-        public void SegmentDetailsError(Exception ex)
-        {
-            ShowError(ex);
-        }
-
-        #endregion
-
 	}
 }

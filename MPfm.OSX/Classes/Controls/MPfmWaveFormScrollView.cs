@@ -309,6 +309,16 @@ namespace MPfm.OSX.Classes.Controls
             WaveFormView.SetMarkers(markers);
         }
 
+        public void SetActiveMarker(Guid markerId)
+        {
+            WaveFormView.SetActiveMarker(markerId);
+        }
+
+        public void SetMarkerPosition(Marker marker)
+        {
+            WaveFormView.SetMarkerPosition(marker);
+        }
+
         private void ProcessAutoScroll(long position)
         {
             if (_zoom == 1)

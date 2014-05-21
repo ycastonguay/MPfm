@@ -213,6 +213,16 @@ namespace MPfm.OSX.Classes.Controls
             _control.SetMarkers(markers);
         }
 
+        public void SetActiveMarker(Guid markerId)
+        {
+            _control.SetActiveMarker(markerId);
+        }
+
+        public void SetMarkerPosition(Marker marker)
+        {
+            _control.SetMarkerPosition(marker);
+        }
+
         public void SetWaveFormLength(long lengthBytes)
         {
             _control.Length = lengthBytes;

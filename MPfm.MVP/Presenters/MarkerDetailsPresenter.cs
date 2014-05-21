@@ -56,6 +56,7 @@ namespace MPfm.MVP.Presenters
             view.OnChangePositionMarkerDetails = ChangePosition;
             view.OnUpdateMarkerDetails = UpdateMarker;
             view.OnDeleteMarkerDetails = DeleteMarker;      
+            view.OnPunchInMarkerDetails = PunchInMarker;
             base.BindView(view);
 
             _messageHub.Subscribe<MarkerBeingEditedMessage>(MarkerBeingEdited);
@@ -140,6 +141,24 @@ namespace MPfm.MVP.Presenters
             }
         }
 
+        private void PunchInMarker()
+        {
+            try
+            {
+                var position = _playerService.GetPosition();
+                _marker.Position = position.Position;
+                _marker.PositionBytes = position.PositionBytes;
+                _marker.PositionPercentage = position.PositionPercentage;
+                _marker.PositionSamples = (uint)position.PositionSamples;
+                View.RefreshMarkerPosition(position.Position, position.PositionPercentage);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while punching in a marker: " + ex.Message);
+                View.MarkerDetailsError(ex);
+            }
+        }
+
         private void RefreshMarker()
         {
             try
@@ -151,7 +170,7 @@ namespace MPfm.MVP.Presenters
                 _marker = _libraryService.SelectMarker(_markerId);
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-                float positionPercentage = (float)_marker.PositionBytes / (float)_lengthBytes;
+                float positionPercentage = ((float)_marker.PositionBytes / (float)_lengthBytes) * 100;
                 View.RefreshMarker(_marker, _audioFile);
                 View.RefreshMarkerPosition(_marker.Position, positionPercentage);
             }

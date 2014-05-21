@@ -30,6 +30,7 @@ namespace MPfm.MVP.Views
         Action<float> OnChangePositionMarkerDetails { get; set; }
         Action<Marker> OnUpdateMarkerDetails { get; set; }
         Action OnDeleteMarkerDetails { get; set; }
+        Action OnPunchInMarkerDetails { get; set; }
 
         void MarkerDetailsError(Exception ex);
         void DismissMarkerDetailsView();
