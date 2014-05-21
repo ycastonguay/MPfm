@@ -2044,7 +2044,7 @@ namespace MPfm.GenericControls.Controls.Songs
                         {
                             // Invalidate region
                             column.IsMouseOverColumnHeader = false;
-                            //OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
+                            OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
                             controlNeedsToBeUpdated = true;
                         }
 
@@ -2070,7 +2070,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                 // Invalidate region
                                 column.IsMouseOverColumnHeader = true;
                                 OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
-
                                 controlNeedsToBeUpdated = true;
                                 break;
                             }

@@ -40,15 +40,18 @@ namespace MPfm.MVP.Presenters
         readonly ITinyMessengerHub _messageHub;
 		readonly IAudioFileCacheService _audioFileCacheService;
 		readonly ILibraryService _libraryService;
+        readonly IPlayerService _playerService;
 	    readonly NavigationManager _navigationManager;
         readonly MobileNavigationManager _mobileNavigationManager;
         LibraryQuery _query;
 
 	    public SongBrowserPresenter(ITinyMessengerHub messageHub,                                     
-		                             ILibraryService libraryService,
-		                             IAudioFileCacheService audioFileCacheService)
+		                            ILibraryService libraryService,
+                                    IPlayerService playerService,
+		                            IAudioFileCacheService audioFileCacheService)
 		{
 			_libraryService = libraryService;
+            _playerService = playerService;
 			_audioFileCacheService = audioFileCacheService;
             _messageHub = messageHub;
             _query = new LibraryQuery();
@@ -70,6 +73,7 @@ namespace MPfm.MVP.Presenters
             
             view.OnTableRowDoubleClicked = TableRowDoubleClicked;
             view.OnSongBrowserEditSongMetadata = SongBrowserEditSongMetadata;
+            view.OnSongBrowserAddToPlaylist = AddToPlaylist;
             view.OnSearchTerms = SearchTerms;
         }
 
@@ -82,14 +86,33 @@ namespace MPfm.MVP.Presenters
 #endif
 	    }
 
+        private void AddToPlaylist(IEnumerable<AudioFile> audioFiles)
+        {
+            try
+            {
+                _playerService.CurrentPlaylist.AddItems(audioFiles);
+            }
+            catch(Exception ex)
+            {
+                View.SongBrowserError(ex);
+            }
+        }
+
 	    public void ChangeQuery(LibraryQuery query)
 		{
-			_query = query;
-            Tracing.Log("SongBrowserPresenter.ChangeQuery -- Getting audio files (Format: " + query.Format.ToString() + 
-                        " | Artist: " + query.ArtistName + " | Album: " + query.AlbumTitle + " | OrderBy: " + query.OrderBy + 
-                        " | OrderByAscending: " + query.OrderByAscending.ToString() + " | Search terms: " + query.SearchTerms + ")");
-			IEnumerable<AudioFile> audioFiles = _audioFileCacheService.SelectAudioFiles(query);
-			View.RefreshSongBrowser(audioFiles);
+            try
+            {
+    			_query = query;
+                Tracing.Log("SongBrowserPresenter.ChangeQuery -- Getting audio files (Format: " + query.Format.ToString() + 
+                            " | Artist: " + query.ArtistName + " | Album: " + query.AlbumTitle + " | OrderBy: " + query.OrderBy + 
+                            " | OrderByAscending: " + query.OrderByAscending.ToString() + " | Search terms: " + query.SearchTerms + ")");
+    			IEnumerable<AudioFile> audioFiles = _audioFileCacheService.SelectAudioFiles(query);
+    			View.RefreshSongBrowser(audioFiles);
+            }
+            catch(Exception ex)
+            {
+                View.SongBrowserError(ex);
+            }
 		}
 		
 		public void TableRowDoubleClicked(AudioFile audioFile)
@@ -103,9 +126,16 @@ namespace MPfm.MVP.Presenters
 
         private void SearchTerms(string searchTerms)
         {
-            _query.SearchTerms = searchTerms;
-            var audioFiles = _audioFileCacheService.SelectAudioFiles(_query);
-            View.RefreshSongBrowser(audioFiles);
+            try
+            {
+                _query.SearchTerms = searchTerms;
+                var audioFiles = _audioFileCacheService.SelectAudioFiles(_query);
+                View.RefreshSongBrowser(audioFiles);
+            }
+            catch(Exception ex)
+            {
+                View.SongBrowserError(ex);
+            }
         }
 	}
 }

@@ -165,6 +165,7 @@ namespace MPfm.OSX
         private void LoadTableViews()
         {
             songGridView.DoubleClick += HandleSongBrowserDoubleClick;
+            songGridView.MenuItemClicked += HandleSongGridViewMenuItemClicked;
 
             tableMarkers.WeakDelegate = this;
             tableMarkers.WeakDataSource = this;
@@ -467,6 +468,28 @@ namespace MPfm.OSX
             viewPitchShifting.Hidden = button != btnTabPitchShifting;
             viewInformation.Hidden = button != btnTabInfo;
             viewActions.Hidden = button != btnTabActions;
+        }
+
+        private void HandleSongGridViewMenuItemClicked(MPfmSongGridView.MenuItemType menuItemType)
+        {
+            if (songGridView.SelectedItems.Count == 0)
+                return;
+
+            switch (menuItemType)
+            {
+                case MPfmSongGridView.MenuItemType.PlaySongs:
+                    AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
+                    OnTableRowDoubleClicked(audioFile);
+                    break;
+                case MPfmSongGridView.MenuItemType.AddToPlaylist:
+                    var audioFiles = new List<AudioFile>();
+                    foreach (var item in songGridView.SelectedItems)
+                        audioFiles.Add(item.AudioFile);
+                    OnSongBrowserAddToPlaylist(audioFiles);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void LibraryBrowserTreeNodeSelected(LibraryBrowserEntity entity)
@@ -1069,8 +1092,7 @@ namespace MPfm.OSX
                 return;
 
             AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
-            if(OnTableRowDoubleClicked != null)
-                OnTableRowDoubleClicked.Invoke(audioFile);
+            OnTableRowDoubleClicked(audioFile);
         }
 
         public void RefreshAll()
@@ -1301,7 +1323,13 @@ namespace MPfm.OSX
 
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
         public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }   
+        public Action<IEnumerable<AudioFile>> OnSongBrowserAddToPlaylist { get; set; }
         public Action<string> OnSearchTerms { get; set; }
+
+        public void SongBrowserError(Exception ex)
+        {
+            ShowError(ex);
+        }
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {

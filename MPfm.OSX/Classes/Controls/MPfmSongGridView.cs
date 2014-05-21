@@ -48,7 +48,9 @@ namespace MPfm.OSX.Classes.Controls
         public override bool IsOpaque { get { return true; } }
         public override bool IsFlipped { get { return true; } }
 
+        public delegate void MenuItemClickedDelegate(MenuItemType menuItemType);
         public event EventHandler DoubleClick;
+        public event MenuItemClickedDelegate MenuItemClicked;
 
         [Export("init")]
         public MPfmSongGridView() : base(NSObjectFlag.Empty)
@@ -65,6 +67,7 @@ namespace MPfm.OSX.Classes.Controls
         private void Initialize()
         {
             DoubleClick += (sender, e) => { };
+            MenuItemClicked += (menuItemType) => { };
 
             // Add tracking area to receive mouse move and mouse dragged events
             var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.MouseEnteredAndExited | NSTrackingAreaOptions.EnabledDuringMouseDrag;
@@ -102,16 +105,17 @@ namespace MPfm.OSX.Classes.Controls
             PostsBoundsChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
 
-            CreateContextMenus();
+            CreateContextualMenu();
         }
 
-        private void CreateContextMenus()
+        private void CreateContextualMenu()
         {
-            _menuItems = new NSMenu();
-            var menuItemAddToPlaylist = new NSMenuItem("Add to playlist");
-            var menuItemPlaySong = new NSMenuItem("Play song(s)");
-            _menuItems.AddItem(menuItemAddToPlaylist);
+            _menuItems = new NSMenu("Song Browser");
+            var menuItemPlaySong = new NSMenuItem("Play song(s)", PlaySongs);
+            var menuItemAddToPlaylist = new NSMenuItem("Add to playlist", AddToPlaylist);
+
             _menuItems.AddItem(menuItemPlaySong);
+            _menuItems.AddItem(menuItemAddToPlaylist);
 
             _menuHeader = new NSMenu();
             foreach (var column in _control.Columns)
@@ -119,6 +123,16 @@ namespace MPfm.OSX.Classes.Controls
                 var menuItem = new NSMenuItem(column.FieldName);
                 _menuHeader.AddItem(menuItem);
             }
+        }
+
+        private void AddToPlaylist(object sender, EventArgs args)
+        {
+            MenuItemClicked(MenuItemType.AddToPlaylist);
+        }
+
+        private void PlaySongs(object sender, EventArgs args)
+        {
+            MenuItemClicked(MenuItemType.PlaySongs);
         }
 
         private void FrameDidChangeNotification(NSNotification notification)
@@ -237,6 +251,12 @@ namespace MPfm.OSX.Classes.Controls
         {
             base.KeyUp(theEvent);
             GenericControlHelper.KeyUp(_control, theEvent);
+        }
+
+        public enum MenuItemType
+        {
+            PlaySongs = 0,
+            AddToPlaylist = 1
         }
     }
 }

@@ -28,8 +28,10 @@ namespace MPfm.MVP.Views
 	{
         Action<AudioFile> OnTableRowDoubleClicked { get; set; }
         Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
+        Action<IEnumerable<AudioFile>> OnSongBrowserAddToPlaylist { get; set; }
         Action<string> OnSearchTerms { get; set; }
-        
+
+        void SongBrowserError(Exception ex);
 		void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles);
 	}
 }
