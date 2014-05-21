@@ -494,7 +494,7 @@
                     <Setter Property="Background" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="LightGray"/>
                 </Trigger>
             </Style.Triggers>
             <!--<Setter Property="Template">
