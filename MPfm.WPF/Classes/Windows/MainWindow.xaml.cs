@@ -651,6 +651,14 @@ namespace MPfm.WPF.Classes.Windows
         public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+        public Action<LibraryBrowserEntity> OnAddToPlaylist { get; set; }
+        public Action<LibraryBrowserEntity> OnRemoveFromLibrary { get; set; }
+        public Action<LibraryBrowserEntity> OnDeleteFromHardDisk { get; set; }
+
+        public void LibraryBrowserError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
         {
@@ -721,7 +729,13 @@ namespace MPfm.WPF.Classes.Windows
 
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
         public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
+        public Action<IEnumerable<AudioFile>> OnSongBrowserAddToPlaylist { get; set; }
         public Action<string> OnSearchTerms { get; set; }
+
+        public void SongBrowserError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
 
         public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
@@ -1105,6 +1119,7 @@ namespace MPfm.WPF.Classes.Windows
         public Action<float> OnChangePositionMarkerDetails { get; set; }
         public Action<Marker> OnUpdateMarkerDetails { get; set; }
         public Action OnDeleteMarkerDetails { get; set; }
+        public Action OnPunchInMarkerDetails { get; set; }
 
         public void MarkerDetailsError(Exception ex)
         {
