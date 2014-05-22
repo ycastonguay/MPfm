@@ -23,6 +23,8 @@ using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.iOS
 {
@@ -52,7 +54,16 @@ namespace MPfm.iOS
 
 		#region ILoopDetailsView implementation
 
+		public Action OnAddSegment { get; set; }
+		public Action<Segment> OnEditSegment { get; set; }
+		public Action<Segment> OnDeleteSegment { get; set; }
+		public Action<Loop> OnUpdateLoopDetails { get; set; }
+
 		public void LoopDetailsError(Exception ex)
+		{
+		}
+
+		public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
 		{
 		}
 

@@ -28,5 +28,7 @@
 	<string>0.8.0.0</string>
 	<key>CFBundleVersion</key>
 	<string>600</string>
+	<key>QuartzGLEnable</key>
+	<true/>
 </dict>
 </plist>

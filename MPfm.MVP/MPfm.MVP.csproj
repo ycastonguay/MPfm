@@ -336,5 +336,8 @@
     <Compile Include="Messages\GeneralAppConfigChangedMessage.cs" />
     <Compile Include="Messages\AudioAppConfigChangedMessage.cs" />
     <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />    
+    <Compile Include="Messages\LoopActivatedMessage.cs" />
+    <Compile Include="Messages\LoopBeingEditedMessage.cs" />
+    <Compile Include="Messages\LoopUpdatedMessage.cs" />    
   </ItemGroup>
 </Project>
