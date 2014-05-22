@@ -56,6 +56,7 @@ namespace MPfm.MVP.Services
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public Playlist CurrentPlaylist { get { return _player.Playlist; } }
         public EQPreset EQPreset { get { return _player.EQPreset; } }
+        public Loop Loop { get { return _player.Loop; } }
         public bool IsEQBypassed { get { return _player.IsEQBypassed; } }
         public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
         public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
@@ -410,7 +411,6 @@ namespace MPfm.MVP.Services
             entity.PositionBytes = positionBytes;
             entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, bitsPerSample, 2);
             entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
-            //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
             entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
             entity.PositionPercentage = ((float)positionBytes / (float)lengthBytes) * 100;
             return entity;
@@ -427,7 +427,6 @@ namespace MPfm.MVP.Services
                 entity.PositionBytes = _player.GetPosition();
                 entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
                 entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)CurrentPlaylistItem.AudioFile.SampleRate);
-                //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
                 entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
                 entity.PositionPercentage = ((float)entity.PositionBytes / (float)CurrentPlaylistItem.LengthBytes) * 100;
             }
@@ -462,6 +461,16 @@ namespace MPfm.MVP.Services
         {
             _player.GoToMarker(marker);
         }
+        
+        public void StartLoop(Loop loop)
+        {
+            _player.StartLoop(loop);
+        }
+
+        public void StopLoop()
+        {
+            _player.StopLoop();
+        }
 
         public void BypassEQ()
         {
@@ -483,18 +492,8 @@ namespace MPfm.MVP.Services
             _player.ApplyEQPreset(preset);
         }
 
-        /// <summary>
-        /// Releases all resource used by the <see cref="PlayerService"/> object.
-        /// </summary>
-        /// <remarks>
-        /// Call <see cref="Dispose"/> when you are finished using the <see cref="PlayerService"/>. The
-        /// <see cref="Dispose"/> method leaves the <see cref="PlayerService"/> in an unusable state. After
-        /// calling <see cref="Dispose"/>, you must release all references to the <see cref="PlayerService"/>
-        /// so the garbage collector can reclaim the memory that the <see cref="PlayerService"/> was occupying.
-        /// </remarks>
         public void Dispose()
         {
-            // Dispose player
             if (_player != null)
             {
                 _player.Dispose();

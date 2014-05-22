@@ -40,12 +40,13 @@ namespace MPfm.MVP.Services.Interfaces
         bool IsEQEnabled { get; }
         bool UseFloatingPoint { get; }
 
+        PlayerStatusType Status { get; }
         EQPreset EQPreset { get; }
+        Loop Loop { get; }
         RepeatType RepeatType { get; }
         float TimeShifting { get; }
         int PitchShifting { get; }
         float Volume { get; set; }
-        PlayerStatusType Status { get; }
 
         PlaylistItem CurrentPlaylistItem { get; }
         Playlist CurrentPlaylist { get; }
@@ -80,6 +81,8 @@ namespace MPfm.MVP.Services.Interfaces
         void SetPitchShifting(int pitchShifting);
 
         void GoToMarker(Marker marker);
+        void StartLoop(Loop loop);
+        void StopLoop();        
 
         void BypassEQ();
         void ResetEQ();

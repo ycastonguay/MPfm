@@ -21,13 +21,12 @@ using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
-	/// <summary>
-	/// Loops view interface.
-	/// </summary>
 	public interface ILoopsView : IBaseView
 	{
         Action OnAddLoop { get; set; }
         Action<Loop> OnEditLoop { get; set; }
+        Action<Loop> OnDeleteLoop { get; set; }
+        Action<Loop> OnPlayLoop { get; set; }
     
         void LoopError(Exception ex);
         void RefreshLoops(List<Loop> loops);

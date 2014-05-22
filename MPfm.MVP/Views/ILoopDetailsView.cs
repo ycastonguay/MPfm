@@ -15,16 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Views
 {
-	/// <summary>
-	/// Loop details view interface.
-	/// </summary>
 	public interface ILoopDetailsView : IBaseView
 	{
+        Action OnAddSegment { get; set; }
+        Action<Segment> OnEditSegment { get; set; }
+        Action<Segment> OnDeleteSegment { get; set; }
+        Action<Loop> OnUpdateLoopDetails { get; set; }
+
         void LoopDetailsError(Exception ex);
+        void RefreshLoopDetails(Loop loop, AudioFile audioFile);
 	}
 }

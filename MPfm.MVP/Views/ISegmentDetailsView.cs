@@ -15,16 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
-	/// <summary>
-    /// Segment details view interface.
-	/// </summary>
     public interface ISegmentDetailsView : IBaseView
 	{
+        Action<Segment> OnUpdateSegmentDetails { get; set; }
+
         void SegmentDetailsError(Exception ex);
+        void RefreshSegmentDetails(Segment segment);        
 	}
 }

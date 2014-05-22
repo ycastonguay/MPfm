@@ -20,6 +20,13 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Services.Interfaces;
+using TinyMessenger;
+using MPfm.MVP.Messages;
+using System.Collections.Generic;
+using System;
+using MPfm.Core;
 
 namespace MPfm.MVP.Presenters
 {
@@ -28,11 +35,21 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class LoopsPresenter : BasePresenter<ILoopsView>, ILoopsPresenter
 	{
+        readonly ITinyMessengerHub _messageHub;
+        readonly ILibraryService _libraryService;
+        readonly IPlayerService _playerService;
         readonly MobileNavigationManager _mobileNavigationManager;
         readonly NavigationManager _navigationManager;
-
-        public LoopsPresenter()
+        List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
+        List<Loop> _loops = new List<Loop>();
+        Guid _audioFileId;
+        
+        public LoopsPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
+            _messageHub = messageHub;
+            _libraryService = libraryService;
+            _playerService = playerService;
+            
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
 #else
@@ -42,30 +59,106 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ILoopsView view)
         {            
-            view.OnAddLoop = OnAddLoop;
-            view.OnEditLoop = OnEditLoop;
+            view.OnAddLoop = AddLoop;
+            view.OnEditLoop = EditLoop;
+            view.OnDeleteLoop = DeleteLoop;
+            view.OnPlayLoop = PlayLoop;
 
             base.BindView(view);
-        }
+            
+            // Subscribe to messages
+            _tokens.Add(_messageHub.Subscribe<LoopUpdatedMessage>((LoopUpdatedMessage m) => {
+                _audioFileId = m.AudioFileId;
+                RefreshLoops(_audioFileId);
+            }));
+            _tokens.Add(_messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
+                _audioFileId = m.Data.AudioFileStarted.Id;
+                RefreshLoops(_audioFileId);
+            }));
 
-        private void CreateLoopDetailsView()
-        {
-#if IOS || ANDROID
-            var view = _mobileNavigationManager.CreateLoopDetailsView();
-            _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Loop Details", View, view);
-#else
-            string a = string.Empty;
-#endif
-        }
-
-        private void OnAddLoop()
-        {
-            CreateLoopDetailsView();
+            // Refresh initial data
+            if (_playerService.CurrentPlaylistItem != null)
+                RefreshLoops(_playerService.CurrentPlaylistItem.AudioFile.Id);
         }
         
-        private void OnEditLoop(Loop loop)
+        public override void ViewDestroyed()
         {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+            base.ViewDestroyed();
+        }
+        
+        private void RefreshLoops(Guid audioFileId)
+        {
+            try
+            {
+                _loops = _libraryService.SelectLoops(audioFileId);
+                View.RefreshLoops(_loops);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while refreshing loops: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
+
+        private void AddLoop()
+        {
+            try
+            {
+                var loop = new Loop();
+                loop.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
+                loop.Name = "New Loop";
+                _libraryService.InsertLoop(loop);
+                _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
+                    AudioFileId = loop.AudioFileId,
+                    LoopId = loop.LoopId
+                });
+                View.RefreshLoops(_loops);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while adding loop: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
+        
+        private void EditLoop(Loop loop)
+        {
+            _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
+        }
+        
+        private void DeleteLoop(Loop loop)
+        {
+            try
+            {
+                _loops.Remove(loop);
+                _libraryService.DeleteLoop(loop.LoopId);
+                _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
+                    AudioFileId = loop.AudioFileId,
+                    LoopId = loop.LoopId
+                });
+                View.RefreshLoops(_loops);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while deleting loop: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
+        
+        private void PlayLoop(Loop loop)
+        {
+            try
+            {
+                _playerService.StartLoop(loop);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while playing loop: " + ex.Message);
+                View.LoopError(ex);
+            }            
         }
     }
 }
-

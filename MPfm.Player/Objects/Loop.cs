@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Core.Attributes;
 
 namespace MPfm.Player.Objects
 {
@@ -25,6 +26,8 @@ namespace MPfm.Player.Objects
         public Guid LoopId { get; set; }
         public Guid AudioFileId { get; set; }
         public string Name { get; set; }
+
+        [DatabaseFieldAttribute(false)]
         public List<Segment> Segments { get; set; }
 
         public Loop()

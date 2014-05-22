@@ -482,7 +482,7 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(() => {
                 int row = tableViewDevices.SelectedRow;
-                SyncDevice selectedDevice = row >= 0 ? _items[row] : null;
+                SyncDevice selectedDevice = row >= 0 && row <= _items.Count - 1 ? _items[row] : null;
                 lock (_locker)
                 {
                     _items.Add(device);
@@ -506,7 +506,7 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(() => {
                 int row = tableViewDevices.SelectedRow;
-                SyncDevice selectedDevice = row >= 0 ? _items[row] : null;
+                SyncDevice selectedDevice = row >= 0 && row <= _items.Count - 1 ? _items[row] : null;
                 lock (_locker)
                 {
                     _items.Remove(device);

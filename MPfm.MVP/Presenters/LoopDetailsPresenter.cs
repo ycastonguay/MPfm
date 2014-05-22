@@ -18,6 +18,14 @@
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Library.Services.Interfaces;
+using MPfm.Player.Objects;
+using TinyMessenger;
+using MPfm.MVP.Messages;
+using System;
+using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Core;
 
 namespace MPfm.MVP.Presenters
 {
@@ -26,16 +34,102 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class LoopDetailsPresenter : BasePresenter<ILoopDetailsView>, ILoopDetailsPresenter
 	{
-        public LoopDetailsPresenter()
+        Guid _loopId;
+        Loop _loop;
+        AudioFile _audioFile;
+        long _lengthBytes;
+        readonly ITinyMessengerHub _messageHub;
+        readonly ILibraryService _libraryService;
+        readonly IPlayerService _playerService;
+        
+        public LoopDetailsPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
+            _messageHub = messageHub;
+            _libraryService = libraryService;
+            _playerService = playerService;
 		}
 
         public override void BindView(ILoopDetailsView view)
         {            
             // Subscribe to view actions
-            
+            view.OnAddSegment = AddSegment;
+            view.OnEditSegment = EditSegment;
+            view.OnDeleteSegment = DeleteSegment;
+            view.OnUpdateLoopDetails = UpdateLoopDetails;            
             base.BindView(view);
+
+            _messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited);
+        }
+
+        private void LoopBeingEdited(LoopBeingEditedMessage message)
+        {
+            _loopId = message.LoopId;
+            RefreshLoop();
+        }
+
+        private void AddSegment()
+        {
+            try
+            {
+
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while adding segment: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void EditSegment(Segment segment)
+        {
+            try
+            {
+
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while editing segment: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void DeleteSegment(Segment segment)
+        {
+            try
+            {
+
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while deleting segment: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void UpdateLoopDetails(Loop loop)
+        {
+        }
+
+        private void RefreshLoop()
+        {
+            try
+            {
+                if(_loopId == Guid.Empty)
+                    return;
+
+                // Make a local copy of data in case the song changes
+                _loop = _libraryService.SelectLoop(_loopId);
+                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                //float positionPercentage = ((float)_rker.PositionBytes / (float)_lengthBytes) * 100;
+                View.RefreshLoopDetails(_loop, _audioFile);
+                //View.RefreshMarkerPosition(_marker.Position, positionPercentage);
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while refreshing a loop: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
         }
     }
 }
-

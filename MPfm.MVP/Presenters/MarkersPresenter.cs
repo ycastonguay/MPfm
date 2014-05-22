@@ -74,13 +74,9 @@ namespace MPfm.MVP.Presenters
             view.OnUpdateMarker = UpdateMarker;
             view.OnPunchInMarker = PunchInMarker;
             view.OnUndoMarker = UndoMarker;
-
-            // This will bind the view; data can be refreshed afterwards
             base.BindView(view);
 
-            // Subscribe to messages
             _tokens.Add(_messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
-                //Tracing.Log("MarkersPresenter - Received MarkerUpdatedMessage - audioFileId: {0}", m.AudioFileId.ToString());
                 _audioFileId = m.AudioFileId;
                 RefreshMarkers(_audioFileId);
             }));
@@ -101,15 +97,6 @@ namespace MPfm.MVP.Presenters
 
 	        base.ViewDestroyed();
 	    }
-
-	    private void CreateMarkerDetailsView(Guid markerId)
-        {
-#if IOS || ANDROID
-            _mobileNavigationManager.CreateMarkerDetailsView(View, markerId);
-#else
-            //_navigationManager.CreateMarkerDetailsView(markerId);
-#endif
-        }
 
 	    private void AddMarker()
 	    {
@@ -162,7 +149,7 @@ namespace MPfm.MVP.Presenters
 
         private void EditMarker(Marker marker)
         {
-            CreateMarkerDetailsView(marker.MarkerId);
+            //CreateMarkerDetailsView(marker.MarkerId);
             _messageHub.PublishAsync<MarkerBeingEditedMessage>(new MarkerBeingEditedMessage(this, marker.MarkerId));
         }
 

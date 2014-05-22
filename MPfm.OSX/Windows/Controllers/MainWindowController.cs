@@ -45,12 +45,14 @@ namespace MPfm.OSX
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
-        Marker _currentMarker;
         LibraryBrowserEntity _currentLibraryBrowserEntity;
         string _currentAlbumArtKey;
         bool _isPlayerPositionChanging = false;
         bool _isScrollViewWaveFormChangingSecondaryPosition = false;
         List<Marker> _markers = new List<Marker>();
+        List<Loop> _loops = new List<Loop>();
+        Marker _currentMarker;
+        Loop _currentLoop;
         LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource _libraryBrowserDataSource = null;
 
@@ -171,6 +173,10 @@ namespace MPfm.OSX
             tableMarkers.WeakDelegate = this;
             tableMarkers.WeakDataSource = this;
             tableMarkers.DoubleClick += HandleMarkersDoubleClick;
+
+            tableLoops.WeakDelegate = this;
+            tableLoops.WeakDataSource = this;
+            tableLoops.DoubleClick += HandleLoopsDoubleClick;
         }
 
         private void LoadButtons()
@@ -367,17 +373,14 @@ namespace MPfm.OSX
 
             // Set cell fonts for Loops
             NSTableColumn columnLoopName = tableLoops.FindTableColumn(new NSString("columnLoopName"));
-            NSTableColumn columnLoopLength = tableLoops.FindTableColumn(new NSString("columnLoopLength"));
-            NSTableColumn columnLoopStartPosition = tableLoops.FindTableColumn(new NSString("columnLoopStartPosition"));
-            NSTableColumn columnLoopEndPosition = tableLoops.FindTableColumn(new NSString("columnLoopEndPosition"));
+            NSTableColumn columnLoopSegments = tableLoops.FindTableColumn(new NSString("columnLoopSegments"));
+            NSTableColumn columnLoopTotalLength = tableLoops.FindTableColumn(new NSString("columnLoopTotalLength"));
             columnLoopName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
             columnLoopName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopLength.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopLength.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopStartPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopStartPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopEndPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopEndPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopSegments.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopSegments.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopTotalLength.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopTotalLength.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             // Set cell fonts for Markers
             NSTableColumn columnMarkerName = tableMarkers.FindTableColumn(new NSString("columnMarkerName"));
@@ -605,11 +608,6 @@ namespace MPfm.OSX
         {
         }
 
-//        partial void actionOpenMainWindow(NSObject sender)
-//        {
-//            this.Window.MakeKeyAndOrderFront(this);
-//        }
-
 		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
             OnOpenPlaylistWindow();
@@ -667,10 +665,18 @@ namespace MPfm.OSX
 
         partial void actionAddLoop(NSObject sender)
         {
+            OnAddLoop();
+            viewLoopDetails.Hidden = false;
+            viewSegmentDetails.Hidden = true;
+            viewLoops.Hidden = true;
         }
 
         partial void actionEditLoop(NSObject sender)
         {           
+            if(tableLoops.SelectedRow < 0 || tableLoops.SelectedRow >= _loops.Count)
+                return;
+
+            OnEditLoop(_loops[tableLoops.SelectedRow]);
             viewLoopDetails.Hidden = false;
             viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
@@ -678,10 +684,30 @@ namespace MPfm.OSX
 
         partial void actionRemoveLoop(NSObject sender)
         {
+            if(tableLoops.SelectedRow < 0 || tableLoops.SelectedRow >= _loops.Count)
+                return;
+
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Loop will be removed";
+                alert.InformativeText = "Are you sure you wish to remove this loop?";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnDeleteLoop(_loops[tableLoops.SelectedRow]);
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
         }
 
         partial void actionAddSegment(NSObject sender)
         {
+            OnAddSegment();
             viewSegmentDetails.Hidden = false;
             viewLoopDetails.Hidden = true;
             viewLoops.Hidden = true;
@@ -689,12 +715,36 @@ namespace MPfm.OSX
 
         partial void actionEditSegment(NSObject sender)
         {
+            if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
+                return;
 
+            OnEditSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
+            viewSegmentDetails.Hidden = false;
+            viewLoopDetails.Hidden = true;
+            viewLoops.Hidden = true;
         }
 
         partial void actionRemoveSegment(NSObject sender)
         {
+            if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
+                return;
 
+            using(var alert = new NSAlert())
+            {
+                alert.MessageText = "Segment will be removed";
+                alert.InformativeText = "Are you sure you wish to remove this segment?";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnDeleteSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
         }
 
         partial void actionBackSegmentDetails(NSObject sender)
@@ -1010,6 +1060,8 @@ namespace MPfm.OSX
         {
             if(tableView.Identifier == "tableMarkers")
                 return _markers.Count;
+            else if(tableView.Identifier == "tableLoops")
+                return _loops.Count;
 
             return 0;
         }
@@ -1033,6 +1085,13 @@ namespace MPfm.OSX
                     view.TextField.StringValue = _markers[row].Name;
                 else if (tableColumn.Identifier.ToString() == "columnMarkerPosition")
                     view.TextField.StringValue = _markers[row].Position;
+                else
+                    view.TextField.StringValue = string.Empty;
+            } 
+            else if (tableView.Identifier == "tableLoops")
+            {
+                if (tableColumn.Identifier.ToString() == "columnLoopName")
+                    view.TextField.StringValue = _loops[row].Name;
                 else
                     view.TextField.StringValue = string.Empty;
             }
@@ -1066,7 +1125,15 @@ namespace MPfm.OSX
 
             OnSelectMarker(_markers[tableMarkers.SelectedRow]);
         }
-        
+
+        private void HandleLoopsDoubleClick(object sender, EventArgs e)
+        {
+            if (tableLoops.SelectedRow == -1)
+                return;
+
+            //OnSelectMarker(_markers[tableMarkers.SelectedRow]);
+        }
+                
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
         {
             if(outlineLibraryBrowser.SelectedRow == -1)
@@ -1538,7 +1605,7 @@ namespace MPfm.OSX
                 waveFormScrollView.SetMarkers(_markers);
 
                 int row = tableMarkers.SelectedRow;
-                var selectedMarker = row >= 0 ? _markers[row] : null;
+                var selectedMarker = row >= 0 && row <= _markers.Count - 1 ? _markers[row] : null;
                 tableMarkers.ReloadData();
                 if(selectedMarker != null)
                 {
@@ -1607,6 +1674,8 @@ namespace MPfm.OSX
 
         public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
+        public Action<Loop> OnDeleteLoop { get; set; }
+        public Action<Loop> OnPlayLoop { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -1615,24 +1684,57 @@ namespace MPfm.OSX
 
         public void RefreshLoops(List<Loop> loops)
         {
+            InvokeOnMainThread(delegate {
+                _loops = loops.ToList();
+                //waveFormScrollView.lo SetMarkers(_markers);
+
+                int row = tableLoops.SelectedRow;
+                var selectedLoop = row >= 0 ? _loops[row] : null;
+                tableLoops.ReloadData();
+                if(selectedLoop != null)
+                {
+                    int newRow = _loops.IndexOf(selectedLoop);
+                    if(newRow >= 0)
+                        tableLoops.SelectRow(newRow, false);
+                }
+            });
         }
 
         #endregion
 
         #region ILoopDetailsView implementation
 
+        public Action OnAddSegment { get; set; }
+        public Action<Segment> OnEditSegment { get; set; }
+        public Action<Segment> OnDeleteSegment { get; set; }
+        public Action<Loop> OnUpdateLoopDetails { get; set; }
+        
         public void LoopDetailsError(Exception ex)
         {
             ShowError(ex);
+        }
+        
+        public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+        {
+            InvokeOnMainThread(delegate {
+                _currentLoop = loop;
+                txtLoopName.StringValue = loop.Name;
+            });
         }
 
         #endregion
 
         #region ISegmentDetailsView implementation
 
+        public Action<Segment> OnUpdateSegmentDetails { get; set; }
+
         public void SegmentDetailsError(Exception ex)
         {
             ShowError(ex);
+        }
+        
+        public void RefreshSegmentDetails(Segment segment)
+        {
         }
 
         #endregion
