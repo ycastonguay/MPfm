@@ -151,6 +151,9 @@
                         <TreeView.ContextMenu>
                             <ContextMenu x:Name="contextMenuLibraryBrowser">
                                 <MenuItem x:Name="menuItemLibraryBrowserPlay" Header="Play songs" Click="MenuItemLibraryBrowserPlay_OnClick" />
+                                <MenuItem x:Name="menuItemLibraryBrowserAddToPlaylist" Header="Add to playlist" Click="MenuItemLibraryBrowserAddToPlaylist_OnClick" />
+                                <MenuItem x:Name="menuItemLibraryBrowserRemoveFromLibrary" Header="Remove from library" Click="MenuItemLibraryBrowserRemoveFromLibrary_OnClick" />
+                                <MenuItem x:Name="menuItemLibraryBrowserDeleteFromHardDisk" Header="Delete from hard disk" Click="MenuItemLibraryBrowserDeleteFromHardDisk_OnClick" />
                             </ContextMenu>
                         </TreeView.ContextMenu>
                         <TreeView.ItemContainerStyle>
@@ -234,8 +237,7 @@
                                             <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2" />
                                             <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MinWidth="50" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
                                             <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2" />
-                                        </Grid>
-                                        <!--<controls:TestControl x:Name="testControl" Width="100" Height="100" />-->
+                                        </Grid>                                        
                                     </StackPanel>
                                 </Grid>
                                 <Grid Grid.Column="2">
@@ -459,15 +461,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <controls:WaveFormScrollView Grid.Row="0" x:Name="scrollViewWaveForm" MouseRightButtonUp="ScrollViewWaveForm_OnMouseRightButtonUp">
-                                <Panel.ContextMenu>
-                                    <ContextMenu x:Name="contextMenuWaveForm" Visibility="Collapsed">
-                                        <MenuItem x:Name="menuItemZoomIn" Header="Zoom in" Click="MenuItemZoomIn_OnClick" />
-                                        <MenuItem x:Name="menuItemZoomOut" Header="Zoom out" Click="MenuItemZoomOut_OnClick" />
-                                        <MenuItem x:Name="menuItemCreateMarker" Header="Create marker here" Click="MenuItemCreateMarker_OnClick" />
-                                    </ContextMenu>
-                                </Panel.ContextMenu>
-                            </controls:WaveFormScrollView>
+                            <controls:WaveFormScrollView Grid.Row="0" x:Name="scrollViewWaveForm" MouseRightButtonUp="ScrollViewWaveForm_OnMouseRightButtonUp" />
                             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="1" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
@@ -509,7 +503,7 @@
                                 </Grid>
                                 <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="1" />
                                 <Grid Grid.Column="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
-                                    <Grid>
+                                    <Grid x:Name="gridMarkers">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
@@ -523,7 +517,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <!--<controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="Go To" ImageSource="/Resources/Images/Buttons/goto.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />-->
+                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="Go To" ImageSource="/Resources/Images/Buttons/goto.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" ContextMenuService.Placement="Bottom" Click="BtnAddMarker_OnClick" MouseRightButtonDown="BtnAddMarker_OnMouseRightButtonDown">
                                                 <Button.ContextMenu>
                                                     <ContextMenu x:Name="contextMenuAddMarker" Visibility="Collapsed">
@@ -534,80 +528,67 @@
                                                     </ContextMenu>
                                                 </Button.ContextMenu>
                                             </controls:HeaderImageButton>
-                                            <!--<controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />-->
+                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewMarkers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMarkers_OnSelectionChanged" SizeChanged="ListViewMarkers_OnSizeChanged">
-                                            <ListView.Resources>
-                                                <Style TargetType="GridViewColumnHeader">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </Style>
-                                                <!--<Style TargetType="{x:Type ListViewItem}">
-                                                    <EventSetter Event="MouseDoubleClick" Handler="HandleMarkerItemDoubleClick" />
-                                                </Style>-->
-                                            </ListView.Resources>
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Width="Auto">                                                        
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <StackPanel Orientation="Vertical" Margin="-2,0,0,0">
-                                                                    <Grid x:Name="panelMarkerCollapsed" Visibility="Visible" Background="White">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                            <ColumnDefinition Width="*" />
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <TextBlock Grid.Column="0" Text="A" Padding="4" VerticalAlignment="Center" Background="Red" Foreground="White" />
-                                                                        <TextBlock Grid.Column="1" Text="{Binding Path=Name}" VerticalAlignment="Center" Margin="4,0,0,0" />
-                                                                        <TextBlock Grid.Column="2" Text="{Binding Path=Position}" VerticalAlignment="Center" />
-                                                                    </Grid>                                                                    
-                                                                    <Grid x:Name="panelMarkerExtended" Visibility="Collapsed" Background="#DDDDDD">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="*" />
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <StackPanel Grid.Column="0" Orientation="Vertical">                                                                           
-                                                                            <Grid>
-                                                                                <Grid.ColumnDefinitions>
-                                                                                    <ColumnDefinition Width="Auto" />
-                                                                                    <ColumnDefinition Width="*" />
-                                                                                    <ColumnDefinition Width="Auto" />
-                                                                                </Grid.ColumnDefinitions>
-                                                                                <TextBlock Grid.Column="0" Text="A" Padding="4" VerticalAlignment="Center" Background="Red" Foreground="White" />
-                                                                                <TextBox Grid.Column="1" x:Name="txtMarkerName" Text="{Binding Path=Name}" Margin="0,0,0,0" LostFocus="TxtMarkerName_OnLostFocus" />
-                                                                                <TextBlock Grid.Column="2" x:Name="lblMarkerPosition" Text="{Binding Path=Position}" VerticalAlignment="Center" Margin="4,0,0,0" />
-                                                                            </Grid>                                                                            
-                                                                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                                                                <TextBlock Text="Position" Margin="0,2,6,6" DockPanel.Dock="Left" VerticalAlignment="Center" />
-                                                                                <Slider x:Name="sliderMarkerPosition" Minimum="0" Value="{Binding Path=PositionPercentage}" Maximum="1" Margin="0,2,0,6" DockPanel.Dock="Right" ValueChanged="SliderMarkerPosition_OnValueChanged" LostMouseCapture="SliderMarkerPosition_OnLostMouseCapture"  />
-                                                                            </DockPanel>
-                                                                        </StackPanel>
-                                                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="4,0,0,0">
-                                                                            <Button Margin="2" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnGoToMarker_OnClick">
-                                                                                <Image Source="/Resources/Images/Buttons/goto.png" Stretch="None" />
-                                                                            </Button>
-                                                                            <Button Margin="2" Style="{StaticResource PlayerButton}" Width="30" Height="30">
-                                                                                <Image Source="/Resources/Images/Buttons/goto.png" Stretch="None" />
-                                                                            </Button>
-                                                                            <Button Margin="2" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnRemoveMarker_OnClick">
-                                                                                <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                                            </Button>
-                                                                        </StackPanel>                                                                            
-                                                                    </Grid>
-                                                                </StackPanel>
-                                                                <!--<DataTemplate.Triggers>
-                                                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                                                        <Setter TargetName="panelToto" Property="Background" Value="HotPink"></Setter>
-                                                                    </DataTrigger>
-                                                                </DataTemplate.Triggers>-->
+                                                                <Grid x:Name="panelMarkerCollapsed" Visibility="Visible" Background="White">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" Text="A" Padding="4" VerticalAlignment="Center" Background="Red" Foreground="White" />
+                                                                    <TextBlock Grid.Column="1" Text="{Binding Path=Name}" VerticalAlignment="Center" Margin="4,0,0,0" />
+                                                                    <TextBlock Grid.Column="2" Text="{Binding Path=Position}" VerticalAlignment="Center" />
+                                                                </Grid>                                                                    
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
                                                     </GridViewColumn>
-                                                    <!--<GridViewColumn Header="Position" Width="80" DisplayMemberBinding="{Binding Path=Position}" />-->  
+                                                    <GridViewColumn Header="Position" Width="80" DisplayMemberBinding="{Binding Path=Position}" />  
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
+                                    </Grid>
+                                    <Grid x:Name="gridMarkerDetails" Visibility="Hidden" Margin="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackMarker" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackMarker_OnClick" />
+                                            <Label Grid.Column="1" Content="Marker Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                        </Grid>
+                                        <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                <TextBox x:Name="txtMarkerName" Grid.Column="1" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            </Grid>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                <controls:TrackBar Grid.Column="1" x:Name="trackMarkerPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackMarkerPosition_OnTrackBarValueChanged" />
+                                                <Label Grid.Column="2" x:Name="lblMarkerPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2" />
+                                            </Grid>
+                                            <controls:ImageButton x:Name="btnPunchInMarker" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" Click="BtnPunchInMarker_OnClick" />
+                                        </StackPanel>                                        
                                     </Grid>
                                 </Grid>
                             </Grid>

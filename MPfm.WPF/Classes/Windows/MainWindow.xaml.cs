@@ -50,6 +50,7 @@ namespace MPfm.WPF.Classes.Windows
     {
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
         private List<Marker> _markers;
+        private Marker _currentMarker;
         private bool _isPlayerPositionChanging;
         private bool _isScrollViewWaveFormChangingSecondaryPosition;
         private int _selectedMarkerIndex = -1;
@@ -68,6 +69,7 @@ namespace MPfm.WPF.Classes.Windows
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongsNew.DoubleClick += GridViewSongsNewOnDoubleClick;
+            gridViewSongsNew.MenuItemClicked += GridViewSongsNewOnMenuItemClicked;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
@@ -210,6 +212,29 @@ namespace MPfm.WPF.Classes.Windows
                 return;
 
             OnTableRowDoubleClicked(gridViewSongsNew.SelectedItems[0].AudioFile);
+        }
+
+        private void GridViewSongsNewOnMenuItemClicked(SongGridView.MenuItemType menuItemType)
+        {
+            if (gridViewSongsNew.SelectedItems.Count == 0)
+                return;
+
+            switch (menuItemType)
+            {
+                case SongGridView.MenuItemType.PlaySongs:
+                    AudioFile audioFile = gridViewSongsNew.SelectedItems[0].AudioFile;
+                    OnTableRowDoubleClicked(audioFile);
+                    break;
+                case SongGridView.MenuItemType.AddToPlaylist:
+                    var audioFiles = new List<AudioFile>();
+                    foreach (var item in gridViewSongsNew.SelectedItems)
+                        audioFiles.Add(item.AudioFile);
+                    OnSongBrowserAddToPlaylist(audioFiles);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
         }
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
@@ -405,10 +430,34 @@ namespace MPfm.WPF.Classes.Windows
                 OnSetInterval((int)trackPitchShifting.Value);
         }
 
+        private void TrackMarkerPosition_OnTrackBarValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnChangePositionMarkerDetails != null)
+                OnChangePositionMarkerDetails((float)trackMarkerPosition.Value / 1000f);
+        }
+
         private void BtnGoToMarker_OnClick(object sender, RoutedEventArgs e)
         {
             var marker = listViewMarkers.SelectedItem as Marker;
             OnSelectMarker(marker);
+        }
+
+        private void BtnBackMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridMarkers.Visibility = Visibility.Visible;
+            gridMarkerDetails.Visibility = Visibility.Hidden;
+
+            _currentMarker.Name = txtMarkerName.Text;
+            OnUpdateMarkerDetails(_currentMarker);
+
+            _currentMarker = null;
+            scrollViewWaveForm.SetActiveMarker(Guid.Empty);
+        }
+
+        private void BtnPunchInMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnPunchInMarkerDetails();
         }
 
         private void BtnAddMarker_OnClick(object sender, RoutedEventArgs e)
@@ -452,11 +501,18 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
         {
+            if (listViewMarkers.SelectedIndex < 0)
+                return;
+
+            OnEditMarker(_markers[listViewMarkers.SelectedIndex]);
+
+            gridMarkers.Visibility = Visibility.Hidden;
+            gridMarkerDetails.Visibility = Visibility.Visible;
         }
 
         private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you wish to remove this marker?", "Remove marker", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = MessageBox.Show("Are you sure you wish to remove this marker?", "Remove marker", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
                 OnDeleteMarker(_markers[listViewMarkers.SelectedIndex]);
         }
@@ -479,35 +535,11 @@ namespace MPfm.WPF.Classes.Windows
 
         private void ListViewMarkers_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.RemovedItems.Count > 0)
-            {
-                var marker = e.RemovedItems[0] as Marker;
-                int index = _markers.FindIndex(x => x.MarkerId == marker.MarkerId);
-                ChangeMarkerCellPanelVisibility(index, false);    
-            }
-
             EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
 
             if (listViewMarkers.SelectedIndex >= 0)
             {
                 _selectedMarkerIndex = listViewMarkers.SelectedIndex;
-                ChangeMarkerCellPanelVisibility(listViewMarkers.SelectedIndex, true);
-            }
-        }
-
-        private void ChangeMarkerCellPanelVisibility(int cellIndex, bool selected)
-        {
-            try
-            {
-                var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(cellIndex) as ListViewItem;
-                var panelMarkerCollapsed = UIHelper.FindByName("panelMarkerCollapsed", item) as Grid;
-                panelMarkerCollapsed.Visibility = selected ? Visibility.Collapsed : Visibility.Visible;
-                var panelMarkerExtended = UIHelper.FindByName("panelMarkerExtended", item) as Grid;
-                panelMarkerExtended.Visibility = selected ? Visibility.Visible : Visibility.Collapsed;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to change marker cell panel visiblity: {0}", ex);
             }
         }
 
@@ -526,9 +558,9 @@ namespace MPfm.WPF.Classes.Windows
 
         private void EnableMarkerButtons(bool enabled)
         {
-            //btnGoToMarker.Enabled = enabled;
-            //btnEditMarker.Enabled = enabled;
-            //btnRemoveMarker.Enabled = enabled;
+            btnGoToMarker.Enabled = enabled;
+            btnEditMarker.Enabled = enabled;
+            btnRemoveMarker.Enabled = enabled;
         }
 
         private void EnableLoopButtons(bool enabled)
@@ -574,6 +606,41 @@ namespace MPfm.WPF.Classes.Windows
             StartPlaybackOfSelectedLibraryBrowserTreeViewItem();
         }
 
+        private void MenuItemLibraryBrowserAddToPlaylist_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnAddToPlaylist(entity);
+        }
+
+        private void MenuItemLibraryBrowserRemoveFromLibrary_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            if (MessageBox.Show("Are you sure you wish to remove these audio files from your library?\nThis does not delete the audio files from your hard disk.", "Audio files will be removed from library", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                return;
+
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnRemoveFromLibrary(entity);
+        }
+
+        private void MenuItemLibraryBrowserDeleteFromHardDisk_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+
+            if (MessageBox.Show("Are you sure you wish to delete these audio files from your hard disk?\nWARNING: This operation CANNOT be undone!", "Audio files will be deleted from hard disk", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                return;
+
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnDeleteFromHardDisk(entity);
+        }
+
         private void TreeViewLibrary_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Select the item if it isn't selected yet
@@ -613,10 +680,10 @@ namespace MPfm.WPF.Classes.Windows
             if (_currentAudioFile == null)
                 return;
 
-            contextMenuWaveForm.Placement = PlacementMode.MousePoint;
-            contextMenuWaveForm.PlacementTarget = scrollViewWaveForm;
-            contextMenuWaveForm.Visibility = Visibility.Visible;
-            contextMenuWaveForm.IsOpen = true;
+            //contextMenuWaveForm.Placement = PlacementMode.MousePoint;
+            //contextMenuWaveForm.PlacementTarget = scrollViewWaveForm;
+            //contextMenuWaveForm.Visibility = Visibility.Visible;
+            //contextMenuWaveForm.IsOpen = true;
             e.Handled = true;
         }
 
@@ -651,6 +718,14 @@ namespace MPfm.WPF.Classes.Windows
         public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+        public Action<LibraryBrowserEntity> OnAddToPlaylist { get; set; }
+        public Action<LibraryBrowserEntity> OnRemoveFromLibrary { get; set; }
+        public Action<LibraryBrowserEntity> OnDeleteFromHardDisk { get; set; }
+
+        public void LibraryBrowserError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
         {
@@ -721,7 +796,13 @@ namespace MPfm.WPF.Classes.Windows
 
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
         public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
+        public Action<IEnumerable<AudioFile>> OnSongBrowserAddToPlaylist { get; set; }
         public Action<string> OnSearchTerms { get; set; }
+
+        public void SongBrowserError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
 
         public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
@@ -1105,6 +1186,7 @@ namespace MPfm.WPF.Classes.Windows
         public Action<float> OnChangePositionMarkerDetails { get; set; }
         public Action<Marker> OnUpdateMarkerDetails { get; set; }
         public Action OnDeleteMarkerDetails { get; set; }
+        public Action OnPunchInMarkerDetails { get; set; }
 
         public void MarkerDetailsError(Exception ex)
         {
@@ -1117,10 +1199,26 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarker(Marker marker, AudioFile audioFile)
         {
+            _currentMarker = marker;
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                txtMarkerName.Text = marker.Name;
+                lblMarkerPosition.Content = marker.Position;
+                trackMarkerPosition.ValueWithoutEvent = (int)(marker.PositionPercentage * 10);
+                scrollViewWaveForm.SetActiveMarker(marker.MarkerId);
+            }));
         }
 
         public void RefreshMarkerPosition(string position, float positionPercentage)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                lblMarkerPosition.Content = position;
+                trackMarkerPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                _currentMarker.Position = position;
+                _currentMarker.PositionPercentage = positionPercentage;
+                scrollViewWaveForm.SetMarkerPosition(_currentMarker);
+            }));
         }
 
         #endregion
@@ -1142,5 +1240,6 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
+
     }
 }

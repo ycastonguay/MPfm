@@ -23,6 +23,7 @@ using System.Windows.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
+using MPfm.GenericControls.Services;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
@@ -93,7 +94,31 @@ namespace MPfm.WPF.Classes.Controls
             {
                 _control.ContentOffset = value;
             }
-        }  
+        }
+
+        public WaveFormControl.InputInteractionMode InteractionMode
+        {
+            get
+            {
+                return _control.InteractionMode;
+            }
+            set
+            {
+                _control.InteractionMode = value;
+            }
+        }
+
+        public WaveFormDisplayType DisplayType
+        {
+            get
+            {
+                return _control.DisplayType;
+            }
+            set
+            {
+                _control.DisplayType = value;
+            }
+        }
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
@@ -118,6 +143,16 @@ namespace MPfm.WPF.Classes.Controls
         public void SetMarkers(IEnumerable<Marker> markers)
         {
             _control.SetMarkers(markers);
+        }
+
+        public void SetActiveMarker(Guid markerId)
+        {
+            _control.SetActiveMarker(markerId);
+        }
+
+        public void SetMarkerPosition(Marker marker)
+        {
+            _control.SetMarkerPosition(marker);
         }
 
         public void SetWaveFormLength(long lengthBytes)

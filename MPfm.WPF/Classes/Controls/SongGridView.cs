@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -27,7 +26,6 @@ using System.Windows.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Interaction;
 using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
@@ -45,7 +43,9 @@ namespace MPfm.WPF.Classes.Controls
         private ContextMenu _contextMenuItems;
         private ContextMenu _contextMenuHeader;
 
+        public delegate void MenuItemClickedDelegate(MenuItemType menuItemType);
         public event EventHandler DoubleClick;
+        public event MenuItemClickedDelegate MenuItemClicked;
  
         public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
         public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
@@ -54,6 +54,7 @@ namespace MPfm.WPF.Classes.Controls
             : base()
         {
             DoubleClick += (sender, e) => { };
+            MenuItemClicked += type => { };
             Focusable = true;
 
             // Add dummy control so the scrollbar can be placed on the right
@@ -131,18 +132,22 @@ namespace MPfm.WPF.Classes.Controls
             }));
 
             // Create context menu at the end to add columns from control
-            CreateContextMenus();
+            CreateContextualMenu();
         }
 
-        private void CreateContextMenus()
+        private void CreateContextualMenu()
         {
             _contextMenuItems = new ContextMenu();
-            var menuItemAddToPlaylist = new MenuItem();
-            menuItemAddToPlaylist.Header = "Add to playlist";
-            _contextMenuItems.Items.Add(menuItemAddToPlaylist);
+
             var menuItemPlaySong = new MenuItem();
             menuItemPlaySong.Header = "Play song(s)";
+            menuItemPlaySong.Click += MenuItemPlaySongOnClick;
             _contextMenuItems.Items.Add(menuItemPlaySong);
+
+            var menuItemAddToPlaylist = new MenuItem();
+            menuItemAddToPlaylist.Header = "Add to playlist";
+            menuItemAddToPlaylist.Click += MenuItemAddToPlaylistOnClick;
+            _contextMenuItems.Items.Add(menuItemAddToPlaylist);
 
             _contextMenuHeader = new ContextMenu();
             foreach (var column in _control.Columns)
@@ -151,6 +156,16 @@ namespace MPfm.WPF.Classes.Controls
                 menuItem.Header = column.FieldName;
                 _contextMenuHeader.Items.Add(menuItem);
             }
+        }
+
+        private void MenuItemPlaySongOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            MenuItemClicked(MenuItemType.PlaySongs);
+        }
+
+        private void MenuItemAddToPlaylistOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            MenuItemClicked(MenuItemType.AddToPlaylist);
         }
 
         public void ImportAudioFiles(List<AudioFile> audioFiles)
@@ -227,6 +242,12 @@ namespace MPfm.WPF.Classes.Controls
             char key = (char)KeyInterop.VirtualKeyFromKey(e.Key);
             _control.KeyUp(key, GenericControlHelper.GetSpecialKeys(e.Key), ModifierKeys.None, e.IsRepeat);
             base.OnKeyUp(e);
+        }
+
+        public enum MenuItemType
+        {
+            PlaySongs = 0,
+            AddToPlaylist = 1
         }
     }
 }

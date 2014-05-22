@@ -110,6 +110,7 @@ namespace MPfm.Android
         public Action<float> OnChangePositionMarkerDetails { get; set; }
         public Action<Marker> OnUpdateMarkerDetails { get; set; }
         public Action OnDeleteMarkerDetails { get; set; }
+        public Action OnPunchInMarkerDetails { get; set; }
 
         public void MarkerDetailsError(Exception ex)
         {
