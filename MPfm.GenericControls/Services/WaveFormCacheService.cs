@@ -39,11 +39,14 @@ namespace MPfm.GenericControls.Services
         #else
         public const int MaximumNumberOfTasks = 2;
         #endif
+        private readonly object _lockerCache = new object();
         private readonly object _lockerRequests = new object();
         private readonly object _lockerTiles = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
         private int _numberOfBitmapTasksRunning;
+        private float _lastZoom;
         private List<WaveFormTile> _tiles;
+        private List<WaveFormTile> _tileCacheForZoom;
         private List<WaveFormBitmapRequest> _requests;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
@@ -58,6 +61,7 @@ namespace MPfm.GenericControls.Services
         public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService)
         {
             _tiles = new List<WaveFormTile>();
+            _tileCacheForZoom = new List<WaveFormTile>();
             _requests = new List<WaveFormBitmapRequest>();
             _waveFormRenderingService = waveFormRenderingService;
             _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
@@ -142,7 +146,17 @@ namespace MPfm.GenericControls.Services
 
         public List<WaveFormTile> GetTiles(WaveFormBitmapRequest request)
         {
-            float coveredAreaX = 0;
+            if (request.Zoom != _lastZoom)
+            {
+                lock (_lockerCache)
+                {
+                    Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
+                    _lastZoom = request.Zoom;
+                    _tileCacheForZoom.Clear();
+                }
+            }
+
+            //float coveredAreaX = 0;
             float zoomThreshold = (float)Math.Floor(request.Zoom);
             var boundsWaveFormAdjusted = new BasicRectangle(0, 0, request.BoundsWaveForm.Width * zoomThreshold, request.BoundsWaveForm.Height);
             var tiles = new List<WaveFormTile>();
@@ -151,39 +165,64 @@ namespace MPfm.GenericControls.Services
             {
                 WaveFormTile tile = null;
                 float tileX = a * request.TileSize;
-                var availableTiles = GetAvailableTilesForPosition(tileX, request.Zoom);
-                var boundsBitmap = new BasicRectangle(tileX, 0, TileSize, request.BoundsWaveForm.Height);
-                if (availableTiles != null && availableTiles.Count > 0)
+
+                // Add lock for cache
+                WaveFormTile cachedTile = null;
+                lock (_lockerCache)
                 {
-                    // TEMP: Add every tile for zoom == 100% (TESTING) -- This fixes the empty areas and proves the coveredAreaX technique doesn't work.
-                    var tileLowRes = availableTiles.FirstOrDefault(x => x.Zoom == 1);
-                    if(tileLowRes != null && !tiles.Contains(tileLowRes))
-                        tiles.Add(tileLowRes);
-
-                    // Get the tile with the zoom that is the closest to the current zoom threshold 
-                    tile = GetOptimalTileAtZoom(availableTiles, zoomThreshold);
-
-                    // If we could not find a tile at this zoom level, we need to generate one 
-                    if (tile.Zoom != zoomThreshold)
-                    {
-                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-                        AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
-                    }
+                    cachedTile = _tileCacheForZoom.FirstOrDefault(x => x.ContentOffset.X == tileX);
                 }
+                if (cachedTile != null)
+                {
+                    //Console.WriteLine(">>>>>>>>>> Taking cached tile!");
+                    tile = cachedTile;
+                } 
                 else
                 {
-                    // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
-                    //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
-                    AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                    // This is a hot line, and needs to be avoided as much as possible.
+                    // the problem is that tiles vary in time in quality. 
+                    // maybe as a first, when a tile at the right zoom is available, cache it locally so it isn't necessary to call the algo again.
+                    var availableTiles = GetAvailableTilesForPosition(tileX, request.Zoom);
+                    var boundsBitmap = new BasicRectangle(tileX, 0, TileSize, request.BoundsWaveForm.Height);
+                    if (availableTiles != null && availableTiles.Count > 0)
+                    {
+                        // TEMP: Add every tile for zoom == 100% (TESTING) -- This fixes the empty areas and proves the coveredAreaX technique doesn't work.
+                        var tileLowRes = availableTiles.FirstOrDefault(x => x.Zoom == 1);
+                        if (tileLowRes != null && !tiles.Contains(tileLowRes))
+                            tiles.Add(tileLowRes);
+
+                        // Get the tile with the zoom that is the closest to the current zoom threshold 
+                        tile = GetOptimalTileAtZoom(availableTiles, zoomThreshold);
+
+                        // If we could not find a tile at this zoom level, we need to generate one 
+                        if (tile.Zoom != zoomThreshold)
+                        {
+                            //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoomThreshold: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoomThreshold, tile.Zoom, boundsBitmap, request.BoundsWaveForm);
+                            AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                        } 
+                        else
+                        {
+                            lock (_lockerCache)
+                            {
+                                _tileCacheForZoom.Add(tile);
+                            }
+                        }
+                    } 
+                    else
+                    {
+                        // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
+                        Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
+                        AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                    }
                 }
 
                 //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
                 if (tile != null)
                 {
                     // Calculate the new covered area (adjusted with the zoom delta)
-                    float currentTileDeltaZoom = request.Zoom/tile.Zoom;
-                    float currentTileX = tile.ContentOffset.X*currentTileDeltaZoom;
-                    float currentTileWidth = request.TileSize*currentTileDeltaZoom;
+                    //float currentTileDeltaZoom = request.Zoom/tile.Zoom;
+                    //float currentTileX = tile.ContentOffset.X*currentTileDeltaZoom;
+                    //float currentTileWidth = request.TileSize*currentTileDeltaZoom;
 
                     //// Check if the new tile leaves an empty area behind
                     //if (coveredAreaX < tile.ContentOffset.X)
@@ -232,7 +271,7 @@ namespace MPfm.GenericControls.Services
 
                     // Update the covered area position after trying to fill any empty areas left behind
                     // Note: There are still empty areas, this might not be the best way to make sure areas are all filled... 
-                    coveredAreaX = currentTileX + currentTileWidth;
+                    //coveredAreaX = currentTileX + currentTileWidth;
 
                     // Keep the available tiles from the last index so we can search through this list to cover an empty area if needed
                     //previouslyAvailableTiles = availableTiles;
