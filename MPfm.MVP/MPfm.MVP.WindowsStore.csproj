@@ -274,6 +274,10 @@
     <Compile Include="Messages\GeneralAppConfigChangedMessage.cs" />
     <Compile Include="Messages\AudioAppConfigChangedMessage.cs" />
     <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />    
+    <Compile Include="Views\ILoopPlaybackView.cs" />
+    <Compile Include="Models\LoopPlaybackEntity.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
+    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">

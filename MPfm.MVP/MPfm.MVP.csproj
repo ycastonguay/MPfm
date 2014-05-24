@@ -339,5 +339,9 @@
     <Compile Include="Messages\LoopActivatedMessage.cs" />
     <Compile Include="Messages\LoopBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopUpdatedMessage.cs" />    
+    <Compile Include="Views\ILoopPlaybackView.cs" />
+    <Compile Include="Models\LoopPlaybackEntity.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
+    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
   </ItemGroup>
 </Project>

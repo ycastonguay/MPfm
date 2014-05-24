@@ -24,7 +24,7 @@ namespace MPfm.MVP.Views
 	/// Main view interface for desktop platforms. Combines several views together. 
 	/// Unfortunately it is not easy/possible to create subviews on all desktop platforms like on mobile devices (i.e. GTK).
 	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, IMarkerDetailsView, ILoopsView, ILoopDetailsView, ISegmentDetailsView, ITimeShiftingView, IPitchShiftingView, IUpdateLibraryView
+    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, IMarkerDetailsView, ILoopsView, ILoopDetailsView, ILoopPlaybackView, ISegmentDetailsView, ITimeShiftingView, IPitchShiftingView, IUpdateLibraryView
 	{
         Action OnOpenPreferencesWindow { get; set; }
         Action OnOpenEffectsWindow { get; set; }

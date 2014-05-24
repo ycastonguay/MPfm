@@ -1723,6 +1723,26 @@ namespace MPfm.OSX
 
         #endregion
 
+        #region ILoopPlaybackView implementation
+
+        public Action OnPreviousLoop { get; set; }
+        public Action OnNextLoop { get; set; }
+        public Action OnPreviousSegment { get; set; }
+        public Action OnNextSegment { get; set; }
+
+        public void LoopPlaybackError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        public void RefreshLoopPlayback(LoopPlaybackEntity entity)
+        {
+            InvokeOnMainThread(delegate {
+            });
+        }
+
+        #endregion
+
         #region ISegmentDetailsView implementation
 
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
