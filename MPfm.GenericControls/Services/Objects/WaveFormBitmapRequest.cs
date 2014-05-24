@@ -24,6 +24,7 @@ namespace MPfm.GenericControls.Services.Objects
         public WaveFormDisplayType DisplayType { get; set; }
         public BasicRectangle BoundsBitmap { get; set; }
         public BasicRectangle BoundsWaveForm { get; set; }
+        public bool IsScrollBar { get; set; }
         public float Zoom { get; set; }
         public int StartTile { get; set; }
         public int EndTile { get; set; }

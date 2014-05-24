@@ -410,6 +410,7 @@ namespace MPfm.GenericControls.Controls
                     TileSize = tileSize,
                     BoundsWaveForm = new BasicRectangle(0, 0, Frame.Width, ScrollBarHeight), // Frame
                     Zoom = 1,
+                    IsScrollBar = true,
                     DisplayType = _displayType
                 };
                 // TODO: Cache those tiles, we do not need to request them continually since these tiles are always at 100%

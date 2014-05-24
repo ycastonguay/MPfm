@@ -47,6 +47,7 @@ namespace MPfm.GenericControls.Services
         private float _lastZoom;
         private List<WaveFormTile> _tiles;
         private List<WaveFormTile> _tileCacheForZoom;
+        private List<WaveFormTile> _tileCacheForScrollBar;
         private List<WaveFormBitmapRequest> _requests;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
@@ -62,6 +63,7 @@ namespace MPfm.GenericControls.Services
         {
             _tiles = new List<WaveFormTile>();
             _tileCacheForZoom = new List<WaveFormTile>();
+            _tileCacheForScrollBar = new List<WaveFormTile>();
             _requests = new List<WaveFormBitmapRequest>();
             _waveFormRenderingService = waveFormRenderingService;
             _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
@@ -136,6 +138,12 @@ namespace MPfm.GenericControls.Services
                     tile.Image.Image.Dispose();
                 _tiles.Clear();
             }
+
+            lock (_lockerCache)
+            {
+                _tileCacheForZoom.Clear();
+                _tileCacheForScrollBar.Clear();
+            }
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -146,10 +154,11 @@ namespace MPfm.GenericControls.Services
 
         public List<WaveFormTile> GetTiles(WaveFormBitmapRequest request)
         {
-            if (request.Zoom != _lastZoom)
+            if (request.Zoom != _lastZoom && request.Zoom > 1)
             {
                 lock (_lockerCache)
                 {
+                    // Bug: when requesting the smaller tiles, the zoom changes
                     Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
                     _lastZoom = request.Zoom;
                     _tileCacheForZoom.Clear();
@@ -170,7 +179,10 @@ namespace MPfm.GenericControls.Services
                 WaveFormTile cachedTile = null;
                 lock (_lockerCache)
                 {
-                    cachedTile = _tileCacheForZoom.FirstOrDefault(x => x.ContentOffset.X == tileX);
+                    if(request.IsScrollBar)
+                        cachedTile = _tileCacheForScrollBar.FirstOrDefault(x => x.ContentOffset.X == tileX);
+                    else
+                        cachedTile = _tileCacheForZoom.FirstOrDefault(x => x.ContentOffset.X == tileX);
                 }
                 if (cachedTile != null)
                 {
