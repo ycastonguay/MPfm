@@ -28,6 +28,9 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmButton btnBackLoop { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmButton btnBackLoopPlayback { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnBackMarker { get; set; }
 
 		[Outlet]
@@ -41,6 +44,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmRoundButton btnDecrementTimeShifting { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnDeleteQueue { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnDetectTempo { get; set; }
@@ -67,7 +73,22 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmRoundButton btnIncrementTimeShifting { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnNextLoop { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnNextSegment { get; set; }
+
+		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnPlayQueue { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnPreviousLoop { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmRoundButton btnPreviousSegment { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmButton btnPunchInMarker { get; set; }
@@ -172,6 +193,12 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblBitsPerSample { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblCurrentLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblCurrentSegment { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblCurrentTempo { get; set; }
 
 		[Outlet]
@@ -205,6 +232,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblLoopName { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblLoopPosition { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblMarkerName { get; set; }
 
 		[Outlet]
@@ -229,6 +259,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblQueueDetails { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblReferenceKey { get; set; }
 
 		[Outlet]
@@ -251,6 +284,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSegmentEndPositionValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSegmentPosition { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSegmentStartPosition { get; set; }
@@ -280,6 +316,9 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitleLoopDetails { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleLoopPlayback { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleLoops { get; set; }
 
 		[Outlet]
@@ -287,6 +326,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleMarkers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleQueue { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleSegmentDetails { get; set; }
@@ -311,6 +353,9 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSMenuItem menuAddToPlaylist { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSMenuItem menuAddToQueue { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSMenuItem menuDeleteFromHardDisk { get; set; }
@@ -403,6 +448,12 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmView viewLoopDetailsHeader { get; set; }
 
 		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewLoopPlayback { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewLoopPlaybackHeader { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSView viewLoops { get; set; }
 
 		[Outlet]
@@ -425,6 +476,12 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewPitchShifting { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewQueue { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmView viewQueueHeader { get; set; }
 
 		[Outlet]
 		MPfm.OSX.Classes.Controls.MPfmView viewRight { get; set; }
@@ -483,8 +540,14 @@ namespace MPfm.OSX
 		[Action ("actionAddToPlaylist:")]
 		partial void actionAddToPlaylist (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionAddToQueue:")]
+		partial void actionAddToQueue (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionBackLoopDetails:")]
 		partial void actionBackLoopDetails (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionBackLoopPlayback:")]
+		partial void actionBackLoopPlayback (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionBackMarkerDetails:")]
 		partial void actionBackMarkerDetails (MonoMac.Foundation.NSObject sender);
@@ -506,6 +569,9 @@ namespace MPfm.OSX
 
 		[Action ("actionDeleteFromHardDisk:")]
 		partial void actionDeleteFromHardDisk (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionDeleteQueue:")]
+		partial void actionDeleteQueue (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionEditLoop:")]
 		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
@@ -537,6 +603,12 @@ namespace MPfm.OSX
 		[Action ("actionNext:")]
 		partial void actionNext (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionNextLoop:")]
+		partial void actionNextLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionNextSegment:")]
+		partial void actionNextSegment (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionOpenAudioFiles:")]
 		partial void actionOpenAudioFiles (MonoMac.Foundation.NSObject sender);
 
@@ -558,8 +630,17 @@ namespace MPfm.OSX
 		[Action ("actionPlayLoop:")]
 		partial void actionPlayLoop (MonoMac.Foundation.NSObject sender);
 
+		[Action ("actionPlayQueue:")]
+		partial void actionPlayQueue (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPreviousLoop:")]
+		partial void actionPreviousLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionPreviousSegment:")]
+		partial void actionPreviousSegment (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionPunchInMarker:")]
 		partial void actionPunchInMarker (MonoMac.Foundation.NSObject sender);
@@ -651,6 +732,11 @@ namespace MPfm.OSX
 				btnBackLoop = null;
 			}
 
+			if (btnBackLoopPlayback != null) {
+				btnBackLoopPlayback.Dispose ();
+				btnBackLoopPlayback = null;
+			}
+
 			if (btnBackMarker != null) {
 				btnBackMarker.Dispose ();
 				btnBackMarker = null;
@@ -674,6 +760,11 @@ namespace MPfm.OSX
 			if (btnDecrementTimeShifting != null) {
 				btnDecrementTimeShifting.Dispose ();
 				btnDecrementTimeShifting = null;
+			}
+
+			if (btnDeleteQueue != null) {
+				btnDeleteQueue.Dispose ();
+				btnDeleteQueue = null;
 			}
 
 			if (btnDetectTempo != null) {
@@ -716,9 +807,34 @@ namespace MPfm.OSX
 				btnIncrementTimeShifting = null;
 			}
 
+			if (btnNextLoop != null) {
+				btnNextLoop.Dispose ();
+				btnNextLoop = null;
+			}
+
+			if (btnNextSegment != null) {
+				btnNextSegment.Dispose ();
+				btnNextSegment = null;
+			}
+
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
+			}
+
+			if (btnPlayQueue != null) {
+				btnPlayQueue.Dispose ();
+				btnPlayQueue = null;
+			}
+
+			if (btnPreviousLoop != null) {
+				btnPreviousLoop.Dispose ();
+				btnPreviousLoop = null;
+			}
+
+			if (btnPreviousSegment != null) {
+				btnPreviousSegment.Dispose ();
+				btnPreviousSegment = null;
 			}
 
 			if (btnPunchInMarker != null) {
@@ -891,6 +1007,16 @@ namespace MPfm.OSX
 				lblBitsPerSample = null;
 			}
 
+			if (lblCurrentLoop != null) {
+				lblCurrentLoop.Dispose ();
+				lblCurrentLoop = null;
+			}
+
+			if (lblCurrentSegment != null) {
+				lblCurrentSegment.Dispose ();
+				lblCurrentSegment = null;
+			}
+
 			if (lblCurrentTempo != null) {
 				lblCurrentTempo.Dispose ();
 				lblCurrentTempo = null;
@@ -946,6 +1072,11 @@ namespace MPfm.OSX
 				lblLoopName = null;
 			}
 
+			if (lblLoopPosition != null) {
+				lblLoopPosition.Dispose ();
+				lblLoopPosition = null;
+			}
+
 			if (lblMarkerName != null) {
 				lblMarkerName.Dispose ();
 				lblMarkerName = null;
@@ -986,6 +1117,11 @@ namespace MPfm.OSX
 				lblPosition = null;
 			}
 
+			if (lblQueueDetails != null) {
+				lblQueueDetails.Dispose ();
+				lblQueueDetails = null;
+			}
+
 			if (lblReferenceKey != null) {
 				lblReferenceKey.Dispose ();
 				lblReferenceKey = null;
@@ -1024,6 +1160,11 @@ namespace MPfm.OSX
 			if (lblSegmentEndPositionValue != null) {
 				lblSegmentEndPositionValue.Dispose ();
 				lblSegmentEndPositionValue = null;
+			}
+
+			if (lblSegmentPosition != null) {
+				lblSegmentPosition.Dispose ();
+				lblSegmentPosition = null;
 			}
 
 			if (lblSegmentStartPosition != null) {
@@ -1071,6 +1212,11 @@ namespace MPfm.OSX
 				lblTitleLoopDetails = null;
 			}
 
+			if (lblTitleLoopPlayback != null) {
+				lblTitleLoopPlayback.Dispose ();
+				lblTitleLoopPlayback = null;
+			}
+
 			if (lblTitleLoops != null) {
 				lblTitleLoops.Dispose ();
 				lblTitleLoops = null;
@@ -1084,6 +1230,11 @@ namespace MPfm.OSX
 			if (lblTitleMarkers != null) {
 				lblTitleMarkers.Dispose ();
 				lblTitleMarkers = null;
+			}
+
+			if (lblTitleQueue != null) {
+				lblTitleQueue.Dispose ();
+				lblTitleQueue = null;
 			}
 
 			if (lblTitleSegmentDetails != null) {
@@ -1111,6 +1262,11 @@ namespace MPfm.OSX
 				lblUpdateLibraryStatus = null;
 			}
 
+			if (viewQueue != null) {
+				viewQueue.Dispose ();
+				viewQueue = null;
+			}
+
 			if (lblVolume != null) {
 				lblVolume.Dispose ();
 				lblVolume = null;
@@ -1124,6 +1280,11 @@ namespace MPfm.OSX
 			if (menuAddToPlaylist != null) {
 				menuAddToPlaylist.Dispose ();
 				menuAddToPlaylist = null;
+			}
+
+			if (menuAddToQueue != null) {
+				menuAddToQueue.Dispose ();
+				menuAddToQueue = null;
 			}
 
 			if (menuDeleteFromHardDisk != null) {
@@ -1276,6 +1437,16 @@ namespace MPfm.OSX
 				viewLoopDetailsHeader = null;
 			}
 
+			if (viewLoopPlayback != null) {
+				viewLoopPlayback.Dispose ();
+				viewLoopPlayback = null;
+			}
+
+			if (viewLoopPlaybackHeader != null) {
+				viewLoopPlaybackHeader.Dispose ();
+				viewLoopPlaybackHeader = null;
+			}
+
 			if (viewLoops != null) {
 				viewLoops.Dispose ();
 				viewLoops = null;
@@ -1314,6 +1485,11 @@ namespace MPfm.OSX
 			if (viewPitchShifting != null) {
 				viewPitchShifting.Dispose ();
 				viewPitchShifting = null;
+			}
+
+			if (viewQueueHeader != null) {
+				viewQueueHeader.Dispose ();
+				viewQueueHeader = null;
 			}
 
 			if (viewRight != null) {

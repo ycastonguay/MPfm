@@ -87,11 +87,8 @@ namespace MPfm.OSX
             LoadTrackBars();
             LoadTreeViews();
             LoadImages();
+            HidePanels();
             SetTheme();
-
-            viewMarkerDetails.Hidden = true;
-            viewLoopDetails.Hidden = true;
-            viewSegmentDetails.Hidden = true;
 
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
@@ -105,6 +102,16 @@ namespace MPfm.OSX
 
             OnViewReady(this);
 		}
+
+        private void HidePanels()
+        {
+            viewMarkerDetails.Hidden = true;
+            viewLoopDetails.Hidden = true;
+            viewLoopPlayback.Hidden = true;
+            viewSegmentDetails.Hidden = true;
+            viewUpdateLibrary.Hidden = true;
+            viewQueue.Hidden = true;
+        }
 
         private void LoadComboBoxes()
         {
@@ -200,6 +207,8 @@ namespace MPfm.OSX
             viewLoopsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewLoopDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewLoopDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewLoopPlaybackHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewLoopPlaybackHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewSegmentsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewSegmentsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewSegmentDetailsHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
@@ -212,6 +221,8 @@ namespace MPfm.OSX
             viewSongBrowserHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewUpdateLibraryHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewUpdateLibraryHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewQueueHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewQueueHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
             // Todo: create enum for swapping themes instead of setting 4 lines of code for each control
             btnPlayLoop.RoundedRadius = 0;
@@ -274,6 +285,11 @@ namespace MPfm.OSX
             btnBackLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnBackLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnBackLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnBackLoopPlayback.RoundedRadius = 0;
+            btnBackLoopPlayback.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            btnBackLoopPlayback.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            btnBackLoopPlayback.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnBackLoopPlayback.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
             btnBackMarker.RoundedRadius = 0;
             btnBackMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnBackMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
@@ -309,24 +325,27 @@ namespace MPfm.OSX
             lblFileSize.Font = NSFont.FromFontName("Roboto", 11f);
             lblPlayCount.Font = NSFont.FromFontName("Roboto", 11f);
             lblLastPlayed.Font = NSFont.FromFontName("Roboto", 11f);
+            lblQueueDetails.Font = NSFont.FromFontName("Roboto", 11f);
 
             lblTitleLibraryBrowser.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleLoopDetails.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleLoopPlayback.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSegments.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSegmentDetails.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleMarkerDetails.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleUpdateLibrary.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleQueue.Font = NSFont.FromFontName("Roboto", 13);
 
             lblUpdateLibraryStatus.Font = NSFont.FromFontName("Roboto", 12);
             lblSearchWeb.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
-            lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
-            lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblCurrentLoop.Font = NSFont.FromFontName("Roboto", 12);
+            lblCurrentSegment.Font = NSFont.FromFontName("Roboto", 12);
             lblVolume.Font = NSFont.FromFontName("Roboto Light", 12f);
             lblDetectedTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
             lblReferenceTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
@@ -334,6 +353,11 @@ namespace MPfm.OSX
             lblReferenceKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
             lblNewKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
             txtIntervalValue.Font = NSFont.FromFontName("Roboto", 12f);
+
+            lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblLoopPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblSegmentPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
 
             lblDetectedTempo.Font = NSFont.FromFontName("Roboto Light", 12);
             lblCurrentTempo.Font = NSFont.FromFontName("Roboto Light", 12);
@@ -403,6 +427,7 @@ namespace MPfm.OSX
             btnEditMarker.Font = NSFont.FromFontName("Roboto", 11f);
             btnRemoveMarker.Font = NSFont.FromFontName("Roboto", 11f);
             btnBackLoop.Font = NSFont.FromFontName("Roboto", 11f);
+            btnBackLoopPlayback.Font = NSFont.FromFontName("Roboto", 11f);
             btnBackMarker.Font = NSFont.FromFontName("Roboto", 11f);
             btnBackSegment.Font = NSFont.FromFontName("Roboto", 11f);
         }
@@ -424,6 +449,7 @@ namespace MPfm.OSX
             btnPlayLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
             btnBackLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
+            btnBackLoopPlayback.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnBackMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnBackSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnPunchInMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
@@ -500,6 +526,7 @@ namespace MPfm.OSX
 
             menuPlay.Enabled = entity != null;
             menuAddToPlaylist.Enabled = entity != null;
+            menuAddToQueue.Enabled = entity != null;
             menuRemoveFromLibrary.Enabled = entity != null;
             menuDeleteFromHardDisk.Enabled = entity != null;
 
@@ -661,6 +688,8 @@ namespace MPfm.OSX
 
         partial void actionPlayLoop(NSObject sender)
         {
+            viewLoops.Hidden = true;
+            viewLoopPlayback.Hidden = false;
         }
 
         partial void actionAddLoop(NSObject sender)
@@ -703,6 +732,28 @@ namespace MPfm.OSX
                 };
                 alert.RunModal();
             }
+        }
+
+        partial void actionBackLoopPlayback(NSObject sender)
+        {
+            viewLoops.Hidden = false;
+            viewLoopPlayback.Hidden = true;
+        }
+
+        partial void actionPreviousLoop(NSObject sender)
+        {
+        }
+
+        partial void actionNextLoop(NSObject sender)
+        {
+        }
+
+        partial void actionPreviousSegment(NSObject sender)
+        {
+        }
+
+        partial void actionNextSegment(NSObject sender)
+        {
         }
 
         partial void actionAddSegment(NSObject sender)
@@ -1007,6 +1058,18 @@ namespace MPfm.OSX
             {
                 CocoaHelper.ShowAlert("Error searching for lyrics", string.Format("An error occured while searching for lyrics: {0}", ex), NSAlertStyle.Critical);
             }
+        }
+
+        partial void actionAddToQueue(NSObject sender)
+        {
+        }
+
+        partial void actionDeleteQueue(NSObject sender)
+        {
+        }
+
+        partial void actionPlayQueue(NSObject sender)
+        {
         }
 
         private void ScrollViewWaveForm_OnChangePosition(float position)
@@ -1803,6 +1866,22 @@ namespace MPfm.OSX
                         ShowUpdateLibraryView(false);
                     });
                 });
+        }
+
+        #endregion
+
+        #region IQueueView implementation
+
+        public Action OnQueueStartPlayback { get; set; }
+        public Action OnQueueRemoveAll { get; set; }
+
+        public void QueueError(Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        public void RefreshQueue(int songCount, string totalLength)
+        {
         }
 
         #endregion
