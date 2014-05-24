@@ -108,6 +108,7 @@ namespace MPfm.OSX.Classes.Controls
 //            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
 //            AddTrackingArea(trackingArea);
 
+            //WantsLayer = true;
             PostsBoundsChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
             

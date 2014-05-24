@@ -145,6 +145,8 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
+            WantsLayer = true;
+            LayerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay;
             _control = new WaveFormControl();    
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);

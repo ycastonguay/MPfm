@@ -107,6 +107,7 @@ namespace MPfm.GenericControls.Controls
         public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
         {
             AddToHistory(AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, true));
+            OnInvalidateVisual();
         }
 
         /// <summary>

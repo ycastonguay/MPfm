@@ -100,6 +100,8 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
+            WantsLayer = true;
+            LayerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay;
             _control = new WaveFormScaleControl();    
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));

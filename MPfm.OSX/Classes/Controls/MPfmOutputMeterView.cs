@@ -50,7 +50,7 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
-            //WantsLayer = true;
+            WantsLayer = true;
             _control = new OutputMeterControl();    
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));

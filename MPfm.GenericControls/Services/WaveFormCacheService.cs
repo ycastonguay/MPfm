@@ -159,7 +159,7 @@ namespace MPfm.GenericControls.Services
                 lock (_lockerCache)
                 {
                     // Bug: when requesting the smaller tiles, the zoom changes
-                    Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
+                    //Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
                     _lastZoom = request.Zoom;
                     _tileCacheForZoom.Clear();
                 }
@@ -223,7 +223,7 @@ namespace MPfm.GenericControls.Services
                     else
                     {
                         // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
-                        Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
+                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
                         AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
                     }
                 }

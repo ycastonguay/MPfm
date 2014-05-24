@@ -73,6 +73,7 @@ namespace MPfm.OSX.Classes.Controls
         private void Initialize()
         {
             // Add tracking area to receive mouse move and mouse dragged events
+            WantsLayer = true;
             var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.EnabledDuringMouseDrag;
             var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
             AddTrackingArea(trackingArea);

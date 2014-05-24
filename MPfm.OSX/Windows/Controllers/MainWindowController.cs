@@ -1371,7 +1371,6 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(() => {
                 outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-                outputMeter.SetNeedsDisplayInRect(outputMeter.Bounds);
             });
         }
 

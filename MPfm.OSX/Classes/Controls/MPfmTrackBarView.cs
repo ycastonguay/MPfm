@@ -90,6 +90,7 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
+            WantsLayer = true;
             OnTrackBarValueChanged += () => {};
             OnTrackBarMouseDown += () => {};
             OnTrackBarMouseUp += () => {};

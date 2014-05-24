@@ -87,6 +87,7 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
+            //WantsLayer = true;
             BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
             HeaderColor1 = GlobalTheme.PanelHeaderColor1;
