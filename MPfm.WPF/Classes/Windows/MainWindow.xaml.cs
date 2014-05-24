@@ -1064,6 +1064,8 @@ namespace MPfm.WPF.Classes.Windows
 
         public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
+        public Action<Loop> OnDeleteLoop { get; set; }
+        public Action<Loop> OnPlayLoop { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -1225,18 +1227,67 @@ namespace MPfm.WPF.Classes.Windows
 
         #region ILoopDetailsView implementation
 
+        public Action OnAddSegment { get; set; }
+        public Action<Segment> OnEditSegment { get; set; }
+        public Action<Segment> OnDeleteSegment { get; set; }
+        public Action<Loop> OnUpdateLoopDetails { get; set; }
+
         public void LoopDetailsError(Exception ex)
         {
             ShowErrorDialog(ex);
+        }
+
+        public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+        {
+        }
+
+        #endregion
+
+        #region ILoopPlaybackView implementation
+
+        public Action OnPreviousLoop { get; set; }
+        public Action OnNextLoop { get; set; }
+        public Action OnPreviousSegment { get; set; }
+        public Action OnNextSegment { get; set; }
+
+        public void LoopPlaybackError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
+
+        public void RefreshLoopPlayback(LoopPlaybackEntity entity)
+        {
         }
 
         #endregion
 
         #region ISegmentDetailsView implementation
 
+        public Action<Segment> OnUpdateSegmentDetails { get; set; }
+
         public void SegmentDetailsError(Exception ex)
         {
             ShowErrorDialog(ex);
+        }
+
+        public void RefreshSegmentDetails(Segment segment)
+        {
+        }
+
+        #endregion
+
+        #region IQueueView implementation
+
+        public Action OnQueueStartPlayback { get; set; }
+        public Action OnQueueRemoveAll { get; set; }
+
+        public void QueueError(Exception ex)
+        {
+            ShowErrorDialog(ex);
+        }
+
+        public void RefreshQueue(int songCount, string totalLength)
+        {
         }
 
         #endregion
