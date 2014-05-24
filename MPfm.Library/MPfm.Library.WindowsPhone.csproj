@@ -114,6 +114,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Lib\taglib-sharp.dll" />
+	<EmbeddedResource Include="Scripts\1.06-1.07.sql" />
     <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
     <EmbeddedResource Include="Scripts\1.02-1.03.sql" />
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />

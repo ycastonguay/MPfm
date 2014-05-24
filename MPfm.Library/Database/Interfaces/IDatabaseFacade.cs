@@ -34,6 +34,7 @@ namespace MPfm.Library.Database.Interfaces
         void DeleteFolders();
         void DeleteLoop(Guid loopId);
         void DeleteMarker(Guid markerId);
+        void DeleteSegment(Guid segmentId);
         void DeletePlaylistFile(string filePath);
         void DeleteSetting(Guid settingId);
         void ExecuteSQL(string sql);
@@ -47,6 +48,7 @@ namespace MPfm.Library.Database.Interfaces
         void InsertHistory(Guid audioFileId, DateTime eventDateTime);
         void InsertLoop(Loop dto);
         void InsertMarker(Marker dto);
+        void InsertSegment(Segment dto);
         void InsertPlaylistFile(PlaylistFile dto);
         void InsertSetting(Setting dto);
         void InsertSetting(string name, string value);
@@ -72,6 +74,9 @@ namespace MPfm.Library.Database.Interfaces
         Marker SelectMarker(Guid markerId);
         List<Marker> SelectMarkers();
         List<Marker> SelectMarkers(Guid audioFileId);
+        Segment SelectSegment(Guid segmentId);
+        List<Segment> SelectSegments();
+        List<Segment> SelectSegments(Guid loopId);
         List<PlaylistFile> SelectPlaylistFiles();
         Setting SelectSetting(string name);
         List<Setting> SelectSettings();
@@ -79,6 +84,7 @@ namespace MPfm.Library.Database.Interfaces
         void UpdateEQPreset(EQPreset eq);
         void UpdateLoop(Loop dto);
         void UpdateMarker(Marker dto);
+        void UpdateSegment(Segment dto);
         void UpdatePlayCount(Guid audioFileId);
         void UpdateSetting(Setting dto);
 

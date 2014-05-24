@@ -295,8 +295,37 @@ namespace MPfm.Library.Services
         
         #endregion
 
+        #region Segments
+
+        public Segment SelectSegment(Guid segmentId)
+        {
+            return _gateway.SelectSegment(segmentId);
+        }
+
+        public List<Segment> SelectSegments(Guid loopId)
+        {
+            return _gateway.SelectSegments(loopId);
+        }
+
+        public void InsertSegment(Segment segment)
+        {
+            _gateway.InsertSegment(segment);
+        }
+
+        public void UpdateSegment(Segment segment)
+        {
+            _gateway.UpdateSegment(segment);
+        }
+
+        public void DeleteSegment(Guid segmentId)
+        {
+            _gateway.DeleteSegment(segmentId);
+        }
+
+        #endregion
+
         #region Equalizer Presets
-        
+
         public void InsertEQPreset(EQPreset preset)
         {
             _gateway.InsertEQPreset(preset);

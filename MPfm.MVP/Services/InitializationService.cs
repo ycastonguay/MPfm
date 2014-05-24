@@ -58,7 +58,7 @@ namespace MPfm.MVP.Services
 	    /// <summary>
 	    /// Indicates what database minor version is expected. Useful to update the database structure.
 	    /// </summary>
-	    private int _databaseVersionMinor = 6;
+	    private int _databaseVersionMinor = 7;
 
         public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
         {

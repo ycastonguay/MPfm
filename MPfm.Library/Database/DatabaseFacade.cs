@@ -609,6 +609,43 @@ namespace MPfm.Library.Database
 
         #endregion
 
+        #region Segments
+
+        public List<Segment> SelectSegments()
+        {
+            var segments = _gateway.Select<Segment>("SELECT * FROM Segments");
+            return segments;
+        }
+
+        public List<Segment> SelectSegments(Guid loopId)
+        {
+            var segments = _gateway.Select<Segment>("SELECT * FROM Segments WHERE LoopId = '" + loopId.ToString() + "' ORDER BY StartPositionBytes");
+            return segments;
+        }
+
+        public Segment SelectSegment(Guid loopId)
+        {
+            var loop = _gateway.SelectOne<Segment>("SELECT * FROM Segments WHERE SegmentId = '" + loopId.ToString() + "'");
+            return loop;
+        }
+
+        public void InsertSegment(Segment dto)
+        {
+            _gateway.Insert<Segment>(dto, "Segments");
+        }
+
+        public void UpdateSegment(Segment dto)
+        {
+            _gateway.Update<Segment>(dto, "Segments", "SegmentId", dto.SegmentId.ToString());
+        }
+
+        public void DeleteSegment(Guid segmentId)
+        {
+            _gateway.Delete("Segments", "SegmentId", segmentId);
+        }
+
+        #endregion
+
         #region Playlists
 
         /// <summary>

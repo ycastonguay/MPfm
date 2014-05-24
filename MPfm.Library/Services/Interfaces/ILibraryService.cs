@@ -74,6 +74,12 @@ namespace MPfm.Library.Services.Interfaces
         void UpdateLoop(Loop Loop);
         void DeleteLoop(Guid LoopId);
 
+        Segment SelectSegment(Guid segmentId);
+        List<Segment> SelectSegments(Guid loopId);
+        void InsertSegment(Segment segment);
+        void UpdateSegment(Segment segment);
+        void DeleteSegment(Guid segmentId);
+
         EQPreset SelectEQPreset(Guid presetId);
         IEnumerable<EQPreset> SelectEQPresets();
         void InsertEQPreset(EQPreset preset);
