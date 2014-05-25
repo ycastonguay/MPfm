@@ -1143,6 +1143,8 @@ namespace MPfm.GTK.Windows
 
         public System.Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
+		public Action<Loop> OnDeleteLoop { get; set; }
+		public Action<Loop> OnPlayLoop { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -1161,16 +1163,47 @@ namespace MPfm.GTK.Windows
 
 		#region ILoopDetailsView implementation
 
+		public System.Action OnAddSegment { get; set; }
+		public Action<MPfm.Player.Objects.Segment> OnEditSegment { get; set; }
+		public Action<MPfm.Player.Objects.Segment> OnDeleteSegment { get; set; }
+		public Action<Loop> OnUpdateLoopDetails { get; set; }
+
 		public void LoopDetailsError(Exception ex)
 		{
+		}
 
+		public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+		{
+		}
+
+		#endregion
+
+		#region ILoopPlaybackView implementation
+
+		public System.Action OnPreviousLoop { get; set; }
+		public System.Action OnNextLoop { get; set; }
+		public System.Action OnPreviousSegment { get; set; }
+		public System.Action OnNextSegment { get; set; }
+
+		public void LoopPlaybackError(Exception ex)
+		{
+		}
+
+		public void RefreshLoopPlayback(LoopPlaybackEntity entity)
+		{
 		}
 
 		#endregion
 
 		#region ISegmentDetailsView implementation
 
+		public Action<MPfm.Player.Objects.Segment> OnUpdateSegmentDetails { get; set; }
+
 		public void SegmentDetailsError(Exception ex)
+		{
+		}
+
+		public void RefreshSegmentDetails(MPfm.Player.Objects.Segment segment)
 		{
 		}
 
@@ -1247,6 +1280,21 @@ namespace MPfm.GTK.Windows
 		}
 
 		public void ProcessEnded(bool canceled)
+		{
+		}
+
+		#endregion
+
+		#region IQueueView implementation
+
+		public System.Action OnQueueStartPlayback { get; set; }
+		public System.Action OnQueueRemoveAll { get; set; }
+
+		public void QueueError(Exception ex)
+		{
+		}
+
+		public void RefreshQueue(int songCount, string totalLength)
 		{
 		}
 
