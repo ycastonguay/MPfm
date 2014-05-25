@@ -89,6 +89,9 @@ namespace MPfm.OSX
             LoadImages();
             HidePanels();
             SetTheme();
+            EnableLoopButtons(false);
+            EnableMarkerButtons(false);
+            EnableSegmentButtons(false);
 
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
@@ -224,82 +227,21 @@ namespace MPfm.OSX
             viewQueueHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewQueueHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
-            // Todo: create enum for swapping themes instead of setting 4 lines of code for each control
-            btnPlayLoop.RoundedRadius = 0;
-            btnPlayLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnPlayLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnPlayLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnPlayLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnAddLoop.RoundedRadius = 0;
-            btnAddLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnAddLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnAddLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnAddLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnEditLoop.RoundedRadius = 0;
-            btnEditLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnEditLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnEditLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnEditLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnRemoveLoop.RoundedRadius = 0;
-            btnRemoveLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnRemoveLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnRemoveLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnRemoveLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnGoToMarker.RoundedRadius = 0;
-            btnGoToMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnGoToMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnGoToMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnGoToMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnAddMarker.RoundedRadius = 0;
-            btnAddMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnAddMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnAddMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnAddMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnEditMarker.RoundedRadius = 0;
-            btnEditMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnEditMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnEditMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnEditMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnRemoveMarker.RoundedRadius = 0;
-            btnRemoveMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnRemoveMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnRemoveMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnRemoveMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnAddSegment.RoundedRadius = 0;
-            btnAddSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnAddSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnAddSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnAddSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnEditSegment.RoundedRadius = 0;
-            btnEditSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnEditSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnEditSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnEditSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnRemoveSegment.RoundedRadius = 0;
-            btnRemoveSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnRemoveSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnRemoveSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnRemoveSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnBackLoop.RoundedRadius = 0;
-            btnBackLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnBackLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnBackLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnBackLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnBackLoopPlayback.RoundedRadius = 0;
-            btnBackLoopPlayback.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnBackLoopPlayback.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnBackLoopPlayback.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnBackLoopPlayback.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnBackMarker.RoundedRadius = 0;
-            btnBackMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnBackMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnBackMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnBackMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnBackSegment.RoundedRadius = 0;
-            btnBackSegment.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnBackSegment.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnBackSegment.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnBackSegment.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnPlayLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnAddLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnEditLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnRemoveLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnGoToMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnAddMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnEditMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnRemoveMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnAddSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnEditSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnRemoveSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnBackLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnBackLoopPlayback.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnBackSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnBackMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
 
             lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
             lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
@@ -473,6 +415,26 @@ namespace MPfm.OSX
             btnIncrementPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_add");
             btnDecrementPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_minus");
             btnResetPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_reset");
+        }
+
+        private void EnableMarkerButtons(bool enabled)
+        {
+            btnGoToMarker.Enabled = enabled;
+            btnEditMarker.Enabled = enabled;
+            btnRemoveMarker.Enabled = enabled;
+        }
+
+        private void EnableLoopButtons(bool enabled)
+        {
+            btnPlayLoop.Enabled = enabled;
+            btnEditLoop.Enabled = enabled;
+            btnRemoveLoop.Enabled = enabled;
+        }
+
+        private void EnableSegmentButtons(bool enabled)
+        {
+            btnEditSegment.Enabled = enabled;
+            btnRemoveSegment.Enabled = enabled;
         }
 
         private void SplitViewFrameDidChangeNotification(NSNotification notification)
@@ -725,6 +687,7 @@ namespace MPfm.OSX
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
                     OnDeleteLoop(_loops[tableLoops.SelectedRow]);
+                    EnableLoopButtons(false);
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -789,6 +752,7 @@ namespace MPfm.OSX
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
                     OnDeleteSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
+                    EnableSegmentButtons(false);
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -867,6 +831,7 @@ namespace MPfm.OSX
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
                     OnDeleteMarker(_markers[tableMarkers.SelectedRow]);
+                    EnableMarkerButtons(false);
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -1160,6 +1125,17 @@ namespace MPfm.OSX
             }
 
             return view;
+        }
+
+        [Export ("tableViewSelectionDidChange:")]
+        public void SelectionDidChange(NSNotification notification)
+        {
+            if(notification.Object == tableMarkers)
+                EnableMarkerButtons(tableMarkers.SelectedRow >= 0);
+            else if(notification.Object == tableLoops)
+                EnableLoopButtons(tableLoops.SelectedRow >= 0);
+            else if(notification.Object == tableSegments)
+                EnableSegmentButtons(tableSegments.SelectedRow >= 0);
         }
 
         [Export ("outlineViewItemDidExpand")]
@@ -1748,10 +1724,9 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(delegate {
                 _loops = loops.ToList();
-                //waveFormScrollView.lo SetMarkers(_markers);
 
                 int row = tableLoops.SelectedRow;
-                var selectedLoop = row >= 0 ? _loops[row] : null;
+                var selectedLoop = row >= 0 && row <= _loops.Count - 1 ? _loops[row] : null;
                 tableLoops.ReloadData();
                 if(selectedLoop != null)
                 {

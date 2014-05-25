@@ -66,6 +66,7 @@ namespace MPfm.OSX.Classes.Controls
         
         private void Initialize()
         {
+            WantsLayer = true;
             DoubleClick += (sender, e) => { };
             MenuItemClicked += (menuItemType) => { };
 

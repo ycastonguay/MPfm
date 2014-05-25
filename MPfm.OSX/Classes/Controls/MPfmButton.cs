@@ -35,6 +35,20 @@ namespace MPfm.OSX.Classes.Controls
         bool _isMouseDown = false;
         bool _isMouseOver = false;
 
+        private ButtonTheme _theme;
+        public ButtonTheme Theme
+        {
+            get
+            {
+                return _theme;
+            }
+            set
+            {
+                _theme = value;
+                SetTheme();
+            }
+        }
+
         public int RoundedRadius { get; set; }
         public CGColor TextColor { get; set; }
         public CGColor BackgroundColor { get; set; }
@@ -73,19 +87,35 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
-            //Layer.CornerRadius = 8; // Crashes the app. Bug in MonoMac?
-            //BezelStyle = NSBezelStyle.Rounded;
-            //Cell.BezelStyle = NSBezelStyle.Rounded;
-            RoundedRadius = 6;
-            TextColor = GlobalTheme.ButtonTextColor;
-            BackgroundColor = GlobalTheme.ButtonBackgroundColor;
-            DisabledBackgroundColor = GlobalTheme.ButtonDisabledBackgroundColor;
-            BackgroundMouseDownColor = GlobalTheme.ButtonBackgroundMouseDownColor;
-            BackgroundMouseOverColor = GlobalTheme.ButtonBackgroundMouseOverColor;
-            BorderColor = GlobalTheme.ButtonBorderColor;
-
             // This allows MouseEntered and MouseExit to work
             AddTrackingRect(Bounds, this, IntPtr.Zero, false);
+            SetTheme();
+        }
+
+        private void SetTheme()
+        {
+            switch (Theme)
+            {
+                case ButtonTheme.Main:
+                    RoundedRadius = 6;
+                    TextColor = GlobalTheme.ButtonTextColor;
+                    BackgroundColor = GlobalTheme.ButtonBackgroundColor;
+                    DisabledBackgroundColor = GlobalTheme.ButtonDisabledBackgroundColor;
+                    BackgroundMouseDownColor = GlobalTheme.ButtonBackgroundMouseDownColor;
+                    BackgroundMouseOverColor = GlobalTheme.ButtonBackgroundMouseOverColor;
+                    BorderColor = GlobalTheme.ButtonBorderColor;
+                    break;
+                case ButtonTheme.Toolbar:
+                    RoundedRadius = 0;
+                    BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+                    DisabledBackgroundColor = GlobalTheme.ButtonToolbarDisabledBackgroundColor;
+                    BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+                    BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+                    BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         [Export("mouseDown:")]
@@ -167,7 +197,7 @@ namespace MPfm.OSX.Classes.Controls
             {
                 float xImage = ((Bounds.Width - rectTextSize.Width - (padding * 2) - Image.Size.Width) / 2);
                 RectangleF rectImage = new RectangleF(xImage, (Bounds.Height - Image.Size.Height) / 2, Image.Size.Width, Image.Size.Height);
-                Image.DrawInRect(rectImage, new RectangleF(0, 0, Image.Size.Width, Image.Size.Height), NSCompositingOperation.SourceOver, 1.0f);
+                Image.DrawInRect(rectImage, new RectangleF(0, 0, Image.Size.Width, Image.Size.Height), NSCompositingOperation.SourceOver, Enabled ? 1.0f : 0.5f);
 
                 float xText = xImage + padding + Image.Size.Width + padding;
                 rectText = new RectangleF(xText, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
@@ -181,13 +211,19 @@ namespace MPfm.OSX.Classes.Controls
             rectText.Y = rectText.Y - 2;
 
             context.RestoreState();
-            CoreGraphicsHelper.DrawText(rectText, 0, 0, Title, "Roboto", 11, NSColor.White);
+            CoreGraphicsHelper.DrawText(rectText, 0, 0, Title, "Roboto", 11, Enabled ? NSColor.White : NSColor.LightGray);
         }
 
         RectangleF Get1pxRect(RectangleF rect)
         {
             RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
             return newRect;
+        }
+
+        public enum ButtonTheme
+        {
+            Main = 0,
+            Toolbar = 1
         }
     }
 }

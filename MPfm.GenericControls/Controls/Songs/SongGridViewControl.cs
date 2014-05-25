@@ -1234,19 +1234,19 @@ namespace MPfm.GenericControls.Controls.Songs
                         context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, imageAlbumCover.ImageSize.Width, imageAlbumCover.ImageSize.Height), imageAlbumCover.Image);
                         //context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover.Image);
 
-                    if (useAlbumArtOverlay)
-                    {
-                        // Draw artist name and album title background
-                        var rectArtistNameBackground = new BasicRectangle(rectArtistNameText.X - (_theme.Padding / 2), rectArtistNameText.Y - (_theme.Padding / 4), sizeArtistName.Width + _theme.Padding, sizeArtistName.Height + (_theme.Padding / 4));
-                        var rectAlbumTitleBackground = new BasicRectangle(rectAlbumTitleText.X - (_theme.Padding / 2), rectAlbumTitleText.Y - (_theme.Padding / 4), sizeAlbumTitle.Width + _theme.Padding, sizeAlbumTitle.Height + (_theme.Padding / 4));
-                        var brushTextBackground = new BasicBrush(new BasicColor(0, 0, 0, 190));
-                        context.DrawRectangle(rectArtistNameBackground, brushTextBackground, penTransparent);
-                        context.DrawRectangle(rectAlbumTitleBackground, brushTextBackground, penTransparent);
-                    }
-
-                    // Check if this is the artist name column (set font to bold)
-                    context.DrawText(audioFile.ArtistName, rectArtistNameText, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
-                    context.DrawText(state.CurrentAlbumTitle, rectAlbumTitleText, _theme.HeaderTextColor, _theme.FontName, _theme.FontSize);
+//                    if (useAlbumArtOverlay)
+//                    {
+//                        // Draw artist name and album title background
+//                        var rectArtistNameBackground = new BasicRectangle(rectArtistNameText.X - (_theme.Padding / 2), rectArtistNameText.Y - (_theme.Padding / 4), sizeArtistName.Width + _theme.Padding, sizeArtistName.Height + (_theme.Padding / 4));
+//                        var rectAlbumTitleBackground = new BasicRectangle(rectAlbumTitleText.X - (_theme.Padding / 2), rectAlbumTitleText.Y - (_theme.Padding / 4), sizeAlbumTitle.Width + _theme.Padding, sizeAlbumTitle.Height + (_theme.Padding / 4));
+//                        var brushTextBackground = new BasicBrush(new BasicColor(0, 0, 0, 190));
+//                        context.DrawRectangle(rectArtistNameBackground, brushTextBackground, penTransparent);
+//                        context.DrawRectangle(rectAlbumTitleBackground, brushTextBackground, penTransparent);
+//                    }
+//
+//                    // Check if this is the artist name column (set font to bold)
+//                    context.DrawText(audioFile.ArtistName, rectArtistNameText, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
+//                    context.DrawText(state.CurrentAlbumTitle, rectAlbumTitleText, _theme.HeaderTextColor, _theme.FontName, _theme.FontSize);
 
                     // Draw horizontal line to distinguish albums
                     // Part 1: Draw line over grid

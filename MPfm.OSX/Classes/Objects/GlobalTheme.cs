@@ -45,6 +45,7 @@ namespace MPfm.OSX.Classes.Objects
         public static CGColor ButtonMainToolbarMouseOverBorderColor = new CGColor(88f/255f, 100f/255f, 110f/255f, 1);
 
         public static CGColor ButtonToolbarBackgroundColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
+        public static CGColor ButtonToolbarDisabledBackgroundColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
         public static CGColor ButtonToolbarBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
         public static CGColor ButtonToolbarBackgroundMouseOverColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
         public static CGColor ButtonToolbarBorderColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
