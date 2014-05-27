@@ -71,7 +71,15 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-
+                var segment = new Segment();
+                segment.LoopId = _loopId;
+                _loop.Segments.Add(segment);
+                _libraryService.InsertSegment(segment);
+                _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
+                    AudioFileId = _loop.AudioFileId,
+                    LoopId = _loopId
+                });
+                View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
             {
@@ -97,7 +105,14 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-
+                _loop.Segments.Remove(segment);
+                _libraryService.DeleteSegment(segment.SegmentId);
+                _messageHub.PublishAsync(new SegmentUpdatedMessage(this) { 
+                    AudioFileId = _loop.AudioFileId,
+                    LoopId = _loop.LoopId,
+                    SegmentId = segment.SegmentId
+                });
+                View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
             {
@@ -108,6 +123,30 @@ namespace MPfm.MVP.Presenters
 
         private void UpdateLoopDetails(Loop loop)
         {
+            try
+            {
+                if(string.IsNullOrEmpty(loop.Name))
+                {
+                    View.LoopDetailsError(new ArgumentNullException("The loop name must not be empty!"));
+                    return;
+                }
+
+                // Copy everything except position
+                _loop.Name = loop.Name;
+
+                // Update marker and close view
+                _libraryService.UpdateLoop(_loop);
+                _messageHub.PublishAsync(new LoopUpdatedMessage(this){ 
+                    AudioFileId = _audioFile.Id,
+                    LoopId = _loopId
+                });
+                //View.DismissMarkerDetailsView();
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while updating a loop: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
         }
 
         private void RefreshLoop()
@@ -118,7 +157,7 @@ namespace MPfm.MVP.Presenters
                     return;
 
                 // Make a local copy of data in case the song changes
-                _loop = _libraryService.SelectLoop(_loopId);
+                _loop = _libraryService.SelectLoopIncludingSegments(_loopId);
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 //float positionPercentage = ((float)_rker.PositionBytes / (float)_lengthBytes) * 100;

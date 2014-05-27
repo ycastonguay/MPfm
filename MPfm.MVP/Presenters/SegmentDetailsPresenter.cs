@@ -18,6 +18,7 @@
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Presenters
 {
@@ -32,10 +33,22 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISegmentDetailsView view)
         {            
-            // Subscribe to view actions
-            
+            view.OnChangeStartPositionSegmentDetails = ChangeStartPosition;
+            view.OnChangeEndPositionSegmentDetails = ChangeEndPosition;
+            view.OnUpdateSegmentDetails = UpdateSegmentDetails;
             base.BindView(view);
+        }
+
+        private void ChangeStartPosition(float position)
+        {
+        }
+
+        private void ChangeEndPosition(float position)
+        {
+        }
+
+        private void UpdateSegmentDetails(Segment segment)
+        {
         }
     }
 }
-

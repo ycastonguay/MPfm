@@ -22,9 +22,11 @@ namespace MPfm.MVP.Views
 {
     public interface ISegmentDetailsView : IBaseView
 	{
+        Action<float> OnChangeStartPositionSegmentDetails { get; set; }
+        Action<float> OnChangeEndPositionSegmentDetails { get; set; }
         Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         void SegmentDetailsError(Exception ex);
-        void RefreshSegmentDetails(Segment segment);        
+        void RefreshSegmentDetails(Segment segment, long audioFileLength);        
 	}
 }

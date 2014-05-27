@@ -162,7 +162,19 @@ namespace MPfm.OSX
             trackBarMarkerPosition.Maximum = 1000;
             trackBarMarkerPosition.BlockValueChangeWhenDraggingMouse = true;
             trackBarMarkerPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
-            trackBarMarkerPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
+            trackBarMarkerPosition.SetNeedsDisplayInRect(trackBarMarkerPosition.Bounds);
+
+            trackBarSegmentStartPosition.Minimum = 0;
+            trackBarSegmentStartPosition.Maximum = 1000;
+            trackBarSegmentStartPosition.BlockValueChangeWhenDraggingMouse = true;
+            trackBarSegmentStartPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
+            trackBarSegmentStartPosition.SetNeedsDisplayInRect(trackBarSegmentStartPosition.Bounds);
+
+            trackBarSegmentEndPosition.Minimum = 0;
+            trackBarSegmentEndPosition.Maximum = 1000;
+            trackBarSegmentEndPosition.BlockValueChangeWhenDraggingMouse = true;
+            trackBarSegmentEndPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
+            trackBarSegmentEndPosition.SetNeedsDisplayInRect(trackBarSegmentEndPosition.Bounds);
         }
 
         private void LoadTreeViews()
@@ -187,6 +199,10 @@ namespace MPfm.OSX
             tableLoops.WeakDelegate = this;
             tableLoops.WeakDataSource = this;
             tableLoops.DoubleClick += HandleLoopsDoubleClick;
+
+            tableSegments.WeakDelegate = this;
+            tableSegments.WeakDataSource = this;
+            tableSegments.DoubleClick += HandleSegmentsDoubleClick;
         }
 
         private void LoadButtons()
@@ -648,6 +664,20 @@ namespace MPfm.OSX
                 OnChangePositionMarkerDetails((float)trackBarMarkerPosition.Value / 1000f);
         }
 
+        private void HandleOnTrackBarSegmentStartPositionValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnChangeStartPositionSegmentDetails != null)
+                OnChangeStartPositionSegmentDetails((float)trackBarSegmentStartPosition.Value / 1000f);
+        }
+
+        private void HandleOnTrackBarSegmentEndPositionValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnChangeEndPositionSegmentDetails != null)
+                OnChangeEndPositionSegmentDetails((float)trackBarSegmentEndPosition.Value / 1000f);
+        }
+
         partial void actionPlayLoop(NSObject sender)
         {
             viewLoops.Hidden = true;
@@ -846,6 +876,10 @@ namespace MPfm.OSX
             viewLoopDetails.Hidden = true;
             viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = false;
+
+            _currentLoop.Name = txtLoopName.StringValue;
+            OnUpdateLoopDetails(_currentLoop);
+            _currentLoop = null;
         }
 
         partial void actionBackMarkerDetails(NSObject sender)
@@ -1087,9 +1121,11 @@ namespace MPfm.OSX
         public int GetRowCount(NSTableView tableView)
         {
             if(tableView.Identifier == "tableMarkers")
-                return _markers.Count;
+                return _markers == null ? 0 : _markers.Count;
             else if(tableView.Identifier == "tableLoops")
-                return _loops.Count;
+                return _loops == null ? 0 : _loops.Count;
+            else if(tableView.Identifier == "tableSegments")
+                return _currentLoop == null ? 0 : _currentLoop.Segments.Count;
 
             return 0;
         }
@@ -1120,6 +1156,23 @@ namespace MPfm.OSX
             {
                 if (tableColumn.Identifier.ToString() == "columnLoopName")
                     view.TextField.StringValue = _loops[row].Name;
+                else if (tableColumn.Identifier.ToString() == "columnLoopSegments")
+                    view.TextField.StringValue = _loops[row].Segments.Count.ToString();
+                else if (tableColumn.Identifier.ToString() == "columnLoopTotalLength")
+                    view.TextField.StringValue = "0:00";
+                else
+                    view.TextField.StringValue = string.Empty;
+            }
+            else if (tableView.Identifier == "tableSegments")
+            {
+                if (tableColumn.Identifier.ToString() == "columnSegmentPosition")
+                    view.TextField.StringValue = string.Format("{0}", row + 1); //_currentLoop.Segments[row].
+                else if (tableColumn.Identifier.ToString() == "columnSegmentLength")
+                    view.TextField.StringValue = _currentLoop.Segments[row].Length;
+                else if (tableColumn.Identifier.ToString() == "columnSegmentStartPosition")
+                    view.TextField.StringValue = _currentLoop.Segments[row].StartPosition;
+                else if (tableColumn.Identifier.ToString() == "columnSegmentEndPosition")
+                    view.TextField.StringValue = _currentLoop.Segments[row].EndPosition;
                 else
                     view.TextField.StringValue = string.Empty;
             }
@@ -1172,7 +1225,15 @@ namespace MPfm.OSX
 
             //OnSelectMarker(_markers[tableMarkers.SelectedRow]);
         }
-                
+
+        private void HandleSegmentsDoubleClick(object sender, EventArgs e)
+        {
+            if (tableSegments.SelectedRow == -1)
+                return;
+
+            //OnSelectMarker(_markers[tableMarkers.SelectedRow]);
+        }
+                        
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
         {
             if(outlineLibraryBrowser.SelectedRow == -1)
@@ -1756,6 +1817,16 @@ namespace MPfm.OSX
             InvokeOnMainThread(delegate {
                 _currentLoop = loop;
                 txtLoopName.StringValue = loop.Name;
+
+                int row = tableSegments.SelectedRow;
+                var selectedSegment = row >= 0 && row <= _currentLoop.Segments.Count - 1 ? _currentLoop.Segments[row] : null;
+                tableSegments.ReloadData();
+                if(selectedSegment != null)
+                {
+                    int newRow = _currentLoop.Segments.IndexOf(selectedSegment);
+                    if(newRow >= 0)
+                        tableSegments.SelectRow(newRow, false);
+                }
             });
         }
 
@@ -1783,6 +1854,8 @@ namespace MPfm.OSX
 
         #region ISegmentDetailsView implementation
 
+        public Action<float> OnChangeStartPositionSegmentDetails { get; set; }
+        public Action<float> OnChangeEndPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         public void SegmentDetailsError(Exception ex)
@@ -1790,8 +1863,18 @@ namespace MPfm.OSX
             ShowError(ex);
         }
         
-        public void RefreshSegmentDetails(Segment segment)
+        public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
+            InvokeOnMainThread(delegate {
+
+                float startPositionPercentage = (float)segment.StartPositionBytes / (float)audioFileLength;
+                float endPositionPercentage = (float)segment.EndPositionBytes / (float)audioFileLength;
+                trackBarSegmentStartPosition.ValueWithoutEvent = (int)(startPositionPercentage * 10);
+                trackBarSegmentEndPosition.ValueWithoutEvent = (int)(endPositionPercentage * 10);
+
+                lblSegmentStartPositionValue.StringValue = segment.StartPosition;
+                lblSegmentEndPositionValue.StringValue = segment.EndPosition;
+            });
         }
 
         #endregion

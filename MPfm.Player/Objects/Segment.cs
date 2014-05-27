@@ -63,6 +63,10 @@ namespace MPfm.Player.Objects
 
         public Segment()
         {
+            SegmentId = Guid.NewGuid();
+            StartPosition = "0:00.000";
+            EndPosition = "0:00.000";
+            Length = "0:00.000";
         }
     }
 }

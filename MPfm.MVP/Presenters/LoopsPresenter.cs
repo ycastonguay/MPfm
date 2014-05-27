@@ -93,7 +93,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _loops = _libraryService.SelectLoops(audioFileId);
+                _loops = _libraryService.SelectLoopsIncludingSegments(audioFileId);
                 View.RefreshLoops(_loops);
             } 
             catch (Exception ex)
@@ -115,6 +115,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = loop.AudioFileId,
                     LoopId = loop.LoopId
                 });
+                _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
                 View.RefreshLoops(_loops);
             } 
             catch (Exception ex)
@@ -134,6 +135,8 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _loops.Remove(loop);
+                foreach(var segment in loop.Segments)
+                    _libraryService.DeleteSegment(segment.SegmentId);
                 _libraryService.DeleteLoop(loop.LoopId);
                 _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
                     AudioFileId = loop.AudioFileId,

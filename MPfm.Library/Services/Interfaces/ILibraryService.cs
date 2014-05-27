@@ -69,7 +69,9 @@ namespace MPfm.Library.Services.Interfaces
         void DeleteMarker(Guid markerId);
 
         Loop SelectLoop(Guid LoopId);
+        Loop SelectLoopIncludingSegments(Guid loopId);
         List<Loop> SelectLoops(Guid audioFileId);
+        List<Loop> SelectLoopsIncludingSegments(Guid audioFileId);
         void InsertLoop(Loop Loop);
         void UpdateLoop(Loop Loop);
         void DeleteLoop(Guid LoopId);

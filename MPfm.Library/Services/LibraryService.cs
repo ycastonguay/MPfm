@@ -277,12 +277,31 @@ namespace MPfm.Library.Services
         {
             return _gateway.SelectLoop(loopId);
         }
-        
+
+        public Loop SelectLoopIncludingSegments(Guid loopId)
+        {
+            var loop = _gateway.SelectLoop(loopId);
+            var segments = _gateway.SelectSegments(loopId);
+            loop.Segments.AddRange(segments);
+            return loop;
+        }
+                
         public List<Loop> SelectLoops(Guid audioFileId)
         {
             return _gateway.SelectLoops(audioFileId);
         }
-        
+
+        public List<Loop> SelectLoopsIncludingSegments(Guid audioFileId)
+        {
+            var loops = _gateway.SelectLoops(audioFileId);
+            foreach (var loop in loops)
+            {
+                var segments = _gateway.SelectSegments(loop.LoopId);
+                loop.Segments.AddRange(segments);
+            }
+            return loops;
+        }
+                
         public void UpdateLoop(Loop loop)
         {
             _gateway.UpdateLoop(loop);
