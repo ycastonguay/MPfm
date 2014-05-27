@@ -59,11 +59,17 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             _messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited);
+            _messageHub.Subscribe<SegmentUpdatedMessage>(SegmentUpdated);
         }
 
         private void LoopBeingEdited(LoopBeingEditedMessage message)
         {
             _loopId = message.LoopId;
+            RefreshLoop();
+        }
+
+        private void SegmentUpdated(SegmentUpdatedMessage message)
+        {
             RefreshLoop();
         }
 
@@ -79,11 +85,12 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _loop.AudioFileId,
                     LoopId = _loopId
                 });
+                _messageHub.PublishAsync(new SegmentBeingEditedMessage(this, segment.SegmentId));
                 View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
             {
-                Tracing.Log("An error occured while adding segment: " + ex.Message);
+                Tracing.Log("An error occured while adding a segment: " + ex.Message);
                 View.LoopDetailsError(ex);
             }
         }
@@ -92,11 +99,11 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-
+                _messageHub.PublishAsync(new SegmentBeingEditedMessage(this, segment.SegmentId));
             } 
             catch (Exception ex)
             {
-                Tracing.Log("An error occured while editing segment: " + ex.Message);
+                Tracing.Log("An error occured while editing a segment: " + ex.Message);
                 View.LoopDetailsError(ex);
             }
         }

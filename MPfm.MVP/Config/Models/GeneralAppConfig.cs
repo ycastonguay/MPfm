@@ -41,8 +41,8 @@ namespace MPfm.MVP.Config.Models
         public GeneralAppConfig()
         {
             MaximumPeakFolderSize = 100;
-            SongPositionUpdateFrequency = 20;
-            OutputMeterUpdateFrequency = 20;
+            SongPositionUpdateFrequency = 80;
+            OutputMeterUpdateFrequency = 100;
             ShowTooltips = true;
         }        
     }

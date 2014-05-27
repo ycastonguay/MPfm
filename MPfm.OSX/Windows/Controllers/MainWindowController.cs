@@ -51,8 +51,10 @@ namespace MPfm.OSX
         bool _isScrollViewWaveFormChangingSecondaryPosition = false;
         List<Marker> _markers = new List<Marker>();
         List<Loop> _loops = new List<Loop>();
+        List<Marker> _segmentMarkers = new List<Marker>();
         Marker _currentMarker;
         Loop _currentLoop;
+        Segment _currentSegment;
         LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource _libraryBrowserDataSource = null;
 
@@ -167,13 +169,13 @@ namespace MPfm.OSX
             trackBarSegmentStartPosition.Minimum = 0;
             trackBarSegmentStartPosition.Maximum = 1000;
             trackBarSegmentStartPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarSegmentStartPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
+            trackBarSegmentStartPosition.OnTrackBarValueChanged += HandleOnTrackBarSegmentStartPositionValueChanged;
             trackBarSegmentStartPosition.SetNeedsDisplayInRect(trackBarSegmentStartPosition.Bounds);
 
             trackBarSegmentEndPosition.Minimum = 0;
             trackBarSegmentEndPosition.Maximum = 1000;
             trackBarSegmentEndPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarSegmentEndPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
+            trackBarSegmentEndPosition.OnTrackBarValueChanged += HandleOnTrackBarSegmentEndPositionValueChanged;
             trackBarSegmentEndPosition.SetNeedsDisplayInRect(trackBarSegmentEndPosition.Bounds);
         }
 
@@ -797,6 +799,20 @@ namespace MPfm.OSX
             viewLoopDetails.Hidden = false;
             viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
+
+            if(checkEnableSegmentStartPositionLinkedMarker.State == NSCellStateValue.On)
+                _currentSegment.StartPositionMarkerId = _segmentMarkers[comboSegmentStartPositionLinkedMarker.IndexOfSelectedItem].MarkerId;
+            else
+                _currentSegment.StartPositionMarkerId = Guid.Empty;
+
+            if(checkEnableSegmentEndPositionLinkedMarker.State == NSCellStateValue.On)
+                _currentSegment.EndPositionMarkerId = _segmentMarkers[comboSegmentEndPositionLinkedMarker.IndexOfSelectedItem].MarkerId;
+            else
+                _currentSegment.EndPositionMarkerId = Guid.Empty;
+
+            //_currentSegment.StartPositionMarkerId
+            OnUpdateSegmentDetails(_currentSegment);
+            _currentSegment = null;
         }
 
         partial void actionEnableSegmentStartPositionLinkedMarker(NSObject sender)
@@ -811,12 +827,18 @@ namespace MPfm.OSX
 
         partial void actionPunchInSegmentStartPosition(NSObject sender)
         {
+            if(_currentSegment == null)
+                return;
 
+            OnPunchInStartPositionSegmentDetails();
         }
 
         partial void actionPunchInSegmentEndPosition(NSObject sender)
         {
+            if(_currentSegment == null)
+                return;
 
+            OnPunchInEndPositionSegmentDetails();
         }
 
         partial void actionSegmentStartPositionLinkedMarker(NSObject sender)
@@ -1856,6 +1878,8 @@ namespace MPfm.OSX
 
         public Action<float> OnChangeStartPositionSegmentDetails { get; set; }
         public Action<float> OnChangeEndPositionSegmentDetails { get; set; }
+        public Action OnPunchInStartPositionSegmentDetails { get; set; }
+        public Action OnPunchInEndPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         public void SegmentDetailsError(Exception ex)
@@ -1866,6 +1890,10 @@ namespace MPfm.OSX
         public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
             InvokeOnMainThread(delegate {
+                _currentSegment = segment;
+
+                checkEnableSegmentStartPositionLinkedMarker.State = segment.StartPositionMarkerId == Guid.Empty ? NSCellStateValue.Off : NSCellStateValue.On;
+                checkEnableSegmentEndPositionLinkedMarker.State = segment.EndPositionMarkerId == Guid.Empty ? NSCellStateValue.Off : NSCellStateValue.On;
 
                 float startPositionPercentage = (float)segment.StartPositionBytes / (float)audioFileLength;
                 float endPositionPercentage = (float)segment.EndPositionBytes / (float)audioFileLength;
@@ -1874,6 +1902,38 @@ namespace MPfm.OSX
 
                 lblSegmentStartPositionValue.StringValue = segment.StartPosition;
                 lblSegmentEndPositionValue.StringValue = segment.EndPosition;
+            });
+        }
+
+        public void RefreshSegmentStartPosition(string position, float positionPercentage)
+        {
+            InvokeOnMainThread(delegate {
+                lblSegmentStartPositionValue.StringValue = position;
+                trackBarSegmentStartPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                _currentSegment.StartPosition = position;
+            });
+        }
+
+        public void RefreshSegmentEndPosition(string position, float positionPercentage)
+        {
+            InvokeOnMainThread(delegate {
+                lblSegmentEndPositionValue.StringValue = position;
+                trackBarSegmentEndPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                _currentSegment.EndPosition = position;
+            });
+        }
+
+        public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
+        {
+            InvokeOnMainThread(delegate {
+                _segmentMarkers = markers.ToList();
+                comboSegmentStartPositionLinkedMarker.RemoveAllItems();
+                comboSegmentEndPositionLinkedMarker.RemoveAllItems();
+                foreach(var marker in markers)
+                {
+                    comboSegmentStartPositionLinkedMarker.AddItem(marker.Name);
+                    comboSegmentEndPositionLinkedMarker.AddItem(marker.Name);
+                }
             });
         }
 

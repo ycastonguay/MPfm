@@ -17,6 +17,7 @@
 
 using System;
 using MPfm.Player.Objects;
+using System.Collections.Generic;
 
 namespace MPfm.MVP.Views
 {
@@ -24,9 +25,14 @@ namespace MPfm.MVP.Views
 	{
         Action<float> OnChangeStartPositionSegmentDetails { get; set; }
         Action<float> OnChangeEndPositionSegmentDetails { get; set; }
+        Action OnPunchInStartPositionSegmentDetails { get; set; }
+        Action OnPunchInEndPositionSegmentDetails { get; set; }
         Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         void SegmentDetailsError(Exception ex);
         void RefreshSegmentDetails(Segment segment, long audioFileLength);        
+        void RefreshSegmentStartPosition(string position, float positionPercentage);
+        void RefreshSegmentEndPosition(string position, float positionPercentage);
+        void RefreshSegmentMarkers(IEnumerable<Marker> markers);
 	}
 }

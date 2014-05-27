@@ -23,6 +23,9 @@ namespace MPfm.Player.Objects
     {   
         public Guid SegmentId { get; set; }
         public Guid LoopId { get; set; }
+
+        public Guid StartPositionMarkerId { get; set; }
+        public Guid EndPositionMarkerId { get; set; }
         
         /// <summary>
         /// Start position (in 0:00.000 string format).
@@ -64,6 +67,9 @@ namespace MPfm.Player.Objects
         public Segment()
         {
             SegmentId = Guid.NewGuid();
+            LoopId = Guid.Empty;
+            StartPositionMarkerId = Guid.Empty;
+            EndPositionMarkerId = Guid.Empty;
             StartPosition = "0:00.000";
             EndPosition = "0:00.000";
             Length = "0:00.000";
