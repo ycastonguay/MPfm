@@ -49,11 +49,14 @@ namespace MPfm.GenericControls.Controls
         private BasicPen _penTransparent;
         private BasicPen _penCursorLine;
         private BasicPen _penSecondaryCursorLine;
+        private BasicPen _penLoopLine;
         private BasicPen _penMarkerLine;
         private BasicPen _penSelectedMarkerLine;
+        private BasicBrush _brushLoopBackground;
         private BasicBrush _brushMarkerBackground;
         private BasicBrush _brushSelectedMarkerBackground;
         private Guid _activeMarkerId = Guid.Empty;
+        private Loop _loop;
         private List<Marker> _markers = new List<Marker>();
         private string _status = "";
         private float _cursorX;
@@ -61,8 +64,11 @@ namespace MPfm.GenericControls.Controls
 		private BasicColor _backgroundColor = new BasicColor(32, 40, 46);        
         private BasicColor _cursorColor = new BasicColor(0, 128, 255);
         private BasicColor _secondaryCursorColor = new BasicColor(255, 255, 255);
+        private BasicColor _loopCursorColor = new BasicColor(0, 0, 255);
+        private BasicColor _loopBackgroundColor = new BasicColor(0, 0, 255, 125);
         private BasicColor _markerCursorColor = new BasicColor(255, 0, 0);
         private BasicColor _markerSelectedCursorColor = new BasicColor(234, 138, 128);
+        private BasicColor _markerBackgroundColor = new BasicColor(255, 0, 0, 125);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
 
         public bool IsLoading { get; private set; }
@@ -226,8 +232,10 @@ namespace MPfm.GenericControls.Controls
             _penCursorLine = new BasicPen(new BasicBrush(_cursorColor), 1);
             _penSecondaryCursorLine = new BasicPen(new BasicBrush(_secondaryCursorColor), 1);
             _penMarkerLine = new BasicPen(new BasicBrush(_markerCursorColor), 1);
+            _penLoopLine = new BasicPen(new BasicBrush(_loopCursorColor), 1);
             _penSelectedMarkerLine = new BasicPen(new BasicBrush(_markerSelectedCursorColor), 1);
-            _brushMarkerBackground = new BasicBrush(_markerCursorColor);
+            _brushLoopBackground = new BasicBrush(_loopBackgroundColor);
+            _brushMarkerBackground = new BasicBrush(_markerBackgroundColor);
             _brushSelectedMarkerBackground = new BasicBrush(_markerSelectedCursorColor);
         }
 
@@ -330,6 +338,34 @@ namespace MPfm.GenericControls.Controls
             localMarker.PositionSamples = marker.PositionSamples;
 
             // TODO: Only refresh the old/new marker positions
+            OnInvalidateVisual();
+        }
+
+        public void SetLoop(Loop loop)
+        {
+            _loop = loop;
+            OnInvalidateVisual();
+        }
+
+        public void SetSegment(Segment segment)
+        {
+            if (_loop == null)
+                return;
+
+            var localSegment = _loop.Segments.FirstOrDefault(x => x.SegmentId == segment.SegmentId);
+            if (localSegment == null)
+                return;
+
+            localSegment.StartPosition = segment.StartPosition;
+            localSegment.StartPositionBytes = segment.StartPositionBytes;
+            localSegment.StartPositionSamples = segment.StartPositionSamples;
+            localSegment.EndPosition = segment.EndPosition;
+            localSegment.EndPositionBytes = segment.EndPositionBytes;
+            localSegment.EndPositionSamples = segment.EndPositionSamples;
+            localSegment.Length = segment.Length;
+            localSegment.LengthBytes = segment.LengthBytes;
+            localSegment.LengthSamples = segment.LengthSamples;
+
             OnInvalidateVisual();
         }
 
@@ -460,6 +496,31 @@ namespace MPfm.GenericControls.Controls
 				context.DrawRectangle(rectText, brush, _penTransparent);
                 string letter = Conversion.IndexToLetter(a).ToString();
 				context.DrawText(letter, new BasicPoint(x + 2, 0), _textColor, LetterFontFace, LetterFontSize);
+            }
+
+            // Draw loop segments
+            if (_loop != null)
+            {
+                for (int a = 0; a < _loop.Segments.Count; a++)
+                {
+                    float startPositionPercentage = (float)_loop.Segments[a].StartPositionBytes / (float)Length;
+                    float startX = (startPositionPercentage * ContentSize.Width) - ContentOffset.X;
+                    float endPositionPercentage = (float)_loop.Segments[a].EndPositionBytes / (float)Length;
+                    float endX = (endPositionPercentage * ContentSize.Width) - ContentOffset.X;
+
+                    // Draw loop lines
+                    //var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
+                    context.SetPen(_penLoopLine);
+                    context.StrokeLine(new BasicPoint(startX, 0), new BasicPoint(startX, cursorHeight));
+                    context.StrokeLine(new BasicPoint(endX, 0), new BasicPoint(endX, cursorHeight));
+
+                    // Draw text
+                    //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
+                    var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX - startX, 12);
+                    //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
+                    context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
+                    context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
+                }
             }
 
             // Draw cursor line

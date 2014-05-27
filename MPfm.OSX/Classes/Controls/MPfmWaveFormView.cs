@@ -225,6 +225,16 @@ namespace MPfm.OSX.Classes.Controls
             _control.SetMarkerPosition(marker);
         }
 
+        public void SetLoop(Loop loop)
+        {
+            _control.SetLoop(loop);
+        }
+
+        public void SetSegment(Segment segment)
+        {
+            _control.SetSegment(segment);
+        }
+
         public void SetWaveFormLength(long lengthBytes)
         {
             _control.Length = lengthBytes;

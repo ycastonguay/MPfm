@@ -321,6 +321,28 @@ namespace MPfm.OSX.Classes.Controls
             ProcessAutoScroll((long)(marker.PositionPercentage * _waveFormLength));
         }
 
+        public void SetLoop(Loop loop)
+        {
+            WaveFormView.SetLoop(loop);
+        }
+
+        public void SetSegment(Segment segment)
+        {
+            WaveFormView.SetSegment(segment);
+        }
+
+        public void FocusZoomOnSegment(Segment segment)
+        {
+            float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
+            float startPositionPercentage = (float)segment.StartPositionBytes / (float)_waveFormLength;
+            float startX = startPositionPercentage * waveFormWidth;
+            float endPositionPercentage = (float)segment.EndPositionBytes / (float)_waveFormLength;
+            float endX = endPositionPercentage * waveFormWidth;
+
+            //Zoom = 4;
+            //SetContentOffsetX(startX);
+        }
+
         private void ProcessAutoScroll(long position)
         {
             if (_zoom == 1)

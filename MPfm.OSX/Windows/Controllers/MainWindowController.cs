@@ -902,6 +902,7 @@ namespace MPfm.OSX
             _currentLoop.Name = txtLoopName.StringValue;
             OnUpdateLoopDetails(_currentLoop);
             _currentLoop = null;
+            waveFormScrollView.SetLoop(null);
         }
 
         partial void actionBackMarkerDetails(NSObject sender)
@@ -1839,6 +1840,7 @@ namespace MPfm.OSX
             InvokeOnMainThread(delegate {
                 _currentLoop = loop;
                 txtLoopName.StringValue = loop.Name;
+                waveFormScrollView.SetLoop(loop);
 
                 int row = tableSegments.SelectedRow;
                 var selectedSegment = row >= 0 && row <= _currentLoop.Segments.Count - 1 ? _currentLoop.Segments[row] : null;
@@ -1891,6 +1893,8 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(delegate {
                 _currentSegment = segment;
+                waveFormScrollView.SetSegment(segment);
+                waveFormScrollView.FocusZoomOnSegment(_currentSegment);
 
                 checkEnableSegmentStartPositionLinkedMarker.State = segment.StartPositionMarkerId == Guid.Empty ? NSCellStateValue.Off : NSCellStateValue.On;
                 checkEnableSegmentEndPositionLinkedMarker.State = segment.EndPositionMarkerId == Guid.Empty ? NSCellStateValue.Off : NSCellStateValue.On;
@@ -1911,6 +1915,8 @@ namespace MPfm.OSX
                 lblSegmentStartPositionValue.StringValue = position;
                 trackBarSegmentStartPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
                 _currentSegment.StartPosition = position;
+                waveFormScrollView.SetSegment(_currentSegment);
+                waveFormScrollView.FocusZoomOnSegment(_currentSegment);
             });
         }
 
@@ -1920,6 +1926,8 @@ namespace MPfm.OSX
                 lblSegmentEndPositionValue.StringValue = position;
                 trackBarSegmentEndPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
                 _currentSegment.EndPosition = position;
+                waveFormScrollView.SetSegment(_currentSegment);
+                waveFormScrollView.FocusZoomOnSegment(_currentSegment);
             });
         }
 
