@@ -338,9 +338,9 @@ namespace MPfm.OSX.Classes.Controls
             float startX = startPositionPercentage * waveFormWidth;
             float endPositionPercentage = (float)segment.EndPositionBytes / (float)_waveFormLength;
             float endX = endPositionPercentage * waveFormWidth;
-
-            //Zoom = 4;
-            //SetContentOffsetX(startX);
+            float ratio = (endX - startX) / waveFormWidth;
+            Zoom = 1 / ratio;
+            SetContentOffsetX(startX);
         }
 
         private void ProcessAutoScroll(long position)
