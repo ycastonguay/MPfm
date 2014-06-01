@@ -1197,13 +1197,29 @@ namespace MPfm.GTK.Windows
 
 		#region ISegmentDetailsView implementation
 
-		public Action<MPfm.Player.Objects.Segment> OnUpdateSegmentDetails { get; set; }
+		public System.Action<float> OnChangeStartPositionSegmentDetails { get; set; }
+		public System.Action<float> OnChangeEndPositionSegmentDetails { get; set; }
+		public System.Action OnPunchInStartPositionSegmentDetails { get; set; }
+		public System.Action OnPunchInEndPositionSegmentDetails { get; set; }
+		public System.Action<MPfm.Player.Objects.Segment> OnUpdateSegmentDetails { get; set; }
 
 		public void SegmentDetailsError(Exception ex)
 		{
 		}
 
-		public void RefreshSegmentDetails(MPfm.Player.Objects.Segment segment)
+		public void RefreshSegmentDetails(MPfm.Player.Objects.Segment segment, long audioFileLength)
+		{
+		}
+
+		public void RefreshSegmentStartPosition(string position, float positionPercentage)
+		{
+		}
+
+		public void RefreshSegmentEndPosition(string position, float positionPercentage)
+		{
+		}
+
+		public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
 		{
 		}
 
