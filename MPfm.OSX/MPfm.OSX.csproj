@@ -251,6 +251,8 @@
       <DependentUpon>EditSongMetadataWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Controllers\EditSongMetadataWindowController.cs" />
+    <Compile Include="Classes\Controls\MPfmCheckBoxView.cs" />
+    <Compile Include="Classes\Controls\MPfmLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />

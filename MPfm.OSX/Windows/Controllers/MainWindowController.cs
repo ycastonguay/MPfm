@@ -85,6 +85,7 @@ namespace MPfm.OSX
 
             LoadButtons();
             LoadComboBoxes();
+            LoadCheckBoxes();
             LoadTableViews();
             LoadTrackBars();
             LoadTreeViews();
@@ -128,6 +129,21 @@ namespace MPfm.OSX
             cboSoundFormat.AddItem("MPC");
             cboSoundFormat.AddItem("WAV");
             cboSoundFormat.AddItem("WV");
+        }
+
+        private void LoadCheckBoxes()
+        {
+            chkStartPositionLinkToMarker.OnValueChanged += HandleStartPositionLinkToMarkerOnValueChanged;
+            chkEndPositionLinkToMarker.OnValueChanged += HandleEndPositionLinkToMarkerOnValueChanged;
+            lblStartPositionLinkToMarker.OnLabelClicked += (label) => {
+                chkStartPositionLinkToMarker.Value = !chkStartPositionLinkToMarker.Value;
+                comboSegmentStartPositionLinkedMarker.Hidden = !chkStartPositionLinkToMarker.Value;
+            };
+            lblEndPositionLinkToMarker.OnLabelClicked += (label) =>
+            {
+                chkEndPositionLinkToMarker.Value = !chkEndPositionLinkToMarker.Value;
+                comboSegmentEndPositionLinkedMarker.Hidden = !chkEndPositionLinkToMarker.Value;
+            };
         }
 
         private void LoadTrackBars()
@@ -313,6 +329,8 @@ namespace MPfm.OSX
             lblReferenceKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
             lblNewKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
             txtIntervalValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblStartPositionLinkToMarker.Font = NSFont.FromFontName("Roboto", 12f);
+            lblEndPositionLinkToMarker.Font = NSFont.FromFontName("Roboto", 12f);
 
             lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
             lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
@@ -344,12 +362,12 @@ namespace MPfm.OSX
             txtLoopName.Font = textBoxFont;
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
-            var dictAttrStr1 = new NSMutableDictionary();
-            dictAttrStr1.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
-            dictAttrStr1.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
-            var attrStrLinkToMarker = new NSAttributedString("Link to Marker", dictAttrStr1);
-            checkEnableSegmentStartPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
-            checkEnableSegmentEndPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
+//            var dictAttrStr1 = new NSMutableDictionary();
+//            dictAttrStr1.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
+//            dictAttrStr1.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
+//            var attrStrLinkToMarker = new NSAttributedString("Link to Marker", dictAttrStr1);
+//            checkEnableSegmentStartPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
+//            checkEnableSegmentEndPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
@@ -800,12 +818,14 @@ namespace MPfm.OSX
             viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
 
-            if(checkEnableSegmentStartPositionLinkedMarker.State == NSCellStateValue.On)
+            //if(checkEnableSegmentStartPositionLinkedMarker.State == NSCellStateValue.On)
+            if(chkStartPositionLinkToMarker.Value)
                 _currentSegment.StartPositionMarkerId = _segmentMarkers[comboSegmentStartPositionLinkedMarker.IndexOfSelectedItem].MarkerId;
             else
                 _currentSegment.StartPositionMarkerId = Guid.Empty;
 
-            if(checkEnableSegmentEndPositionLinkedMarker.State == NSCellStateValue.On)
+            //if(checkEnableSegmentEndPositionLinkedMarker.State == NSCellStateValue.On)
+            if(chkEndPositionLinkToMarker.Value)
                 _currentSegment.EndPositionMarkerId = _segmentMarkers[comboSegmentEndPositionLinkedMarker.IndexOfSelectedItem].MarkerId;
             else
                 _currentSegment.EndPositionMarkerId = Guid.Empty;
@@ -813,16 +833,6 @@ namespace MPfm.OSX
             //_currentSegment.StartPositionMarkerId
             OnUpdateSegmentDetails(_currentSegment);
             _currentSegment = null;
-        }
-
-        partial void actionEnableSegmentStartPositionLinkedMarker(NSObject sender)
-        {
-
-        }
-
-        partial void actionEnableSegmentEndPositionLinkedMarker(NSObject sender)
-        {
-
         }
 
         partial void actionPunchInSegmentStartPosition(NSObject sender)
@@ -845,6 +855,16 @@ namespace MPfm.OSX
         {
 
         }
+
+        private void HandleStartPositionLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
+        {
+            comboSegmentStartPositionLinkedMarker.Hidden = !chkStartPositionLinkToMarker.Value;
+        }
+
+        private void HandleEndPositionLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
+        {
+            comboSegmentEndPositionLinkedMarker.Hidden = !chkEndPositionLinkToMarker.Value;
+        }       
 
         partial void actionGoToMarker(NSObject sender)
         {
@@ -1896,8 +1916,10 @@ namespace MPfm.OSX
                 waveFormScrollView.SetSegment(segment);
                 waveFormScrollView.FocusZoomOnSegment(_currentSegment);
 
-                checkEnableSegmentStartPositionLinkedMarker.State = segment.StartPositionMarkerId == Guid.Empty ? NSCellStateValue.Off : NSCellStateValue.On;
-                checkEnableSegmentEndPositionLinkedMarker.State = segment.EndPositionMarkerId == Guid.Empty ? NSCellStateValue.Off : NSCellStateValue.On;
+                chkStartPositionLinkToMarker.Value = segment.StartPositionMarkerId != Guid.Empty;
+                chkEndPositionLinkToMarker.Value = segment.EndPositionMarkerId != Guid.Empty;
+                comboSegmentStartPositionLinkedMarker.Hidden = !chkStartPositionLinkToMarker.Value;
+                comboSegmentEndPositionLinkedMarker.Hidden = !chkEndPositionLinkToMarker.Value;
 
                 float startPositionPercentage = (float)segment.StartPositionBytes / (float)audioFileLength;
                 float endPositionPercentage = (float)segment.EndPositionBytes / (float)audioFileLength;
@@ -1942,6 +1964,8 @@ namespace MPfm.OSX
                     comboSegmentStartPositionLinkedMarker.AddItem(marker.Name);
                     comboSegmentEndPositionLinkedMarker.AddItem(marker.Name);
                 }
+                comboSegmentStartPositionLinkedMarker.Hidden = true;
+                comboSegmentEndPositionLinkedMarker.Hidden = true;
             });
         }
 

@@ -57,8 +57,8 @@
                 <outlet property="btnToolbarSyncCloud" destination="jLy-9t-69U" id="J59-ya-Sh1"/>
                 <outlet property="btnUseTempo" destination="763" id="ydJ-DC-lOd"/>
                 <outlet property="cboSoundFormat" destination="48" id="168"/>
-                <outlet property="checkEnableSegmentEndPositionLinkedMarker" destination="ZWb-29-SGq" id="KoM-Pj-y5h"/>
-                <outlet property="checkEnableSegmentStartPositionLinkedMarker" destination="IJN-jc-M2Z" id="7Ay-cZ-kjl"/>
+                <outlet property="chkEndPositionLinkToMarker" destination="Jyf-Uc-p1l" id="vzU-yF-GtX"/>
+                <outlet property="chkStartPositionLinkToMarker" destination="386-bF-FKz" id="ai8-5v-Bt1"/>
                 <outlet property="comboSegmentEndPositionLinkedMarker" destination="0T0-zN-QmF" id="i7U-ma-zb5"/>
                 <outlet property="comboSegmentStartPositionLinkedMarker" destination="r3y-CL-WTb" id="tt3-mh-ZqB"/>
                 <outlet property="faderVolume" destination="IE1-VU-bW9" id="oVd-F0-y3x"/>
@@ -72,6 +72,7 @@
                 <outlet property="lblCurrentTempo" destination="791" id="806"/>
                 <outlet property="lblDetectedTempo" destination="784" id="804"/>
                 <outlet property="lblDetectedTempoValue" destination="802" id="805"/>
+                <outlet property="lblEndPositionLinkToMarker" destination="bo3-CV-AUI" id="FK8-AM-QOr"/>
                 <outlet property="lblFileSize" destination="kTG-QP-gBj" id="dWk-X7-arV"/>
                 <outlet property="lblFileType" destination="884" id="rBz-LJ-v8W"/>
                 <outlet property="lblFilterBySoundFormat" destination="44" id="555"/>
@@ -103,6 +104,7 @@
                 <outlet property="lblSegmentStartPositionValue" destination="CiX-uZ-utp" id="aAW-sV-zF5"/>
                 <outlet property="lblSongPath" destination="65" id="69"/>
                 <outlet property="lblSongTitle" destination="63" id="68"/>
+                <outlet property="lblStartPositionLinkToMarker" destination="3zj-2Y-jDX" id="X7D-Uk-hPr"/>
                 <outlet property="lblSubtitleSongPosition" destination="502" id="551"/>
                 <outlet property="lblSubtitleVolume" destination="531" id="553"/>
                 <outlet property="lblTitleCurrentSong" destination="154" id="549"/>
@@ -1104,6 +1106,19 @@
                                                                                         <rect key="frame" x="0.0" y="0.0" width="411" height="139"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <subviews>
+                                                                                            <textField verticalHuggingPriority="750" id="bo3-CV-AUI" customClass="MPfmLabel">
+                                                                                                <rect key="frame" x="32" y="1" width="119" height="21"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Link to Marker" id="Lnl-IU-q0e">
+                                                                                                    <font key="font" metaFont="systemBold" size="12"/>
+                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                                                </textFieldCell>
+                                                                                            </textField>
+                                                                                            <customView id="Jyf-Uc-p1l" customClass="MPfmCheckBoxView">
+                                                                                                <rect key="frame" x="8" y="1" width="22" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            </customView>
                                                                                             <customView id="e8u-1p-ZbJ" customClass="MPfmView">
                                                                                                 <rect key="frame" x="0.0" y="112" width="411" height="27"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -1163,19 +1178,8 @@
                                                                                                     <action selector="actionPunchInSegmentStartPosition:" target="-2" id="rkf-dZ-KE3"/>
                                                                                                 </connections>
                                                                                             </button>
-                                                                                            <button id="IJN-jc-M2Z">
-                                                                                                <rect key="frame" x="7" y="58" width="126" height="18"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="check" title="Link to Marker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FZd-D8-dPG">
-                                                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                                                    <font key="font" metaFont="system"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionEnableSegmentStartPositionLinkedMarker:" target="-2" id="ChH-y0-TfC"/>
-                                                                                                </connections>
-                                                                                            </button>
                                                                                             <popUpButton verticalHuggingPriority="750" id="r3y-CL-WTb" customClass="MPfmPopUpButton">
-                                                                                                <rect key="frame" x="122" y="54" width="62" height="22"/>
+                                                                                                <rect key="frame" x="124" y="54" width="167" height="22"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                 <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="GC0-wY-hUn" id="Yzy-5M-QrQ">
                                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1225,19 +1229,8 @@
                                                                                                     <action selector="actionPunchInSegmentEndPosition:" target="-2" id="H0g-Un-lpP"/>
                                                                                                 </connections>
                                                                                             </button>
-                                                                                            <button id="ZWb-29-SGq">
-                                                                                                <rect key="frame" x="7" y="2" width="126" height="18"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="check" title="Link to Marker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7N4-z3-2eC">
-                                                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                                                    <font key="font" metaFont="system"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionEnableSegmentEndPositionLinkedMarker:" target="-2" id="XwZ-WH-G3b"/>
-                                                                                                </connections>
-                                                                                            </button>
                                                                                             <popUpButton verticalHuggingPriority="750" id="0T0-zN-QmF" customClass="MPfmPopUpButton">
-                                                                                                <rect key="frame" x="122" y="-2" width="62" height="22"/>
+                                                                                                <rect key="frame" x="124" y="0.0" width="167" height="22"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                 <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="ZED-FN-9dc" id="y6w-38-9lo">
                                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1254,6 +1247,19 @@
                                                                                                     <action selector="actionSoundFormatChanged:" target="-2" id="UX2-8r-wKV"/>
                                                                                                 </connections>
                                                                                             </popUpButton>
+                                                                                            <textField verticalHuggingPriority="750" id="3zj-2Y-jDX" customClass="MPfmLabel">
+                                                                                                <rect key="frame" x="32" y="56" width="119" height="20"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Link to Marker" id="0vE-Ru-H6f">
+                                                                                                    <font key="font" metaFont="systemBold" size="12"/>
+                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                                                </textFieldCell>
+                                                                                            </textField>
+                                                                                            <customView id="386-bF-FKz" customClass="MPfmCheckBoxView">
+                                                                                                <rect key="frame" x="8" y="55" width="22" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            </customView>
                                                                                         </subviews>
                                                                                     </customView>
                                                                                     <customView id="YcY-Xf-100" customClass="MPfmView">

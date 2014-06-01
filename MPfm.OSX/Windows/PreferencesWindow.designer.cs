@@ -49,10 +49,10 @@ namespace MPfm.OSX
 		MPfm.OSX.Classes.Controls.MPfmButton btnTestAudioSettings { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton checkEnableLibraryService { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmCheckBoxView chkEnableLibraryService { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton checkEnableResumePlayback { get; set; }
+		MPfm.OSX.Classes.Controls.MPfmCheckBoxView chkEnableResumePlayback { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblAudioMixer { get; set; }
@@ -74,6 +74,12 @@ namespace MPfm.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblCloudPreferences { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmLabel lblEnableLibraryService { get; set; }
+
+		[Outlet]
+		MPfm.OSX.Classes.Controls.MPfmLabel lblEnableResumePlayback { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEvery { get; set; }
@@ -329,14 +335,9 @@ namespace MPfm.OSX
 				btnTestAudioSettings = null;
 			}
 
-			if (checkEnableLibraryService != null) {
-				checkEnableLibraryService.Dispose ();
-				checkEnableLibraryService = null;
-			}
-
-			if (checkEnableResumePlayback != null) {
-				checkEnableResumePlayback.Dispose ();
-				checkEnableResumePlayback = null;
+			if (chkEnableLibraryService != null) {
+				chkEnableLibraryService.Dispose ();
+				chkEnableLibraryService = null;
 			}
 
 			if (lblAudioMixer != null) {
@@ -509,6 +510,11 @@ namespace MPfm.OSX
 				lblStatusDescription = null;
 			}
 
+			if (lblUpdateFrequencyWarning != null) {
+				lblUpdateFrequencyWarning.Dispose ();
+				lblUpdateFrequencyWarning = null;
+			}
+
 			if (lblUpdatePeriod != null) {
 				lblUpdatePeriod.Dispose ();
 				lblUpdatePeriod = null;
@@ -574,6 +580,11 @@ namespace MPfm.OSX
 				txtHttpPort = null;
 			}
 
+			if (chkEnableResumePlayback != null) {
+				chkEnableResumePlayback.Dispose ();
+				chkEnableResumePlayback = null;
+			}
+
 			if (txtMaximumPeakFolderSize != null) {
 				txtMaximumPeakFolderSize.Dispose ();
 				txtMaximumPeakFolderSize = null;
@@ -592,6 +603,11 @@ namespace MPfm.OSX
 			if (txtUpdatePeriod != null) {
 				txtUpdatePeriod.Dispose ();
 				txtUpdatePeriod = null;
+			}
+
+			if (lblEnableResumePlayback != null) {
+				lblEnableResumePlayback.Dispose ();
+				lblEnableResumePlayback = null;
 			}
 
 			if (viewAudioPreferences != null) {
@@ -674,9 +690,9 @@ namespace MPfm.OSX
 				viewUpdateFrequencyHeader = null;
 			}
 
-			if (lblUpdateFrequencyWarning != null) {
-				lblUpdateFrequencyWarning.Dispose ();
-				lblUpdateFrequencyWarning = null;
+			if (lblEnableLibraryService != null) {
+				lblEnableLibraryService.Dispose ();
+				lblEnableLibraryService = null;
 			}
 		}
 	}

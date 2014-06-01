@@ -48,12 +48,12 @@ namespace MPfm.OSX.Classes.Helpers
             return pos2.X - pos.X;
         }
 
-        public static void DrawRect(CGContext context, RectangleF rect, CGColor color)
+        public static void DrawRect(CGContext context, RectangleF rect, CGColor color, float lineWidth)
         {
             context.SaveState();
             context.AddRect(rect);
             context.Clip();
-            context.SetLineWidth(2);
+            context.SetLineWidth(lineWidth);
             context.SetStrokeColor(color);
             context.StrokeRect(rect);
             context.RestoreState();

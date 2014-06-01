@@ -108,7 +108,7 @@ namespace MPfm.OSX.Classes.Controls
             else
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
-            CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor);
+            CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor, 2);
             RectangleF rectTextSize = CoreGraphicsHelper.MeasureString(Bounds.Size, Title, "Roboto", 11);
             RectangleF rectText;
             if (Image != null)

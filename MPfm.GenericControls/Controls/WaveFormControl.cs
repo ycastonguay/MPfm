@@ -37,7 +37,7 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
-        private const int ScrollBarHeight = 20;
+        private const int ScrollBarHeight = 16;//20;
         private readonly object _locker = new object();
         private IWaveFormCacheService _waveFormCacheService;
         private bool _isMouseDown;

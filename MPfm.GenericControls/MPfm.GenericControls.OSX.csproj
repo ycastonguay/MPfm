@@ -100,6 +100,7 @@
     <Compile Include="Basics\BasicPath.cs" />
     <Compile Include="Basics\IBasicPathItem.cs" />
     <Compile Include="Basics\BasicPathLine.cs" />
+    <Compile Include="Controls\CheckBoxControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">

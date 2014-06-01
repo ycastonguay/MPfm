@@ -59,6 +59,7 @@ namespace MPfm.OSX
 
             LoadTrackBars();
             LoadComboBoxes();
+            LoadCheckBoxes();
             LoadTextBoxes();
             LoadFontsAndImages();
             LoadButtons();
@@ -70,6 +71,14 @@ namespace MPfm.OSX
         {
             base.WindowDidLoad();
             OnViewReady(this);
+        }
+
+        private void LoadCheckBoxes()
+        {
+            chkEnableLibraryService.OnValueChanged += HandleEnableLibraryServiceOnValueChanged;
+            chkEnableResumePlayback.OnValueChanged += HandleEnableResumePlaybackOnValueChanged;
+            lblEnableLibraryService.OnLabelClicked += (label) => chkEnableLibraryService.Value = !chkEnableLibraryService.Value;
+            lblEnableResumePlayback.OnLabelClicked += (label) => chkEnableResumePlayback.Value = !chkEnableResumePlayback.Value;
         }
 
         private void LoadComboBoxes()
@@ -182,6 +191,8 @@ namespace MPfm.OSX
             lblLibraryFolders.Font = subtitleFont;
             lblCloudDropbox.Font = subtitleFont;
             lblLibraryService.Font = subtitleFont;
+            lblEnableLibraryService.Font = subtitleFont;
+            lblEnableResumePlayback.Font = subtitleFont;
 
             var textFont = NSFont.FromFontName("Roboto", 12f);
             var textColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
@@ -239,15 +250,15 @@ namespace MPfm.OSX
             txtHttpPort.Font = textBoxFont;
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
-            var dictAttrStr1 = new NSMutableDictionary();
-            dictAttrStr1.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
-            dictAttrStr1.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
-            var attrStrEnableResumePlayback = new NSAttributedString("Enable Resume Playback with Dropbox", dictAttrStr1);
-            checkEnableResumePlayback.AttributedTitle = attrStrEnableResumePlayback;
+//            var dictAttrStr1 = new NSMutableDictionary();
+//            dictAttrStr1.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
+//            dictAttrStr1.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
+//            var attrStrEnableResumePlayback = new NSAttributedString("Enable Resume Playback with Dropbox", dictAttrStr1);
+//            checkEnableResumePlayback.AttributedTitle = attrStrEnableResumePlayback;
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
-            var attrStrEnableLibraryService = new NSAttributedString("Enable Library Service", dictAttrStr1);
-            checkEnableLibraryService.AttributedTitle = attrStrEnableLibraryService;
+            //var attrStrEnableLibraryService = new NSAttributedString("Enable Library Service", dictAttrStr1);
+            //checkEnableLibraryService.AttributedTitle = attrStrEnableLibraryService;
 
             // NSMatrix doesn't allow changing text color, so use an attributed string instead
             var dictAttrStr2 = new NSMutableDictionary();
@@ -326,6 +337,16 @@ namespace MPfm.OSX
         {
             btnRemoveFolder.Enabled = tableFolders.SelectedRow >= 0;
         }
+
+        private void HandleEnableLibraryServiceOnValueChanged(MPfmCheckBoxView checkBox)
+        {
+
+        }       
+
+        private void HandleEnableResumePlaybackOnValueChanged(MPfmCheckBoxView checkBox)
+        {
+
+        }       
 
         private void HandleOnSongPositionTrackBarValueChanged()
         {
@@ -503,13 +524,16 @@ namespace MPfm.OSX
 
         partial void actionEnableLibraryService(NSObject sender)
         {
-            _libraryAppConfig.IsSyncServiceEnabled = checkEnableLibraryService.State == NSCellStateValue.On;
+            //_libraryAppConfig.IsSyncServiceEnabled = checkEnableLibraryService.State == NSCellStateValue.On;
+            _libraryAppConfig.IsSyncServiceEnabled = chkEnableLibraryService.Value;
+            chkEnableLibraryService.Value = !chkEnableLibraryService.Value;
             OnSetLibraryPreferences(_libraryAppConfig);
         }
 
         partial void actionEnableResumePlayback(NSObject sender)
         {
-            _cloudAppConfig.IsResumePlaybackEnabled = checkEnableResumePlayback.State == NSCellStateValue.On;
+            //_cloudAppConfig.IsResumePlaybackEnabled = checkEnableResumePlayback.State == NSCellStateValue.On;
+            _cloudAppConfig.IsResumePlaybackEnabled = chkEnableResumePlayback.Value;
             OnSetCloudPreferences(_cloudAppConfig);
         }
 
@@ -609,7 +633,8 @@ namespace MPfm.OSX
             _libraryAppConfig = config;
             InvokeOnMainThread(() => {
                 lblLibrarySize.StringValue = string.Format("Library size: {0}", librarySize);
-                checkEnableLibraryService.State = config.IsSyncServiceEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+                //checkEnableLibraryService.State = config.IsSyncServiceEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+                chkEnableLibraryService.Value = config.IsSyncServiceEnabled;
                 txtHttpPort.StringValue = config.SyncServicePort.ToString();
                 tableFolders.ReloadData();
             });
@@ -659,7 +684,8 @@ namespace MPfm.OSX
         {
             _cloudAppConfig = config;
             InvokeOnMainThread(() => {
-                checkEnableResumePlayback.State = config.IsResumePlaybackEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+                //checkEnableResumePlayback.State = config.IsResumePlaybackEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+                chkEnableResumePlayback.Value = config.IsResumePlaybackEnabled;
             });
         }
 

@@ -70,7 +70,7 @@ namespace MPfm.OSX.Classes.Controls
             }
         }
 
-        public delegate void ButtonSelected(MPfmButton button);
+         public delegate void ButtonSelected(MPfmButton button);
         public event ButtonSelected OnButtonSelected;
 
         [Export("init")]
@@ -172,7 +172,7 @@ namespace MPfm.OSX.Classes.Controls
                 else
                     CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
-                CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor);
+                CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor, 2);
             } 
             else
             {

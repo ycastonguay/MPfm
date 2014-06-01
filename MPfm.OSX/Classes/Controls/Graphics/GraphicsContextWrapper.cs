@@ -84,7 +84,7 @@ namespace MPfm.OSX.Classes.Controls.Graphics
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
             CoreGraphicsHelper.FillRect(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(brush.Color));
-            // TODO: Add outline
+            CoreGraphicsHelper.DrawRect(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness);
         }
 
         public void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen)

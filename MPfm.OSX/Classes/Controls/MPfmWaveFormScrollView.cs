@@ -70,10 +70,10 @@ namespace MPfm.OSX.Classes.Controls
             }
             set
             {
-                _lblZoom.StringValue = string.Format("{0:0}%", value * 100);
-                _zoom = value;
-                WaveFormView.Zoom = value;
-                WaveFormScaleView.Zoom = value;
+                _zoom = Math.Max(Math.Min(value, 5000), 1);
+                _lblZoom.StringValue = string.Format("{0:0}%", _zoom * 100);
+                WaveFormView.Zoom = _zoom;
+                WaveFormScaleView.Zoom = _zoom;
                 _lastZoomUpdate = DateTime.Now;
                 
                 if (_lblZoom.AlphaValue == 0)
@@ -335,8 +335,11 @@ namespace MPfm.OSX.Classes.Controls
         {
             float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
             float startPositionPercentage = (float)segment.StartPositionBytes / (float)_waveFormLength;
+            startPositionPercentage = Math.Max(startPositionPercentage - 0.05f, 0);
             float startX = startPositionPercentage * waveFormWidth;
+            startX = Math.Max(startX, 0);
             float endPositionPercentage = (float)segment.EndPositionBytes / (float)_waveFormLength;
+            endPositionPercentage = Math.Min(endPositionPercentage + 0.05f, waveFormWidth);
             float endX = endPositionPercentage * waveFormWidth;
             float ratio = (endX - startX) / waveFormWidth;
             Zoom = 1 / ratio;
