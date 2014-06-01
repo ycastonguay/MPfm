@@ -148,6 +148,9 @@
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Messages\QueueUpdatedMessage.cs" />
+    <Compile Include="Messages\SegmentActivatedMessage.cs" />
+    <Compile Include="Messages\SegmentBeingEditedMessage.cs" />
+    <Compile Include="Messages\SegmentUpdatedMessage.cs" />
     <Compile Include="Models\CloudConnectEntity.cs" />
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
@@ -335,13 +338,13 @@
     <Compile Include="Messages\CloudAppConfigChangedMessage.cs" />
     <Compile Include="Messages\GeneralAppConfigChangedMessage.cs" />
     <Compile Include="Messages\AudioAppConfigChangedMessage.cs" />
-    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />    
+    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />
     <Compile Include="Messages\LoopActivatedMessage.cs" />
     <Compile Include="Messages\LoopBeingEditedMessage.cs" />
-    <Compile Include="Messages\LoopUpdatedMessage.cs" />    
+    <Compile Include="Messages\LoopUpdatedMessage.cs" />
     <Compile Include="Views\ILoopPlaybackView.cs" />
     <Compile Include="Models\LoopPlaybackEntity.cs" />
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
-    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
+    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />
   </ItemGroup>
 </Project>

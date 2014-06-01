@@ -3,14 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
+        xmlns:converters="clr-namespace:MPfm.WPF.Classes.Converters"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Effects" Height="426" Width="954" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">
+        Title="Effects" Height="426" Width="1080" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">    
+    <Window.Resources>        
+        <Style x:Key="HiddenHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+        <converters:GridViewWidthConverter x:Key="GridViewWidthConverter" />
+    </Window.Resources>
     <Grid Margin="0" Background="{DynamicResource BrushBackgroundColor}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="260" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" x:Name="gridFaders" Margin="8,0,7,8">
+        <StackPanel Grid.Column="0" Margin="1,0,11,0">
+            <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Presets" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Light" />
+                <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddPreset" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddPreset_OnClick" />
+                <controls:HeaderImageButton Grid.Column="2" x:Name="btnRemovePreset" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemovePreset_OnClick" />
+            </Grid>
+            <Grid x:Name="gridPresets" Margin="0,0,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListView Grid.Row="0" x:Name="listViewPresets" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewPresets_OnSelectionChanged">
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewWidthConverter}}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Preset Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Light" />
+            <Grid x:Name="gridCurrentPreset" Margin="6,4,6,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0,0,0,2" Padding="2" />
+                <Grid Grid.Row="1" Background="White" Height="24" Margin="0,0,0,4">
+                    <TextBlock Margin="2,4,0,0" Padding="0" Text="New preset" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtPresetName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
+                    <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                </Grid>
+                <controls:ImageButton Grid.Row="2" x:Name="btnSavePreset" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnSavePreset_OnClick" />
+                <controls:ImageButton Grid.Row="3" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnNormalize_OnClick" />
+                <controls:ImageButton Grid.Row="4" x:Name="btnReset" Title="Reset" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnReset_OnClick" />
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Column="1" x:Name="gridFaders" Margin="8,0,7,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="42" />
                 <ColumnDefinition Width="42" />
@@ -224,36 +274,5 @@
                 <Label Grid.Row="2" Content="- 6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
         </Grid>
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Margin="1,0,11.322,0">
-            <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Presets" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-            <Grid x:Name="gridPresets" Margin="6,10,6,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ComboBox Grid.Row="0" x:Name="cboPresets" Width="100" Height="24" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" SelectionChanged="CboPresets_OnSelectionChanged"  />
-                <controls:ImageButton Grid.Row="1" x:Name="btnNewPreset" Title="New Preset" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0,4,0,4" Click="BtnNewPreset_OnClick" />
-            </Grid>
-            <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Current Preset" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-            <Grid x:Name="gridCurrentPreset" Margin="6,4,6,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0,0,0,2" Padding="2" />
-                <Grid Grid.Row="1" Background="White" Height="24" Margin="0,0,0,4">
-                    <TextBlock Margin="2,4,0,0" Padding="0" Text="New preset" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtPresetName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
-                    <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                </Grid>
-                <controls:ImageButton Grid.Row="2" x:Name="btnSavePreset" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnSavePreset_OnClick" />
-                <controls:ImageButton Grid.Row="3" x:Name="btnDeletePreset" Title="Delete Preset" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnDeletePreset_OnClick" />
-                <controls:ImageButton Grid.Row="4" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnNormalize_OnClick" />
-                <controls:ImageButton Grid.Row="5" x:Name="btnReset" Title="Reset EQ" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnReset_OnClick" />
-            </Grid>
-        </StackPanel>
     </Grid>
 </base:BaseWindow>

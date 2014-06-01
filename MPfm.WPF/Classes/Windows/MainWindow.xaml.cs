@@ -538,9 +538,7 @@ namespace MPfm.WPF.Classes.Windows
             EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
 
             if (listViewMarkers.SelectedIndex >= 0)
-            {
                 _selectedMarkerIndex = listViewMarkers.SelectedIndex;
-            }
         }
 
         private void ListViewMarkers_OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -1263,11 +1261,31 @@ namespace MPfm.WPF.Classes.Windows
 
         #region ISegmentDetailsView implementation
 
+        public Action<float> OnChangeStartPositionSegmentDetails { get; set; }
+        public Action<float> OnChangeEndPositionSegmentDetails { get; set; }
+        public Action OnPunchInStartPositionSegmentDetails { get; set; }
+        public Action OnPunchInEndPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         public void SegmentDetailsError(Exception ex)
         {
             ShowErrorDialog(ex);
+        }
+
+        public void RefreshSegmentDetails(Segment segment, long audioFileLength)
+        {
+        }
+
+        public void RefreshSegmentStartPosition(string position, float positionPercentage)
+        {
+        }
+
+        public void RefreshSegmentEndPosition(string position, float positionPercentage)
+        {
+        }
+
+        public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
+        {
         }
 
         public void RefreshSegmentDetails(Segment segment)

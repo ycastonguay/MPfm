@@ -48,26 +48,93 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
             DataContext = this;
 
-            gridCurrentPreset.IsEnabled = false;
-            gridFaders.IsEnabled = false;
+            //gridCurrentPreset.IsEnabled = false;
+            //gridFaders.IsEnabled = false;
         }
 
-        private void BtnNewPreset_OnClick(object sender, RoutedEventArgs e)
+        private void EnableContextMenu(bool enable)
         {
-            OnAddPreset();
+            //menuRemovePreset.Enabled = enable;
+            //menuDuplicatePreset.Enabled = enable;
+            //menuExportPreset.Enabled = enable;
+        }
+
+        private void EnablePresetDetails(bool enable)
+        {
+            txtPresetName.IsEnabled = enable;
+            btnSavePreset.Enabled = enable;
+            btnNormalize.Enabled = enable;
+            btnReset.Enabled = enable;
+        }
+
+        private void EnableFaders(bool enable)
+        {
+            fader0.IsEnabled = enable;
+            fader1.IsEnabled = enable;
+            fader2.IsEnabled = enable;
+            fader3.IsEnabled = enable;
+            fader4.IsEnabled = enable;
+            fader5.IsEnabled = enable;
+            fader6.IsEnabled = enable;
+            fader7.IsEnabled = enable;
+            fader8.IsEnabled = enable;
+            fader9.IsEnabled = enable;
+            fader10.IsEnabled = enable;
+            fader11.IsEnabled = enable;
+            fader12.IsEnabled = enable;
+            fader13.IsEnabled = enable;
+            fader14.IsEnabled = enable;
+            fader15.IsEnabled = enable;
+            fader16.IsEnabled = enable;
+            fader17.IsEnabled = enable;
+
+            double alpha = enable ? 1 : 0.5;
+            fader0.Opacity = alpha;
+            fader1.Opacity = alpha;
+            fader2.Opacity = alpha;
+            fader3.Opacity = alpha;
+            fader4.Opacity = alpha;
+            fader5.Opacity = alpha;
+            fader6.Opacity = alpha;
+            fader7.Opacity = alpha;
+            fader8.Opacity = alpha;
+            fader9.Opacity = alpha;
+            fader10.Opacity = alpha;
+            fader11.Opacity = alpha;
+            fader12.Opacity = alpha;
+            fader13.Opacity = alpha;
+            fader14.Opacity = alpha;
+            fader15.Opacity = alpha;
+            fader16.Opacity = alpha;
+            fader17.Opacity = alpha;
+        }
+
+        private void ResetFaderValuesAndPresetDetails()
+        {
+            txtPresetName.Text = string.Empty;
+            fader0.ValueWithoutEvent = 0;
+            fader1.ValueWithoutEvent = 0;
+            fader2.ValueWithoutEvent = 0;
+            fader3.ValueWithoutEvent = 0;
+            fader4.ValueWithoutEvent = 0;
+            fader5.ValueWithoutEvent = 0;
+            fader6.ValueWithoutEvent = 0;
+            fader7.ValueWithoutEvent = 0;
+            fader8.ValueWithoutEvent = 0;
+            fader9.ValueWithoutEvent = 0;
+            fader10.ValueWithoutEvent = 0;
+            fader11.ValueWithoutEvent = 0;
+            fader12.ValueWithoutEvent = 0;
+            fader13.ValueWithoutEvent = 0;
+            fader14.ValueWithoutEvent = 0;
+            fader15.ValueWithoutEvent = 0;
+            fader16.ValueWithoutEvent = 0;
+            fader17.ValueWithoutEvent = 0;
         }
 
         private void BtnSavePreset_OnClick(object sender, RoutedEventArgs e)
         {
             OnSavePreset(txtPresetName.Text);
-        }
-
-        private void BtnDeletePreset_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you wish to delete this equalizer preset?", "Delete equalizer preset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                return;
-
-            OnDeletePreset(_preset.EQPresetId);
         }
 
         private void BtnNormalize_OnClick(object sender, RoutedEventArgs e)
@@ -78,6 +145,23 @@ namespace MPfm.WPF.Classes.Windows
             OnNormalizePreset();
         }
 
+        private void BtnAddPreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnAddPreset();
+        }
+
+        private void BtnRemovePreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you wish to delete this equalizer preset?", "Delete equalizer preset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                return;
+
+            OnDeletePreset(_preset.EQPresetId);
+            EnableFaders(false);
+            EnablePresetDetails(false);
+            ResetFaderValuesAndPresetDetails();
+            _preset = null;
+        }
+
         private void BtnReset_OnClick(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you wish to reset this equalizer preset?", "Reset equalizer preset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
@@ -86,13 +170,34 @@ namespace MPfm.WPF.Classes.Windows
             OnResetPreset();
         }
 
-        private void CboPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cboPresets.SelectedIndex == -1)
-                return;
+            //EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
 
-            OnEditPreset(_presets[cboPresets.SelectedIndex].EQPresetId);
+            //if (listViewMarkers.SelectedIndex >= 0)
+            //    _selectedMarkerIndex = listViewMarkers.SelectedIndex;
+
+            EnablePresetDetails(listViewPresets.SelectedIndex >= 0);
+            EnableFaders(listViewPresets.SelectedIndex >= 0);
+            EnableContextMenu(listViewPresets.SelectedIndex >= 0);
+            if (listViewPresets.SelectedIndex < 0)
+            {
+                ResetFaderValuesAndPresetDetails();
+                return;
+            }
+
+            var id = _presets[listViewPresets.SelectedIndex].EQPresetId;
+            OnLoadPreset(id); // EqualizerPresets
+            OnChangePreset(id); // EqualizerPresetDetails
         }
+
+        //private void CboPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (cboPresets.SelectedIndex == -1)
+        //        return;
+
+        //    OnEditPreset(_presets[cboPresets.SelectedIndex].EQPresetId);
+        //}
 
         private void Fader_OnFaderValueChanged(object sender, EventArgs e)
         {
@@ -156,9 +261,12 @@ namespace MPfm.WPF.Classes.Windows
             _preset = _presets.FirstOrDefault(x => x.EQPresetId == selectedPresetId);
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                cboPresets.DisplayMemberPath = "Name";
-                cboPresets.SelectedValuePath = "EQPresetId";
-                cboPresets.ItemsSource = _presets;
+                listViewPresets.Items.Clear();
+                foreach (var preset in _presets)
+                    listViewPresets.Items.Add(preset);
+                //cboPresets.DisplayMemberPath = "Name";
+                //cboPresets.SelectedValuePath = "EQPresetId";
+                //cboPresets.ItemsSource = _presets;
                 RefreshPreset(_preset);
             }));
         }
@@ -208,8 +316,15 @@ namespace MPfm.WPF.Classes.Windows
             _preset = preset;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                gridCurrentPreset.IsEnabled = _preset != null;
-                gridFaders.IsEnabled = _preset != null;
+                int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
+                if (row >= 0)
+                    listViewPresets.SelectedIndex = row;
+
+                EnableFaders(true);
+                EnablePresetDetails(true);
+
+                //gridCurrentPreset.IsEnabled = _preset != null;
+                //gridFaders.IsEnabled = _preset != null;
                 txtPresetName.Text = preset.Name;
                 //lblGain0.Text = preset.Gain0;
                 fader0.ValueWithoutEvent = (Int32)(preset.Bands[0].Gain * 10);                
