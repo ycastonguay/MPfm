@@ -106,15 +106,12 @@
                         <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" />
                     </Button>
                     <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
-                        <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" />
+                        <Image Source="/Resources/Images/Toolbar/devices.png" Stretch="None" />
                     </Button>
                     <Button Grid.Column="9" x:Name="btnSyncCloud" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
                     </Button>
-                    <Button Grid.Column="10" x:Name="btnResumePlayback" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Resume Playback window." Click="BtnToolbar_OnClick">
-                        <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" />
-                    </Button>
-                    <Button Grid.Column="11" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
+                    <Button Grid.Column="10" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" />
                     </Button>
                 </Grid>
@@ -470,7 +467,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
-                                    <Grid>
+                                    <Grid x:Name="gridLoops">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
@@ -499,6 +496,97 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
+                                    </Grid>
+                                    <Grid x:Name="gridLoopDetails" Visibility="Hidden" Margin="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="Segments" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddSegment" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddSegment_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnEditSegment" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditSegment_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnRemoveSegment" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveSegment_OnClick" />
+                                        </Grid>
+                                        <ListView Grid.Row="1" x:Name="listViewSegments">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
+                                                    <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=Length}" />
+                                                    <GridViewColumn Header="Start Position" Width="80" DisplayMemberBinding="{Binding Path=StartPosition}" />
+                                                    <GridViewColumn Header="End Position" Width="80" DisplayMemberBinding="{Binding Path=EndPosition}" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                    <Grid x:Name="gridSegmentDetails" Visibility="Hidden" Margin="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackSegmentDetails" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackSegmentDetails_OnClick" />
+                                            <Label Grid.Column="1" Content="Segment Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                        </Grid>
+                                        <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
+                                            <Grid Margin="2,8,8,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="62" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Margin="0,-3,0,0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                            </Grid>
+                                            <Grid Margin="2,4,8,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="62" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid x:Name="gridLoopPlayback" Visibility="Hidden" Margin="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackLoopPlayback" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackLoopPlayback_OnClick" />
+                                            <Label Grid.Column="1" Content="Loop Playback" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                        </Grid>
+                                        <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
+                                            <Grid Margin="2,8,8,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="62" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Margin="0,-3,0,0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                            </Grid>
+                                            <Grid Margin="2,4,8,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="62" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                            </Grid>
+                                        </StackPanel>
                                     </Grid>
                                 </Grid>
                                 <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="1" />
@@ -555,7 +643,7 @@
                                             </ListView.View>
                                         </ListView>
                                     </Grid>
-                                    <Grid x:Name="gridMarkerDetails" Visibility="Hidden" Margin="2">
+                                    <Grid x:Name="gridMarkerDetails" Visibility="Hidden" Margin="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
@@ -569,25 +657,25 @@
                                             <Label Grid.Column="1" Content="Marker Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
-                                            <Grid>
+                                            <Grid Margin="2,8,8,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="62" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                <Label Grid.Column="0" Margin="0,-3,0,0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                 <TextBox x:Name="txtMarkerName" Grid.Column="1" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             </Grid>
-                                            <Grid>
+                                            <Grid Margin="2,4,8,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="62" />
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                 <controls:TrackBar Grid.Column="1" x:Name="trackMarkerPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackMarkerPosition_OnTrackBarValueChanged" />
-                                                <Label Grid.Column="2" x:Name="lblMarkerPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2" />
+                                                <Label Grid.Column="2" x:Name="lblMarkerPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
                                             </Grid>
-                                            <controls:ImageButton x:Name="btnPunchInMarker" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" Click="BtnPunchInMarker_OnClick" />
+                                            <controls:ImageButton x:Name="btnPunchInMarker" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" HorizontalAlignment="Left" Click="BtnPunchInMarker_OnClick" />
                                         </StackPanel>                                        
                                     </Grid>
                                 </Grid>

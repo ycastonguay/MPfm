@@ -255,8 +255,6 @@ namespace MPfm.WPF.Classes.Windows
                 OnOpenEffectsWindow();
             else if (sender == btnPreferences)
                 OnOpenPreferencesWindow();
-            else if (sender == btnResumePlayback)
-                OnOpenResumePlayback();
             else if (sender == btnSync)
                 OnOpenSyncWindow();
             else if (sender == btnSyncCloud)
@@ -530,6 +528,26 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnEditSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnRemoveSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
         {
         }
 
