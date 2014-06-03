@@ -40,22 +40,6 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class PlaylistItem
     {
-        #if WINDOWS_PHONE
-        private System.Windows.Threading.DispatcherTimer timerFillBuffer = null;
-        #elif WINDOWSSTORE
-        private Windows.UI.Xaml.DispatcherTimer timerFillBuffer = null;
-        #else
-        private System.Timers.Timer timerFillBuffer = null;
-        #endif
-
-        private ByteArrayQueue queue = null;
-        private List<Task> tasksDecode = null;
-        private CancellationTokenSource cancellationTokenSource = null;
-        private CancellationToken cancellationToken;
-        private int tempBufferLength = 20000;
-        private int dataBufferLength = 1000000;
-        private long decodePosition = 0;
-
         /// <summary>
         /// Private value for the Id property.
         /// </summary>
@@ -232,18 +216,6 @@ namespace MPfm.Sound.Playlists
         {
             this.id = Guid.NewGuid();
             this.audioFile = audioFile;
-
-            tasksDecode = new List<Task>();
-
-            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-            timerFillBuffer = new System.Timers.Timer();
-            timerFillBuffer.Interval = 200;
-            timerFillBuffer.Elapsed += HandleTimerFillBufferElapsed;
-            #else
-            timerFillBuffer = new DispatcherTimer();
-            timerFillBuffer.Interval = new TimeSpan(0, 0, 0, 0, 200);            
-            timerFillBuffer.Tick += TimerFillBufferOnTick;
-            #endif
         }
 
         /// <summary>
@@ -285,140 +257,6 @@ namespace MPfm.Sound.Playlists
 
             // Set flag
             isLoaded = true;
-        }
-
-        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-        private void HandleTimerFillBufferElapsed(object sender, System.Timers.ElapsedEventArgs e)
-        #else
-        private void TimerFillBufferOnTick(object sender, object eventArgs)
-        #endif
-        {
-            // Disable timer 
-            timerFillBuffer.Stop();
-
-            // Check buffer status (is there enough space to fill more chunks?)
-            if (queue.BufferLength - queue.BufferDataLength < tempBufferLength)
-            {
-                // Reactivate timer; check for buffer health in 200ms
-                timerFillBuffer.Start();
-                return;
-            }
-
-            // Resume decoding from previous position
-            StartDecode(decodePosition);
-        }
-
-        public void CancelDecode()
-        {
-            // Check if the decode task can be cancelled
-            if (tasksDecode.Count > 0)
-            {
-                cancellationTokenSource.Cancel(true);
-                try
-                {
-                    Task.WaitAll(tasksDecode.ToArray());
-                }
-                catch(AggregateException ex)
-                {
-                    // This means the task has been canceled successfully
-                }
-            }
-
-            // Cleanup any previous decodes
-            queue = null;
-
-            // Reset token
-            cancellationTokenSource = new CancellationTokenSource();
-            cancellationToken = cancellationTokenSource.Token;
-        }
-
-        public void Decode(long startPosition)
-        {
-            // Create queue and start decoding
-            queue = new ByteArrayQueue(dataBufferLength);            
-            StartDecode(startPosition);
-        }
-
-        private void StartDecode(long startPosition)
-        {
-            // Cancel any decode task
-            //CancelDecode();
-
-            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-
-            // Create channel and get length
-            Channel channel = Channel.CreateFileStreamForDecoding(audioFile.FilePath, true);
-            long length = channel.GetLength();
-            decodePosition = startPosition;
-            
-            // Decode file in a different thread
-            Task taskDecode = Task.Factory.StartNew(() => {
-                try
-                {
-                    // Set starting position
-                    if(startPosition > 0)
-                        channel.SetPosition(startPosition);
-
-                    // Loop until file has been 100% decoded
-                    while (true)
-                    {
-                        // Check for cancel
-                        cancellationToken.ThrowIfCancellationRequested();
-
-                        // Check buffer status (is there enough space to fill more chunks?)
-                        if(queue.BufferLength - queue.BufferDataLength < tempBufferLength)
-                        {
-                            // Start fill buffer timer
-                            timerFillBuffer.Start();
-                            break; // No more space, quit loop+thread
-                        }
-
-                        // Decode chunk
-                        byte[] bytes = new byte[tempBufferLength];
-                        int dataLength = 0;
-                        try
-                        {
-                            dataLength = channel.GetData(bytes, tempBufferLength);
-                            if(dataLength == -1)
-                            {
-                                BASSError error = Bass.BASS_ErrorGetCode();
-                                if(error == BASSError.BASS_ERROR_ENDED)
-                                {
-                                    break; // Decode done
-                                }
-                                else
-                                {
-                                    Console.WriteLine(error.ToString());
-                                    throw new Exception(error.ToString());
-                                }
-                            }
-                        }
-                        catch(Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                            throw;
-                        }
-
-                        // Add to queue
-                        decodePosition += bytes.Length;
-                        queue.Enqueue(bytes);
-                    }
-                }
-                catch(Exception ex)
-                {
-                    // Exception in cancallation token
-                    Console.WriteLine(ex.Message);
-                    //throw; // no need to throw on cancel
-                }
-            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-            tasksDecode.Add(taskDecode);
-
-            #endif
-        }
-
-        public byte[] GetData(int length)
-        {
-            return queue.Dequeue(length);
         }
 
         /// <summary>

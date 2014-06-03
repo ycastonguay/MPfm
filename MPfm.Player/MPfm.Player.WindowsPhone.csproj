@@ -126,6 +126,8 @@
     <Compile Include="Events\AudioInterruptedData.cs" />
     <Compile Include="WinRT\Player.cs" />
         <Compile Include="Objects\Segment.cs" />
+    <Compile Include="Services\IDecodingService.cs" />
+    <Compile Include="Services\DecodingService.cs" />		
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsPhone.csproj">

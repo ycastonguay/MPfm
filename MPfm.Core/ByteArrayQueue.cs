@@ -41,11 +41,16 @@ namespace MPfm.Core
         
         public ByteArrayQueue(int bufferLength)
         {
+            this.BufferLength = bufferLength;
+            Clear();
+        }
+
+        public void Clear()
+        {
             this.BufferReadPosition = 0;
             this.BufferWritePosition = 0;
             this.BufferDataLength = 0;
-            this.BufferLength = bufferLength;
-            this.BufferData = new byte[bufferLength];
+            this.BufferData = new byte[BufferLength];            
         }
         
         public void Enqueue(byte[] bytes)

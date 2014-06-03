@@ -21,6 +21,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MPfm.Core;
+using MPfm.Player.Services;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
@@ -30,7 +31,6 @@ using Un4seen.Bass.AddOn.Fx;
 using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
-using System.Diagnostics;
 using Un4seen.Bass.AddOn.Enc;
 
 #if !IOS && !ANDROID
@@ -69,7 +69,8 @@ namespace MPfm.Player
         /// Returns true if the position is currently changing.
         /// </summary>
         public bool IsSettingPosition { get; private set; }
-        
+
+        private IDecodingService _decodingService = null;
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
@@ -534,11 +535,12 @@ namespace MPfm.Player
         /// <param name="initializeDevice">Indicates if the device should be initialized</param>
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
-            Player.CurrentPlayer = this;
+            Player.CurrentPlayer = this;            
             _device = device;
             _mixerSampleRate = mixerSampleRate;
             _bufferSize = bufferSize;
             _updatePeriod = updatePeriod;
+            _decodingService = new DecodingService(100000);
             _playlist = new Playlist();
             _syncProcs = new List<PlayerSyncProc>();
 
@@ -944,7 +946,7 @@ namespace MPfm.Player
                     _playlist.Items[a].Load(_useFloatingPoint);
 
                 // Start decoding first playlist item
-                //_playlist.Items[Playlist.CurrentItemIndex].Decode(0);
+                //_decodingService.StartDecodingFile(_playlist.Items[0].AudioFile.FilePath, _positionOffset);
 
                 try
                 {
@@ -1315,7 +1317,8 @@ namespace MPfm.Player
 
             // Stop decoding the current file (doesn't throw an exception if decode has finished)
             //Playlist.CurrentItem.CancelDecode();
-
+            //_decodingService.StopDecoding();
+            
             RemoveSyncCallbacks();
             RemoveBPMCallbacks();
             _fxChannel.Free();
@@ -1984,9 +1987,10 @@ namespace MPfm.Player
 
                 // Get data from the current channel since it is running
                 int data = _playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
-                //return data;
+                return data;
 
                 //byte[] bufferData = _playlist.Items[_currentMixPlaylistIndex].GetData(length);
+                //byte[] bufferData = _decodingService.DequeueData(length);
                 //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
                 //return bufferData.Length;
 
@@ -1997,9 +2001,7 @@ namespace MPfm.Player
                 //var timeSpan = DateTime.Now - _lastDateTime;
                 //_lastDateTime = DateTime.Now;
                 //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} data: {5} length: {6}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, data, length);
-                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} elapsed since last call: {6}.{7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, DateTime.Now.Second, DateTime.Now.Millisecond);
-                return data;
-                //return bufferData.Length;
+                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} elapsed since last call: {6}.{7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, DateTime.Now.Second, DateTime.Now.Millisecond);                
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
@@ -2017,12 +2019,15 @@ namespace MPfm.Player
                         //m_playlist.DisposeChannels();
 
                         // Load first item                        
-                        Playlist.Items[0].Load(_useFloatingPoint);
-                        //Playlist.Items[0].Decode(0);
+                        Playlist.Items[0].Load(_useFloatingPoint);                        
+                        //_decodingService.AddFileToDecodeQueue(Playlist.Items[0].AudioFile.FilePath);
 
                         // Load second item if it exists
                         if (Playlist.Items.Count > 1)
+                        {
                             Playlist.Items[1].Load(_useFloatingPoint);
+                            //_decodingService.AddFileToDecodeQueue(Playlist.Items[1].AudioFile.FilePath);
+                        }
 
                         // Return data from the new channel                
                         return Playlist.CurrentItem.Channel.GetData(buffer, length);

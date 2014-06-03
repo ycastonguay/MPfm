@@ -129,6 +129,8 @@
     <Compile Include="Player.cs" />
     <Compile Include="Events\AudioInterruptedData.cs" />
         <Compile Include="Objects\Segment.cs" />
+    <Compile Include="Services\IDecodingService.cs" />
+    <Compile Include="Services\DecodingService.cs" />		
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
