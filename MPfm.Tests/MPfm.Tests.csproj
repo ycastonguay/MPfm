@@ -14,7 +14,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\Output\Tests</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\Output\Tests</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -31,30 +31,27 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Release_MacOSX</OutputPath>
+    <OutputPath>..\Output\Tests</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Release_Linux</OutputPath>
+    <OutputPath>..\Output\Tests</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.core, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System" />
+    <Reference Include="nunit.core">
       <HintPath>Lib\nunit.core.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>Lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="TestDecoderService.cs" />
-    <Compile Include="LibraryTest.cs" />
+    <Compile Include="Player\TestDecoderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\nunit.core.dll" />
@@ -62,32 +59,35 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
-      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
-      <Name>MPfm.GenericControls</Name>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.OSX.csproj">
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
+      <Name>MPfm.GenericControls.OSX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
-      <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
-      <Name>MPfm.Library</Name>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.OSX.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library.OSX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
-      <Project>{b6b0613c-ff39-479d-9ef0-31daf9684a06}</Project>
-      <Name>MPfm.MVP</Name>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.OSX.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP.OSX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
-      <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
-      <Name>MPfm.Player</Name>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.OSX.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.OSX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
-      <Name>MPfm.Sound</Name>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.OSX.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.OSX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Player\" />
+  </ItemGroup>
 </Project>
