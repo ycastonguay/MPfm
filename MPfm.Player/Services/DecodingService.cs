@@ -44,13 +44,20 @@ namespace MPfm.Player.Services
         private ConcurrentQueue<string> _audioFileQueue;
         private string _currentFilePath;
 
+        public delegate void NoAudioFileToDecode();
+        public event NoAudioFileToDecode OnNoAudioFileToDecode;
+
+        public int BufferDataLength { get { return _dataQueue.BufferDataLength; } }
+        public int BufferLength { get { return _dataQueue.BufferLength; } }
+
         public DecodingService(int bufferLength, bool useFloatingPoint)
-        {
+        {            
             _bufferLength = bufferLength;
             _useFloatingPoint = useFloatingPoint;
             _dataQueue = new ByteArrayQueue(_bufferLength);
             _audioFileQueue = new ConcurrentQueue<string>();
 
+            OnNoAudioFileToDecode += () => { };
             StartWorker();
         }
 
@@ -72,7 +79,7 @@ namespace MPfm.Player.Services
                             int chunkLength = Math.Min(-(_dataQueue.BufferDataLength - _dataQueue.BufferLength), _chunkLength);
                             if (chunkLength == 0)
                             {
-                                Console.WriteLine("DecodingService - Worker - No chunk to decode");
+                                //Console.WriteLine("DecodingService - Worker - No chunk to decode");
                                 break;
                             }
 
@@ -96,13 +103,18 @@ namespace MPfm.Player.Services
                                     Console.WriteLine("DecodingService - Worker - Skipping to next file: {0}...", audioFilePath);
                                     CreateDecodingChannel(_currentFilePath);
                                 }
+                                else
+                                {
+                                    //Console.WriteLine("DecodingService - Worker - There is no other audio file to decode...");
+                                    OnNoAudioFileToDecode();
+                                }
                             }
                         }
                     }
 
                     // The buffer has been filled; wait until a consumer removes data from the queue 
                     // before trying to fill the buffer again
-                    Console.WriteLine("DecodingService - Worker - Waiting for consumer to remove data from queue...");
+                    //Console.WriteLine("DecodingService - Worker - Waiting for consumer to remove data from queue...");
                     lock (_locker)
                     {
                         Monitor.Wait(_locker);
@@ -138,15 +150,13 @@ namespace MPfm.Player.Services
         public void StartDecodingFile(string audioFilePath, long startPosition)
         {
             lock (_locker)
-            {
-                // Are we really sure the decoding is over?
+            {                
                 StopDecoding();
                 ClearAudioFileQueue();
                 _dataQueue.Clear();
                 _decodePosition = startPosition;
                 CreateDecodingChannel(audioFilePath);
-            }
-            _audioFileQueue.Enqueue(audioFilePath);
+            }            
         }
 
         public void AddFileToDecodeQueue(string audioFilePath)
@@ -199,14 +209,14 @@ namespace MPfm.Player.Services
             {
                 _dataQueue.Enqueue(bytes);
                 _decodePosition += bytes.Length;
-                Console.WriteLine("DecodingService - DecodeChunk - Requested {0} bytes; decoded {1} bytes - decodePosition: {2}/{3} - queue size: {4}/{5} ({6}%)", chunkLength, dataLength, _decodePosition, _channelLength, _dataQueue.BufferDataLength, _dataQueue.BufferLength, _dataQueue.BufferFillPercentage);
+                //Console.WriteLine("DecodingService - DecodeChunk - Requested {0} bytes; decoded {1} bytes - decodePosition: {2}/{3} - queue size: {4}/{5} ({6}%)", chunkLength, dataLength, _decodePosition, _channelLength, _dataQueue.BufferDataLength, _dataQueue.BufferLength, _dataQueue.BufferFillPercentage);
             }
             return bytes.Length;
         }
 
         public byte[] DequeueData(int length)
         {
-            Console.WriteLine("DecodingService - DequeueData - length: {0} bufferDataLength: {1} bufferFillPercentage: {2}", length, _dataQueue.BufferDataLength, _dataQueue.BufferFillPercentage);
+            //Console.WriteLine("DecodingService - DequeueData - length: {0} bufferDataLength: {1} bufferFillPercentage: {2}", length, _dataQueue.BufferDataLength, _dataQueue.BufferFillPercentage);
             var data = _dataQueue.Dequeue(length);
             lock (_locker)
             {

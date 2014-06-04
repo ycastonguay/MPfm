@@ -21,6 +21,10 @@ namespace MPfm.Player.Services
 {
     public interface IDecodingService
     {
+        int BufferDataLength { get; }
+        int BufferLength { get; }
+        event DecodingService.NoAudioFileToDecode OnNoAudioFileToDecode;
+
         void StartWorker();
         void StopWorker();
         void StartDecodingFile(string audioFilePath, long startPosition);

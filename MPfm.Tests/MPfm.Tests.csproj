@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Core\TestByteArrayQueue.cs" />
-    <Compile Include="Player\TestDecoderService.cs" />
+    <Compile Include="Player\TestDecodingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\nunit.core.dll" />
