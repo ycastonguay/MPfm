@@ -31,6 +31,7 @@ namespace MPfm.Player.Services
     {
         private readonly object _locker = new object();
         private bool _shouldExitWorker = false;
+        private bool _useFloatingPoint = false;
         private ByteArrayQueue _dataQueue = null;
         private Channel _decodingChannel = null;
         private List<Task> _tasksDecode = null;
@@ -43,9 +44,10 @@ namespace MPfm.Player.Services
         private ConcurrentQueue<string> _audioFileQueue;
         private string _currentFilePath;
 
-        public DecodingService(int bufferLength)
+        public DecodingService(int bufferLength, bool useFloatingPoint)
         {
             _bufferLength = bufferLength;
+            _useFloatingPoint = useFloatingPoint;
             _dataQueue = new ByteArrayQueue(_bufferLength);
             _audioFileQueue = new ConcurrentQueue<string>();
 
@@ -58,8 +60,6 @@ namespace MPfm.Player.Services
             {
                 while (!_shouldExitWorker)
                 {
-                    Console.WriteLine("DecodingService - Worker looping...");
-
                     // Make sure we are done decoding chunks before we add/remove files from the queue
                     lock (_locker)
                     {
@@ -68,20 +68,32 @@ namespace MPfm.Player.Services
                         while (!string.IsNullOrEmpty(_currentFilePath) &&
                                _dataQueue.BufferDataLength - _dataQueue.BufferLength < _chunkLength)
                         {
-                            Console.WriteLine("DecodingService - Decoding chunk...");
+                            // Size the chunk to try to fill the missing data into the queue
                             int chunkLength = Math.Min(-(_dataQueue.BufferDataLength - _dataQueue.BufferLength), _chunkLength);
                             if (chunkLength == 0)
-                                break;
-
-                            int length = DecodeChunk(chunkLength);
-                            if (length == 0)
                             {
-                                // If there is no more audio to decode, skip to the next file
+                                Console.WriteLine("DecodingService - Worker - No chunk to decode");
+                                break;
+                            }
+
+                            // Make sure the chunk length doesn't exceed the remaining data in the current file
+                            if (_channelLength - _decodePosition < chunkLength)
+                                chunkLength = (int) (_channelLength - _decodePosition);
+
+                            bool skipToNextFile = chunkLength == 0;
+                            if (!skipToNextFile)
+                            {
+                                int length = DecodeChunk(chunkLength);
+                                skipToNextFile = length == 0;
+                            }
+
+                            if (skipToNextFile)
+                            {                                
                                 string audioFilePath = string.Empty;
                                 bool success = _audioFileQueue.TryDequeue(out audioFilePath);
                                 if (success)
                                 {
-                                    Console.WriteLine("DecodingService - Skipping to next file: {0}...", audioFilePath);
+                                    Console.WriteLine("DecodingService - Worker - Skipping to next file: {0}...", audioFilePath);
                                     CreateDecodingChannel(_currentFilePath);
                                 }
                             }
@@ -90,7 +102,7 @@ namespace MPfm.Player.Services
 
                     // The buffer has been filled; wait until a consumer removes data from the queue 
                     // before trying to fill the buffer again
-                    Console.WriteLine("DecodingService - Worker waiting for consumer to remove data from queue...");
+                    Console.WriteLine("DecodingService - Worker - Waiting for consumer to remove data from queue...");
                     lock (_locker)
                     {
                         Monitor.Wait(_locker);
@@ -158,16 +170,15 @@ namespace MPfm.Player.Services
 
         private void CreateDecodingChannel(string audioFilePath)
         {
-            _decodingChannel = Channel.CreateFileStreamForDecoding(audioFilePath, true);
+            _decodingChannel = Channel.CreateFileStreamForDecoding(audioFilePath, _useFloatingPoint);
             _currentFilePath = audioFilePath;
             _channelLength = _decodingChannel.GetLength();
         }
 
         private int DecodeChunk(int chunkLength)
         {
-            Console.WriteLine("DecodingService - DecodeChunk - chunkLength: {0}", chunkLength);
             byte[] bytes = new byte[chunkLength];
-            int dataLength = _decodingChannel.GetData(bytes, chunkLength);
+            int dataLength = _decodingChannel.GetData(bytes, chunkLength);            
             if (dataLength == -1)
             {
                 var error = Bass.BASS_ErrorGetCode();
@@ -188,13 +199,14 @@ namespace MPfm.Player.Services
             {
                 _dataQueue.Enqueue(bytes);
                 _decodePosition += bytes.Length;
+                Console.WriteLine("DecodingService - DecodeChunk - Requested {0} bytes; decoded {1} bytes - decodePosition: {2}/{3} - queue size: {4}/{5} ({6}%)", chunkLength, dataLength, _decodePosition, _channelLength, _dataQueue.BufferDataLength, _dataQueue.BufferLength, _dataQueue.BufferFillPercentage);
             }
             return bytes.Length;
         }
 
         public byte[] DequeueData(int length)
         {
-            Console.WriteLine("DecodingService - DequeueData - length: {0}", length);
+            Console.WriteLine("DecodingService - DequeueData - length: {0} bufferDataLength: {1} bufferFillPercentage: {2}", length, _dataQueue.BufferDataLength, _dataQueue.BufferFillPercentage);
             var data = _dataQueue.Dequeue(length);
             lock (_locker)
             {

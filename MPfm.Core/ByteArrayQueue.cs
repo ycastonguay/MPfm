@@ -35,7 +35,7 @@ namespace MPfm.Core
         {
             get
             {
-                return (BufferLength - (BufferLength - BufferDataLength) / BufferLength) * 100;
+                return ((float)BufferDataLength / (float)BufferLength) * 100;
             }
         }
         
@@ -105,8 +105,8 @@ namespace MPfm.Core
             
             // Check if enough data is available
             if (length > BufferDataLength)
-                return new byte[0];
-                //throw new ArgumentOutOfRangeException("bytes", "The buffer does not have enough data to fit the byte array.");
+                //return new byte[0];
+                throw new ArgumentOutOfRangeException("bytes", "The buffer does not have enough data to fit the byte array.");
             
             // Create array
             byte[] bytes = new byte[length];

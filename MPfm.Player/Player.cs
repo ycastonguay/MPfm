@@ -540,7 +540,7 @@ namespace MPfm.Player
             _mixerSampleRate = mixerSampleRate;
             _bufferSize = bufferSize;
             _updatePeriod = updatePeriod;
-            _decodingService = new DecodingService(100000);
+            _decodingService = new DecodingService(100000, UseFloatingPoint);
             _playlist = new Playlist();
             _syncProcs = new List<PlayerSyncProc>();
 

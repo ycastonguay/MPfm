@@ -16,15 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Player.Services;
-using NUnit.Framework;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using MPfm.Player.Services;
+using MPfm.Sound;
+using MPfm.Sound.BassNetWrapper;
+using NUnit.Framework;
 
-namespace MPfm.Tests
+namespace MPfm.Tests.Player
 {
     [TestFixture()]
     public class TestDecoderService
@@ -34,19 +33,21 @@ namespace MPfm.Tests
 
         static string[] TestAudioFilePaths =          
         { 
-            "/Volumes/Mountain Lion Data/MP3/Cut Copy/In Ghost Colours/13 Visions.mp3"
+            //"/Volumes/Mountain Lion Data/MP3/Cut Copy/In Ghost Colours/13 Visions.mp3"
+            @"z:\Data1\Mp3\Bob Marley\Kaya\02 Kaya.mp3"
         };
 
         public TestDecoderService()
         {
-            Console.WriteLine("Initializing device...");
             InitializeBass();
-            _decodingService = new DecodingService(100000);
+            _decodingService = new DecodingService(2000000, true);
         }
 
         private void InitializeBass()
         {
+            Console.WriteLine("Registering BASS.NET...");
             Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
+            Console.WriteLine("Initializing device...");
             _testDevice = new TestDevice(DriverType.DirectSound, -1, 44100);
         }
 
@@ -55,20 +56,23 @@ namespace MPfm.Tests
         {
             var taskTest = Task.Factory.StartNew(() =>
             {
+                Console.WriteLine("[Producer Thread] Starting to decode file...");
                 _decodingService.StartDecodingFile(audioFilePath, 0);
-                var taskDequeue = Task.Factory.StartNew(() =>
-                {
-                    while(true)
-                    {
-                        var data = _decodingService.DequeueData(10000);
-                        if(data.Length == 0)
-                            break;
-
-                        Thread.Sleep(500);
-                    }
-                });
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
             });
+
+            while (true)
+            {
+                Console.WriteLine("[Consumer Thread] - Dequeing data...");
+                var data = _decodingService.DequeueData(200000);
+                if (data.Length == 0)
+                {
+                    Console.WriteLine("[Consumer Thread] - No data to dequeue!");
+                    //break;
+                }
+
+                Thread.Sleep(50);
+            }
         }
     }
 }
