@@ -693,11 +693,18 @@ namespace MPfm.OSX
 
         partial void actionEditLoop(NSObject sender)
         {           
+            EditLoop();
+        }
+
+        private void EditLoop()
+        {
             if(tableLoops.SelectedRow < 0 || tableLoops.SelectedRow >= _loops.Count)
                 return;
 
             OnEditLoop(_loops[tableLoops.SelectedRow]);
             viewLoopDetails.Hidden = false;
+            viewLoopPlayback.Hidden = true;
+            viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
             ShowSegmentDetails(false);
         }
@@ -757,6 +764,11 @@ namespace MPfm.OSX
         }
 
         partial void actionEditSegment(NSObject sender)
+        {
+            EditSegment();
+        }
+
+        private void EditSegment()
         {
             if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
                 return;
@@ -1165,6 +1177,7 @@ namespace MPfm.OSX
             NSTableCellView view;           
             view = (NSTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
+            SetCellTheme(view, false, false);
 
             bool adjustXPadding = false;
             if (tableView.Identifier == "tableMarkers")
@@ -1196,7 +1209,10 @@ namespace MPfm.OSX
                 adjustXPadding = tableSegments.FindColumn(new NSString(tableColumn.Identifier)) > 0;
 
                 if (tableColumn.Identifier.ToString() == "columnSegmentIndex")
+                {               
                     view.TextField.StringValue = string.Format("{0}", row + 1);
+                    SetCellTheme(view, false, true);
+                }
                 else if (tableColumn.Identifier.ToString() == "columnSegmentMarker")
                 {
                     string markerName = string.Empty;
@@ -1217,6 +1233,22 @@ namespace MPfm.OSX
             view.TextField.Frame = new RectangleF(adjustXPadding ? -2 : 0, -2, view.Frame.Width, view.Frame.Height);
                 
             return view;
+        }
+
+        private void SetCellTheme(NSTableCellView cell, bool isMarker, bool isSegment)
+        {
+            if (isMarker || isSegment)
+            {
+                cell.TextField.TextColor = NSColor.White;
+                cell.TextField.BackgroundColor = isMarker ? NSColor.Red : NSColor.Blue;
+                cell.TextField.DrawsBackground = true;
+            }
+            else
+            {
+                cell.TextField.TextColor = NSColor.Black;
+                cell.TextField.BackgroundColor = NSColor.White;
+                cell.TextField.DrawsBackground = false;
+            }
         }
 
         [Export ("tableViewSelectionDidChange:")]
@@ -1262,7 +1294,7 @@ namespace MPfm.OSX
             if (tableLoops.SelectedRow == -1)
                 return;
 
-            //OnSelectMarker(_markers[tableMarkers.SelectedRow]);
+            EditLoop();
         }
 
         private void HandleSegmentsDoubleClick(object sender, EventArgs e)
@@ -1270,7 +1302,7 @@ namespace MPfm.OSX
             if (tableSegments.SelectedRow == -1)
                 return;
 
-            //OnSelectMarker(_markers[tableMarkers.SelectedRow]);
+            EditSegment();
         }
                         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)

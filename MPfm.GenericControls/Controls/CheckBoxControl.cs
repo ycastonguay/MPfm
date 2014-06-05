@@ -31,13 +31,16 @@ namespace MPfm.GenericControls.Controls
         private Timer _timerRefresh;
         private BasicBrush _brushBackground;
         private BasicBrush _brushForeground;
+        private BasicBrush _brushBorder;
         private BasicBrush _brushTransparent;
+        private BasicPen _penBorder;
         private BasicPen _penForeground;
         private BasicPen _penTransparent;
 
         public BasicRectangle Frame { get; set; }
         public BasicColor ColorBackground { get; set; }
         public BasicColor ColorForeground { get; set; }
+        public BasicColor ColorBorder { get; set; }
 
         private bool _value = false;
         public bool Value
@@ -84,10 +87,13 @@ namespace MPfm.GenericControls.Controls
         private void CreateDrawingResources()
         {
             ColorBackground = new BasicColor(32, 40, 46);
-            ColorForeground = new BasicColor(83, 104, 119);
+            ColorForeground = new BasicColor(230, 237, 242);//174, 196, 212);
+            ColorBorder = new BasicColor(83, 104, 119);
             _brushBackground = new BasicBrush(ColorBackground);
             _brushForeground = new BasicBrush(ColorForeground);
+            _brushBorder = new BasicBrush(ColorBorder);
             _brushTransparent = new BasicBrush(new BasicColor(0, 0, 0, 0));
+            _penBorder = new BasicPen(_brushBorder, 2);
             _penForeground = new BasicPen(_brushForeground, 2);
             _penTransparent = new BasicPen();
         }
@@ -101,7 +107,7 @@ namespace MPfm.GenericControls.Controls
             const float padding = 2;
             const float checkPadding = padding + 4;
             var rectForeground = new BasicRectangle(padding, padding, context.BoundsWidth - (padding * 2), context.BoundsHeight - (padding * 2));
-            context.DrawRectangle(rectForeground, _brushTransparent, _penForeground);
+            context.DrawRectangle(rectForeground, _brushTransparent, _penBorder);
 
             if (_value)
             {

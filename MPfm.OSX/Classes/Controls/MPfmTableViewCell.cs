@@ -48,6 +48,8 @@ namespace MPfm.OSX.Classes.Controls
 
         void Initialize()
         {
+            //TextField.BackgroundColor = NSColor.Green;
+            //TextField.DrawsBackground = true;
             //TextField.TextColor = NSColor.Purple;
             //BackgroundStyle = NSBackgroundStyle.Dark;
 //            float x = TextField.Font.FontName.Contains("Roboto") ? -2 : 0;
