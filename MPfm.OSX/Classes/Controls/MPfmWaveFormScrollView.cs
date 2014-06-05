@@ -29,6 +29,7 @@ using MPfm.OSX.Classes.Controls.Helpers;
 using MPfm.GenericControls.Basics;
 using System.Timers;
 using MPfm.GenericControls.Services;
+using System.Linq;
 
 namespace MPfm.OSX.Classes.Controls
 {
@@ -331,16 +332,26 @@ namespace MPfm.OSX.Classes.Controls
             WaveFormView.SetSegment(segment);
         }
 
-        public void FocusZoomOnSegment(Segment segment)
+        public void FocusZoomOnLoop(Loop loop)
         {
-//            float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
-//            float startPositionPercentage = (float)segment.PositionBytes / (float)_waveFormLength;
-//            startPositionPercentage = Math.Max(startPositionPercentage - 0.05f, 0);
-//            float startX = startPositionPercentage * waveFormWidth;
-//            startX = Math.Max(startX, 0);
-//            float endPositionPercentage = (float)segment.EndPositionBytes / (float)_waveFormLength;
-//            endPositionPercentage = Math.Min(endPositionPercentage + 0.05f, waveFormWidth);
-//            float endX = endPositionPercentage * waveFormWidth;
+            float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
+
+            var segments = loop.Segments.OrderBy(x => x.PositionBytes).ToList();
+            if (segments.Count == 0)
+                return;
+
+            long startPositionBytes = segments[0].PositionBytes;
+            long endPositionBytes = segments[segments.Count - 1].PositionBytes;
+
+            float startPositionPercentage = (float)startPositionBytes / (float)_waveFormLength;
+            //startPositionPercentage = Math.Max(startPositionPercentage - 0.05f, 0);
+            float startX = startPositionPercentage * waveFormWidth;
+            startX = Math.Max(startX, 0);
+
+            float endPositionPercentage = (float)endPositionBytes / (float)_waveFormLength;
+            //endPositionPercentage = Math.Min(endPositionPercentage + 0.05f, waveFormWidth);
+            float endX = endPositionPercentage * waveFormWidth;
+
 //            float ratio = (endX - startX) / waveFormWidth;
 //            Zoom = 1 / ratio;
 //            SetContentOffsetX(startX);

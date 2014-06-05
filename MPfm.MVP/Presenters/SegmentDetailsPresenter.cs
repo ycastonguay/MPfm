@@ -61,12 +61,18 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             _messageHub.Subscribe<SegmentBeingEditedMessage>(SegmentBeingEdited);
+            _messageHub.Subscribe<MarkerUpdatedMessage>(MarkerUpdated);
         }
 
         private void SegmentBeingEdited(SegmentBeingEditedMessage message)
         {
             _segmentId = message.SegmentId;
             RefreshSegment();
+        }
+
+        private void MarkerUpdated(MarkerUpdatedMessage message)
+        {
+            RefreshMarkers();
         }
 
         private void ChangePosition(float position)
@@ -167,12 +173,28 @@ namespace MPfm.MVP.Presenters
                 View.RefreshSegmentDetails(_segment, _lengthBytes);
                 View.RefreshSegmentPosition(_segment.Position, positionPercentage);
 
+                RefreshMarkers();
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while refreshing a segment: " + ex.Message);
+                View.SegmentDetailsError(ex);
+            }
+        }
+
+        private void RefreshMarkers()
+        {
+            try
+            {
+                if(_audioFile == null)
+                    return;
+
                 _markers = _libraryService.SelectMarkers(_audioFile.Id);
                 View.RefreshSegmentMarkers(_markers);
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while refreshing a segment: " + ex.Message);
+                Tracing.Log("An error occured while refreshing segment markers: " + ex.Message);
                 View.SegmentDetailsError(ex);
             }
         }

@@ -121,12 +121,14 @@ namespace MPfm.OSX.Classes.Controls
         public override void MouseUp(NSEvent theEvent)
         {
             base.MouseUp(theEvent);
+
+            if(OnButtonSelected != null && Enabled && _isMouseDown)
+                OnButtonSelected(this);
+
             _isMouseDown = false;
             _layerCircle.FillColor = BackgroundMouseOverColor;
             _layerCircle.StrokeColor = MouseOverBorderColor;
             SetNeedsDisplay();
-            if(OnButtonSelected != null)
-                OnButtonSelected(this);
         }
 
         [Export("mouseEntered:")]

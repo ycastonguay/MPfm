@@ -130,11 +130,24 @@ namespace MPfm.OSX.Classes.Controls
         public override void MouseUp(NSEvent theEvent)
         {
             base.MouseUp(theEvent);
+
+            if(OnButtonSelected != null && Enabled && _isMouseDown)
+                OnButtonSelected(this);
+
             _isMouseDown = false;
             _isMouseOver = false;
-            if(OnButtonSelected != null && Enabled)
-                OnButtonSelected(this);
             SetNeedsDisplay();
+        }
+
+        [Export("mouseMoved:")]
+        public override void MouseMoved(NSEvent theEvent)
+        {
+            base.MouseMoved(theEvent);
+            if (!_isMouseOver)
+            {
+                _isMouseOver = true;
+                SetNeedsDisplay();
+            }
         }
 
         [Export("mouseEntered:")]

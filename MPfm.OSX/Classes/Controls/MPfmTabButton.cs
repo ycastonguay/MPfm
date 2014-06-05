@@ -98,11 +98,12 @@ namespace MPfm.OSX.Classes.Controls
         public override void MouseUp(NSEvent theEvent)
         {
             base.MouseUp(theEvent);
-            _isMouseDown = false;
-            IsSelected = true;
 
-            if(OnTabButtonSelected != null)
+            IsSelected = true;
+            if(OnTabButtonSelected != null && Enabled && _isMouseDown)
                 OnTabButtonSelected(this);
+
+            _isMouseDown = false;
             SetNeedsDisplay();
         }
 

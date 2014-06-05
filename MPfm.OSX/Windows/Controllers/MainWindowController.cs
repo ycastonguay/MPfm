@@ -144,7 +144,6 @@ namespace MPfm.OSX
             chkSegmentLinkToMarker.OnValueChanged += HandleSegmentLinkToMarkerOnValueChanged;
             lblSegmentLinkToMarker.OnLabelClicked += (label) => {
                 chkSegmentLinkToMarker.Value = !chkSegmentLinkToMarker.Value;
-                comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
                 SetSegmentLinkedMarker();
             };
         }
@@ -798,10 +797,9 @@ namespace MPfm.OSX
             ShowSegmentDetails(false);
             viewLoops.Hidden = true;
 
-            if(chkSegmentLinkToMarker.Value)
+            _currentSegment.MarkerId = Guid.Empty;
+            if(chkSegmentLinkToMarker.Value && comboSegmentMarker.IndexOfSelectedItem >= 0)
                 _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
-            else
-                _currentSegment.MarkerId = Guid.Empty;
 
             OnUpdateSegmentDetails(_currentSegment);
             _currentSegment = null;
@@ -824,6 +822,11 @@ namespace MPfm.OSX
 
         private void HandleSegmentLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
         {
+            SetSegmentLinkedMarker();
+        }
+
+        private void SetSegmentLinkedMarker()
+        {
             if (_segmentMarkers.Count == 0)
             {
                 chkSegmentLinkToMarker.Value = false;
@@ -831,11 +834,6 @@ namespace MPfm.OSX
                 return;
             }
 
-            SetSegmentLinkedMarker();
-        }
-
-        private void SetSegmentLinkedMarker()
-        {
             comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
             if (chkSegmentLinkToMarker.Value)
             {
@@ -1859,6 +1857,7 @@ namespace MPfm.OSX
                 _currentLoop = loop;
                 txtLoopName.StringValue = loop.Name;
                 waveFormScrollView.SetLoop(loop);
+                waveFormScrollView.FocusZoomOnLoop(_currentLoop);
 
                 int row = tableSegments.SelectedRow;
                 var selectedSegment = row >= 0 && row <= _currentLoop.Segments.Count - 1 ? _currentLoop.Segments[row] : null;
@@ -1912,7 +1911,6 @@ namespace MPfm.OSX
             _currentSegment = segment;
             InvokeOnMainThread(delegate {
                 waveFormScrollView.SetSegment(segment);
-                waveFormScrollView.FocusZoomOnSegment(_currentSegment);
 
                 chkSegmentLinkToMarker.Value = segment.MarkerId != Guid.Empty;
                 comboSegmentMarker.Hidden = segment.MarkerId == Guid.Empty;
@@ -1938,7 +1936,6 @@ namespace MPfm.OSX
                 {
                     _currentSegment.Position = position;
                     waveFormScrollView.SetSegment(_currentSegment);
-                    waveFormScrollView.FocusZoomOnSegment(_currentSegment);
                 }
             });
         }
