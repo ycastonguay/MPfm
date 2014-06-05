@@ -15,17 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Library.Services.Interfaces;
-using TinyMessenger;
 using MPfm.MVP.Services.Interfaces;
-using MPfm.Core;
-using System;
-using MPfm.MVP.Messages;
-using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Views;
+using System.Linq;
 
 namespace MPfm.MVP.Presenters
 {
@@ -38,6 +40,7 @@ namespace MPfm.MVP.Presenters
         private Guid _segmentId;
         private Segment _segment;
         private AudioFile _audioFile;
+        private List<Marker> _markers;
         private readonly ILibraryService _libraryService;
         private readonly IPlayerService _playerService;
         private readonly ITinyMessengerHub _messageHub;
@@ -133,7 +136,16 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+                if(marker == null)
+                    return;
+
                 _segment.MarkerId = markerId;
+                _segment.Position = marker.Position;
+                _segment.PositionBytes = (uint)marker.PositionBytes;
+                _segment.PositionSamples = marker.PositionSamples;
+                float positionPercentage = ((float)_segment.PositionBytes / (float)_lengthBytes) * 100;
+                View.RefreshSegmentPosition(marker.Position, positionPercentage);
             }
             catch(Exception ex)
             {
@@ -155,8 +167,8 @@ namespace MPfm.MVP.Presenters
                 View.RefreshSegmentDetails(_segment, _lengthBytes);
                 View.RefreshSegmentPosition(_segment.Position, positionPercentage);
 
-                var markers = _libraryService.SelectMarkers(_audioFile.Id);
-                View.RefreshSegmentMarkers(markers);
+                _markers = _libraryService.SelectMarkers(_audioFile.Id);
+                View.RefreshSegmentMarkers(_markers);
             }
             catch(Exception ex)
             {

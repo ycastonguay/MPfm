@@ -27,7 +27,7 @@ using MPfm.OSX.Classes.Controls.Helpers;
 namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmTrackBarView")]
-    public class MPfmTrackBarView : NSView
+    public class MPfmTrackBarView : NSControl
     {
         private TrackBarControl _control;
         private bool _isMouseDown;
@@ -119,6 +119,10 @@ namespace MPfm.OSX.Classes.Controls
         
         public override void MouseUp(NSEvent theEvent)
         {
+            // Sometimes the MouseUp event is called without prior MouseDown
+            if (!_isMouseDown || !Enabled)
+                return;
+
             _isMouseDown = false;
             base.MouseUp(theEvent);
             GenericControlHelper.MouseUp(this, _control, theEvent);
@@ -127,6 +131,9 @@ namespace MPfm.OSX.Classes.Controls
         
         public override void MouseDown(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             _isMouseDown = true;
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
@@ -135,18 +142,27 @@ namespace MPfm.OSX.Classes.Controls
         
         public override void MouseMoved(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.MouseMoved(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
 
         public override void MouseDragged(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
         
         public override void ScrollWheel(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.ScrollWheel(theEvent);
 
             if (theEvent.DeltaY > 0)

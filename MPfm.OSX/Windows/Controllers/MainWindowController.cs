@@ -114,15 +114,23 @@ namespace MPfm.OSX
             viewMarkerDetails.Hidden = true;
             viewLoopDetails.Hidden = true;
             viewLoopPlayback.Hidden = true;
-            viewSegmentDetails.Hidden = true;
             viewUpdateLibrary.Hidden = true;
             viewQueue.Hidden = true;
+
+            ShowSegmentDetails(false);
+        }
+
+        private void ShowSegmentDetails(bool show)
+        {
+            viewSegmentDetails.Hidden = !show;
+            trackBarSegmentPosition.Enabled = show;
         }
 
         private void LoadComboBoxes()
         {
             cboSoundFormat.RemoveAllItems();
             cboSoundFormat.AddItem("All");
+            cboSoundFormat.AddItem("APE");
             cboSoundFormat.AddItem("FLAC");
             cboSoundFormat.AddItem("OGG");
             cboSoundFormat.AddItem("MP3");
@@ -137,6 +145,7 @@ namespace MPfm.OSX
             lblSegmentLinkToMarker.OnLabelClicked += (label) => {
                 chkSegmentLinkToMarker.Value = !chkSegmentLinkToMarker.Value;
                 comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
+                SetSegmentLinkedMarker();
             };
         }
 
@@ -679,8 +688,8 @@ namespace MPfm.OSX
         {
             OnAddLoop();
             viewLoopDetails.Hidden = false;
-            viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
+            ShowSegmentDetails(false);
         }
 
         partial void actionEditLoop(NSObject sender)
@@ -690,8 +699,8 @@ namespace MPfm.OSX
 
             OnEditLoop(_loops[tableLoops.SelectedRow]);
             viewLoopDetails.Hidden = false;
-            viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = true;
+            ShowSegmentDetails(false);
         }
 
         partial void actionRemoveLoop(NSObject sender)
@@ -743,9 +752,9 @@ namespace MPfm.OSX
         partial void actionAddSegment(NSObject sender)
         {
             OnAddSegment();
-            viewSegmentDetails.Hidden = false;
             viewLoopDetails.Hidden = true;
             viewLoops.Hidden = true;
+            ShowSegmentDetails(true);
         }
 
         partial void actionEditSegment(NSObject sender)
@@ -754,9 +763,9 @@ namespace MPfm.OSX
                 return;
 
             OnEditSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
-            viewSegmentDetails.Hidden = false;
             viewLoopDetails.Hidden = true;
             viewLoops.Hidden = true;
+            ShowSegmentDetails(true);
         }
 
         partial void actionRemoveSegment(NSObject sender)
@@ -786,10 +795,9 @@ namespace MPfm.OSX
         partial void actionBackSegmentDetails(NSObject sender)
         {
             viewLoopDetails.Hidden = false;
-            viewSegmentDetails.Hidden = true;
+            ShowSegmentDetails(false);
             viewLoops.Hidden = true;
 
-            //if(checkEnableSegmentStartPositionLinkedMarker.State == NSCellStateValue.On)
             if(chkSegmentLinkToMarker.Value)
                 _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
             else
@@ -890,8 +898,8 @@ namespace MPfm.OSX
         partial void actionBackLoopDetails(NSObject sender)
         {
             viewLoopDetails.Hidden = true;
-            viewSegmentDetails.Hidden = true;
             viewLoops.Hidden = false;
+            ShowSegmentDetails(false);
 
             _currentLoop.Name = txtLoopName.StringValue;
             OnUpdateLoopDetails(_currentLoop);
@@ -1900,6 +1908,7 @@ namespace MPfm.OSX
         
         public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
+            //Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
             _currentSegment = segment;
             InvokeOnMainThread(delegate {
                 waveFormScrollView.SetSegment(segment);
@@ -1920,6 +1929,7 @@ namespace MPfm.OSX
 
         public void RefreshSegmentPosition(string position, float positionPercentage)
         {
+            //Console.WriteLine("RefreshSegmentPosition - position: {0} positionPercentage: {1}", position, positionPercentage);
             InvokeOnMainThread(delegate {
                 lblSegmentPositionValue.StringValue = position;
                 trackBarSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);

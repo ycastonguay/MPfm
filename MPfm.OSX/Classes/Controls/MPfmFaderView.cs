@@ -30,6 +30,7 @@ namespace MPfm.OSX.Classes.Controls
     public class MPfmFaderView : NSControl
     {
         private FaderControl _control;
+        private bool _isMouseDown;
 
         public override bool IsOpaque { get { return true; } }
         public override bool IsFlipped { get { return true; } }
@@ -82,9 +83,11 @@ namespace MPfm.OSX.Classes.Controls
         
         public override void MouseUp(NSEvent theEvent)
         {
-            if (!Enabled)
+            // Sometimes the MouseUp event is called without prior MouseDown
+            if (!_isMouseDown || !Enabled)
                 return;
 
+            _isMouseDown = false;
             base.MouseUp(theEvent);
             GenericControlHelper.MouseUp(this, _control, theEvent);
         }
@@ -94,6 +97,7 @@ namespace MPfm.OSX.Classes.Controls
             if (!Enabled)
                 return;
 
+            _isMouseDown = true;
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
         }
