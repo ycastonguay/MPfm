@@ -54,6 +54,7 @@ namespace MPfm.MVP.Presenters
             view.OnChangePositionSegmentDetails = ChangePosition;
             view.OnPunchInPositionSegmentDetails = PunchInPosition;
             view.OnUpdateSegmentDetails = UpdateSegmentDetails;
+            view.OnLinkToMarkerSegmentDetails = LinkToMarker;
             base.BindView(view);
 
             _messageHub.Subscribe<SegmentBeingEditedMessage>(SegmentBeingEdited);
@@ -96,7 +97,6 @@ namespace MPfm.MVP.Presenters
                 var position = _playerService.GetPosition();
                 _segment.Position = position.Position;
                 _segment.PositionBytes = (uint)position.PositionBytes;
-                //_segment.StartPositionPercentage = position.PositionPercentage;
                 _segment.PositionSamples = (uint)position.PositionSamples;
                 View.RefreshSegmentPosition(position.Position, position.PositionPercentage);
             } 
@@ -125,6 +125,19 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Tracing.Log("An error occured while updating a segment: " + ex.Message);
+                View.SegmentDetailsError(ex);
+            }
+        }
+
+        private void LinkToMarker(Guid markerId)
+        {
+            try
+            {
+                _segment.MarkerId = markerId;
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while linking a segment to a marker: " + ex.Message);
                 View.SegmentDetailsError(ex);
             }
         }

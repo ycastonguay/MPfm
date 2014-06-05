@@ -26,6 +26,7 @@ namespace MPfm.MVP.Views
         Action<float> OnChangePositionSegmentDetails { get; set; }
         Action OnPunchInPositionSegmentDetails { get; set; }
         Action<Segment> OnUpdateSegmentDetails { get; set; }
+        Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
 
         void SegmentDetailsError(Exception ex);
         void RefreshSegmentDetails(Segment segment, long audioFileLength);        

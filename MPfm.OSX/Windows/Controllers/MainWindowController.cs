@@ -663,6 +663,8 @@ namespace MPfm.OSX
         private void HandleOnTrackBarSegmentPositionValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
+            chkSegmentLinkToMarker.Value = false;
+            comboSegmentMarker.Hidden = true;
             if (OnChangePositionSegmentDetails != null)
                 OnChangePositionSegmentDetails((float)trackBarSegmentPosition.Value / 1000f);
         }
@@ -802,12 +804,40 @@ namespace MPfm.OSX
             if(_currentSegment == null)
                 return;
 
+            chkSegmentLinkToMarker.Value = false;
+            comboSegmentMarker.Hidden = true;
             OnPunchInPositionSegmentDetails();
+        }
+
+        partial void actionSegmentMarker(NSObject sender)
+        {
+            SetSegmentLinkedMarker();
         }
 
         private void HandleSegmentLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
         {
+            if (_segmentMarkers.Count == 0)
+            {
+                chkSegmentLinkToMarker.Value = false;
+                CocoaHelper.ShowAlert("Cannot link to marker", "There are no markers to link to this segment.", NSAlertStyle.Critical);
+                return;
+            }
+
+            SetSegmentLinkedMarker();
+        }
+
+        private void SetSegmentLinkedMarker()
+        {
             comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
+            if (chkSegmentLinkToMarker.Value)
+            {
+                var marker = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem];
+                OnLinkToMarkerSegmentDetails(marker.MarkerId);
+            }
+            else
+            {
+                OnLinkToMarkerSegmentDetails(Guid.Empty);
+            }
         }
 
         partial void actionGoToMarker(NSObject sender)
@@ -1162,7 +1192,16 @@ namespace MPfm.OSX
                 if (tableColumn.Identifier.ToString() == "columnSegmentIndex")
                     view.TextField.StringValue = string.Format("{0}", row + 1);
                 else if (tableColumn.Identifier.ToString() == "columnSegmentMarker")
-                    view.TextField.StringValue = _currentLoop.Segments[row].MarkerId.ToString();
+                {
+                    string markerName = string.Empty;
+                    if (_currentLoop.Segments[row].MarkerId != Guid.Empty)
+                    {
+                        var marker = _segmentMarkers.FirstOrDefault(x => x.MarkerId == _currentLoop.Segments[row].MarkerId);
+                        if (marker != null)
+                            markerName = marker.Name;
+                    }
+                    view.TextField.StringValue = markerName;
+                }
                 else if (tableColumn.Identifier.ToString() == "columnSegmentPosition")
                     view.TextField.StringValue = _currentLoop.Segments[row].Position;
                 else
@@ -1852,6 +1891,7 @@ namespace MPfm.OSX
         public Action<float> OnChangePositionSegmentDetails { get; set; }
         public Action OnPunchInPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
+        public Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
 
         public void SegmentDetailsError(Exception ex)
         {
@@ -1866,7 +1906,10 @@ namespace MPfm.OSX
                 waveFormScrollView.FocusZoomOnSegment(_currentSegment);
 
                 chkSegmentLinkToMarker.Value = segment.MarkerId != Guid.Empty;
-                comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
+                comboSegmentMarker.Hidden = segment.MarkerId == Guid.Empty;
+                int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
+                if(index >= 0)
+                    comboSegmentMarker.SelectItem(index);
 
                 float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
                 trackBarSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
@@ -1896,10 +1939,7 @@ namespace MPfm.OSX
                 _segmentMarkers = markers.ToList();
                 comboSegmentMarker.RemoveAllItems();
                 foreach(var marker in markers)
-                {
                     comboSegmentMarker.AddItem(marker.Name);
-                }
-                comboSegmentMarker.Hidden = true;
             });
         }
 
