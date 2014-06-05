@@ -1565,14 +1565,12 @@ namespace MPfm.Player
             if(loop.Segments.Count == 0)
                 return;
 
-            long startPositionBytes = loop.Segments[_currentSegmentIndex].StartPositionBytes;
-            long endPositionBytes = loop.Segments[_currentSegmentIndex].EndPositionBytes;
+            long positionBytes = loop.Segments[_currentSegmentIndex].PositionBytes;
 
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
                 // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
-                startPositionBytes = (long)((float)startPositionBytes / 1.5f);
-                endPositionBytes = (long)((float)endPositionBytes / 1.5f);
+                positionBytes = (long)((float)positionBytes / 1.5f);
             }
 
 #if !IOS && !ANDROID
@@ -1591,7 +1589,7 @@ namespace MPfm.Player
             _mixerChannel.Lock(true);
 
             // Set position for the decode channel (needs to be in floating point)
-            Playlist.CurrentItem.Channel.SetPosition(startPositionBytes * 2);
+            Playlist.CurrentItem.Channel.SetPosition(positionBytes * 2);
             _fxChannel.SetPosition(0); // Clear buffer
             _mixerChannel.SetPosition(0);
 
@@ -1602,21 +1600,21 @@ namespace MPfm.Player
             Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
 #endif
 
-            if (_mixerChannel is MixerChannel)
-            {
-                var mixerChannel = _mixerChannel as MixerChannel;
-                Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
-            } 
-            else
-            {
-                Playlist.CurrentItem.SyncProcHandle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
-            }
-
-            // Set new callback (length already in floating point)
-            SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
+//            if (_mixerChannel is MixerChannel)
+//            {
+//                var mixerChannel = _mixerChannel as MixerChannel;
+//                Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
+//            } 
+//            else
+//            {
+//                Playlist.CurrentItem.SyncProcHandle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
+//            }
+//
+//            // Set new callback (length already in floating point)
+//            SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
 
             // Set offset position (for calulating current position)
-            _positionOffset = startPositionBytes;
+            _positionOffset = positionBytes;
             _mixerChannel.Lock(false);
             _currentLoop = loop;
         }
@@ -2144,7 +2142,7 @@ namespace MPfm.Player
                 _currentSegmentIndex++;
             
             // Get loop start position
-            long bytes = Loop.Segments[_currentSegmentIndex].StartPositionBytes;
+            long bytes = Loop.Segments[_currentSegmentIndex].PositionBytes;
             _mixerChannel.Lock(true);
 
             // Check if this is a FLAC file over 44100Hz

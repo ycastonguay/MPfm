@@ -356,15 +356,9 @@ namespace MPfm.GenericControls.Controls
             if (localSegment == null)
                 return;
 
-            localSegment.StartPosition = segment.StartPosition;
-            localSegment.StartPositionBytes = segment.StartPositionBytes;
-            localSegment.StartPositionSamples = segment.StartPositionSamples;
-            localSegment.EndPosition = segment.EndPosition;
-            localSegment.EndPositionBytes = segment.EndPositionBytes;
-            localSegment.EndPositionSamples = segment.EndPositionSamples;
-            localSegment.Length = segment.Length;
-            localSegment.LengthBytes = segment.LengthBytes;
-            localSegment.LengthSamples = segment.LengthSamples;
+            localSegment.Position = segment.Position;
+            localSegment.PositionBytes = segment.PositionBytes;
+            localSegment.PositionSamples = segment.PositionSamples;
 
             OnInvalidateVisual();
         }
@@ -498,30 +492,28 @@ namespace MPfm.GenericControls.Controls
 				context.DrawText(letter, new BasicPoint(x + 2, 0), _textColor, LetterFontFace, LetterFontSize);
             }
 
-            // Draw loop segments
-            if (_loop != null)
-            {
-                for (int a = 0; a < _loop.Segments.Count; a++)
-                {
-                    float startPositionPercentage = (float)_loop.Segments[a].StartPositionBytes / (float)Length;
-                    float startX = (startPositionPercentage * ContentSize.Width) - ContentOffset.X;
-                    float endPositionPercentage = (float)_loop.Segments[a].EndPositionBytes / (float)Length;
-                    float endX = (endPositionPercentage * ContentSize.Width) - ContentOffset.X;
-
-                    // Draw loop lines
-                    //var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
-                    context.SetPen(_penLoopLine);
-                    context.StrokeLine(new BasicPoint(startX, 0), new BasicPoint(startX, cursorHeight));
-                    context.StrokeLine(new BasicPoint(endX, 0), new BasicPoint(endX, cursorHeight));
-
-                    // Draw text
-                    //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
-                    var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX - startX, 12);
-                    //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
-                    context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
-                    context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
-                }
-            }
+//            // Draw loop segments
+//            if (_loop != null)
+//            {
+//                for (int a = 0; a < _loop.Segments.Count; a++)
+//                {
+//                    float segmentPositionPercentage = (float)_loop.Segments[a].PositionBytes / (float)Length;
+//                    float startX = (segmentPositionPercentage * ContentSize.Width) - ContentOffset.X;
+//
+//                    // Draw loop lines
+//                    //var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
+//                    context.SetPen(_penLoopLine);
+//                    context.StrokeLine(new BasicPoint(startX, 0), new BasicPoint(startX, cursorHeight));
+//                    context.StrokeLine(new BasicPoint(endX, 0), new BasicPoint(endX, cursorHeight));
+//
+//                    // Draw text
+//                    //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
+//                    var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX - startX, 12);
+//                    //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
+//                    context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
+//                    context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
+//                }
+//            }
 
             // Draw cursor line
             context.SetPen(_penCursorLine);

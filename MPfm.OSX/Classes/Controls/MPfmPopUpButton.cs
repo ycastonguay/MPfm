@@ -55,10 +55,10 @@ namespace MPfm.OSX.Classes.Controls
         private void Initialize()
         {
             TextColor = GlobalTheme.ButtonTextColor;
-            BackgroundColor = GlobalTheme.ButtonBackgroundColor;
-            BackgroundMouseDownColor = GlobalTheme.ButtonBackgroundMouseDownColor;
-            BackgroundMouseOverColor = GlobalTheme.ButtonBackgroundMouseOverColor;
-            BorderColor = GlobalTheme.ButtonBorderColor;
+            BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            BorderColor = GlobalTheme.ButtonToolbarBorderColor;
 
             // This allows MouseEntered and MouseExit to work
             AddTrackingRect(Bounds, this, IntPtr.Zero, false);

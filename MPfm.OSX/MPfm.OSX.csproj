@@ -253,6 +253,7 @@
     <Compile Include="Windows\Controllers\EditSongMetadataWindowController.cs" />
     <Compile Include="Classes\Controls\MPfmCheckBoxView.cs" />
     <Compile Include="Classes\Controls\MPfmLabel.cs" />
+    <Compile Include="Classes\Controls\MPfmTableViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />

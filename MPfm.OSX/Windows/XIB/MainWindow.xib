@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -7,7 +7,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController">
             <connections>
-                <outlet property="actionSegmentEndPositionLinkedMarker" destination="0T0-zN-QmF" id="ZSp-Gh-FS8"/>
                 <outlet property="btnAddLoop" destination="314" id="454"/>
                 <outlet property="btnAddMarker" destination="443" id="458"/>
                 <outlet property="btnAddSegment" destination="LKk-Vc-gxD" id="Y4I-Jt-giH"/>
@@ -34,8 +33,7 @@
                 <outlet property="btnPreviousLoop" destination="2C4-tt-Rao" id="fbQ-iy-C5e"/>
                 <outlet property="btnPreviousSegment" destination="Sgb-J0-okp" id="sWV-lq-aPJ"/>
                 <outlet property="btnPunchInMarker" destination="XVc-UQ-Q4t" id="cw3-BW-gxh"/>
-                <outlet property="btnPunchInSegmentEndPosition" destination="uox-8K-yS1" id="mI6-BH-a9f"/>
-                <outlet property="btnPunchInSegmentStartPostion" destination="pFw-rc-rhv" id="jmT-05-OwS"/>
+                <outlet property="btnPunchInSegment" destination="pFw-rc-rhv" id="xbH-5H-N3y"/>
                 <outlet property="btnRemoveLoop" destination="320" id="456"/>
                 <outlet property="btnRemoveMarker" destination="449" id="460"/>
                 <outlet property="btnRemoveSegment" destination="UEe-Ya-WdY" id="5nx-kA-CYP"/>
@@ -57,10 +55,8 @@
                 <outlet property="btnToolbarSyncCloud" destination="jLy-9t-69U" id="J59-ya-Sh1"/>
                 <outlet property="btnUseTempo" destination="763" id="ydJ-DC-lOd"/>
                 <outlet property="cboSoundFormat" destination="48" id="168"/>
-                <outlet property="chkEndPositionLinkToMarker" destination="Jyf-Uc-p1l" id="vzU-yF-GtX"/>
-                <outlet property="chkStartPositionLinkToMarker" destination="386-bF-FKz" id="ai8-5v-Bt1"/>
-                <outlet property="comboSegmentEndPositionLinkedMarker" destination="0T0-zN-QmF" id="i7U-ma-zb5"/>
-                <outlet property="comboSegmentStartPositionLinkedMarker" destination="r3y-CL-WTb" id="tt3-mh-ZqB"/>
+                <outlet property="chkSegmentLinkToMarker" destination="386-bF-FKz" id="CAM-Cq-Lvt"/>
+                <outlet property="comboSegmentMarker" destination="r3y-CL-WTb" id="xBy-Jf-zar"/>
                 <outlet property="faderVolume" destination="IE1-VU-bW9" id="oVd-F0-y3x"/>
                 <outlet property="imageAlbumCover" destination="112" id="174"/>
                 <outlet property="lblAlbumTitle" destination="61" id="67"/>
@@ -72,7 +68,6 @@
                 <outlet property="lblCurrentTempo" destination="791" id="806"/>
                 <outlet property="lblDetectedTempo" destination="784" id="804"/>
                 <outlet property="lblDetectedTempoValue" destination="802" id="805"/>
-                <outlet property="lblEndPositionLinkToMarker" destination="bo3-CV-AUI" id="FK8-AM-QOr"/>
                 <outlet property="lblFileSize" destination="kTG-QP-gBj" id="dWk-X7-arV"/>
                 <outlet property="lblFileType" destination="884" id="rBz-LJ-v8W"/>
                 <outlet property="lblFilterBySoundFormat" destination="44" id="555"/>
@@ -97,14 +92,12 @@
                 <outlet property="lblReferenceTempoValue" destination="800" id="809"/>
                 <outlet property="lblSampleRate" destination="887" id="q5K-sf-EVl"/>
                 <outlet property="lblSearchWeb" destination="ocB-JZ-9nY" id="jmn-0P-v8e"/>
-                <outlet property="lblSegmentEndPosition" destination="tiW-Hx-ICU" id="TIM-E9-aIZ"/>
-                <outlet property="lblSegmentEndPositionValue" destination="wRd-n0-H6u" id="cuZ-77-QBi"/>
-                <outlet property="lblSegmentPosition" destination="ejW-Rz-iyu" id="N5t-af-DQS"/>
-                <outlet property="lblSegmentStartPosition" destination="Hwy-Jz-y2d" id="HDN-OE-tCU"/>
+                <outlet property="lblSegmentLinkToMarker" destination="3zj-2Y-jDX" id="S0c-gW-P5h"/>
+                <outlet property="lblSegmentPosition" destination="Hwy-Jz-y2d" id="BAi-SV-eht"/>
+                <outlet property="lblSegmentPositionValue" destination="CiX-uZ-utp" id="0yg-fm-1E0"/>
                 <outlet property="lblSegmentStartPositionValue" destination="CiX-uZ-utp" id="aAW-sV-zF5"/>
                 <outlet property="lblSongPath" destination="65" id="69"/>
                 <outlet property="lblSongTitle" destination="63" id="68"/>
-                <outlet property="lblStartPositionLinkToMarker" destination="3zj-2Y-jDX" id="X7D-Uk-hPr"/>
                 <outlet property="lblSubtitleSongPosition" destination="502" id="551"/>
                 <outlet property="lblSubtitleVolume" destination="531" id="553"/>
                 <outlet property="lblTitleCurrentSong" destination="154" id="549"/>
@@ -140,7 +133,7 @@
                 <outlet property="trackBarMarkerPosition" destination="Xz9-MP-Aq6" id="HzX-sk-WPo"/>
                 <outlet property="trackBarPitchShifting" destination="qc1-zf-pt4" id="GYC-7k-fz4"/>
                 <outlet property="trackBarPosition" destination="YnV-Zx-V58" id="aMy-WZ-j7I"/>
-                <outlet property="trackBarSegmentEndPosition" destination="qkZ-Oq-xfy" id="eRl-oh-C8M"/>
+                <outlet property="trackBarSegmentPosition" destination="Uzw-Xt-dDY" id="SSt-pP-qeA"/>
                 <outlet property="trackBarSegmentStartPosition" destination="Uzw-Xt-dDY" id="DwD-R7-vdc"/>
                 <outlet property="trackBarTimeShifting" destination="Qrn-y5-vUo" id="9jo-W9-zeu"/>
                 <outlet property="txtCurrentTempoValue" destination="790" id="810"/>
@@ -1106,19 +1099,6 @@
                                                                                         <rect key="frame" x="0.0" y="0.0" width="411" height="139"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <subviews>
-                                                                                            <textField verticalHuggingPriority="750" id="bo3-CV-AUI" customClass="MPfmLabel">
-                                                                                                <rect key="frame" x="32" y="1" width="119" height="21"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Link to Marker" id="Lnl-IU-q0e">
-                                                                                                    <font key="font" metaFont="systemBold" size="12"/>
-                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                                </textFieldCell>
-                                                                                            </textField>
-                                                                                            <customView id="Jyf-Uc-p1l" customClass="MPfmCheckBoxView">
-                                                                                                <rect key="frame" x="8" y="1" width="22" height="22"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                            </customView>
                                                                                             <customView id="e8u-1p-ZbJ" customClass="MPfmView">
                                                                                                 <rect key="frame" x="0.0" y="112" width="411" height="27"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -1146,20 +1126,20 @@
                                                                                                 </subviews>
                                                                                             </customView>
                                                                                             <textField verticalHuggingPriority="750" id="Hwy-Jz-y2d">
-                                                                                                <rect key="frame" x="7" y="85" width="105" height="18"/>
+                                                                                                <rect key="frame" x="7" y="85" width="74" height="18"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Start Position:" id="2hR-Hc-fsW">
+                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Position:" id="2hR-Hc-fsW">
                                                                                                     <font key="font" metaFont="smallSystem"/>
                                                                                                     <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                                 </textFieldCell>
                                                                                             </textField>
                                                                                             <customView id="Uzw-Xt-dDY" customClass="MPfmTrackBarView">
-                                                                                                <rect key="frame" x="87" y="79" width="170" height="26"/>
+                                                                                                <rect key="frame" x="63" y="79" width="277" height="26"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                             </customView>
                                                                                             <textField identifier="lblPosition" verticalHuggingPriority="750" id="CiX-uZ-utp">
-                                                                                                <rect key="frame" x="235" y="75" width="83" height="28"/>
+                                                                                                <rect key="frame" x="323" y="75" width="83" height="28"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="00:00.000" id="HKU-YQ-wJ7">
                                                                                                     <font key="font" size="12" name="Menlo-Regular"/>
@@ -1168,18 +1148,18 @@
                                                                                                 </textFieldCell>
                                                                                             </textField>
                                                                                             <button verticalHuggingPriority="750" id="pFw-rc-rhv" customClass="MPfmButton">
-                                                                                                <rect key="frame" x="324" y="78" width="82" height="28"/>
+                                                                                                <rect key="frame" x="9" y="45" width="82" height="28"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                                                 <buttonCell key="cell" type="smallSquare" title="Punch in" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wxr-JN-vXp">
                                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                     <font key="font" size="11" name="HelveticaNeue"/>
                                                                                                 </buttonCell>
                                                                                                 <connections>
-                                                                                                    <action selector="actionPunchInSegmentStartPosition:" target="-2" id="rkf-dZ-KE3"/>
+                                                                                                    <action selector="actionPunchInSegment:" target="-2" id="iBP-hp-Rjt"/>
                                                                                                 </connections>
                                                                                             </button>
                                                                                             <popUpButton verticalHuggingPriority="750" id="r3y-CL-WTb" customClass="MPfmPopUpButton">
-                                                                                                <rect key="frame" x="124" y="54" width="167" height="22"/>
+                                                                                                <rect key="frame" x="221" y="47" width="183" height="22"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                 <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="GC0-wY-hUn" id="Yzy-5M-QrQ">
                                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1193,62 +1173,11 @@
                                                                                                     </menu>
                                                                                                 </popUpButtonCell>
                                                                                                 <connections>
-                                                                                                    <action selector="actionSegmentStartPositionLinkedMarker:" target="-2" id="oH0-8O-3BE"/>
-                                                                                                </connections>
-                                                                                            </popUpButton>
-                                                                                            <textField verticalHuggingPriority="750" id="tiW-Hx-ICU">
-                                                                                                <rect key="frame" x="7" y="30" width="105" height="18"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="End Position:" id="zoT-M8-1hr">
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                    <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                                </textFieldCell>
-                                                                                            </textField>
-                                                                                            <customView id="qkZ-Oq-xfy" customClass="MPfmTrackBarView">
-                                                                                                <rect key="frame" x="87" y="24" width="170" height="26"/>
-                                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                                            </customView>
-                                                                                            <textField identifier="lblPosition" verticalHuggingPriority="750" id="wRd-n0-H6u">
-                                                                                                <rect key="frame" x="235" y="20" width="83" height="28"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="00:00.000" id="SCp-Rs-Rl6">
-                                                                                                    <font key="font" size="12" name="Menlo-Regular"/>
-                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                                </textFieldCell>
-                                                                                            </textField>
-                                                                                            <button verticalHuggingPriority="750" id="uox-8K-yS1" customClass="MPfmButton">
-                                                                                                <rect key="frame" x="324" y="23" width="82" height="28"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="smallSquare" title="Punch in" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KnZ-bw-QaY">
-                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                    <font key="font" size="11" name="HelveticaNeue"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionPunchInSegmentEndPosition:" target="-2" id="H0g-Un-lpP"/>
-                                                                                                </connections>
-                                                                                            </button>
-                                                                                            <popUpButton verticalHuggingPriority="750" id="0T0-zN-QmF" customClass="MPfmPopUpButton">
-                                                                                                <rect key="frame" x="124" y="0.0" width="167" height="22"/>
-                                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                                                <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="ZED-FN-9dc" id="y6w-38-9lo">
-                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                    <menu key="menu" title="OtherViews" id="LIm-gk-cpQ">
-                                                                                                        <items>
-                                                                                                            <menuItem title="Item 1" state="on" id="ZED-FN-9dc"/>
-                                                                                                            <menuItem title="Item 2" id="r6o-Sk-19m"/>
-                                                                                                            <menuItem title="Item 3" id="s1r-Q8-NeD"/>
-                                                                                                        </items>
-                                                                                                    </menu>
-                                                                                                </popUpButtonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionSoundFormatChanged:" target="-2" id="UX2-8r-wKV"/>
+                                                                                                    <action selector="actionSegmentMarker:" target="-2" id="Vxa-EO-es1"/>
                                                                                                 </connections>
                                                                                             </popUpButton>
                                                                                             <textField verticalHuggingPriority="750" id="3zj-2Y-jDX" customClass="MPfmLabel">
-                                                                                                <rect key="frame" x="32" y="56" width="119" height="20"/>
+                                                                                                <rect key="frame" x="127" y="49" width="119" height="20"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Link to Marker" id="0vE-Ru-H6f">
                                                                                                     <font key="font" metaFont="systemBold" size="12"/>
@@ -1257,7 +1186,7 @@
                                                                                                 </textFieldCell>
                                                                                             </textField>
                                                                                             <customView id="386-bF-FKz" customClass="MPfmCheckBoxView">
-                                                                                                <rect key="frame" x="8" y="55" width="22" height="22"/>
+                                                                                                <rect key="frame" x="103" y="48" width="22" height="22"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                             </customView>
                                                                                         </subviews>
@@ -1290,41 +1219,41 @@
                                                                                                             <action selector="actionBackLoopDetails:" target="-2" id="psN-fA-HB7"/>
                                                                                                         </connections>
                                                                                                     </button>
+                                                                                                    <textField verticalHuggingPriority="750" id="iVZ-lV-BD5">
+                                                                                                        <rect key="frame" x="263" y="2" width="146" height="22"/>
+                                                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="e.g. Verse" drawsBackground="YES" id="Yx2-mo-xcP">
+                                                                                                            <font key="font" metaFont="system"/>
+                                                                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                                        </textFieldCell>
+                                                                                                    </textField>
+                                                                                                    <textField verticalHuggingPriority="750" id="G2L-7Q-BCo">
+                                                                                                        <rect key="frame" x="224" y="5" width="94" height="18"/>
+                                                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Name:" id="2gf-ZR-KI2">
+                                                                                                            <font key="font" metaFont="smallSystem"/>
+                                                                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                                                        </textFieldCell>
+                                                                                                    </textField>
                                                                                                 </subviews>
                                                                                             </customView>
-                                                                                            <textField verticalHuggingPriority="750" id="G2L-7Q-BCo">
-                                                                                                <rect key="frame" x="4" y="89" width="94" height="18"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Name:" id="2gf-ZR-KI2">
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                    <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                                </textFieldCell>
-                                                                                            </textField>
-                                                                                            <textField verticalHuggingPriority="750" id="iVZ-lV-BD5">
-                                                                                                <rect key="frame" x="52" y="83" width="356" height="26"/>
-                                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="e.g. Verse" drawsBackground="YES" id="Yx2-mo-xcP">
-                                                                                                    <font key="font" metaFont="system"/>
-                                                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                                                </textFieldCell>
-                                                                                            </textField>
                                                                                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="hDL-fQ-jIK" customClass="MPfmScrollView">
-                                                                                                <rect key="frame" x="0.0" y="0.0" width="411" height="54"/>
+                                                                                                <rect key="frame" x="0.0" y="0.0" width="411" height="88"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                 <clipView key="contentView" id="kJR-hz-w6H">
-                                                                                                    <rect key="frame" x="0.0" y="17" width="411" height="22"/>
+                                                                                                    <rect key="frame" x="0.0" y="17" width="411" height="56"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <tableView identifier="tableSegments" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="15" rowSizeStyle="automatic" headerView="Ehj-Ek-yBF" viewBased="YES" id="GVQ-x8-fob">
-                                                                                                            <rect key="frame" x="0.0" y="0.0" width="529" height="22"/>
+                                                                                                            <rect key="frame" x="0.0" y="0.0" width="529" height="56"/>
                                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                                                             <tableColumns>
-                                                                                                                <tableColumn identifier="columnSegmentPosition" width="24" minWidth="24" maxWidth="1000" id="3ZL-WR-ilD">
+                                                                                                                <tableColumn identifier="columnSegmentIndex" width="24" minWidth="24" maxWidth="1000" id="3ZL-WR-ilD">
                                                                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1337,7 +1266,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellSegmentPosition" id="xB0-hU-pqh">
+                                                                                                                        <tableCellView identifier="cellSegmentIndex" id="xB0-hU-pqh" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="1" y="1" width="24" height="15"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1370,7 +1299,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellSegmentLength" id="yvh-Lw-ERK">
+                                                                                                                        <tableCellView identifier="cellSegmentLength" id="yvh-Lw-ERK" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="28" y="1" width="120" height="15"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1390,8 +1319,8 @@
                                                                                                                         </tableCellView>
                                                                                                                     </prototypeCellViews>
                                                                                                                 </tableColumn>
-                                                                                                                <tableColumn identifier="columnSegmentStartPosition" width="100" minWidth="40" maxWidth="1000" id="vvx-0x-e8F">
-                                                                                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Start Position">
+                                                                                                                <tableColumn identifier="columnSegmentPosition" width="100" minWidth="40" maxWidth="1000" id="vvx-0x-e8F">
+                                                                                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Position">
                                                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -1403,7 +1332,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellSegmentStartPosition" id="Wjq-KV-VAo">
+                                                                                                                        <tableCellView identifier="cellSegmentPosition" id="Wjq-KV-VAo" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="151" y="1" width="100" height="15"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1423,8 +1352,8 @@
                                                                                                                         </tableCellView>
                                                                                                                     </prototypeCellViews>
                                                                                                                 </tableColumn>
-                                                                                                                <tableColumn identifier="columnSegmentEndPosition" width="273" minWidth="40" maxWidth="1000" id="z6N-M3-Unj">
-                                                                                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="End Position">
+                                                                                                                <tableColumn identifier="columnSegmentMarker" width="273" minWidth="40" maxWidth="1000" id="z6N-M3-Unj">
+                                                                                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Marker">
                                                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -1436,7 +1365,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellSegmentEndPosition" id="xu5-cB-pBU">
+                                                                                                                        <tableCellView identifier="cellSegmentMarker" id="xu5-cB-pBU" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="254" y="1" width="273" height="15"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1462,7 +1391,7 @@
                                                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 </clipView>
                                                                                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="WUg-sL-hGX">
-                                                                                                    <rect key="frame" x="0.0" y="39" width="411" height="15"/>
+                                                                                                    <rect key="frame" x="0.0" y="73" width="411" height="15"/>
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                 </scroller>
                                                                                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="80x-xQ-Rd4">
@@ -1475,7 +1404,7 @@
                                                                                                 </tableHeaderView>
                                                                                             </scrollView>
                                                                                             <customView id="s0a-b8-QVR" customClass="MPfmView">
-                                                                                                <rect key="frame" x="0.0" y="53" width="411" height="27"/>
+                                                                                                <rect key="frame" x="0.0" y="87" width="411" height="27"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                 <subviews>
                                                                                                     <textField verticalHuggingPriority="750" id="ATg-zW-Z9T">
@@ -1614,7 +1543,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellLoopName" id="298">
+                                                                                                                        <tableCellView identifier="cellLoopName" id="298" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="1" y="1" width="146" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1647,7 +1576,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellLoopSegments" id="324">
+                                                                                                                        <tableCellView identifier="cellLoopSegments" id="324" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="150" y="1" width="76" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1680,7 +1609,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellLoopTotalLength" id="339">
+                                                                                                                        <tableCellView identifier="cellLoopTotalLength" id="339" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="229" y="1" width="155" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1731,7 +1660,7 @@
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <subviews>
                                                                                             <customView id="9Ly-eL-MOr" customClass="MPfmView">
-                                                                                                <rect key="frame" x="0.0" y="117" width="387" height="27"/>
+                                                                                                <rect key="frame" x="0.0" y="115" width="387" height="27"/>
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                 <subviews>
                                                                                                     <textField verticalHuggingPriority="750" id="pbE-Se-pEw">
@@ -1840,7 +1769,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellMarkerName" id="399">
+                                                                                                                        <tableCellView identifier="cellMarkerName" id="399" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="1" y="1" width="117" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1873,7 +1802,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellMarkerPosition" id="404">
+                                                                                                                        <tableCellView identifier="cellMarkerPosition" id="404" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="121" y="1" width="75" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -1906,7 +1835,7 @@
                                                                                                                     </textFieldCell>
                                                                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                     <prototypeCellViews>
-                                                                                                                        <tableCellView identifier="cellMarkerComments" id="412">
+                                                                                                                        <tableCellView identifier="cellMarkerComments" id="412" customClass="MPfmTableCellView">
                                                                                                                             <rect key="frame" x="199" y="1" width="186" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                             <subviews>
@@ -2033,7 +1962,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000024351596" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>

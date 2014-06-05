@@ -24,15 +24,8 @@ WHERE SettingName = 'DatabaseVersion'
 CREATE TABLE [Segments] (
 [SegmentId] varchar(50)  NOT NULL PRIMARY KEY,
 [LoopId] varchar(50)  NOT NULL,
-[Length] varchar(50)  NULL,
-[LengthBytes] integer DEFAULT '0' NULL,
-[LengthSamples] integer DEFAULT '0' NULL,
-[StartPosition] varchar(50)  NULL,
-[StartPositionBytes] integer DEFAULT '0' NULL,
-[StartPositionSamples] integer DEFAULT '0' NULL,
-[StartPositionMarkerId] varchar(50)  NOT NULL,
-[EndPosition] varchar(50)  NULL,
-[EndPositionBytes] integer DEFAULT '0' NULL,
-[EndPositionSamples] integer DEFAULT '0' NULL,
-[EndPositionMarkerId] varchar(50)  NOT NULL
+[MarkerId] varchar(50)  NOT NULL,
+[Position] varchar(50)  NULL,
+[PositionBytes] integer DEFAULT '0' NULL,
+[PositionSamples] integer DEFAULT '0' NULL
 )

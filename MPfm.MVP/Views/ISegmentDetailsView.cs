@@ -23,16 +23,13 @@ namespace MPfm.MVP.Views
 {
     public interface ISegmentDetailsView : IBaseView
 	{
-        Action<float> OnChangeStartPositionSegmentDetails { get; set; }
-        Action<float> OnChangeEndPositionSegmentDetails { get; set; }
-        Action OnPunchInStartPositionSegmentDetails { get; set; }
-        Action OnPunchInEndPositionSegmentDetails { get; set; }
+        Action<float> OnChangePositionSegmentDetails { get; set; }
+        Action OnPunchInPositionSegmentDetails { get; set; }
         Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         void SegmentDetailsError(Exception ex);
         void RefreshSegmentDetails(Segment segment, long audioFileLength);        
-        void RefreshSegmentStartPosition(string position, float positionPercentage);
-        void RefreshSegmentEndPosition(string position, float positionPercentage);
+        void RefreshSegmentPosition(string position, float positionPercentage);
         void RefreshSegmentMarkers(IEnumerable<Marker> markers);
 	}
 }

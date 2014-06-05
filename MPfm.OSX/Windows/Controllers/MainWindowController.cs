@@ -133,16 +133,10 @@ namespace MPfm.OSX
 
         private void LoadCheckBoxes()
         {
-            chkStartPositionLinkToMarker.OnValueChanged += HandleStartPositionLinkToMarkerOnValueChanged;
-            chkEndPositionLinkToMarker.OnValueChanged += HandleEndPositionLinkToMarkerOnValueChanged;
-            lblStartPositionLinkToMarker.OnLabelClicked += (label) => {
-                chkStartPositionLinkToMarker.Value = !chkStartPositionLinkToMarker.Value;
-                comboSegmentStartPositionLinkedMarker.Hidden = !chkStartPositionLinkToMarker.Value;
-            };
-            lblEndPositionLinkToMarker.OnLabelClicked += (label) =>
-            {
-                chkEndPositionLinkToMarker.Value = !chkEndPositionLinkToMarker.Value;
-                comboSegmentEndPositionLinkedMarker.Hidden = !chkEndPositionLinkToMarker.Value;
+            chkSegmentLinkToMarker.OnValueChanged += HandleSegmentLinkToMarkerOnValueChanged;
+            lblSegmentLinkToMarker.OnLabelClicked += (label) => {
+                chkSegmentLinkToMarker.Value = !chkSegmentLinkToMarker.Value;
+                comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
             };
         }
 
@@ -182,17 +176,11 @@ namespace MPfm.OSX
             trackBarMarkerPosition.OnTrackBarValueChanged += HandleOnTrackBarMarkerPositionValueChanged;
             trackBarMarkerPosition.SetNeedsDisplayInRect(trackBarMarkerPosition.Bounds);
 
-            trackBarSegmentStartPosition.Minimum = 0;
-            trackBarSegmentStartPosition.Maximum = 1000;
-            trackBarSegmentStartPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarSegmentStartPosition.OnTrackBarValueChanged += HandleOnTrackBarSegmentStartPositionValueChanged;
-            trackBarSegmentStartPosition.SetNeedsDisplayInRect(trackBarSegmentStartPosition.Bounds);
-
-            trackBarSegmentEndPosition.Minimum = 0;
-            trackBarSegmentEndPosition.Maximum = 1000;
-            trackBarSegmentEndPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarSegmentEndPosition.OnTrackBarValueChanged += HandleOnTrackBarSegmentEndPositionValueChanged;
-            trackBarSegmentEndPosition.SetNeedsDisplayInRect(trackBarSegmentEndPosition.Bounds);
+            trackBarSegmentPosition.Minimum = 0;
+            trackBarSegmentPosition.Maximum = 1000;
+            trackBarSegmentPosition.BlockValueChangeWhenDraggingMouse = true;
+            trackBarSegmentPosition.OnTrackBarValueChanged += HandleOnTrackBarSegmentPositionValueChanged;
+            trackBarSegmentPosition.SetNeedsDisplayInRect(trackBarSegmentPosition.Bounds);
         }
 
         private void LoadTreeViews()
@@ -329,8 +317,7 @@ namespace MPfm.OSX
             lblReferenceKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
             lblNewKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
             txtIntervalValue.Font = NSFont.FromFontName("Roboto", 12f);
-            lblStartPositionLinkToMarker.Font = NSFont.FromFontName("Roboto", 12f);
-            lblEndPositionLinkToMarker.Font = NSFont.FromFontName("Roboto", 12f);
+            lblSegmentLinkToMarker.Font = NSFont.FromFontName("Roboto", 12f);
 
             lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
             lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
@@ -348,26 +335,16 @@ namespace MPfm.OSX
             lblMarkerPosition.Font = NSFont.FromFontName("Roboto Light", 12);
             lblMarkerPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
 
-            lblLoopName.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblSegmentStartPosition.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblSegmentStartPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
-            lblSegmentEndPosition.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblSegmentEndPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
+            lblLoopName.Font = NSFont.FromFontName("Roboto Light", 11);
+            lblSegmentPosition.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblSegmentPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
 
             cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Roboto", 12);
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
             txtMarkerName.Font = textBoxFont;
-            txtLoopName.Font = textBoxFont;
-
-            // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
-//            var dictAttrStr1 = new NSMutableDictionary();
-//            dictAttrStr1.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
-//            dictAttrStr1.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
-//            var attrStrLinkToMarker = new NSAttributedString("Link to Marker", dictAttrStr1);
-//            checkEnableSegmentStartPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
-//            checkEnableSegmentEndPositionLinkedMarker.AttributedTitle = attrStrLinkToMarker;
+            txtLoopName.Font = NSFont.FromFontName("Roboto", 11f);
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
@@ -431,8 +408,7 @@ namespace MPfm.OSX
             btnBackMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnBackSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_back");
             btnPunchInMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
-            btnPunchInSegmentStartPostion.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
-            btnPunchInSegmentEndPosition.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
+            btnPunchInSegment.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_punch_in");
 
             btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnToolbarPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
@@ -684,18 +660,11 @@ namespace MPfm.OSX
                 OnChangePositionMarkerDetails((float)trackBarMarkerPosition.Value / 1000f);
         }
 
-        private void HandleOnTrackBarSegmentStartPositionValueChanged()
+        private void HandleOnTrackBarSegmentPositionValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
-            if (OnChangeStartPositionSegmentDetails != null)
-                OnChangeStartPositionSegmentDetails((float)trackBarSegmentStartPosition.Value / 1000f);
-        }
-
-        private void HandleOnTrackBarSegmentEndPositionValueChanged()
-        {
-            // The value of the slider is changed at the startup of the app and the view is not ready
-            if (OnChangeEndPositionSegmentDetails != null)
-                OnChangeEndPositionSegmentDetails((float)trackBarSegmentEndPosition.Value / 1000f);
+            if (OnChangePositionSegmentDetails != null)
+                OnChangePositionSegmentDetails((float)trackBarSegmentPosition.Value / 1000f);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -819,52 +788,27 @@ namespace MPfm.OSX
             viewLoops.Hidden = true;
 
             //if(checkEnableSegmentStartPositionLinkedMarker.State == NSCellStateValue.On)
-            if(chkStartPositionLinkToMarker.Value)
-                _currentSegment.StartPositionMarkerId = _segmentMarkers[comboSegmentStartPositionLinkedMarker.IndexOfSelectedItem].MarkerId;
+            if(chkSegmentLinkToMarker.Value)
+                _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
             else
-                _currentSegment.StartPositionMarkerId = Guid.Empty;
+                _currentSegment.MarkerId = Guid.Empty;
 
-            //if(checkEnableSegmentEndPositionLinkedMarker.State == NSCellStateValue.On)
-            if(chkEndPositionLinkToMarker.Value)
-                _currentSegment.EndPositionMarkerId = _segmentMarkers[comboSegmentEndPositionLinkedMarker.IndexOfSelectedItem].MarkerId;
-            else
-                _currentSegment.EndPositionMarkerId = Guid.Empty;
-
-            //_currentSegment.StartPositionMarkerId
             OnUpdateSegmentDetails(_currentSegment);
             _currentSegment = null;
         }
 
-        partial void actionPunchInSegmentStartPosition(NSObject sender)
+        partial void actionPunchInSegment(NSObject sender)
         {
             if(_currentSegment == null)
                 return;
 
-            OnPunchInStartPositionSegmentDetails();
+            OnPunchInPositionSegmentDetails();
         }
 
-        partial void actionPunchInSegmentEndPosition(NSObject sender)
+        private void HandleSegmentLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
         {
-            if(_currentSegment == null)
-                return;
-
-            OnPunchInEndPositionSegmentDetails();
+            comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
         }
-
-        partial void actionSegmentStartPositionLinkedMarker(NSObject sender)
-        {
-
-        }
-
-        private void HandleStartPositionLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
-        {
-            comboSegmentStartPositionLinkedMarker.Hidden = !chkStartPositionLinkToMarker.Value;
-        }
-
-        private void HandleEndPositionLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
-        {
-            comboSegmentEndPositionLinkedMarker.Hidden = !chkEndPositionLinkToMarker.Value;
-        }       
 
         partial void actionGoToMarker(NSObject sender)
         {
@@ -1186,8 +1130,11 @@ namespace MPfm.OSX
             view = (NSTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
 
+            bool adjustXPadding = false;
             if (tableView.Identifier == "tableMarkers")
             {
+                adjustXPadding = tableMarkers.FindColumn(new NSString(tableColumn.Identifier)) > 0;
+
                 if (tableColumn.Identifier.ToString() == "columnMarkerName")
                     view.TextField.StringValue = _markers[row].Name;
                 else if (tableColumn.Identifier.ToString() == "columnMarkerPosition")
@@ -1197,6 +1144,8 @@ namespace MPfm.OSX
             } 
             else if (tableView.Identifier == "tableLoops")
             {
+                adjustXPadding = tableLoops.FindColumn(new NSString(tableColumn.Identifier)) > 0;
+
                 if (tableColumn.Identifier.ToString() == "columnLoopName")
                     view.TextField.StringValue = _loops[row].Name;
                 else if (tableColumn.Identifier.ToString() == "columnLoopSegments")
@@ -1208,18 +1157,20 @@ namespace MPfm.OSX
             }
             else if (tableView.Identifier == "tableSegments")
             {
-                if (tableColumn.Identifier.ToString() == "columnSegmentPosition")
-                    view.TextField.StringValue = string.Format("{0}", row + 1); //_currentLoop.Segments[row].
-                else if (tableColumn.Identifier.ToString() == "columnSegmentLength")
-                    view.TextField.StringValue = _currentLoop.Segments[row].Length;
-                else if (tableColumn.Identifier.ToString() == "columnSegmentStartPosition")
-                    view.TextField.StringValue = _currentLoop.Segments[row].StartPosition;
-                else if (tableColumn.Identifier.ToString() == "columnSegmentEndPosition")
-                    view.TextField.StringValue = _currentLoop.Segments[row].EndPosition;
+                adjustXPadding = tableSegments.FindColumn(new NSString(tableColumn.Identifier)) > 0;
+
+                if (tableColumn.Identifier.ToString() == "columnSegmentIndex")
+                    view.TextField.StringValue = string.Format("{0}", row + 1);
+                else if (tableColumn.Identifier.ToString() == "columnSegmentMarker")
+                    view.TextField.StringValue = _currentLoop.Segments[row].MarkerId.ToString();
+                else if (tableColumn.Identifier.ToString() == "columnSegmentPosition")
+                    view.TextField.StringValue = _currentLoop.Segments[row].Position;
                 else
                     view.TextField.StringValue = string.Empty;
             }
 
+            view.TextField.Frame = new RectangleF(adjustXPadding ? -2 : 0, -2, view.Frame.Width, view.Frame.Height);
+                
             return view;
         }
 
@@ -1898,10 +1849,8 @@ namespace MPfm.OSX
 
         #region ISegmentDetailsView implementation
 
-        public Action<float> OnChangeStartPositionSegmentDetails { get; set; }
-        public Action<float> OnChangeEndPositionSegmentDetails { get; set; }
-        public Action OnPunchInStartPositionSegmentDetails { get; set; }
-        public Action OnPunchInEndPositionSegmentDetails { get; set; }
+        public Action<float> OnChangePositionSegmentDetails { get; set; }
+        public Action OnPunchInPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
 
         public void SegmentDetailsError(Exception ex)
@@ -1911,45 +1860,33 @@ namespace MPfm.OSX
         
         public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
+            _currentSegment = segment;
             InvokeOnMainThread(delegate {
-                _currentSegment = segment;
                 waveFormScrollView.SetSegment(segment);
                 waveFormScrollView.FocusZoomOnSegment(_currentSegment);
 
-                chkStartPositionLinkToMarker.Value = segment.StartPositionMarkerId != Guid.Empty;
-                chkEndPositionLinkToMarker.Value = segment.EndPositionMarkerId != Guid.Empty;
-                comboSegmentStartPositionLinkedMarker.Hidden = !chkStartPositionLinkToMarker.Value;
-                comboSegmentEndPositionLinkedMarker.Hidden = !chkEndPositionLinkToMarker.Value;
+                chkSegmentLinkToMarker.Value = segment.MarkerId != Guid.Empty;
+                comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
 
-                float startPositionPercentage = (float)segment.StartPositionBytes / (float)audioFileLength;
-                float endPositionPercentage = (float)segment.EndPositionBytes / (float)audioFileLength;
-                trackBarSegmentStartPosition.ValueWithoutEvent = (int)(startPositionPercentage * 10);
-                trackBarSegmentEndPosition.ValueWithoutEvent = (int)(endPositionPercentage * 10);
+                float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
+                trackBarSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
 
-                lblSegmentStartPositionValue.StringValue = segment.StartPosition;
-                lblSegmentEndPositionValue.StringValue = segment.EndPosition;
+                lblSegmentPositionValue.StringValue = segment.Position;
             });
         }
 
-        public void RefreshSegmentStartPosition(string position, float positionPercentage)
+        public void RefreshSegmentPosition(string position, float positionPercentage)
         {
             InvokeOnMainThread(delegate {
-                lblSegmentStartPositionValue.StringValue = position;
-                trackBarSegmentStartPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-                _currentSegment.StartPosition = position;
-                waveFormScrollView.SetSegment(_currentSegment);
-                waveFormScrollView.FocusZoomOnSegment(_currentSegment);
-            });
-        }
+                lblSegmentPositionValue.StringValue = position;
+                trackBarSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
 
-        public void RefreshSegmentEndPosition(string position, float positionPercentage)
-        {
-            InvokeOnMainThread(delegate {
-                lblSegmentEndPositionValue.StringValue = position;
-                trackBarSegmentEndPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-                _currentSegment.EndPosition = position;
-                waveFormScrollView.SetSegment(_currentSegment);
-                waveFormScrollView.FocusZoomOnSegment(_currentSegment);
+                if(_currentSegment != null)
+                {
+                    _currentSegment.Position = position;
+                    waveFormScrollView.SetSegment(_currentSegment);
+                    waveFormScrollView.FocusZoomOnSegment(_currentSegment);
+                }
             });
         }
 
@@ -1957,15 +1894,12 @@ namespace MPfm.OSX
         {
             InvokeOnMainThread(delegate {
                 _segmentMarkers = markers.ToList();
-                comboSegmentStartPositionLinkedMarker.RemoveAllItems();
-                comboSegmentEndPositionLinkedMarker.RemoveAllItems();
+                comboSegmentMarker.RemoveAllItems();
                 foreach(var marker in markers)
                 {
-                    comboSegmentStartPositionLinkedMarker.AddItem(marker.Name);
-                    comboSegmentEndPositionLinkedMarker.AddItem(marker.Name);
+                    comboSegmentMarker.AddItem(marker.Name);
                 }
-                comboSegmentStartPositionLinkedMarker.Hidden = true;
-                comboSegmentEndPositionLinkedMarker.Hidden = true;
+                comboSegmentMarker.Hidden = true;
             });
         }
 

@@ -51,10 +51,8 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISegmentDetailsView view)
         {            
-            view.OnChangeStartPositionSegmentDetails = ChangeStartPosition;
-            view.OnChangeEndPositionSegmentDetails = ChangeEndPosition;
-            view.OnPunchInStartPositionSegmentDetails = PunchInStartPosition;
-            view.OnPunchInEndPositionSegmentDetails = PunchInEndPosition;
+            view.OnChangePositionSegmentDetails = ChangePosition;
+            view.OnPunchInPositionSegmentDetails = PunchInPosition;
             view.OnUpdateSegmentDetails = UpdateSegmentDetails;
             base.BindView(view);
 
@@ -67,7 +65,7 @@ namespace MPfm.MVP.Presenters
             RefreshSegment();
         }
 
-        private void ChangeStartPosition(float position)
+        private void ChangePosition(float position)
         {
             try
             {
@@ -78,11 +76,11 @@ namespace MPfm.MVP.Presenters
                 string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
 
                 // Update local segment and update view
-                _segment.StartPosition = positionString;
-                _segment.StartPositionBytes = (uint)positionBytes;
-                _segment.StartPositionSamples = (uint)positionSamples;
-                float positionPercentage = (float)_segment.StartPositionBytes / (float)_lengthBytes;
-                View.RefreshSegmentStartPosition(positionString, positionPercentage);
+                _segment.Position = positionString;
+                _segment.PositionBytes = (uint)positionBytes;
+                _segment.PositionSamples = (uint)positionSamples;
+                float positionPercentage = (float)_segment.PositionBytes / (float)_lengthBytes;
+                View.RefreshSegmentPosition(positionString, positionPercentage);
             }
             catch(Exception ex)
             {
@@ -91,58 +89,16 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void ChangeEndPosition(float position)
-        {
-            try
-            {
-                // Calculate new position from 0.0f/1.0f scale
-                long positionBytes = (long)(position * _lengthBytes);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)_audioFile.BitsPerSample, _audioFile.AudioChannels);
-                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)_audioFile.SampleRate);
-                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
-
-                // Update local segment and update view
-                _segment.EndPosition = positionString;
-                _segment.EndPositionBytes = (uint)positionBytes;
-                _segment.EndPositionSamples = (uint)positionSamples;
-                float positionPercentage = (float)_segment.EndPositionBytes / (float)_lengthBytes;
-                View.RefreshSegmentEndPosition(positionString, positionPercentage);
-            }
-            catch(Exception ex)
-            {
-                Tracing.Log("An error occured while calculating the segment end position: " + ex.Message);
-                View.SegmentDetailsError(ex);
-            }
-        }
-
-        private void PunchInStartPosition()
+        private void PunchInPosition()
         {
             try
             {
                 var position = _playerService.GetPosition();
-                _segment.StartPosition = position.Position;
-                _segment.StartPositionBytes = (uint)position.PositionBytes;
+                _segment.Position = position.Position;
+                _segment.PositionBytes = (uint)position.PositionBytes;
                 //_segment.StartPositionPercentage = position.PositionPercentage;
-                _segment.StartPositionSamples = (uint)position.PositionSamples;
-                View.RefreshSegmentStartPosition(position.Position, position.PositionPercentage);
-            } 
-            catch (Exception ex)
-            {
-                Tracing.Log("An error occured while punching in a segment: " + ex.Message);
-                View.SegmentDetailsError(ex);
-            }
-        }
-
-        private void PunchInEndPosition()
-        {
-            try
-            {
-                var position = _playerService.GetPosition();
-                _segment.EndPosition = position.Position;
-                _segment.EndPositionBytes = (uint)position.PositionBytes;
-                //_segment.EndPositionPercentage = position.PositionPercentage;
-                _segment.EndPositionSamples = (uint)position.PositionSamples;
-                View.RefreshSegmentEndPosition(position.Position, position.PositionPercentage);
+                _segment.PositionSamples = (uint)position.PositionSamples;
+                View.RefreshSegmentPosition(position.Position, position.PositionPercentage);
             } 
             catch (Exception ex)
             {
@@ -155,16 +111,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                // Validate that the start position is lower than the end position
-                if(segment.StartPositionBytes > segment.EndPositionBytes)
-                {
-                    View.SegmentDetailsError(new Exception("The start position cannot be after the end position!"));
-                    return;
-                }
-
                 // Copy everything except position
-                _segment.StartPositionMarkerId = segment.StartPositionMarkerId;
-                _segment.EndPositionMarkerId = segment.EndPositionMarkerId;
+                _segment.MarkerId = segment.MarkerId;
 
                 // Update segment and close view
                 _libraryService.UpdateSegment(_segment);
@@ -190,11 +138,9 @@ namespace MPfm.MVP.Presenters
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
 
-                float startPositionPercentage = ((float)_segment.StartPositionBytes / (float)_lengthBytes) * 100;
-                float endPositionPercentage = ((float)_segment.EndPositionBytes / (float)_lengthBytes) * 100;
+                float positionPercentage = ((float)_segment.PositionBytes / (float)_lengthBytes) * 100;
                 View.RefreshSegmentDetails(_segment, _lengthBytes);
-                View.RefreshSegmentStartPosition(_segment.StartPosition, startPositionPercentage);
-                View.RefreshSegmentEndPosition(_segment.EndPosition, endPositionPercentage);
+                View.RefreshSegmentPosition(_segment.Position, positionPercentage);
 
                 var markers = _libraryService.SelectMarkers(_audioFile.Id);
                 View.RefreshSegmentMarkers(markers);

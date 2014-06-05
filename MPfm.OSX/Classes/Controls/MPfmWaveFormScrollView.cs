@@ -333,17 +333,17 @@ namespace MPfm.OSX.Classes.Controls
 
         public void FocusZoomOnSegment(Segment segment)
         {
-            float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
-            float startPositionPercentage = (float)segment.StartPositionBytes / (float)_waveFormLength;
-            startPositionPercentage = Math.Max(startPositionPercentage - 0.05f, 0);
-            float startX = startPositionPercentage * waveFormWidth;
-            startX = Math.Max(startX, 0);
-            float endPositionPercentage = (float)segment.EndPositionBytes / (float)_waveFormLength;
-            endPositionPercentage = Math.Min(endPositionPercentage + 0.05f, waveFormWidth);
-            float endX = endPositionPercentage * waveFormWidth;
-            float ratio = (endX - startX) / waveFormWidth;
-            Zoom = 1 / ratio;
-            SetContentOffsetX(startX);
+//            float waveFormWidth = WaveFormView.Bounds.Width * Zoom;
+//            float startPositionPercentage = (float)segment.PositionBytes / (float)_waveFormLength;
+//            startPositionPercentage = Math.Max(startPositionPercentage - 0.05f, 0);
+//            float startX = startPositionPercentage * waveFormWidth;
+//            startX = Math.Max(startX, 0);
+//            float endPositionPercentage = (float)segment.EndPositionBytes / (float)_waveFormLength;
+//            endPositionPercentage = Math.Min(endPositionPercentage + 0.05f, waveFormWidth);
+//            float endX = endPositionPercentage * waveFormWidth;
+//            float ratio = (endX - startX) / waveFormWidth;
+//            Zoom = 1 / ratio;
+//            SetContentOffsetX(startX);
         }
 
         private void ProcessAutoScroll(long position)

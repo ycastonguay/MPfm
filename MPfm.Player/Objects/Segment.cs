@@ -23,56 +23,18 @@ namespace MPfm.Player.Objects
     {   
         public Guid SegmentId { get; set; }
         public Guid LoopId { get; set; }
-
-        public Guid StartPositionMarkerId { get; set; }
-        public Guid EndPositionMarkerId { get; set; }
+        public Guid MarkerId { get; set; }
         
-        /// <summary>
-        /// Start position (in 0:00.000 string format).
-        /// </summary>
-        public string StartPosition { get; set; }
-        /// <summary>
-        /// Start position (in bytes).
-        /// </summary>
-        public uint StartPositionBytes { get; set; }
-        /// <summary>
-        /// Start position (in samples).
-        /// </summary>
-        public uint StartPositionSamples { get; set; }
-        /// <summary>
-        /// End position (in 0:00.000 string format).
-        /// </summary>
-        public string EndPosition { get; set; }
-        /// <summary>
-        /// End position (in bytes).
-        /// </summary>
-        public uint EndPositionBytes { get; set; }
-        /// <summary>
-        /// End position (in samples).
-        /// </summary>
-        public uint EndPositionSamples { get; set; }
-        /// <summary>
-        /// Loop length (in 0:00.000 string format).
-        /// </summary>
-        public string Length { get; set; }
-        /// <summary>
-        /// Loop length (in bytes).
-        /// </summary>
-        public uint LengthBytes { get; set; }
-        /// <summary>
-        /// Loop length (in samples).
-        /// </summary>
-        public uint LengthSamples { get; set; }
+        public string Position { get; set; }
+        public uint PositionBytes { get; set; }
+        public uint PositionSamples { get; set; }
 
         public Segment()
         {
             SegmentId = Guid.NewGuid();
             LoopId = Guid.Empty;
-            StartPositionMarkerId = Guid.Empty;
-            EndPositionMarkerId = Guid.Empty;
-            StartPosition = "0:00.000";
-            EndPosition = "0:00.000";
-            Length = "0:00.000";
+            MarkerId = Guid.Empty;
+            Position = "0:00.000";
         }
     }
 }
