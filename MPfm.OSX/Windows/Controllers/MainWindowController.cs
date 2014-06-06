@@ -37,6 +37,7 @@ using System.Threading.Tasks;
 using MPfm.Core.Helpers;
 using System.Drawing;
 using MPfm.MVP.Config.Models;
+using MonoMac.CoreGraphics;
 
 namespace MPfm.OSX
 {
@@ -372,13 +373,10 @@ namespace MPfm.OSX
             // Set cell fonts for Markers
             NSTableColumn columnMarkerName = tableMarkers.FindTableColumn(new NSString("columnMarkerName"));
             NSTableColumn columnMarkerPosition = tableMarkers.FindTableColumn(new NSString("columnMarkerPosition"));
-            NSTableColumn columnMarkerComments = tableMarkers.FindTableColumn(new NSString("columnMarkerComments"));
             columnMarkerName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
             columnMarkerName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
             columnMarkerPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
             columnMarkerPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnMarkerComments.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnMarkerComments.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             btnDetectTempo.Font = NSFont.FromFontName("Roboto", 11f);
             btnPlayLoop.Font = NSFont.FromFontName("Roboto", 11f);
@@ -1174,17 +1172,22 @@ namespace MPfm.OSX
         [Export ("tableView:viewForTableColumn:row:")]
         public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
-            NSTableCellView view;           
-            view = (NSTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
+            MPfmTableCellView view;           
+            view = (MPfmTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
-            SetCellTheme(view, false, false);
 
             bool adjustXPadding = false;
             if (tableView.Identifier == "tableMarkers")
             {
                 adjustXPadding = tableMarkers.FindColumn(new NSString(tableColumn.Identifier)) > 0;
 
-                if (tableColumn.Identifier.ToString() == "columnMarkerName")
+                if (tableColumn.Identifier.ToString() == "columnMarkerIndex")
+                {
+                    view.IndexLabel.StringValue = string.Format("{0}", Conversion.IndexToLetter(row));
+                    view.IndexBackground.BackgroundColor1 = new CGColor(1, 0, 0);
+                    view.IndexBackground.BackgroundColor2 = new CGColor(1, 0, 0);
+                }
+                else if (tableColumn.Identifier.ToString() == "columnMarkerName")
                     view.TextField.StringValue = _markers[row].Name;
                 else if (tableColumn.Identifier.ToString() == "columnMarkerPosition")
                     view.TextField.StringValue = _markers[row].Position;
@@ -1195,7 +1198,13 @@ namespace MPfm.OSX
             {
                 adjustXPadding = tableLoops.FindColumn(new NSString(tableColumn.Identifier)) > 0;
 
-                if (tableColumn.Identifier.ToString() == "columnLoopName")
+                if (tableColumn.Identifier.ToString() == "columnLoopIndex")
+                {
+                    view.IndexLabel.StringValue = string.Format("{0}", Conversion.IndexToLetter(row));
+                    view.IndexBackground.BackgroundColor1 = new CGColor(0, 0, 1);
+                    view.IndexBackground.BackgroundColor2 = new CGColor(0, 0, 1);
+                }
+                else if (tableColumn.Identifier.ToString() == "columnLoopName")
                     view.TextField.StringValue = _loops[row].Name;
                 else if (tableColumn.Identifier.ToString() == "columnLoopSegments")
                     view.TextField.StringValue = _loops[row].Segments.Count.ToString();
@@ -1210,8 +1219,9 @@ namespace MPfm.OSX
 
                 if (tableColumn.Identifier.ToString() == "columnSegmentIndex")
                 {               
-                    view.TextField.StringValue = string.Format("{0}", row + 1);
-                    SetCellTheme(view, false, true);
+                    view.IndexLabel.StringValue = string.Format("{0}", row + 1);
+                    view.IndexBackground.BackgroundColor1 = new CGColor(0, 0, 1);
+                    view.IndexBackground.BackgroundColor2 = new CGColor(0, 0, 1);
                 }
                 else if (tableColumn.Identifier.ToString() == "columnSegmentMarker")
                 {
@@ -1231,24 +1241,19 @@ namespace MPfm.OSX
             }
 
             view.TextField.Frame = new RectangleF(adjustXPadding ? -2 : 0, -2, view.Frame.Width, view.Frame.Height);
-                
-            return view;
-        }
 
-        private void SetCellTheme(NSTableCellView cell, bool isMarker, bool isSegment)
-        {
-            if (isMarker || isSegment)
+            if (tableColumn.Identifier.ToString() == "columnMarkerIndex" ||
+                tableColumn.Identifier.ToString() == "columnLoopIndex" ||
+                tableColumn.Identifier.ToString() == "columnSegmentIndex")
             {
-                cell.TextField.TextColor = NSColor.White;
-                cell.TextField.BackgroundColor = isMarker ? NSColor.Red : NSColor.Blue;
-                cell.TextField.DrawsBackground = true;
+                view.SetTheme(MPfmTableCellView.CellTheme.Index);
             }
             else
             {
-                cell.TextField.TextColor = NSColor.Black;
-                cell.TextField.BackgroundColor = NSColor.White;
-                cell.TextField.DrawsBackground = false;
+                view.SetTheme(MPfmTableCellView.CellTheme.Normal);
             }
+                
+            return view;
         }
 
         [Export ("tableViewSelectionDidChange:")]

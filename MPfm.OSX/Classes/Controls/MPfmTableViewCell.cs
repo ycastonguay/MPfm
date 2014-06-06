@@ -32,7 +32,11 @@ namespace MPfm.OSX.Classes.Controls
     public class MPfmTableCellView : NSTableCellView
     {
         const float Padding = 6;
+        private CellTheme _theme;
         public override bool IsFlipped { get { return true; } }
+
+        public NSTextField IndexLabel { get; private set; }
+        public MPfmView IndexBackground { get; private set; }
 
         [Export("init")]
         public MPfmTableCellView() : base(NSObjectFlag.Empty)
@@ -46,24 +50,56 @@ namespace MPfm.OSX.Classes.Controls
             Initialize();
         }
 
-        void Initialize()
+        private void Initialize()
         {
-            //TextField.BackgroundColor = NSColor.Green;
-            //TextField.DrawsBackground = true;
-            //TextField.TextColor = NSColor.Purple;
-            //BackgroundStyle = NSBackgroundStyle.Dark;
-//            float x = TextField.Font.FontName.Contains("Roboto") ? -2 : 0;
-//            float y = TextField.Font.FontName.Contains("Roboto") ? -2 : 0;
-            //TextField.Frame = new RectangleF(-2, -2, Frame.Width, Frame.Height);
+            IndexBackground = new MPfmView(new RectangleF(0, 0, 16, 24));
+            IndexBackground.BackgroundColor1 = new CGColor(1, 0, 0);
+            IndexBackground.BackgroundColor2 = new CGColor(1, 0, 0);
+            IndexBackground.Hidden = true;
+            AddSubview(IndexBackground);
+
+            IndexLabel = new NSTextField(new RectangleF(0, -2, 14, 24));
+            IndexLabel.Bezeled = false;
+            IndexLabel.Hidden = true;
+            IndexLabel.DrawsBackground = false;
+            IndexLabel.Alignment = NSTextAlignment.Center;
+            IndexLabel.TextColor = NSColor.White;
+            IndexLabel.Font = NSFont.FromFontName("Roboto", 11);
+            AddSubview(IndexLabel);
+        }
+
+        public void SetTheme(CellTheme theme)
+        {
+            _theme = theme;
+            switch (theme)
+            {
+                case CellTheme.Normal:
+                    IndexLabel.Hidden = true;
+                    IndexBackground.Hidden = true;
+                    TextField.Hidden = false;
+                    break;
+                case CellTheme.Index:
+                    IndexLabel.Hidden = false;
+                    IndexBackground.Hidden = false;
+                    TextField.Hidden = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public override void ResizeSubviewsWithOldSize(SizeF oldSize)
         {
-            Console.WriteLine(">>>>>>>>>>>>> RESIZE CELL");
+            //Console.WriteLine("Resize Table View Cell");
             base.ResizeSubviewsWithOldSize(oldSize);
-            //TextField.Frame = new RectangleF(10, 10, Frame.Width, Frame.Height);
-
+            IndexBackground.Frame = new RectangleF(0, 0, 24, 24);
+            IndexLabel.Frame = new RectangleF(0, -2, 24, 24);
         }
 
+        public enum CellTheme
+        {
+            Normal = 0,
+            Index = 1
+        }
     }
 }

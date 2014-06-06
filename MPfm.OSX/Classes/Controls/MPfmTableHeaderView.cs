@@ -108,8 +108,8 @@ namespace MPfm.OSX.Classes.Controls
             float x = 0;
             foreach (NSTableColumn column in TableView.TableColumns())
             {
-                CoreGraphicsHelper.DrawText(new RectangleF(0, 0, column.Width, Bounds.Height), x + 6, 2, column.HeaderCell.Title, "Roboto", 10, NSColor.FromDeviceRgba(0.9f, 0.9f, 0.9f, 1));
-                x += column.Width;
+                CoreGraphicsHelper.DrawText(new RectangleF(0, 0, column.Width, Bounds.Height), x + 1, 2, column.HeaderCell.Title, "Roboto", 10, NSColor.FromDeviceRgba(0.9f, 0.9f, 0.9f, 1));
+                x += column.Width + 3;
             }
         }
     }
