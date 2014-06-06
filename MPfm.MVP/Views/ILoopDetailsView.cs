@@ -24,6 +24,7 @@ namespace MPfm.MVP.Views
 	public interface ILoopDetailsView : IBaseView
 	{
         Action OnAddSegment { get; set; }
+        Action<Marker, int> OnAddSegmentFromMarker { get; set; }
         Action<Segment> OnEditSegment { get; set; }
         Action<Segment> OnDeleteSegment { get; set; }
         Action<Loop> OnUpdateLoopDetails { get; set; }

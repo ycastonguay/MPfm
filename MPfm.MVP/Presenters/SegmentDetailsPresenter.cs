@@ -129,7 +129,6 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _audioFile.Id,
                     SegmentId = _segment.SegmentId
                 });
-                //View.DismissMarkerDetailsView();
             }
             catch(Exception ex)
             {

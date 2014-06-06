@@ -53,6 +53,7 @@ namespace MPfm.MVP.Presenters
         {            
             // Subscribe to view actions
             view.OnAddSegment = AddSegment;
+            view.OnAddSegmentFromMarker = AddSegmentFromMarker;
             view.OnEditSegment = EditSegment;
             view.OnDeleteSegment = DeleteSegment;
             view.OnUpdateLoopDetails = UpdateLoopDetails;            
@@ -71,6 +72,7 @@ namespace MPfm.MVP.Presenters
 
         private void SegmentUpdated(SegmentUpdatedMessage message)
         {
+            UpdateLoopSegmentsOrder();
             RefreshLoop();
         }
 
@@ -86,12 +88,40 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _loop.AudioFileId,
                     LoopId = _loopId
                 });
+                UpdateLoopSegmentsOrder();
                 _messageHub.PublishAsync(new SegmentBeingEditedMessage(this, segment.SegmentId));
                 View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
             {
                 Tracing.Log("An error occured while adding a segment: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void AddSegmentFromMarker(Marker marker, int row)
+        {
+            try
+            {
+                var segment = new Segment();
+                segment.LoopId = _loopId;
+                segment.MarkerId = marker.MarkerId;
+                segment.Position = marker.Position;
+                segment.PositionBytes = (uint)marker.PositionBytes;
+                segment.PositionSamples = marker.PositionSamples;
+
+                _loop.Segments.Insert(row, segment);
+                _libraryService.InsertSegment(segment);
+                _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
+                    AudioFileId = _loop.AudioFileId,
+                    LoopId = _loopId
+                });
+                UpdateLoopSegmentsOrder();
+                View.RefreshLoopDetails(_loop, _audioFile);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while adding a segment from a marker: " + ex.Message);
                 View.LoopDetailsError(ex);
             }
         }
@@ -137,18 +167,23 @@ namespace MPfm.MVP.Presenters
                 int index = Math.Min(newIndex, _loop.Segments.Count - 1);
                 _loop.Segments.Remove(segment);
                 _loop.Segments.Insert(index, segment);
-                for (int i = 0; i < _loop.Segments.Count; i++)
-                {
-                    var updateSegment = _loop.Segments[i];
-                    updateSegment.SegmentIndex = i;
-                    _libraryService.UpdateSegment(updateSegment);
-                }
+                UpdateLoopSegmentsOrder();
                 View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
             {
                 Tracing.Log("An error occured while changing segment order: " + ex.Message);
                 View.LoopDetailsError(ex);
+            }
+        }
+
+        private void UpdateLoopSegmentsOrder()
+        {
+            for (int i = 0; i < _loop.Segments.Count; i++)
+            {
+                var updateSegment = _loop.Segments[i];
+                updateSegment.SegmentIndex = i;
+                _libraryService.UpdateSegment(updateSegment);
             }
         }
 
@@ -171,7 +206,6 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _audioFile.Id,
                     LoopId = _loopId
                 });
-                //View.DismissMarkerDetailsView();
             }
             catch(Exception ex)
             {

@@ -217,7 +217,7 @@ namespace MPfm.OSX
 
             tableSegments.WeakDelegate = this;
             tableSegments.WeakDataSource = this;
-            tableSegments.RegisterForDraggedTypes(new string[1] { "Segment" });
+            tableSegments.RegisterForDraggedTypes(new string[2] { "Segment", "Marker" });
             tableSegments.DoubleClick += HandleSegmentsDoubleClick;
         }
 
@@ -1252,13 +1252,23 @@ namespace MPfm.OSX
         [Export ("tableView:acceptDrop:row:dropOperation:")]
         public bool AcceptDropForRow(NSTableView tableView, NSDraggingInfo info, int row, NSTableViewDropOperation operation)
         {
-            //info.DraggingPasteboard
-            var data = info.DraggingPasteboard.GetDataForType("Segment");
+            NSData data = null;
+            string dataType = string.Empty;
+            if (info.DraggingSource == tableSegments)
+                dataType = "Segment";
+            else if (info.DraggingSource == tableMarkers)
+                dataType = "Marker";
+
+            data = info.DraggingPasteboard.GetDataForType(dataType);
             byte[] dataBytes = data.ToArray();
             byte originRow = dataBytes[0];
 
             //Console.WriteLine(">>> AcceptDropForRow - originRow: {0} newRow: {1}", originRow, row);
-            OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
+
+            if (info.DraggingSource == tableSegments)
+                OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
+            else if (info.DraggingSource == tableMarkers)
+                OnAddSegmentFromMarker(_markers[originRow], row);
             return true;
         }
 
@@ -1266,17 +1276,23 @@ namespace MPfm.OSX
         public NSDragOperation ValidateDropForRow(NSTableView tableView, NSDraggingInfo info, int row, NSTableViewDropOperation operation)
         {
             //Console.WriteLine(">>> ValidateDropForRow - row: {0}", row);
-            return info.DraggingSource == tableSegments ? NSDragOperation.All : NSDragOperation.None;
+            return info.DraggingSource == tableSegments || info.DraggingSource == tableMarkers ? NSDragOperation.All : NSDragOperation.None;
         }
 
         [Export ("tableView:writeRowsWithIndexes:toPasteboard:")]
         public bool WriteRowsWithIndexesToPasteboard(NSTableView tableView, NSIndexSet rowIndexes, NSPasteboard pboard)
         {
             //Console.WriteLine(">>> WriteRowsWithIndexesToPasteboard");
-            pboard.DeclareTypes(new string[1] { "Segment" }, this);
+            string dataType = string.Empty;
+            if (tableView == tableSegments)
+                dataType = "Segment";
+            else if (tableView == tableMarkers)
+                dataType = "Marker";
+
+            pboard.DeclareTypes(new string[1] { dataType }, this);
             byte index = (byte)rowIndexes.Last();
             var data = NSData.FromArray(new byte[1] { index });
-            pboard.SetDataForType(data, "Segment");
+            pboard.SetDataForType(data, dataType);
             return true;
         }
 
@@ -1892,6 +1908,7 @@ namespace MPfm.OSX
         #region ILoopDetailsView implementation
 
         public Action OnAddSegment { get; set; }
+        public Action<Marker, int> OnAddSegmentFromMarker { get; set; }
         public Action<Segment> OnEditSegment { get; set; }
         public Action<Segment> OnDeleteSegment { get; set; }
         public Action<Loop> OnUpdateLoopDetails { get; set; }
