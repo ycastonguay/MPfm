@@ -27,6 +27,7 @@ namespace MPfm.MVP.Views
         Action<Segment> OnEditSegment { get; set; }
         Action<Segment> OnDeleteSegment { get; set; }
         Action<Loop> OnUpdateLoopDetails { get; set; }
+        Action<Segment, int> OnChangeSegmentOrder { get; set; }
 
         void LoopDetailsError(Exception ex);
         void RefreshLoopDetails(Loop loop, AudioFile audioFile);

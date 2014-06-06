@@ -25,6 +25,7 @@ CREATE TABLE [Segments] (
 [SegmentId] varchar(50)  NOT NULL PRIMARY KEY,
 [LoopId] varchar(50)  NOT NULL,
 [MarkerId] varchar(50)  NOT NULL,
+[SegmentIndex] integer DEFAULT '0' NOT NULL,
 [Position] varchar(50)  NULL,
 [PositionBytes] integer DEFAULT '0' NULL,
 [PositionSamples] integer DEFAULT '0' NULL

@@ -619,7 +619,7 @@ namespace MPfm.Library.Database
 
         public List<Segment> SelectSegments(Guid loopId)
         {
-            var segments = _gateway.Select<Segment>("SELECT * FROM Segments WHERE LoopId = '" + loopId.ToString() + "' ORDER BY PositionBytes");
+            var segments = _gateway.Select<Segment>("SELECT * FROM Segments WHERE LoopId = '" + loopId.ToString() + "' ORDER BY SegmentIndex");
             return segments;
         }
 

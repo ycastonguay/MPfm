@@ -24,7 +24,8 @@ namespace MPfm.Player.Objects
         public Guid SegmentId { get; set; }
         public Guid LoopId { get; set; }
         public Guid MarkerId { get; set; }
-        
+        public int SegmentIndex { get; set; }
+
         public string Position { get; set; }
         public uint PositionBytes { get; set; }
         public uint PositionSamples { get; set; }

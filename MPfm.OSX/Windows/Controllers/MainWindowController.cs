@@ -217,6 +217,7 @@ namespace MPfm.OSX
 
             tableSegments.WeakDelegate = this;
             tableSegments.WeakDataSource = this;
+            tableSegments.RegisterForDraggedTypes(new string[1] { "Segment" });
             tableSegments.DoubleClick += HandleSegmentsDoubleClick;
         }
 
@@ -358,25 +359,6 @@ namespace MPfm.OSX
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
             columnText.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-
-            // Set cell fonts for Loops
-            NSTableColumn columnLoopName = tableLoops.FindTableColumn(new NSString("columnLoopName"));
-            NSTableColumn columnLoopSegments = tableLoops.FindTableColumn(new NSString("columnLoopSegments"));
-            NSTableColumn columnLoopTotalLength = tableLoops.FindTableColumn(new NSString("columnLoopTotalLength"));
-            columnLoopName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopSegments.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopSegments.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopTotalLength.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLoopTotalLength.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-
-            // Set cell fonts for Markers
-            NSTableColumn columnMarkerName = tableMarkers.FindTableColumn(new NSString("columnMarkerName"));
-            NSTableColumn columnMarkerPosition = tableMarkers.FindTableColumn(new NSString("columnMarkerPosition"));
-            columnMarkerName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnMarkerName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnMarkerPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnMarkerPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             btnDetectTempo.Font = NSFont.FromFontName("Roboto", 11f);
             btnPlayLoop.Font = NSFont.FromFontName("Roboto", 11f);
@@ -1267,6 +1249,37 @@ namespace MPfm.OSX
                 EnableSegmentButtons(tableSegments.SelectedRow >= 0);
         }
 
+        [Export ("tableView:acceptDrop:row:dropOperation:")]
+        public bool AcceptDropForRow(NSTableView tableView, NSDraggingInfo info, int row, NSTableViewDropOperation operation)
+        {
+            //info.DraggingPasteboard
+            var data = info.DraggingPasteboard.GetDataForType("Segment");
+            byte[] dataBytes = data.ToArray();
+            byte originRow = dataBytes[0];
+
+            //Console.WriteLine(">>> AcceptDropForRow - originRow: {0} newRow: {1}", originRow, row);
+            OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
+            return true;
+        }
+
+        [Export ("tableView:validateDrop:proposedRow:proposedDropOperation:")]
+        public NSDragOperation ValidateDropForRow(NSTableView tableView, NSDraggingInfo info, int row, NSTableViewDropOperation operation)
+        {
+            //Console.WriteLine(">>> ValidateDropForRow - row: {0}", row);
+            return info.DraggingSource == tableSegments ? NSDragOperation.All : NSDragOperation.None;
+        }
+
+        [Export ("tableView:writeRowsWithIndexes:toPasteboard:")]
+        public bool WriteRowsWithIndexesToPasteboard(NSTableView tableView, NSIndexSet rowIndexes, NSPasteboard pboard)
+        {
+            //Console.WriteLine(">>> WriteRowsWithIndexesToPasteboard");
+            pboard.DeclareTypes(new string[1] { "Segment" }, this);
+            byte index = (byte)rowIndexes.Last();
+            var data = NSData.FromArray(new byte[1] { index });
+            pboard.SetDataForType(data, "Segment");
+            return true;
+        }
+
         [Export ("outlineViewItemDidExpand")]
         public void ItemDidExpand(NSNotification notification)
         {
@@ -1882,6 +1895,7 @@ namespace MPfm.OSX
         public Action<Segment> OnEditSegment { get; set; }
         public Action<Segment> OnDeleteSegment { get; set; }
         public Action<Loop> OnUpdateLoopDetails { get; set; }
+        public Action<Segment, int> OnChangeSegmentOrder { get; set; }
         
         public void LoopDetailsError(Exception ex)
         {
@@ -1999,7 +2013,7 @@ namespace MPfm.OSX
 
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
-            Console.WriteLine("IUpdateLibraryView - RefreshStatus - status: {0} progress: {1}", entity.Title, entity.PercentageDone);
+            //Console.WriteLine("IUpdateLibraryView - RefreshStatus - status: {0} progress: {1}", entity.Title, entity.PercentageDone);
             InvokeOnMainThread(delegate {
                 lblUpdateLibraryStatus.StringValue = entity.Title;
                 progressBarUpdateLibrary.Value = Math.Min(1, entity.PercentageDone);
@@ -2012,7 +2026,7 @@ namespace MPfm.OSX
 
         public void ProcessStarted()
         {
-            Console.WriteLine("IUpdateLibraryView - ProcessStarted");
+            //Console.WriteLine("IUpdateLibraryView - ProcessStarted");
             InvokeOnMainThread(delegate {
                 ShowUpdateLibraryView(true);
             });
@@ -2020,7 +2034,7 @@ namespace MPfm.OSX
 
         public void ProcessEnded(bool canceled)
         {
-            Console.WriteLine("IUpdateLibraryView - ProcessEnded");
+            //Console.WriteLine("IUpdateLibraryView - ProcessEnded");
             InvokeOnMainThread(delegate {
                 lblUpdateLibraryStatus.StringValue = "Update library successful.";
                 progressBarUpdateLibrary.Value = 1;

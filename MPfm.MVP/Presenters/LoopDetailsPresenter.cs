@@ -56,6 +56,7 @@ namespace MPfm.MVP.Presenters
             view.OnEditSegment = EditSegment;
             view.OnDeleteSegment = DeleteSegment;
             view.OnUpdateLoopDetails = UpdateLoopDetails;            
+            view.OnChangeSegmentOrder = ChangeSegmentOrder;
             base.BindView(view);
 
             _messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited);
@@ -124,6 +125,29 @@ namespace MPfm.MVP.Presenters
             catch (Exception ex)
             {
                 Tracing.Log("An error occured while deleting segment: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void ChangeSegmentOrder(Segment segment, int newIndex)
+        {
+            try
+            {
+                //Console.WriteLine("LoopDetailsPresenter - ChangeSegmentOrder - segmentPosition: {0} newIndex: {1}", segment.Position, newIndex);
+                int index = Math.Min(newIndex, _loop.Segments.Count - 1);
+                _loop.Segments.Remove(segment);
+                _loop.Segments.Insert(index, segment);
+                for (int i = 0; i < _loop.Segments.Count; i++)
+                {
+                    var updateSegment = _loop.Segments[i];
+                    updateSegment.SegmentIndex = i;
+                    _libraryService.UpdateSegment(updateSegment);
+                }
+                View.RefreshLoopDetails(_loop, _audioFile);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while changing segment order: " + ex.Message);
                 View.LoopDetailsError(ex);
             }
         }
