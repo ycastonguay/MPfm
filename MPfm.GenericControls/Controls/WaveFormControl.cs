@@ -397,6 +397,23 @@ namespace MPfm.GenericControls.Controls
             int realScrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * ScrollBarHeight) : ScrollBarHeight);
             int heightAvailable = (int)Frame.Height;
             int tileSize = WaveFormCacheService.TileSize;
+
+            // Calculate position
+            float positionPercentage = (float)Position / (float)Length;
+            _cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
+            float scrollBarCursorX = positionPercentage * Frame.Width;
+            float cursorHeight = heightAvailable - realScrollBarHeight;
+
+            DrawTiles(context, tileSize, realScrollBarHeight);
+            DrawScrollBar(context, tileSize, realScrollBarHeight);
+            //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent); // for debugging
+            DrawMarkers(context, cursorHeight);
+            DrawLoops(context, cursorHeight, realScrollBarHeight);
+            DrawCursors(context, heightAvailable, cursorHeight, scrollBarCursorX);
+        }
+
+        private void DrawTiles(IGraphicsContext context, int tileSize, float realScrollBarHeight)
+        {
             float deltaZoom = (float) (Zoom/Math.Floor(Zoom));
             int startDirtyTile = (int)Math.Floor((ContentOffset.X + context.DirtyRect.X) / ((float)tileSize * deltaZoom));
             int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
@@ -428,7 +445,10 @@ namespace MPfm.GenericControls.Controls
                 //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
                 //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
+        }
 
+        private void DrawScrollBar(IGraphicsContext context, int tileSize, float realScrollBarHeight)
+        {
             if (ShowScrollBar && Zoom > 1)
             {
                 int startTile = 0;
@@ -463,17 +483,10 @@ namespace MPfm.GenericControls.Controls
                 context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
                 context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());
             }
+        }
 
-            // Debug: indicate dirty zone
-            //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent);
-
-            // Calculate position
-            float positionPercentage = (float)Position / (float)Length;
-            _cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
-            float scrollBarCursorX = positionPercentage * Frame.Width;
-            float cursorHeight = heightAvailable - realScrollBarHeight;
-
-            // Draw markers
+        private void DrawMarkers(IGraphicsContext context, float cursorHeight)
+        {
             for (int a = 0; a < _markers.Count; a++)
             {
                 float xPct = (float)_markers[a].PositionBytes / (float)Length;
@@ -487,18 +500,30 @@ namespace MPfm.GenericControls.Controls
                 // Draw text
                 var rectText = new BasicRectangle(x, 0, 12, 12);
                 var brush = _markers[a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
-				context.DrawRectangle(rectText, brush, _penTransparent);
+                context.DrawRectangle(rectText, brush, _penTransparent);
                 string letter = Conversion.IndexToLetter(a).ToString();
-				context.DrawText(letter, new BasicPoint(x + 2, 0), _textColor, LetterFontFace, LetterFontSize);
+                context.DrawText(letter, new BasicPoint(x + 2, 0), _textColor, LetterFontFace, LetterFontSize);
             }
+        }
 
-            // Draw loop segments
+        private void DrawLoops(IGraphicsContext context, float cursorHeight, float realScrollBarHeight)
+        {
             if (_loop != null)
             {
                 for (int a = 0; a < _loop.Segments.Count; a++)
                 {
+                    var nextSegment = _loop.GetNextSegment(a);
+
                     float segmentPositionPercentage = (float)_loop.Segments[a].PositionBytes / (float)Length;
                     float startX = (segmentPositionPercentage * ContentSize.Width) - ContentOffset.X;
+
+                    float nextSegmentPositionPercentage = 0;
+                    float endX = 0;
+                    if (nextSegment != null)
+                    {
+                        nextSegmentPositionPercentage = (float)nextSegment.PositionBytes / (float)Length;
+                        endX = (nextSegmentPositionPercentage * ContentSize.Width) - ContentOffset.X;
+                    }
 
                     // Draw loop lines
                     //var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
@@ -507,13 +532,16 @@ namespace MPfm.GenericControls.Controls
 
                     // Draw text
                     //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
-                    var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, 12, 12);
+                    var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX > startX ? endX - startX : 12, 12);
                     //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
                     context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
                     context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
                 }
             }
+        }
 
+        private void DrawCursors(IGraphicsContext context, float heightAvailable, float cursorHeight, float scrollBarCursorX)
+        {
             // Draw cursor line
             context.SetPen(_penCursorLine);
             context.StrokeLine(new BasicPoint(_cursorX, 0), new BasicPoint(_cursorX, cursorHeight));

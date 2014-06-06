@@ -37,5 +37,18 @@ namespace MPfm.Player.Objects
             Name = string.Empty;
             Segments = new List<Segment>();
         }
+
+        public Segment GetNextSegment(int index)
+        {
+            if (Segments.Count == 0)
+                return null;
+            else if (Segments.Count == 1)
+                return Segments[0];
+
+            int newIndex = index + 1;
+            if (index + 1 > Segments.Count - 1)
+                newIndex = 0;
+            return Segments[newIndex];
+        }
     }
 }

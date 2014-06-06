@@ -25,6 +25,7 @@ using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.OSX.Classes.Helpers;
 using MPfm.OSX.Classes.Objects;
+using MonoMac.CoreImage;
 
 namespace MPfm.OSX.Classes.Controls
 {
@@ -34,8 +35,10 @@ namespace MPfm.OSX.Classes.Controls
         bool _isMouseDown = false;
         bool _isMouseOver = false;
 
+        public int RoundedRadius { get; set; }
         public CGColor TextColor { get; set; }
         public CGColor BackgroundColor { get; set; }
+        public CGColor DisabledBackgroundColor { get; set; }
         public CGColor BackgroundMouseDownColor { get; set; }
         public CGColor BackgroundMouseOverColor { get; set; }
         public CGColor BorderColor { get; set; }
@@ -54,8 +57,10 @@ namespace MPfm.OSX.Classes.Controls
 
         private void Initialize()
         {
+            RoundedRadius = 6;
             TextColor = GlobalTheme.ButtonTextColor;
             BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            DisabledBackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             BorderColor = GlobalTheme.ButtonToolbarBorderColor;
@@ -101,14 +106,36 @@ namespace MPfm.OSX.Classes.Controls
             float padding = 4;
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
 
-            if (_isMouseDown)
-                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
-            else if (_isMouseOver)
-                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
-            else
-                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
+            if (RoundedRadius == 0)
+            {
+                if (!Enabled)
+                    CoreGraphicsHelper.FillRect(context, Bounds, DisabledBackgroundColor);
+                else if (_isMouseDown)
+                    CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
+                else if (_isMouseOver)
+                    CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
+                else
+                    CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
-            CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor, 2);
+                CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor, 2);
+            } 
+            else
+            {
+                var path = NSBezierPath.FromRoundedRect(Bounds, RoundedRadius, RoundedRadius);
+                NSColor nsColor = null;
+                if(!Enabled)
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(DisabledBackgroundColor));
+                else if (_isMouseDown)
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundMouseDownColor));
+                else if (_isMouseOver)
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundMouseOverColor));
+                else
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundColor));
+                nsColor.SetFill();
+                path.Fill();
+            }
+
+            //CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor, 2);
             RectangleF rectTextSize = CoreGraphicsHelper.MeasureString(Bounds.Size, Title, "Roboto", 11);
             RectangleF rectText;
             if (Image != null)
