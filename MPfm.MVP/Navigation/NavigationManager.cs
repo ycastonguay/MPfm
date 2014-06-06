@@ -241,7 +241,7 @@ namespace MPfm.MVP.Navigation
             Action<IBaseView> onViewReady = (view) => {                    
                 _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
                 _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
-                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads() { { "presetId", Guid.NewGuid() } });
+                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads() { { "presetId", Guid.Empty } });
                 _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
             };
 

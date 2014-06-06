@@ -30,6 +30,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.BassNetWrapper;
 using Timer = System.Timers.Timer;
+using MPfm.MVP.Config;
 
 namespace MPfm.MVP.Presenters
 {
@@ -74,13 +75,14 @@ namespace MPfm.MVP.Presenters
             }
 
             View.RefreshStatus("Initializing player...");
+            AppConfigManager.Instance.Load();
             Device device = new Device()
             {
                 DriverType = DriverType.DirectSound,
                 Id = -1
             };
             _playerService.Initialize(device, 44100, 1000, 100);
-            View.RefreshStatus("Init player done");
+            //View.RefreshStatus("Init player done");
 
 #if LINUX
             // Mono on Linux crashes for some reason if FromCurrentSynchronizationContext is used... weird!            

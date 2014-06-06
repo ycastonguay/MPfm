@@ -463,7 +463,9 @@ namespace MPfm.OSX
 
             var id = _presets[tablePresets.SelectedRow].EQPresetId;
             OnLoadPreset(id); // EqualizerPresets
-            OnChangePreset(id); // EqualizerPresetDetails
+
+            if(OnChangePreset != null)
+                OnChangePreset(id); // EqualizerPresetDetails
         }
 
         [Export ("tableView:viewForTableColumn:row:")]
@@ -508,15 +510,18 @@ namespace MPfm.OSX
             InvokeOnMainThread(delegate 
             {
                 _presets = presets.ToList();
-                                        //int row = tablePresets.SelectedRow;
-                                        //var presetId = row >= 0 && _presets.Count > row ? _presets[row].EQPresetId : Guid.Empty;
                 tablePresets.ReloadData();
-                if (_preset != null)
-                {
-                    int newRow = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
-                    if (newRow >= 0)
-                        tablePresets.SelectRow(newRow, false);
-                }
+
+                int newRow = _presets.FindIndex(x => x.EQPresetId == selectedPresetId);
+                if (newRow >= 0)
+                    tablePresets.SelectRow(newRow, false);
+
+//                if (_preset != null)
+//                {
+//                    int newRow = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
+//                    if (newRow >= 0)
+//                        tablePresets.SelectRow(newRow, false);
+//                }
             });
         }
 

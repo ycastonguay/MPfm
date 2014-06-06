@@ -43,10 +43,7 @@ namespace MPfm.MVP.Presenters
             _playerService = playerService;
             _libraryService = libraryService;
 
-            if (presetId == Guid.Empty)
-                ChangePreset(new EQPreset());
-            else
-                ChangePreset(presetId);
+            LoadInitialPreset(presetId);
 		}
 
         public override void BindView(IEqualizerPresetDetailsView view)
@@ -71,6 +68,14 @@ namespace MPfm.MVP.Presenters
                 ChangePreset(m.EQPresetId);
                 View.RefreshPreset(_preset);
             });
+        }
+
+        private void LoadInitialPreset(Guid presetId)
+        {
+            if (presetId != Guid.Empty)
+                ChangePreset(presetId);
+            else
+                ChangePreset(_playerService.EQPreset);
         }
 
         public void ChangePreset(Guid equalizerPresetId)

@@ -26,6 +26,7 @@ namespace MPfm.MVP.Config.Models
     public class ResumePlaybackAppConfig : IAppConfig
     {
         public string AudioFileId { get; set; }
+        public string EQPresetId { get; set; }
         public string PlaylistId { get; set; }
         public float PositionPercentage { get; set; }
         public DateTime Timestamp { get; set; }

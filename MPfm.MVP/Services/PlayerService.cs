@@ -41,6 +41,7 @@ namespace MPfm.MVP.Services
     public class PlayerService : IPlayerService
     {
         private readonly ITinyMessengerHub _messengerHub;
+        private readonly ILibraryService _libraryService;
         private readonly ICloudLibraryService _cloudLibraryService;
         private IPlayer _player;
 
@@ -70,9 +71,10 @@ namespace MPfm.MVP.Services
         /// </summary>
         public event BPMDetected OnBPMDetected;
 
-		public PlayerService(ITinyMessengerHub messageHub, ICloudLibraryService cloudLibraryService)
+        public PlayerService(ITinyMessengerHub messageHub, ILibraryService libraryService, ICloudLibraryService cloudLibraryService)
 		{
             _messengerHub = messageHub;
+            _libraryService = libraryService;
 		    _cloudLibraryService = cloudLibraryService;
 		}
         
@@ -83,6 +85,14 @@ namespace MPfm.MVP.Services
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
             _currentQueue = new Playlist();
+
+            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
+            {
+                var preset = _libraryService.SelectEQPreset(new Guid(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId));
+                if (preset != null)
+                    _player.ApplyEQPreset(preset);
+            }
+
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
             _messengerHub.Subscribe<PlayerSetPositionMessage>(PlayerSetPositionMessageReceived);
             IsInitialized = true;
@@ -110,6 +120,7 @@ namespace MPfm.MVP.Services
                     // Store player status locally for resuming playback later
                     AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = data.AudioFileStarted.Id.ToString();
                     AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _player.Playlist.PlaylistId.ToString();
+                    AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = _player.EQPreset.EQPresetId.ToString();
                     AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = 0;
                     AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
                     AppConfigManager.Instance.Save();
@@ -489,6 +500,9 @@ namespace MPfm.MVP.Services
 
         public void ApplyEQPreset(EQPreset preset)
         {
+            AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = preset.EQPresetId.ToString();
+            AppConfigManager.Instance.Save();
+
             _player.ApplyEQPreset(preset);
         }
 

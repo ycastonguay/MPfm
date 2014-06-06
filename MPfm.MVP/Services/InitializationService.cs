@@ -78,7 +78,6 @@ namespace MPfm.MVP.Services
             Tracing.Log("====================================================================");
             Tracing.Log(string.Format("Sessions - Started on {0}", DateTime.Now));
 
-            LoadConfiguration();
             LoadDatabase();
             StartSyncService();
             RefreshAudioFileCache();
@@ -112,16 +111,6 @@ namespace MPfm.MVP.Services
                 Directory.CreateDirectory(PathHelper.PeakFileDirectory);
 #endif
         }
-
-        private void LoadConfiguration()
-        {
-            Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
-            AppConfigManager.Instance.Load();
-
-            //PathHelper.Save(PathHelper.ConfigurationFilePath, AppConfigManager.Instance);
-            //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
-            //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
-		}
 
 	    private void StartSyncService()
 	    {
