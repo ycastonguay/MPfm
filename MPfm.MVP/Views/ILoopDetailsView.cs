@@ -24,11 +24,12 @@ namespace MPfm.MVP.Views
 	public interface ILoopDetailsView : IBaseView
 	{
         Action OnAddSegment { get; set; }
-        Action<Marker, int> OnAddSegmentFromMarker { get; set; }
+        Action<Guid, int> OnAddSegmentFromMarker { get; set; }
         Action<Segment> OnEditSegment { get; set; }
         Action<Segment> OnDeleteSegment { get; set; }
         Action<Loop> OnUpdateLoopDetails { get; set; }
         Action<Segment, int> OnChangeSegmentOrder { get; set; }
+        Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
 
         void LoopDetailsError(Exception ex);
         void RefreshLoopDetails(Loop loop, AudioFile audioFile);

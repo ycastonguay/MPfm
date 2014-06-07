@@ -58,6 +58,7 @@ namespace MPfm.MVP.Presenters
             view.OnDeleteSegment = DeleteSegment;
             view.OnUpdateLoopDetails = UpdateLoopDetails;            
             view.OnChangeSegmentOrder = ChangeSegmentOrder;
+            view.OnLinkSegmentToMarker = LinkSegmentToMarker;
             base.BindView(view);
 
             _messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited);
@@ -99,10 +100,16 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void AddSegmentFromMarker(Marker marker, int row)
+        private void AddSegmentFromMarker(Guid markerId, int row)
         {
             try
             {
+                // Get marker from database
+                var marker = _libraryService.SelectMarker(markerId);
+                if(marker == null)
+                    throw new NullReferenceException("The marker could not be found in the database!");
+
+                // Add segment
                 var segment = new Segment();
                 segment.LoopId = _loopId;
                 segment.MarkerId = marker.MarkerId;
@@ -177,8 +184,37 @@ namespace MPfm.MVP.Presenters
             }
         }
 
+        private void LinkSegmentToMarker(Segment segment, Guid markerId)
+        {
+            try
+            {
+                // Get marker from database
+                var marker = _libraryService.SelectMarker(markerId);
+                if(marker == null)
+                    throw new NullReferenceException("The marker could not be found in the database!");
+
+                // Update segment
+                segment.MarkerId = markerId;
+                segment.Position = marker.Position;
+                segment.PositionBytes = (uint)marker.PositionBytes;
+                segment.PositionSamples = marker.PositionSamples;
+                float positionPercentage = ((float)segment.PositionBytes / (float)_lengthBytes) * 100;
+                _libraryService.UpdateSegment(segment);
+
+                RefreshLoop();
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while linking a segment to a marker: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
         private void UpdateLoopSegmentsOrder()
         {
+            // We need to fetch the segments again from the database to make sure we don't undo changes from other presenters
+            _loop = _libraryService.SelectLoopIncludingSegments(_loopId);
+
             for (int i = 0; i < _loop.Segments.Count; i++)
             {
                 var updateSegment = _loop.Segments[i];

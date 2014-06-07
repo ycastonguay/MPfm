@@ -1210,7 +1210,7 @@ namespace MPfm.OSX
                     string markerName = string.Empty;
                     if (_currentLoop.Segments[row].MarkerId != Guid.Empty)
                     {
-                        var marker = _segmentMarkers.FirstOrDefault(x => x.MarkerId == _currentLoop.Segments[row].MarkerId);
+                        var marker = _markers.FirstOrDefault(x => x.MarkerId == _currentLoop.Segments[row].MarkerId);
                         if (marker != null)
                             markerName = marker.Name;
                     }
@@ -1264,19 +1264,39 @@ namespace MPfm.OSX
             byte originRow = dataBytes[0];
 
             //Console.WriteLine(">>> AcceptDropForRow - originRow: {0} newRow: {1}", originRow, row);
+            if (operation == NSTableViewDropOperation.Above)
+            {
+                if (info.DraggingSource == tableSegments)
+                    OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
+                else if (info.DraggingSource == tableMarkers)
+                    OnAddSegmentFromMarker(_markers[originRow].MarkerId, row);
+            }
+            else if (operation == NSTableViewDropOperation.On)
+            {
+                if (info.DraggingSource == tableMarkers)
+                    OnLinkSegmentToMarker(_currentLoop.Segments[row], _markers[originRow].MarkerId);
+            }
 
-            if (info.DraggingSource == tableSegments)
-                OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
-            else if (info.DraggingSource == tableMarkers)
-                OnAddSegmentFromMarker(_markers[originRow], row);
             return true;
         }
 
         [Export ("tableView:validateDrop:proposedRow:proposedDropOperation:")]
         public NSDragOperation ValidateDropForRow(NSTableView tableView, NSDraggingInfo info, int row, NSTableViewDropOperation operation)
         {
-            //Console.WriteLine(">>> ValidateDropForRow - row: {0}", row);
-            return info.DraggingSource == tableSegments || info.DraggingSource == tableMarkers ? NSDragOperation.All : NSDragOperation.None;
+            //Console.WriteLine(">>> ValidateDropForRow - row: {0} operation: {1}", row, operation);
+            if (info.DraggingSource == tableSegments)
+            {
+                // Do not allow dragging on segments, only allow reordering of rows
+                return operation == NSTableViewDropOperation.Above ? NSDragOperation.All : NSDragOperation.None;
+            }
+            else if (info.DraggingSource == tableMarkers)
+            {
+                // Allow dragging on segments to link an existing segment to a marker
+                // Allow dragging above segments to create a new segment from a marke
+                return NSDragOperation.All;
+            }
+
+            return NSDragOperation.None;
         }
 
         [Export ("tableView:writeRowsWithIndexes:toPasteboard:")]
@@ -1908,11 +1928,12 @@ namespace MPfm.OSX
         #region ILoopDetailsView implementation
 
         public Action OnAddSegment { get; set; }
-        public Action<Marker, int> OnAddSegmentFromMarker { get; set; }
+        public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
         public Action<Segment> OnEditSegment { get; set; }
         public Action<Segment> OnDeleteSegment { get; set; }
         public Action<Loop> OnUpdateLoopDetails { get; set; }
         public Action<Segment, int> OnChangeSegmentOrder { get; set; }
+        public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
         
         public void LoopDetailsError(Exception ex)
         {

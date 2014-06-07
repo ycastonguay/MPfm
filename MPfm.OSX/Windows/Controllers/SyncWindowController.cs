@@ -332,10 +332,17 @@ namespace MPfm.OSX
             return view;
         }
 
+//        [Export ("tableView:viewForTableColumn:row:")]
+//        private NSView ViewForTableColumn(NSTableView tableView, NSTableColumn tableColumn, int row)
+//        {
+//            Console.WriteLine("=======> ViewForTableColumn - row: {0}", row);
+//            return null;
+//        }
+//
 //        [Export ("tableView:rowViewForRow:")]
 //        private NSTableRowView GetRowView(NSTableView tableView, int row)
 //        {
-//            //Console.WriteLine("=======> GetRowView - row: {0}", row);
+//            Console.WriteLine("=======> GetRowView - row: {0}", row);
 //            var rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
 //            return rowView;
 //        }

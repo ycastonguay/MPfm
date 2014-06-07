@@ -38,6 +38,20 @@ namespace MPfm.OSX.Classes.Controls
         public NSTextField IndexLabel { get; private set; }
         public MPfmView IndexBackground { get; private set; }
 
+//        public override NSBackgroundStyle BackgroundStyle
+//        {
+//            get
+//            {
+//                return base.BackgroundStyle;
+//            }
+//            set
+//            {
+//                base.BackgroundStyle = value;
+//                TextField.DrawsBackground = value != NSBackgroundStyle.Light;
+//                TextField.BackgroundColor = value == NSBackgroundStyle.Light ? NSColor.White : NSColor.Green;
+//            }
+//        }
+
         [Export("init")]
         public MPfmTableCellView() : base(NSObjectFlag.Empty)
         {
