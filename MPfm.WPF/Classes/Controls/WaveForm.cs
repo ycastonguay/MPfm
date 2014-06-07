@@ -160,6 +160,16 @@ namespace MPfm.WPF.Classes.Controls
             _control.Length = lengthBytes;
         }
 
+        public void SetLoop(Loop loop)
+        {
+            _control.SetLoop(loop);
+        }
+
+        public void SetSegment(Segment segment)
+        {
+            _control.SetSegment(segment);
+        }
+
         public void LoadPeakFile(AudioFile audioFile)
         {
             _control.LoadPeakFile(audioFile);

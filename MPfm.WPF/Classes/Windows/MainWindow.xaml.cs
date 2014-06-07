@@ -50,10 +50,15 @@ namespace MPfm.WPF.Classes.Windows
     {
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
         private List<Marker> _markers;
+        private List<Loop> _loops;
         private Marker _currentMarker;
+        private Loop _currentLoop;
+        private Segment _currentSegment;
         private bool _isPlayerPositionChanging;
         private bool _isScrollViewWaveFormChangingSecondaryPosition;
         private int _selectedMarkerIndex = -1;
+        private int _selectedLoopIndex = -1;
+        private int _selectedSegmentIndex = -1;
         private AudioFile _currentAudioFile;
         private string _currentAlbumArtKey;
 
@@ -492,65 +497,6 @@ namespace MPfm.WPF.Classes.Windows
             AddMarker(MarkerTemplateNameType.Solo);
         }
 
-        private void AddMarker(MarkerTemplateNameType template)
-        {
-            OnAddMarkerWithTemplate(template);
-        }
-
-        private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (listViewMarkers.SelectedIndex < 0)
-                return;
-
-            OnEditMarker(_markers[listViewMarkers.SelectedIndex]);
-
-            gridMarkers.Visibility = Visibility.Hidden;
-            gridMarkerDetails.Visibility = Visibility.Visible;
-        }
-
-        private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBox.Show("Are you sure you wish to remove this marker?", "Remove marker", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
-                OnDeleteMarker(_markers[listViewMarkers.SelectedIndex]);
-        }
-
-        private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnAddLoop_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnEditLoop_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnEditSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnRemoveSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void ListViewMarkers_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
@@ -577,6 +523,124 @@ namespace MPfm.WPF.Classes.Windows
             btnGoToMarker.Enabled = enabled;
             btnEditMarker.Enabled = enabled;
             btnRemoveMarker.Enabled = enabled;
+        }
+
+        private void AddMarker(MarkerTemplateNameType template)
+        {
+            OnAddMarkerWithTemplate(template);
+        }
+
+        private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listViewMarkers.SelectedIndex < 0)
+                return;
+
+            OnEditMarker(_markers[listViewMarkers.SelectedIndex]);
+
+            gridMarkers.Visibility = Visibility.Hidden;
+            gridMarkerDetails.Visibility = Visibility.Visible;
+        }
+
+        private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listViewMarkers.SelectedIndex < 0 || listViewMarkers.SelectedIndex >= _loops.Count)
+                return;
+
+            var result = MessageBox.Show("Are you sure you wish to remove this marker?", "Remove marker", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                OnDeleteMarker(_markers[listViewMarkers.SelectedIndex]);
+                EnableMarkerButtons(false);
+            }
+        }
+
+        private void ListViewLoops_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableLoopButtons(listViewLoops.SelectedIndex >= 0);
+
+            if (listViewLoops.SelectedIndex >= 0)
+                _selectedLoopIndex = listViewLoops.SelectedIndex;
+        }
+
+        private void ListViewLoops_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditLoop();
+        }
+
+        private void BtnBackLoopDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridLoops.Visibility = Visibility.Visible;
+            gridLoopDetails.Visibility = Visibility.Hidden;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Hidden;
+
+            _currentLoop.Name = txtLoopName.Text;
+            OnUpdateLoopDetails(_currentLoop);
+            _currentLoop = null;
+            scrollViewWaveForm.SetLoop(null);
+        }
+
+        private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnAddLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnAddLoop();
+            gridLoops.Visibility = Visibility.Hidden;
+            gridLoopDetails.Visibility = Visibility.Visible;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Hidden;
+        }
+
+        private void BtnEditLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+            EditLoop();
+        }
+
+        private void EditLoop()
+        {
+            if (listViewLoops.SelectedIndex < 0 || listViewLoops.SelectedIndex >= _loops.Count)
+                return;
+
+            OnEditLoop(_loops[listViewLoops.SelectedIndex]);
+            gridLoops.Visibility = Visibility.Hidden;
+            gridLoopDetails.Visibility = Visibility.Visible;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Hidden;
+        }
+
+        private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listViewLoops.SelectedIndex < 0 || listViewLoops.SelectedIndex >= _loops.Count)
+                return;
+
+            var result = MessageBox.Show("Are you sure you wish to remove this loop?", "Remove loop", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                OnDeleteMarker(_markers[listViewMarkers.SelectedIndex]);
+                EnableLoopButtons(false);
+            }
+        }
+
+        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnEditSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnRemoveSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
+        {
         }
 
         private void EnableLoopButtons(bool enabled)
@@ -1090,6 +1154,14 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshLoops(List<Loop> loops)
         {
+            _loops = loops.ToList();
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                listViewLoops.Items.Clear();
+                foreach (var loop in _loops)
+                    listViewLoops.Items.Add(loop);
+                listViewLoops.SelectedIndex = _selectedLoopIndex;
+            }));
         }
 
         #endregion
@@ -1258,6 +1330,18 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
         {
+            _currentLoop = loop;
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                txtLoopName.Text = loop.Name;
+                scrollViewWaveForm.SetLoop(loop);
+                //scrollViewWaveForm.FocusZoomOnLoop(_currentLoop);
+
+                listViewSegments.Items.Clear();
+                foreach (var segment in _currentLoop.Segments)
+                    listViewSegments.Items.Add(segment);
+                listViewSegments.SelectedIndex = _selectedSegmentIndex;
+            }));
         }
 
         #endregion
@@ -1338,6 +1422,7 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
+
 
     }
 }

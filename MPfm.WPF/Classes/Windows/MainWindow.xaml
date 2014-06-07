@@ -3,9 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"        
         xmlns:converters="clr-namespace:MPfm.WPF.Classes.Converters"        
-        xmlns:models="clr-namespace:MPfm.MVP.Models;assembly=MPfm.MVP"
-        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-        xmlns:wc="clr-namespace:MPfm.WindowsControls;assembly=MPfm.WindowsControls"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen"
         Title="Sessions" Height="653" Width="900" Icon="/MPfm.WPF;component/Resources/Icon.ico">
@@ -486,13 +483,13 @@
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewLoops">                                            
+                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick">
                                             <ListView.View>
-                                                <GridView>                                                                                                        
+                                                <GridView>
+                                                    <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
                                                     <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
-                                                    <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=Length}" />
-                                                    <GridViewColumn Header="Start Position" Width="80" DisplayMemberBinding="{Binding Path=StartPosition}" />
-                                                    <GridViewColumn Header="End Position" Width="80" DisplayMemberBinding="{Binding Path=EndPosition}" />
+                                                    <GridViewColumn Header="Segments" Width="80" DisplayMemberBinding="{Binding Path=SegmentCount}" />
+                                                    <GridViewColumn Header="Total Length" Width="80" DisplayMemberBinding="{Binding Path=TotalLength}" />
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -500,28 +497,40 @@
                                     <Grid x:Name="gridLoopDetails" Visibility="Hidden" Margin="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <Grid Grid.Row="0">
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackLoopDetails" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackLoopDetails_OnClick" />
+                                            <Label Grid.Column="1" Content="Loop Details" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="3" Content="Loop Name:" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                            <TextBox x:Name="txtLoopName" Grid.Column="4" Width="80" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Segments" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="0" Content="Segments" Padding="4,4,8,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddSegment" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddSegment_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnEditSegment" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditSegment_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnRemoveSegment" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveSegment_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewSegments">
+                                        <ListView Grid.Row="2" x:Name="listViewSegments">
                                             <ListView.View>
                                                 <GridView>
+                                                    <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
                                                     <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
-                                                    <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=Length}" />
-                                                    <GridViewColumn Header="Start Position" Width="80" DisplayMemberBinding="{Binding Path=StartPosition}" />
-                                                    <GridViewColumn Header="End Position" Width="80" DisplayMemberBinding="{Binding Path=EndPosition}" />
+                                                    <GridViewColumn Header="Marker" Width="80" DisplayMemberBinding="{Binding Path=Length}" />
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>

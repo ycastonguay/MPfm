@@ -329,6 +329,16 @@ namespace MPfm.WPF.Classes.Controls
             ProcessAutoScroll((long)(marker.PositionPercentage * _waveFormLength));
         }
 
+        public void SetLoop(Loop loop)
+        {
+            WaveFormView.SetLoop(loop);
+        }
+
+        public void SetSegment(Segment segment)
+        {
+            WaveFormView.SetSegment(segment);
+        }
+
         private void SetContentOffsetX(float x)
         {
             float contentOffsetX = x;
