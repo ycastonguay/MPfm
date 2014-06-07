@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.WPF", "MPfm.WPF\MPfm.WPF.csproj", "{2893DC60-F3A4-447E-AE0B-1C2AE341D113}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Core", "MPfm.Core\MPfm.Core.csproj", "{D536FDE5-989E-4979-9B39-63621AE4A205}"
@@ -16,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.MVP", "MPfm.MVP\MPfm.MVP.csproj", "{B6B0613C-FF39-479D-9EF0-31DAF9684A06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.GenericControls", "MPfm.GenericControls\MPfm.GenericControls.csproj", "{F2A4E954-0439-42CF-B795-82819C9A39CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Tests", "MPfm.Tests\MPfm.Tests.csproj", "{81545D7C-6241-48F4-8575-492A0ECE3BA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,18 +109,6 @@ Global
 		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_MacOSX|Any CPU.Build.0 = Release|Any CPU
 		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Debug_Linux|Any CPU.ActiveCfg = Debug|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Debug_Linux|Any CPU.Build.0 = Debug|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Debug_MacOSX|Any CPU.ActiveCfg = Debug|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Debug_MacOSX|Any CPU.Build.0 = Debug|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81545D7C-6241-48F4-8575-492A0ECE3BA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

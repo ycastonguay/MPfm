@@ -1244,9 +1244,12 @@ namespace MPfm.WPF.Classes.Windows
         #region ILoopDetailsView implementation
 
         public Action OnAddSegment { get; set; }
+        public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
         public Action<Segment> OnEditSegment { get; set; }
         public Action<Segment> OnDeleteSegment { get; set; }
         public Action<Loop> OnUpdateLoopDetails { get; set; }
+        public Action<Segment, int> OnChangeSegmentOrder { get; set; }
+        public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
 
         public void LoopDetailsError(Exception ex)
         {
@@ -1283,7 +1286,10 @@ namespace MPfm.WPF.Classes.Windows
         public Action<float> OnChangeEndPositionSegmentDetails { get; set; }
         public Action OnPunchInStartPositionSegmentDetails { get; set; }
         public Action OnPunchInEndPositionSegmentDetails { get; set; }
+        public Action<float> OnChangePositionSegmentDetails { get; set; }
+        public Action OnPunchInPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
+        public Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
 
         public void SegmentDetailsError(Exception ex)
         {
@@ -1292,6 +1298,11 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
+        }
+
+        public void RefreshSegmentPosition(string position, float positionPercentage)
+        {
+            
         }
 
         public void RefreshSegmentStartPosition(string position, float positionPercentage)

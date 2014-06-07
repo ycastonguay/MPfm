@@ -37,7 +37,7 @@ using MPfm.WPF.Classes.Controls.Helpers;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class WaveFormScrollView : StackPanel
+    public class WaveFormScrollView : DockPanel
     {
         private bool _isDragging;
         private long _waveFormLength;
@@ -46,6 +46,8 @@ namespace MPfm.WPF.Classes.Controls
         private DateTime _lastZoomUpdate;
         private Timer _timerFadeOutZoomLabel;
         private Grid _grid;
+        private Grid _gridWaveForm;
+        private StackPanel _stackPanelZoom;
         private Label _lblZoom;
         private RowDefinition _rowScale;
         private RowDefinition _rowWaveForm;
@@ -112,25 +114,27 @@ namespace MPfm.WPF.Classes.Controls
             _lblZoom.Width = Double.NaN;
             _lblZoom.Height = Double.NaN;
 
-            var stackPanel = new StackPanel();
-            stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
-            stackPanel.VerticalAlignment = VerticalAlignment.Center;
-            stackPanel.Children.Add(_lblZoom);
+            _stackPanelZoom = new StackPanel();
+            _stackPanelZoom.HorizontalAlignment = HorizontalAlignment.Center;
+            _stackPanelZoom.VerticalAlignment = VerticalAlignment.Center;
+            _stackPanelZoom.Children.Add(_lblZoom);
 
-            var panel = new Grid();
-            panel.Children.Add(WaveFormView);
-            panel.Children.Add(stackPanel);
+            _gridWaveForm = new Grid();
+            _gridWaveForm.Height = Double.NaN;
+            _gridWaveForm.Children.Add(WaveFormView);
+            _gridWaveForm.Children.Add(_stackPanelZoom);
 
             _grid = new Grid();
             _rowScale = new RowDefinition();
-            _rowWaveForm = new RowDefinition();
             _rowScale.Height = new GridLength(22);
+            _rowWaveForm = new RowDefinition();
+            //_rowWaveForm.Height = GridLength.Auto;
             _grid.RowDefinitions.Add(_rowScale);
             _grid.RowDefinitions.Add(_rowWaveForm);
             _grid.Children.Add(WaveFormScaleView);
-            _grid.Children.Add(panel);
+            _grid.Children.Add(_gridWaveForm);
             Grid.SetRow(WaveFormScaleView, 0);
-            Grid.SetRow(panel, 1);
+            Grid.SetRow(_gridWaveForm, 1);
             Children.Add(_grid);
 
             _timerFadeOutZoomLabel = new Timer(100);
@@ -351,7 +355,7 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override Size MeasureOverride(Size constraint)
         {
-            //Console.WriteLine("WaveFormScrollView - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
+            Console.WriteLine("WaveFormScrollView - MeasureOverride - constraint: {0} actualSize: {1}x{2} waveFormView.ActualSize: {3}x{4} gridWaveForm.ActualSize: {5}x{6} grid.ActualSize: {7}x{8}", constraint, ActualWidth, ActualHeight, WaveFormView.ActualWidth, WaveFormView.ActualHeight, _gridWaveForm.ActualWidth, _gridWaveForm.ActualHeight, _grid.ActualWidth, _grid.ActualHeight);
             //WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);
             WaveFormView.InvalidateBitmaps();
             return base.MeasureOverride(constraint);
