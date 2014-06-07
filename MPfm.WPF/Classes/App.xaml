@@ -44,25 +44,29 @@
                         <Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource ButtonOverBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource ButtonOverBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />                                            
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />                                            
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />                                            
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />                                            
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Border x:Name="borderButton" BorderThickness="4" CornerRadius="8" Background="{DynamicResource BrushButtonBackgroundColor}">
+                            <Border x:Name="borderButton" BorderThickness="4" CornerRadius="8" Background="#FFE74C3C">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
@@ -78,24 +82,28 @@
             <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid x:Name="gridButton" Background="#FF576B78"> <!-- if you use a predetermined brush, this will affect all buttons at the same time when applying color animation -->
+                    <ControlTemplate TargetType="Button">                        
+                        <Grid x:Name="gridButton" Background="#FF576B78"> <!-- if you use a predetermined brush, this will affect all buttons at the same time when applying color animation -->                            
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -118,20 +126,24 @@
                         <Grid x:Name="gridButton" Background="#FF576B78">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -156,20 +168,24 @@
                         <Grid x:Name="gridButton" Background="#FF576B78">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">                                        
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -190,20 +206,24 @@
                         <Grid x:Name="gridButton" Background="#FF20282E">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF20282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF323C43" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF323C43" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF323C43" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF323C43" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF20282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF20282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -265,20 +285,23 @@
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -343,23 +366,28 @@
                         <Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF242F35" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#99344046" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#99344046" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#99455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#99455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#99FFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#99455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#99FFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#99455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -443,9 +471,27 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="{x:Type ListView}" TargetType="{x:Type ListView}">
-            <Setter Property="Background" Value="#DDDDDD" />
-            <Setter Property="BorderThickness" Value="0" />
+        <Style x:Key="{x:Type ListView}" TargetType="ListView">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListView">
+                        <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}" Background="Transparent" BorderThickness="0">
+                            <ItemsPresenter />
+                        </ScrollViewer>                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style x:Key="ListViewItemPlaylist" TargetType="{x:Type ListViewItem}">
             <Setter Property="Background" Value="White"/>
@@ -515,28 +561,129 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border Padding="{TemplateBinding Padding}" Background="Transparent">
+                        <Border Padding="{TemplateBinding Padding}" Background="Transparent" Margin="0">
                             <Rectangle HorizontalAlignment="Center" Width="Auto" Fill="{TemplateBinding Background}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="{x:Type GridViewColumnHeader}" TargetType="GridViewColumnHeader">
+        <Style x:Key="{x:Type GridViewColumnHeader}"
+       TargetType="GridViewColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Height" Value="20" />            
+            <Setter Property="Height" Value="20" />
             <Setter Property="FontFamily" Value="Roboto" />
-            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontSize" Value="10" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="GridViewColumnHeader">
-                        <Grid ShowGridLines="false">
-                            <Border Name="HeaderBorder" BorderThickness="0" Background="#FF576B78" Padding="2,0,2,0">
-                                <ContentPresenter Name="HeaderContent" Margin="1,0,0,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" 
+                                                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="HeaderBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="HeaderBorder" BorderThickness="0,0,0,0" Padding="0,0,0,0" Margin="0">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource HeaderBackgroundColor}">                                        
+                                    </SolidColorBrush>
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <SolidColorBrush Color="{DynamicResource HeaderBackgroundColor}">
+                                    </SolidColorBrush>
+                                </Border.Background>
+                                <ContentPresenter x:Name="HeaderContent" Margin="4,0,0,1" RecognizesAccessKey="True"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Border>
-                            <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right" Margin="0,0,0,0" Style="{StaticResource GridViewColumnHeaderGripper}"/>
+                            <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right" Margin="0,0,-9,0" Style="{StaticResource GridViewColumnHeaderGripper}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Role" Value="Floating">
+                    <Setter Property="Opacity" Value="0.7" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewColumnHeader">
+                                <Canvas Name="PART_FloatingHeaderCanvas">
+                                    <Rectangle Fill="#60000000" Margin="0" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}" />
+                                </Canvas>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Role" Value="Padding">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewColumnHeader">
+                                <Border Name="HeaderBorder" BorderThickness="0" Margin="0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
+                                    </Border.Background>
+                                    <Border.BorderBrush>
+                                        <SolidColorBrush Color="{DynamicResource HeaderBackgroundColor}" />
+                                    </Border.BorderBrush>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Grid Background="{TemplateBinding Background}" Margin="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <DockPanel Margin="0" Background="White">
+                                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false" BorderThickness="8" Margin="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
+                                    <GridViewHeaderRowPresenter Margin="0"
+                                          Columns="{Binding Path=TemplatedParent.View.Columns, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
+                                          AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                                <ScrollContentPresenter Name="PART_ScrollContentPresenter"
+                                    KeyboardNavigation.DirectionalNavigation="Local"
+                                    CanContentScroll="True"
+                                    CanHorizontallyScroll="False"
+                                    CanVerticallyScroll="False" />
+                            </DockPanel>
+                            <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1"
+                     Maximum="{TemplateBinding ScrollableWidth}"
+                     ViewportSize="{TemplateBinding ViewportWidth}"
+                     Value="{TemplateBinding HorizontalOffset}"
+                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+                            <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="1"
+                     Maximum="{TemplateBinding ScrollableHeight}"
+                     ViewportSize="{TemplateBinding ViewportHeight}"
+                     Value="{TemplateBinding VerticalOffset}"
+                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

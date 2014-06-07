@@ -416,7 +416,8 @@ namespace MPfm.WPF.Classes.Controls
             {
                 // Zoom in/out
                 var location = e.GetPosition(this);
-                float newZoom = Math.Max(1, Zoom + (e.Delta / 30f));
+                //float newZoom = Math.Max(1, Zoom + (e.Delta / 30f));
+                float newZoom = Math.Max(1, Zoom + (e.Delta / 500f));
                 float deltaZoom = newZoom / Zoom;
                 float originPointX = (float) (IsAutoScrollEnabled ? WaveFormView.ContentOffset.X + (ActualWidth / 2) : location.X + WaveFormView.ContentOffset.X);
                 float distanceToOffsetX = originPointX - WaveFormView.ContentOffset.X;
