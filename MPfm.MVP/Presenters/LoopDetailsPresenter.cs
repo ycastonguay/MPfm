@@ -73,7 +73,7 @@ namespace MPfm.MVP.Presenters
 
         private void SegmentUpdated(SegmentUpdatedMessage message)
         {
-            UpdateLoopSegmentsOrder();
+            UpdateLoopSegmentsOrder(true);
             RefreshLoop();
         }
 
@@ -89,7 +89,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _loop.AudioFileId,
                     LoopId = _loopId
                 });
-                UpdateLoopSegmentsOrder();
+                UpdateLoopSegmentsOrder(true);
                 _messageHub.PublishAsync(new SegmentBeingEditedMessage(this, segment.SegmentId));
                 View.RefreshLoopDetails(_loop, _audioFile);
             } 
@@ -123,7 +123,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = _loop.AudioFileId,
                     LoopId = _loopId
                 });
-                UpdateLoopSegmentsOrder();
+                UpdateLoopSegmentsOrder(true);
                 View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
@@ -174,7 +174,7 @@ namespace MPfm.MVP.Presenters
                 int index = Math.Min(newIndex, _loop.Segments.Count - 1);
                 _loop.Segments.Remove(segment);
                 _loop.Segments.Insert(index, segment);
-                UpdateLoopSegmentsOrder();
+                UpdateLoopSegmentsOrder(false);
                 View.RefreshLoopDetails(_loop, _audioFile);
             } 
             catch (Exception ex)
@@ -210,10 +210,11 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void UpdateLoopSegmentsOrder()
+        private void UpdateLoopSegmentsOrder(bool refreshLoopFromDatabase)
         {
             // We need to fetch the segments again from the database to make sure we don't undo changes from other presenters
-            _loop = _libraryService.SelectLoopIncludingSegments(_loopId);
+            if(refreshLoopFromDatabase)
+                _loop = _libraryService.SelectLoopIncludingSegments(_loopId);
 
             for (int i = 0; i < _loop.Segments.Count; i++)
             {

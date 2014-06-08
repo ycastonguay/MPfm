@@ -1263,7 +1263,7 @@ namespace MPfm.OSX
             byte[] dataBytes = data.ToArray();
             byte originRow = dataBytes[0];
 
-            //Console.WriteLine(">>> AcceptDropForRow - originRow: {0} newRow: {1}", originRow, row);
+            Console.WriteLine(">>> AcceptDropForRow - originRow: {0} newRow: {1}", originRow, row);
             if (operation == NSTableViewDropOperation.Above)
             {
                 if (info.DraggingSource == tableSegments)
@@ -1283,7 +1283,7 @@ namespace MPfm.OSX
         [Export ("tableView:validateDrop:proposedRow:proposedDropOperation:")]
         public NSDragOperation ValidateDropForRow(NSTableView tableView, NSDraggingInfo info, int row, NSTableViewDropOperation operation)
         {
-            //Console.WriteLine(">>> ValidateDropForRow - row: {0} operation: {1}", row, operation);
+            Console.WriteLine(">>> ValidateDropForRow - row: {0} operation: {1}", row, operation);
             if (info.DraggingSource == tableSegments)
             {
                 // Do not allow dragging on segments, only allow reordering of rows

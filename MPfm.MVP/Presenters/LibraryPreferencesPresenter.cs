@@ -166,7 +166,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                
+                AppConfigManager.Instance.Root.Library.IsSyncServiceEnabled = enabled;
+                AppConfigManager.Instance.Save();
+
                 if(!enabled && _syncListenerService.IsRunning)
                     _syncListenerService.Stop();
                 else if(enabled && !_syncListenerService.IsRunning)
@@ -183,6 +185,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                AppConfigManager.Instance.Root.Library.SyncServicePort = port;
+                AppConfigManager.Instance.Save();
+
                 if(_syncListenerService.Port != port)
                     _syncListenerService.SetPort(port);
             }

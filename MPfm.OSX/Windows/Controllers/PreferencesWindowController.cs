@@ -77,7 +77,11 @@ namespace MPfm.OSX
         {
             chkEnableLibraryService.OnValueChanged += HandleEnableLibraryServiceOnValueChanged;
             chkEnableResumePlayback.OnValueChanged += HandleEnableResumePlaybackOnValueChanged;
-            lblEnableLibraryService.OnLabelClicked += (label) => chkEnableLibraryService.Value = !chkEnableLibraryService.Value;
+            lblEnableLibraryService.OnLabelClicked += (label) =>
+            {
+                chkEnableLibraryService.Value = !chkEnableLibraryService.Value;
+                OnEnableSyncListener(chkEnableLibraryService.Value);
+            };
             lblEnableResumePlayback.OnLabelClicked += (label) => chkEnableResumePlayback.Value = !chkEnableResumePlayback.Value;
         }
 
@@ -340,7 +344,7 @@ namespace MPfm.OSX
 
         private void HandleEnableLibraryServiceOnValueChanged(MPfmCheckBoxView checkBox)
         {
-
+            OnEnableSyncListener(checkBox.Value);
         }       
 
         private void HandleEnableResumePlaybackOnValueChanged(MPfmCheckBoxView checkBox)

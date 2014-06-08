@@ -50,6 +50,7 @@ namespace MPfm.Library.Services
 
         public SyncDeviceManagerService(ISyncDeviceSpecifications deviceSpecifications, ISyncDiscoveryService discoveryService)
         {
+            Console.WriteLine("SyncDeviceManagerService - Starting...");
             OnStatusUpdated += (status) => {};
             OnDeviceUpdated += (device) => {};
             OnDevicesUpdated += (devices) => {};
@@ -312,6 +313,7 @@ namespace MPfm.Library.Services
             string baseIP = split[0] + "." + split[1] + "." + split[2];
 
             OnStatusUpdated("Finding devices on your local network...");
+            _discoveryService.Start();
             _discoveryService.AddToSearchList(baseIP);
         }
 

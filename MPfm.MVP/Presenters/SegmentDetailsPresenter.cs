@@ -169,10 +169,9 @@ namespace MPfm.MVP.Presenters
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
 
                 float positionPercentage = ((float)_segment.PositionBytes / (float)_lengthBytes) * 100;
+                RefreshMarkers();
                 View.RefreshSegmentDetails(_segment, _lengthBytes);
                 View.RefreshSegmentPosition(_segment.Position, positionPercentage);
-
-                RefreshMarkers();
             }
             catch(Exception ex)
             {
