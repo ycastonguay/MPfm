@@ -381,15 +381,53 @@
     <Resource Include="Resources\Images\Splash\splash_logo_full.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Devices\android%402x.png" />
-    <Resource Include="Resources\Images\Devices\android.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\Buttons\back.png" />
     <Resource Include="Resources\Images\Buttons\punch_in.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Toolbar\devices.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Devices\pc_android%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_android.png" />
+    <Resource Include="Resources\Images\Devices\pc_android_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_android_large.png" />
+    <Resource Include="Resources\Images\Devices\pc_linux%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_linux.png" />
+    <Resource Include="Resources\Images\Devices\pc_linux_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_linux_large.png" />
+    <Resource Include="Resources\Images\Devices\pc_mac%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_mac.png" />
+    <Resource Include="Resources\Images\Devices\pc_mac_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_mac_large.png" />
+    <Resource Include="Resources\Images\Devices\pc_windows%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_windows.png" />
+    <Resource Include="Resources\Images\Devices\pc_windows_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\pc_windows_large.png" />
+    <Resource Include="Resources\Images\Devices\phone_android%402x.png" />
+    <Resource Include="Resources\Images\Devices\phone_android.png" />
+    <Resource Include="Resources\Images\Devices\phone_android_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\phone_android_large.png" />
+    <Resource Include="Resources\Images\Devices\phone_iphone%402x.png" />
+    <Resource Include="Resources\Images\Devices\phone_iphone.png" />
+    <Resource Include="Resources\Images\Devices\phone_iphone_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\phone_iphone_large.png" />
+    <Resource Include="Resources\Images\Devices\phone_windows%402x.png" />
+    <Resource Include="Resources\Images\Devices\phone_windows.png" />
+    <Resource Include="Resources\Images\Devices\phone_windows_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\phone_windows_large.png" />
+    <Resource Include="Resources\Images\Devices\tablet_android%402x.png" />
+    <Resource Include="Resources\Images\Devices\tablet_android.png" />
+    <Resource Include="Resources\Images\Devices\tablet_android_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\tablet_android_large.png" />
+    <Resource Include="Resources\Images\Devices\tablet_ipad%402x.png" />
+    <Resource Include="Resources\Images\Devices\tablet_ipad.png" />
+    <Resource Include="Resources\Images\Devices\tablet_ipad_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\tablet_ipad_large.png" />
+    <Resource Include="Resources\Images\Devices\tablet_windows%402x.png" />
+    <Resource Include="Resources\Images\Devices\tablet_windows.png" />
+    <Resource Include="Resources\Images\Devices\tablet_windows_large%402x.png" />
+    <Resource Include="Resources\Images\Devices\tablet_windows_large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Devices" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
+        Title="Devices" Height="620" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -37,7 +37,7 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Device" Width="150" DisplayMemberBinding="{Binding Path=DeviceName}" />
+                            <GridViewColumn Header="Device" Width="250" DisplayMemberBinding="{Binding Path=DeviceName}" />
                             <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Path=Status}" />
                         </GridView>
                     </ListView.View>
@@ -48,14 +48,45 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Padding="4,4,4,4" Margin="0" Content="Device Details" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Grid Grid.Row="1" Margin="4,12,4,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Resources/Images/Devices/phone_iphone_large.png" />
+                        <StackPanel Grid.Column="1">
+                            <Label x:Name="lblDeviceName" Content="hamster-os.x-local" Margin="0" Padding="2,4,2,2" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Medium" />
+                            <Label x:Name="lblDeviceUrl" Content="http://192.168.1.101:53551/" Margin="0" Padding="2,2,2,2" Foreground="#FFDDDDDD" FontSize="12" FontFamily="/Resources/Fonts/#Roboto" />
+                            <Label x:Name="lblDeviceStatus" Content="Offline" Foreground="#FFDDDDDD" Margin="0" Padding="2,2,2,2" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                        </StackPanel>
+                    </Grid>
+                    <Label Grid.Row="2" x:Name="lblLastUpdated" Content="Last updated: 08/06/2014 6:50:18 PM" Foreground="#FFDDDDDD" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
                         <controls:ImageButton x:Name="btnResumePlayback" Title="Resume Playback" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource ImageButton}" Click="btnResumePlayback_OnClick" />
                         <controls:ImageButton x:Name="btnSyncLibrary" Title="Sync Library" ImageSource="/Resources/Images/Buttons/library.png" Style="{StaticResource ImageButton}" Click="btnSyncLibrary_OnClick" />
                     </StackPanel>
-                    <Label Grid.Row="2" Padding="4,4,4,4" Margin="0" Content="Remote Player" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
-                    <StackPanel Grid.Row="3">
+                    <Label Grid.Row="4" Padding="4,4,4,4" Margin="0" Content="Remote Player" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+                    <Grid Grid.Row="5" Margin="4,12,4,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Resources/Images/Devices/phone_iphone_large.png" Width="80" Height="80" />
+                        <StackPanel Grid.Column="1">
+                            <Label x:Name="lblArtistName" Content="Satie Erik" Margin="0" Padding="2,4,2,2" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" />
+                            <Label x:Name="lblAlbumTitle" Content="Piano Works" Margin="0" Padding="2,2,2,2" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
+                            <Label x:Name="lblSongTitle" Content="1ière Gnorssienne" Foreground="White" Margin="0" Padding="2,2,2,2" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+                            <Label x:Name="lblPosition" Content="0:00.644 / 2:23.194" Foreground="#FFDDDDDD" Margin="0" Padding="2,2,2,2" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                        </StackPanel>                        
+                    </Grid>
+                    <Label Grid.Row="6" x:Name="lblPlaylist" Content="On-the-fly Playlist (5/29)" Foreground="#FFDDDDDD" Margin="0" Padding="2,2,2,2" FontSize="12" FontFamily="/Resources/Fonts/#Roboto" />
+                    <StackPanel Grid.Row="7">
                         <Grid Margin="4,6,4,6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
