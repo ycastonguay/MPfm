@@ -5,54 +5,109 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Sync (Nearby Devices)" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
+        Title="Devices" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Sync (Nearby Devices)" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
-            <Label Grid.Column="1" x:Name="lblIPAddress" Content="" Foreground="#FFDDDDDD" FontSize="12" FontFamily="/Resources/Fonts/#Roboto" VerticalContentAlignment="Center" />
-        </Grid>        
-        <Grid Grid.Row="1" Margin="4,8,4,8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Foreground="#FFDDDDDD" FontSize="11" FontFamily="/Resources/Fonts/#Roboto">
-                Searching for devices running Sessions on your local network...
-            </TextBlock>
-            <ProgressBar Grid.Column="1" x:Name="progressBar" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Value="0" Margin="2" VerticalContentAlignment="Center" />
-        </Grid>
-        <ListView Grid.Row="2" x:Name="listView">
-            <ListView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type models:SyncDevice}" ItemsSource="{Binding SubItems}">
-                    <StackPanel Orientation="Horizontal" Margin="4">
-                        <Image Source="/Resources/Images/Icons/linux.png" Stretch="Uniform" />
-                        <TextBlock Text="{Binding Name}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
+        <Label Grid.Row="0" Padding="4,6,4,6" Margin="0" Content="Devices" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" />
+        <Label Grid.Row="1" Padding="4,4,4,4" Margin="0" Content="Connect to a device" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+        <Grid Grid.Row="2" Margin="4,8,4,8">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="4,4,4,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ListView Grid.Column="0" x:Name="listView">
+                    <ListView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type models:SyncDevice}" ItemsSource="{Binding SubItems}">
+                            <StackPanel Orientation="Horizontal" Margin="4">
+                                <Image Source="/Resources/Images/Icons/linux.png" Stretch="Uniform" />
+                                <TextBlock Text="{Binding Name}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Device" Width="150" DisplayMemberBinding="{Binding Path=DeviceName}" />
+                            <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Path=Status}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Grid Grid.Column="1" Margin="8,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Padding="4,4,4,4" Margin="0" Content="Device Details" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <controls:ImageButton x:Name="btnResumePlayback" Title="Resume Playback" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource ImageButton}" Click="btnResumePlayback_OnClick" />
+                        <controls:ImageButton x:Name="btnSyncLibrary" Title="Sync Library" ImageSource="/Resources/Images/Buttons/library.png" Style="{StaticResource ImageButton}" Click="btnSyncLibrary_OnClick" />
                     </StackPanel>
-                </HierarchicalDataTemplate>
-            </ListView.Resources>
-        </ListView>
-        <Grid Grid.Row="3" Margin="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <controls:ImageButton Grid.Column="0" x:Name="btnRefresh" Title="Cancel refresh" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource ImageButton}" Click="btnRefresh_OnClick" />
-            <StackPanel Grid.Column="1"></StackPanel>
-            <controls:ImageButton Grid.Column="2" x:Name="btnConnectManual" Title="Connect to device" ImageSource="/Resources/Images/Buttons/connect.png" Style="{StaticResource ImageButton}" Click="btnConnectManual_OnClick" />
-            <controls:ImageButton Grid.Column="3" x:Name="btnConnect" Title="Connect to device" ImageSource="/Resources/Images/Buttons/connect.png" Style="{StaticResource ImageButton}" />
-        </Grid>        
+                    <Label Grid.Row="2" Padding="4,4,4,4" Margin="0" Content="Remote Player" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+                    <StackPanel Grid.Row="3">
+                        <Grid Margin="4,6,4,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btnPrevious" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Skips to the previous song in the playlist." Click="BtnPlayerPrevious_OnClick">
+                                <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" />
+                            </Button>
+                            <Button Grid.Column="1" x:Name="btnPlayPause" Style="{StaticResource PlayerButton}" Width="50" Height="50" Margin="0" ToolTip="Pauses or restarts the playback." Click="BtnPlayerPlayPause_OnClick">
+                                <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" x:Name="imagePlayPause" />
+                            </Button>
+                            <Button Grid.Column="2" x:Name="btnNext" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Skips to the next song in the playlist." Click="BtnPlayerNext_OnClick">
+                                <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
+                            </Button>
+                            <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Cycles through repeat types." Click="BtnPlayerRepeat_OnClick">
+                                <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
+                            </Button>
+                            <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Shuffles the song in the playlist." Click="BtnPlayerShuffle_OnClick">
+                                <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <ProgressBar x:Name="progressBar" Width="40" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Value="0" Margin="2" IsIndeterminate="True" />
+                <Label x:Name="lblStatus" Content="Finding devices on your network..." Foreground="#FFDDDDDD" FontSize="12" FontFamily="/Resources/Fonts/#Roboto" />
+            </StackPanel>
+        </Grid>
+        <Label Grid.Row="3" Padding="4,4,4,4" Margin="0" Content="Add a device to the list" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+        <StackPanel Grid.Row="4" Orientation="Vertical">
+            <Grid Margin="0">
+                <Grid.ColumnDefinitions>                    
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <Label Content="Url:" Margin="0,2,0,0" Padding="6,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
+                    <TextBox x:Name="txtUrl" Height="24" Margin="4,4,4,4" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Label Content="Port:" Margin="0,2,0,0" Padding="6,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
+                    <TextBox x:Name="txtPort" Height="24" Margin="4,4,4,4" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                </StackPanel>
+                <controls:ImageButton Grid.Column="3" Margin="0" Padding="0" x:Name="btnAddDevice" Title="Add device" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Click="BtnAddDevice_OnClick" VerticalAlignment="Bottom" />
+            </Grid>
+            <Label x:Name="lblIPAddress" Content="My IP address is:" Foreground="#FFDDDDDD" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" VerticalContentAlignment="Center" />
+        </StackPanel>
     </Grid>
 </base:BaseWindow>
 

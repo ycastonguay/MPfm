@@ -114,7 +114,7 @@
                 </Grid>
             </DockPanel>
         </DockPanel>
-        <Grid Grid.Row="1" Background="{DynamicResource BrushHeaderBackgroundColor}">
+        <Grid Grid.Row="1" Background="{DynamicResource BrushBackgroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="Auto" />
@@ -127,12 +127,12 @@
                         <ColumnDefinition Width="163*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="27" />
+                        <RowDefinition Height="26" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Library Browser" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" Grid.ColumnSpan="2" />
+                    <Label Grid.Row="0" Content="Library Browser" Margin="0" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" Grid.ColumnSpan="2" />
                     <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2" Background="{DynamicResource BrushBackgroundColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -196,11 +196,11 @@
                         <!-- Current Song -->
                         <Grid Grid.Row="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="27" />
+                                <RowDefinition Height="26" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="Current Song" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                            <Label Grid.Row="0" Content="Current Song" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="170" />
@@ -466,18 +466,18 @@
                                 <Grid Grid.Column="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                     <Grid x:Name="gridLoops">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="25" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <Grid Grid.Row="0">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Loops" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="0" Content="Loops" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnPlayLoop" Title="Play" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnPlayLoop_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />                                                                        
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
@@ -509,9 +509,9 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackLoopDetails" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackLoopDetails_OnClick" />
-                                            <Label Grid.Column="1" Content="Loop Details" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <Label Grid.Column="3" Content="Loop Name:" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                            <TextBox x:Name="txtLoopName" Grid.Column="4" Width="80" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="1" Content="Loop Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="3" Content="Loop Name:" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                            <TextBox x:Name="txtLoopName" Grid.Column="4" Width="80" Margin="4,2,4,4" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <Grid Grid.Row="1">
                                             <Grid.ColumnDefinitions>
@@ -520,17 +520,17 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Segments" Padding="4,4,8,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="0" Content="Segments" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddSegment" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddSegment_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnEditSegment" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditSegment_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnRemoveSegment" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveSegment_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="2" x:Name="listViewSegments">
+                                        <ListView Grid.Row="2" x:Name="listViewSegments" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
-                                                    <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
-                                                    <GridViewColumn Header="Marker" Width="80" DisplayMemberBinding="{Binding Path=Length}" />
+                                                    <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Position}" />
+                                                    <GridViewColumn Header="Marker" Width="80" DisplayMemberBinding="{Binding Path=Marker}" />
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -546,7 +546,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackSegmentDetails" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackSegmentDetails_OnClick" />
-                                            <Label Grid.Column="1" Content="Segment Details" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="1" Content="Segment Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
                                             <Grid Margin="2,8,8,0">
@@ -577,7 +577,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackLoopPlayback" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackLoopPlayback_OnClick" />
-                                            <Label Grid.Column="1" Content="Loop Playback" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="1" Content="Loop Playback" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
                                             <Grid Margin="2,8,8,0">
@@ -602,18 +602,18 @@
                                 <Grid Grid.Column="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                     <Grid x:Name="gridMarkers">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="25" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <Grid Grid.Row="0">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Markers" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="0" Content="Markers" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="Go To" ImageSource="/Resources/Images/Buttons/goto.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" ContextMenuService.Placement="Bottom" Click="BtnAddMarker_OnClick" MouseRightButtonDown="BtnAddMarker_OnMouseRightButtonDown">
                                                 <Button.ContextMenu>
@@ -663,7 +663,7 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackMarker" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackMarker_OnClick" />
-                                            <Label Grid.Column="1" Content="Marker Details" Padding="4,4,0,0" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="1" Content="Marker Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
                                             <Grid Margin="2,8,8,0">
@@ -696,7 +696,7 @@
                         <!-- Song Browser -->
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="25" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
@@ -704,7 +704,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="Song Browser" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                <Label Grid.Column="0" Content="Song Browser" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                 <Grid Grid.Column="1" Background="White" Margin="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />

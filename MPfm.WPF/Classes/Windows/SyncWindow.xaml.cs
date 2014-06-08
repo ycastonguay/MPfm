@@ -42,21 +42,36 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
-        private void btnRefresh_OnClick(object sender, RoutedEventArgs e)
+        private void btnResumePlayback_OnClick(object sender, RoutedEventArgs e)
         {
         }
 
-        private void btnConnect_OnClick(object sender, RoutedEventArgs e)
+        private void btnSyncLibrary_OnClick(object sender, RoutedEventArgs e)
         {
-            if (listView.SelectedItems.Count == 0)
-                return;
-
-            //OnConnectDevice((SyncDevice)listView.SelectedItems[0]);
         }
 
-        private void btnConnectManual_OnClick(object sender, RoutedEventArgs e)
+        private void BtnAddDevice_OnClick(object sender, RoutedEventArgs e)
         {
-            
+        }
+
+        private void BtnPlayerPrevious_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnPlayerPlayPause_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnPlayerNext_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnPlayerRepeat_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnPlayerShuffle_OnClick(object sender, RoutedEventArgs e)
+        {
         }
 
         #region ISyncView implementation

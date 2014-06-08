@@ -27,8 +27,24 @@ namespace MPfm.Player.Objects
         public Guid AudioFileId { get; set; }
         public string Name { get; set; }
 
-        [DatabaseFieldAttribute(false)]
+        [DatabaseField(false)]
         public List<Segment> Segments { get; set; }
+
+        [DatabaseField(false)]
+        public int SegmentCount {
+            get { return Segments.Count; }
+            set
+            {
+                // Do nothing, a setter is required for using a property for models in WPF
+            }
+        }
+
+        [DatabaseField(false)]
+        public string TotalLength
+        {
+            get { return "0:00.000"; }
+            set { }
+        }
 
         public Loop()
         {

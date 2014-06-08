@@ -80,10 +80,11 @@ namespace MPfm.WPF.Classes.Controls
 
             _imageIcon = new Image();
             _imageIcon.Stretch = Stretch.None;
+            _imageIcon.Margin = new Thickness(0, -1, 0, 0);
             _stackPanel.Children.Add(_imageIcon);
 
             _lblTitle = new TextBlock();
-            _lblTitle.Margin = new Thickness(6, 2, 0, 0);
+            _lblTitle.Margin = new Thickness(6, 1, 0, 0);
             _stackPanel.Children.Add(_lblTitle);
         }
     }

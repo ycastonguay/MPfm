@@ -90,6 +90,7 @@ namespace MPfm.WPF.Classes.Windows
 
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
+            EnableSegmentButtons(false);
             RefreshSongInformation(null, 0, 0, 0);
         }
 
@@ -623,31 +624,92 @@ namespace MPfm.WPF.Classes.Windows
             }
         }
 
-        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnEditSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnRemoveSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void EnableLoopButtons(bool enabled)
         {
             btnPlayLoop.Enabled = enabled;
             btnEditLoop.Enabled = enabled;
             btnRemoveLoop.Enabled = enabled;
+        }
+
+        private void ListViewSegments_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableSegmentButtons(listViewLoops.SelectedIndex >= 0);
+
+            if (listViewLoops.SelectedIndex >= 0)
+                _selectedLoopIndex = listViewLoops.SelectedIndex;
+        }
+
+        private void ListViewSegments_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditSegment();
+        }
+
+        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridLoops.Visibility = Visibility.Hidden;
+            gridLoopDetails.Visibility = Visibility.Visible;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Hidden;
+
+            _currentSegment.MarkerId = Guid.Empty;
+            //if (chkSegmentLinkToMarker.Value && comboSegmentMarker.IndexOfSelectedItem >= 0)
+            //    _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
+
+            OnUpdateSegmentDetails(_currentSegment);
+            _currentSegment = null;
+        }
+
+        private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnAddSegment();
+            gridLoops.Visibility = Visibility.Hidden;
+            gridLoopDetails.Visibility = Visibility.Hidden;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Visible;
+        }
+
+        private void BtnEditSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+            EditSegment();
+        }
+
+        private void EditSegment()
+        {
+            if (listViewSegments.SelectedIndex < 0 || listViewSegments.SelectedIndex >= _currentLoop.Segments.Count)
+                return;
+
+            OnEditSegment(_currentLoop.Segments[listViewSegments.SelectedIndex]);
+            gridLoops.Visibility = Visibility.Hidden;
+            gridLoopDetails.Visibility = Visibility.Hidden;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Visible;
+        }
+
+        private void BtnRemoveSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listViewSegments.SelectedIndex < 0 || listViewSegments.SelectedIndex >= _currentLoop.Segments.Count)
+                return;
+
+            var result = MessageBox.Show("Are you sure you wish to remove this segment?", "Remove segment", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                OnDeleteSegment(_currentLoop.Segments[listViewSegments.SelectedIndex]);
+                EnableSegmentButtons(false);
+            }
+        }
+
+        private void EnableSegmentButtons(bool enabled)
+        {
+            btnEditSegment.Enabled = enabled;
+            btnRemoveSegment.Enabled = enabled;
+        }
+
+        private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridLoops.Visibility = Visibility.Visible;
+            gridLoopDetails.Visibility = Visibility.Hidden;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Hidden;
         }
 
         private void SliderMarkerPosition_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1157,9 +1219,7 @@ namespace MPfm.WPF.Classes.Windows
             _loops = loops.ToList();
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                listViewLoops.Items.Clear();
-                foreach (var loop in _loops)
-                    listViewLoops.Items.Add(loop);
+                listViewLoops.ItemsSource = _loops;
                 listViewLoops.SelectedIndex = _selectedLoopIndex;
             }));
         }
@@ -1337,9 +1397,7 @@ namespace MPfm.WPF.Classes.Windows
                 scrollViewWaveForm.SetLoop(loop);
                 //scrollViewWaveForm.FocusZoomOnLoop(_currentLoop);
 
-                listViewSegments.Items.Clear();
-                foreach (var segment in _currentLoop.Segments)
-                    listViewSegments.Items.Add(segment);
+                listViewSegments.ItemsSource = _currentLoop.Segments;
                 listViewSegments.SelectedIndex = _selectedSegmentIndex;
             }));
         }
@@ -1386,15 +1444,6 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSegmentPosition(string position, float positionPercentage)
         {
-            
-        }
-
-        public void RefreshSegmentStartPosition(string position, float positionPercentage)
-        {
-        }
-
-        public void RefreshSegmentEndPosition(string position, float positionPercentage)
-        {
         }
 
         public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
@@ -1422,7 +1471,6 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
-
 
     }
 }

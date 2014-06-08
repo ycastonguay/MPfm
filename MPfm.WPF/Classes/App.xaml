@@ -10,11 +10,11 @@
         <!--<Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>-->
         <Color x:Key="SecondaryHeaderBackgroundColor">#FF455864</Color>
         <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
-        
         <Color x:Key="HeaderButtonOverBackgroundColor">#FF687985</Color>
-        <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>
+        <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>        
         <Color x:Key="ButtonOverBackgroundColor">#FFF07568</Color>
-        
+        <Color x:Key="ListViewSelectedBackgroundColor">#FFBACCD9</Color>
+
         <!--<Color x:Key="TabButtonBackgroundColor">#FFF07568</Color>
         <Color x:Key="TabButtonOverBackgroundColor">#FFF07568</Color>
         <Color x:Key="TabButtonSelectedBackgroundColor">#FFF07568</Color>
@@ -25,8 +25,8 @@
         <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="{DynamicResource HeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushSecondaryHeaderBackgroundColor" Color="{DynamicResource SecondaryHeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushButtonBackgroundColor" Color="{DynamicResource ButtonBackgroundColor}" />
-
         <SolidColorBrush x:Key="BrushMenuItemOverBackgroundColor" Color="{DynamicResource MenuItemOverBackgroundColor}" />
+        <SolidColorBrush x:Key="BrushListViewSelectedBackgroundColor" Color="{DynamicResource ListViewSelectedBackgroundColor}" />
         
         <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -36,8 +36,8 @@
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="Padding" Value="6" />
-            <Setter Property="Margin" Value="2" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button"> 
@@ -66,7 +66,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Border x:Name="borderButton" BorderThickness="4" CornerRadius="8" Background="#FFE74C3C">
+                            <Border x:Name="borderButton" BorderThickness="4" CornerRadius="8" Margin="0" Padding="0" Height="35" Background="#FFE74C3C">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
@@ -531,29 +531,36 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <!--<Setter Property="Height" Value="20" />-->
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Margin" Value="0" />
+            <Setter Property="Margin" Value="-3,0,0,0" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Width" Value="Auto" />
+            <Setter Property="FontSize" Value="11" />
             <Setter Property="FontFamily" Value="Roboto" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border Name="Border" Padding="2" SnapsToDevicePixels="true" Background="Transparent">
+                            <GridViewRowPresenter VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource BrushListViewSelectedBackgroundColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="HotPink"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+                </Setter>                    
+                <Style.Triggers>
+                <!--<Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="LightGray"/>
-                </Trigger>
+                </Trigger>-->
             </Style.Triggers>
-            <!--<Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                        <Grid ShowGridLines="false">
-                            <Border Name="HeaderBorder" BorderThickness="0" Background="Yellow" Padding="2,0,2,0">
-                                <ContentPresenter Name="ListItemContent" Margin="1,0,0,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>-->            
         </Style>
         <Style x:Key="GridViewColumnHeaderGripper" TargetType="Thumb">
             <Setter Property="Width" Value="18"/>

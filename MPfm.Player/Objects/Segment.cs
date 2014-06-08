@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Core.Attributes;
 
 namespace MPfm.Player.Objects
 {
@@ -29,6 +30,9 @@ namespace MPfm.Player.Objects
         public string Position { get; set; }
         public uint PositionBytes { get; set; }
         public uint PositionSamples { get; set; }
+
+        [DatabaseField(false)]
+        public string Marker { get; set; }
 
         public Segment()
         {
