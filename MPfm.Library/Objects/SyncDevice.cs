@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
+using System.Windows.Forms.VisualStyles;
 using MPfm.Player.Objects;
 
 namespace MPfm.Library.Objects
@@ -36,6 +38,47 @@ namespace MPfm.Library.Objects
         public byte[] AlbumArt { get; set; }
         public string AlbumArtKey { get; set; }
         public PlayerMetadata PlayerMetadata { get; set; }
+
+        public string Status { get { return IsOnline ? "Online" : "Offline"; } set { /* for WPF */ } }
+        public string IconName
+        {
+            get
+            {
+                string iconName = string.Empty;
+                switch (DeviceType)
+                {
+                    case SyncDeviceType.Linux:
+                        iconName = "pc_linux";
+                        break;
+                    case SyncDeviceType.OSX:
+                        iconName = "pc_mac";
+                        break;
+                    case SyncDeviceType.Windows:
+                        iconName = "pc_windows";
+                        break;
+                    case SyncDeviceType.iPhone:
+                        iconName = "phone_iphone";
+                        break;
+                    case SyncDeviceType.iPad:
+                        iconName = "tablet_ipad";
+                        break;
+                    case SyncDeviceType.AndroidPhone:
+                        iconName = "phone_android";
+                        break;
+                    case SyncDeviceType.AndroidTablet:
+                        iconName = "tablet_android";
+                        break;
+                    case SyncDeviceType.WindowsPhone:
+                        iconName = "phone_windows";
+                        break;
+                    case SyncDeviceType.WindowsStore:
+                        iconName = "tablet_windows";
+                        break;
+                }
+                return iconName;
+            } 
+            set { /* for WPF */ }
+        }
 	}
 	
 	/// <summary>

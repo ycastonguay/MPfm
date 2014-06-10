@@ -164,6 +164,7 @@
     <Compile Include="Classes\Controls\Fader.cs" />
     <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Converters\StringFormatToImageSourceConverter.cs" />
     <Compile Include="Classes\Converters\GridViewWidthConverter.cs" />
     <Compile Include="Classes\Extensions\ExtensionMethods.cs" />
     <Compile Include="Classes\Helpers\UIHelper.cs" />

@@ -4,8 +4,12 @@
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
+        xmlns:converters="clr-namespace:MPfm.WPF.Classes.Converters"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
         Title="Devices" Height="620" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <converters:StringFormatToImageSourceConverter x:Key="StringToImageSource" />
+    </Window.Resources>
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -26,18 +30,19 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ListView Grid.Column="0" x:Name="listView">
-                    <ListView.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type models:SyncDevice}" ItemsSource="{Binding SubItems}">
-                            <StackPanel Orientation="Horizontal" Margin="4">
-                                <Image Source="/Resources/Images/Icons/linux.png" Stretch="Uniform" />
-                                <TextBlock Text="{Binding Name}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
-                            </StackPanel>
-                        </HierarchicalDataTemplate>
-                    </ListView.Resources>
+                <ListView Grid.Column="0" x:Name="listViewDevices" SelectionChanged="ListViewDevices_OnSelectionChanged" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Device" Width="250" DisplayMemberBinding="{Binding Path=DeviceName}" />
+                            <GridViewColumn Header="Device" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,2,2,2" Source="{Binding Path=IconName, Converter={StaticResource StringToImageSource}, ConverterParameter=/Resources/Images/Devices/{0}.png}" />
+                                            <TextBlock Margin="2,2,2,2" Text="{Binding Path=Name}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Path=Status}" />
                         </GridView>
                     </ListView.View>
@@ -59,7 +64,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="/Resources/Images/Devices/phone_iphone_large.png" />
+                        <Image Grid.Column="0" x:Name="imageViewDeviceType" Source="/Resources/Images/Devices/phone_iphone_large.png" />
                         <StackPanel Grid.Column="1">
                             <Label x:Name="lblDeviceName" Content="hamster-os.x-local" Margin="0" Padding="2,4,2,2" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Medium" />
                             <Label x:Name="lblDeviceUrl" Content="http://192.168.1.101:53551/" Margin="0" Padding="2,2,2,2" Foreground="#FFDDDDDD" FontSize="12" FontFamily="/Resources/Fonts/#Roboto" />
@@ -77,7 +82,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="/Resources/Images/Devices/phone_iphone_large.png" Width="80" Height="80" />
+                        <Image Grid.Column="0" x:Name="imageViewAlbum" Source="/Resources/Images/Devices/phone_iphone_large.png" Width="80" Height="80" />
                         <StackPanel Grid.Column="1">
                             <Label x:Name="lblArtistName" Content="Satie Erik" Margin="0" Padding="2,4,2,2" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" />
                             <Label x:Name="lblAlbumTitle" Content="Piano Works" Margin="0" Padding="2,2,2,2" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
@@ -129,11 +134,19 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical">
                     <Label Content="Url:" Margin="0,2,0,0" Padding="6,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
-                    <TextBox x:Name="txtUrl" Height="24" Margin="4,4,4,4" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                    <Grid Background="White" Margin="4,4,4,4" Height="24">
+                        <TextBlock Text="i.e. 192.168.1.101" Margin="5,2" Padding="0,4,0,0" Foreground="DarkSlateGray"  FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular"
+                                   Visibility="{Binding ElementName=txtAddDeviceUrl, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
+                        <TextBox x:Name="txtAddDeviceUrl" Padding="0,4,0,0" Background="Transparent" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                    </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <Label Content="Port:" Margin="0,2,0,0" Padding="6,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
-                    <TextBox x:Name="txtPort" Height="24" Margin="4,4,4,4" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                    <Grid Background="White" Margin="4,4,4,4" Height="24">
+                        <TextBlock Text="53551" Margin="5,2" Padding="0,4,0,0" Foreground="DarkSlateGray"  FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular"
+                                   Visibility="{Binding ElementName=txtAddDevicePort, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />                        
+                        <TextBox x:Name="txtAddDevicePort" Padding="0,4,0,0" Background="Transparent" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                    </Grid>
                 </StackPanel>
                 <controls:ImageButton Grid.Column="3" Margin="0" Padding="0" x:Name="btnAddDevice" Title="Add device" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Click="BtnAddDevice_OnClick" VerticalAlignment="Bottom" />
             </Grid>
