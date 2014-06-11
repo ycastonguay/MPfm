@@ -26,7 +26,6 @@ using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.Library.Objects;
 using MPfm.MVP.Config;
-using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Library.Services.Interfaces;
 
@@ -96,7 +95,7 @@ namespace MPfm.MVP.Services
 #endif
         }
 
-	    private void CreateDirectories()
+	    public static void CreateDirectories()
         {
 #if WINDOWSSTORE
             //var task = ApplicationData.Current.LocalFolder.CreateFolderAsync("PeakFiles", CreationCollisionOption.OpenIfExists);

@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +25,7 @@ using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.BassNetWrapper;
@@ -75,8 +75,10 @@ namespace MPfm.MVP.Presenters
             }
 
             View.RefreshStatus("Initializing player...");
+            // TODO: Some refactoring here. Should not be a static method in InitializationService!
+	        InitializationService.CreateDirectories(); // make sure directories exist before initializing configuration
             AppConfigManager.Instance.Load();
-            Device device = new Device()
+            var device = new Device()
             {
                 DriverType = DriverType.DirectSound,
                 Id = -1

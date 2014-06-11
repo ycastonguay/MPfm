@@ -16,21 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.BassNetWrapper;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
 #elif WINDOWS_PHONE
 using System.Windows.Threading;
-#endif
-
-#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-using Un4seen.Bass;
-using MPfm.Sound.BassNetWrapper;
 #endif
 
 namespace MPfm.Sound.Playlists
@@ -53,48 +46,6 @@ namespace MPfm.Sound.Playlists
             get
             {
                 return id;
-            }
-        }
-
-        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-
-        /// <summary>
-        /// Private value for the SyncProc proprety.
-        /// </summary>
-        private SYNCPROC syncProc = null;
-        /// <summary>
-        /// Synchronization callback.
-        /// </summary>
-        public SYNCPROC SyncProc
-        {
-            get
-            {
-                return syncProc;
-            }
-            set
-            {
-                syncProc = value;
-            }
-        }
-
-        #endif
-
-        /// <summary>
-        /// Private value for the SyncProcHandle property.
-        /// </summary>
-        private int syncProcHandle = 0;
-        /// <summary>
-        /// Contains the handle to the SYNCPROC.
-        /// </summary>
-        public int SyncProcHandle
-        {
-            get
-            {
-                return syncProcHandle;
-            }
-            set
-            {
-                syncProcHandle = value;
             }
         }
 
@@ -249,9 +200,6 @@ namespace MPfm.Sound.Playlists
             lengthSamples = ConvertAudio.ToPCM(lengthBytes, (uint)audioFile.BitsPerSample, 2);
             lengthMilliseconds = (int)ConvertAudio.ToMS(lengthSamples, (uint)audioFile.SampleRate);
             lengthString = Conversion.MillisecondsToTimeString((ulong)lengthMilliseconds);
-
-            // Decode file in another thread
-            //Decode(0);
 
             #endif
 

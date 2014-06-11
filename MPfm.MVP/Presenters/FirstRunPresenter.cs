@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services;
 using MPfm.MVP.Views;
 
 namespace MPfm.MVP.Presenters
@@ -32,6 +33,9 @@ namespace MPfm.MVP.Presenters
         public override void BindView(IFirstRunView view)
         {
             base.BindView(view);
+
+            // make sure directories exist before initializing configuration (TODO: Remove this and do proper init in InitializationService)
+            InitializationService.CreateDirectories(); 
         }     
 	}
 }

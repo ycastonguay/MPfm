@@ -35,7 +35,7 @@ namespace MPfm.Player.Objects
             get { return Segments.Count; }
             set
             {
-                // Do nothing, a setter is required for using a property for models in WPF
+                /* for WPF */
             }
         }
 
@@ -65,6 +65,26 @@ namespace MPfm.Player.Objects
             if (index + 1 > Segments.Count - 1)
                 newIndex = 0;
             return Segments[newIndex];
+        }
+
+        public Segment GetNextSegmentForPlayback(int index)
+        {
+            long positionBytes = Segments[index].PositionBytes;
+            int segmentIndex = index;
+            while (true)
+            {
+                if (segmentIndex < Segments.Count - 1)
+                    segmentIndex++;
+                else if (segmentIndex == index)
+                    break;
+                else
+                    segmentIndex = 0;
+
+                if (Segments[segmentIndex].PositionBytes > positionBytes)
+                    break;
+            }
+
+            return Segments[segmentIndex];
         }
     }
 }

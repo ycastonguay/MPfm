@@ -26,11 +26,11 @@ using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.Playlists;
-using Un4seen.Bass;
-using Un4seen.Bass.AddOn.Fx;
 using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
+using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Fx;
 using Un4seen.Bass.AddOn.Enc;
 
 #if !IOS && !ANDROID
@@ -70,6 +70,7 @@ namespace MPfm.Player
         /// </summary>
         public bool IsSettingPosition { get; private set; }
 
+        private PlayerSyncProc _syncProcLoop = null;
         private IDecodingService _decodingService = null;
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
@@ -1561,11 +1562,15 @@ namespace MPfm.Player
         {
             if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
                 return;
-            
-            if(loop.Segments.Count == 0)
+
+            if (loop.Segments.Count == 0)
                 return;
 
             long positionBytes = loop.Segments[_currentSegmentIndex].PositionBytes;
+            long nextPositionBytes = 0;
+            var segment = loop.GetNextSegmentForPlayback(_currentSegmentIndex);
+            if (segment != null)
+                nextPositionBytes = segment.PositionBytes;
 
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
@@ -1594,31 +1599,31 @@ namespace MPfm.Player
             _mixerChannel.SetPosition(0);
 
             // Set sync
+            _syncProcLoop = new PlayerSyncProc();
 #if IOS
-            Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProcIOS);
+            _syncProcLoop.SyncProc = new SYNCPROC(LoopSyncProcIOS);
 #else
-            Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
+            _syncProcLoop.SyncProc = new SYNCPROC(LoopSyncProc);
 #endif
 
-//            if (_mixerChannel is MixerChannel)
-//            {
-//                var mixerChannel = _mixerChannel as MixerChannel;
-//                Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
-//            } 
-//            else
-//            {
-//                Playlist.CurrentItem.SyncProcHandle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
-//            }
-//
-//            // Set new callback (length already in floating point)
-//            SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
+            if (_mixerChannel is MixerChannel)
+            {
+                var mixerChannel = _mixerChannel as MixerChannel;
+                _syncProcLoop.Handle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (nextPositionBytes - positionBytes) * 2, _syncProcLoop.SyncProc);
+            }
+            else
+            {
+                _syncProcLoop.Handle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (nextPositionBytes - positionBytes) * 2, _syncProcLoop.SyncProc);
+            }
+
+            // Set new callback (length already in floating point)
+            SetSyncCallback((length - (nextPositionBytes * 2))); // + buffered));
 
             // Set offset position (for calulating current position)
             _positionOffset = positionBytes;
             _mixerChannel.Lock(false);
             _currentLoop = loop;
         }
-
         /// <summary>
         /// Stops any loop currently playing.
         /// </summary>
@@ -1633,11 +1638,11 @@ namespace MPfm.Player
                 if (_mixerChannel is MixerChannel)
                 {
                     var mixerChannel = _mixerChannel as MixerChannel;
-                    mixerChannel.RemoveSync(_fxChannel.Handle, Playlist.CurrentItem.SyncProcHandle);
+                    mixerChannel.RemoveSync(_fxChannel.Handle, _syncProcLoop.Handle);
                 } 
                 else
                 {
-                    _mixerChannel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
+                    _mixerChannel.RemoveSync(_syncProcLoop.Handle);
                 }
             }
             catch
@@ -2136,13 +2141,17 @@ namespace MPfm.Player
             if (Loop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
                 return;
 
+            // lock needed?
             if (Loop.Segments.Count - 1 > _currentSegmentIndex)
                 _currentSegmentIndex = 0;
             else
                 _currentSegmentIndex++;
             
-            // Get loop start position
-            long bytes = Loop.Segments[_currentSegmentIndex].PositionBytes;
+            long bytes = 0;
+            var nextSegment = Loop.GetNextSegment(_currentSegmentIndex);
+            if (nextSegment != null)
+                bytes = nextSegment.PositionBytes;
+
             _mixerChannel.Lock(true);
 
             // Check if this is a FLAC file over 44100Hz
