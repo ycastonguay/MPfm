@@ -29,6 +29,24 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class Playlist
     {
+        private Random _random = null;
+        
+        public bool IsShuffled { get; set; }
+        
+        private List<Guid> _playedItemIds = null;
+        /// <summary>
+        /// List of audio file ids that have been played in this session
+        /// (useful for shuffling).
+        /// </summary>
+        [DatabaseField(false)]
+        public List<Guid> PlayedItemIds
+        {
+            get
+            {
+                return _playedItemIds;
+            }
+        }
+        
         private List<PlaylistItem> _items = null;
         /// <summary>
         /// List of playlist _items.
@@ -101,7 +119,9 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public Playlist()
         {
+            _random = new Random();
             _items = new List<PlaylistItem>();
+            _playedItemIds = new List<Guid>();
             PlaylistId = Guid.NewGuid();
             LastModified = DateTime.Now;
             Format = PlaylistFileFormat.Unknown;
@@ -158,11 +178,13 @@ namespace MPfm.Sound.Playlists
         {            
             FilePath = string.Empty;
             Format = PlaylistFileFormat.Unknown;
+            _random = new Random();
             _items = new List<PlaylistItem>();
+            _playedItemIds = new List<Guid>();
             _currentItemIndex = 0;
             _currentItem = null;            
         }
-
+       
         /// <summary>
         /// Disposes channels and set them to null.
         /// </summary>
@@ -185,11 +207,7 @@ namespace MPfm.Sound.Playlists
             }
         }
 
-        /// <summary>
-        /// Updates the current item if the private value is null and
-        /// there is more than one item in the list.
-        /// </summary>
-        private void UpdateCurrentItem()
+        private void PrepareCurrentItemForPlayback()
         {
             if (_currentItem == null && _items.Count > 0)
                 _currentItem = _items[0];
@@ -203,7 +221,7 @@ namespace MPfm.Sound.Playlists
         {
             AudioFile audioFile = new AudioFile(filePath);
             Items.Add(new PlaylistItem(audioFile));
-            UpdateCurrentItem();
+            PrepareCurrentItemForPlayback();
         }
 
         /// <summary>
@@ -213,13 +231,13 @@ namespace MPfm.Sound.Playlists
         public void AddItem(AudioFile audioFile)
         {
             Items.Add(new PlaylistItem(audioFile));
-            UpdateCurrentItem();
+            PrepareCurrentItemForPlayback();
         }
 
         public void AddItem(PlaylistItem playlistItem)
         {
             Items.Add(playlistItem);
-            UpdateCurrentItem();
+            PrepareCurrentItemForPlayback();
         }
 
         /// <summary>
@@ -274,63 +292,46 @@ namespace MPfm.Sound.Playlists
                     Items.Add(new PlaylistItem(audioFile));
             }
 
-            UpdateCurrentItem();
+            PrepareCurrentItemForPlayback();
         }
 
 		public void AddItems(IEnumerable<AudioFile> audioFiles)
         {
             foreach (AudioFile audioFile in audioFiles)
                 AddItem(audioFile);
-			UpdateCurrentItem();
+			PrepareCurrentItemForPlayback();
         }
 
 		public void AddItems(IEnumerable<PlaylistItem> playlistItems)
         {
             Items.AddRange(playlistItems);
-			UpdateCurrentItem();
+			PrepareCurrentItemForPlayback();
         }
 
-        /// <summary>
-        /// Inserts an item at a specific location in the playlist.
-        /// </summary>
-        /// <param name="filePath">Audio file path</param>
-        /// <param name="index">The item will be inserted before this index</param>
         public void InsertItem(string filePath, int index)
         {
-            // Create audio file and read metadata
-            AudioFile audioFile = new AudioFile(filePath);
-
-            // Add new playlist item at the specified index
-            Items.Insert(index, new PlaylistItem(audioFile));
-
-            // Increment current item index if an item was inserted before the current item
-            if (index <= CurrentItemIndex)
-                _currentItemIndex++;
-
-            UpdateCurrentItem();
+            InsertItem(new AudioFile(filePath), index);
         }
 
-        /// <summary>
-        /// Inserts an item at a specific location in the playlist.
-        /// </summary>
-        /// <param name="audioFile">Audio file</param>
-        /// <param name="index">The item will be inserted before this index</param>
         public void InsertItem(AudioFile audioFile, int index)
         {
-            // Add new playlist item at the specified index
-            Items.Insert(index, new PlaylistItem(audioFile));
-
-            // Increment current item index if an item was inserted before the current item
-            if (index <= CurrentItemIndex)
-                _currentItemIndex++;
-
-            UpdateCurrentItem();
+            InsertItem(new PlaylistItem(audioFile), index);
         }
 
-        /// <summary>
-        /// Removes the item at the location passed in the index parameter.
-        /// </summary>
-        /// <param name="index">Index of the item to remove</param>
+        public void InsertItem(PlaylistItem item, int index)
+        {
+            // Add new playlist item at the specified index
+            Items.Insert(index, item);
+
+            // Increment current item index if an item was inserted before the current item; set current item if index is the same
+            if (index < CurrentItemIndex)
+                _currentItemIndex++;
+            else if (index == CurrentItemIndex)
+                _currentItem = item;
+
+            PrepareCurrentItemForPlayback();
+        }
+
         public void RemoveItem(int index)
         {            
             Items[index].Dispose();
@@ -339,16 +340,16 @@ namespace MPfm.Sound.Playlists
             // Decrement current item index if an item was removed before the current item
             if (index <= CurrentItemIndex)
                 _currentItemIndex--;
+            
+            PrepareCurrentItemForPlayback();
         }
 
-        /// <summary>
-        /// Remove all playlist _items matching the ids in the list.
-        /// </summary>
-        /// <param name="playlistIds">List of playlist ids to remove</param>
         public void RemoveItems(List<Guid> playlistIds)
         {
             foreach (var playlistId in playlistIds)
                 Items.RemoveAll(x => x.Id == playlistId);
+            
+            PrepareCurrentItemForPlayback();
         }
 
         /// <summary>
@@ -431,7 +432,26 @@ namespace MPfm.Sound.Playlists
         {
             if (_currentItemIndex < _items.Count - 1)
                 _currentItemIndex++;                
-            _currentItem = _items[_currentItemIndex];
+            
+            if (IsShuffled)
+            {
+                AddCurrentItemToPlayedList();
+                
+                // This will generate a random number based on the list count
+                // (however, the count can change during a session...)
+                int r = _random.Next(_items.Count);
+                _currentItem = _items[r]; 
+            }           
+            else
+            {            
+                _currentItem = _items[_currentItemIndex];
+            }
+        }
+        
+        private void AddCurrentItemToPlayedList()
+        {
+            if(_currentItem != null)                    
+                _playedItemIds.Add(_currentItem.Id);
         }
     }
 }

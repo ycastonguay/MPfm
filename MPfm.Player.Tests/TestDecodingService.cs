@@ -25,7 +25,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using NUnit.Framework;
 
-namespace MPfm.Tests.Player
+namespace MPfm.Player.Tests
 {
     [TestFixture()]
     public class TestDecodingService

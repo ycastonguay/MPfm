@@ -579,6 +579,7 @@ namespace MPfm.Sound.AudioFiles
         /// </summary>
         public AudioFile()
         {
+            Id = Guid.NewGuid();
         }
 
 		/// <summary>

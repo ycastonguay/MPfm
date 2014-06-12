@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using MPfm.Core;
 using NUnit.Framework;
 
-namespace MPfm.Tests.Core
+namespace MPfm.Core.Tests
 {
     [TestFixture()]
     public class TestByteArrayQueue
