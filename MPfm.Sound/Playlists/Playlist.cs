@@ -338,7 +338,8 @@ namespace MPfm.Sound.Playlists
             Items.RemoveAt(index);
 
             // Decrement current item index if an item was removed before the current item
-            if (index <= CurrentItemIndex)
+            //if (index <= CurrentItemIndex)
+            if (index < CurrentItemIndex)
                 _currentItemIndex--;
             
             PrepareCurrentItemForPlayback();

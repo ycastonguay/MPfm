@@ -32,6 +32,7 @@ namespace MPfm.Core.Helpers
         public static string HomeDirectory { get; set; }
         public static string PeakFileDirectory { get; set; }
         public static string ConfigurationFilePath { get; set; }
+        public static string UnitTestConfigurationFilePath { get; set; }
         public static string DeviceStoreFilePath { get; set; }
         public static string DatabaseFilePath { get; set; }
         public static string LogFilePath { get; set; }
@@ -39,7 +40,6 @@ namespace MPfm.Core.Helpers
 		static PathHelper()
 		{
 			// Get assembly directory
-			//string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             //// Get application data folder path
             //// Vista/Windows7: C:\Users\%username%\AppData\Roaming\
             //// XP: C:\Documents and Settings\%username%\Application Data\
@@ -60,6 +60,7 @@ namespace MPfm.Core.Helpers
 #endif
 
 			ConfigurationFilePath = Path.Combine(HomeDirectory, "MPfm.Configuration.xml");
+            UnitTestConfigurationFilePath = Path.Combine(HomeDirectory, "MPfm.UnitTest.Configuration.xml");
             DeviceStoreFilePath = Path.Combine(HomeDirectory, "MPfm.Devices.json");
 			DatabaseFilePath = Path.Combine(HomeDirectory, "MPfm.Database.db");
 			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");            
