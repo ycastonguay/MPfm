@@ -18,6 +18,7 @@
 using System;
 using System.Drawing;
 using MonoMac.AppKit;
+using MonoMac.OpenGL;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
@@ -27,7 +28,7 @@ using MPfm.OSX.Classes.Controls.Helpers;
 namespace MPfm.OSX.Classes.Controls
 {
     [Register("MPfmOutputMeterView")]
-    public class MPfmOutputMeterView : NSView
+    public class MPfmOutputMeterView : NSOpenGLView
     {
         private OutputMeterControl _control;
 
@@ -48,9 +49,11 @@ namespace MPfm.OSX.Classes.Controls
             Initialize();
         }
 
+        //public MPfmOutputMeterView(IntPtr handle) : base
+
         private void Initialize()
         {
-            WantsLayer = true;
+            //WantsLayer = true;
             _control = new OutputMeterControl();    
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
@@ -58,9 +61,24 @@ namespace MPfm.OSX.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            var context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
-            _control.Render(wrapper);
+            GL.ClearColor(0, 0, 0, 0);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            TestDraw();
+            GL.Flush();
+            //base.DrawRect(dirtyRect);
+//            var context = NSGraphicsContext.CurrentContext.GraphicsPort;
+//            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
+//            _control.Render(wrapper);
+        }
+
+        private void TestDraw()
+        {
+            GL.Color3(1.0f, 0.85f, 0.35f);
+            GL.Begin(BeginMode.Triangles);
+            GL.Vertex3(0.0, 0.6, 0.0);
+            GL.Vertex3(-0.2, -0.3, 0.0);
+            GL.Vertex3(0.2, -0.3, 0.0);
+            GL.End();
         }
 
         public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
