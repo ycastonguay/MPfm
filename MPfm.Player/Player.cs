@@ -434,12 +434,12 @@ namespace MPfm.Player
             }
         }
 
-        private Playlist _playlist = null;
+        private ShufflePlaylist _playlist = null;
         /// <summary>
         /// Playlist used for playback. Contains the audio file metadata and decode channels for
         /// playback.
         /// </summary>
-        public Playlist Playlist
+        public ShufflePlaylist Playlist
         {
             get
             {
@@ -542,7 +542,7 @@ namespace MPfm.Player
             _bufferSize = bufferSize;
             _updatePeriod = updatePeriod;
             _decodingService = new DecodingService(100000, UseFloatingPoint);
-            _playlist = new Playlist();
+            _playlist = new ShufflePlaylist();
             _syncProcs = new List<PlayerSyncProc>();
 
 #if !ANDROID
@@ -1197,7 +1197,7 @@ namespace MPfm.Player
             // Add audio files to playlist
             _playlist.Clear();
             foreach (AudioFile audioFile in audioFiles)
-                _playlist.AddItem(audioFile);
+                _playlist.AddItem(new PlaylistItem(audioFile));
 
             // Start playback from first item
             _playlist.First();

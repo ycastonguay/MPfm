@@ -26,6 +26,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Core;
+using MPfm.Sound.Playlists;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Objects;
@@ -79,18 +80,18 @@ namespace MPfm.MVP.Presenters
 
 	    public void SongBrowserEditSongMetadata(AudioFile audioFile)
 	    {
-#if IOS || ANDROID
-            // Not available on mobile devices yet.
-#else
-	        _navigationManager.CreateEditSongMetadataView(audioFile);
-#endif
+            if(_navigationManager != null)
+	            _navigationManager.CreateEditSongMetadataView(audioFile);
 	    }
 
         private void AddToPlaylist(IEnumerable<AudioFile> audioFiles)
         {
             try
             {
-                _playerService.CurrentPlaylist.AddItems(audioFiles);
+                var items = new List<PlaylistItem>();
+                foreach(var audioFile in audioFiles)
+                    items.Add(new PlaylistItem(audioFile));
+                _playerService.CurrentPlaylist.AddItems(items);
             }
             catch(Exception ex)
             {

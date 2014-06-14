@@ -37,22 +37,14 @@ namespace MPfm.Sound.Tests
         // Restrictions:
         // - The same song must not play until the playlist is complete
         
-        //protected const int NumberOfSongsToFillPlaylist = 10;
         protected TestConfigurationEntity Config;
-        protected Playlist Playlist;
         protected TestDevice TestDevice;
+
+        public virtual Playlist Playlist { get; protected set; }
 
         public PlaylistTest()
         {
-            // For generating the config file if needed
-//            var config = new TestConfigurationEntity();
-//            config.AudioFilePaths.Add(@"/Volumes/Mountain Lion Data/MP3/Cut Copy/In Ghost Colours/13 Visions.mp3");            
-//            config.AudioFilePaths.Add(@"/Volumes/Mountain Lion Data/MP3/Cut Copy/In Ghost Colours/13 Visions Test.mp3");
-//            TestConfigurationHelper.Save(config);
-            
             Config = TestConfigurationHelper.Load();            
-//            for (int a = 0; a < Config.AudioFilePaths.Count; a++)
-//                Console.WriteLine("AudioFile: {0}", Config.AudioFilePaths[a]);
         }
         
         protected void InitializeBass()
@@ -61,14 +53,13 @@ namespace MPfm.Sound.Tests
             Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
             TestDevice = new TestDevice(DriverType.DirectSound, -1, 44100);
         }
-                
-        protected void PreparePlaylist()
+
+        protected virtual void PreparePlaylist()
         {
-            Playlist = new Playlist();    
-            //for (int a = 0; a < NumberOfSongsToFillPlaylist; a++)
+            Playlist = new Playlist();
             for (int a = 0; a < Config.AudioFilePaths.Count; a++)
-                Playlist.AddItem(new AudioFile(Config.AudioFilePaths[a]));
-        }        
+                Playlist.AddItem(new PlaylistItem(new AudioFile(Config.AudioFilePaths[a])));
+        }
 
         [TestFixture]
         public class AddItemTest : PlaylistTest
@@ -319,7 +310,7 @@ namespace MPfm.Sound.Tests
             {
                 PrepareTest();
                 Assert.IsEmpty(Playlist.Items);
-                Assert.IsEmpty(Playlist.PlayedItemIds);
+                //Assert.IsEmpty(Playlist.PlayedItemIds);
             }
             
             [Test]
@@ -352,98 +343,129 @@ namespace MPfm.Sound.Tests
                     Assert.IsNull(item.Channel);
             }
         }
-        
-        [TestFixture]
-        public class ShuffleTest : PlaylistTest
-        {
-            private void PrepareTest()
-            {
-                PreparePlaylist();
-            }            
-        }
 
         [TestFixture]
-        public class PlaybackIntegrationTest : PlaylistTest
+        public class PreviousTest : PlaylistTest
         {
             private void PrepareTest()
             {
                 PreparePlaylist();
             }
 
-//        [Test]
-//        public void EnsureThatEveryPlaylistItemIsPlayed()
-//        {
-//            EnsureThatEveryPlaylistItemIsPlayed(false);
-//        }
-//
-//        [Test]
-//        public void EnsureThatEveryPlaylistItemIsPlayed_Shuffled()
-//        {
-//            EnsureThatEveryPlaylistItemIsPlayed(true);
-//        }
-//
-//        private void EnsureThatEveryPlaylistItemIsPlayed(bool shuffle)
-//        {
-//            // Variant: add/remove songs from playlist inside the loop
-//            var guids = new List<Guid>();
-//            PreparePlaylist();
-//            Playlist.IsShuffled = shuffle;
-//            for (int a = 0; a < Playlist.Items.Count - 1; a++)
-//            {
-//                Console.WriteLine("a: {0} guid: {1} currentItemIndex: {2} count: {3}", a, Playlist.CurrentItem.Id, Playlist.CurrentItemIndex, Playlist.Items.Count);
-//                guids.Add(Playlist.CurrentItem.Id);
-//                Playlist.Next();
-//            }
-//            
-//            // Validate that every id is unique (i.e. the same playlist item hasn't been played more than once)
-//            Assert.True(guids.Distinct().Count() == guids.Count);
-//            
-//            // Validate that every id is part of the playlist
-//            foreach (var id in guids)
-//            {
-//                var item = Playlist.Items.FirstOrDefault(x => x.Id == id);
-//                Assert.IsNotNull(item);
-//            }
-//        }
-//
-//        [Test]
-//        public void EnsureThatEveryPlaylistItemIsPlayed_WithInsertedItems()
-//        {
-//            var guids = new List<Guid>();
-//            PreparePlaylist();
-//
-//            var insertedItem = new PlaylistItem(new AudioFile());
-//            var insertedItem2 = new PlaylistItem(new AudioFile());
-//            var insertedItem3 = new PlaylistItem(new AudioFile());
-//
-//            for (int a = 0; a < Playlist.Items.Count - 1; a++)
-//            {
-//                Console.WriteLine("a: {0} guid: {1} currentItemIndex: {2} count: {3}", a, Playlist.CurrentItem.Id, Playlist.CurrentItemIndex, Playlist.Items.Count);
-//
-//                // Insert an item at the current index; should push current item an index further and count as played 
-//                if (a == 1)
-//                    Playlist.InsertItem(insertedItem, a);
-//                // Insert an item before the current index; should NOT count as played
-//                else if(a == 2)
-//                    Playlist.InsertItem(insertedItem2, a - 1);
-//                // Insert an item after the current index; should count as played
-//                else if (a == 3)
-//                    Playlist.InsertItem(insertedItem3, a + 1);
-//
-//                guids.Add(Playlist.CurrentItem.Id);
-//                Playlist.Next();
-//            }
-//
-//            // Validate that every id is unique (i.e. the same playlist item hasn't been played more than once)
-//            Assert.True(guids.Distinct().Count() == guids.Count);
-//
-//            // Validate that every id is part of the playlist
-//            foreach (var id in guids)
-//            {
-//                var item = Playlist.Items.FirstOrDefault(x => x.Id == id);
-//                Assert.IsNotNull(item);
-//            }
-//        }
+            [Test]
+            public void ShouldDecrementCurrentItemIndex_UnlessThisIsTheFirstItem()
+            {
+                PrepareTest();
+                Playlist.Next();                    
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Previous();
+
+                Assert.AreEqual(Playlist.CurrentItemIndex, index - 1);
+            }
+
+            [Test]
+            public void ShouldSetCurrentItemToNextItem_UnlessThisIsTheFirstItem()
+            {
+                PrepareTest();
+                Playlist.Next();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Previous();
+
+                Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[index - 1]);
+            }
+
+            [Test]
+            public void ShouldKeepCurrentItemIndex_WhenThisIsTheFirstItem()
+            {
+                PrepareTest();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Previous();
+
+                Assert.AreEqual(Playlist.CurrentItemIndex, index);
+            }
+
+            [Test]
+            public void ShouldKeepCurrentItem_WhenThisIsTheFirstItem()
+            {
+                PrepareTest();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Previous();
+
+                Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[index]);
+            }
+
+            //[Test]
+            //public void ShouldSetCurrentItemIndexToMinusOne_IfThisIsTheLastItemAndPlaylistRepeatIsDisabled()
+
+            //[Test]
+            //public void ShouldSetCurrentItemToNull_IfThisIsTheLastItemAndPlaylistRepeatIsDisabled()
+        }
+        
+        [TestFixture]
+        public class NextTest : PlaylistTest
+        {
+            private void PrepareTest()
+            {
+                PreparePlaylist();
+            }
+
+            [Test]
+            public void ShouldIncrementCurrentItemIndex_UnlessThisIsTheLastItem()
+            {
+                PrepareTest();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Next();
+
+                Assert.AreEqual(Playlist.CurrentItemIndex, index + 1);
+            }
+
+            [Test]
+            public void ShouldSetCurrentItemToNextItem_UnlessThisIsTheLastItem()
+            {
+                PrepareTest();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Next();
+
+                Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[index + 1]);
+            }
+
+            [Test]
+            public void ShouldKeepCurrentItemIndex_WhenThisIsTheLastItem()
+            {
+                PrepareTest();
+                for (int a = 0; a < Playlist.Items.Count - 1; a++)
+                    Playlist.Next();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Next();
+
+                Assert.AreEqual(Playlist.CurrentItemIndex, index);
+            }
+
+            [Test]
+            public void ShouldKeepCurrentItem_WhenThisIsTheLastItem()
+            {
+                PrepareTest();
+                for (int a = 0; a < Playlist.Items.Count - 1; a++)
+                    Playlist.Next();
+
+                int index = Playlist.CurrentItemIndex;
+                Playlist.Next();
+
+                Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[index]);
+            }
+
+            //[Test]
+            //public void ShouldSetCurrentItemIndexToMinusOne_IfThisIsTheLastItemAndPlaylistRepeatIsDisabled()
+
+            //[Test]
+            //public void ShouldSetCurrentItemToNull_IfThisIsTheLastItemAndPlaylistRepeatIsDisabled()
         }
     }
 }

@@ -24,6 +24,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Core;
+using MPfm.Sound.Playlists;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Objects;
@@ -252,7 +253,10 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var audioFiles = _libraryService.SelectAudioFiles(entity.Query);
-                _playerService.CurrentPlaylist.AddItems(audioFiles);
+                var items = new List<PlaylistItem>();
+                foreach(var audioFile in audioFiles)
+                    items.Add(new PlaylistItem(audioFile));
+                _playerService.CurrentPlaylist.AddItems(items);
             }
             catch(Exception ex)
             {

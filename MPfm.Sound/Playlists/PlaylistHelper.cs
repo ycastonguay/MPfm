@@ -28,43 +28,75 @@ namespace MPfm.Sound.Playlists
     /// <summary>
     /// This static class contains useful methods for loading and saving playlists.
     /// </summary>
-    public static class PlaylistTools
+    public static class PlaylistHelper
     {
+        /// <summary>
+        /// Loads a playlist (from any of the following formats: M3U, M3U8, PLS and XSPF).
+        /// Note: long playlists may take a while to load using this method!
+        /// </summary>
+        /// <param name="filePath">Playlist file path</param>
+        /// <returns>Playlist</returns>
+        public static Playlist LoadPlaylist(string filePath)
+        {
+            var playlist = new Playlist();
+            var files = new List<string>();
+
+            if (filePath.ToUpper().Contains(".M3U"))
+            {
+                playlist.Format = PlaylistFileFormat.M3U;
+                files = PlaylistHelper.LoadM3UPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".M3U8"))
+            {
+                playlist.Format = PlaylistFileFormat.M3U8;
+                files = PlaylistHelper.LoadM3UPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".PLS"))
+            {
+                playlist.Format = PlaylistFileFormat.PLS;
+                files = PlaylistHelper.LoadPLSPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".XSPF"))
+            {
+                playlist.Format = PlaylistFileFormat.XSPF;
+                files = PlaylistHelper.LoadXSPFPlaylist(filePath);
+            }
+            else if (filePath.ToUpper().Contains(".ASX"))
+            {
+                playlist.Format = PlaylistFileFormat.ASX;
+            }
+
+            if (files == null || files.Count == 0)
+                throw new Exception("Error: The playlist is empty or does not contain any valid audio file paths!");
+
+            playlist.Clear();
+            playlist.FilePath = filePath;
+            playlist.AddItems(files);
+            playlist.First();
+            return playlist;
+        }
+
+
         /// <summary>
         /// Returns the list of audio files from any of the following formats: M3U, M3U8, PLS and XSPF.
         /// </summary>
         /// <param name="filePath">Playlist file path</param>
         /// <returns>List of audio file paths</returns>
-        public static List<string> LoadPlaylist(string filePath)
+        public static List<string> GetPlaylistFileNames(string filePath)
         {
-            // Declare variables
-            List<string> files = new List<string>();
+            var files = new List<string>();
 
             // Determine the playlist format
             if (filePath.ToUpper().Contains(".M3U"))
-            {
-                // Load playlist file
-                files = PlaylistTools.LoadM3UPlaylist(filePath);
-            }
+                files = PlaylistHelper.LoadM3UPlaylist(filePath);
             else if (filePath.ToUpper().Contains(".M3U8"))
-            {
-                // Load playlist file
-                files = PlaylistTools.LoadM3UPlaylist(filePath);
-            }
+                files = PlaylistHelper.LoadM3UPlaylist(filePath);
             else if (filePath.ToUpper().Contains(".PLS"))
-            {
-                // Load playlist file
-                files = PlaylistTools.LoadPLSPlaylist(filePath);
-            }
+                files = PlaylistHelper.LoadPLSPlaylist(filePath);
             else if (filePath.ToUpper().Contains(".XSPF"))
-            {
-                // Load playlist file
-                files = PlaylistTools.LoadXSPFPlaylist(filePath);
-            }
+                files = PlaylistHelper.LoadXSPFPlaylist(filePath);
             else if (filePath.ToUpper().Contains(".ASX"))
-            {
-
-            }
+                throw new NotImplementedException();
 
             return files;
         }
@@ -78,11 +110,8 @@ namespace MPfm.Sound.Playlists
         /// <returns>List of audio file paths</returns>
         public static List<string> LoadM3UPlaylist(string filePath)
         {
-            // Declare variables
-            List<string> files = new List<string>();
             StreamReader reader = null;
-
-            // Get playlist directory path
+            var files = new List<string>();
             string playlistDirectory = Path.GetDirectoryName(filePath);
 
             #if WINDOWSSTORE
@@ -90,11 +119,8 @@ namespace MPfm.Sound.Playlists
 
             try
             {
-                // Open reader (will automatically detect ASCII or UTF8 files)
-                reader = new StreamReader(filePath);                
-
-                // Loop through lines
                 string line = string.Empty;
+                reader = new StreamReader(filePath);                
                 while ((line = reader.ReadLine()) != null)
                 {
                     // Make sure the line isn't empty
@@ -107,53 +133,30 @@ namespace MPfm.Sound.Playlists
 
                             // Check for a media file with absolute path
                             if (File.Exists(line))
-                            {
-                                // Add file to list
                                 files.Add(line);
-                            }
                             // Check for a media file with relative path (without backslash)
                             else if (File.Exists(playlistDirectory + line))
-                            {
-                                // Add file to list
                                 files.Add(playlistDirectory + line);
-                            }
                             // Check for a media file with relative path (with backslash)
                             else if (File.Exists(playlistDirectory + "\\" + line))
-                            {
-                                // Add file to list
                                 files.Add(playlistDirectory + "\\" + line);
-                            }
                             // Check for a directory with absolute path
                             else if (Directory.Exists(line))
-                            {
-                                // Set directory path
                                 directoryPath = line;
-                            }
                             // Check for a directory with relative path (without backslash)
                             else if (Directory.Exists(playlistDirectory + line))
-                            {
-                                // Set directory path
                                 directoryPath = playlistDirectory + line;
-                            }
                             // Check for a directory with relative path (with backslash)
                             else if (Directory.Exists(playlistDirectory + "\\" + line))
-                            {
-                                // Set directory path
                                 directoryPath = playlistDirectory + "\\" + line;
-                            }
 
                             // Check if the line is a directory
                             if (!String.IsNullOrEmpty(directoryPath))
                             {
                                 // The line is a directory! We gotta search recursively through this directory.
-                                List<string> moreFiles = AudioTools.SearchAudioFilesRecursive(directoryPath, "MP3;FLAC;OGG;WAV;WV;APE");
-
-                                // Check if the list is empty
+                                var moreFiles = AudioTools.SearchAudioFilesRecursive(directoryPath, "MP3;FLAC;OGG;WAV;WV;APE");
                                 if (moreFiles != null || moreFiles.Count == 0)
-                                {
-                                    // Add files to list
                                     files.AddRange(moreFiles);
-                                }
                             }
                         }
                     }
@@ -165,8 +168,7 @@ namespace MPfm.Sound.Playlists
             }
             finally
             {
-                // Close reader
-                reader.Dispose();
+                if (reader != null) reader.Dispose();
             }
             #endif
 
@@ -189,7 +191,6 @@ namespace MPfm.Sound.Playlists
 
             try
             {
-                // Get playlist path
                 string playlistPath = Path.GetDirectoryName(playlistFilePath);
 
                 // Check for UTF8
@@ -200,23 +201,13 @@ namespace MPfm.Sound.Playlists
                     writer = new StreamWriter(playlistFilePath, false, Encoding.ASCII);
                 #endif
 
-                // Write header                
                 writer.WriteLine("#EXTM3U");
-
-                // Loop through files
                 foreach (PlaylistItem item in playlist.Items)
                 {
-                    // Check if paths are relative
                     if (useRelativePaths)
-                    {
-                        // Write relative file path
                         writer.WriteLine(item.AudioFile.FilePath.Replace(playlistPath + "\\", ""));
-                    }
                     else
-                    {
-                        // Write absolute file path
                         writer.WriteLine(item.AudioFile.FilePath);
-                    }
                 }
             }
             catch (Exception ex)
@@ -225,8 +216,7 @@ namespace MPfm.Sound.Playlists
             }
             finally
             {
-                // Dispose writer
-                writer.Close();
+                if (writer != null) writer.Close();
             }
 
             #endif
@@ -257,11 +247,8 @@ namespace MPfm.Sound.Playlists
             // NumberOfEntries=3
             // Version=2
 
-            // Declare variables
-            List<string> files = new List<string>();
             StreamReader reader = null;
-
-            // Get playlist directory path
+            var files = new List<string>();
             string playlistDirectory = Path.GetDirectoryName(filePath);
 
             #if WINDOWSSTORE
@@ -269,7 +256,6 @@ namespace MPfm.Sound.Playlists
 
             try
             {
-                // Open reader
                 reader = new StreamReader(filePath);
 
                 // Read the first line; should be [playlist]
@@ -277,16 +263,12 @@ namespace MPfm.Sound.Playlists
 
                 // Check if the first line could be read or is valid (should begin by [playlist])
                 if (String.IsNullOrEmpty(firstLine) || firstLine.ToUpper() != "[PLAYLIST]")
-                {
                     throw new Exception("Error reading PLS playlist: the header isn't valid!");
-                }
 
-                // Loop through lines
                 string line = string.Empty;
                 int lineNumber = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    // Make sure the line isn't empty
                     if (!String.IsNullOrEmpty(line))
                     {
                         // Remove whitespace, make upper
@@ -295,7 +277,6 @@ namespace MPfm.Sound.Playlists
                         // Determine what type of line (FILE, TITLE, LENGTH, NUMBEROFENTRIES or VERSION)
                         if (lineValue.StartsWith("FILE"))
                         {
-                            // Increment line number
                             lineNumber++;
 
                             // Fetch file name
@@ -303,30 +284,19 @@ namespace MPfm.Sound.Playlists
 
                             #if WINDOWSSTORE
                             #else
+
                             // Check for a media file with absolute path
                             if (File.Exists(fileName))
-                            {
-                                // Add file to list
                                 files.Add(fileName);
-                            }
                             // Check for a media file with relative path (without backslash)
                             else if (File.Exists(playlistDirectory + fileName))
-                            {
-                                // Add file to list
                                 files.Add(playlistDirectory + fileName);
-                            }
                             // Check for a media file with relative path (with backslash)
                             else if (File.Exists(playlistDirectory + "\\" + fileName))
-                            {
-                                // Add file to list
                                 files.Add(playlistDirectory + "\\" + fileName);
-                            }
                             // Check for a media file with relative path (with slash)
                             else if (File.Exists(playlistDirectory + "/" + fileName))
-                            {
-                                // Add file to list
                                 files.Add(playlistDirectory + "/" + fileName);
-                            }
 
                             #endif
                         }
@@ -355,8 +325,7 @@ namespace MPfm.Sound.Playlists
             }
             finally
             {
-                // Close reader
-                reader.Dispose();
+                if (reader != null) reader.Dispose();
             }
 
             #endif
@@ -379,30 +348,19 @@ namespace MPfm.Sound.Playlists
 
             try
             {
-                // Get playlist path
                 string playlistPath = Path.GetDirectoryName(playlistFilePath);
-
-                // Open writer
                 writer = new StreamWriter(playlistFilePath);
 
                 // Write header
                 writer.WriteLine("[playlist]");
                 writer.WriteLine();
 
-                // Loop through files
                 for(int a = 0; a < playlist.Items.Count; a++)
                 {                    
-                    // Check if paths are relative
                     if (useRelativePaths)
-                    {
-                        // Write relative file path
                         writer.WriteLine("File" + (a + 1).ToString() + "=" + playlist.Items[a].AudioFile.FilePath.Replace(playlistPath + "\\", ""));                        
-                    }
                     else
-                    {
-                        // Write absolute file path
                         writer.WriteLine("File" + (a + 1).ToString() + "=" + playlist.Items[a].AudioFile.FilePath);                        
-                    }                                       
 
                     // Write title
                     writer.WriteLine("Title" + (a + 1).ToString() + "=" + playlist.Items[a].AudioFile.Title);
@@ -421,8 +379,7 @@ namespace MPfm.Sound.Playlists
             }
             finally
             {
-                // Close writer
-                writer.Close();
+                if (writer != null) writer.Close();
             }
             #endif
         }
@@ -453,22 +410,17 @@ namespace MPfm.Sound.Playlists
             //   </trackList>
             // </playlist>
 
-            // Declare variables
-            List<string> files = new List<string>();
+            var files = new List<string>();
             XDocument doc = null;
 
             #if WINDOWSSTORE
             #else
 
-            // Get playlist directory path
             string playlistDirectory = Path.GetDirectoryName(filePath);
 
             try
             {
-                // Load XML document
                 doc = XDocument.Load(filePath);
-
-                // Create namespace
                 XNamespace ns = "http://xspf.org/ns/0/";
 
                 // Read playlist element
@@ -487,8 +439,6 @@ namespace MPfm.Sound.Playlists
 
                 // Read track elements                
                 List<XElement> elementsTracks = elementTrackList.Elements(ns + "track").ToList();
-
-                // Loop through elements
                 for (int a = 0; a < elementsTracks.Count; a++)
                 {                    
                     // Get location element (ignore other elements for now)
@@ -510,22 +460,13 @@ namespace MPfm.Sound.Playlists
                             {
                                 // Check for a media file with absolute path
                                 if (File.Exists(audioFilePath))
-                                {
-                                    // Add file to list
                                     files.Add(audioFilePath);
-                                }
                                 // Check for a media file with relative path (without slash)
                                 else if (File.Exists(playlistDirectory + audioFilePath))
-                                {
-                                    // Add file to list
                                     files.Add(playlistDirectory + audioFilePath);
-                                }
                                 // Check for a media file with relative path (with slash)
                                 else if (File.Exists(playlistDirectory + "\\" + audioFilePath))
-                                {
-                                    // Add file to list
                                     files.Add(playlistDirectory + "\\" + audioFilePath);
-                                }
                             }
                         }
                         catch
@@ -557,18 +498,12 @@ namespace MPfm.Sound.Playlists
         /// <param name="useRelativePaths">Use relative paths</param>
         public static void SaveXSPFPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths)
         {
-            // Declare variables
             XDocument doc = null;
-
-            // Get playlist path
             string playlistPath = Path.GetDirectoryName(playlistFilePath);
 
             try
             {
-                // Create document
                 doc = new XDocument();
-
-                // Create namespace
                 XNamespace ns = "http://xspf.org/ns/0/";
 
                 // Create basic elements
@@ -579,7 +514,6 @@ namespace MPfm.Sound.Playlists
                 XAttribute attributePlaylistVersion = new XAttribute("version", 1);                
                 elementPlaylist.Add(attributePlaylistVersion);                
 
-                // Loop through files
                 for (int a = 0; a < playlist.Items.Count; a++)
                 {
                     // Create elements

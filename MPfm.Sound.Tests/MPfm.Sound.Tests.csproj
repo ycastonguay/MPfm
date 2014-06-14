@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlaylistIntegrationTest.cs" />
+    <Compile Include="ShufflePlaylistTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlaylistTest.cs" />
   </ItemGroup>

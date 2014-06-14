@@ -28,6 +28,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Messages;
@@ -202,7 +203,7 @@ namespace MPfm.MVP.Presenters
                 {
                     int index = _playerService.CurrentQueue.Items.FindIndex(x => x.AudioFile.Id == audioFile.Id);
                     if(index == -1)
-                        _playerService.CurrentQueue.AddItem(audioFile);
+                        _playerService.CurrentQueue.AddItem(new PlaylistItem(audioFile));
                     else
                         _playerService.CurrentQueue.RemoveItem(index);
                 }

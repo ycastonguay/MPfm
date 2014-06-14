@@ -146,7 +146,7 @@ namespace MPfm.MVP.Presenters
         ///// Loads a playlist.
         ///// </summary>
         ///// <param name="playlistFilePath">Playlist file path</param>
-        //public void LoadPlaylist(string playlistFilePath)
+        //public void GetPlaylistFileNames(string playlistFilePath)
         //{
         //    //try
         //    //{
@@ -273,22 +273,22 @@ namespace MPfm.MVP.Presenters
         //    //if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
         //    //{
         //    //    // Save playlist
-        //    //    PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, true);
+        //    //    PlaylistHelper.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, true);
         //    //}
         //    //else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
         //    //{
         //    //    // Save playlist
-        //    //    PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, false);
+        //    //    PlaylistHelper.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, false);
         //    //}
         //    //else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
         //    //{
         //    //    // Save playlist
-        //    //    PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
+        //    //    PlaylistHelper.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
         //    //}
         //    //else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
         //    //{
         //    //    // Save playlist
-        //    //    PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
+        //    //    PlaylistHelper.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
         //    //}
 
         //    //// Change cursor

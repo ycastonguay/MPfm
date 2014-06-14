@@ -121,7 +121,6 @@
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />
-    <Compile Include="Playlists\PlaylistTools.cs" />
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\APETag.cs" />
@@ -154,6 +153,8 @@
     <Compile Include="BassNetWrapper\BaseFx.cs" />
     <Compile Include="BassNetWrapper\BaseEnc.cs" />
     <Compile Include="BassNetWrapper\BaseCast.cs" />
+<Compile Include="Playlists\ShufflePlaylist.cs" />
+    <Compile Include="Playlists\PlaylistHelper.cs" />		
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\OSX\" />

@@ -33,10 +33,7 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class PlaylistItem
     {
-        /// <summary>
-        /// Private value for the Id property.
-        /// </summary>
-        private Guid id = Guid.Empty;
+        private readonly Guid _id = Guid.Empty;
         /// <summary>
         /// Unique identifier for the playlist item (there might be the same 
         /// audio file multiple times in the same playlist).
@@ -45,14 +42,11 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return id;
+                return _id;
             }
         }
 
-        /// <summary>
-        /// Private value for the LengthSamples property.
-        /// </summary>
-        private long lengthSamples = 0;
+        private long _lengthSamples = 0;
         /// <summary>
         /// Playlist item length (in samples).
         /// </summary>
@@ -60,14 +54,11 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return lengthSamples;
+                return _lengthSamples;
             }
         }
 
-        /// <summary>
-        /// Private value for the LengthBytes property.
-        /// </summary>
-        private long lengthBytes = 0;
+        private long _lengthBytes = 0;
         /// <summary>
         /// Playlist item length (in bytes).
         /// </summary>
@@ -75,14 +66,11 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return lengthBytes;
+                return _lengthBytes;
             }
         }
 
-        /// <summary>
-        /// Private value for the LengthMilliseconds property.
-        /// </summary>
-        private int lengthMilliseconds = 0;
+        private int _lengthMilliseconds = 0;
         /// <summary>
         /// Playlist item length (in milliseconds).
         /// </summary>
@@ -90,14 +78,11 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return lengthMilliseconds;
+                return _lengthMilliseconds;
             }
         }
 
-        /// <summary>
-        /// Private value for the LengthString property.
-        /// </summary>
-        private string lengthString = string.Empty;
+        private string _lengthString = string.Empty;
         /// <summary>
         /// Playlist item length (in 00:00.000 string format).
         /// </summary>
@@ -105,16 +90,13 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return lengthString;
+                return _lengthString;
             }
         }
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
-        /// <summary>
-        /// Private value for the Channel property.
-        /// </summary>
-        private Channel channel = null;
+        private Channel _channel = null;
         /// <summary>
         /// BASS.NET channel used for playback decoding.
         /// </summary>
@@ -122,16 +104,13 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return channel;
+                return _channel;
             }
         }
 
         #endif
 
-        /// <summary>
-        /// Private value for the AudioFile property.
-        /// </summary>
-        private AudioFile audioFile = null;
+        private readonly AudioFile _audioFile = null;
         /// <summary>
         /// AudioFile structure containing metadata and other file information.
         /// </summary>
@@ -139,14 +118,11 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return audioFile;
+                return _audioFile;
             }            
         }
 
-        /// <summary>
-        /// Private value for the IsLoaded property.
-        /// </summary>
-        private bool isLoaded = false;
+        private bool _isLoaded = false;
         /// <summary>
         /// Indicates if the channel and the audio file metadata have been loaded.
         /// </summary>
@@ -154,7 +130,7 @@ namespace MPfm.Sound.Playlists
         {
             get
             {
-                return isLoaded;
+                return _isLoaded;
             }
         }
 
@@ -165,8 +141,8 @@ namespace MPfm.Sound.Playlists
         /// <param name="audioFile">Audio file metadata</param>
         public PlaylistItem(AudioFile audioFile)
         {
-            this.id = Guid.NewGuid();
-            this.audioFile = audioFile;
+            _id = Guid.NewGuid();
+            _audioFile = audioFile;
         }
 
         /// <summary>
@@ -175,36 +151,33 @@ namespace MPfm.Sound.Playlists
         public void Load(bool useFloatingPoint)
         {
             // Load audio file metadata
-            audioFile.RefreshMetadata();
+            _audioFile.RefreshMetadata();
 
             #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
             // Check if a channel already exists
-            if(channel != null)
+            if(_channel != null)
                 Dispose();
 
             // Load channel
-            channel = Channel.CreateFileStreamForDecoding(audioFile.FilePath, useFloatingPoint);
+            _channel = Channel.CreateFileStreamForDecoding(_audioFile.FilePath, useFloatingPoint);
+            _lengthBytes = _channel.GetLength();
 
-            // Load channel length
-            lengthBytes = channel.GetLength();
-
-            // Check if the channel is using floating point
-            if (channel.IsFloatingPoint)
-                lengthBytes /= 2;
+            // Divide length by 2 if using floating point
+            if (_channel.IsFloatingPoint)
+                _lengthBytes /= 2;
 
             // Check if this is a FLAC file over 44100Hz
-            if (audioFile.FileType == AudioFileFormat.FLAC && audioFile.SampleRate > 44100)
-                lengthBytes = (long)((float)lengthBytes * 1.5f);
+            if (_audioFile.FileType == AudioFileFormat.FLAC && _audioFile.SampleRate > 44100)
+                _lengthBytes = (long)((float)_lengthBytes * 1.5f);
 
-            lengthSamples = ConvertAudio.ToPCM(lengthBytes, (uint)audioFile.BitsPerSample, 2);
-            lengthMilliseconds = (int)ConvertAudio.ToMS(lengthSamples, (uint)audioFile.SampleRate);
-            lengthString = Conversion.MillisecondsToTimeString((ulong)lengthMilliseconds);
+            _lengthSamples = ConvertAudio.ToPCM(_lengthBytes, (uint)_audioFile.BitsPerSample, 2);
+            _lengthMilliseconds = (int)ConvertAudio.ToMS(_lengthSamples, (uint)_audioFile.SampleRate);
+            _lengthString = Conversion.MillisecondsToTimeString((ulong)_lengthMilliseconds);
 
             #endif
 
-            // Set flag
-            isLoaded = true;
+            _isLoaded = true;
         }
 
         /// <summary>
@@ -215,19 +188,19 @@ namespace MPfm.Sound.Playlists
             #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
             // Check if a channel already exists
-            if (channel != null)
+            if (_channel != null)
             {
                 try
                 {
                     // Stop and free channel
                     Console.WriteLine("Freeing channel " + AudioFile.FilePath + "...");
-                    channel.Stop();
-                    channel.Free();
-                    channel = null;
+                    _channel.Stop();
+                    _channel.Free();
+                    _channel = null;
                 }
                 catch(Exception ex)
                 {
-                    if(audioFile != null)
+                    if(_audioFile != null)
                         Console.WriteLine("Could not dispose channel " + AudioFile.FilePath + ": " + ex.Message);
                 }
 
@@ -243,8 +216,7 @@ namespace MPfm.Sound.Playlists
 
             #endif
 
-            // Set flags
-            isLoaded = false;
+            _isLoaded = false;
         }       
     }
 }

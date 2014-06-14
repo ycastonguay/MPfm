@@ -52,7 +52,7 @@ namespace MPfm.Player
         bool UseFloatingPoint { get; }
         int MixerSampleRate { get; }
         int CurrentSegmentIndex { get; }
-        Playlist Playlist { get; }
+        ShufflePlaylist Playlist { get; }
         RepeatType RepeatType { get; set; }
         float TimeShifting { get; set; }
         int PitchShifting { get; set; }

@@ -117,8 +117,7 @@
     <Compile Include="PeakFiles\WinRT\PeakFileService.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
-    <Compile Include="Playlists\PlaylistItem.cs" />
-    <Compile Include="Playlists\PlaylistTools.cs" />
+    <Compile Include="Playlists\PlaylistItem.cs" />    
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BassNetWrapper\Device.cs" />
@@ -133,6 +132,8 @@
     <Compile Include="PeakFiles\IPeakFileService.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
+<Compile Include="Playlists\ShufflePlaylist.cs" />
+    <Compile Include="Playlists\PlaylistHelper.cs" />		
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">

@@ -314,7 +314,10 @@ namespace MPfm.MVP.Services
         public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart)
         {
             _player.Playlist.Clear();
-            _player.Playlist.AddItems(audioFiles.ToList());
+            var items = new List<PlaylistItem>();
+            foreach (var audioFile in audioFiles)
+                items.Add(new PlaylistItem(audioFile));
+            _player.Playlist.AddItems(items);
 
             if(!string.IsNullOrEmpty(startAudioFilePath))
                 _player.Playlist.GoTo(startAudioFilePath);
