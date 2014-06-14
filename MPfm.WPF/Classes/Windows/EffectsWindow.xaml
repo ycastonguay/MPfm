@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:converters="clr-namespace:MPfm.WPF.Classes.Converters"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Effects" Height="426" Width="1080" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">    
+        Title="Effects" Height="426" Width="1080" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" WindowStyle="ToolWindow">    
     <Window.Resources>        
         <Style x:Key="HiddenHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
@@ -28,12 +28,19 @@
                 <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddPreset" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddPreset_OnClick" />
                 <controls:HeaderImageButton Grid.Column="2" x:Name="btnRemovePreset" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemovePreset_OnClick" />
             </Grid>
-            <Grid x:Name="gridPresets" Margin="0,0,0,10">
+            <Grid x:Name="gridPresets" Margin="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
+                    <RowDefinition Height="100" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ListView Grid.Row="0" x:Name="listViewPresets" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewPresets_OnSelectionChanged">
+                <ListView Grid.Row="0" x:Name="listViewPresets" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewPresets_OnSelectionChanged" PreviewMouseDown="ListViewPresets_OnPreviewMouseDown">
+                    <ListView.ContextMenu>
+                        <ContextMenu x:Name="contextMenuPresets">
+                            <MenuItem x:Name="menuItemRemovePreset" Header="Remove preset" Click="MenuItemRemovePreset_OnClick" />
+                            <MenuItem x:Name="menuItemDuplicatePreset" Header="Duplicate preset" Click="MenuItemDuplicatePreset_OnClick" />
+                            <MenuItem x:Name="menuItemExportPreset" Header="Export preset..." Click="MenuItemExportPreset_OnClick" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewWidthConverter}}" />
@@ -42,7 +49,7 @@
                 </ListView>
             </Grid>
             <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Preset Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Light" />
-            <Grid x:Name="gridCurrentPreset" Margin="6,4,6,0">
+            <Grid x:Name="gridCurrentPreset" Margin="0,4,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -50,8 +57,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0,0,0,2" Padding="2" />
-                <Grid Grid.Row="1" Background="White" Height="24" Margin="0,0,0,4">
+                <Label Grid.Row="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="4,0,4,2" Padding="2" />
+                <Grid Grid.Row="1" Background="White" Height="24" Margin="5,0,5,4">
                     <TextBlock Margin="2,4,0,0" Padding="0" Text="New preset" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtPresetName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
                     <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 </Grid>

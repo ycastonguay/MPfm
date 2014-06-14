@@ -35,15 +35,15 @@ namespace MPfm.MVP.Presenters
         private readonly ILibraryService _libraryService;
         private readonly ITinyMessengerHub _messageHub;
         private EQPreset _preset;
+        private Guid _presetId;
         private List<EQPresetBand> _originalPresetBands;
 
         public EqualizerPresetDetailsPresenter(Guid presetId, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
-		{	
+        {
+            _presetId = presetId;
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
-
-            LoadInitialPreset(presetId);
 		}
 
         public override void BindView(IEqualizerPresetDetailsView view)
@@ -57,11 +57,13 @@ namespace MPfm.MVP.Presenters
             view.OnSetFaderGain = SetFaderGain;
             view.OnRevertPreset = RevertPreset;
 
-            if(_preset != null)
-            {
-                _playerService.ApplyEQPreset(_preset);
-                View.RefreshPreset(_preset);
-            }
+            LoadInitialPreset();
+
+            //if(_preset != null)
+            //{
+            //    _playerService.ApplyEQPreset(_preset);
+            //    View.RefreshPreset(_preset);
+            //}
 
             _messageHub.Subscribe<EqualizerPresetSelectedMessage>((m) =>
             {
@@ -70,10 +72,10 @@ namespace MPfm.MVP.Presenters
             });
         }
 
-        private void LoadInitialPreset(Guid presetId)
+        private void LoadInitialPreset()
         {
-            if (presetId != Guid.Empty)
-                ChangePreset(presetId);
+            if (_presetId != Guid.Empty)
+                ChangePreset(_presetId);
             else
                 ChangePreset(_playerService.EQPreset);
         }

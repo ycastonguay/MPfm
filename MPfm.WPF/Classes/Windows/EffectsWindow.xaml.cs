@@ -23,6 +23,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Messages;
@@ -32,6 +34,7 @@ using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls;
+using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -48,8 +51,7 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
             DataContext = this;
 
-            //gridCurrentPreset.IsEnabled = false;
-            //gridFaders.IsEnabled = false;
+            EnablePresetDetails(false);
         }
 
         private void EnableContextMenu(bool enable)
@@ -152,6 +154,11 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnRemovePreset_OnClick(object sender, RoutedEventArgs e)
         {
+            RemovePreset();
+        }
+
+        private void RemovePreset()
+        {
             if (MessageBox.Show("Are you sure you wish to delete this equalizer preset?", "Delete equalizer preset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
@@ -191,13 +198,39 @@ namespace MPfm.WPF.Classes.Windows
             OnChangePreset(id); // EqualizerPresetDetails
         }
 
-        //private void CboPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if (cboPresets.SelectedIndex == -1)
-        //        return;
+        private void ListViewPresets_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewPresets, e);
+        }
 
-        //    OnEditPreset(_presets[cboPresets.SelectedIndex].EQPresetId);
-        //}
+        private void MenuItemRemovePreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            RemovePreset();
+        }
+
+        private void MenuItemDuplicatePreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listViewPresets.SelectedIndex < 0)
+                return;
+
+            var preset = _presets[listViewPresets.SelectedIndex];
+            OnDuplicatePreset(preset.EQPresetId);
+        }
+
+        private void MenuItemExportPreset_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listViewPresets.SelectedIndex < 0)
+                return;
+
+            var dialog = new System.Windows.Forms.SaveFileDialog();
+            dialog.Filter = "JSON file (*.json)|*.json";
+            dialog.Title = "Export preset as JSON";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var preset = _presets[listViewPresets.SelectedIndex];
+                OnExportPreset(preset.EQPresetId, dialog.FileName);
+            }
+        }
 
         private void Fader_OnFaderValueChanged(object sender, EventArgs e)
         {

@@ -467,5 +467,43 @@ namespace MPfm.Sound.Tests
             //[Test]
             //public void ShouldSetCurrentItemToNull_IfThisIsTheLastItemAndPlaylistRepeatIsDisabled()
         }
+
+        [TestFixture]
+        public class FirstTest : PlaylistTest
+        {
+            private void PrepareTest()
+            {
+                PreparePlaylist();
+            }
+
+            [Test]
+            public void ItemIndexShouldBeZero()
+            {
+                PrepareTest();
+
+                Playlist.First();
+
+                Assert.AreEqual(Playlist.CurrentItemIndex, 0);
+            }
+
+            [Test]
+            public void CurrentItemShouldBeFirstItem()
+            {
+                PrepareTest();
+
+                Playlist.First();
+
+                Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[0]);
+            }
+        }
+
+        [TestFixture]
+        public class GoToTest : PlaylistTest
+        {
+            private void PrepareTest()
+            {
+                PreparePlaylist();
+            }
+        }
     }
 }

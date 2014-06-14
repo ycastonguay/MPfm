@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace MPfm.WPF.Classes.Helpers
@@ -53,6 +54,33 @@ namespace MPfm.WPF.Classes.Helpers
                 source = VisualTreeHelper.GetParent(source);
 
             return source as TreeViewItem;
+        }
+
+        public static void ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(ListView listView, MouseButtonEventArgs e)
+        {
+            var dep = (DependencyObject)e.OriginalSource;
+            while ((dep != null) && !(dep is ListViewItem))
+                dep = VisualTreeHelper.GetParent(dep);
+
+            if (dep == null)
+                listView.SelectedIndex = -1;
+        }
+
+        public static void ListView_PreviewMouseDown_UnselectListViewItem(ListView listView, MouseButtonEventArgs e)
+        {
+            var dep = (DependencyObject)e.OriginalSource;
+            while ((dep != null) && !(dep is ListViewItem))
+                dep = VisualTreeHelper.GetParent(dep);
+
+            if (dep == null)
+                return;
+
+            var item = (ListViewItem)dep;
+            if (item.IsSelected)
+            {
+                item.IsSelected = !item.IsSelected;
+                e.Handled = true;
+            }
         }
     }
 }
