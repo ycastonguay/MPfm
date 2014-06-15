@@ -23,9 +23,11 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.VisualStyles;
+using System.Windows.Input;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Views;
+using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -186,6 +188,11 @@ namespace MPfm.WPF.Classes.Windows
         {
             if (listViewDevices.SelectedIndex == -1) return;
             OnRemoteShuffle(_items[listViewDevices.SelectedIndex]);
+        }
+
+        private void ListViewDevices_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewDevices, e);
         }
 
         #region ISyncView implementation

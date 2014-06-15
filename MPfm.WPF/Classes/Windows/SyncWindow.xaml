@@ -30,7 +30,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ListView Grid.Column="0" x:Name="listViewDevices" SelectionChanged="ListViewDevices_OnSelectionChanged" SelectionMode="Single">
+                <ListView Grid.Column="0" x:Name="listViewDevices" SelectionChanged="ListViewDevices_OnSelectionChanged" PreviewMouseDown="ListViewDevices_OnPreviewMouseDown" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Device" Width="250">

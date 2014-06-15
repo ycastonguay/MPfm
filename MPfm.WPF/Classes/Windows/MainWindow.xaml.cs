@@ -50,6 +50,7 @@ namespace MPfm.WPF.Classes.Windows
     {
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
         private List<Marker> _markers;
+        private List<Marker> _segmentMarkers;
         private List<Loop> _loops;
         private Marker _currentMarker;
         private Loop _currentLoop;
@@ -513,6 +514,11 @@ namespace MPfm.WPF.Classes.Windows
             gridView.Columns[0].Width = listView.ActualWidth;
         }
 
+        private void ListViewMarkers_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewMarkers, e);
+        }
+
         private void HandleMarkerItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var marker = ((ListViewItem)sender).Content as Marker;
@@ -566,6 +572,11 @@ namespace MPfm.WPF.Classes.Windows
         private void ListViewLoops_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             EditLoop();
+        }
+
+        private void ListViewLoops_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewLoops, e);
         }
 
         private void BtnBackLoopDetails_OnClick(object sender, RoutedEventArgs e)
@@ -644,19 +655,9 @@ namespace MPfm.WPF.Classes.Windows
             EditSegment();
         }
 
-        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
+        private void ListViewSegments_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            gridLoops.Visibility = Visibility.Hidden;
-            gridLoopDetails.Visibility = Visibility.Visible;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Hidden;
-
-            _currentSegment.MarkerId = Guid.Empty;
-            //if (chkSegmentLinkToMarker.Value && comboSegmentMarker.IndexOfSelectedItem >= 0)
-            //    _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
-
-            OnUpdateSegmentDetails(_currentSegment);
-            _currentSegment = null;
+            UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewSegments, e);
         }
 
         private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
@@ -702,6 +703,74 @@ namespace MPfm.WPF.Classes.Windows
         {
             btnEditSegment.Enabled = enabled;
             btnRemoveSegment.Enabled = enabled;
+        }
+
+        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridLoops.Visibility = Visibility.Hidden;
+            gridLoopDetails.Visibility = Visibility.Visible;
+            gridLoopPlayback.Visibility = Visibility.Hidden;
+            gridSegmentDetails.Visibility = Visibility.Hidden;
+
+            _currentSegment.MarkerId = Guid.Empty;
+            if (chkSegmentLinkToMarker.IsChecked.Value && comboSegmentMarker.SelectedIndex >= 0)
+                _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.SelectedIndex].MarkerId;
+
+            OnUpdateSegmentDetails(_currentSegment);
+            _currentSegment = null;
+        }
+
+        private void ComboSegmentMarker_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetSegmentLinkedMarker();
+        }
+
+        private void ChkSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
+        {
+            SetSegmentLinkedMarker();
+        }
+
+        private void SetSegmentLinkedMarker()
+        {
+            if (comboSegmentMarker.SelectedIndex == -1)
+                return;
+
+            if (_segmentMarkers.Count == 0)
+            {
+                chkSegmentLinkToMarker.IsChecked = false;
+                MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            comboSegmentMarker.Visibility = chkSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
+            if (chkSegmentLinkToMarker.IsChecked.Value)
+            {
+                var marker = _segmentMarkers[comboSegmentMarker.SelectedIndex];
+                OnLinkToMarkerSegmentDetails(marker.MarkerId);
+            }
+            else
+            {
+                OnLinkToMarkerSegmentDetails(Guid.Empty);
+            }
+        }
+
+        private void BtnPunchInSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_currentSegment == null)
+                return;
+
+            chkSegmentLinkToMarker.IsChecked = false;
+            comboSegmentMarker.Visibility = Visibility.Hidden;
+            OnPunchInPositionSegmentDetails();
+        }
+
+        private void TrackSegmentPosition_OnOnTrackBarValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            chkSegmentLinkToMarker.IsChecked = false;
+            comboSegmentMarker.Visibility = Visibility.Hidden;
+            if (OnChangePositionSegmentDetails != null)
+                OnChangePositionSegmentDetails((float)trackSegmentPosition.Value / 1000f);
         }
 
         private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
@@ -1440,18 +1509,49 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
+            //Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
+            _currentSegment = segment;
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                //waveFormScrollView.SetSegment(segment);
+
+                chkSegmentLinkToMarker.IsChecked = segment.MarkerId != Guid.Empty;
+                comboSegmentMarker.Visibility = segment.MarkerId == Guid.Empty ? Visibility.Hidden : Visibility.Visible;
+                int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
+                if (index >= 0)
+                    comboSegmentMarker.SelectedIndex = index;
+
+                float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
+                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+
+                lblSegmentPosition.Content = segment.Position;
+            }));
         }
 
         public void RefreshSegmentPosition(string position, float positionPercentage)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                lblSegmentPosition.Content = position;
+                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+
+                if (_currentSegment != null)
+                {
+                    _currentSegment.Position = position;
+                    //waveFormScrollView.SetSegment(_currentSegment);
+                }
+            }));
         }
 
         public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
         {
-        }
-
-        public void RefreshSegmentDetails(Segment segment)
-        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                _segmentMarkers = markers.ToList();
+                comboSegmentMarker.Items.Clear();
+                foreach (var marker in markers)
+                    comboSegmentMarker.Items.Add(marker.Name);
+            }));
         }
 
         #endregion

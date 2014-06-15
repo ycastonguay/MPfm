@@ -464,7 +464,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
-                                    <Grid x:Name="gridLoops">
+                                    <Grid x:Name="gridLoops" Visibility="Visible" Margin="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="25" />
                                             <RowDefinition />
@@ -483,7 +483,7 @@
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick">
+                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
@@ -525,7 +525,7 @@
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnEditSegment" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditSegment_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnRemoveSegment" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveSegment_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="2" x:Name="listViewSegments" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick">
+                                        <ListView Grid.Row="2" x:Name="listViewSegments" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick" PreviewMouseDown="ListViewSegments_OnPreviewMouseDown">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
@@ -549,13 +549,6 @@
                                             <Label Grid.Column="1" Content="Segment Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
-                                            <Grid Margin="2,8,8,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="62" />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Margin="0,-3,0,0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                            </Grid>
                                             <Grid Margin="2,4,8,0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="62" />
@@ -563,7 +556,14 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                                <controls:TrackBar Grid.Column="1" x:Name="trackSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackSegmentPosition_OnOnTrackBarValueChanged" />
+                                                <Label Grid.Column="2" x:Name="lblSegmentPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
                                             </Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:ImageButton x:Name="btnPunchInSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" HorizontalAlignment="Left" Click="BtnPunchInSegment_OnClick" />
+                                                <CheckBox x:Name="chkSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkSegmentLinkToMarker_OnChecked" />
+                                                <ComboBox x:Name="comboSegmentMarker" Margin="0,2,0,0" Height="26" SelectionChanged="ComboSegmentMarker_OnSelectionChanged" />
+                                            </StackPanel>                                            
                                         </StackPanel>
                                     </Grid>
                                     <Grid x:Name="gridLoopPlayback" Visibility="Hidden" Margin="0">
@@ -628,7 +628,7 @@
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewMarkers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMarkers_OnSelectionChanged" SizeChanged="ListViewMarkers_OnSizeChanged">
+                                        <ListView Grid.Row="1" x:Name="listViewMarkers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMarkers_OnSelectionChanged" SizeChanged="ListViewMarkers_OnSizeChanged" PreviewMouseDown="ListViewMarkers_OnPreviewMouseDown">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Width="Auto">                                                        
