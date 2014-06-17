@@ -26,6 +26,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, IMarkerDetailsView, ILoopsView, ILoopDetailsView, ILoopPlaybackView, ISegmentDetailsView, ITimeShiftingView, IPitchShiftingView, IUpdateLibraryView, IQueueView
 	{
+        Action OnOpenAboutWindow { get; set; }
         Action OnOpenPreferencesWindow { get; set; }
         Action OnOpenEffectsWindow { get; set; }
         Action OnOpenPlaylistWindow { get; set; }

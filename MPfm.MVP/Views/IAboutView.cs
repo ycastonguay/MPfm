@@ -22,7 +22,6 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IAboutView : IBaseView
 	{
-	    void RefreshHTML(string html);
+	    void RefreshAboutContent(string version, string content);
 	}
 }
-

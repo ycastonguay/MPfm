@@ -133,6 +133,10 @@ namespace MPfm.WPF.Classes.Windows
             {
                 ShowUpdateLibraryPanel(true, () => OnStartUpdateLibrary());                
             }
+            else if (sender == miFile_Exit)
+            {
+                Application.Current.Shutdown();
+            }
             else if (sender == miWindows_Sync)
             {
                 OnOpenSyncWindow();
@@ -145,9 +149,9 @@ namespace MPfm.WPF.Classes.Windows
             {
                 OnOpenSyncWebBrowserWindow();
             }
-            else if (sender == miFile_Exit)
+            else if (sender == miHelp_About)
             {
-                Application.Current.Shutdown();
+                OnOpenAboutWindow();
             }
         }
 
@@ -918,6 +922,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IMainView implementation
 
+        public Action OnOpenAboutWindow { get; set; }
         public Action OnOpenPreferencesWindow { get; set; }
         public Action OnOpenEffectsWindow { get; set; }
         public Action OnOpenPlaylistWindow { get; set; }

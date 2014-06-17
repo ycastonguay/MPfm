@@ -38,6 +38,8 @@ namespace MPfm.MVP.Navigation
     {
         private CloudDeviceInfo _resumeCloudDeviceInfo;
 
+        IAboutView _aboutView;
+        IAboutPresenter _aboutPresenter;
         ISplashView _splashView;
         ISplashPresenter _splashPresenter;
 
@@ -194,6 +196,33 @@ namespace MPfm.MVP.Navigation
                 _updateLibraryPresenter = null;
             };
             return _mainView;
+        }
+
+        public virtual IAboutView CreateAboutView()
+        {
+            // If the view is still visible, just make it the top level window
+            if (_aboutView != null)
+            {
+                _aboutView.ShowView(true);
+                return _aboutView;
+            }
+
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _aboutPresenter = Bootstrapper.GetContainer().Resolve<IAboutPresenter>();
+                _aboutPresenter.BindView((IAboutView)view);
+            };
+
+            // Create view and manage view destruction
+            _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _aboutView.OnViewDestroy = (view) =>
+            {
+                _aboutPresenter.ViewDestroyed();
+                _aboutPresenter = null;
+                _aboutView = null;
+            };
+            return _aboutView;
         }
         
         public virtual IDesktopPreferencesView CreatePreferencesView()

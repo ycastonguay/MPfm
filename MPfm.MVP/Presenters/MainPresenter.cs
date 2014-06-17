@@ -40,7 +40,8 @@ namespace MPfm.MVP.Presenters
 		}
 		
 		public override void BindView(IMainView view)
-		{            
+		{
+            view.OnOpenAboutWindow = () => _navigationManager.CreateAboutView();
 			view.OnOpenPlaylistWindow = () => _navigationManager.CreatePlaylistView();
 		    view.OnOpenEffectsWindow = () => _navigationManager.CreateEffectsView();
 		    view.OnOpenPreferencesWindow = () => _navigationManager.CreatePreferencesView();

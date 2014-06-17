@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Diagnostics;
+using System.Reflection;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 
@@ -32,8 +34,16 @@ namespace MPfm.MVP.Presenters
         public override void BindView(IAboutView view)
         {
             base.BindView(view);
-            string html = "Extract from file";
-            view.RefreshHTML(html);
-        }     
+            string content = "Sessions is © 2008-2014 Yanick Castonguay and is released under the GPLv3 license.";
+            string version = string.Format("Version {0}", GetAssemblyVersion());
+            view.RefreshAboutContent(version, content);
+        }
+
+	    private string GetAssemblyVersion()
+	    {
+            var assembly = Assembly.GetExecutingAssembly();
+            var info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return info.FileVersion;
+	    }
 	}
 }

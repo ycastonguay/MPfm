@@ -87,6 +87,7 @@ namespace MPfm.WPF.Classes
             //Bootstrapper.GetContainer().Register<ILoopDetailsView, frmLoopDetails>().AsMultiInstance();
             //Bootstrapper.GetContainer().Register<IMarkerDetailsView, frmMarkerDetails>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IEditSongMetadataView, EditSongMetadataWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IAboutView, AboutWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IFirstRunView, FirstRunWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();

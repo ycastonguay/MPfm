@@ -82,6 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Classes\Windows\AboutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Classes\Windows\StartResumePlaybackWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,6 +181,9 @@
     <Compile Include="Classes\Navigation\WindowsNavigationManager.cs" />
     <Compile Include="Classes\Specifications\WindowsSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
+    <Compile Include="Classes\Windows\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Windows\StartResumePlaybackWindow.xaml.cs">
       <DependentUpon>StartResumePlaybackWindow.xaml</DependentUpon>
     </Compile>
