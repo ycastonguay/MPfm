@@ -16,9 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
-using System.Windows.Forms.VisualStyles;
 using MPfm.Player.Objects;
 
 namespace MPfm.Library.Objects

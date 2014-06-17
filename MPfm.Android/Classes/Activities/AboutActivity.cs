@@ -132,10 +132,10 @@ namespace MPfm.Android
 
         #region IAboutView implementation
 
-        public void RefreshHTML(string html)
+        public void RefreshAboutContent(string version, string content)
         {
             RunOnUiThread(() => {
-                _webView.LoadData(html, "text/html; charset=utf-8", "UTF-8");
+                _webView.LoadData(content, "text/html; charset=utf-8", "UTF-8");
             });
         }
 
