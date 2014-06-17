@@ -148,7 +148,9 @@
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
 <Compile Include="Playlists\ShufflePlaylist.cs" />
-    <Compile Include="Playlists\PlaylistHelper.cs" />		
+    <Compile Include="Playlists\PlaylistHelper.cs" />	
+    <Compile Include="Playlists\EndOfPlaylistException.cs" />
+    <Compile Include="Playlists\PlaylistRepeatType.cs" />	
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsPhone.csproj">

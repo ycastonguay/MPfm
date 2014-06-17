@@ -215,5 +215,7 @@
     <Compile Include="BassNetWrapper\BaseEnc.cs" />
 <Compile Include="Playlists\ShufflePlaylist.cs" />
     <Compile Include="Playlists\PlaylistHelper.cs" />		
+    <Compile Include="Playlists\EndOfPlaylistException.cs" />
+    <Compile Include="Playlists\PlaylistRepeatType.cs" />	
   </ItemGroup>
 </Project>
