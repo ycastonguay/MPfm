@@ -55,9 +55,11 @@ namespace MPfm.Player.Objects
         /// </summary>
         public uint PositionSamples { get; set; }
 
-		[DatabaseField(false)] // Do not save to database
+		[DatabaseField(false)]
 		public float PositionPercentage { get; set; }
 
+        [DatabaseField(false)]
+        public string Index { get; set; }
 
         /// <summary>
         /// Default constructor for the Marker class.

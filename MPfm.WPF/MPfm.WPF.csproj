@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
     <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
+    <Compile Include="Classes\Controls\FixedWidthGridViewColumn.cs" />
     <Compile Include="Classes\Controls\SongGridView.cs" />
     <Compile Include="Classes\Controls\TestControl.cs" />
     <Compile Include="Classes\Controls\ImageButton.cs" />

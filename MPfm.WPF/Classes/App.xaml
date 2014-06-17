@@ -6,11 +6,10 @@
     <Application.Resources>    
         <!-- Colors -->
         <Color x:Key="BackgroundColor">#FF20282E</Color>
-        <Color x:Key="HeaderBackgroundColor">#FF576B78</Color>
-        <!--<Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>-->
-        <Color x:Key="SecondaryHeaderBackgroundColor">#FF455864</Color>
+        <Color x:Key="HeaderBackgroundColor">#FF455865</Color>
+        <Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>
         <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
-        <Color x:Key="HeaderButtonOverBackgroundColor">#FF687985</Color>
+        <Color x:Key="HeaderButtonOverBackgroundColor">#FF5A6B75</Color>
         <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>        
         <Color x:Key="ButtonOverBackgroundColor">#FFF07568</Color>
         <Color x:Key="ListViewSelectedBackgroundColor">#FFBACCD9</Color>
@@ -589,7 +588,12 @@
                         <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" 
+                                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="HeaderBorder" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
                                             <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderButtonOverBackgroundColor}" 

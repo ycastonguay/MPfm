@@ -88,13 +88,28 @@ namespace MPfm.MVP.Presenters
 
             base.ViewDestroyed();
         }
-        
-        private void RefreshLoops(Guid audioFileId)
+
+	    private void SetLoopIndexes()
+	    {
+	        for (int a = 0; a < _loops.Count; a++)
+	        {
+	            var loop = _loops[a];
+	            loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
+	        }
+	    }
+
+	    private void RefreshLoopsViewWithUpdatedIndexes()
+	    {
+            SetLoopIndexes();
+	        View.RefreshLoops(_loops);
+	    }
+
+	    private void RefreshLoops(Guid audioFileId)
         {
             try
             {
                 _loops = _libraryService.SelectLoopsIncludingSegments(audioFileId);
-                View.RefreshLoops(_loops);
+                RefreshLoopsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {
@@ -116,7 +131,7 @@ namespace MPfm.MVP.Presenters
                     LoopId = loop.LoopId
                 });
                 _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
-                View.RefreshLoops(_loops);
+                RefreshLoopsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {
@@ -142,7 +157,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = loop.AudioFileId,
                     LoopId = loop.LoopId
                 });
-                View.RefreshLoops(_loops);
+                RefreshLoopsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {

@@ -28,6 +28,9 @@ namespace MPfm.Player.Objects
         public string Name { get; set; }
 
         [DatabaseField(false)]
+        public string Index { get; set; }
+
+        [DatabaseField(false)]
         public List<Segment> Segments { get; set; }
 
         [DatabaseField(false)]

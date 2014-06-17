@@ -77,6 +77,21 @@ namespace MPfm.MVP.Presenters
             RefreshLoop();
         }
 
+        private void SetSegmentIndexes()
+        {
+            for (int a = 0; a < _loop.Segments.Count; a++)
+            {
+                var segment = _loop.Segments[a];
+                segment.Index = string.Format("{0}", a);
+            }
+        }
+
+        private void RefreshLoopDetailsViewWithUpdatedIndexes()
+        {
+            SetSegmentIndexes();
+            View.RefreshLoopDetails(_loop, _audioFile);
+        }
+
         private void AddSegment()
         {
             try
@@ -91,7 +106,7 @@ namespace MPfm.MVP.Presenters
                 });
                 UpdateLoopSegmentsOrder(true);
                 _messageHub.PublishAsync(new SegmentBeingEditedMessage(this, segment.SegmentId));
-                View.RefreshLoopDetails(_loop, _audioFile);
+                RefreshLoopDetailsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {
@@ -124,7 +139,7 @@ namespace MPfm.MVP.Presenters
                     LoopId = _loopId
                 });
                 UpdateLoopSegmentsOrder(true);
-                View.RefreshLoopDetails(_loop, _audioFile);
+                RefreshLoopDetailsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {
@@ -157,7 +172,7 @@ namespace MPfm.MVP.Presenters
                     LoopId = _loop.LoopId,
                     SegmentId = segment.SegmentId
                 });
-                View.RefreshLoopDetails(_loop, _audioFile);
+                RefreshLoopDetailsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {
@@ -175,7 +190,7 @@ namespace MPfm.MVP.Presenters
                 _loop.Segments.Remove(segment);
                 _loop.Segments.Insert(index, segment);
                 UpdateLoopSegmentsOrder(false);
-                View.RefreshLoopDetails(_loop, _audioFile);
+                RefreshLoopDetailsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
             {
@@ -263,8 +278,7 @@ namespace MPfm.MVP.Presenters
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 //float positionPercentage = ((float)_rker.PositionBytes / (float)_lengthBytes) * 100;
-                View.RefreshLoopDetails(_loop, _audioFile);
-                //View.RefreshMarkerPosition(_marker.Position, positionPercentage);
+                RefreshLoopDetailsViewWithUpdatedIndexes();                
             }
             catch(Exception ex)
             {

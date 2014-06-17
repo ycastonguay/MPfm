@@ -59,6 +59,7 @@ namespace MPfm.GenericControls.Controls.Songs
             NowPlayingIndicatorBackgroundColor = new BasicColor(25, 150, 25);
             AlbumCoverBackgroundColor = new BasicColor(32, 40, 46);
 
+            //HeaderBackgroundColor = new BasicColor(87, 107, 120); //new BasicColor(69, 88, 101);
             HeaderBackgroundColor = new BasicColor(69, 88, 101);
             MouseOverHeaderBackgroundColor = new BasicColor(104, 121, 133);
 

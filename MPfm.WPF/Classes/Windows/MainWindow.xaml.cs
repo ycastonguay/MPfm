@@ -145,6 +145,10 @@ namespace MPfm.WPF.Classes.Windows
             {
                 OnOpenSyncWebBrowserWindow();
             }
+            else if (sender == miFile_Exit)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void ShowUpdateLibraryPanel(bool show, Action onAnimationCompleted)
@@ -519,10 +523,12 @@ namespace MPfm.WPF.Classes.Windows
             UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewMarkers, e);
         }
 
-        private void HandleMarkerItemDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ListViewMarkers_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var marker = ((ListViewItem)sender).Content as Marker;
-            OnSelectMarker(marker);
+            if (listViewMarkers.SelectedIndex < 0 || listViewMarkers.SelectedIndex >= _loops.Count)
+                return;
+
+            OnSelectMarker(_markers[listViewMarkers.SelectedIndex]);
         }
 
         private void EnableMarkerButtons(bool enabled)

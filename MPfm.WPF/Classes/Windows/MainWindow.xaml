@@ -12,6 +12,7 @@
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
         <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
         <converters:LibraryBrowserImagePathConverter x:Key="LibraryBrowserImagePathConverter" />
+        <converters:StringFormatToImageSourceConverter x:Key="StringToImageSource" />
         <DataTemplate x:Key="TreeViewItemTemplate">
             <StackPanel Orientation="Horizontal" Margin="2">
                 <Image Source="{Binding EntityType, Converter={StaticResource LibraryBrowserImagePathConverter}}" Stretch="Uniform" Opacity="0.7" />
@@ -62,7 +63,7 @@
                 <DockPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF20282E" Offset="0"/>
-                        <GradientStop Color="#FF455864" Offset="1"/>
+                        <GradientStop Color="#FF3E4B57" Offset="1"/>
                     </LinearGradientBrush>
                 </DockPanel.Background>
                 <Grid Margin="4,6,4,6">
@@ -174,7 +175,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="20" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" x:Name="lblUpdateLibraryTitle" Margin="4" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction">Loading...</TextBlock>
+                            <TextBlock Grid.Row="0" x:Name="lblUpdateLibraryTitle" Margin="4" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular">Loading...</TextBlock>
                             <ProgressBar Grid.Row="1" x:Name="progressBarUpdateLibrary" Background="{DynamicResource BrushBackgroundColor}" BorderBrush="{DynamicResource BrushHeaderBackgroundColor}" Foreground="#FFE74C3C" Value="50" Margin="4" />
                         </Grid>
                     </StackPanel>
@@ -483,10 +484,16 @@
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown">
+                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown">                                            
                                             <ListView.View>
                                                 <GridView>
-                                                    <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
+                                                    <controls:FixedWidthColumn Header="" FixedWidth="26">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Path=Index}" Margin="0" Padding="4,2,4,2" Background="Blue" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </controls:FixedWidthColumn>
                                                     <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
                                                     <GridViewColumn Header="Segments" Width="80" DisplayMemberBinding="{Binding Path=SegmentCount}" />
                                                     <GridViewColumn Header="Total Length" Width="80" DisplayMemberBinding="{Binding Path=TotalLength}" />
@@ -528,7 +535,13 @@
                                         <ListView Grid.Row="2" x:Name="listViewSegments" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick" PreviewMouseDown="ListViewSegments_OnPreviewMouseDown">
                                             <ListView.View>
                                                 <GridView>
-                                                    <GridViewColumn Header="" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
+                                                    <controls:FixedWidthColumn Header="" FixedWidth="26">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Path=Index}" Margin="0" Padding="4,2,4,2" Background="Blue" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </controls:FixedWidthColumn>
                                                     <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Position}" />
                                                     <GridViewColumn Header="Marker" Width="80" DisplayMemberBinding="{Binding Path=Marker}" />
                                                 </GridView>
@@ -628,25 +641,17 @@
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewMarkers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMarkers_OnSelectionChanged" SizeChanged="ListViewMarkers_OnSizeChanged" PreviewMouseDown="ListViewMarkers_OnPreviewMouseDown">
+                                        <ListView Grid.Row="1" x:Name="listViewMarkers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMarkers_OnSelectionChanged" SizeChanged="ListViewMarkers_OnSizeChanged" PreviewMouseDown="ListViewMarkers_OnPreviewMouseDown" MouseDoubleClick="ListViewMarkers_OnMouseDoubleClick">
                                             <ListView.View>
                                                 <GridView>
-                                                    <GridViewColumn Width="Auto">                                                        
+                                                    <controls:FixedWidthColumn Header="" FixedWidth="26">
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <Grid x:Name="panelMarkerCollapsed" Visibility="Visible" Background="White">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="Auto" />
-                                                                        <ColumnDefinition Width="*" />
-                                                                        <ColumnDefinition Width="Auto" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Grid.Column="0" Text="A" Padding="4" VerticalAlignment="Center" Background="Red" Foreground="White" />
-                                                                    <TextBlock Grid.Column="1" Text="{Binding Path=Name}" VerticalAlignment="Center" Margin="4,0,0,0" />
-                                                                    <TextBlock Grid.Column="2" Text="{Binding Path=Position}" VerticalAlignment="Center" />
-                                                                </Grid>                                                                    
+                                                                <TextBlock Text="{Binding Path=Index}" Margin="0" Padding="4,2,4,2" Background="Red" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
-                                                    </GridViewColumn>
+                                                    </controls:FixedWidthColumn>
+                                                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
                                                     <GridViewColumn Header="Position" Width="80" DisplayMemberBinding="{Binding Path=Position}" />  
                                                 </GridView>
                                             </ListView.View>

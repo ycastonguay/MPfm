@@ -98,6 +98,21 @@ namespace MPfm.MVP.Presenters
 	        base.ViewDestroyed();
 	    }
 
+        private void SetMarkerIndexes()
+        {
+            for (int a = 0; a < _markers.Count; a++)
+            {
+                var marker = _markers[a];
+                marker.Index = string.Format("{0}", Conversion.IndexToLetter(a));
+            }
+        }
+
+        private void RefreshMarkersViewWithUpdatedIndexes()
+        {
+            SetMarkerIndexes();
+            View.RefreshMarkers(_markers);
+        }
+
 	    private void AddMarker()
 	    {
             try
@@ -178,7 +193,7 @@ namespace MPfm.MVP.Presenters
                         AudioFileId = marker.AudioFileId,
                         MarkerId = marker.MarkerId
                     });
-                    View.RefreshMarkers(_markers);
+                    RefreshMarkersViewWithUpdatedIndexes();
                 } 
                 catch (Exception ex)
                 {
@@ -199,7 +214,7 @@ namespace MPfm.MVP.Presenters
                     foreach (var marker in _markers)
                         marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
 
-                    View.RefreshMarkers(_markers);
+                    RefreshMarkersViewWithUpdatedIndexes();
                 } 
                 catch (Exception ex)
                 {

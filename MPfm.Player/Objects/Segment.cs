@@ -34,6 +34,9 @@ namespace MPfm.Player.Objects
         [DatabaseField(false)]
         public string Marker { get; set; }
 
+        [DatabaseField(false)]
+        public string Index { get; set; }
+
         public Segment()
         {
             SegmentId = Guid.NewGuid();
