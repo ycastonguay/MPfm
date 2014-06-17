@@ -55,9 +55,12 @@ namespace MPfm.iOS
 		#region ILoopDetailsView implementation
 
 		public Action OnAddSegment { get; set; }
+		public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
 		public Action<Segment> OnEditSegment { get; set; }
 		public Action<Segment> OnDeleteSegment { get; set; }
 		public Action<Loop> OnUpdateLoopDetails { get; set; }
+		public Action<Segment, int> OnChangeSegmentOrder { get; set; }
+		public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
 
 		public void LoopDetailsError(Exception ex)
 		{

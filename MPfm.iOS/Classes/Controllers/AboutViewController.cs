@@ -58,7 +58,7 @@ namespace MPfm.iOS
 
         #region IAboutView implementation
 
-        public void RefreshHTML(string html)
+		public void RefreshAboutContent(string version, string content)
         {
         }
 

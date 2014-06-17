@@ -1734,6 +1734,7 @@ namespace MPfm.OSX
 
         #region IMainView implementation
 
+        public Action OnOpenAboutWindow { get; set; }
         public Action OnOpenPreferencesWindow { get; set; }
         public Action OnOpenEffectsWindow { get; set; }
         public Action OnOpenPlaylistWindow { get; set; }
