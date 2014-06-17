@@ -25,16 +25,16 @@ namespace MPfm.Sound.Tests
     [TestFixture()]
     public class PlaylistIntegrationTest : PlaylistTest
     {            
+        [SetUp]
         private void PrepareTest()
         {
             PreparePlaylist();
         }
 
-        private void EveryPlaylistItemShouldBePlayed(bool shuffle)
+        [Test]
+        public void EveryPlaylistItemShouldBePlayed()
         {
             var guids = new List<Guid>();
-            PrepareTest();
-            //Playlist.IsShuffled = shuffle;
             for (int a = 0; a < Playlist.Items.Count; a++)
             {
                 Console.WriteLine("a: {0} guid: {1} currentItemIndex: {2} count: {3}", a, Playlist.CurrentItem.Id, Playlist.CurrentItemIndex, Playlist.Items.Count);
@@ -51,18 +51,6 @@ namespace MPfm.Sound.Tests
                 var item = Playlist.Items.FirstOrDefault(x => x.Id == id);
                 Assert.IsNotNull(item);
             }
-        }
-
-        [Test]
-        public void EveryPlaylistItemShouldBePlayed()
-        {
-            EveryPlaylistItemShouldBePlayed(false);
-        }
-
-        [Test]
-        public void EveryPlaylistItemShouldBePlayedWithShuffleEnabled()
-        {
-            EveryPlaylistItemShouldBePlayed(true);
         }
     }
 }

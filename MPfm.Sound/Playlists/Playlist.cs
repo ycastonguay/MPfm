@@ -29,6 +29,9 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class Playlist
     {
+        [DatabaseField(false)]
+        public PlaylistRepeatType RepeatType { get; set; }
+
         /// <summary>
         /// List of playlist _items.
         /// </summary>
@@ -178,7 +181,7 @@ namespace MPfm.Sound.Playlists
             PrepareCurrentItemForPlayback();
         }
 
-        public void RemoveItems(List<Guid> playlistIds)
+        public void RemoveItems(IEnumerable<Guid> playlistIds)
         {
             foreach (var playlistId in playlistIds)
                 Items.RemoveAll(x => x.Id == playlistId);

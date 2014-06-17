@@ -18,11 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Core.TestConfiguration;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using NUnit.Framework;
 using MPfm.Sound.BassNetWrapper;
-using MPfm.Core.TestConfiguration;
 
 namespace MPfm.Sound.Tests
 {
@@ -46,7 +46,7 @@ namespace MPfm.Sound.Tests
         {
             Config = TestConfigurationHelper.Load();            
         }
-        
+
         protected void InitializeBass()
         {
             //Console.WriteLine("Initializing Bass...");
@@ -64,9 +64,11 @@ namespace MPfm.Sound.Tests
         [TestFixture]
         public class AddItemTest : PlaylistTest
         {
+            private PlaylistItem _item;
             private const int StartIndex = 1;
             
-            private PlaylistItem PrepareTest()
+            [SetUp]
+            public void PrepareTest()
             {
                 PreparePlaylist();
                 for(int a = 0; a < StartIndex; a++)
@@ -74,28 +76,25 @@ namespace MPfm.Sound.Tests
                 
                 var item = new PlaylistItem(new AudioFile());
                 Playlist.AddItem(item);
-                return item;
+                _item = item;
             }
             
             [Test]
             public void ShouldIncrementCount()
-            {
-                PrepareTest();
+            {                
                 Assert.AreEqual(Playlist.Items.Count, Config.AudioFilePaths.Count + 1);
             }            
             
             [Test]
             public void ShouldKeepSameItemIndex()
-            {
-                PrepareTest();
+            {                
                 Assert.AreEqual(Playlist.CurrentItemIndex, 1);
             }            
             
             [Test]
             public void ListShouldContainItem()
             {
-                var item = PrepareTest();
-                Assert.Contains(item, Playlist.Items);
+                Assert.Contains(_item, Playlist.Items);
             }                        
         }
 
@@ -299,7 +298,8 @@ namespace MPfm.Sound.Tests
         [TestFixture]
         public class ClearTest : PlaylistTest
         {
-            private void PrepareTest()
+            [SetUp]
+            public void PrepareTest()
             {
                 PreparePlaylist();
                 Playlist.Clear();
@@ -308,15 +308,12 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ListShouldBeEmpty()
             {
-                PrepareTest();
                 Assert.IsEmpty(Playlist.Items);
-                //Assert.IsEmpty(Playlist.PlayedItemIds);
             }
             
             [Test]
             public void ItemIndexShouldBeZero()
             {
-                PrepareTest();
                 Assert.AreEqual(Playlist.CurrentItemIndex, 0);
             }
         }
@@ -324,7 +321,8 @@ namespace MPfm.Sound.Tests
         [TestFixture]
         public class DisposeChannelsTest : PlaylistTest
         {
-            private void PrepareTest()
+            [SetUp]
+            public void PrepareTest()
             {
                 InitializeBass();                
                 PreparePlaylist();
@@ -336,8 +334,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void DisposeChannels_ShouldBeDisposed()
             {
-                PrepareTest();
-
                 Playlist.DisposeChannels();
                 foreach (var item in Playlist.Items)
                     Assert.IsNull(item.Channel);
@@ -347,7 +343,8 @@ namespace MPfm.Sound.Tests
         [TestFixture]
         public class PreviousTest : PlaylistTest
         {
-            private void PrepareTest()
+            [SetUp]
+            public void PrepareTest()
             {
                 PreparePlaylist();
             }
@@ -355,7 +352,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldDecrementCurrentItemIndex_UnlessThisIsTheFirstItem()
             {
-                PrepareTest();
                 Playlist.Next();                    
 
                 int index = Playlist.CurrentItemIndex;
@@ -367,7 +363,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldSetCurrentItemToNextItem_UnlessThisIsTheFirstItem()
             {
-                PrepareTest();
                 Playlist.Next();
 
                 int index = Playlist.CurrentItemIndex;
@@ -379,8 +374,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldKeepCurrentItemIndex_WhenThisIsTheFirstItem()
             {
-                PrepareTest();
-
                 int index = Playlist.CurrentItemIndex;
                 Playlist.Previous();
 
@@ -390,8 +383,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldKeepCurrentItem_WhenThisIsTheFirstItem()
             {
-                PrepareTest();
-
                 int index = Playlist.CurrentItemIndex;
                 Playlist.Previous();
 
@@ -408,7 +399,8 @@ namespace MPfm.Sound.Tests
         [TestFixture]
         public class NextTest : PlaylistTest
         {
-            private void PrepareTest()
+            [SetUp]
+            public void PrepareTest()
             {
                 PreparePlaylist();
             }
@@ -416,8 +408,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldIncrementCurrentItemIndex_UnlessThisIsTheLastItem()
             {
-                PrepareTest();
-
                 int index = Playlist.CurrentItemIndex;
                 Playlist.Next();
 
@@ -427,8 +417,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldSetCurrentItemToNextItem_UnlessThisIsTheLastItem()
             {
-                PrepareTest();
-
                 int index = Playlist.CurrentItemIndex;
                 Playlist.Next();
 
@@ -438,7 +426,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldKeepCurrentItemIndex_WhenThisIsTheLastItem()
             {
-                PrepareTest();
                 for (int a = 0; a < Playlist.Items.Count - 1; a++)
                     Playlist.Next();
 
@@ -451,7 +438,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ShouldKeepCurrentItem_WhenThisIsTheLastItem()
             {
-                PrepareTest();
                 for (int a = 0; a < Playlist.Items.Count - 1; a++)
                     Playlist.Next();
 
@@ -471,7 +457,8 @@ namespace MPfm.Sound.Tests
         [TestFixture]
         public class FirstTest : PlaylistTest
         {
-            private void PrepareTest()
+            [SetUp]
+            public void PrepareTest()
             {
                 PreparePlaylist();
             }
@@ -479,8 +466,6 @@ namespace MPfm.Sound.Tests
             [Test]
             public void ItemIndexShouldBeZero()
             {
-                PrepareTest();
-
                 Playlist.First();
 
                 Assert.AreEqual(Playlist.CurrentItemIndex, 0);
@@ -489,21 +474,20 @@ namespace MPfm.Sound.Tests
             [Test]
             public void CurrentItemShouldBeFirstItem()
             {
-                PrepareTest();
-
                 Playlist.First();
 
                 Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[0]);
             }
         }
 
-        [TestFixture]
-        public class GoToTest : PlaylistTest
-        {
-            private void PrepareTest()
-            {
-                PreparePlaylist();
-            }
-        }
+        //[TestFixture]
+        //public class GoToTest : PlaylistTest
+        //{
+        //    [SetUp]
+        //    public void PrepareTest()
+        //    {
+        //        PreparePlaylist();
+        //    }
+        //}
     }
 }

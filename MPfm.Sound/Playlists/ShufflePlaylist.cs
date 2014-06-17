@@ -30,13 +30,10 @@ namespace MPfm.Sound.Playlists
     public class ShufflePlaylist : Playlist
     {
         private Random _random = null;
-        
+
+        [DatabaseField(false)]
         public bool IsShuffled { get; set; }
         
-        /// <summary>
-        /// List of audio file ids that have been played in this session
-        /// (useful for shuffling).
-        /// </summary>
         [DatabaseField(false)]
         public List<Guid> PlayedItemIds { get; protected set; }
 
@@ -54,33 +51,36 @@ namespace MPfm.Sound.Playlists
        
         public override void Next()
         {
-            if (IsShuffled)
-            {
-                if (CurrentItem != null)
-                    PlayedItemIds.Add(CurrentItem.Id);
-
-                if (PlayedItemIds.Count == Items.Count)
-                {
-                    PlayedItemIds.Clear();                    
-                    return;
-                }
-
-                while (true)
-                {
-                    // This will generate a random number based on the list count
-                    // (however, the count can change during a session...)
-                    int r = _random.Next(Items.Count);
-                    if (!PlayedItemIds.Contains(Items[r].Id))
-                    {
-                        CurrentItem = Items[r];
-                        break;
-                    }
-                }
-            }           
-            else
+            if(!IsShuffled)
             {
                 base.Next();
-                //_currentItem = _items[_currentItemIndex];
+                return;
+            }
+
+            if (CurrentItem != null)
+                PlayedItemIds.Add(CurrentItem.Id);
+
+            var item = RandomizeNextItem();
+            CurrentItem = item;
+        }
+
+        public PlaylistItem RandomizeNextItem()
+        {
+            while (true)
+            {
+                Console.WriteLine("RandomizeNextItem - items: {0} playedItems: {1}", Items.Count, PlayedItemIds.Count);
+                var playedItems = Items.Where(x => PlayedItemIds.Contains(x.Id)).ToList();
+                if (playedItems.Count == Items.Count)
+                    throw new EndOfPlaylistException();
+
+                // This will generate a random number based on the list count
+                // (however, the count can change during a session...)
+                int r = _random.Next(Items.Count);
+                if (!PlayedItemIds.Contains(Items[r].Id))
+                {
+                    Console.WriteLine("RandomizeNextItem - Found item");
+                    return Items[r];
+                }
             }
         }
     }
