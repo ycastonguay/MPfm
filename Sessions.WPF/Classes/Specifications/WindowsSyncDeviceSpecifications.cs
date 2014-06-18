@@ -18,9 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MPfm.Library;
-using MPfm.Library.Objects;
-using MPfm.Library.Services;
+using Sessions.Library;
+using Sessions.Library.Objects;
+using Sessions.Library.Services;
 
 namespace MPfm.WPF.Classes.Specifications
 {

@@ -16,11 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using Android.Graphics;
 using Android.Views;
-using Android.Views.Animations;
 using Android.Widget;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 
 namespace MPfm.Android.Classes.Adapters
 {

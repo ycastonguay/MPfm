@@ -29,7 +29,6 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -38,6 +37,7 @@ using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
 using Sessions.Core.Helpers;
+using Sessions.Library.Objects;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 

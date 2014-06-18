@@ -18,12 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library;
-using MPfm.Library.Objects;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services;
+using Sessions.Library;
+using Sessions.Library.Services;
+using Sessions.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters
 {

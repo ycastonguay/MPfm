@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using MPfm.Library.Objects;
 using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters

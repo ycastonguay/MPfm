@@ -22,10 +22,10 @@ using Android.Content.PM;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
-using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using Sessions.Library.Objects;
 
 namespace MPfm.Android
 {

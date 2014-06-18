@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 using MPfm.MVP.Views;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {

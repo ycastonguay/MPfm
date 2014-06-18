@@ -18,12 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library;
-using MPfm.Library.Objects;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services;
+using Sessions.Library;
 
 namespace MPfm.MVP.Presenters
 {

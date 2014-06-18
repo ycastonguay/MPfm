@@ -17,8 +17,8 @@
 
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services.Interfaces;
 using Sessions.Core;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;

@@ -22,13 +22,12 @@ using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.Library.Objects;
 
 namespace MPfm.WPF.Classes.Windows
 {

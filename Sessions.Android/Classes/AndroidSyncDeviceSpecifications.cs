@@ -24,8 +24,8 @@ using Android.OS;
 using Android.Provider;
 using Android.Telephony;
 using Android.Text.Format;
-using MPfm.Library;
-using MPfm.Library.Objects;
+using Sessions.Library;
+using Sessions.Library.Objects;
 
 namespace MPfm.Android.Classes
 {

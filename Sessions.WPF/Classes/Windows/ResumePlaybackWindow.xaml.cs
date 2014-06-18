@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;

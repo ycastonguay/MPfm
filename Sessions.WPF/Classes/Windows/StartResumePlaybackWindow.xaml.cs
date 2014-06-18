@@ -23,9 +23,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.Library.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Windows

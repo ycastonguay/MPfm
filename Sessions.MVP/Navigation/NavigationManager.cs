@@ -19,11 +19,11 @@ using System;
 using System.Collections.Generic;
 using MPfm.MVP.Bootstrap;
 using Sessions.Core;
+using Sessions.Library.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.Library.Objects;
 using MPfm.MVP.Services.Interfaces;
 
 namespace MPfm.MVP.Navigation

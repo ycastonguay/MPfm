@@ -16,9 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using MPfm.Library.Objects;
-using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Views;
+using Sessions.Library.Objects;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {

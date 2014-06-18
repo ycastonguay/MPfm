@@ -18,17 +18,15 @@
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config;
 using MPfm.MVP.Config.Models;
-using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using Sessions.Library.Services.Interfaces;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

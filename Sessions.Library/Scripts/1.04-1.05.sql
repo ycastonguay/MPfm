@@ -1,9 +1,9 @@
 ﻿/*--
-   MIGRATION SCRIPT FOR THE MPFM DATABASE
+   MIGRATION SCRIPT FOR THE Sessions DATABASE
    Database version: 1.04 --> 1.05
 
    SQLite doesn't support creating multiple tables in a single statement, so
-   the statements need to be separated with /**/ so that the MPfmGateway can split
+   the statements need to be separated with /**/ so that the SessionsGateway can split
    the statements correctly.
 
    Also, SQLite doesn't fully support ALTER TABLE.

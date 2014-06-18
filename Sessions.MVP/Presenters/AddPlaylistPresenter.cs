@@ -16,12 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.Playlists;
 using TinyMessenger;
 

@@ -18,14 +18,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.Library.Services.Interfaces;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

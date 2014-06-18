@@ -18,21 +18,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library.Objects;
-using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Config;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services.Interfaces;
-using MPfm.Library.Services.Events;
-using MPfm.Library;
 using System.Threading.Tasks;
-
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
 #endif
+using Sessions.Library;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Events;
+using Sessions.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters
 {

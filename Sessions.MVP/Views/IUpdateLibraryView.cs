@@ -17,9 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Models;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 
 namespace MPfm.MVP.Views
 {

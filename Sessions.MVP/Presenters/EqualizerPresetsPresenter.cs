@@ -24,9 +24,9 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Player.Objects;
 using TinyMessenger;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using System.IO;
 

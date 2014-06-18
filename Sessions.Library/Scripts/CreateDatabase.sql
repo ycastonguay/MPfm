@@ -1,9 +1,9 @@
 ﻿/*--
-   CREATION SCRIPT FOR THE MPFM DATABASE
+   CREATION SCRIPT FOR THE Sessions DATABASE
    Database version: 1.00
 
    SQLite doesn't support creating multiple tables in a single statement, so
-   the statements need to be separated with /**/ so that the MPfmGateway can split
+   the statements need to be separated with /**/ so that the SessionsGateway can split
    the statements correctly.
 --*/
 

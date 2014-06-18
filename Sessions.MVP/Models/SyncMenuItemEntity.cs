@@ -17,8 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library.Objects;
-using MPfm.MVP.Presenters;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.MVP.Models

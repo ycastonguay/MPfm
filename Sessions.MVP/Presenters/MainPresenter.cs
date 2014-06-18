@@ -17,8 +17,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library.Objects;
-using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Config;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;

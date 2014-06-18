@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library.Services;
 using NUnit.Framework;
+using Sessions.Library.Services;
 
 namespace MPfm.Sound.Tests
 {

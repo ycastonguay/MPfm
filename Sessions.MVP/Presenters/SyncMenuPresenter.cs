@@ -18,17 +18,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library.Objects;
-using MPfm.Library.Services;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
-using MPfm.Library;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Bootstrap;
 using System.Threading.Tasks;
 using Sessions.Core;
+using Sessions.Library;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.MVP.Presenters

@@ -17,12 +17,11 @@
 
 using System;
 using System.Threading.Tasks;
-//using Mono.Posix;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using Sessions.Library.Services.Interfaces;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

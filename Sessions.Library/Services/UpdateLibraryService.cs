@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -21,10 +21,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MPfm.Library.Objects;
-using MPfm.Library.Services.Events;
-using MPfm.Library.Services.Interfaces;
-using MPfm.Library.UpdateLibrary;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Events;
+using Sessions.Library.Services.Interfaces;
+using Sessions.Library.UpdateLibrary;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 #if (MACOSX || LINUX)
@@ -33,7 +33,7 @@ using Mono.Unix.Native;
 #endif
 using Sessions.Sound.AudioFiles;
 
-namespace MPfm.Library.Services
+namespace Sessions.Library.Services
 {
 	/// <summary>
 	///	Service used for updating the library with new audio files using a background worker.
@@ -50,7 +50,7 @@ namespace MPfm.Library.Services
 		public event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.UpdateLibraryService"/> class.
+		/// Initializes a new instance of the <see cref="Sessions.UI.UpdateLibraryService"/> class.
 		/// </summary>
 		public UpdateLibraryService(ILibraryService libraryService)
 		{
@@ -104,7 +104,7 @@ namespace MPfm.Library.Services
 		public void SaveLog(string filePath)
 		{
             //// Generate the name of the log
-            //saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
+            //saveLogDialog.FileName = "Sessions_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
             //    TextWriter tw = null;
             //    try
             //    {

@@ -21,14 +21,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
-using Android.OS;
-using Android.Webkit;
-using Android.Widget;
 using Com.Dropbox.Sync.Android;
-using Java.IO;
-using MPfm.Library.Services.Exceptions;
-using MPfm.Library.Services.Interfaces;
 using Sessions.Core;
+using Sessions.Library.Services.Exceptions;
+using Sessions.Library.Services.Interfaces;
 using Console = System.Console;
 
 namespace MPfm.Android.Classes.Services

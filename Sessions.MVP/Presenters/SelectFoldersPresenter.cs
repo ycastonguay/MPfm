@@ -20,16 +20,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MPfm.Library;
-using MPfm.Library.Objects;
-using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.Library;
+using Sessions.Library.Services.Interfaces;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

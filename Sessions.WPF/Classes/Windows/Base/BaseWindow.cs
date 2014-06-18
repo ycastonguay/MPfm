@@ -17,12 +17,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows;
 using System.Windows.Threading;
-using MPfm.Library;
-using MPfm.Library.Objects;
-using MPfm.Library.Services;
 using MPfm.MVP.Views;
 
 namespace MPfm.WPF.Classes.Windows.Base

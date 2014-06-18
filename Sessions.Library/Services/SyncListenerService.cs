@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -21,13 +21,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using MPfm.Library.Objects;
-using MPfm.Library.Services.Interfaces;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Core;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
-namespace MPfm.Library.Services
+namespace Sessions.Library.Services
 {
     public class SyncListenerService : SyncListenerServiceBase
     {
@@ -411,13 +411,13 @@ namespace MPfm.Library.Services
 
         private void ProcessGetResourceCommand(HttpListenerContext httpContext, string command)
         {
-            // Try to serve file from WebApp (/WebApp/css/app.css ==> MPfm.Library.WebApp.css.app.css)
+            // Try to serve file from WebApp (/WebApp/css/app.css ==> Sessions.Library.WebApp.css.app.css)
             bool isAuthenticated = IsAuthenticated(httpContext);
             // Remove query string
             string[] commandSplit = command.Split(new char[1] {
                 '?'
             }, StringSplitOptions.RemoveEmptyEntries);
-            string resourceName = "MPfm.Library.WebApp" + commandSplit[0].Replace("/", ".");
+            string resourceName = "Sessions.Library.WebApp" + commandSplit[0].Replace("/", ".");
             if (commandSplit[0].ToUpper().StartsWith("/LOGIN.HTML"))
             {
                 if (isAuthenticated)

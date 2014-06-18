@@ -22,13 +22,10 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
-using MPfm.Library.Objects;
-using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using Environment = Android.OS.Environment;
+using Sessions.Library.Objects;
 
 namespace MPfm.Android.Classes.Fragments
 {

@@ -17,8 +17,8 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library.Objects;
 using MPfm.MVP.Navigation;
+using Sessions.Library.Objects;
 
 namespace MPfm.MVP.Views
 {

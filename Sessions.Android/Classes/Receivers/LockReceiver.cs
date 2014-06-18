@@ -17,9 +17,6 @@
 
 using System;
 using Android.Content;
-using Android.Net;
-using MPfm.Library;
-using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using TinyMessenger;

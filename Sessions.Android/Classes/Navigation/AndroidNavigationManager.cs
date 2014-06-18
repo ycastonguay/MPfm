@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Content;
-using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using Newtonsoft.Json;
+using Sessions.Library.Objects;
 using TinyMessenger;
 
 namespace MPfm.Android.Classes.Navigation

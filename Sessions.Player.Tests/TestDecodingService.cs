@@ -18,14 +18,14 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MPfm.Player.Services;
-using MPfm.Sound;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
 using NUnit.Framework;
 using Sessions.Core;
+using Sessions.Player.Services;
+using Sessions.Sound;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
 
-namespace MPfm.Player.Tests
+namespace Sessions.Player.Tests
 {
     [TestFixture()]
     public class TestDecodingService

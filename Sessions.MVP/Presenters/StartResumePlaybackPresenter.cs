@@ -15,13 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Library.Objects;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services.Interfaces;
 using System.Linq;
 using System;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.MVP.Presenters

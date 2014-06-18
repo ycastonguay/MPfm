@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 
 namespace MPfm.MVP.Views
 {

@@ -15,16 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Library.Database;
-using MPfm.Library.Database.Interfaces;
-using MPfm.Library.Services;
-using MPfm.Library.Services.Interfaces;
-using MPfm.MVP.Helpers;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services;
 using MPfm.MVP.Services.Interfaces;
 using Sessions.Core.Helpers;
+using Sessions.Library.Database;
+using Sessions.Library.Database.Interfaces;
+using Sessions.Library.Services;
+using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
 
