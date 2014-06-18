@@ -21,7 +21,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 
 namespace MPfm.Android
 {

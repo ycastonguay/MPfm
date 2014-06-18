@@ -20,11 +20,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using MPfm.MVP.Config.Models;
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
+using Sessions.MVP.Config.Models;
+using Sessions.MVP.Models;
+using Sessions.MVP.Views;
 using Style = System.Windows.Style;
 
 namespace MPfm.WPF.Classes.Windows

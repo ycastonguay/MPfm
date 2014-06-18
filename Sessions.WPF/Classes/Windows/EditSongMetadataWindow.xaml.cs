@@ -19,8 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Windows

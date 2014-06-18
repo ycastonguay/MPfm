@@ -23,7 +23,7 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Adapters

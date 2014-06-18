@@ -24,10 +24,10 @@ using Android.OS;
 using Android.Views.InputMethods;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using org.sessionsapp.android;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 
 namespace MPfm.Android

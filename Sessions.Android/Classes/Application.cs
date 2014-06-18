@@ -28,14 +28,14 @@ using MPfm.Android.Classes.Receivers;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Services;
 using MPfm.GenericControls.Services.Interfaces;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config.Providers;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using MPfm.Android.Classes.Services;
 using org.sessionsapp.android;
 using Sessions.Library;
 using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config.Providers;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Player;
 
 namespace MPfm.Android.Classes

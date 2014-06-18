@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using Android.OS;
 using Android.Views;
 using MPfm.Android.Classes.Fragments.Base;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments

@@ -24,12 +24,12 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android;
 using MPfm.Android.Classes.Fragments.Base;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config.Models;
-using MPfm.MVP.Models;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config.Models;
+using Sessions.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace org.sessionsapp.android
 {

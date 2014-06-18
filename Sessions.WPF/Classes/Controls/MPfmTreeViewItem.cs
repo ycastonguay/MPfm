@@ -17,7 +17,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 
 namespace MPfm.WPF.Classes.Controls
 {

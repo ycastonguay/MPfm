@@ -20,8 +20,8 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.MVP.Views;
 
 namespace MPfm.WPF.Classes.Windows
 {

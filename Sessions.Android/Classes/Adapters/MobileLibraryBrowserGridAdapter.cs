@@ -21,13 +21,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments;
-using MPfm.MVP.Models;
-using org.sessionsapp.android;
+using Sessions.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
 {

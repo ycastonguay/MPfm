@@ -20,11 +20,6 @@ using System.Windows;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Services;
 using MPfm.GenericControls.Services.Interfaces;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config;
-using MPfm.MVP.Config.Providers;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Navigation;
 using MPfm.WPF.Classes.Specifications;
@@ -33,6 +28,11 @@ using Sessions.Core;
 using Sessions.Library;
 using Sessions.Library.Services;
 using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config;
+using Sessions.MVP.Config.Providers;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace MPfm.WPF.Classes
 {

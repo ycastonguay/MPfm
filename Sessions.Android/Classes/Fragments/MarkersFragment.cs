@@ -23,10 +23,10 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Presenters;
-using MPfm.MVP.Views;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Presenters;
+using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments

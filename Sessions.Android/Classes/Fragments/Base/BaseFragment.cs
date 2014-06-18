@@ -17,8 +17,7 @@
 
 using System;
 using Android.App;
-using Android.OS;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments.Base
 {

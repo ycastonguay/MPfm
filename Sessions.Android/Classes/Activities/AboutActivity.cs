@@ -25,9 +25,9 @@ using Android.Views.Animations;
 using Android.Webkit;
 using Android.Widget;
 using MPfm.Android.Classes.Clients;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace MPfm.Android
 {

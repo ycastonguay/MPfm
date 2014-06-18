@@ -1,30 +1,30 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
+using Sessions.MVP.Presenters.Interfaces;
+using Sessions.MVP.Views;
 using Sessions.Core;
 using TinyMessenger;
-using MPfm.MVP.Messages;
+using Sessions.MVP.Messages;
 using System;
-using MPfm.MVP.Services.Interfaces;
+using Sessions.MVP.Services.Interfaces;
 
-namespace MPfm.MVP.Presenters
+namespace Sessions.MVP.Presenters
 {
 	public class PlaylistPresenter : BasePresenter<IPlaylistView>, IPlaylistPresenter
 	{
@@ -187,7 +187,7 @@ namespace MPfm.MVP.Presenters
         //    //            if (MessageBox.Show("Some files in the playlist could not be loaded. Do you wish to see the list of files in a text editor?", "Some files could not be loaded", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
         //    //            {
         //    //                // Get temp file path
-        //    //                string tempFilePath = Path.GetTempPath() + "MPfm_PlaylistLog_" + Conversion.DateTimeToUnixTimestamp(DateTime.Now).ToString("0.0000000").Replace(".", "") + ".txt";
+        //    //                string tempFilePath = Path.GetTempPath() + "Sessions_PlaylistLog_" + Conversion.DateTimeToUnixTimestamp(DateTime.Now).ToString("0.0000000").Replace(".", "") + ".txt";
 
         //    //                // Create temporary file
         //    //                TextWriter tw = null;

@@ -27,14 +27,11 @@ using Android.Widget;
 using Java.Lang;
 using MPfm.Android;
 using MPfm.Android.Classes.Cache;
-using MPfm.Android.Classes.Widgets;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Services.Interfaces;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
-using Exception = System.Exception;
-using Process = Android.OS.Process;
 
 namespace org.sessionsapp.android
 {

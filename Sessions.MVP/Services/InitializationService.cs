@@ -1,30 +1,30 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using MPfm.MVP.Config;
-using MPfm.MVP.Services.Interfaces;
+using Sessions.MVP.Config;
+using Sessions.MVP.Services.Interfaces;
 #if WINDOWSSTORE
 using Windows.Storage;
-using MPfm.Core.WinRT;
+using Sessions.Core.WinRT;
 #endif
 using Sessions.Core;
 using Sessions.Core.Helpers;
@@ -33,7 +33,7 @@ using Sessions.Library.Database;
 using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
 
-namespace MPfm.MVP.Services
+namespace Sessions.MVP.Services
 {	
 	/// <summary>
 	/// Service used for creating/updating the database and log files.
@@ -120,7 +120,7 @@ namespace MPfm.MVP.Services
             }
             catch (Exception ex)
             {
-                //throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
+                //throw new Exception("Error initializing Sessions: The sync listener could not be started!", ex);
                 Tracing.Log("The sync listener could not be started! Exception: {0}", ex);
             }   
 	    }
@@ -157,7 +157,7 @@ namespace MPfm.MVP.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Error initializing MPfm: Could not create database file!", ex);
+                throw new Exception("Error initializing Sessions: Could not create database file!", ex);
             }
 			
             try
@@ -187,7 +187,7 @@ namespace MPfm.MVP.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
+                throw new Exception("Error initializing Sessions: The Sessions database could not be updated!", ex);
             }		    
 		}
 
@@ -217,7 +217,7 @@ namespace MPfm.MVP.Services
         /// <summary>
         /// Checks if the library database structure needs to be updated by comparing
         /// the database version in the Settings table to the expected database version for this
-        /// version of MPfm.Library.dll. If the versions don't match, the database structure will
+        /// version of Sessions.Library.dll. If the versions don't match, the database structure will
         /// be updated by running the appropriate migration scripts in the right order.
         /// </summary>
         /// <param name="databaseFilePath">Database file path</param>
@@ -262,7 +262,7 @@ namespace MPfm.MVP.Services
                 for (int minor = currentMinor; minor < _databaseVersionMinor; minor++)
                 {
                     string sql = string.Empty;
-                    string scriptFileName = "MPfm.Library.Scripts.1." + minor.ToString("00") + "-1." + (minor + 1).ToString("00") + ".sql";
+                    string scriptFileName = "Sessions.Library.Scripts.1." + minor.ToString("00") + "-1." + (minor + 1).ToString("00") + ".sql";
 
                     try
                     {
@@ -304,7 +304,7 @@ namespace MPfm.MVP.Services
         }
 
         /// <summary>
-        /// Creates the MPfm database file at the specified location.
+        /// Creates the Sessions database file at the specified location.
         /// Executes the SQL needed to create the tables and basic entries.
         /// </summary>
         /// <param name="databaseFilePath">Database file path</param>
@@ -314,7 +314,7 @@ namespace MPfm.MVP.Services
             DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
 
             // Get SQL
-            string sql = GetEmbeddedSQLScript("MPfm.Library.Scripts.CreateDatabase.sql");
+            string sql = GetEmbeddedSQLScript("Sessions.Library.Scripts.CreateDatabase.sql");
 
             // Remove the header comments
             string[] sqlSplitHeader = sql.Split(new string[] { "--*/" }, StringSplitOptions.None);
@@ -331,7 +331,7 @@ namespace MPfm.MVP.Services
         /// Returns an embedded SQL script file from the assembly.
         /// </summary>
         /// <param name="fileName">Embedded SQL script file name (fully qualified)
-        /// ex: MPfm.Library.Scripts.CreateDatabase.sql</param>
+        /// ex: Sessions.Library.Scripts.CreateDatabase.sql</param>
         /// <returns>SQL script (in string format)</returns>
         private string GetEmbeddedSQLScript(string fileName)
         {
@@ -345,7 +345,7 @@ namespace MPfm.MVP.Services
             assembly = Assembly.GetAssembly(typeof(ISyncDeviceSpecifications));
 #endif
 
-            // Fetch SQL from MPfm.Library assembly
+            // Fetch SQL from Sessions.Library assembly
             using (Stream stream = assembly.GetManifestResourceStream(fileName))
             {
                 using (StreamReader reader = new StreamReader(stream))

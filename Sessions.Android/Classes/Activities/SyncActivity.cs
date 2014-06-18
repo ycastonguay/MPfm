@@ -26,10 +26,10 @@ using Android.OS;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using Sessions.Library.Objects;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace MPfm.Android
 {

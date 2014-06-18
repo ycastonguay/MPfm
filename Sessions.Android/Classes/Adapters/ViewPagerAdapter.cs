@@ -22,8 +22,6 @@ using Android.App;
 using Android.Runtime;
 using Android.Support.V13.App;
 using Android.Support.V4.View;
-using MPfm.Android.Classes.Fragments;
-using MPfm.MVP.Navigation;
 
 namespace MPfm.Android.Classes.Adapters
 {

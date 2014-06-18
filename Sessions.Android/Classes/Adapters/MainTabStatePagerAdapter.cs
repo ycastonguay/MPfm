@@ -22,7 +22,7 @@ using Android.App;
 using Android.Runtime;
 using Android.Support.V13.App;
 using Android.Support.V4.View;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Navigation;
 
 namespace MPfm.Android.Classes.Adapters
 {

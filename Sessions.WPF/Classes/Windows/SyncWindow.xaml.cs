@@ -24,10 +24,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
+using Sessions.MVP.Views;
 
 namespace MPfm.WPF.Classes.Windows
 {

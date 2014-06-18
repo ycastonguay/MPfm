@@ -20,10 +20,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
+using Sessions.MVP.Models;
+using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Windows

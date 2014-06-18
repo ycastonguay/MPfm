@@ -18,14 +18,11 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
-using Android.Content;
-using Android.OS;
 using Android.Preferences;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Views;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Views;
 using TinyMessenger;
-using org.sessionsapp.android;
 
 namespace MPfm.Android
 {

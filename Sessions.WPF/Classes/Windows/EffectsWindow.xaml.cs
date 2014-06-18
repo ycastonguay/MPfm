@@ -17,17 +17,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 
 namespace MPfm.WPF.Classes.Windows

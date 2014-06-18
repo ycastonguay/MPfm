@@ -17,7 +17,7 @@
 
 using System;
 using System.Windows.Data;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 
 namespace MPfm.WPF.Classes.Converters
 {

@@ -29,12 +29,12 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Android.Classes.Navigation;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Models;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using org.sessionsapp.android;
 using Sessions.Library.Objects;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 using Exception = System.Exception;
 

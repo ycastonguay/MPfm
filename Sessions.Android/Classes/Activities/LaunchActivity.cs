@@ -23,9 +23,8 @@ using Android.Preferences;
 using Android.Views;
 using Android.OS;
 using MPfm.Android.Classes.Navigation;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 
 namespace MPfm.Android
 {

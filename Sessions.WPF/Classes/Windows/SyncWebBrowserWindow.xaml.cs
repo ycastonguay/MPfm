@@ -19,8 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.MVP.Views;
 
 namespace MPfm.WPF.Classes.Windows
 {

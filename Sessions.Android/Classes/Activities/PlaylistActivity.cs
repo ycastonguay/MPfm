@@ -24,11 +24,10 @@ using Android.Views;
 using Android.OS;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
-using MPfm.Android.Classes.Navigation;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using org.sessionsapp.android;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 

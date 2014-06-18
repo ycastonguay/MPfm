@@ -26,9 +26,9 @@ using System.Windows.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
-using MPfm.MVP.Bootstrap;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
 using ModifierKeys = MPfm.GenericControls.Interaction.ModifierKeys;
 

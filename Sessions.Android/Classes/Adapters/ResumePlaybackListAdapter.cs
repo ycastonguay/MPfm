@@ -20,7 +20,7 @@ using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
 {

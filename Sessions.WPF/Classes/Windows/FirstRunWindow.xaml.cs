@@ -17,11 +17,11 @@
 
 using System;
 using System.Windows;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace MPfm.WPF.Classes.Windows
 {

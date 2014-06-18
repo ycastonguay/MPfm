@@ -22,10 +22,10 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Models;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {

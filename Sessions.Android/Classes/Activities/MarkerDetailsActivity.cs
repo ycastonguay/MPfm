@@ -22,9 +22,9 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 

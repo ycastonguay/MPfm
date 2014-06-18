@@ -21,8 +21,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 

@@ -19,8 +19,8 @@ using System;
 using System.Reflection;
 using Android.Content;
 using Android.Preferences;
-using MPfm.MVP.Config.Models;
-using MPfm.MVP.Config.Providers;
+using Sessions.MVP.Config.Models;
+using Sessions.MVP.Config.Providers;
 
 namespace MPfm.Android.Classes.Providers
 {

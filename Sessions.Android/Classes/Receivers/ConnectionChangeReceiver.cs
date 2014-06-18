@@ -18,10 +18,10 @@
 using System;
 using Android.Content;
 using Android.Net;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Messages;
 using Sessions.Library;
 using Sessions.Library.Objects;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
 using TinyMessenger;
 
 namespace MPfm.Android.Classes.Receivers
