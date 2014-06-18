@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D799707-3FA3-4CC6-8CA4-9BF27B2C83FB}</ProjectGuid>
+    <ProjectGuid>{AAD912BB-AFC9-4A3C-A70E-16963444503E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.GenericControls.Tests</RootNamespace>
-    <AssemblyName>MPfm.GenericControls.Tests</AssemblyName>
+    <RootNamespace>Sessions.MVP.Tests</RootNamespace>
+    <AssemblyName>Sessions.MVP.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,13 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.core, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Core.Tests\Lib\nunit.core.dll</HintPath>
+    <Reference Include="nunit.core">
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Core.Tests\Lib\nunit.framework.dll</HintPath>
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,16 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
-      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
-      <Name>MPfm.GenericControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
-      <Project>{b6b0613c-ff39-479d-9ef0-31daf9684a06}</Project>
-      <Name>MPfm.MVP</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

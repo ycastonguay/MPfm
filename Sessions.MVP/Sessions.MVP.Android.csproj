@@ -1,138 +1,194 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B6E7364-E61F-4037-A636-09094C808D1A}</ProjectGuid>
+    <ProjectGuid>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.MVP</RootNamespace>
-    <AssemblyName>MPfm.MVP</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <RootNamespace>Sessions.MVP</RootNamespace>
+    <AssemblyName>Sessions.MVP</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug</OutputPath>
+    <DefineConstants>DEBUG;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <DefineConstants>ANDROID</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sessions.Library\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Sessions.Library\Lib\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sessions.Sound\Lib\Android\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sessions.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Lib\Ninject.dll" />
+    <None Include="Lib\AutoMapper.dll" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.Android.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>Sessions.Core.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sessions.Library\Sessions.Library.Android.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>Sessions.Library.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sessions.Player\Sessions.Player.Android.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>Sessions.Player.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.Android.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>Sessions.Sound.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Config\Models\AudioAppConfig.cs" />
+    <Compile Include="Config\AppConfigManager.cs" />
+    <Compile Include="Config\Models\GeneralAppConfig.cs" />
+    <Compile Include="Config\Models\LibraryAppConfig.cs" />
     <Compile Include="Config\Models\CloudAppConfig.cs" />
-    <Compile Include="Config\Models\ControlsAppConfig.cs" />
     <Compile Include="Config\Models\IAppConfig.cs" />
-    <Compile Include="Config\Models\RootAppConfig.cs" />
-    <Compile Include="Config\Models\TableViewAppConfig.cs" />
-    <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
-    <Compile Include="Config\Models\WindowAppConfig.cs" />
-    <Compile Include="Config\Models\WindowsAppConfig.cs" />
-    <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
-    <Compile Include="Config\Providers\IAppConfigProvider.cs" />
+    <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
+    <Compile Include="Config\Models\ResumePlaybackAppConfig.cs" />
+    <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
-    <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
-    <Compile Include="Messages\PlayerSetPositionMessage.cs" />
-    <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
+    <Compile Include="Messages\ApplicationCloseMessage.cs" />
+    <Compile Include="Messages\ActivateLockScreenMessage.cs" />
+    <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
+    <Compile Include="Messages\MarkerActivatedMessage.cs" />
+    <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
+    <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
+    <Compile Include="Messages\PlayerSetPositionMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+    <Compile Include="Messages\QueueUpdatedMessage.cs" />
+    <Compile Include="Models\CloudConnectEntity.cs" />
+    <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
+    <Compile Include="Models\MobileOptionsMenuEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
+    <Compile Include="Models\ResumePlaybackEntity.cs" />
+    <Compile Include="Models\SongBrowserFilterEntity.cs" />
+    <Compile Include="Navigation\INavigationManager.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
+    <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\AddMarkerPresenter.cs" />
     <Compile Include="Presenters\AddPlaylistPresenter.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\CloudPreferencesPresenter.cs" />
+    <Compile Include="Presenters\FirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ICloudConnectPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ICloudPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileMainPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IQueuePresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IStartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncCloudPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISyncConnectManualPresenter.cs" />
+    <Compile Include="Presenters\MobileMainPresenter.cs" />
+    <Compile Include="Presenters\QueuePresenter.cs" />
+    <Compile Include="Presenters\StartResumePlaybackPresenter.cs" />
+    <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
+    <Compile Include="Presenters\SelectFoldersPresenter.cs" />
+    <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
-    <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileFirstRunPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\IDesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IEditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
     <Compile Include="Presenters\MobileOptionsMenuPresenter.cs" />
@@ -141,25 +197,29 @@
     <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
-    <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
-    <Compile Include="Presenters\SelectFoldersPresenter.cs" />
-    <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\SyncCloudPresenter.cs" />
+    <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\ICloudConnectView.cs" />
+    <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
     <Compile Include="Views\IAddPlaylistView.cs" />
+    <Compile Include="Views\IFirstRunView.cs" />
+    <Compile Include="Views\IMobileMainView.cs" />
+    <Compile Include="Views\IQueueView.cs" />
+    <Compile Include="Views\IStartResumePlaybackView.cs" />
+    <Compile Include="Views\IResumePlaybackView.cs" />
+    <Compile Include="Views\ISelectFoldersView.cs" />
+    <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
-    <Compile Include="Views\IDesktopFirstRunView.cs" />
     <Compile Include="Views\IEditSongMetadataView.cs" />
     <Compile Include="Views\IMobileOptionsMenuView.cs" />
     <Compile Include="Views\IMobileLibraryBrowserView.cs" />
     <Compile Include="Views\ILibraryPreferencesView.cs" />
     <Compile Include="Views\IGeneralPreferencesView.cs" />
     <Compile Include="Views\IAudioPreferencesView.cs" />
-    <Compile Include="Views\IResumePlaybackView.cs" />
-    <Compile Include="Views\ISelectFoldersView.cs" />
-    <Compile Include="Views\ISelectPlaylistView.cs" />
+    <Compile Include="Views\ISyncCloudView.cs" />
     <Compile Include="Views\ISyncConnectManualView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
@@ -181,7 +241,15 @@
     <Compile Include="Presenters\SplashPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
-    <Compile Include="Config\AppConfigManager.cs" />
+    <Compile Include="Config\Models\RootAppConfig.cs" />
+    <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
+    <Compile Include="Config\Providers\IAppConfigProvider.cs" />
+    <Compile Include="Config\Models\AudioAppConfig.cs" />
+    <Compile Include="Config\Models\ControlsAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
+    <Compile Include="Config\Models\WindowAppConfig.cs" />
+    <Compile Include="Config\Models\WindowsAppConfig.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
     <Compile Include="Views\IPreferencesView.cs" />
@@ -260,10 +328,14 @@
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
     <Compile Include="Views\IDesktopEffectsView.cs" />
+    <Compile Include="Services\LifecycleService.cs" />
+    <Compile Include="Services\Interfaces\ILifecycleService.cs" />
+    <Compile Include="Services\Interfaces\IResumePlaybackService.cs" />
+    <Compile Include="Services\ResumePlaybackService.cs" />
     <Compile Include="Views\ISegmentDetailsView.cs" />
     <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />    
-        <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
+    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />
+    <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopActivatedMessage.cs" />
     <Compile Include="Messages\LoopBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopUpdatedMessage.cs" />
@@ -279,42 +351,4 @@
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
     <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
-      <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
-      <Name>MPfm.Core.WindowsStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.WindowsStore.csproj">
-      <Project>{394f4601-af24-43a1-bcd3-0784645dab17}</Project>
-      <Name>MPfm.Library.WindowsStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsStore.csproj">
-      <Project>{b096c459-3e2d-4932-a961-de692f6b6c1c}</Project>
-      <Name>MPfm.Player.WindowsStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsStore.csproj">
-      <Project>{a0d06cd4-f009-4068-a79c-377a7d2e014c}</Project>
-      <Name>MPfm.Sound.WindowsStore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lib\" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
-    <VisualStudioVersion>11.0</VisualStudioVersion>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

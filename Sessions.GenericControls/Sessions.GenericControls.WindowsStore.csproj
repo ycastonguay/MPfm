@@ -9,8 +9,8 @@
     <ProjectGuid>{F2A4E954-0439-42CF-B795-82819C9A39CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.GenericControls</RootNamespace>
-    <AssemblyName>MPfm.GenericControls</AssemblyName>
+    <RootNamespace>Sessions.GenericControls</RootNamespace>
+    <AssemblyName>Sessions.GenericControls</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
