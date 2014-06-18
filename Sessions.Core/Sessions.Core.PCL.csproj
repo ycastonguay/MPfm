@@ -8,8 +8,8 @@
     <ProjectGuid>{BDAE979D-6681-4650-B2C6-1097B4E4DBC8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Core</RootNamespace>
-    <AssemblyName>MPfm.Core</AssemblyName>
+    <RootNamespace>Sessions.Core</RootNamespace>
+    <AssemblyName>Sessions.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile154</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

@@ -95,18 +95,14 @@
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
     <Compile Include="Basics\IBasicImage.cs" />
-        <Compile Include="Controls\ProgressBarControl.cs" />
+    <Compile Include="Controls\ProgressBarControl.cs" />
     <Compile Include="Controls\CircularProgressBarControl.cs" />
     <Compile Include="Basics\BasicPath.cs" />
     <Compile Include="Basics\IBasicPathItem.cs" />
     <Compile Include="Basics\BasicPathLine.cs" />
-        <Compile Include="Controls\CheckBoxControl.cs" />
+    <Compile Include="Controls\CheckBoxControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
       <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
       <Name>MPfm.MVP</Name>
@@ -118,6 +114,10 @@
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
+      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Name>Sessions.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

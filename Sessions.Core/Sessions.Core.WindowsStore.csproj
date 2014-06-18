@@ -9,8 +9,8 @@
     <ProjectGuid>{E97BAD77-806E-402B-A3FC-283C31FDB37D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Core</RootNamespace>
-    <AssemblyName>MPfm.Core</AssemblyName>
+    <RootNamespace>Sessions.Core</RootNamespace>
+    <AssemblyName>Sessions.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
