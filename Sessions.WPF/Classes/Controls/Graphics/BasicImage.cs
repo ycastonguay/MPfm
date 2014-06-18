@@ -17,7 +17,7 @@
 
 using System;
 using System.Windows.Media.Imaging;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {

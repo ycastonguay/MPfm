@@ -20,10 +20,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.SqlServer.Server;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
 using Brushes = System.Windows.Media.Brushes;
 using Pen = System.Windows.Media.Pen;
 

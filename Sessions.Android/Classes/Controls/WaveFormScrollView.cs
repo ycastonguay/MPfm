@@ -25,7 +25,7 @@ using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 

@@ -17,8 +17,7 @@
 
 using System;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using MPfm.GenericControls.Wrappers;
+using Sessions.GenericControls.Wrappers;
 
 namespace MPfm.WPF.Classes.Controls
 {

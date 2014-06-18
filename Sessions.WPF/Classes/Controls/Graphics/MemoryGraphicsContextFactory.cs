@@ -16,10 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {

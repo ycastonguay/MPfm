@@ -18,7 +18,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,10 +26,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Services;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls;
+using Sessions.GenericControls.Services;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 

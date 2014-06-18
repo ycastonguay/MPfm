@@ -17,14 +17,10 @@
 
 using System;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Controls.Songs;
-using MPfm.GenericControls.Interaction;
-using MPfm.WindowsControls;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Interaction;
 using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 

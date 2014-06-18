@@ -19,11 +19,10 @@ using System;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Interaction;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls

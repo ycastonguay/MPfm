@@ -16,17 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Interaction;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
-using MPfm.WPF.Classes.Extensions;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls

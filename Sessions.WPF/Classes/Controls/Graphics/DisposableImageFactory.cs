@@ -18,8 +18,8 @@
 using System;
 using System.IO;
 using System.Windows.Media.Imaging;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {

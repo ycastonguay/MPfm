@@ -24,8 +24,8 @@ using Android.Util;
 using Android.Views;
 using MPfm.Android.Classes.Controls.Graphics;
 using MPfm.Android.Classes.Controls.Helpers;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls;
 using Sessions.Sound.AudioFiles;
 
 namespace org.sessionsapp.android

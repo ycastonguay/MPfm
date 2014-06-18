@@ -17,14 +17,14 @@
 
 using System.Diagnostics;
 using System.Windows;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Services;
-using MPfm.GenericControls.Services.Interfaces;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Navigation;
 using MPfm.WPF.Classes.Specifications;
 using MPfm.WPF.Classes.Windows;
 using Sessions.Core;
+using Sessions.GenericControls.Graphics;
+using Sessions.GenericControls.Services;
+using Sessions.GenericControls.Services.Interfaces;
 using Sessions.Library;
 using Sessions.Library.Services;
 using Sessions.Library.Services.Interfaces;

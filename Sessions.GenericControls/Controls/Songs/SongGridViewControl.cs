@@ -1,19 +1,19 @@
 // Copyri3w2qght © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -23,19 +23,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Timers;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Interaction;
-using MPfm.GenericControls.Wrappers;
-using MPfm.WindowsControls;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
+using Sessions.GenericControls.Interaction;
+using Sessions.GenericControls.Wrappers;
+using Sessions.WindowsControls;
 using Sessions.Core;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 
-namespace MPfm.GenericControls.Controls.Songs
+namespace Sessions.GenericControls.Controls.Songs
 {
     /// <summary>
-    /// This custom grid view control displays the MPfm library.
+    /// This custom grid view control displays the Sessions library.
     /// </summary>
     public class SongGridViewControl : IControl, IControlMouseInteraction, IControlKeyboardInteraction
     {
@@ -950,7 +950,7 @@ namespace MPfm.GenericControls.Controls.Songs
                                 int intValue = (int)propertyInfo.GetValue(audioFile, null);
                                 value = intValue.ToString();
                             }
-                            else if (propertyInfo.PropertyType.FullName.Contains("MPfm.Sound.AudioFileFormat"))
+                            else if (propertyInfo.PropertyType.FullName.Contains("Sessions.Sound.AudioFileFormat"))
                             {
                                 AudioFileFormat theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
                                 value = theValue.ToString();

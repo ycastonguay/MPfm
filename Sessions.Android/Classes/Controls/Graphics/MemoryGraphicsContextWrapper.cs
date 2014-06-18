@@ -17,8 +17,8 @@
 
 using System;
 using Android.Graphics;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
 
 namespace MPfm.Android.Classes.Controls.Graphics
 {

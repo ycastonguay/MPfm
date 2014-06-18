@@ -23,7 +23,7 @@ using Android.Util;
 using Android.Views;
 using MPfm.Android.Classes.Controls.Graphics;
 using MPfm.Android.Classes.Controls.Helpers;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 
 namespace org.sessionsapp.android
 {

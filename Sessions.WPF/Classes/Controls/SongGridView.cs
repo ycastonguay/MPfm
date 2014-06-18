@@ -23,14 +23,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Controls.Songs;
-using MPfm.GenericControls.Graphics;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Songs;
+using Sessions.GenericControls.Graphics;
 using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
-using ModifierKeys = MPfm.GenericControls.Interaction.ModifierKeys;
+using ModifierKeys = Sessions.GenericControls.Interaction.ModifierKeys;
 
 namespace MPfm.WPF.Classes.Controls
 {

@@ -21,7 +21,7 @@ using System.Linq;
 using NUnit.Framework;
 using Sessions.Library.Services;
 
-namespace MPfm.Sound.Tests
+namespace Sessions.Sound.Tests
 {
     [TestFixture()]
     public class SyncDiscoveryServiceTest
