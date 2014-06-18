@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Library.Objects
 {

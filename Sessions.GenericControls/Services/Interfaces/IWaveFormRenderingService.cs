@@ -17,7 +17,7 @@
 
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Services.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services.Interfaces
 {

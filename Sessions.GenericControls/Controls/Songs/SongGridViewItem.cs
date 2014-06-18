@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Controls.Songs
 {

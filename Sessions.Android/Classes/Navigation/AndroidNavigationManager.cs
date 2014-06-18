@@ -20,15 +20,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Content;
-using Android.Views.Animations;
-using MPfm.Android.Classes.Fragments;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
 using Newtonsoft.Json;
 using TinyMessenger;
 

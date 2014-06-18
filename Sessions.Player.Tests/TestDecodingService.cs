@@ -18,12 +18,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MPfm.Core;
 using MPfm.Player.Services;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using NUnit.Framework;
+using Sessions.Core;
 
 namespace MPfm.Player.Tests
 {

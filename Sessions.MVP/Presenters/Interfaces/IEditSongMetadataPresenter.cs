@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {

@@ -21,11 +21,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Library.Services
 {

@@ -17,7 +17,7 @@
 
 using System;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.MVP.Views
 {

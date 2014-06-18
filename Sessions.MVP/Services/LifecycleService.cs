@@ -16,21 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using MPfm.Library;
-using MPfm.Library.Database;
-using MPfm.Library.Objects;
-using MPfm.MVP.Config;
-using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
-using MPfm.Library.Services.Interfaces;
-using MPfm.Sound.AudioFiles;
-using MPfm.MVP.Bootstrap;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MPfm.MVP.Services
 {	

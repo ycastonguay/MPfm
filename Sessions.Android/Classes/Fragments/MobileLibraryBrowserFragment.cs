@@ -36,8 +36,8 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
 using org.sessionsapp.android;
+using Sessions.Sound.AudioFiles;
 using Exception = System.Exception;
 
 namespace MPfm.Android.Classes.Fragments

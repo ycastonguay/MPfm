@@ -18,14 +18,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using Android.App;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments;
 using MPfm.MVP.Models;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Adapters
 {

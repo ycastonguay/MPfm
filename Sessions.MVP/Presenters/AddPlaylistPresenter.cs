@@ -21,8 +21,8 @@ using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Sound.Playlists;
 using Sessions.Core;
+using Sessions.Sound.Playlists;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

@@ -15,8 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Models;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using MPfm.Library.Objects;
 

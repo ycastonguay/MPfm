@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
@@ -28,7 +27,8 @@ using MPfm.Library.Services.Interfaces;
 using Windows.Storage;
 using MPfm.Core.WinRT;
 #endif
-using MPfm.Sound.Playlists;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.Library.Services
 {

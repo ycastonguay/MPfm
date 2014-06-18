@@ -22,8 +22,8 @@ using System.Text;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.Library.Database
 {

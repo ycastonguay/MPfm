@@ -18,11 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core.TestConfiguration;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using NUnit.Framework;
 using MPfm.Sound.BassNetWrapper;
+using Sessions.Core.TestConfiguration;
 
 namespace MPfm.Sound.Tests
 {

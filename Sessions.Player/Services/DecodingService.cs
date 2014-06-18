@@ -20,9 +20,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
 using Sessions.Core;
+using Sessions.Sound.BassNetWrapper;
 using Un4seen.Bass;
 
 namespace MPfm.Player.Services

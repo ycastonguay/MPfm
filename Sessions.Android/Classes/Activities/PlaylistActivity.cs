@@ -28,9 +28,9 @@ using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using org.sessionsapp.android;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.Android
 {

@@ -20,8 +20,8 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
+using Sessions.Sound.AudioFiles;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls

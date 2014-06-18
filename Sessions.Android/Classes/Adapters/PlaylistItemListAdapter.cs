@@ -19,9 +19,9 @@ using System;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using org.sessionsapp.android;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.Android.Classes.Adapters
 {

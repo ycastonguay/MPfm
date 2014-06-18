@@ -27,10 +27,10 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Wrappers;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using MPfm.WindowsControls;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.GenericControls.Controls.Songs
 {

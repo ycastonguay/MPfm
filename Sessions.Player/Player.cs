@@ -21,14 +21,14 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MPfm.Player.Services;
-using MPfm.Sound;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.Playlists;
 using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Sound;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
+using Sessions.Sound.Playlists;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Fx;
 using Un4seen.Bass.AddOn.Enc;
@@ -36,8 +36,8 @@ using Un4seen.Bass.AddOn.Enc;
 #if !IOS && !ANDROID
 using Un4seen.BassAsio;
 using Un4seen.BassWasapi;
-using MPfm.Sound.BassNetWrapper.ASIO;
-using MPfm.Sound.BassNetWrapper.WASAPI;
+using Sessions.Sound.BassNetWrapper.ASIO;
+using Sessions.Sound.BassNetWrapper.WASAPI;
 #endif
 
 #if IOS

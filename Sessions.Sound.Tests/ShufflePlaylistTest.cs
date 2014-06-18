@@ -22,7 +22,6 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using NUnit.Framework;
 using MPfm.Sound.BassNetWrapper;
-using MPfm.Core.TestConfiguration;
 
 namespace MPfm.Sound.Tests
 {

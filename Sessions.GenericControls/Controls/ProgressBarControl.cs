@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Interaction;
-using MPfm.Sound.AudioFiles;
 using System.Timers;
 
 namespace MPfm.GenericControls.Controls

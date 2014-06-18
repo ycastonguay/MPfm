@@ -25,12 +25,12 @@ using MPfm.MVP.Models;
 using MPfm.Player;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.Playlists;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
+using Sessions.Sound.Playlists;
 using TinyMessenger;
 
 namespace MPfm.MVP.Services

@@ -24,8 +24,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using MPfm.Library.Services.Interfaces;
-using MPfm.Sound.AudioFiles;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Library.Services
 {

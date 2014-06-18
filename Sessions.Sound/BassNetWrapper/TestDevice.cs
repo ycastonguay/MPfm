@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 // Note: This call is only available on Windows/Linux/Mac because of the 
 //       use of ASIO/WASAPI which are not available in the BASS.NET mobile version.
@@ -23,13 +23,13 @@ using System.IO;
 using Un4seen.Bass;
 
 #if !IOS && !ANDROID
-using MPfm.Sound.BassNetWrapper.ASIO;
-using MPfm.Sound.BassNetWrapper.WASAPI;
+using Sessions.Sound.BassNetWrapper.ASIO;
+using Sessions.Sound.BassNetWrapper.WASAPI;
 using Un4seen.BassAsio;
 using Un4seen.BassWasapi;
 #endif
 
-namespace MPfm.Sound.BassNetWrapper
+namespace Sessions.Sound.BassNetWrapper
 {
     /// <summary>
     /// Defines a simple class to test an audio file against an audio device.

@@ -27,10 +27,10 @@ using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
 using MPfm.GenericControls.Services.Objects;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.PeakFiles;
 using System.Threading;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.PeakFiles;
 
 namespace MPfm.GenericControls.Services
 {

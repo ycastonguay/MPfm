@@ -22,9 +22,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.WPF.Classes.Windows
 {

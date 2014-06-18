@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core;
 using NUnit.Framework;
+using Sessions.Core;
 
-namespace MPfm.Core.Tests
+namespace Sessions.Core.Tests
 {
     [TestFixture()]
     public class TestByteArrayQueue

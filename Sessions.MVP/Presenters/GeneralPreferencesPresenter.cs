@@ -20,7 +20,6 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Config;
 using MPfm.MVP.Config.Models;
 using System;
-using MPfm.Sound.PeakFiles;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;

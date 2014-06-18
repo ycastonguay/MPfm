@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using MPfm.Sound.Tags;
+using Sessions.Sound.Tags;
 using Sessions.Core;
 using Sessions.Core.Attributes;
 #if !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
@@ -33,12 +33,12 @@ using Mono.Unix;
 using Mono.Unix.Native;
 #endif
 
-namespace MPfm.Sound.AudioFiles
+namespace Sessions.Sound.AudioFiles
 {
 	/// <summary>
 	/// The AudioFile class contains the metadata of an audio file.
 	/// It can refresh the metadata by reading the tags inside the audio file or from
-	/// the database (using MPfm.Library).
+	/// the database (using Sessions.Library).
 	/// </summary>
 	public class AudioFile
 	{
@@ -435,7 +435,7 @@ namespace MPfm.Sound.AudioFiles
 		#region Database Properties
         
         /// <summary>
-        /// Defines the number of times the audio file has been played with MPfm (information comes from the MPfm database).
+        /// Defines the number of times the audio file has been played with Sessions (information comes from the Sessions database).
         /// </summary>
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Browsable(false)]
@@ -443,7 +443,7 @@ namespace MPfm.Sound.AudioFiles
         public int PlayCount { get; set; }
 
         /// <summary>
-        /// Defines the last time the audio file has been played with MPfm (information comes from the MPfm database).
+        /// Defines the last time the audio file has been played with Sessions (information comes from the Sessions database).
         /// Null if the audio file has never been played.
         /// </summary>
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE

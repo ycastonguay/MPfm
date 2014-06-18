@@ -17,7 +17,7 @@
 
 using System;
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-using MPfm.Sound.BassNetWrapper;
+using Sessions.Sound.BassNetWrapper;
 #endif
 
 namespace MPfm.Player.Exceptions

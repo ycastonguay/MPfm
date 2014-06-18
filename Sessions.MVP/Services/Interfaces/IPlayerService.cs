@@ -21,9 +21,9 @@ using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.Player;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.Playlists;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.MVP.Services.Interfaces
 {

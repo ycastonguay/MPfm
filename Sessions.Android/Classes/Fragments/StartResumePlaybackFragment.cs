@@ -19,20 +19,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
 {

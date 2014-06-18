@@ -17,14 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Android.App;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using MPfm.MVP.Models;
-using MPfm.Player.Objects;
-using MPfm.Sound.Playlists;
 
 namespace MPfm.Android.Classes.Adapters
 {

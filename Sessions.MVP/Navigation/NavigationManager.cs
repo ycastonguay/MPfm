@@ -22,11 +22,11 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Presenters;
 using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.Library.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Services.Interfaces;
 
 namespace MPfm.MVP.Navigation

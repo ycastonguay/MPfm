@@ -17,7 +17,7 @@
 
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
-using MPfm.Sound.BassNetWrapper;
+using Sessions.Sound.BassNetWrapper;
 using Un4seen.Bass;
 
 namespace MPfm.Player.Objects

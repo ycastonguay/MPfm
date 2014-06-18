@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -22,12 +22,12 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
 using System.Linq;
 using Sessions.Core;
 
-namespace MPfm.Sound.PeakFiles
+namespace Sessions.Sound.PeakFiles
 {
     /// <summary>
     /// This class can generate peak files asynchronously. Use the ProcessData event to get the progress.
@@ -140,8 +140,8 @@ namespace MPfm.Sound.PeakFiles
 
                     // Write file header (30 characters)                       
                     // 123456789012345678901234567890
-                    // MPfm Peak File (version# 1.00)
-                    string version = "MPfm Peak File (version# " + _version + ")";
+                    // Sessions Peak File (version# 1.00)
+                    string version = "Sessions Peak File (version# " + _version + ")";
                     binaryWriter.Write(version);
 
                     // Write audio file length
@@ -353,7 +353,7 @@ namespace MPfm.Sound.PeakFiles
                 gzipStream = new GZipStream(fileStream, CompressionMode.Decompress);
 
                 // Read file header (30 characters) 
-                // Ex: MPfm Peak File (version# 1.00)                
+                // Ex: Sessions Peak File (version# 1.00)                
                 fileHeader = new string(binaryReader.ReadChars(31));
 
                 // Extract version and validate
@@ -408,7 +408,7 @@ namespace MPfm.Sound.PeakFiles
         public static long CheckDirectorySize(string path)
         {
             long length = 0;
-            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
+            string[] files = Directory.GetFiles(path, "*.SessionsPeak");
             foreach (string file in files)
             {
                 var fileInfo = new FileInfo(file);
@@ -421,7 +421,7 @@ namespace MPfm.Sound.PeakFiles
         public static void DeletePeakFilesWhenExceedingMaximumFolderSize(string path, long maximumFolderSize)
         {
             long length = 0;
-            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
+            string[] files = Directory.GetFiles(path, "*.SessionsPeak");
             List<Tuple<string, DateTime>> filesWithTimestamps = new List<Tuple<string, DateTime>>();
             foreach (string file in files)
             {
@@ -454,7 +454,7 @@ namespace MPfm.Sound.PeakFiles
         /// <param name="path">Path</param>        
         public static void DeletePeakFiles(string path)
         {
-            string[] files = Directory.GetFiles(path, "*.mpfmPeak");
+            string[] files = Directory.GetFiles(path, "*.SessionsPeak");
             foreach (string file in files)
             {
                 File.Delete(file);

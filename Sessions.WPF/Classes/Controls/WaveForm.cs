@@ -25,9 +25,9 @@ using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Services;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.Sound.AudioFiles;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls

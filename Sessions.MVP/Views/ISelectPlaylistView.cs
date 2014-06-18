@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using MPfm.MVP.Models;
 using MPfm.Player.Objects;
-using MPfm.Sound.Playlists;
 
 namespace MPfm.MVP.Views
 {

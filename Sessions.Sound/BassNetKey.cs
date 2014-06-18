@@ -1,4 +1,4 @@
-namespace MPfm.Sound
+namespace Sessions.Sound
 {
     public static class BassNetKey
     {

@@ -25,7 +25,7 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
 {

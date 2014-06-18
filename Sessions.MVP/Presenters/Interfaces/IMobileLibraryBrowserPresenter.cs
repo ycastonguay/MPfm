@@ -16,9 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using MPfm.MVP.Models;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters.Interfaces

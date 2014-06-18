@@ -19,10 +19,9 @@ using System;
 using System.Collections.Generic;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.Playlists;
-
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
+using Sessions.Sound.Playlists;
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using Un4seen.Bass.AddOn.Fx;
 #endif

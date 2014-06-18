@@ -19,7 +19,6 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Helpers;
-using MPfm.Sound.AudioFiles;
 using System;
 using Sessions.Core;
 using Sessions.Core.Helpers;

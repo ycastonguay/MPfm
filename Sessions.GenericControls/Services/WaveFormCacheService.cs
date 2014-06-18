@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +25,7 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
 using MPfm.GenericControls.Services.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services
 {

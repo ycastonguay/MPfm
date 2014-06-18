@@ -35,11 +35,11 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
 using Sessions.Core.Helpers;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Windows
 {

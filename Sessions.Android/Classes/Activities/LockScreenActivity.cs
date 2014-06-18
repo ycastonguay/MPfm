@@ -35,9 +35,9 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 using TinyMessenger;
 
 namespace MPfm.Android

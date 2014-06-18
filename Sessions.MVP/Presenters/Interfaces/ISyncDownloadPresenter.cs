@@ -17,8 +17,8 @@
 
 using System.Collections.Generic;
 using MPfm.Library.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Views;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {

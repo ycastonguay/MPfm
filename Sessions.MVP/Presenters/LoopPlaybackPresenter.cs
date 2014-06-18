@@ -21,10 +21,10 @@ using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using System;
-using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Models;
 

@@ -19,13 +19,13 @@ using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
-using MPfm.Sound.PeakFiles;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services;
 using MPfm.MVP.Services.Interfaces;
 using Sessions.Core.Helpers;
+using Sessions.Sound.PeakFiles;
 using TinyMessenger;
 
 namespace MPfm.MVP.Bootstrap

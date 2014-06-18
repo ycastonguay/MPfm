@@ -25,14 +25,13 @@ using MPfm.Library.Objects;
 using MPfm.Library.Services.Events;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.UpdateLibrary;
-using MPfm.Sound.AudioFiles;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
 #endif
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Library.Services
 {
