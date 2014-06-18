@@ -57,6 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\Moq.dll" />
     <Content Include="Lib\nunit.core.dll" />
     <Content Include="Lib\nunit.framework.dll" />
   </ItemGroup>

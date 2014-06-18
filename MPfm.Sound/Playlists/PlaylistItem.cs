@@ -96,6 +96,7 @@ namespace MPfm.Sound.Playlists
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
+        // TODO: Consider adding a wrapper around to make this not BASS-related
         private Channel _channel = null;
         /// <summary>
         /// BASS.NET channel used for playback decoding.

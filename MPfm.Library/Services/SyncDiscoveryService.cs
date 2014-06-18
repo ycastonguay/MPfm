@@ -40,6 +40,7 @@ namespace MPfm.Library.Services
         private List<SyncDevice> _devices;
         private List<string> _ipsToSearch;
         private int _numberOfTasksRunning;
+        private Thread _thread;
 
         public bool IsRunning { get; private set; }
         public int Port { get; private set; }
@@ -108,7 +109,7 @@ namespace MPfm.Library.Services
 
         public void Start()
         {
-            var thread = new Thread(new ThreadStart(() =>
+            _thread = new Thread(new ThreadStart(() =>
             {
                 while (true)
                 {
@@ -155,9 +156,9 @@ namespace MPfm.Library.Services
                     Thread.Sleep(250);
                 }
             }));
-            thread.IsBackground = true;
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
+            _thread.IsBackground = true;
+            _thread.SetApartmentState(ApartmentState.STA);
+            _thread.Start();
         }
 
         private void PingDevice(string ip)

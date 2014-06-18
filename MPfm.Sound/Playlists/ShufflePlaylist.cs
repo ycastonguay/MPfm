@@ -68,7 +68,7 @@ namespace MPfm.Sound.Playlists
         {
             while (true)
             {
-                Console.WriteLine("RandomizeNextItem - items: {0} playedItems: {1}", Items.Count, PlayedItemIds.Count);
+                //Console.WriteLine("RandomizeNextItem - items: {0} playedItems: {1}", Items.Count, PlayedItemIds.Count);
                 var playedItems = Items.Where(x => PlayedItemIds.Contains(x.Id)).ToList();
                 if (playedItems.Count == Items.Count)
                     throw new EndOfPlaylistException();
@@ -78,7 +78,7 @@ namespace MPfm.Sound.Playlists
                 int r = _random.Next(Items.Count);
                 if (!PlayedItemIds.Contains(Items[r].Id))
                 {
-                    Console.WriteLine("RandomizeNextItem - Found item");
+                    //Console.WriteLine("RandomizeNextItem - Found item");
                     return Items[r];
                 }
             }
