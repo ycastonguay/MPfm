@@ -1,36 +1,36 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Windows;
 using System.Windows.Controls;
 using Sessions.MVP.Models;
 
-namespace MPfm.WPF.Classes.Controls
+namespace Sessions.WPF.Classes.Controls
 {
     /// <summary>
     /// http://stackoverflow.com/questions/15640263/how-to-add-a-before-expanding-event-to-the-wpf-treeview-without-using-threads
     /// </summary> 
-    public class MPfmTreeViewItem : TreeViewItem
+    public class SessionsTreeViewItem : TreeViewItem
     {
         public LibraryBrowserEntity Entity { get; set; }
         public bool IsDummyNode { get; set; }
 
-        public static readonly RoutedEvent CollapsingEvent = EventManager.RegisterRoutedEvent("Collapsing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MPfmTreeViewItem));
-        public static readonly RoutedEvent ExpandingEvent = EventManager.RegisterRoutedEvent("Expanding", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MPfmTreeViewItem));
+        public static readonly RoutedEvent CollapsingEvent = EventManager.RegisterRoutedEvent("Collapsing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SessionsTreeViewItem));
+        public static readonly RoutedEvent ExpandingEvent = EventManager.RegisterRoutedEvent("Expanding", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SessionsTreeViewItem));
 
         public event RoutedEventHandler Collapsing
         {

@@ -1,7 +1,7 @@
-﻿<Application x:Class="MPfm.WPF.Classes.App"
+﻿<Application x:Class="Sessions.WPF.Classes.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
+             xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
              Startup="App_Startup">
     <Application.Resources>    
         <!-- Colors -->

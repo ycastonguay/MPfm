@@ -1,19 +1,19 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -29,9 +29,9 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MPfm.WPF.Classes.Controls;
-using MPfm.WPF.Classes.Helpers;
-using MPfm.WPF.Classes.Windows.Base;
+using Sessions.WPF.Classes.Controls;
+using Sessions.WPF.Classes.Helpers;
+using Sessions.WPF.Classes.Windows.Base;
 using Sessions.Core.Helpers;
 using Sessions.Library.Objects;
 using Sessions.MVP.Messages;
@@ -41,7 +41,7 @@ using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
-namespace MPfm.WPF.Classes.Windows
+namespace Sessions.WPF.Classes.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -207,10 +207,10 @@ namespace MPfm.WPF.Classes.Windows
         private void treeViewLibrary_OnExpanded(object sender, RoutedEventArgs e)
         {            
             //Tracing.Log("treeViewLibrary_OnExpanded");
-            var item = e.OriginalSource as MPfmTreeViewItem;
+            var item = e.OriginalSource as SessionsTreeViewItem;
             if (item != null && item.Items.Count == 1)
             {
-                var firstItem = item.Items[0] as MPfmTreeViewItem;
+                var firstItem = item.Items[0] as SessionsTreeViewItem;
                 if (firstItem.IsDummyNode)
                 {
                     item.Items.Clear();
@@ -809,7 +809,7 @@ namespace MPfm.WPF.Classes.Windows
 
         private void StartPlaybackOfSelectedLibraryBrowserTreeViewItem()
         {
-            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnTreeNodeDoubleClicked(entity);            
@@ -830,7 +830,7 @@ namespace MPfm.WPF.Classes.Windows
         private void MenuItemLibraryBrowserAddToPlaylist_OnClick(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnAddToPlaylist(entity);
@@ -843,7 +843,7 @@ namespace MPfm.WPF.Classes.Windows
             if (MessageBox.Show("Are you sure you wish to remove these audio files from your library?\nThis does not delete the audio files from your hard disk.", "Audio files will be removed from library", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnRemoveFromLibrary(entity);
@@ -856,7 +856,7 @@ namespace MPfm.WPF.Classes.Windows
             if (MessageBox.Show("Are you sure you wish to delete these audio files from your hard disk?\nWARNING: This operation CANNOT be undone!", "Audio files will be deleted from hard disk", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnDeleteFromHardDisk(entity);
@@ -957,7 +957,7 @@ namespace MPfm.WPF.Classes.Windows
                 treeViewLibrary.Items.Clear();
                 foreach (var entity in entities)
                 {
-                    var item = new MPfmTreeViewItem();
+                    var item = new SessionsTreeViewItem();
                     //item.Expanding += (sender, args) => { Console.WriteLine("Expanding"); };
                     item.Entity = entity;
                     item.Header = entity;
@@ -965,7 +965,7 @@ namespace MPfm.WPF.Classes.Windows
 
                     if (entity.SubItems.Count > 0)
                     {
-                        var dummy = new MPfmTreeViewItem();
+                        var dummy = new SessionsTreeViewItem();
                         dummy.IsDummyNode = true;
                         item.Items.Add(dummy);
                     }
@@ -980,17 +980,17 @@ namespace MPfm.WPF.Classes.Windows
             Console.WriteLine("MainWindow - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                var item = (MPfmTreeViewItem) userData;
+                var item = (SessionsTreeViewItem) userData;
                 foreach (var subentity in entities)
                 {
-                    var subitem = new MPfmTreeViewItem();
+                    var subitem = new SessionsTreeViewItem();
                     subitem.Entity = subentity;
                     subitem.Header = subentity;
                     subitem.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
                     if (subentity.SubItems.Count > 0)
                     {
-                        var dummy = new MPfmTreeViewItem();                        
+                        var dummy = new SessionsTreeViewItem();                        
                         dummy.IsDummyNode = true;
                         subitem.Items.Add(dummy);
                     }

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MPfm.WPF.Classes.Controls
+namespace Sessions.WPF.Classes.Controls
 {
     /// <summary>
     /// http://blogs.msdn.com/b/atc_avalon_team/archive/2006/04/11/573037.aspx

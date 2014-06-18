@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MPfm.WPF.Properties
+namespace Sessions.WPF.Properties
 {
 
 
