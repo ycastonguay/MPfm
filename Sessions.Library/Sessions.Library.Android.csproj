@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Library</RootNamespace>
-    <AssemblyName>MPfm.Library</AssemblyName>
+    <RootNamespace>Sessions.Library</RootNamespace>
+    <AssemblyName>Sessions.Library</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
@@ -99,11 +99,11 @@
     <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Sound\Lib\Android\taglib-sharp.dll</HintPath>
+      <HintPath>..\Sessions.Sound\Lib\Android\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="TinyIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+      <HintPath>..\Sessions.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -135,17 +135,17 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.Android.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core.Android</Name>
+      <Name>Sessions.Core.Android</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.Android.csproj">
+    <ProjectReference Include="..\Sessions.Player\Sessions.Player.Android.csproj">
       <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>MPfm.Player.Android</Name>
+      <Name>Sessions.Player.Android</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.Android.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound.Android</Name>
+      <Name>Sessions.Sound.Android</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

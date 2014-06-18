@@ -9,8 +9,8 @@
     <ProjectGuid>{B096C459-3E2D-4932-A961-DE692F6B6C1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Player</RootNamespace>
-    <AssemblyName>MPfm.Player</AssemblyName>
+    <RootNamespace>Sessions.Player</RootNamespace>
+    <AssemblyName>Sessions.Player</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -116,13 +116,13 @@
     <Compile Include="Services\DecodingService.cs" />		
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.WindowsStore.csproj">
       <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
-      <Name>MPfm.Core.WindowsStore</Name>
+      <Name>Sessions.Core.WindowsStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsStore.csproj">
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.WindowsStore.csproj">
       <Project>{a0d06cd4-f009-4068-a79c-377a7d2e014c}</Project>
-      <Name>MPfm.Sound.WindowsStore</Name>
+      <Name>Sessions.Sound.WindowsStore</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

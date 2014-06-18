@@ -8,8 +8,8 @@
     <ProjectGuid>{FEB7497C-784C-4380-874F-46FD93C82BA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Player</RootNamespace>
-    <AssemblyName>MPfm.Player</AssemblyName>
+    <RootNamespace>Sessions.Player</RootNamespace>
+    <AssemblyName>Sessions.Player</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\MPfm.Player.XML</DocumentationFile>
+    <DocumentationFile>..\Output\Sessions.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -78,17 +78,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Bass.Net.OSX">
-      <HintPath>..\MPfm.Sound\Lib\OSX\Bass.Net.OSX.dll</HintPath>
+      <HintPath>..\Sessions.Sound\Lib\OSX\Bass.Net.OSX.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core</Name>
+      <Name>Sessions.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.OSX.csproj">
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.OSX.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound.OSX</Name>
+      <Name>Sessions.Sound.OSX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

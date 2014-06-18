@@ -48,16 +48,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
-      <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
-      <Name>MPfm.Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
-      <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
-      <Name>MPfm.Player</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

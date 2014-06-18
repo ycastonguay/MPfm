@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Player</RootNamespace>
-    <AssemblyName>MPfm.Player</AssemblyName>
+    <RootNamespace>Sessions.Player</RootNamespace>
+    <AssemblyName>Sessions.Player</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\MPfm.Player.XML</DocumentationFile>
+    <DocumentationFile>..\Output\Sessions.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -36,7 +36,7 @@
     <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\MPfm.Player.XML</DocumentationFile>
+    <DocumentationFile>..\Output\Sessions.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -47,7 +47,7 @@
     <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\MPfm.Player.XML</DocumentationFile>
+    <DocumentationFile>..\Output\Sessions.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -131,11 +131,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
-      <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
+      <HintPath>..\Sessions.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="monotouch" />
     <Reference Include="Bass.Net.iOS">
-      <HintPath>..\MPfm.Sound\Lib\iOS\Bass.Net.iOS.dll</HintPath>
+      <HintPath>..\Sessions.Sound\Lib\iOS\Bass.Net.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -153,13 +153,13 @@
 
   -->
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.iOS.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>MPfm.Core.iOS</Name>
+      <Name>Sessions.Core.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.iOS.csproj">
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.iOS.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
-      <Name>MPfm.Sound.iOS</Name>
+      <Name>Sessions.Sound.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -9,8 +9,8 @@
     <ProjectGuid>{394F4601-AF24-43A1-BCD3-0784645DAB17}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Library</RootNamespace>
-    <AssemblyName>MPfm.Library</AssemblyName>
+    <RootNamespace>Sessions.Library</RootNamespace>
+    <AssemblyName>Sessions.Library</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -171,25 +171,25 @@
 
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.WindowsStore.csproj">
       <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
-      <Name>MPfm.Core.WindowsStore</Name>
+      <Name>Sessions.Core.WindowsStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsStore.csproj">
+    <ProjectReference Include="..\Sessions.Player\Sessions.Player.WindowsStore.csproj">
       <Project>{b096c459-3e2d-4932-a961-de692f6b6c1c}</Project>
-      <Name>MPfm.Player.WindowsStore</Name>
+      <Name>Sessions.Player.WindowsStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsStore.csproj">
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.WindowsStore.csproj">
       <Project>{a0d06cd4-f009-4068-a79c-377a7d2e014c}</Project>
-      <Name>MPfm.Sound.WindowsStore</Name>
+      <Name>Sessions.Sound.WindowsStore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="taglib-sharp">
-      <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
+      <HintPath>..\Sessions.Sound\Lib\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="TinyIoC">
-      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
+      <HintPath>..\Sessions.Core\Lib\PCL\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

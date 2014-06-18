@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9BF9F3F7-4936-4EFB-89D4-D40E5EB66237}</ProjectGuid>
+    <ProjectGuid>{FB4F09C6-CF64-4E4D-9697-B31D2A3F0F3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Library.Tests</RootNamespace>
-    <AssemblyName>MPfm.Library.Tests</AssemblyName>
+    <RootNamespace>Sessions.Player.Tests</RootNamespace>
+    <AssemblyName>Sessions.Player.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,15 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq">
-      <HintPath>..\MPfm.Core.Tests\Lib\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.core">
-      <HintPath>..\MPfm.Core.Tests\Lib\nunit.core.dll</HintPath>
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Core.Tests\Lib\nunit.framework.dll</HintPath>
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,18 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SyncDiscoveryServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDecodingService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
-      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
-      <Name>MPfm.Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
+    <ProjectReference Include="..\Sessions.Player\Sessions.Player.csproj">
       <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
-      <Name>MPfm.Player</Name>
+      <Name>Sessions.Player</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
+      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Name>Sessions.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
+      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Name>Sessions.Sound</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
