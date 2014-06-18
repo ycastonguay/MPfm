@@ -19,7 +19,7 @@ using System;
 using System.Linq;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 using MPfm.OSX.Classes.Objects;
 
 namespace MPfm.OSX.Classes.Delegates

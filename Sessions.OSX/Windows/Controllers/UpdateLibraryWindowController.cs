@@ -18,9 +18,9 @@
 using System;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP.Views;
-using MPfm.Library.Objects;
 using System.Collections.Generic;
+using Sessions.MVP.Views;
+using Sessions.Library.Objects;
 
 namespace MPfm.OSX
 {

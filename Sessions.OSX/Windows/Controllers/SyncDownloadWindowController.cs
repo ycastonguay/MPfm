@@ -17,13 +17,13 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.MVP.Views;
-using MPfm.Library.Objects;
+using Sessions.MVP.Views;
+using Sessions.Library.Objects;
 using MonoMac.AppKit;
 using MPfm.OSX.Classes.Objects;
 using System.Linq;
 using MPfm.OSX.Classes.Helpers;
-using MPfm.Core;
+using Sessions.Core;
 using MonoMac.Foundation;
 
 namespace MPfm.OSX

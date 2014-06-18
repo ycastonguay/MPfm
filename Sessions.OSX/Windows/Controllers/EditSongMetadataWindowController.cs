@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
+using Sessions.MVP.Views;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.OSX
 {

@@ -21,8 +21,8 @@ using System.IO;
 using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.MVP;
-using MPfm.MVP.Models;
+using Sessions.MVP;
+using Sessions.MVP.Models;
 
 namespace MPfm.OSX.Classes.Objects
 {

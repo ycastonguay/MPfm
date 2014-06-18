@@ -20,7 +20,7 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 using MPfm.OSX.Classes.Controls.Graphics;
 using MPfm.OSX.Classes.Controls.Helpers;
 

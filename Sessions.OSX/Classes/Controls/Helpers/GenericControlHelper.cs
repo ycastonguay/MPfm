@@ -19,8 +19,8 @@ using System;
 using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Interaction;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Interaction;
 using System.Collections.Generic;
 
 namespace MPfm.OSX.Classes.Controls.Helpers

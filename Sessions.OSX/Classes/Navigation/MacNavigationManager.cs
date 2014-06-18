@@ -20,11 +20,11 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using TinyIoC;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
-using MPfm.Library.Objects;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
+using Sessions.Library.Objects;
 using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.OSX.Classes.Navigation
 {

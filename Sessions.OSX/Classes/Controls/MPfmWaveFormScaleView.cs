@@ -19,12 +19,12 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 using MPfm.OSX.Classes.Controls.Graphics;
 using MPfm.OSX.Classes.Controls.Helpers;
 using System;
-using MPfm.Sound.AudioFiles;
-using MPfm.GenericControls.Basics;
+using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Basics;
 using System.Diagnostics;
 
 namespace MPfm.OSX.Classes.Controls

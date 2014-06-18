@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library.Objects;
-using MPfm.MVP.Views;
+using Sessions.Library.Objects;
+using Sessions.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.OSX.Classes.Objects;
@@ -27,6 +27,7 @@ using MPfm.OSX.Classes.Helpers;
 using MPfm.OSX.Classes.Controls;
 using System.Timers;
 using System.Threading.Tasks;
+using Sessions.Library.Objects;
 
 namespace MPfm.OSX
 {

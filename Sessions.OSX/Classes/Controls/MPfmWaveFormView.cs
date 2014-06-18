@@ -19,17 +19,17 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 using MPfm.OSX.Classes.Controls.Graphics;
 using MPfm.OSX.Classes.Controls.Helpers;
 using System;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 using MPfm.OSX.Classes.Helpers;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 using System.Diagnostics;
-using MPfm.GenericControls.Services;
+using Sessions.GenericControls.Services;
 
 namespace MPfm.OSX.Classes.Controls
 {

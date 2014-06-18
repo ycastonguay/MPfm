@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.OSX.Classes.Helpers;

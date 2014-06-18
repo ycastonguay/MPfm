@@ -21,7 +21,7 @@ using System.IO;
 using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.MVP;
+using Sessions.MVP;
 
 namespace MPfm.OSX.Classes.Delegates
 {

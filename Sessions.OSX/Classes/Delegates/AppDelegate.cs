@@ -15,20 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Library;
-using MPfm.Library.Services;
-using MPfm.Library.Services.Interfaces;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.Library;
+using Sessions.Library.Services;
+using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.OSX.Classes.Navigation;
-using MPfm.MVP.Config.Providers;
-using MPfm.GenericControls.Graphics;
+using Sessions.MVP.Config.Providers;
+using Sessions.GenericControls.Graphics;
 using MPfm.OSX.Classes.Controls.Graphics;
-using MPfm.GenericControls.Services.Interfaces;
-using MPfm.GenericControls.Services;
+using Sessions.GenericControls.Services.Interfaces;
+using Sessions.GenericControls.Services;
 
 namespace MPfm.OSX.Classes.Delegates
 {

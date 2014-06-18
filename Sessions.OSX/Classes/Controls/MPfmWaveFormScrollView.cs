@@ -18,17 +18,17 @@
 using System;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.GenericControls.Controls;
-using MPfm.Sound.AudioFiles;
+using Sessions.GenericControls.Controls;
+using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using MPfm.OSX.Classes.Helpers;
 using MonoMac.CoreGraphics;
 using System.Drawing;
 using MPfm.OSX.Classes.Controls.Helpers;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 using System.Timers;
-using MPfm.GenericControls.Services;
+using Sessions.GenericControls.Services;
 using System.Linq;
 
 namespace MPfm.OSX.Classes.Controls

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using MPfm.OSX.Classes.Helpers;
 
 namespace MPfm.OSX

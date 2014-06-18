@@ -21,8 +21,8 @@ using System.Drawing;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Views;
 using MPfm.OSX.Classes.Objects;
 
 namespace MPfm.OSX

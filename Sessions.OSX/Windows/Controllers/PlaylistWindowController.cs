@@ -20,12 +20,12 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP;
-using MPfm.MVP.Views;
-using MPfm.MVP.Presenters.Interfaces;
+using Sessions.MVP;
+using Sessions.MVP.Views;
+using Sessions.MVP.Presenters.Interfaces;
 using MPfm.OSX.Classes.Objects;
-using MPfm.Sound.Playlists;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
+using Sessions.Sound.AudioFiles;
 using MPfm.OSX.Classes.Helpers;
 
 namespace MPfm.OSX

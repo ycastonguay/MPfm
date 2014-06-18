@@ -23,11 +23,11 @@ using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.OSX.Classes.Controls.Graphics;
 using MPfm.OSX.Classes.Controls.Helpers;
-using MPfm.GenericControls.Controls.Songs;
-using MPfm.GenericControls.Graphics;
-using MPfm.MVP.Bootstrap;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
+using Sessions.GenericControls.Controls.Songs;
+using Sessions.GenericControls.Graphics;
+using Sessions.MVP.Bootstrap;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace MPfm.OSX.Classes.Controls
 {

@@ -23,11 +23,11 @@ using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.MVP;
+using Sessions.MVP;
 using MPfm.OSX.Classes.Objects;
 using MPfm.OSX.Classes.Helpers;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
+using Sessions.GenericControls.Basics;
 using MPfm.OSX.Classes.Controls.Helpers;
 
 namespace MPfm.OSX.Classes.Controls.Graphics

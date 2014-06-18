@@ -18,7 +18,7 @@
 using System;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using MPfm.OSX.Classes.Delegates;
 using MPfm.OSX.Classes.Helpers;
 

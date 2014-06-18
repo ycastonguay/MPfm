@@ -17,9 +17,9 @@
 
 using System;
 using MonoMac.AppKit;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Graphics;
 using MonoMac.Foundation;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.OSX.Classes.Controls.Graphics
 {

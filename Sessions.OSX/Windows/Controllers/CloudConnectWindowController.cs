@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
+using Sessions.MVP.Views;
+using Sessions.MVP.Models;
 using MPfm.OSX.Classes.Objects;
 
 namespace MPfm.OSX

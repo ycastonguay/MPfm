@@ -20,16 +20,16 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP;
-using MPfm.MVP.Views;
-using MPfm.MVP.Config.Models;
-using MPfm.MVP.Models;
+using Sessions.MVP;
+using Sessions.MVP.Views;
+using Sessions.MVP.Config.Models;
+using Sessions.MVP.Models;
 using MPfm.OSX.Classes.Controls;
 using MPfm.OSX.Classes.Objects;
-using MPfm.Core.Helpers;
+using Sessions.Core.Helpers;
 using MPfm.OSX.Classes.Helpers;
 using System.IO;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 
 namespace MPfm.OSX
 {

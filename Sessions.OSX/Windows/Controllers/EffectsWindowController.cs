@@ -18,10 +18,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.MVP;
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.MVP;
+using Sessions.MVP.Presenters.Interfaces;
+using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;

@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using MonoMac.AppKit;
-using MPfm.GenericControls.Wrappers;
+using Sessions.GenericControls.Wrappers;
 using System;
 using MonoMac.Foundation;
 

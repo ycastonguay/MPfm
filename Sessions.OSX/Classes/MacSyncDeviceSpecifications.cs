@@ -16,9 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Library;
-using MPfm.Library.Objects;
-using MPfm.Library.Services;
+using Sessions.Library;
+using Sessions.Library.Objects;
+using Sessions.Library.Services;
 using MonoMac.Foundation;
 using System.IO;
 using System.Collections.Generic;
