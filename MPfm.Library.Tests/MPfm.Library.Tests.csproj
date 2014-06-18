@@ -61,10 +61,6 @@
       <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
       <Name>MPfm.Player</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
-      <Name>MPfm.Sound</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

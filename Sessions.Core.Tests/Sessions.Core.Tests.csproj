@@ -7,8 +7,8 @@
     <ProjectGuid>{C0365414-EFD7-477E-8BF9-5784CDA6995B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Core.Tests</RootNamespace>
-    <AssemblyName>MPfm.Core.Tests</AssemblyName>
+    <RootNamespace>Sessions.Core.Tests</RootNamespace>
+    <AssemblyName>Sessions.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -7,8 +7,8 @@
     <ProjectGuid>{3224CFEA-2D2C-4B82-A753-EC88C48537A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Sound.Tests</RootNamespace>
-    <AssemblyName>MPfm.Sound.Tests</AssemblyName>
+    <RootNamespace>Sessions.Sound.Tests</RootNamespace>
+    <AssemblyName>Sessions.Sound.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,11 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.core">
-      <HintPath>..\MPfm.Core.Tests\Lib\nunit.core.dll</HintPath>
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Core.Tests\Lib\nunit.framework.dll</HintPath>
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,9 +52,9 @@
     <Compile Include="PlaylistTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
       <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
-      <Name>MPfm.Sound</Name>
+      <Name>Sessions.Sound</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
       <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>

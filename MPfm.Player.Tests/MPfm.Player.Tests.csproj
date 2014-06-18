@@ -54,13 +54,13 @@
       <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
       <Name>MPfm.Player</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
-      <Name>MPfm.Sound</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
       <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
       <Name>Sessions.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
+      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Name>Sessions.Sound</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

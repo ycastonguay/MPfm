@@ -9,8 +9,8 @@
     <ProjectGuid>{A0D06CD4-F009-4068-A79C-377A7D2E014C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Sound</RootNamespace>
-    <AssemblyName>MPfm.Sound</AssemblyName>
+    <RootNamespace>Sessions.Sound</RootNamespace>
+    <AssemblyName>Sessions.Sound</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -138,9 +138,9 @@
     <Compile Include="Playlists\PlaylistRepeatType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.WindowsStore.csproj">
       <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
-      <Name>MPfm.Core.WindowsStore</Name>
+      <Name>Sessions.Core.WindowsStore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

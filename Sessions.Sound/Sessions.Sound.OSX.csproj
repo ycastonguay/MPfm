@@ -8,8 +8,8 @@
     <ProjectGuid>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Sound</RootNamespace>
-    <AssemblyName>MPfm.Sound</AssemblyName>
+    <RootNamespace>Sessions.Sound</RootNamespace>
+    <AssemblyName>Sessions.Sound</AssemblyName>
     <SccProjectName>Svn</SccProjectName>
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\Output\MPfm.Sound.XML</DocumentationFile>
+    <DocumentationFile>..\Output\Sessions.Sound.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,9 +71,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net">
-      <HintPath>Lib\Bass.Net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -90,14 +87,24 @@
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="Bass.Net.OSX">
+      <HintPath>Lib\OSX\Bass.Net.OSX.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\System.Reactive.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>Sessions.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="Lib\Bass.Net.dll" />
+    <None Include="Lib\OSX\Bass.Net.OSX.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
@@ -106,20 +113,14 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
-    <Compile Include="BassNetWrapper\BaseCast.cs" />
-    <Compile Include="BassNetWrapper\BaseEnc.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
     <Compile Include="PeakFiles\PeakFileProgressData.cs" />
     <Compile Include="PeakFiles\PeakFileStartedData.cs" />
-    <Compile Include="Playlists\EndOfPlaylistException.cs" />
-    <Compile Include="Playlists\PlaylistRepeatType.cs" />
-    <Compile Include="Playlists\ShufflePlaylist.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />
-    <Compile Include="Playlists\PlaylistHelper.cs" />
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\APETag.cs" />
@@ -150,11 +151,14 @@
     <Compile Include="BassNetKey.cs" />
     <Compile Include="BassNetWrapper\BassWrapper.cs" />
     <Compile Include="BassNetWrapper\BaseFx.cs" />
+    <Compile Include="BassNetWrapper\BaseEnc.cs" />
+    <Compile Include="BassNetWrapper\BaseCast.cs" />
+<Compile Include="Playlists\ShufflePlaylist.cs" />
+    <Compile Include="Playlists\PlaylistHelper.cs" />	
+	    <Compile Include="Playlists\EndOfPlaylistException.cs" />
+    <Compile Include="Playlists\PlaylistRepeatType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
-      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
-      <Name>Sessions.Core</Name>
-    </ProjectReference>
+    <Folder Include="Lib\OSX\" />
   </ItemGroup>
 </Project>
