@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>PortableTPL</id>
+    <version>1.0.1</version>
+    <title>PortableTPL</title>
+    <authors>David Catuhe</authors>
+    <owners>David Catuhe</owners>
+    <licenseUrl>http://portabletpl.codeplex.com/license</licenseUrl>
+    <projectUrl>http://portabletpl.codeplex.com/</projectUrl>
+    <iconUrl>https://nugetgallery.blob.core.windows.net/icons/PortableTPL.1.0.1.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>PortableTPL is a portable project inspired by the Task Parallel Library.
+
+      It can be used with .Net 4.0, Silverlight 4.0, XNA 4.0 for XBox 360 and Silverlight for Windows Phone.</description>
+    <summary>PortableTPL is a portable project inspired by the Task Parallel Library.      It can be used with .Net 4.0, Silverlight 4.0, XNA 4.0 for XBox 360 and Silverlight for Windows Phone.</summary>
+    <tags>.NET4.0 Silverlight silverlight4 TPL WindowsPhone7 XBox360</tags>
+  </metadata>
+</package>

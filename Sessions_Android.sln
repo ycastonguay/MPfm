@@ -1,0 +1,154 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Core.Android", "Sessions.Core\Sessions.Core.Android.csproj", "{D536FDE5-989E-4979-9B39-63621AE4A205}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Sound.Android", "Sessions.Sound\Sessions.Sound.Android.csproj", "{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Player.Android", "Sessions.Player\Sessions.Player.Android.csproj", "{FEB7497C-784C-4380-874F-46FD93C82BA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Library.Android", "Sessions.Library\Sessions.Library.Android.csproj", "{2A62D229-D7FC-41DA-B676-BB1371659BFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.MVP.Android", "Sessions.MVP\Sessions.MVP.Android.csproj", "{B6B0613C-FF39-479D-9EF0-31DAF9684A06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Android", "Sessions.Android\Sessions.Android.csproj", "{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.GenericControls.Android", "Sessions.GenericControls\Sessions.GenericControls.Android.csproj", "{F2A4E954-0439-42CF-B795-82819C9A39CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_Linux|Any CPU = Debug_Linux|Any CPU
+		Debug_MacOSX|Any CPU = Debug_MacOSX|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release_Linux|Any CPU = Release_Linux|Any CPU
+		Release_MacOSX|Any CPU = Release_MacOSX|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D536FDE5-989E-4979-9B39-63621AE4A205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A62D229-D7FC-41DA-B676-BB1371659BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B0613C-FF39-479D-9EF0-31DAF9684A06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug_Linux|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug_Linux|Any CPU.Build.0 = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug_Linux|Any CPU.Deploy.0 = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug_MacOSX|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug_MacOSX|Any CPU.Build.0 = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug_MacOSX|Any CPU.Deploy.0 = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release_Linux|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release_Linux|Any CPU.Build.0 = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release_Linux|Any CPU.Deploy.0 = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release_MacOSX|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release_MacOSX|Any CPU.Build.0 = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release_MacOSX|Any CPU.Deploy.0 = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Sessions.Android\Sessions.Android.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.IndentSwitchBody = True
+		$3.AnonymousMethodBraceStyle = NextLine
+		$3.PropertyBraceStyle = NextLine
+		$3.PropertyGetBraceStyle = NextLine
+		$3.PropertySetBraceStyle = NextLine
+		$3.EventBraceStyle = NextLine
+		$3.EventAddBraceStyle = NextLine
+		$3.EventRemoveBraceStyle = NextLine
+		$3.StatementBraceStyle = NextLine
+		$3.ArrayInitializerBraceStyle = NextLine
+		$3.BeforeMethodDeclarationParentheses = False
+		$3.BeforeMethodCallParentheses = False
+		$3.BeforeConstructorDeclarationParentheses = False
+		$3.BeforeDelegateDeclarationParentheses = False
+		$3.NewParentheses = False
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+	EndGlobalSection
+EndGlobal
