@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using TinyMessenger;
 
 namespace MPfm.MVP.Messages

@@ -18,13 +18,13 @@
 using System;
 using System.Linq;
 using MPfm.MVP.Bootstrap;
-using MPfm.Player.Objects;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using System.Collections.Generic;

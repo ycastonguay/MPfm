@@ -27,7 +27,7 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments
 {

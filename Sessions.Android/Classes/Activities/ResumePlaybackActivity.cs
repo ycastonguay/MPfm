@@ -25,14 +25,10 @@ using Android.Views;
 using Android.OS;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
-using MPfm.Android.Classes.Fragments;
-using MPfm.Android.Classes.Navigation;
-using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 
 namespace MPfm.Android
 {

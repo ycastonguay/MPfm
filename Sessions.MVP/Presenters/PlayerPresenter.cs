@@ -25,7 +25,6 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Player.Events;
 using Sessions.Core;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;

@@ -17,9 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
-using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {

@@ -18,24 +18,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using NUnit.Framework;
-using MPfm.Sound.BassNetWrapper;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
-namespace MPfm.Sound.Tests
+namespace Sessions.Sound.Tests
 {
     [TestFixture()]
     public class ShufflePlaylistTest : PlaylistTest
     {        
-        // Context:
-        // - The playlist can contain thousands of items (i.e. do not randomize all the list at once)        
-        // - An audio file can be added several times to the same playlist
-        // - The playlist contents can change until the playlist is complete
-
-        // Restrictions:
-        // - The same song must not play until the playlist is complete
-
         public ShufflePlaylist ShufflePlaylist { get; protected set; }
         public override Playlist Playlist { get { return ShufflePlaylist; } }
 
@@ -87,7 +78,6 @@ namespace MPfm.Sound.Tests
             }
 
             // When list is complete, no more items to randomize
-
         }
 
         [TestFixture]

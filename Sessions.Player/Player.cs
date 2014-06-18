@@ -1,29 +1,29 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using MPfm.Player.Services;
-using MPfm.Player.Events;
-using MPfm.Player.Exceptions;
-using MPfm.Player.Objects;
+using Sessions.Player.Services;
+using Sessions.Player.Events;
+using Sessions.Player.Exceptions;
+using Sessions.Player.Objects;
 using Sessions.Core;
 using Sessions.Sound;
 using Sessions.Sound.AudioFiles;
@@ -44,13 +44,13 @@ using Sessions.Sound.BassNetWrapper.WASAPI;
 using MonoTouch;
 #endif
 
-namespace MPfm.Player
+namespace Sessions.Player
 {
     /// <summary>
     /// The Player class manages audio playback through playlists and supports
     /// multiple driver types and devices.
     /// </summary>    
-    public class Player : MPfm.Player.IPlayer
+    public class Player : Sessions.Player.IPlayer
     {
         /// <summary>
         /// This static instance of the player is used only on iOS, because MonoTouch requires all C callbacks
@@ -605,29 +605,29 @@ namespace MPfm.Player
                     _wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
 #else
 
-                    // Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)
+                    // Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/Sessions or /opt/lib/Sessions)
                     string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);               
                     
                     // Check in the current directory first
                     if(!File.Exists(exePath + "/libbassflac.so"))
                     {
-                        // Check in /usr/lib/mpfm
-                        if(!File.Exists("/usr/lib/mpfm/libbassflac.so"))
+                        // Check in /usr/lib/Sessions
+                        if(!File.Exists("/usr/lib/Sessions/libbassflac.so"))
                         {
-                            // Check in /opt/lib/mpfm
-                            if(!File.Exists("/opt/lib/mpfm/libbassflac.so"))
+                            // Check in /opt/lib/Sessions
+                            if(!File.Exists("/opt/lib/Sessions/libbassflac.so"))
                             {
                                 // The plugins could not be found!
-                                throw new Exception("The BASS plugins could not be found either in the current directory, in /usr/lib/mpfm or in /opt/lib/mpfm!");
+                                throw new Exception("The BASS plugins could not be found either in the current directory, in /usr/lib/Sessions or in /opt/lib/Sessions!");
                             }
                             else
                             {
-                                pluginPath = "/opt/lib/mpfm";
+                                pluginPath = "/opt/lib/Sessions";
                             }                       
                         }
                         else
                         {
-                            pluginPath = "/usr/lib/mpfm";
+                            pluginPath = "/usr/lib/Sessions";
                         }
                     }
                     else
@@ -1174,7 +1174,7 @@ namespace MPfm.Player
 
         /// <summary>
         /// Plays the list of audio files specified in the audioFiles parameter.
-        /// The AudioFile instances can come from MPfm.Library (reading from database) or by
+        /// The AudioFile instances can come from Sessions.Library (reading from database) or by
         /// creating instances of the AudioFile class manually, which will read metadata from
         /// audio files to fill the properties.
         /// </summary>

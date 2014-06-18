@@ -18,25 +18,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using NUnit.Framework;
-using MPfm.Sound.BassNetWrapper;
 using Sessions.Core.TestConfiguration;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.BassNetWrapper;
+using Sessions.Sound.Playlists;
 
-namespace MPfm.Sound.Tests
+namespace Sessions.Sound.Tests
 {
     [TestFixture()]
     public class PlaylistTest
     {        
-        // Context:
-        // - The playlist can contain thousands of items (i.e. do not randomize all the list at once)        
-        // - An audio file can be added several times to the same playlist
-        // - The playlist contents can change until the playlist is complete
-
-        // Restrictions:
-        // - The same song must not play until the playlist is complete
-        
         protected TestConfigurationEntity Config;
         protected TestDevice TestDevice;
 
@@ -424,7 +416,7 @@ namespace MPfm.Sound.Tests
             }
 
             [Test]
-            public void ShouldKeepCurrentItemIndex_WhenThisIsTheLastItem()
+            public void ShouldKeepCurrentItemIndex_WhenThisIsTheLastItemAndRepeatIsOff()
             {
                 for (int a = 0; a < Playlist.Items.Count - 1; a++)
                     Playlist.Next();
@@ -436,7 +428,7 @@ namespace MPfm.Sound.Tests
             }
 
             [Test]
-            public void ShouldKeepCurrentItem_WhenThisIsTheLastItem()
+            public void ShouldKeepCurrentItem_WhenThisIsTheLastItemAndRepeatIsOff()
             {
                 for (int a = 0; a < Playlist.Items.Count - 1; a++)
                     Playlist.Next();
@@ -445,6 +437,30 @@ namespace MPfm.Sound.Tests
                 Playlist.Next();
 
                 Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[index]);
+            }
+
+            [Test]
+            public void ShouldSetCurrentItemIndexToZero_WhenThisIsTheLastItemAndRepeatIsPlaylist()
+            {
+                Playlist.RepeatType = PlaylistRepeatType.Playlist;
+                for (int a = 0; a < Playlist.Items.Count - 1; a++)
+                    Playlist.Next();
+
+                Playlist.Next();
+
+                Assert.AreEqual(Playlist.CurrentItemIndex, 0);
+            }
+
+            [Test]
+            public void ShouldSetCurrentItemToFirstItem_WhenThisIsTheLastItemAndRepeatIsPlaylist()
+            {
+                Playlist.RepeatType = PlaylistRepeatType.Playlist;
+                for (int a = 0; a < Playlist.Items.Count - 1; a++)
+                    Playlist.Next();
+
+                Playlist.Next();
+
+                Assert.AreEqual(Playlist.CurrentItem, Playlist.Items[0]);
             }
 
             //[Test]
@@ -480,14 +496,19 @@ namespace MPfm.Sound.Tests
             }
         }
 
-        //[TestFixture]
-        //public class GoToTest : PlaylistTest
-        //{
-        //    [SetUp]
-        //    public void PrepareTest()
-        //    {
-        //        PreparePlaylist();
-        //    }
-        //}
+        [TestFixture]
+        public class GoToTest : PlaylistTest
+        {
+            [SetUp]
+            public void PrepareTest()
+            {
+                PreparePlaylist();
+            }
+
+            public void ShouldThrowExceptionIfIndexIsOutOfBounds()
+            {
+                
+            }
+        }
     }
 }

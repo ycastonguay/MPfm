@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 
 namespace MPfm.MVP.Helpers
 {

@@ -18,21 +18,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
-using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 using org.sessionsapp.android;
+using Sessions.Player.Objects;
 
 namespace MPfm.Android
 {

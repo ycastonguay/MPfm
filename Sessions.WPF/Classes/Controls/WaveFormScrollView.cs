@@ -30,8 +30,8 @@ using System.Windows.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Services;
-using MPfm.Player.Objects;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Controls

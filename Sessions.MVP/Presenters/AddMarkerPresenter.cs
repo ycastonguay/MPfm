@@ -24,8 +24,8 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 

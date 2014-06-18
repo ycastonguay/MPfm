@@ -17,7 +17,6 @@
 
 using System;
 using TinyMessenger;
-using MPfm.Player.Events;
 
 namespace MPfm.MVP.Messages
 {

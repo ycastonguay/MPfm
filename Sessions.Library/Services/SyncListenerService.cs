@@ -23,8 +23,8 @@ using System.Net;
 using System.Reflection;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
-using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Library.Services
@@ -217,7 +217,7 @@ namespace MPfm.Library.Services
         {
             try
             {
-                var player = MPfm.Player.Player.CurrentPlayer;
+                var player = Sessions.Player.Player.CurrentPlayer;
                 if (player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not process remote command; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);
@@ -272,7 +272,7 @@ namespace MPfm.Library.Services
         {
             try
             {
-                var player = MPfm.Player.Player.CurrentPlayer;
+                var player = Sessions.Player.Player.CurrentPlayer;
                 if (player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not fetch player metadata; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);
@@ -291,7 +291,7 @@ namespace MPfm.Library.Services
         {
             try
             {
-                var player = MPfm.Player.Player.CurrentPlayer;
+                var player = Sessions.Player.Player.CurrentPlayer;
                 if(player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not fetch player metadata; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);

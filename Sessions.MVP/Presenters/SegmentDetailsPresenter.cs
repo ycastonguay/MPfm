@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Library.Services.Interfaces;
-using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using MPfm.MVP.Messages;

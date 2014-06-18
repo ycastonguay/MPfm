@@ -16,8 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Player.Objects;
 using System.Collections.Generic;
+using Sessions.Player.Objects;
 
 namespace MPfm.MVP.Views
 {

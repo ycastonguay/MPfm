@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using TinyMessenger;
-using MPfm.Player.Events;
 
 namespace MPfm.MVP.Messages
 {

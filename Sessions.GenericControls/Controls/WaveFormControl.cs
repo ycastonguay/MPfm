@@ -24,10 +24,10 @@ using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
 using MPfm.GenericControls.Services.Objects;
 using MPfm.MVP.Bootstrap;
-using MPfm.Player.Objects;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Controls

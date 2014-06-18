@@ -25,7 +25,7 @@ using Android.OS;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace MPfm.Android

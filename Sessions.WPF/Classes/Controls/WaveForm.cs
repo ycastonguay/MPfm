@@ -22,11 +22,10 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Services;
-using MPfm.Player.Objects;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Control = System.Windows.Controls.Control;
 

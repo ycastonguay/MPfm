@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
-using MPfm.Player.Objects;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using MPfm.MVP.Messages;

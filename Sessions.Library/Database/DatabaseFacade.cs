@@ -21,7 +21,7 @@ using System.Linq;
 using System.Text;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 

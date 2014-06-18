@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
-namespace MPfm.Sound.Tests
+namespace Sessions.Sound.Tests
 {
     [TestFixture()]
     public class PlaylistIntegrationTest : PlaylistTest
@@ -37,7 +37,7 @@ namespace MPfm.Sound.Tests
             var guids = new List<Guid>();
             for (int a = 0; a < Playlist.Items.Count; a++)
             {
-                Console.WriteLine("a: {0} guid: {1} currentItemIndex: {2} count: {3}", a, Playlist.CurrentItem.Id, Playlist.CurrentItemIndex, Playlist.Items.Count);
+                //Console.WriteLine("a: {0} guid: {1} currentItemIndex: {2} count: {3}", a, Playlist.CurrentItem.Id, Playlist.CurrentItemIndex, Playlist.Items.Count);
                 guids.Add(Playlist.CurrentItem.Id);
                 Playlist.Next();
             }

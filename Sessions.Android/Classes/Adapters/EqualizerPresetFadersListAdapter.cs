@@ -17,12 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Android.App;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 
 namespace MPfm.Android.Classes.Adapters
 {

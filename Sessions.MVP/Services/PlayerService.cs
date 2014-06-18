@@ -22,12 +22,12 @@ using System.Threading.Tasks;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Config;
 using MPfm.MVP.Models;
-using MPfm.Player;
-using MPfm.Player.Events;
-using MPfm.Player.Objects;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
 using Sessions.Core;
+using Sessions.Player;
+using Sessions.Player.Events;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound.Playlists;
@@ -80,7 +80,7 @@ namespace MPfm.MVP.Services
         
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
         {
-            _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
+            _player = new Sessions.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
@@ -112,7 +112,6 @@ namespace MPfm.MVP.Services
         void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
         {
             _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
-
             Task.Factory.StartNew(() =>
             {
                 try
@@ -319,8 +318,11 @@ namespace MPfm.MVP.Services
                 items.Add(new PlaylistItem(audioFile));
             _player.Playlist.AddItems(items);
 
-            if(!string.IsNullOrEmpty(startAudioFilePath))
-                _player.Playlist.GoTo(startAudioFilePath);
+            if (!string.IsNullOrEmpty(startAudioFilePath))
+            {
+                var item = _player.Playlist.Items.FirstOrDefault(x => x.AudioFile.FilePath == startAudioFilePath);
+                _player.Playlist.GoTo(item.Id);
+            }
 
             _player.Play(initialPosition, startPaused);
 

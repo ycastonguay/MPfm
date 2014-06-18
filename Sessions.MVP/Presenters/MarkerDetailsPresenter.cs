@@ -22,9 +22,9 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
-using MPfm.Player.Objects;
 using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters

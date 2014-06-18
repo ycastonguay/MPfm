@@ -36,6 +36,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Android.Classes.Services;
 using org.sessionsapp.android;
+using Sessions.Player;
 
 namespace MPfm.Android.Classes
 {
@@ -74,7 +75,7 @@ namespace MPfm.Android.Classes
 
             // Set player plugin directory path
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
-            Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
+            Sessions.Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
 
             try
             {
@@ -119,9 +120,9 @@ namespace MPfm.Android.Classes
             base.OnTerminate();
 
             // Stop and clean up player
-            if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
-                MPfm.Player.Player.CurrentPlayer.Stop();
-            MPfm.Player.Player.CurrentPlayer.Dispose();
+            if (Sessions.Player.Player.CurrentPlayer.IsPlaying)
+                Sessions.Player.Player.CurrentPlayer.Stop();
+            Sessions.Player.Player.CurrentPlayer.Dispose();
 
 //#if __ANDROID_16__
 //            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {

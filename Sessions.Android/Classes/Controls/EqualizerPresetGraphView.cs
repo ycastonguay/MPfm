@@ -17,17 +17,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
-using Android.Widget;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 
 namespace org.sessionsapp.android
 {

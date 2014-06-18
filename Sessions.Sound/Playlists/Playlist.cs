@@ -28,6 +28,9 @@ namespace Sessions.Sound.Playlists
     /// </summary>
     public class Playlist
     {
+        /// <summary>
+        /// Defines the repeat type of the playlist.
+        /// </summary>
         [DatabaseField(false)]
         public PlaylistRepeatType RepeatType { get; set; }
 
@@ -229,38 +232,12 @@ namespace Sessions.Sound.Playlists
                 GoTo(index);
         }
 
-        /// <summary>
-        /// Go to the first instance of the audio file path in the list.
-        /// </summary>
-        /// <param name="filePath">Audio file path</param>
-        public void GoTo(string filePath)
-        {
-            // Search for the playlist item by its id
-            int index = -1;
-            for (int a = 0; a < Items.Count; a++)
-            {
-                if (Items[a].AudioFile.FilePath == filePath)
-                {
-                    index = a;
-                    break;
-                }
-            }
-
-            // Check if we have a valid item
-            if (index >= 0)
-                GoTo(index);
-        }
-
         public virtual void Previous()
         {
             if (CurrentItemIndex > 0)
             {
                 CurrentItemIndex--;
                 CurrentItem = Items[CurrentItemIndex];
-            }
-            else
-            {
-                // Leave the same index   
             }
         }
 
@@ -273,7 +250,11 @@ namespace Sessions.Sound.Playlists
             }
             else
             {
-                // Leave the same index
+                if (RepeatType == PlaylistRepeatType.Playlist)
+                {
+                    CurrentItemIndex = 0;
+                    CurrentItem = Items[0];
+                }
             }
         }
     }

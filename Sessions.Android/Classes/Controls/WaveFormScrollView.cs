@@ -26,7 +26,7 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using MPfm.GenericControls.Basics;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace org.sessionsapp.android

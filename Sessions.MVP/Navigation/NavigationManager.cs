@@ -17,10 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Presenters;
-using MPfm.Player.Objects;
 using Sessions.Core;
 using Sessions.Sound.AudioFiles;
 using TinyIoC;

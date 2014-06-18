@@ -24,7 +24,6 @@ using Android.Content.PM;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Support.V4.View;
-using Android.Util;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
@@ -36,12 +35,11 @@ using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using org.sessionsapp.android;
 using Exception = System.Exception;
-using Orientation = Android.Content.Res.Orientation;
 
 namespace MPfm.Android
 {

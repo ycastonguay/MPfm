@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 
 namespace MPfm.MVP.Models
 {

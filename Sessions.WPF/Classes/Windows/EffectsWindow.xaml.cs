@@ -22,19 +22,13 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
+using Sessions.Player.Objects;
 
 namespace MPfm.WPF.Classes.Windows
 {
