@@ -19,12 +19,12 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.MVP.Config;
 using MPfm.MVP.Config.Models;
-using MPfm.Core;
 using System;
 using MPfm.Sound.PeakFiles;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 

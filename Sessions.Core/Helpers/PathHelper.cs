@@ -1,19 +1,19 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.IO;
@@ -22,7 +22,7 @@ using System.IO;
 using Windows.Storage;
 #endif
 
-namespace MPfm.Core.Helpers
+namespace Sessions.Core.Helpers
 {
     /// <summary>
     /// Helper static class for configuration paths.
@@ -43,7 +43,7 @@ namespace MPfm.Core.Helpers
             //// Get application data folder path
             //// Vista/Windows7: C:\Users\%username%\AppData\Roaming\
             //// XP: C:\Documents and Settings\%username%\Application Data\
-            //applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
+            //applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Sessions";
 			
 #if IOS || ANDROID
         	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
@@ -55,15 +55,15 @@ namespace MPfm.Core.Helpers
 		    HomeDirectory = "TODO";
 		    PeakFileDirectory = "TODO";
 #else
-            HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
-            PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm", "PeakFiles");
+            HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".Sessions");
+            PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".Sessions", "PeakFiles");
 #endif
 
-			ConfigurationFilePath = Path.Combine(HomeDirectory, "MPfm.Configuration.xml");
-            UnitTestConfigurationFilePath = Path.Combine(HomeDirectory, "MPfm.UnitTest.Configuration.xml");
-            DeviceStoreFilePath = Path.Combine(HomeDirectory, "MPfm.Devices.json");
-			DatabaseFilePath = Path.Combine(HomeDirectory, "MPfm.Database.db");
-			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");            
+			ConfigurationFilePath = Path.Combine(HomeDirectory, "Sessions.Configuration.xml");
+            UnitTestConfigurationFilePath = Path.Combine(HomeDirectory, "Sessions.UnitTest.Configuration.xml");
+            DeviceStoreFilePath = Path.Combine(HomeDirectory, "Sessions.Devices.json");
+			DatabaseFilePath = Path.Combine(HomeDirectory, "Sessions.Database.db");
+			LogFilePath = Path.Combine(HomeDirectory, "Sessions.Log.txt");            
 		}
     }
 }

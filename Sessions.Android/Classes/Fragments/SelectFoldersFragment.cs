@@ -25,7 +25,6 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
-using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
@@ -33,6 +32,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
+using Sessions.Core;
 
 namespace MPfm.Android.Classes.Fragments
 {

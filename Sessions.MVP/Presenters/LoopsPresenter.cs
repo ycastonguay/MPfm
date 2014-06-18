@@ -22,11 +22,11 @@ using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Services.Interfaces;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using System.Collections.Generic;
 using System;
-using MPfm.Core;
 
 namespace MPfm.MVP.Presenters
 {

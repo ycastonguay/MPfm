@@ -17,11 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Presenters;
 using MPfm.Player.Objects;
+using Sessions.Core;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;

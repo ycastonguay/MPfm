@@ -17,7 +17,6 @@
 
 using System.Diagnostics;
 using System.Windows;
-using MPfm.Core;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Services;
 using MPfm.GenericControls.Services.Interfaces;
@@ -33,6 +32,7 @@ using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Navigation;
 using MPfm.WPF.Classes.Specifications;
 using MPfm.WPF.Classes.Windows;
+using Sessions.Core;
 
 namespace MPfm.WPF.Classes
 {

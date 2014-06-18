@@ -18,9 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
-using MPfm.Core.Attributes;
 using MPfm.Sound.AudioFiles;
+using Sessions.Core.Attributes;
 
 namespace MPfm.Sound.Playlists
 {

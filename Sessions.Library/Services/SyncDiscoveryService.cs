@@ -22,10 +22,10 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
-using MPfm.Core;
-using MPfm.Core.Network;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
+using Sessions.Core;
+using Sessions.Core.Network;
 
 namespace MPfm.Library.Services
 {

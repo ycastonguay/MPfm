@@ -21,10 +21,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using MPfm.Core;
-using MPfm.Core.Attributes;
 using MPfm.Sound.Tags;
-
+using Sessions.Core;
+using Sessions.Core.Attributes;
 #if !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Drawing;
 #endif

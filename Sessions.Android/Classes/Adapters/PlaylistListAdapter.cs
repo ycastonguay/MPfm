@@ -22,7 +22,6 @@ using Android.App;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using MPfm.Core;
 using MPfm.MVP.Models;
 using MPfm.Player.Objects;
 using MPfm.Sound.Playlists;

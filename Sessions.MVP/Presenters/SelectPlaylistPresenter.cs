@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
@@ -28,6 +27,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
+using Sessions.Core;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

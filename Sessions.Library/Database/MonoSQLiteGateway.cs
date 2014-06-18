@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using Sessions.Core;
+using Sessions.Core.Attributes;
 #if IOS || ANDROID || MACOSX || LINUX
 using System;
 using System.Collections.Generic;
@@ -23,9 +25,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using MPfm.Core;
-using MPfm.Core.Attributes;
-using MPfm.Core.Extensions;
 using MPfm.Library.Database.Interfaces;
 using Mono.Data.Sqlite;
 

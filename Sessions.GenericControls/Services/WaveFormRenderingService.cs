@@ -22,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using MPfm.Core;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Services.Events;
@@ -31,6 +30,7 @@ using MPfm.GenericControls.Services.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
 using System.Threading;
+using Sessions.Core;
 
 namespace MPfm.GenericControls.Services
 {

@@ -19,18 +19,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
 #elif WINDOWS_PHONE
 using System.Windows.Threading;
 #endif
+using Sessions.Core;
 
 namespace MPfm.MVP.Presenters
 {

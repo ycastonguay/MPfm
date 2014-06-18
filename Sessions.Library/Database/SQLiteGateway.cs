@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using Sessions.Core;
+using Sessions.Core.Attributes;
 #if !IOS && !ANDROID && !MACOSX && !LINUX && !WINDOWSSTORE && !WINDOWS_PHONE
 using System;
 using System.Collections.Generic;
@@ -24,9 +26,6 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using MPfm.Core;
-using MPfm.Core.Attributes;
-using MPfm.Core.Extensions;
 using MPfm.Library.Database.Interfaces;
 
 namespace MPfm.Library.Database

@@ -25,8 +25,8 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using Sessions.Core;
 using TinyMessenger;
-using MPfm.Core;
 
 namespace MPfm.MVP.Presenters
 {

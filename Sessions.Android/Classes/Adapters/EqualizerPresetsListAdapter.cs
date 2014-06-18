@@ -22,7 +22,6 @@ using Android.App;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using MPfm.Core;
 using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Adapters

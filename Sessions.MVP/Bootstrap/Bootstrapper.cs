@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Core.Helpers;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Services;
@@ -26,6 +25,7 @@ using MPfm.MVP.Presenters;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services;
 using MPfm.MVP.Services.Interfaces;
+using Sessions.Core.Helpers;
 using TinyMessenger;
 
 namespace MPfm.MVP.Bootstrap

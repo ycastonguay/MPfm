@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;

@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.MVP.Config;
@@ -26,6 +25,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Bootstrap;
 using System.Collections.Generic;
 using System.Linq;
+using Sessions.Core;
 
 namespace MPfm.MVP.Services
 {	

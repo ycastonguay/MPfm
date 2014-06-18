@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core.Attributes;
+using Sessions.Core.Attributes;
 
 namespace MPfm.Player.Objects
 {

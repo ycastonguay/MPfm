@@ -27,7 +27,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Player.Events;
 using MPfm.Sound.AudioFiles;
-using MPfm.Core;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Library.Services.Interfaces;

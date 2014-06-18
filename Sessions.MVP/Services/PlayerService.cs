@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Config;
 using MPfm.MVP.Models;
@@ -31,6 +30,7 @@ using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.Playlists;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
+using Sessions.Core;
 using TinyMessenger;
 
 namespace MPfm.MVP.Services

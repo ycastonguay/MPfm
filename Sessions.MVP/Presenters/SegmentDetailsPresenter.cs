@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;

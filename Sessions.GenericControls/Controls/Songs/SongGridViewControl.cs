@@ -23,7 +23,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Timers;
-using MPfm.Core;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Interaction;
@@ -31,6 +30,7 @@ using MPfm.GenericControls.Wrappers;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using MPfm.WindowsControls;
+using Sessions.Core;
 
 namespace MPfm.GenericControls.Controls.Songs
 {

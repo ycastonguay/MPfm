@@ -29,7 +29,6 @@ using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
@@ -38,6 +37,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
+using Sessions.Core;
 using TinyMessenger;
 
 namespace MPfm.Android

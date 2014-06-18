@@ -17,8 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core;
-using MPfm.Core.Attributes;
+using Sessions.Core;
 #if !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Data.Common;
 #endif

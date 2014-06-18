@@ -20,7 +20,7 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config;
 using System;
-using MPfm.Core;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 

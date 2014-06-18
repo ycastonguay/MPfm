@@ -22,11 +22,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using MPfm.Core;
-using MPfm.Core.Network;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
+using Sessions.Core;
+using Sessions.Core.Network;
 
 namespace MPfm.Library.Services
 {

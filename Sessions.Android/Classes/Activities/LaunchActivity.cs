@@ -23,7 +23,6 @@ using Android.Preferences;
 using Android.Views;
 using Android.OS;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config;
 using MPfm.MVP.Navigation;

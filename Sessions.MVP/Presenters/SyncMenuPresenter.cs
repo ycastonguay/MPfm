@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
@@ -30,6 +29,7 @@ using MPfm.Library;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Bootstrap;
 using System.Threading.Tasks;
+using Sessions.Core;
 
 namespace MPfm.MVP.Presenters
 {

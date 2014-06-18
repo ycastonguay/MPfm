@@ -21,8 +21,8 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MPfm.Core;
 using MPfm.WPF.Classes.Controls.Graphics;
+using Sessions.Core;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls

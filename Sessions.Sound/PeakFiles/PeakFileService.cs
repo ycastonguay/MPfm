@@ -22,10 +22,10 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using System.Linq;
+using Sessions.Core;
 
 namespace MPfm.Sound.PeakFiles
 {

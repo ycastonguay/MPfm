@@ -16,13 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
+using Sessions.Core;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

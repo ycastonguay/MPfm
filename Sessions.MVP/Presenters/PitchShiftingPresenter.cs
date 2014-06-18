@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;

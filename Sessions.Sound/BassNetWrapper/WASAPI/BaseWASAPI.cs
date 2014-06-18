@@ -19,7 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core;
 using Un4seen.Bass;
 using Un4seen.BassWasapi;
 

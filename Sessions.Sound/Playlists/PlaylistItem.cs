@@ -16,15 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
-
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
 #elif WINDOWS_PHONE
 using System.Windows.Threading;
 #endif
+using Sessions.Core;
 
 namespace MPfm.Sound.Playlists
 {

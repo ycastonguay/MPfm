@@ -16,9 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using MPfm.Core;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using Sessions.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using System;

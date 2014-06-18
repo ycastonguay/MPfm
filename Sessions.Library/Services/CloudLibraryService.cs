@@ -18,7 +18,6 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Exceptions;
 using Newtonsoft.Json;
@@ -26,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
+using Sessions.Core;
 
 namespace MPfm.Library.Services
 {

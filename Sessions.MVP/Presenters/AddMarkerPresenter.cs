@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
@@ -28,6 +27,7 @@ using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
+using Sessions.Core;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

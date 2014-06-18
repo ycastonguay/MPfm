@@ -20,19 +20,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using MPfm.Core;
-using MPfm.Core.Helpers;
 using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.Library.Objects;
 using MPfm.MVP.Config;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Library.Services.Interfaces;
-
 #if WINDOWSSTORE
 using Windows.Storage;
 using MPfm.Core.WinRT;
 #endif
+using Sessions.Core;
+using Sessions.Core.Helpers;
 
 namespace MPfm.MVP.Services
 {	

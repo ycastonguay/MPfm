@@ -20,8 +20,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using MPfm.Core;
-using MPfm.Core.Helpers;
 using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.Library.Objects;

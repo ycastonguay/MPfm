@@ -17,11 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
+using Sessions.Core;
 
 namespace MPfm.MVP.Presenters
 {

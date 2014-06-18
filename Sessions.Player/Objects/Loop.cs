@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Core.Attributes;
+using Sessions.Core.Attributes;
 
 namespace MPfm.Player.Objects
 {

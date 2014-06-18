@@ -17,11 +17,10 @@
 
 using System.Collections.Generic;
 using System.Text;
-using MPfm.Core;
-using MPfm.Core.Helpers;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Exceptions;
 using Newtonsoft.Json;
+using Sessions.Core;
 #if !IOS && !ANDROID && !WINDOWS_PHONE
 using System;
 using System.Diagnostics;
@@ -31,6 +30,7 @@ using MPfm.Library.Services.Interfaces;
 using Spring.Social.Dropbox.Api;
 using Spring.Social.Dropbox.Connect;
 using Spring.Social.OAuth1;
+using Sessions.Core.Helpers;
 
 namespace MPfm.Library.Services
 {

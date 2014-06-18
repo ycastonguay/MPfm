@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using MPfm.Core;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
@@ -24,6 +23,7 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Models;
 using System;
+using Sessions.Core;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters

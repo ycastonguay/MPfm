@@ -16,7 +16,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Xml.Linq;
 
-namespace MPfm.Core.Network
+namespace Sessions.Core.Network
 {
     public static class IPAddressRangeFinder
     {

@@ -26,9 +26,9 @@ using Android.Webkit;
 using Android.Widget;
 using Com.Dropbox.Sync.Android;
 using Java.IO;
-using MPfm.Core;
 using MPfm.Library.Services.Exceptions;
 using MPfm.Library.Services.Interfaces;
+using Sessions.Core;
 using Console = System.Console;
 
 namespace MPfm.Android.Classes.Services

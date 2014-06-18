@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Core;
 using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Services;
 using MPfm.GenericControls.Services.Events;
@@ -29,6 +28,7 @@ using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
+using Sessions.Core;
 
 namespace MPfm.GenericControls.Controls
 {

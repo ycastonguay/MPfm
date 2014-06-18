@@ -18,8 +18,8 @@
 using System;
 using System.IO;
 using System.Text;
-using MPfm.Core;
 using MPfm.Sound.AudioFiles;
+using Sessions.Core;
 
 namespace MPfm.Sound.Tags
 {

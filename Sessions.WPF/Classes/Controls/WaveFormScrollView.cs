@@ -27,7 +27,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using MPfm.Core;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Services;

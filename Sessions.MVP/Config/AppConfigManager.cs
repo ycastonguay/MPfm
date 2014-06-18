@@ -15,14 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Core.Helpers;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Helpers;
 using MPfm.Sound.AudioFiles;
 using System;
-using MPfm.Core;
+using Sessions.Core;
+using Sessions.Core.Helpers;
 
 namespace MPfm.MVP.Config
 {

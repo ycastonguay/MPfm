@@ -21,7 +21,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
@@ -29,6 +28,7 @@ using MPfm.MVP.Services;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.BassNetWrapper;
+using Sessions.Core;
 using Timer = System.Timers.Timer;
 using MPfm.MVP.Config;
 
