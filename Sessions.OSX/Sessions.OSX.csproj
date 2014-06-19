@@ -174,13 +174,6 @@
     </Compile>
     <Compile Include="Classes\MacSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Navigation\MacNavigationManager.cs" />
-    <Compile Include="Classes\Controls\MPfmView.cs" />
-    <Compile Include="Classes\Controls\MPfmButton.cs" />
-    <Compile Include="Classes\Controls\MPfmScrollView.cs" />
-    <Compile Include="Classes\Controls\MPfmTableRowView.cs" />
-    <Compile Include="Classes\Controls\MPfmIsPlayingTableCellView.cs" />
-    <Compile Include="Classes\Controls\MPfmTableHeaderView.cs" />
-    <Compile Include="Classes\Controls\MPfmPopUpButton.cs" />
     <Compile Include="Classes\Objects\LibraryBrowserItem.cs" />
     <Compile Include="Classes\Objects\ImageResources.cs" />
     <Compile Include="Classes\Helpers\CocoaHelper.cs" />
@@ -205,7 +198,6 @@
       <DependentUpon>SyncDownloadWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Objects\SyncMenuItem.cs" />
-    <Compile Include="Classes\Controls\MPfmTabButton.cs" />
     <Compile Include="Windows\SyncCloudWindow.cs" />
     <Compile Include="Windows\SyncCloudWindow.designer.cs">
       <DependentUpon>SyncCloudWindow.cs</DependentUpon>
@@ -220,15 +212,7 @@
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
-    <Compile Include="Classes\Controls\MPfmFaderView.cs" />
-    <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
-    <Compile Include="Classes\Controls\MPfmSongGridView.cs" />
-    <Compile Include="Classes\Controls\MPfmTrackBarView.cs" />
-    <Compile Include="Classes\Controls\MPfmWaveFormScaleView.cs" />
-    <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
-    <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
-    <Compile Include="Classes\Controls\MPfmRoundButton.cs" />
     <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
@@ -243,17 +227,33 @@
     </Compile>
     <Compile Include="Windows\Controllers\CloudConnectWindowController.cs" />
     <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
-    <Compile Include="Classes\Controls\MPfmProgressBarView.cs" />
-    <Compile Include="Classes\Controls\MPfmCircularProgressBarView.cs" />
-    <Compile Include="Classes\Controls\MPfmTextField.cs" />
     <Compile Include="Windows\EditSongMetadataWindow.cs" />
     <Compile Include="Windows\EditSongMetadataWindow.designer.cs">
       <DependentUpon>EditSongMetadataWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Controllers\EditSongMetadataWindowController.cs" />
-    <Compile Include="Classes\Controls\MPfmCheckBoxView.cs" />
-    <Compile Include="Classes\Controls\MPfmLabel.cs" />
-    <Compile Include="Classes\Controls\MPfmTableViewCell.cs" />
+    <Compile Include="Classes\Controls\SessionsCheckBoxView.cs" />
+    <Compile Include="Classes\Controls\SessionsWaveFormScrollView.cs" />
+    <Compile Include="Classes\Controls\SessionsWaveFormView.cs" />
+    <Compile Include="Classes\Controls\SessionsWaveFormScaleView.cs" />
+    <Compile Include="Classes\Controls\SessionsView.cs" />
+    <Compile Include="Classes\Controls\SessionsTrackBarView.cs" />
+    <Compile Include="Classes\Controls\SessionsTextField.cs" />
+    <Compile Include="Classes\Controls\SessionsTableRowView.cs" />
+    <Compile Include="Classes\Controls\SessionsTableViewCell.cs" />
+    <Compile Include="Classes\Controls\SessionsTableHeaderView.cs" />
+    <Compile Include="Classes\Controls\SessionsTabButton.cs" />
+    <Compile Include="Classes\Controls\SessionsSongGridView.cs" />
+    <Compile Include="Classes\Controls\SessionsScrollView.cs" />
+    <Compile Include="Classes\Controls\SessionsRoundButton.cs" />
+    <Compile Include="Classes\Controls\SessionsProgressBarView.cs" />
+    <Compile Include="Classes\Controls\SessionsPopUpButton.cs" />
+    <Compile Include="Classes\Controls\SessionsOutputMeterView.cs" />
+    <Compile Include="Classes\Controls\SessionsLabel.cs" />
+    <Compile Include="Classes\Controls\SessionsIsPlayingTableCellView.cs" />
+    <Compile Include="Classes\Controls\SessionsFaderView.cs" />
+    <Compile Include="Classes\Controls\SessionsCircularProgressBarView.cs" />
+    <Compile Include="Classes\Controls\SessionsButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
