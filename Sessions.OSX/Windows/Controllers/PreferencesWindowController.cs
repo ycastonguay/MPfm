@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -24,14 +24,14 @@ using Sessions.MVP;
 using Sessions.MVP.Views;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Models;
-using MPfm.OSX.Classes.Controls;
-using MPfm.OSX.Classes.Objects;
+using Sessions.OSX.Classes.Controls;
+using Sessions.OSX.Classes.Objects;
 using Sessions.Core.Helpers;
-using MPfm.OSX.Classes.Helpers;
+using Sessions.OSX.Classes.Helpers;
 using System.IO;
 using Sessions.Library.Objects;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
     public partial class PreferencesWindowController : BaseWindowController, IDesktopPreferencesView
     {
@@ -275,25 +275,25 @@ namespace MPfm.OSX
             firstCell.AttributedTitle = radioStr1;
             secondCell.AttributedTitle = radioStr2;
 
-            btnTabGeneral.LineLocation = MPfmTabButton.LineLocationEnum.Top;
+            btnTabGeneral.LineLocation = SessionsTabButton.LineLocationEnum.Top;
             btnTabGeneral.ShowSelectedBackgroundColor = true;
             btnTabGeneral.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabGeneral.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
             btnTabGeneral.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabGeneral.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
-            btnTabAudio.LineLocation = MPfmTabButton.LineLocationEnum.Top;
+            btnTabAudio.LineLocation = SessionsTabButton.LineLocationEnum.Top;
             btnTabAudio.ShowSelectedBackgroundColor = true;
             btnTabAudio.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabAudio.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
             btnTabAudio.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabAudio.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
-            btnTabLibrary.LineLocation = MPfmTabButton.LineLocationEnum.Top;
+            btnTabLibrary.LineLocation = SessionsTabButton.LineLocationEnum.Top;
             btnTabLibrary.ShowSelectedBackgroundColor = true;
             btnTabLibrary.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabLibrary.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
             btnTabLibrary.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabLibrary.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
-            btnTabCloud.LineLocation = MPfmTabButton.LineLocationEnum.Top;
+            btnTabCloud.LineLocation = SessionsTabButton.LineLocationEnum.Top;
             btnTabCloud.ShowSelectedBackgroundColor = true;
             btnTabCloud.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabCloud.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
@@ -342,12 +342,12 @@ namespace MPfm.OSX
             btnRemoveFolder.Enabled = tableFolders.SelectedRow >= 0;
         }
 
-        private void HandleEnableLibraryServiceOnValueChanged(MPfmCheckBoxView checkBox)
+        private void HandleEnableLibraryServiceOnValueChanged(SessionsCheckBoxView checkBox)
         {
             OnEnableSyncListener(checkBox.Value);
         }       
 
-        private void HandleEnableResumePlaybackOnValueChanged(MPfmCheckBoxView checkBox)
+        private void HandleEnableResumePlaybackOnValueChanged(SessionsCheckBoxView checkBox)
         {
 
         }       
@@ -397,7 +397,7 @@ namespace MPfm.OSX
             OnSetAudioPreferences(_audioAppConfig);
         }
 
-        private void HandleOnTabButtonSelected(MPfmTabButton button)
+        private void HandleOnTabButtonSelected(SessionsTabButton button)
         {
             btnTabGeneral.IsSelected = button == btnTabGeneral;
             btnTabAudio.IsSelected = button == btnTabAudio;
@@ -410,7 +410,7 @@ namespace MPfm.OSX
             viewCloudPreferences.Hidden = button != btnTabCloud;
         }
 
-        private void HandleOnDeletePeakFilesButtonSelected(MPfmButton button)
+        private void HandleOnDeletePeakFilesButtonSelected(SessionsButton button)
         {
             using(var alert = new NSAlert())
             {
@@ -428,7 +428,7 @@ namespace MPfm.OSX
             }
         }
 
-        private void HandleOnBrowseCustomDirectoryButtonSelected(MPfmButton button)
+        private void HandleOnBrowseCustomDirectoryButtonSelected(SessionsButton button)
         {
             string folderPath = string.Empty;
             using(NSOpenPanel openPanel = new NSOpenPanel())
@@ -541,7 +541,7 @@ namespace MPfm.OSX
             OnSetCloudPreferences(_cloudAppConfig);
         }
 
-        private void HandleOnAddFolderButtonSelected(MPfmButton button)
+        private void HandleOnAddFolderButtonSelected(SessionsButton button)
         {
             string folderPath = string.Empty;
             using(NSOpenPanel openPanel = new NSOpenPanel())
@@ -564,7 +564,7 @@ namespace MPfm.OSX
 //                OnAddFolderToLibrary(folderPath);
         }
 
-        private void HandleOnRemoveFolderButtonSelected(MPfmButton button)
+        private void HandleOnRemoveFolderButtonSelected(SessionsButton button)
         {
             using(var alert = new NSAlert())
             {
@@ -589,7 +589,7 @@ namespace MPfm.OSX
             }
         }
 
-        private void HandleOnResetLibraryButtonSelected(MPfmButton button)
+        private void HandleOnResetLibraryButtonSelected(SessionsButton button)
         {
             using(var alert = new NSAlert())
             {
@@ -607,12 +607,12 @@ namespace MPfm.OSX
             }
         }
 
-        private void HandleOnTestAudioSettingsButtonSelected(MPfmButton button)
+        private void HandleOnTestAudioSettingsButtonSelected(SessionsButton button)
         {
 
         }
 
-        private void HandleOnResetAudioSettingsButtonSelected(MPfmButton button)
+        private void HandleOnResetAudioSettingsButtonSelected(SessionsButton button)
         {
 
         }

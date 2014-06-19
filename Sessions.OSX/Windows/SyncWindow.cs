@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.OSX.Classes.Objects;
+using Sessions.OSX.Classes.Objects;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
     public partial class SyncWindow : MonoMac.AppKit.NSWindow
     {

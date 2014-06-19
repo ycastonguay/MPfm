@@ -6,7 +6,7 @@ using MonoMac.AppKit;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
     public partial class EditSongMetadataWindowController : BaseWindowController, IEditSongMetadataView
     {

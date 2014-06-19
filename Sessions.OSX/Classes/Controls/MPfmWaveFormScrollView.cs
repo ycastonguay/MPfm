@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using MonoMac.AppKit;
@@ -22,19 +22,19 @@ using Sessions.GenericControls.Controls;
 using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
 using Sessions.Player.Objects;
-using MPfm.OSX.Classes.Helpers;
+using Sessions.OSX.Classes.Helpers;
 using MonoMac.CoreGraphics;
 using System.Drawing;
-using MPfm.OSX.Classes.Controls.Helpers;
+using Sessions.OSX.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using System.Timers;
 using Sessions.GenericControls.Services;
 using System.Linq;
 
-namespace MPfm.OSX.Classes.Controls
+namespace Sessions.OSX.Classes.Controls
 {
-    [Register("MPfmWaveFormScrollView")]
-    public class MPfmWaveFormScrollView : NSView
+    [Register("SessionsWaveFormScrollView")]
+    public class SessionsWaveFormScrollView : NSView
     {
         private bool _isDragging;
         private float _startDragContentOffsetX;
@@ -57,8 +57,8 @@ namespace MPfm.OSX.Classes.Controls
         private NSMenuItem _menuItemDisplayTypeMonoLeft;
         private NSMenuItem _menuItemDisplayTypeMonoRight;
 
-        public MPfmWaveFormView WaveFormView { get; private set; }
-        public MPfmWaveFormScaleView WaveFormScaleView { get; private set; }
+        public SessionsWaveFormView WaveFormView { get; private set; }
+        public SessionsWaveFormScaleView WaveFormScaleView { get; private set; }
         public override bool IsFlipped { get { return true; } }
         public bool IsAutoScrollEnabled { get; set; }
 
@@ -91,13 +91,13 @@ namespace MPfm.OSX.Classes.Controls
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
         [Export("init")]
-        public MPfmWaveFormScrollView() : base(NSObjectFlag.Empty)
+        public SessionsWaveFormScrollView() : base(NSObjectFlag.Empty)
         {
             Initialize();
         }
 
         // Called when created from unmanaged code
-        public MPfmWaveFormScrollView(IntPtr handle) : base (handle)
+        public SessionsWaveFormScrollView(IntPtr handle) : base (handle)
         {
             Initialize();
         }
@@ -113,13 +113,13 @@ namespace MPfm.OSX.Classes.Controls
             PostsBoundsChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
             
-            WaveFormView = new MPfmWaveFormView();
+            WaveFormView = new SessionsWaveFormView();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
             WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
             WaveFormView.OnContentOffsetChanged += (offset) => SetContentOffsetX(offset.X);
             AddSubview(WaveFormView);
 
-            WaveFormScaleView = new MPfmWaveFormScaleView();
+            WaveFormScaleView = new SessionsWaveFormScaleView();
             AddSubview(WaveFormScaleView); 
             
             _lblZoom = new NSTextField();

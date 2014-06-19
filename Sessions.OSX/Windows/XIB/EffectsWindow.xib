@@ -97,11 +97,11 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
             <rect key="contentRect" x="131" y="74" width="987" height="400"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
-            <view key="contentView" id="3" customClass="MPfmView">
+            <view key="contentView" id="3" customClass="SessionsView">
                 <rect key="frame" x="0.0" y="0.0" width="987" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="541" customClass="MPfmView">
+                    <customView id="541" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="180" width="212" height="191"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -202,11 +202,11 @@
                                     <outlet property="menu" destination="KnF-I6-kZI" id="Ij9-Qb-Ja0"/>
                                 </connections>
                             </scrollView>
-                            <customView id="vk9-Ba-Gzg" customClass="MPfmView">
+                            <customView id="vk9-Ba-Gzg" customClass="SessionsView">
                                 <rect key="frame" x="0.0" y="164" width="281" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" id="xcv-ow-lFW" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="xcv-ow-lFW" customClass="SessionsButton">
                                         <rect key="frame" x="73" y="0.0" width="61" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Add" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="deq-He-gbm">
@@ -217,7 +217,7 @@
                                             <action selector="actionAddPreset:" target="-2" id="md7-hN-cFC"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" id="WI5-YP-CE1" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="WI5-YP-CE1" customClass="SessionsButton">
                                         <rect key="frame" x="133" y="0.0" width="79" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Remove" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bPh-h1-VXm">
@@ -241,7 +241,7 @@
                             </customView>
                         </subviews>
                     </customView>
-                    <customView id="3c1-cB-Iq2" customClass="MPfmView">
+                    <customView id="3c1-cB-Iq2" customClass="SessionsView">
                         <rect key="frame" x="216" y="7" width="771" height="353"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -596,81 +596,81 @@
                                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </textFieldCell>
                             </textField>
-                            <customView id="6CU-QU-dfa" customClass="MPfmFaderView">
+                            <customView id="6CU-QU-dfa" customClass="SessionsFaderView">
                                 <rect key="frame" x="8" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="N2x-vN-ELy" customClass="MPfmFaderView">
+                            <customView id="N2x-vN-ELy" customClass="SessionsFaderView">
                                 <rect key="frame" x="48" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="IAb-A7-pQk" customClass="MPfmFaderView">
+                            <customView id="IAb-A7-pQk" customClass="SessionsFaderView">
                                 <rect key="frame" x="88" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="BuC-au-wPF" customClass="MPfmFaderView">
+                            <customView id="BuC-au-wPF" customClass="SessionsFaderView">
                                 <rect key="frame" x="128" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="er5-qO-Fg4" customClass="MPfmFaderView">
+                            <customView id="er5-qO-Fg4" customClass="SessionsFaderView">
                                 <rect key="frame" x="168" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="iLP-eI-lX6" customClass="MPfmFaderView">
+                            <customView id="iLP-eI-lX6" customClass="SessionsFaderView">
                                 <rect key="frame" x="208" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="z93-vA-wbd" customClass="MPfmFaderView">
+                            <customView id="z93-vA-wbd" customClass="SessionsFaderView">
                                 <rect key="frame" x="248" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="5Zp-la-4XO" customClass="MPfmFaderView">
+                            <customView id="5Zp-la-4XO" customClass="SessionsFaderView">
                                 <rect key="frame" x="288" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="iBh-r4-pGZ" customClass="MPfmFaderView">
+                            <customView id="iBh-r4-pGZ" customClass="SessionsFaderView">
                                 <rect key="frame" x="328" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="yhN-ok-m3C" customClass="MPfmFaderView">
+                            <customView id="yhN-ok-m3C" customClass="SessionsFaderView">
                                 <rect key="frame" x="368" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="OiF-cS-EU0" customClass="MPfmFaderView">
+                            <customView id="OiF-cS-EU0" customClass="SessionsFaderView">
                                 <rect key="frame" x="408" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="tSK-Iz-KZU" customClass="MPfmFaderView">
+                            <customView id="tSK-Iz-KZU" customClass="SessionsFaderView">
                                 <rect key="frame" x="448" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="bYQ-T4-atI" customClass="MPfmFaderView">
+                            <customView id="bYQ-T4-atI" customClass="SessionsFaderView">
                                 <rect key="frame" x="488" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="gBN-51-odC" customClass="MPfmFaderView">
+                            <customView id="gBN-51-odC" customClass="SessionsFaderView">
                                 <rect key="frame" x="528" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="Cd6-yF-rrb" customClass="MPfmFaderView">
+                            <customView id="Cd6-yF-rrb" customClass="SessionsFaderView">
                                 <rect key="frame" x="568" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="jjw-Lo-7Xw" customClass="MPfmFaderView">
+                            <customView id="jjw-Lo-7Xw" customClass="SessionsFaderView">
                                 <rect key="frame" x="608" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="XBb-y3-0xf" customClass="MPfmFaderView">
+                            <customView id="XBb-y3-0xf" customClass="SessionsFaderView">
                                 <rect key="frame" x="648" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="lT5-8e-Fhb" customClass="MPfmFaderView">
+                            <customView id="lT5-8e-Fhb" customClass="SessionsFaderView">
                                 <rect key="frame" x="688" y="42" width="30" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>
                     </customView>
-                    <customView id="549" customClass="MPfmView">
+                    <customView id="549" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="0.0" width="212" height="181"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -692,7 +692,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" id="390" customClass="MPfmTextField">
+                            <textField verticalHuggingPriority="750" id="390" customClass="SessionsTextField">
                                 <rect key="frame" x="8" y="109" width="197" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Required" drawsBackground="YES" id="391">
@@ -704,7 +704,7 @@
                                     <action selector="actionNameChanged:" target="-2" id="520"/>
                                 </connections>
                             </textField>
-                            <button verticalHuggingPriority="750" id="398" customClass="MPfmButton">
+                            <button verticalHuggingPriority="750" id="398" customClass="SessionsButton">
                                 <rect key="frame" x="8" y="11" width="197" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Reset" bezelStyle="smallSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="399">
@@ -715,7 +715,7 @@
                                     <action selector="actionReset:" target="-2" id="516"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" id="400" customClass="MPfmButton">
+                            <button verticalHuggingPriority="750" id="400" customClass="SessionsButton">
                                 <rect key="frame" x="8" y="43" width="197" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Normalize" bezelStyle="smallSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="401">
@@ -726,7 +726,7 @@
                                     <action selector="actionAutoLevel:" target="-2" id="515"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" id="cok-8l-gBI" customClass="MPfmButton">
+                            <button verticalHuggingPriority="750" id="cok-8l-gBI" customClass="SessionsButton">
                                 <rect key="frame" x="8" y="75" width="197" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Save Preset" bezelStyle="smallSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FD4-YT-U0J">
@@ -739,7 +739,7 @@
                             </button>
                         </subviews>
                     </customView>
-                    <customView id="oyl-X7-oDk" customClass="MPfmView">
+                    <customView id="oyl-X7-oDk" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="368" width="1046" height="32"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>

@@ -74,7 +74,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" id="6PL-te-R6z" customClass="MPfmButton">
+                    <button verticalHuggingPriority="750" id="6PL-te-R6z" customClass="SessionsButton">
                         <rect key="frame" x="121" y="25" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="smallSquare" title="OK" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iof-mc-Qfl">
@@ -82,7 +82,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
-                    <button verticalHuggingPriority="750" id="Oes-cw-KiJ" customClass="MPfmButton">
+                    <button verticalHuggingPriority="750" id="Oes-cw-KiJ" customClass="SessionsButton">
                         <rect key="frame" x="265" y="25" width="120" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="smallSquare" title="Cancel" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ch2-Wq-GMA">
@@ -90,7 +90,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
-                    <customView id="bO2-Xz-eci" customClass="MPfmView">
+                    <customView id="bO2-Xz-eci" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="241" width="606" height="30"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -105,7 +105,7 @@
                             </textField>
                         </subviews>
                     </customView>
-                    <customView id="VVM-tF-Qj9" customClass="MPfmProgressBarView">
+                    <customView id="VVM-tF-Qj9" customClass="SessionsProgressBarView">
                         <rect key="frame" x="20" y="204" width="466" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>

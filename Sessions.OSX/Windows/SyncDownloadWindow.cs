@@ -4,7 +4,7 @@ using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
     public partial class SyncDownloadWindow : MonoMac.AppKit.NSWindow
     {

@@ -6,7 +6,7 @@
 //
 using MonoMac.Foundation;
 
-namespace MPfm.OSX.Classes.Delegates
+namespace Sessions.OSX.Classes.Delegates
 {
 	[Register ("AppDelegate")]
 	partial class AppDelegate

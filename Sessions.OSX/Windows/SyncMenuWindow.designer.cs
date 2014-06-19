@@ -6,7 +6,7 @@
 //
 using MonoMac.Foundation;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
 	[Register ("SyncMenuWindowController")]
 	partial class SyncMenuWindowController
@@ -21,7 +21,7 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnSync { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnSync { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTotal { get; set; }

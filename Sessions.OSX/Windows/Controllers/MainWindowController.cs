@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -29,17 +29,17 @@ using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.OSX.Classes.Controls;
-using MPfm.OSX.Classes.Delegates;
-using MPfm.OSX.Classes.Helpers;
-using MPfm.OSX.Classes.Objects;
+using Sessions.OSX.Classes.Controls;
+using Sessions.OSX.Classes.Delegates;
+using Sessions.OSX.Classes.Helpers;
+using Sessions.OSX.Classes.Objects;
 using System.Threading.Tasks;
 using Sessions.Core.Helpers;
 using System.Drawing;
 using Sessions.MVP.Config.Models;
 using MonoMac.CoreGraphics;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
     /// <summary>
     /// Main window controller.
@@ -259,21 +259,21 @@ namespace MPfm.OSX
             viewQueueHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewQueueHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
-            btnPlayLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnAddLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnEditLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnRemoveLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnGoToMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnAddMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnEditMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnRemoveMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnAddSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnEditSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnRemoveSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnBackLoop.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnBackLoopPlayback.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnBackSegment.Theme = MPfmButton.ButtonTheme.Toolbar;
-            btnBackMarker.Theme = MPfmButton.ButtonTheme.Toolbar;
+            btnPlayLoop.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnAddLoop.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnEditLoop.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnRemoveLoop.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnGoToMarker.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnAddMarker.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnEditMarker.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnRemoveMarker.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnAddSegment.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnEditSegment.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnRemoveSegment.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnBackLoop.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnBackLoopPlayback.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnBackSegment.Theme = SessionsButton.ButtonTheme.Toolbar;
+            btnBackMarker.Theme = SessionsButton.ButtonTheme.Toolbar;
 
             lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
             lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
@@ -447,7 +447,7 @@ namespace MPfm.OSX
             //Console.WriteLine("MainWindow - SplitViewFrameDidChangeNotification - splitMain.Frame: {0} viewLibraryBrowser.Frame: {1} scrollViewLibraryBrowser.Frame: {2}", splitMain.Frame, viewLibraryBrowser.Frame, scrollViewLibraryBrowser.Frame);
         }
 
-        private void HandleOnTabButtonSelected(MPfmTabButton button)
+        private void HandleOnTabButtonSelected(SessionsTabButton button)
         {
             btnTabTimeShifting.IsSelected = button == btnTabTimeShifting;
             btnTabPitchShifting.IsSelected = button == btnTabPitchShifting;
@@ -460,18 +460,18 @@ namespace MPfm.OSX
             viewActions.Hidden = button != btnTabActions;
         }
 
-        private void HandleSongGridViewMenuItemClicked(MPfmSongGridView.MenuItemType menuItemType)
+        private void HandleSongGridViewMenuItemClicked(SessionsSongGridView.MenuItemType menuItemType)
         {
             if (songGridView.SelectedItems.Count == 0)
                 return;
 
             switch (menuItemType)
             {
-                case MPfmSongGridView.MenuItemType.PlaySongs:
+                case SessionsSongGridView.MenuItemType.PlaySongs:
                     AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
                     OnTableRowDoubleClicked(audioFile);
                     break;
-                case MPfmSongGridView.MenuItemType.AddToPlaylist:
+                case SessionsSongGridView.MenuItemType.AddToPlaylist:
                     var audioFiles = new List<AudioFile>();
                     foreach (var item in songGridView.SelectedItems)
                         audioFiles.Add(item.AudioFile);
@@ -812,7 +812,7 @@ namespace MPfm.OSX
             SetSegmentLinkedMarker();
         }
 
-        private void HandleSegmentLinkToMarkerOnValueChanged(MPfmCheckBoxView checkBox)
+        private void HandleSegmentLinkToMarkerOnValueChanged(SessionsCheckBoxView checkBox)
         {
             SetSegmentLinkedMarker();
         }
@@ -1154,8 +1154,8 @@ namespace MPfm.OSX
         [Export ("tableView:viewForTableColumn:row:")]
         public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
-            MPfmTableCellView view;           
-            view = (MPfmTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
+            SessionsTableCellView view;           
+            view = (SessionsTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
 
             bool adjustXPadding = false;
@@ -1228,11 +1228,11 @@ namespace MPfm.OSX
                 tableColumn.Identifier.ToString() == "columnLoopIndex" ||
                 tableColumn.Identifier.ToString() == "columnSegmentIndex")
             {
-                view.SetTheme(MPfmTableCellView.CellTheme.Index);
+                view.SetTheme(SessionsTableCellView.CellTheme.Index);
             }
             else
             {
-                view.SetTheme(MPfmTableCellView.CellTheme.Normal);
+                view.SetTheme(SessionsTableCellView.CellTheme.Normal);
             }
                 
             return view;

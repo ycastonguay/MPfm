@@ -27,7 +27,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="707" height="432"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="7cb-pA-uUh" customClass="MPfmView">
+                    <customView id="7cb-pA-uUh" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="400" width="707" height="32"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -42,29 +42,29 @@
                             </textField>
                         </subviews>
                     </customView>
-                    <customView id="XNB-jb-W5J" customClass="MPfmView">
+                    <customView id="XNB-jb-W5J" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="350" width="707" height="52"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <customView id="hsd-dd-ZYh" customClass="MPfmRoundButton">
+                            <customView id="hsd-dd-ZYh" customClass="SessionsRoundButton">
                                 <rect key="frame" x="9" y="8" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="1qG-1S-Cvb" customClass="MPfmRoundButton">
+                            <customView id="1qG-1S-Cvb" customClass="SessionsRoundButton">
                                 <rect key="frame" x="51" y="8" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="2VL-k2-rlq" customClass="MPfmRoundButton">
+                            <customView id="2VL-k2-rlq" customClass="SessionsRoundButton">
                                 <rect key="frame" x="93" y="8" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="H7t-ai-Q8A" customClass="MPfmRoundButton">
+                            <customView id="H7t-ai-Q8A" customClass="SessionsRoundButton">
                                 <rect key="frame" x="135" y="8" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>
                     </customView>
-                    <customView id="rbX-yg-YPU" customClass="MPfmSongGridView">
+                    <customView id="rbX-yg-YPU" customClass="SessionsSongGridView">
                         <rect key="frame" x="0.0" y="0.0" width="707" height="353"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </customView>

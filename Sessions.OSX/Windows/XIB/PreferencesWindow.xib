@@ -105,11 +105,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="551" height="388"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="Taz-qo-lqE" customClass="MPfmView">
+                    <customView id="Taz-qo-lqE" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="0.0" width="551" height="388"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" id="2lp-QR-qbh" customClass="MPfmTabButton">
+                            <button verticalHuggingPriority="750" id="2lp-QR-qbh" customClass="SessionsTabButton">
                                 <rect key="frame" x="0.0" y="354" width="80" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="General" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zfo-64-tFH">
@@ -117,7 +117,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" id="vW3-kP-sy9" customClass="MPfmTabButton">
+                            <button verticalHuggingPriority="750" id="vW3-kP-sy9" customClass="SessionsTabButton">
                                 <rect key="frame" x="79" y="354" width="80" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Audio" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fpA-CZ-o1y">
@@ -125,7 +125,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" id="4z8-EN-uhw" customClass="MPfmTabButton">
+                            <button verticalHuggingPriority="750" id="4z8-EN-uhw" customClass="SessionsTabButton">
                                 <rect key="frame" x="158" y="354" width="80" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Library" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oF4-6e-7hc">
@@ -133,7 +133,7 @@
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" id="643-Eh-s57" customClass="MPfmTabButton">
+                            <button verticalHuggingPriority="750" id="643-Eh-s57" customClass="SessionsTabButton">
                                 <rect key="frame" x="237" y="354" width="80" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Cloud" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mvv-l7-dxC">
@@ -217,15 +217,15 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <customView id="ygU-LB-6cg" customClass="MPfmTrackBarView">
+                                    <customView id="ygU-LB-6cg" customClass="SessionsTrackBarView">
                                         <rect key="frame" x="102" y="271" width="231" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
-                                    <customView id="PYu-tb-mLg" customClass="MPfmTrackBarView">
+                                    <customView id="PYu-tb-mLg" customClass="SessionsTrackBarView">
                                         <rect key="frame" x="102" y="246" width="231" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
-                                    <customView id="sX6-zE-ca4" customClass="MPfmView">
+                                    <customView id="sX6-zE-ca4" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="324" width="551" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -240,7 +240,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="3gr-13-hfL" customClass="MPfmView">
+                                    <customView id="3gr-13-hfL" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="301" width="591" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -255,7 +255,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="jnB-fD-twT" customClass="MPfmView">
+                                    <customView id="jnB-fD-twT" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="188" width="591" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -305,7 +305,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <button verticalHuggingPriority="750" id="Hhi-0y-hDl" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="Hhi-0y-hDl" customClass="SessionsButton">
                                         <rect key="frame" x="275" y="108" width="90" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Browse..." bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="90P-qm-D5I">
@@ -313,7 +313,7 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
-                                    <button verticalHuggingPriority="750" id="1OT-ee-KHo" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="1OT-ee-KHo" customClass="SessionsButton">
                                         <rect key="frame" x="10" y="72" width="130" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Delete peak files" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zI8-IK-uta">
@@ -348,7 +348,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <customView id="7zh-Y4-1kr" customClass="MPfmTrackBarView">
+                                    <customView id="7zh-Y4-1kr" customClass="SessionsTrackBarView">
                                         <rect key="frame" x="139" y="40" width="231" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
@@ -475,7 +475,7 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <popUpButton verticalHuggingPriority="750" id="124" customClass="MPfmPopUpButton">
+                                    <popUpButton verticalHuggingPriority="750" id="124" customClass="SessionsPopUpButton">
                                         <rect key="frame" x="107" y="272" width="260" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="127" id="125">
@@ -490,7 +490,7 @@
                                             </menu>
                                         </popUpButtonCell>
                                     </popUpButton>
-                                    <popUpButton verticalHuggingPriority="750" id="130" customClass="MPfmPopUpButton">
+                                    <popUpButton verticalHuggingPriority="750" id="130" customClass="SessionsPopUpButton">
                                         <rect key="frame" x="107" y="247" width="112" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="smallSquare" title="Item 1" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="135" id="131">
@@ -514,7 +514,7 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <button verticalHuggingPriority="750" id="180" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="180" customClass="SessionsButton">
                                         <rect key="frame" x="10" y="62" width="140" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Test audio settings" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="181">
@@ -522,7 +522,7 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
-                                    <button verticalHuggingPriority="750" id="182" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="182" customClass="SessionsButton">
                                         <rect key="frame" x="161" y="62" width="130" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Reset to default" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="183">
@@ -530,15 +530,15 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
-                                    <customView id="Xuz-Su-8Sc" customClass="MPfmTrackBarView">
+                                    <customView id="Xuz-Su-8Sc" customClass="SessionsTrackBarView">
                                         <rect key="frame" x="112" y="178" width="207" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
-                                    <customView id="rvV-R0-Se8" customClass="MPfmTrackBarView">
+                                    <customView id="rvV-R0-Se8" customClass="SessionsTrackBarView">
                                         <rect key="frame" x="112" y="153" width="207" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
-                                    <customView id="tM4-o1-4O4" customClass="MPfmView">
+                                    <customView id="tM4-o1-4O4" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="324" width="551" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -553,7 +553,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="nPh-WH-Vmy" customClass="MPfmView">
+                                    <customView id="nPh-WH-Vmy" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="301" width="551" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -568,7 +568,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="x1M-dA-wjM" customClass="MPfmView">
+                                    <customView id="x1M-dA-wjM" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="212" width="551" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -583,7 +583,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="L3l-kc-Hwe" customClass="MPfmView">
+                                    <customView id="L3l-kc-Hwe" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="121" width="551" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -605,7 +605,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" id="204" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="204" customClass="SessionsButton">
                                         <rect key="frame" x="10" y="265" width="98" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Add folder" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="205">
@@ -613,7 +613,7 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
-                                    <button verticalHuggingPriority="750" id="206" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="206" customClass="SessionsButton">
                                         <rect key="frame" x="118" y="265" width="130" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Remove folder(s)" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="207">
@@ -621,7 +621,7 @@
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                     </button>
-                                    <button verticalHuggingPriority="750" id="208" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="208" customClass="SessionsButton">
                                         <rect key="frame" x="258" y="265" width="116" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Reset Library" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="209">
@@ -689,12 +689,12 @@
                                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <tableHeaderView key="headerView" focusRingType="none" id="213" customClass="MPfmTableHeaderView">
+                                        <tableHeaderView key="headerView" focusRingType="none" id="213" customClass="SessionsTableHeaderView">
                                             <rect key="frame" x="0.0" y="0.0" width="528" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableHeaderView>
                                     </scrollView>
-                                    <customView id="SoK-IQ-wQ1" customClass="MPfmView">
+                                    <customView id="SoK-IQ-wQ1" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="324" width="551" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -709,7 +709,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="Mp9-qL-mcx" customClass="MPfmView">
+                                    <customView id="Mp9-qL-mcx" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="301" width="591" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -724,7 +724,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="iaS-9x-sgN" customClass="MPfmView">
+                                    <customView id="iaS-9x-sgN" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="106" width="591" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -775,7 +775,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField verticalHuggingPriority="750" id="729-mq-ICR" customClass="MPfmLabel">
+                                    <textField verticalHuggingPriority="750" id="729-mq-ICR" customClass="SessionsLabel">
                                         <rect key="frame" x="34" y="79" width="151" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Enable Library Service" id="fyq-Pu-O6l">
@@ -784,7 +784,7 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <customView id="LRU-pQ-jy4" customClass="MPfmCheckBoxView">
+                                    <customView id="LRU-pQ-jy4" customClass="SessionsCheckBoxView">
                                         <rect key="frame" x="9" y="78" width="22" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
@@ -794,7 +794,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="551" height="356"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" id="WiK-C7-CTG" customClass="MPfmButton">
+                                    <button verticalHuggingPriority="750" id="WiK-C7-CTG" customClass="SessionsButton">
                                         <rect key="frame" x="10" y="265" width="136" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="smallSquare" title="Login to Dropbox" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yxC-Qa-ueW">
@@ -812,7 +812,7 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField verticalHuggingPriority="750" id="pQw-FP-k9w" customClass="MPfmLabel">
+                                    <textField verticalHuggingPriority="750" id="pQw-FP-k9w" customClass="SessionsLabel">
                                         <rect key="frame" x="34" y="234" width="394" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Enable Resume Playback" id="R2h-VZ-Ud2">
@@ -821,11 +821,11 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <customView id="ao8-8L-3Bq" customClass="MPfmCheckBoxView">
+                                    <customView id="ao8-8L-3Bq" customClass="SessionsCheckBoxView">
                                         <rect key="frame" x="9" y="233" width="22" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
-                                    <customView id="Psh-8C-Gy7" customClass="MPfmView">
+                                    <customView id="Psh-8C-Gy7" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="324" width="551" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
@@ -840,7 +840,7 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <customView id="WP1-Rp-ill" customClass="MPfmView">
+                                    <customView id="WP1-Rp-ill" customClass="SessionsView">
                                         <rect key="frame" x="0.0" y="301" width="591" height="25"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>

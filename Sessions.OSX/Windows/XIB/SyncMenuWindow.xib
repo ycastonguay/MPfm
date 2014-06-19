@@ -27,7 +27,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
             <rect key="contentRect" x="131" y="74" width="606" height="485"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
-            <view key="contentView" id="3" customClass="MPfmView">
+            <view key="contentView" id="3" customClass="SessionsView">
                 <rect key="frame" x="0.0" y="0.0" width="606" height="485"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -72,7 +72,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" id="93" customClass="MPfmButton">
+                            <button verticalHuggingPriority="750" id="93" customClass="SessionsButton">
                                 <rect key="frame" x="519" y="22" width="77" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Sync" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="94">
@@ -234,7 +234,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
-                                            <button verticalHuggingPriority="750" id="157" customClass="MPfmButton">
+                                            <button verticalHuggingPriority="750" id="157" customClass="SessionsButton">
                                                 <rect key="frame" x="9" y="244" width="36" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <buttonCell key="cell" type="smallSquare" title=">" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="158">
@@ -245,7 +245,7 @@
                                                     <action selector="actionAdd:" target="-2" id="181"/>
                                                 </connections>
                                             </button>
-                                            <button verticalHuggingPriority="750" id="163" customClass="MPfmButton">
+                                            <button verticalHuggingPriority="750" id="163" customClass="SessionsButton">
                                                 <rect key="frame" x="9" y="205" width="36" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <buttonCell key="cell" type="smallSquare" title="&lt;" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="164">
@@ -256,7 +256,7 @@
                                                     <action selector="actionRemove:" target="-2" id="182"/>
                                                 </connections>
                                             </button>
-                                            <button verticalHuggingPriority="750" id="165" customClass="MPfmButton">
+                                            <button verticalHuggingPriority="750" id="165" customClass="SessionsButton">
                                                 <rect key="frame" x="9" y="166" width="36" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <buttonCell key="cell" type="smallSquare" title=">>" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="166">
@@ -267,7 +267,7 @@
                                                     <action selector="actionAddAll:" target="-2" id="183"/>
                                                 </connections>
                                             </button>
-                                            <button verticalHuggingPriority="750" id="167" customClass="MPfmButton">
+                                            <button verticalHuggingPriority="750" id="167" customClass="SessionsButton">
                                                 <rect key="frame" x="9" y="127" width="36" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <buttonCell key="cell" type="smallSquare" title="&lt;&lt;" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="168">

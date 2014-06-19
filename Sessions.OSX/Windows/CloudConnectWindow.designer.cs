@@ -7,16 +7,16 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
 	[Register ("CloudConnectWindowController")]
 	partial class CloudConnectWindowController
 	{
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnCancel { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnOK { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnOK { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblStep1 { get; set; }
@@ -37,7 +37,7 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmProgressBarView progressBar { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsProgressBarView progressBar { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

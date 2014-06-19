@@ -7,34 +7,34 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
 	[Register ("SyncWindowController")]
 	partial class SyncWindowController
 	{
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnAddDevice { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnAddDevice { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnNext { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnNext { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnPlayPause { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnPlayPause { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnPrevious { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnPrevious { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnRepeat { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnRepeat { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnResumePlayback { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnResumePlayback { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnShuffle { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnShuffle { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnSyncLibrary { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnSyncLibrary { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSImageView imageViewAlbum { get; set; }
@@ -112,22 +112,22 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField txtAddDeviceUrl { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewConnectManualHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewConnectManualHeader { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewDetails { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewDetails { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewDeviceDetailsHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewDeviceDetailsHeader { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewRemotePlayerHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewRemotePlayerHeader { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewSubtitleHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewSubtitleHeader { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewTitleHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewTitleHeader { get; set; }
 
 		[Action ("actionRemoveDeviceFromList:")]
 		partial void actionRemoveDeviceFromList (MonoMac.Foundation.NSObject sender);

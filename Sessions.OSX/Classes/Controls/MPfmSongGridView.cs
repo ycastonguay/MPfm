@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -21,18 +21,18 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.OSX.Classes.Controls.Graphics;
-using MPfm.OSX.Classes.Controls.Helpers;
+using Sessions.OSX.Classes.Controls.Graphics;
+using Sessions.OSX.Classes.Controls.Helpers;
 using Sessions.GenericControls.Controls.Songs;
 using Sessions.GenericControls.Graphics;
 using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 
-namespace MPfm.OSX.Classes.Controls
+namespace Sessions.OSX.Classes.Controls
 {
-    [Register("MPfmSongGridView")]
-    public class MPfmSongGridView : NSView
+    [Register("SessionsSongGridView")]
+    public class SessionsSongGridView : NSView
     {
         private SongGridViewControl _control;
         private HorizontalScrollBarWrapper _horizontalScrollBar;
@@ -53,13 +53,13 @@ namespace MPfm.OSX.Classes.Controls
         public event MenuItemClickedDelegate MenuItemClicked;
 
         [Export("init")]
-        public MPfmSongGridView() : base(NSObjectFlag.Empty)
+        public SessionsSongGridView() : base(NSObjectFlag.Empty)
         {
             Initialize();
         }
 
         // Called when created from unmanaged code
-        public MPfmSongGridView(IntPtr handle) : base (handle)
+        public SessionsSongGridView(IntPtr handle) : base (handle)
         {
             Initialize();
         }

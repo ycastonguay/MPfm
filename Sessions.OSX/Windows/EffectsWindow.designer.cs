@@ -7,13 +7,13 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
 	[Register ("EffectsWindowController")]
 	partial class EffectsWindowController
 	{
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnAddPreset { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnAddPreset { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
@@ -22,67 +22,67 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSButton btnEQOn { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnRemovePreset { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnRemovePreset { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnReset { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnSavePreset { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnSavePreset { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader0 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader0 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader1 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader1 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader10 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader10 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader11 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader11 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader12 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader12 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader13 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader13 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader14 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader14 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader15 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader15 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader16 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader16 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader17 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader17 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader2 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader2 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader3 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader3 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader4 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader4 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader5 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader5 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader6 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader6 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader7 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader7 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader8 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader8 { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmFaderView fader9 { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsFaderView fader9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQ0 { get; set; }
@@ -232,22 +232,22 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField txtName { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewBackground { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewBackground { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundFaders { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewBackgroundFaders { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewBackgroundInformation { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewBackgroundPreset { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewPresetsHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewPresetsHeader { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewTitle { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewTitle { get; set; }
 
 		[Action ("actionAddPreset:")]
 		partial void actionAddPreset (MonoMac.Foundation.NSObject sender);

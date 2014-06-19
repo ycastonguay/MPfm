@@ -33,7 +33,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="490" height="352"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="hHh-MD-BD7" customClass="MPfmView">
+                    <customView id="hHh-MD-BD7" customClass="SessionsView">
                         <rect key="frame" x="0.0" y="-17" width="511" height="369"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -91,7 +91,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" id="uNG-RK-er5" customClass="MPfmButton">
+                            <button verticalHuggingPriority="750" id="uNG-RK-er5" customClass="SessionsButton">
                                 <rect key="frame" x="139" y="65" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Resume from this device" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Sv6-pf-1gg">
@@ -99,7 +99,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button verticalHuggingPriority="750" id="nOg-nl-qq5" customClass="MPfmButton">
+                            <button verticalHuggingPriority="750" id="nOg-nl-qq5" customClass="SessionsButton">
                                 <rect key="frame" x="139" y="29" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="No, thanks" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8g8-W2-LBz">
@@ -126,7 +126,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ikR-RV-nuC"/>
                             </imageView>
-                            <customView id="LLc-ca-72l" customClass="MPfmView">
+                            <customView id="LLc-ca-72l" customClass="SessionsView">
                                 <rect key="frame" x="0.0" y="337" width="491" height="32"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>

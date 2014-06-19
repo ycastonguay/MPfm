@@ -7,16 +7,16 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
 	[Register ("StartResumePlaybackWindowController")]
 	partial class StartResumePlaybackWindowController
 	{
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnCancel { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmButton btnOK { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsButton btnOK { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSImageView imageViewAlbum { get; set; }
@@ -49,7 +49,7 @@ namespace MPfm.OSX
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewHeader { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewHeader { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -24,19 +24,19 @@ using MonoMac.AppKit;
 using MonoMac.CoreAnimation;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.OSX.Classes.Objects;
+using Sessions.OSX.Classes.Objects;
 
-namespace MPfm.OSX.Classes.Controls
+namespace Sessions.OSX.Classes.Controls
 {
-    [Register("MPfmTableCellView")]
-    public class MPfmTableCellView : NSTableCellView
+    [Register("SessionsTableCellView")]
+    public class SessionsTableCellView : NSTableCellView
     {
         const float Padding = 6;
         private CellTheme _theme;
         public override bool IsFlipped { get { return true; } }
 
         public NSTextField IndexLabel { get; private set; }
-        public MPfmView IndexBackground { get; private set; }
+        public SessionsView IndexBackground { get; private set; }
 
 //        public override NSBackgroundStyle BackgroundStyle
 //        {
@@ -53,20 +53,20 @@ namespace MPfm.OSX.Classes.Controls
 //        }
 
         [Export("init")]
-        public MPfmTableCellView() : base(NSObjectFlag.Empty)
+        public SessionsTableCellView() : base(NSObjectFlag.Empty)
         {
             Initialize();
         }
 
         // Called when created from unmanaged code
-        public MPfmTableCellView(IntPtr handle) : base (handle)
+        public SessionsTableCellView(IntPtr handle) : base (handle)
         {
             Initialize();
         }
 
         private void Initialize()
         {
-            IndexBackground = new MPfmView(new RectangleF(0, 0, 16, 24));
+            IndexBackground = new SessionsView(new RectangleF(0, 0, 16, 24));
             IndexBackground.BackgroundColor1 = new CGColor(1, 0, 0);
             IndexBackground.BackgroundColor2 = new CGColor(1, 0, 0);
             IndexBackground.Hidden = true;

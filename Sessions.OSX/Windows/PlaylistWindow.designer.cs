@@ -7,34 +7,34 @@
 using MonoMac.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.OSX
+namespace Sessions.OSX
 {
 	[Register ("PlaylistWindowController")]
 	partial class PlaylistWindowController
 	{
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarNew { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarNew { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarOpen { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarOpen { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarSave { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarSave { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmRoundButton btnToolbarSaveAs { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarSaveAs { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmSongGridView songGridView { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsSongGridView songGridView { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewTitle { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewTitle { get; set; }
 
 		[Outlet]
-		MPfm.OSX.Classes.Controls.MPfmView viewToolbar { get; set; }
+        Sessions.OSX.Classes.Controls.SessionsView viewToolbar { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
