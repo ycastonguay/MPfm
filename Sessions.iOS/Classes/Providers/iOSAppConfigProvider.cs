@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Config;
-using MPfm.MVP.Config.Providers;
+using Sessions.MVP.Config;
+using Sessions.MVP.Config.Providers;
 using System.Reflection;
 using System.Diagnostics;
 using MonoTouch.Foundation;
-using MPfm.MVP.Config.Models;
+using Sessions.MVP.Config.Models;
 using System;
 
 namespace MPfm.iOS.Classes.Providers

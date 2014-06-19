@@ -15,17 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Messages;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using TinyMessenger;
 using MPfm.iOS.Classes.Controllers;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
-using MPfm.Library.Objects;
-using MPfm.MVP.Bootstrap;
+using Sessions.Library.Objects;
+using Sessions.MVP.Bootstrap;
 
 namespace MPfm.iOS.Classes.Navigation
 {

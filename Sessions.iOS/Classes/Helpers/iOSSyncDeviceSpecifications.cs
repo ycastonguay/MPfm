@@ -17,10 +17,10 @@
 
 using System;
 using MonoTouch.Foundation;
-using MPfm.Library;
-using MPfm.Library.Objects;
+using Sessions.Library;
+using Sessions.Library.Objects;
 using MonoTouch.UIKit;
-using MPfm.Library.Services;
+using Sessions.Library.Services;
 using System.Collections.Generic;
 
 namespace MPfm.iOS.Helpers

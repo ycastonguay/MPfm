@@ -18,14 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 
 namespace MPfm.iOS
 {

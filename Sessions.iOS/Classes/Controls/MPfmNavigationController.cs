@@ -17,9 +17,9 @@
 
 using System;
 using System.Drawing;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Navigation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;

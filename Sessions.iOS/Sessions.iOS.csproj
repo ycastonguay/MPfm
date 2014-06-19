@@ -155,7 +155,7 @@
     </Compile>
     <Compile Include="Classes\Controllers\PlayerViewController.cs" />
     <Compile Include="Classes\Delegates\AppDelegate.cs" />
-    <Compile Include="Classes\Controls\SessionsNavigationController.cs" />
+    <Compile Include="Classes\Controls\MPfmNavigationController.cs" />
     <Compile Include="Classes\Navigation\iOSNavigationManager.cs" />
     <Compile Include="Classes\Controllers\Base\BaseViewController.cs" />
     <Compile Include="Classes\Controllers\MobileLibraryBrowserViewController.cs" />
@@ -190,12 +190,12 @@
     <Compile Include="Classes\Controllers\PlayerMetadataViewController.designer.cs">
       <DependentUpon>PlayerMetadataViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsSlider.cs" />
-    <Compile Include="Classes\Controls\SessionsWindow.cs" />
-    <Compile Include="Classes\Controls\SessionsWaveFormView.cs" />
+    <Compile Include="Classes\Controls\MPfmSlider.cs" />
+    <Compile Include="Classes\Controls\MPfmWindow.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
     <Compile Include="Classes\Helpers\DarwinHardwareHelper.cs" />
-    <Compile Include="Classes\Controls\SessionsTableViewCell.cs">
-      <DependentUpon>SessionsCollectionViewCell.cs</DependentUpon>
+    <Compile Include="Classes\Controls\MPfmTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
     <Compile Include="Classes\Controllers\LoopDetailsViewController.cs" />
@@ -206,10 +206,10 @@
     <Compile Include="Classes\Controllers\MarkerDetailsViewController.designer.cs">
       <DependentUpon>MarkerDetailsViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsSemiTransparentButton.cs" />
+    <Compile Include="Classes\Controls\MPfmSemiTransparentButton.cs" />
     <Compile Include="Classes\Objects\GlobalTheme.cs" />
-    <Compile Include="Classes\Controls\SessionsTabBar.cs" />
-    <Compile Include="Classes\Controls\SessionsNavigationBar.cs" />
+    <Compile Include="Classes\Controls\MPfmTabBar.cs" />
+    <Compile Include="Classes\Controls\MPfmNavigationBar.cs" />
     <Compile Include="Classes\Controllers\EqualizerPresetsViewController.cs" />
     <Compile Include="Classes\Controllers\EqualizerPresetsViewController.designer.cs">
       <DependentUpon>EqualizerPresetsViewController.cs</DependentUpon>
@@ -218,11 +218,11 @@
     <Compile Include="Classes\Controllers\EqualizerPresetDetailsViewController.designer.cs">
       <DependentUpon>EqualizerPresetDetailsViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsEqualizerFaderView.cs" />
-    <Compile Include="Classes\Controls\SessionsWaveFormScrollView.cs" />
-    <Compile Include="Classes\Controls\Events\SessionsEqualizerFaderValueChangedEventArgs.cs" />
-    <Compile Include="Classes\Controls\SessionsEqualizerPresetGraphView.cs" />
-    <Compile Include="Classes\Controls\SessionsOutputMeterView.cs" />
+    <Compile Include="Classes\Controls\MPfmEqualizerFaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
+    <Compile Include="Classes\Controls\Events\MPfmEqualizerFaderValueChangedEventArgs.cs" />
+    <Compile Include="Classes\Controls\MPfmEqualizerPresetGraphView.cs" />
+    <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
     <Compile Include="Classes\Helpers\ReachabilityHelper.cs" />
     <Compile Include="Classes\Helpers\iOSSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Controllers\SyncViewController.cs" />
@@ -261,16 +261,16 @@
     <Compile Include="Classes\Controllers\SyncDownloadViewController.designer.cs">
       <DependentUpon>SyncDownloadViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsFlatButton.cs" />
-    <Compile Include="Classes\Controls\Layouts\SessionsCollectionViewFlowLayout.cs" />
-    <Compile Include="Classes\Controls\SessionsCollectionAlbumViewCell.cs" />
-    <Compile Include="Classes\Controls\SessionsCollectionArtistViewCell.cs" />
+    <Compile Include="Classes\Controls\MPfmFlatButton.cs" />
+    <Compile Include="Classes\Controls\Layouts\MPfmCollectionViewFlowLayout.cs" />
+    <Compile Include="Classes\Controls\MPfmCollectionAlbumViewCell.cs" />
+    <Compile Include="Classes\Controls\MPfmCollectionArtistViewCell.cs" />
     <Compile Include="Classes\Controllers\PlaylistViewController.cs" />
     <Compile Include="Classes\Controllers\PlaylistViewController.designer.cs">
       <DependentUpon>PlaylistViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Helpers\UIKitHelper.cs" />
-    <Compile Include="Classes\Controls\SessionsWaveFormScaleView.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormScaleView.cs" />
     <Compile Include="Classes\Controllers\SelectPlaylistViewController.cs" />
     <Compile Include="Classes\Controllers\SelectPlaylistViewController.designer.cs">
       <DependentUpon>SelectPlaylistViewController.cs</DependentUpon>
@@ -279,12 +279,12 @@
     <Compile Include="Classes\Controllers\AddPlaylistViewController.designer.cs">
       <DependentUpon>AddPlaylistViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsButton.cs" />
-    <Compile Include="Classes\Controls\SessionsImageButton.cs" />
-    <Compile Include="Classes\Controls\SessionsPlaylistTableViewCell.cs">
-      <DependentUpon>SessionsCollectionViewCell.cs</DependentUpon>
+    <Compile Include="Classes\Controls\MPfmButton.cs" />
+    <Compile Include="Classes\Controls\MPfmImageButton.cs" />
+    <Compile Include="Classes\Controls\MPfmPlaylistTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsPlayerButton.cs" />
+    <Compile Include="Classes\Controls\MPfmPlayerButton.cs" />
     <Compile Include="Classes\Providers\iOSAppConfigProvider.cs" />
     <Compile Include="Classes\Controllers\SyncCloudViewController.cs" />
     <Compile Include="Classes\Controllers\SyncCloudViewController.designer.cs">
@@ -299,8 +299,8 @@
     <Compile Include="Classes\Controllers\SyncConnectManualViewController.designer.cs">
       <DependentUpon>SyncConnectManualViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsResumePlaybackTableViewCell.cs">
-      <DependentUpon>SessionsCollectionViewCell.cs</DependentUpon>
+    <Compile Include="Classes\Controls\MPfmResumePlaybackTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controllers\CloudPreferencesViewController.cs" />
     <Compile Include="Classes\Controllers\CloudPreferencesViewController.designer.cs">
@@ -320,25 +320,25 @@
       <DependentUpon>CloudConnectViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controllers\Base\BasePreferencesViewController.cs" />
-    <Compile Include="Classes\Controls\SessionsPreferenceTableViewCell.cs">
-      <DependentUpon>SessionsCollectionViewCell.cs</DependentUpon>
+    <Compile Include="Classes\Controls\MPfmPreferenceTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Objects\PreferenceCellType.cs" />
     <Compile Include="Classes\Objects\PreferenceCellItem.cs" />
-    <Compile Include="Classes\Controls\SessionsMarkerTableViewCell.cs">
-      <DependentUpon>SessionsCollectionViewCell.cs</DependentUpon>
+    <Compile Include="Classes\Controls\MPfmMarkerTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsScaleView.cs" />
+    <Compile Include="Classes\Controls\MPfmScaleView.cs" />
     <Compile Include="Classes\Controllers\PlayerStatusViewController.cs" />
     <Compile Include="Classes\Controllers\PlayerStatusViewController.designer.cs">
       <DependentUpon>PlayerStatusViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controls\SessionsTabBarController.cs" />
-    <Compile Include="Classes\Controls\SessionsSemiTransparentRoundButton.cs" />
-    <Compile Include="Classes\Controls\SessionsTableView.cs" />
-    <Compile Include="Classes\Controls\SessionsCollectionHeaderView.cs" />
-    <Compile Include="Classes\Controls\SessionsAlbumHeaderView.cs" />
-    <Compile Include="Classes\Controls\SessionsSecondaryMenuButton.cs" />
+    <Compile Include="Classes\Controls\MPfmTabBarController.cs" />
+    <Compile Include="Classes\Controls\MPfmSemiTransparentRoundButton.cs" />
+    <Compile Include="Classes\Controls\MPfmTableView.cs" />
+    <Compile Include="Classes\Controls\MPfmCollectionHeaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmAlbumHeaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmSecondaryMenuButton.cs" />
     <Compile Include="Classes\Controllers\QueueViewController.cs" />
     <Compile Include="Classes\Controllers\QueueViewController.designer.cs">
       <DependentUpon>QueueViewController.cs</DependentUpon>

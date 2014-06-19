@@ -21,14 +21,14 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.Collections.Generic;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
+using Sessions.MVP.Views;
+using Sessions.MVP.Models;
 using System.Linq;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Core;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.Core;
 using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS

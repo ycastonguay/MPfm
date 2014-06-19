@@ -19,20 +19,20 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MPfm.Library.Objects;
-using MPfm.MVP.Views;
+using Sessions.Library.Objects;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Services;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Sound.AudioFiles;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.Sound.AudioFiles;
 using System.Threading.Tasks;
 using MPfm.iOS.Helpers;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 
 namespace MPfm.iOS
 {

@@ -17,19 +17,19 @@
 
 using System;
 using System.Drawing;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
 using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
-using MPfm.MVP.Models;
+using Sessions.Sound.AudioFiles;
+using Sessions.MVP.Models;
 using MPfm.iOS.Classes.Controls;
-using MPfm.Library.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Core;
+using Sessions.Library.Objects;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.Core;
 
 namespace MPfm.iOS
 {

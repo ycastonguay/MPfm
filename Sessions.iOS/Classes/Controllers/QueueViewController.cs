@@ -20,9 +20,9 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Bootstrap;
+using Sessions.MVP.Views;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 

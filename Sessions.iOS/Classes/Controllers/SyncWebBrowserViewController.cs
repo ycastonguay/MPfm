@@ -19,12 +19,12 @@ using System;
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
 
 namespace MPfm.iOS
 {

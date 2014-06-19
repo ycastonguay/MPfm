@@ -16,11 +16,11 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Core;
-using MPfm.Library.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.Core;
+using Sessions.Library.Objects;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls;

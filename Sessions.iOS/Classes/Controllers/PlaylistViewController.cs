@@ -20,14 +20,14 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
-using MPfm.Sound.Playlists;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
+using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 
 namespace MPfm.iOS
 {

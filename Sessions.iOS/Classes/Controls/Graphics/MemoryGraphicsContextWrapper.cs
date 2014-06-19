@@ -17,10 +17,10 @@
 
 using System;
 using MonoTouch.CoreGraphics;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Graphics;
 using MonoTouch.UIKit;
 using System.Drawing;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls.Graphics
 {

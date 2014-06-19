@@ -17,16 +17,16 @@
 
 using System;
 using System.Drawing;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls.Graphics;
 using MPfm.iOS.Classes.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
-using MPfm.Player.Objects;
+using Sessions.Player.Objects;
 using MPfm.iOS.Classes.Controls.Helpers;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls
 {

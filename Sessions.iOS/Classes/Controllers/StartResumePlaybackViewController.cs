@@ -18,16 +18,16 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MPfm.Library.Objects;
-using MPfm.MVP.Views;
+using Sessions.Library.Objects;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
 using System.Threading.Tasks;
 using MPfm.iOS.Helpers;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 
 namespace MPfm.iOS
 {

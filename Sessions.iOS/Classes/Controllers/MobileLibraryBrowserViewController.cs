@@ -21,9 +21,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
+using Sessions.MVP.Models;
+using Sessions.MVP.Views;
+using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -32,11 +32,11 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controls.Layouts;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.Core;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Library.Objects;
-using MPfm.Core.Helpers;
+using Sessions.Core;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.Library.Objects;
+using Sessions.Core.Helpers;
 
 namespace MPfm.iOS.Classes.Controllers
 {

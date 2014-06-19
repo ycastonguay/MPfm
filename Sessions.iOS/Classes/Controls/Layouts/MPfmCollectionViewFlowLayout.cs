@@ -21,7 +21,7 @@ using MonoTouch.UIKit;
 using System.Linq;
 using System.Collections.Generic;
 using System;
-using MPfm.Core;
+using Sessions.Core;
 
 namespace MPfm.iOS.Classes.Controls.Layouts
 {

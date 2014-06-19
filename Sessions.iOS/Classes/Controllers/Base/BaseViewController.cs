@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Views;
 
 namespace MPfm.iOS.Classes.Controllers.Base
 {

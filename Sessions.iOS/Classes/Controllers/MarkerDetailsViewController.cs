@@ -17,9 +17,9 @@
 
 using System;
 using System.Drawing;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.MVP.Views;
+using Sessions.Player.Objects;
+using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
@@ -27,8 +27,8 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 
 namespace MPfm.iOS
 {

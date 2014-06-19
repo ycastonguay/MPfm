@@ -17,7 +17,7 @@
 
 using System.Drawing;
 using MonoTouch.UIKit;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls.Helpers
 {

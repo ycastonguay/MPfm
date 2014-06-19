@@ -22,8 +22,8 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
+using Sessions.GenericControls.Basics;
 using System.Collections.Generic;
 using MPfm.iOS.Classes.Controls.Helpers;
 

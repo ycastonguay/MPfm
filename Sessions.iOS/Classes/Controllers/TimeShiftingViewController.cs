@@ -20,12 +20,13 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
-using MPfm.MVP.Presenters;
+using Sessions.MVP.Views;
+using Sessions.MVP.Presenters;
 using MPfm.iOS.Classes.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 using MPfm.iOS.Helpers;
+using Sessions.MVP.Models;
 
 namespace MPfm.iOS
 {
@@ -100,7 +101,7 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshTimeShifting(MPfm.MVP.Models.PlayerTimeShiftingEntity entity)
+		public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {
             InvokeOnMainThread(() => {
                 try

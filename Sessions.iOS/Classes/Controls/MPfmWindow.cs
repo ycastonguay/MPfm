@@ -21,10 +21,10 @@ using System.Drawing;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 using TinyMessenger;
-using MPfm.MVP.Messages;
+using Sessions.MVP.Messages;
 
 namespace MPfm.iOS.Classes.Controls
 {

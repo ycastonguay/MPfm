@@ -18,11 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Library;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config.Providers;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.Library;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config.Providers;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using MonoTouch.CoreAnimation;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -35,12 +35,12 @@ using MPfm.iOS.Classes.Providers;
 using MPfm.iOS.Helpers;
 using DropBoxSync.iOS;
 using MPfm.iOS.Classes.Services;
-using MPfm.Library.Services.Interfaces;
+using Sessions.Library.Services.Interfaces;
 using System.Drawing;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Graphics;
 using MPfm.iOS.Classes.Controls.Graphics;
-using MPfm.GenericControls.Services.Interfaces;
-using MPfm.GenericControls.Services;
+using Sessions.GenericControls.Services.Interfaces;
+using Sessions.GenericControls.Services;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -100,9 +100,9 @@ namespace MPfm.iOS.Classes.Delegates
 
         public override void WillTerminate(UIApplication application)
         {
-            if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
-                MPfm.Player.Player.CurrentPlayer.Stop();
-            MPfm.Player.Player.CurrentPlayer.Dispose();
+			if (Sessions.Player.Player.CurrentPlayer.IsPlaying)
+				Sessions.Player.Player.CurrentPlayer.Stop();
+			Sessions.Player.Player.CurrentPlayer.Dispose();
         }
 
         public void RegisterViews()

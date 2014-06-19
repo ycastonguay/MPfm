@@ -19,9 +19,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
@@ -29,9 +29,9 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
-using MPfm.MVP.Bootstrap;
+using Sessions.MVP.Bootstrap;
 using MPfm.iOS.Helpers;
-using MPfm.Core;
+using Sessions.Core;
 
 namespace MPfm.iOS
 {

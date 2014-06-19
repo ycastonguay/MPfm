@@ -18,14 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Objects;
-using MPfm.Player.Objects;
-using MPfm.GenericControls.Basics;
+using Sessions.Player.Objects;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls
 {

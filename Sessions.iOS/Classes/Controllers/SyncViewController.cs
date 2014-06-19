@@ -19,16 +19,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MPfm.Library.Objects;
-using MPfm.MVP.Views;
+using Sessions.Library.Objects;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Core;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.Core;
 
 namespace MPfm.iOS
 {
@@ -222,7 +222,7 @@ namespace MPfm.iOS
             });
         }
 
-		public void NotifyUpdatedDevices(IEnumerable<MPfm.Library.Objects.SyncDevice> devices)
+		public void NotifyUpdatedDevices(IEnumerable<SyncDevice> devices)
 		{
 		}
 

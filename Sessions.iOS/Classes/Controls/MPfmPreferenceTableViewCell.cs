@@ -21,13 +21,13 @@ using System.Drawing;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.Core;
+using Sessions.Core;
 
 namespace MPfm.iOS.Classes.Controls
 {

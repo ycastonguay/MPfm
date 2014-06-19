@@ -22,13 +22,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using MPfm.Core;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
-using MPfm.Player;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
+using Sessions.Core;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Models;
+using Sessions.MVP.Views;
+using Sessions.Player;
+using Sessions.Player.Objects;
+using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;
@@ -37,8 +37,8 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
 
 namespace MPfm.iOS.Classes.Controllers
 {

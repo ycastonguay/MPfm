@@ -20,7 +20,7 @@ using System.Drawing;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 using MPfm.iOS.Classes.Controls.Graphics;
 using MPfm.iOS.Classes.Controls.Helpers;
 

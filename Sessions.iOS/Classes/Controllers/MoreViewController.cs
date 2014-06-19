@@ -24,10 +24,10 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using MPfm.Core;
-using MPfm.Library.Services.Interfaces;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Views;
+using Sessions.Core;
+using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
@@ -35,8 +35,8 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using DropBoxSync.iOS;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Models;
 
 namespace MPfm.iOS
 {
