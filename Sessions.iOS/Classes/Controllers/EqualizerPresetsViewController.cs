@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -27,13 +27,13 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {
@@ -72,7 +72,7 @@ namespace MPfm.iOS
             //sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             //sliderMasterVolume.ValueChanged += HandleSliderMasterVolumeValueChanged;
 
-            var btnDone = new MPfmFlatButton();
+            var btnDone = new SessionsFlatButton();
             btnDone.Label.Text = "Done";
             btnDone.Frame = new RectangleF(0, 0, 70, 44);
             btnDone.OnButtonClick += () => {
@@ -84,7 +84,7 @@ namespace MPfm.iOS
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
 
-            var btnAdd = new MPfmFlatButton();
+            var btnAdd = new SessionsFlatButton();
             btnAdd.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnAdd.Label.Text = "Add";
             btnAdd.Label.TextAlignment = UITextAlignment.Right;
@@ -102,7 +102,7 @@ namespace MPfm.iOS
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             NavigationItem.SetRightBarButtonItem(_btnAdd, true);
 
-            var navCtrl = (MPfmNavigationController)NavigationController;
+            var navCtrl = (SessionsNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
 
             // Create MPVolumeView (only visible on physical iOS device)
@@ -146,7 +146,7 @@ namespace MPfm.iOS
         {
             base.ViewWillAppear(animated);
             
-            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
             navCtrl.SetTitle("Equalizer Presets");
         }
 

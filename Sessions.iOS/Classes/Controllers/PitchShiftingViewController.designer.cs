@@ -7,19 +7,19 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("PitchShiftingViewController")]
 	partial class PitchShiftingViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnChangeKey { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnChangeKey { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementInterval { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnDecrementInterval { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementInterval { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnIncrementInterval { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }

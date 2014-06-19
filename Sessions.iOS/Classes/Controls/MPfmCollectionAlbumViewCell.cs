@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -25,21 +25,21 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Objects;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmCollectionAlbumViewCell")]
-    public class MPfmCollectionAlbumViewCell : UICollectionViewCell
+    [Register("SessionsCollectionAlbumViewCell")]
+    public class SessionsCollectionAlbumViewCell : UICollectionViewCell
     {
         UIView _labelBackgroundView;
         UIImageView _imageView;
         UILabel _lblTitle;
         UILabel _lblSubtitle;
 
-        public MPfmImageButton PlayButton { get; set; }
-        public MPfmImageButton AddButton { get; set; }
-        public MPfmImageButton DeleteButton { get; set; }
+        public SessionsImageButton PlayButton { get; set; }
+        public SessionsImageButton AddButton { get; set; }
+        public SessionsImageButton DeleteButton { get; set; }
 
         public UIImage Image
         {
@@ -78,18 +78,18 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
-        public MPfmCollectionAlbumViewCell() : base()
+        public SessionsCollectionAlbumViewCell() : base()
         {
             Initialize();
         }
 
-        public MPfmCollectionAlbumViewCell(IntPtr handle) : base(handle)
+        public SessionsCollectionAlbumViewCell(IntPtr handle) : base(handle)
         {
             Initialize();
         }
 
         [Export ("initWithFrame:")]
-        public MPfmCollectionAlbumViewCell(RectangleF frame) : base(frame)
+        public SessionsCollectionAlbumViewCell(RectangleF frame) : base(frame)
         {
             Initialize();
         }
@@ -121,19 +121,19 @@ namespace MPfm.iOS.Classes.Controls
             _lblSubtitle.TextColor = new UIColor(0.8f, 0.8f, 0.8f, 1);
             _lblSubtitle.TextAlignment = UITextAlignment.Center;
            
-            PlayButton = new MPfmImageButton(new RectangleF(((Frame.Width - 44) / 2) - 52, (Frame.Height - 44) / 2, 44, 44));
+            PlayButton = new SessionsImageButton(new RectangleF(((Frame.Width - 44) / 2) - 52, (Frame.Height - 44) / 2, 44, 44));
             PlayButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
             PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
             PlayButton.Layer.CornerRadius = 4;
             PlayButton.Alpha = 0;
 
-            AddButton = new MPfmImageButton(new RectangleF((Frame.Width - 44) / 2, (Frame.Height - 44) / 2, 44, 44));
+            AddButton = new SessionsImageButton(new RectangleF((Frame.Width - 44) / 2, (Frame.Height - 44) / 2, 44, 44));
             AddButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
             AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
             AddButton.Layer.CornerRadius = 4;
             AddButton.Alpha = 0;
 
-            DeleteButton = new MPfmImageButton(new RectangleF(((Frame.Width - 44) / 2) + 52, (Frame.Height - 44) / 2, 44, 44));
+            DeleteButton = new SessionsImageButton(new RectangleF(((Frame.Width - 44) / 2) + 52, (Frame.Height - 44) / 2, 44, 44));
             DeleteButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
             DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
             DeleteButton.Layer.CornerRadius = 4;

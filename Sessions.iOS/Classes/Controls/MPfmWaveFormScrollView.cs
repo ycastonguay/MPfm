@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -22,15 +22,15 @@ using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Helpers;
-using MPfm.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
+using Sessions.iOS.Classes.Objects;
 using Sessions.Player.Objects;
 using Sessions.GenericControls.Basics;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmWaveFormScrollView")]
-    public class MPfmWaveFormScrollView : UIView
+    [Register("SessionsWaveFormScrollView")]
+    public class SessionsWaveFormScrollView : UIView
     {
 		private float _initialZoom;
 		private float _scaleHeight = 22f;
@@ -77,16 +77,16 @@ namespace MPfm.iOS.Classes.Controls
         }        
 
         // TODO: Make this entirely private and add methods to set wave forms
-        public MPfmWaveFormView WaveFormView { get; private set; }
-        public MPfmWaveFormScaleView WaveFormScaleView { get; private set; }
+        public SessionsWaveFormView WaveFormView { get; private set; }
+        public SessionsWaveFormScaleView WaveFormScaleView { get; private set; }
 
-        public MPfmWaveFormScrollView(IntPtr handle) 
+        public SessionsWaveFormScrollView(IntPtr handle) 
             : base (handle)
         {
             Initialize();
         }
         
-        public MPfmWaveFormScrollView(RectangleF frame) 
+        public SessionsWaveFormScrollView(RectangleF frame) 
             : base(frame)
         {
             Initialize();
@@ -111,10 +111,10 @@ namespace MPfm.iOS.Classes.Controls
 			_panGesture.MaximumNumberOfTouches = 1;
 			AddGestureRecognizer(_panGesture);
 
-            WaveFormView = new MPfmWaveFormView(new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
+            WaveFormView = new SessionsWaveFormView(new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
             AddSubview(WaveFormView);
 
-            WaveFormScaleView = new MPfmWaveFormScaleView(new RectangleF(0, 0, Bounds.Width, _scaleHeight));
+            WaveFormScaleView = new SessionsWaveFormScaleView(new RectangleF(0, 0, Bounds.Width, _scaleHeight));
             AddSubview(WaveFormScaleView);
 
 			WaveFormView.AddGestureRecognizer(_doubleTapGesture);

@@ -66,7 +66,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10000" id="37" customClass="MPfmSlider">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10000" id="37" customClass="SessionsSlider">
                             <rect key="frame" x="74" y="1" width="172" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </slider>
@@ -97,7 +97,7 @@
                             <rect key="frame" x="0.0" y="384" width="320" height="72"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="26" customClass="MPfmPlayerButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="26" customClass="SessionsPlayerButton">
                                     <rect key="frame" x="70" y="11" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,7 +113,7 @@
                                         <action selector="actionPrevious:" destination="-1" eventType="touchUpInside" id="30"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A7q-jc-po7" customClass="MPfmPlayerButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="A7q-jc-po7" customClass="SessionsPlayerButton">
                                     <rect key="frame" x="12" y="11" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -129,7 +129,7 @@
                                         <action selector="actionRepeat:" destination="-1" eventType="touchUpInside" id="cwG-ZL-4hf"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="H83-Ez-x1j" customClass="MPfmPlayerButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="H83-Ez-x1j" customClass="SessionsPlayerButton">
                                     <rect key="frame" x="258" y="11" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -145,7 +145,7 @@
                                         <action selector="actionShuffle:" destination="-1" eventType="touchUpInside" id="XzR-oA-tTb"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="12" customClass="MPfmPlayerButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="12" customClass="SessionsPlayerButton">
                                     <rect key="frame" x="128" y="4" width="64" height="64"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -161,7 +161,7 @@
                                         <action selector="actionPause:" destination="-1" eventType="touchUpInside" id="16"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="27" customClass="MPfmPlayerButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="27" customClass="SessionsPlayerButton">
                                     <rect key="frame" x="200" y="11" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -180,7 +180,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="Fh8-2c-sjp" customClass="MPfmScaleView">
+                        <view contentMode="scaleToFill" id="Fh8-2c-sjp" customClass="SessionsScaleView">
                             <rect key="frame" x="0.0" y="384" width="320" height="72"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
@@ -191,12 +191,12 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" id="QsK-9M-aEp" customClass="MPfmOutputMeterView">
+                                <view contentMode="scaleToFill" id="QsK-9M-aEp" customClass="SessionsOutputMeterView">
                                     <rect key="frame" x="0.0" y="0.0" width="44" height="72"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
-                                <view contentMode="scaleToFill" id="ec4-0S-hlb" customClass="MPfmEqualizerPresetGraphView">
+                                <view contentMode="scaleToFill" id="ec4-0S-hlb" customClass="SessionsEqualizerPresetGraphView">
                                     <rect key="frame" x="44" y="0.0" width="276" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -235,7 +235,7 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="TaZ-PD-wUM" customClass="MPfmWaveFormScrollView">
+                <view contentMode="scaleToFill" id="TaZ-PD-wUM" customClass="SessionsWaveFormScrollView">
                     <rect key="frame" x="0.0" y="27" width="320" height="88"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

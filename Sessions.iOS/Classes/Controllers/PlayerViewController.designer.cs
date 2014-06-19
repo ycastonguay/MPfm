@@ -7,28 +7,28 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS.Classes.Controllers
+namespace Sessions.iOS.Classes.Controllers
 {
 	[Register ("PlayerViewController")]
 	partial class PlayerViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnNext { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnNext { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnPlayPause { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnPlayPause { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnPrevious { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnPrevious { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnRepeat { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnRepeat { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnShuffle { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnShuffle { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmEqualizerPresetGraphView graphView { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsEqualizerPresetGraphView graphView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
@@ -55,7 +55,7 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UILabel lblSlideMessage { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
@@ -67,13 +67,13 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIScrollView scrollViewPlayer { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmWaveFormScrollView scrollViewWaveForm { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsWaveFormScrollView scrollViewWaveForm { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSlider sliderPosition { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSlider sliderPosition { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmScaleView viewEffects { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsScaleView viewEffects { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewMain { get; set; }

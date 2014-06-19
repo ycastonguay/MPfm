@@ -1,35 +1,35 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Controls;
 using Sessions.Sound.Playlists;
 using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
     public partial class PlaylistViewController : BaseViewController, IPlaylistView
     {
@@ -39,7 +39,7 @@ namespace MPfm.iOS
         Playlist _playlist;
         UIBarButtonItem _btnDone;
         UIBarButtonItem _btnEdit;
-        MPfmFlatButton _btnFlatEdit;
+        SessionsFlatButton _btnFlatEdit;
         UIBarButtonItem _btnNew;
         UIBarButtonItem _btnShuffle;
 
@@ -53,7 +53,7 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
-            var btnDone = new MPfmFlatButton();
+            var btnDone = new SessionsFlatButton();
             btnDone.Label.Text = "Done";
             btnDone.Frame = new RectangleF(0, 0, 70, 44);
             btnDone.OnButtonClick += () => {
@@ -65,7 +65,7 @@ namespace MPfm.iOS
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
 
-            _btnFlatEdit = new MPfmFlatButton();
+            _btnFlatEdit = new SessionsFlatButton();
             _btnFlatEdit.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             _btnFlatEdit.Label.Text = "Edit";
             _btnFlatEdit.Label.TextAlignment = UITextAlignment.Right;
@@ -82,14 +82,14 @@ namespace MPfm.iOS
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             NavigationItem.SetRightBarButtonItem(_btnEdit, true);
 
-            var btnNew = new MPfmButton();
+            var btnNew = new SessionsButton();
             btnNew.SetTitle("New", UIControlState.Normal);
             btnNew.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnNew.Frame = new RectangleF(0, 12, 50, 30);
             btnNew.TouchUpInside += HandleNewTouchUpInside;
             _btnNew = new UIBarButtonItem(btnNew);
 
-            var btnShuffle = new MPfmButton();
+            var btnShuffle = new SessionsButton();
             btnShuffle.SetTitle("Shuffle", UIControlState.Normal);
             btnShuffle.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnShuffle.Frame = new RectangleF(0, 12, 70, 30);
@@ -113,9 +113,9 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
-                cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
@@ -146,14 +146,14 @@ namespace MPfm.iOS
         [Export ("tableView:didHighlightRowAtIndexPath:")]
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
         }
 
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker");
         }
 
@@ -241,7 +241,7 @@ namespace MPfm.iOS
                     if(_playlist.Items[cell.Tag].AudioFile != null)
                     {
                         var id = _playlist.Items[cell.Tag].AudioFile.Id;
-                        var customCell = (MPfmTableViewCell)cell;
+                        var customCell = (SessionsTableViewCell)cell;
                         if(id == audioFile.Id)
                             customCell.RightImage.Hidden = false;
                         else

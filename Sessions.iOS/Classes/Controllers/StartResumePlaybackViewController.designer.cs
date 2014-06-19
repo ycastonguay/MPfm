@@ -7,16 +7,16 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("StartResumePlaybackViewController")]
 	partial class StartResumePlaybackViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnCancel { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnResume { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnResume { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView imageAlbum { get; set; }

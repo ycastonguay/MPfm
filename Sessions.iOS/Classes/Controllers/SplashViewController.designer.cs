@@ -7,7 +7,7 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS.Classes.Controllers
+namespace Sessions.iOS.Classes.Controllers
 {
 	[Register ("SplashViewController")]
 	partial class SplashViewController

@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -24,10 +24,10 @@ using MonoTouch.UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmSlider")]
-    public class MPfmSlider : UISlider
+    [Register("SessionsSlider")]
+    public class SessionsSlider : UISlider
     {
         private bool _isTouchDown = false;
         private PointF _beginTrackingPosition;
@@ -43,13 +43,13 @@ namespace MPfm.iOS.Classes.Controls
         public event EventHandler EndTrackingEvent;
         public SliderScrubbingType ScrubbingType { get; private set; }
 
-        public MPfmSlider(IntPtr handle) 
+        public SessionsSlider(IntPtr handle) 
             : base (handle)
         {
             this.Continuous = true;
         }
 
-        public MPfmSlider(RectangleF frame) 
+        public SessionsSlider(RectangleF frame) 
             : base (frame)
         {
             this.Continuous = true;

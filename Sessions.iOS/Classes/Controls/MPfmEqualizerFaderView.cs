@@ -1,38 +1,38 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Drawing;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmEqualizerFaderView")]
-    public class MPfmEqualizerFaderView : UIView
+    [Register("SessionsEqualizerFaderView")]
+    public class SessionsEqualizerFaderView : UIView
     {
-        MPfmSlider _slider;
+        SessionsSlider _slider;
         UILabel _lblValue;
         UILabel _lblFrequency;
 
-        public delegate void ValueChangedEventHandler(object sender, MPfmEqualizerFaderValueChangedEventArgs e);
+        public delegate void ValueChangedEventHandler(object sender, SessionsEqualizerFaderValueChangedEventArgs e);
 
         public event ValueChangedEventHandler ValueChanged;
 
@@ -44,13 +44,13 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
-        public MPfmEqualizerFaderView() 
+        public SessionsEqualizerFaderView() 
             : base()
         {
             Initialize();
         }
 
-        public MPfmEqualizerFaderView(IntPtr handle) 
+        public SessionsEqualizerFaderView(IntPtr handle) 
             : base(handle)
         {
             Initialize();
@@ -72,7 +72,7 @@ namespace MPfm.iOS.Classes.Controls
             _lblValue.TextAlignment = UITextAlignment.Right;
             _lblValue.Font = UIFont.FromName("HelveticaNeue-Light", 12.0f);
 
-            _slider = new MPfmSlider(new RectangleF(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
+            _slider = new SessionsSlider(new RectangleF(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
             _slider.MinValue = -6;
             _slider.MaxValue = 6;
             _slider.Value = 0;
@@ -96,7 +96,7 @@ namespace MPfm.iOS.Classes.Controls
 			_slider.Frame = new RectangleF(62, 4, screenSize.Width - 120 - 14, 36);
 		}
 
-        protected virtual void OnValueChanged(MPfmEqualizerFaderValueChangedEventArgs e)
+        protected virtual void OnValueChanged(SessionsEqualizerFaderValueChangedEventArgs e)
         {
             if(ValueChanged != null)
                 ValueChanged(this, e);
@@ -109,7 +109,7 @@ namespace MPfm.iOS.Classes.Controls
             else
                 _lblValue.Text = _slider.Value.ToString("0.0").Replace(",",".") + " dB";
 
-            OnValueChanged(new MPfmEqualizerFaderValueChangedEventArgs(){
+            OnValueChanged(new SessionsEqualizerFaderValueChangedEventArgs(){
                 Value = _slider.Value
             });
         }

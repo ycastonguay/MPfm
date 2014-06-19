@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -27,18 +27,18 @@ using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Classes.Controls.Layouts;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Controls.Layouts;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 using Sessions.Core;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Library.Objects;
 using Sessions.Core.Helpers;
 
-namespace MPfm.iOS.Classes.Controllers
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
@@ -58,7 +58,7 @@ namespace MPfm.iOS.Classes.Controllers
         string _navigationBarSubtitle;
         List<KeyValuePair<string, UIImage>> _imageCache;
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
-		MPfmTableViewCell _movingCell = null;
+		SessionsTableViewCell _movingCell = null;
         int _editingRowPosition = -1;
 		int _editingRowSection = -1;
 
@@ -95,15 +95,15 @@ namespace MPfm.iOS.Classes.Controllers
 			tableView.Alpha = 0;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
-			//tableView.RegisterClassForCellReuse(typeof(MPfmTableViewCell), _cellIdentifier); // crashes when using dequeue
-			tableView.RegisterClassForHeaderFooterViewReuse(typeof(MPfmAlbumHeaderView), _headerCellIdentifier);
+			//tableView.RegisterClassForCellReuse(typeof(SessionsTableViewCell), _cellIdentifier); // crashes when using dequeue
+			tableView.RegisterClassForHeaderFooterViewReuse(typeof(SessionsAlbumHeaderView), _headerCellIdentifier);
             collectionView.BackgroundColor = GlobalTheme.BackgroundColor;
             collectionView.WeakDataSource = this;
             collectionView.WeakDelegate = this;
-			collectionView.CollectionViewLayout = new MPfmCollectionViewFlowLayout();
+			collectionView.CollectionViewLayout = new SessionsCollectionViewFlowLayout();
             collectionView.ContentSize = new SizeF(160, 160);
-            collectionView.RegisterClassForCell(typeof(MPfmCollectionAlbumViewCell), _collectionCellIdentifier);
-			collectionView.RegisterClassForSupplementaryView(typeof(MPfmCollectionHeaderView), UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier);
+            collectionView.RegisterClassForCell(typeof(SessionsCollectionAlbumViewCell), _collectionCellIdentifier);
+			collectionView.RegisterClassForSupplementaryView(typeof(SessionsCollectionHeaderView), UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier);
 
 			var pan = new UIPanGestureRecognizer(PanTableView);			
 			pan.WeakDelegate = this;
@@ -204,7 +204,7 @@ namespace MPfm.iOS.Classes.Controllers
 				iconName = "album";
 
 			//Tracing.Log("MLBVC - RefreshNavBar - defaultTitle: {0} navTitle: {1} iconName: {2}", defaultTitle, navTitle, iconName);
-			MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+			SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
 
 			if(navCtrl != null)
 				navCtrl.SetTitle(navTitle, iconName);
@@ -223,7 +223,7 @@ namespace MPfm.iOS.Classes.Controllers
 			if (indexPath != null)
 			{
 				SetEditingCollectionCellRow(indexPath.Row, indexPath.Section);
-				var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+				var cell = (SessionsCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
 				if (cell != null)
 				{
 					var newView = new UIView(cell.PlayButton.Frame);
@@ -250,7 +250,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             if (oldPosition >= 0)
             {
-				var oldCell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(NSIndexPath.FromRowSection(oldPosition, oldSection));
+				var oldCell = (SessionsCollectionAlbumViewCell)collectionView.CellForItem(NSIndexPath.FromRowSection(oldPosition, oldSection));
                 if (oldCell != null)
                 {
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -266,7 +266,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             if (position >= 0)
             {
-				var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(NSIndexPath.FromRowSection(position, section));
+				var cell = (SessionsCollectionAlbumViewCell)collectionView.CellForItem(NSIndexPath.FromRowSection(position, section));
                 if (cell != null)
                 {
                     cell.PlayButton.Alpha = 0;
@@ -292,7 +292,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
 			//Tracing.Log("MobileLibraryBrowserViewController - CellForItemAtIndexPath - indexPath.row: {0} .section: {1}", indexPath.Row, indexPath.Section);
 			var item = _items[indexPath.Section].Item2[indexPath.Row];
-            var cell = (MPfmCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
+            var cell = (SessionsCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
             cell.Tag = indexPath.Row;
 
             // Do not refresh the cell if the contents are the same.
@@ -359,14 +359,14 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("collectionView:didHighlightItemAtIndexPath:")]
         public void CollectionDidHighlightItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+            var cell = (SessionsCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
             cell.SetHighlight(true);
         }
 
         [Export ("collectionView:didUnhighlightItemAtIndexPath:")]
         public void CollectionDidUnhighlightItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+            var cell = (SessionsCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
             cell.SetHighlight(false);
         }
 
@@ -424,7 +424,7 @@ namespace MPfm.iOS.Classes.Controllers
 
 			if (viewForSupplementaryElementOfKind == "UICollectionElementKindSectionHeader")
 			{
-				var view = (MPfmCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);
+				var view = (SessionsCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);
 				if (indexPath.Section <= _items.Count - 1)
 					view.TextLabel.Text = _items[indexPath.Section].Item1.Title;
 				return view;
@@ -491,7 +491,7 @@ namespace MPfm.iOS.Classes.Controllers
 				if (indexPath == null)
 					return;
 
-				var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+				var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
 				if (cell == null)
 					return;
 
@@ -519,7 +519,7 @@ namespace MPfm.iOS.Classes.Controllers
 			AnimateCellQueueMovement(_movingCell, ptTranslation, maxX);
 		}
 
-		private void AnimateCellQueueMovement(MPfmTableViewCell cell, PointF ptTranslation, float maxX)
+		private void AnimateCellQueueMovement(SessionsTableViewCell cell, PointF ptTranslation, float maxX)
 		{
 			if (cell == null)
 				return;
@@ -551,7 +551,7 @@ namespace MPfm.iOS.Classes.Controllers
 			//Console.WriteLine("alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
 		}
 
-		private void AnimateCellQueueSuccess(MPfmTableViewCell cell, int section, int row)
+		private void AnimateCellQueueSuccess(SessionsTableViewCell cell, int section, int row)
 		{
 			if (cell == null)
 				return;
@@ -624,7 +624,7 @@ namespace MPfm.iOS.Classes.Controllers
 				});
 		}
 
-		private void AnimateCellQueueCancel(MPfmTableViewCell cell)
+		private void AnimateCellQueueCancel(SessionsTableViewCell cell)
 		{
 			if (cell == null)
 				return;
@@ -673,7 +673,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             if (oldRow >= 0)
             {
-				var oldCell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
+				var oldCell = (SessionsTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
                 if (oldCell != null)
                 {
 					oldCell.ContainerBackgroundView.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -716,7 +716,7 @@ namespace MPfm.iOS.Classes.Controllers
 
 			if (row >= 0)
             {
-				var cell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(row, section));
+				var cell = (SessionsTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(row, section));
                 if (cell != null)
                 {
                     cell.PlayButton.Alpha = 0;
@@ -798,12 +798,12 @@ namespace MPfm.iOS.Classes.Controllers
 				return null;
 
 			// TODO: DequeueReusableHeaderFooterView is supposed to work on iOS 6 but it crashes on iPhone 4S iOS 6.1.2
-			MPfmAlbumHeaderView header = null;
+			SessionsAlbumHeaderView header = null;
 			if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-				header = (MPfmAlbumHeaderView)tableView.DequeueReusableHeaderFooterView(_headerCellIdentifier);
+				header = (SessionsAlbumHeaderView)tableView.DequeueReusableHeaderFooterView(_headerCellIdentifier);
 
 			if (header == null)
-				header = new MPfmAlbumHeaderView();
+				header = new SessionsAlbumHeaderView();
 
 			var audioFile = _items[section].Item2[0].AudioFile; // there is at least one song per section
 			int songCount = _items[section].Item2.Count;
@@ -857,12 +857,12 @@ namespace MPfm.iOS.Classes.Controllers
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
 			var item = _items[indexPath.Section].Item2[indexPath.Row];
-			MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+			SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
 			Console.WriteLine("MLBV - GetCell - dequeue cell==null: {0}", cell == null);
             if (cell == null)
             {
 				Console.WriteLine("MLBV - GetCell - Creating cell manually");
-                cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
                 // Register events only once!
                 cell.PlayButton.TouchUpInside += HandleTableViewPlayTouchUpInside;
@@ -1024,7 +1024,7 @@ namespace MPfm.iOS.Classes.Controllers
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
             Console.WriteLine("MLBVC - DidHighlightRowAtIndexPath - row: {0}", indexPath.Row);
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
             if (cell == null)
                 return;
 
@@ -1040,7 +1040,7 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
             if (cell == null)
                 return;
 
@@ -1245,7 +1245,7 @@ namespace MPfm.iOS.Classes.Controllers
 
                         _imageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
 						var indexPath = (NSIndexPath)userData;
-						var cellAlbumTitle = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+						var cellAlbumTitle = (SessionsCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
 						if (cellAlbumTitle == null)
                             return;
 
@@ -1384,7 +1384,7 @@ namespace MPfm.iOS.Classes.Controllers
 				if(index == -1)
 					return;
 
-				var cell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(index, sectionIndex));
+				var cell = (SessionsTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(index, sectionIndex));
 				if(cell == null)
 					return;
 
@@ -1397,7 +1397,7 @@ namespace MPfm.iOS.Classes.Controllers
 //                    if(_items[cell.Tag].AudioFile != null)
 //                    {
 //                        var id = _items[cell.Tag].AudioFile.Id;
-//                        var customCell = (MPfmTableViewCell)cell;
+//                        var customCell = (SessionsTableViewCell)cell;
 //                        if(id == audioFile.Id)
 //                            customCell.RightImage.Hidden = false;
 //                        else

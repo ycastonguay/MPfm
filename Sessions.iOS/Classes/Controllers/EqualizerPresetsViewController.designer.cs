@@ -7,7 +7,7 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("EqualizerPresetsViewController")]
 	partial class EqualizerPresetsViewController
@@ -19,7 +19,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblMasterVolume { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UISwitch switchBypass { get; set; }

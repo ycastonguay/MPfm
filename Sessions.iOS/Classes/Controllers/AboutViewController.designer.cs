@@ -6,7 +6,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("AboutViewController")]
 	partial class AboutViewController

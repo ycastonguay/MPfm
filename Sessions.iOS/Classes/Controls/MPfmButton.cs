@@ -1,32 +1,32 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Drawing;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmButton")]
-    public class MPfmButton : UIButton
+    [Register("SessionsButton")]
+    public class SessionsButton : UIButton
     {
         public UIImageView Image { get; private set; }
         public UIControlContentHorizontalAlignment LabelAlignment { get; set; }
@@ -34,19 +34,19 @@ namespace MPfm.iOS.Classes.Controls
         public delegate void ButtonClick();
         public event ButtonClick OnButtonClick;
 
-		public MPfmButton() 
+		public SessionsButton() 
             : base()
         {
             Initialize();
         }
 
-		public MPfmButton(RectangleF frame)
+		public SessionsButton(RectangleF frame)
 			: base(frame)
 		{
 			Initialize();
 		}
 
-		public MPfmButton(IntPtr handle) 
+		public SessionsButton(IntPtr handle) 
             : base(handle)
         {
             Initialize();
@@ -105,7 +105,7 @@ namespace MPfm.iOS.Classes.Controls
             Image.Frame = new RectangleF(imageX, 10, 24, 24);
             TitleLabel.Frame = new RectangleF(textX, 0, width, Bounds.Height);
 
-            //Console.WriteLine("MPfmButton - UpdateLayout - title: {0} width: {1} totalWidth: {2} x: {3}", TitleLabel.Text, width, totalWidth, x);
+            //Console.WriteLine("SessionsButton - UpdateLayout - title: {0} width: {1} totalWidth: {2} x: {3}", TitleLabel.Text, width, totalWidth, x);
         }
 
         public override void SetTitle(string title, UIControlState forState)

@@ -2,14 +2,14 @@ using System;
 using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
 using Sessions.MVP.Models;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Helpers;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
     public partial class CloudConnectViewController : BaseViewController, ICloudConnectView
     {

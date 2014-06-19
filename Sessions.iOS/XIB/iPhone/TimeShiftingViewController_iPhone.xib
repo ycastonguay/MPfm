@@ -650,20 +650,20 @@
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="11.CustomClassName">MPfmSemiTransparentButton</string>
+				<string key="11.CustomClassName">SessionsSemiTransparentButton</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="31.CustomClassName">MPfmSemiTransparentButton</string>
+				<string key="31.CustomClassName">SessionsSemiTransparentButton</string>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="49.CustomClassName">MPfmSemiTransparentButton</string>
+				<string key="49.CustomClassName">SessionsSemiTransparentButton</string>
 				<string key="49.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="51.CustomClassName">MPfmSemiTransparentButton</string>
+				<string key="51.CustomClassName">SessionsSemiTransparentButton</string>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -676,11 +676,11 @@
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">MPfmSemiTransparentButton</string>
+					<string key="className">SessionsSemiTransparentButton</string>
 					<string key="superclassName">UIButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MPfmSemiTransparentButton.h</string>
+						<string key="minorKey">./Classes/SessionsSemiTransparentButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -711,8 +711,8 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="btnDecrementTempo">MPfmSemiTransparentButton</string>
-						<string key="btnIncrementTempo">MPfmSemiTransparentButton</string>
+						<string key="btnDecrementTempo">SessionsSemiTransparentButton</string>
+						<string key="btnIncrementTempo">SessionsSemiTransparentButton</string>
 						<string key="btnReset">UIButton</string>
 						<string key="btnUseTempo">UIButton</string>
 						<string key="lblCurrentTempo">UILabel</string>
@@ -728,11 +728,11 @@
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="btnDecrementTempo">
 							<string key="name">btnDecrementTempo</string>
-							<string key="candidateClassName">MPfmSemiTransparentButton</string>
+							<string key="candidateClassName">SessionsSemiTransparentButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="btnIncrementTempo">
 							<string key="name">btnIncrementTempo</string>
-							<string key="candidateClassName">MPfmSemiTransparentButton</string>
+							<string key="candidateClassName">SessionsSemiTransparentButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="btnReset">
 							<string key="name">btnReset</string>

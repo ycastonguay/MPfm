@@ -7,7 +7,7 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("ResumePlaybackViewController")]
 	partial class ResumePlaybackViewController
@@ -16,7 +16,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnOpenCloudPreferences { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnOpenCloudPreferences { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }

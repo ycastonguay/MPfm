@@ -7,16 +7,16 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("QueueViewController")]
 	partial class QueueViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnPlay { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnPlay { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnRemoveAll { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnRemoveAll { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblSubtitle { get; set; }

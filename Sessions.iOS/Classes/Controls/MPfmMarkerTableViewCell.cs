@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -25,14 +25,14 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 using Sessions.Core;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-	[Register("MPfmMarkerTableViewCell")]
-	public class MPfmMarkerTableViewCell : UITableViewCell
+	[Register("SessionsMarkerTableViewCell")]
+	public class SessionsMarkerTableViewCell : UITableViewCell
     {
 		public delegate void LongPressMarker(Guid markerId);
 		public delegate void DeleteMarker(Guid markerId);
@@ -54,9 +54,9 @@ namespace MPfm.iOS.Classes.Controls
 		private UIView _backgroundView;
 
         public UILabel IndexTextLabel { get; private set; }
-		public MPfmSemiTransparentRoundButton DeleteButton { get; set; }
-		public MPfmSemiTransparentRoundButton PunchInButton { get; set; }
-		//public MPfmSemiTransparentRoundButton UndoButton { get; set; }
+		public SessionsSemiTransparentRoundButton DeleteButton { get; set; }
+		public SessionsSemiTransparentRoundButton PunchInButton { get; set; }
+		//public SessionsSemiTransparentRoundButton UndoButton { get; set; }
 		public UISlider Slider { get; set; }
 		public UITextField TextField { get; set; }
 		public UILabel TitleLabel { get; set; }
@@ -66,17 +66,17 @@ namespace MPfm.iOS.Classes.Controls
 		public bool IsExpanded { get; private set; }
 		public Guid MarkerId { get; set; }
 
-		public MPfmMarkerTableViewCell() : base()
+		public SessionsMarkerTableViewCell() : base()
         {
             Initialize();
         }
 
-		public MPfmMarkerTableViewCell(RectangleF frame) : base(frame)
+		public SessionsMarkerTableViewCell(RectangleF frame) : base(frame)
         {
             Initialize();
         }
 
-		public MPfmMarkerTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
+		public SessionsMarkerTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
         {
             Initialize();
         }
@@ -164,19 +164,19 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddSubview(IndexTextLabel);
 
-			DeleteButton = new MPfmSemiTransparentRoundButton();
+			DeleteButton = new SessionsSemiTransparentRoundButton();
 			DeleteButton.Alpha = 0;
 			DeleteButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/remove");
 			DeleteButton.TouchUpInside += HandleOnDeleteButtonClick;
 			AddSubview(DeleteButton);
 
-			PunchInButton = new MPfmSemiTransparentRoundButton();
+			PunchInButton = new SessionsSemiTransparentRoundButton();
 			PunchInButton.Alpha = 0;
 			PunchInButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/punch_in");
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
 			AddSubview(PunchInButton);
 
-//			UndoButton = new MPfmSemiTransparentRoundButton();
+//			UndoButton = new SessionsSemiTransparentRoundButton();
 //			UndoButton.Alpha = 0;
 //			UndoButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/undo");
 //			UndoButton.TouchUpInside += HandleOnUndoButtonClick;
@@ -200,12 +200,12 @@ namespace MPfm.iOS.Classes.Controls
 			Slider.TouchDown += (sender, e) => {
 				//Tracing.Log("MarkerTableViewCell - TouchDown");
 				// There's a bug in UISlider inside a UITableView inside a UIScrollView; the table view offset will change when changing slider value
-				var tableView = (MPfmTableView)GetTableView();
+				var tableView = (SessionsTableView)GetTableView();
 				tableView.BlockContentOffsetChange = true;
 			};
 			Slider.TouchUpInside += (sender, e) => {
 				//Tracing.Log("MarkerTableViewCell - TouchUpInside");
-				var tableView = (MPfmTableView)GetTableView();
+				var tableView = (SessionsTableView)GetTableView();
 				tableView.BlockContentOffsetChange = false;
 
 				// Take the last value from ValueChanged to prevent getting a slightly different value when the finger leaves the screen

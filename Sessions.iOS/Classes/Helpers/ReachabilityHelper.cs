@@ -5,7 +5,7 @@ using MonoTouch.UIKit;
 using MonoTouch.SystemConfiguration;
 using MonoTouch.CoreFoundation;
 
-namespace MPfm.iOS.Helpers
+namespace Sessions.iOS.Helpers
 {
     public enum NetworkStatus {
         NotReachable,

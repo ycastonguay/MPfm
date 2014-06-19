@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using Sessions.MVP.Messages;
 using Sessions.MVP.Navigation;
@@ -21,13 +21,13 @@ using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using TinyMessenger;
-using MPfm.iOS.Classes.Controllers;
-using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Classes.Delegates;
+using Sessions.iOS.Classes.Controllers;
+using Sessions.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Delegates;
 using Sessions.Library.Objects;
 using Sessions.MVP.Bootstrap;
 
-namespace MPfm.iOS.Classes.Navigation
+namespace Sessions.iOS.Classes.Navigation
 {
 	public sealed class iOSNavigationManager : MobileNavigationManager
 	{
@@ -45,7 +45,7 @@ namespace MPfm.iOS.Classes.Navigation
                         switch(m.CommandType)
                         {
                             case MobileNavigationManagerCommandMessageType.ShowPlayerView:
-                                var navCtrl = (MPfmNavigationController)m.Sender;
+                                var navCtrl = (SessionsNavigationController)m.Sender;
                                 CreatePlayerView(navCtrl.TabType);
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:

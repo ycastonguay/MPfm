@@ -6,7 +6,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("EqualizerPresetDetailsViewController")]
 	partial class EqualizerPresetDetailsViewController
@@ -30,7 +30,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIView viewOptions { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmEqualizerPresetGraphView presetGraph { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsEqualizerPresetGraphView presetGraph { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

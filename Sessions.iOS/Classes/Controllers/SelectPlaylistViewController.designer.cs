@@ -7,19 +7,19 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("SelectPlaylistViewController")]
 	partial class SelectPlaylistViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnAddNewPlaylist { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnAddNewPlaylist { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnCancel { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnSelect { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnSelect { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }

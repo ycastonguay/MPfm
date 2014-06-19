@@ -7,7 +7,7 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("UpdateLibraryViewController")]
 	partial class UpdateLibraryViewController
@@ -16,7 +16,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnClose { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnClose { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblSubtitle { get; set; }

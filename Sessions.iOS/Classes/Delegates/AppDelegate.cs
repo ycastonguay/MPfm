@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -27,22 +27,22 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using TinyMessenger;
-using MPfm.iOS.Classes.Controllers;
-using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Classes.Navigation;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Classes.Providers;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Controllers;
+using Sessions.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Navigation;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Providers;
+using Sessions.iOS.Helpers;
 using DropBoxSync.iOS;
-using MPfm.iOS.Classes.Services;
+using Sessions.iOS.Classes.Services;
 using Sessions.Library.Services.Interfaces;
 using System.Drawing;
 using Sessions.GenericControls.Graphics;
-using MPfm.iOS.Classes.Controls.Graphics;
+using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services;
 
-namespace MPfm.iOS.Classes.Delegates
+namespace Sessions.iOS.Classes.Delegates
 {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the 
 	// User Interface of the application, as well as listening (and optionally responding) to 
@@ -50,12 +50,12 @@ namespace MPfm.iOS.Classes.Delegates
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
-		MPfmWindow _window;
+		SessionsWindow _window;
 		MainViewController _mainViewController;
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
-        List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
-        List<KeyValuePair<string, MPfmNavigationController>> _dialogNavigationControllers = new List<KeyValuePair<string, MPfmNavigationController>>();
+        List<KeyValuePair<MobileNavigationTabType, SessionsNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, SessionsNavigationController>>();
+        List<KeyValuePair<string, SessionsNavigationController>> _dialogNavigationControllers = new List<KeyValuePair<string, SessionsNavigationController>>();
 
 		public MainViewController MainViewController { get { return _mainViewController; } }
 
@@ -81,7 +81,7 @@ namespace MPfm.iOS.Classes.Delegates
             UITabBar.Appearance.TintColor = UIColor.White;
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
-			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
+			_window = new SessionsWindow(UIScreen.MainScreen.Bounds);
 			_window.BackgroundColor = GlobalTheme.MainColor;
 
 			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
@@ -199,7 +199,7 @@ namespace MPfm.iOS.Classes.Delegates
                 attrSelected.TextColor = UIColor.White;
                 attrSelected.TextShadowColor = UIColor.Clear;
 
-                var navCtrl = new MPfmNavigationController(type);
+                var navCtrl = new SessionsNavigationController(type);
                 navCtrl.SetTitle(title);
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
                 navCtrl.TabBarItem.SetTitleTextAttributes(attrSelected, UIControlState.Selected);
@@ -216,7 +216,7 @@ namespace MPfm.iOS.Classes.Delegates
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/sessions");
 
                 navCtrl.PushViewController(viewController, false);
-                _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
+                _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, SessionsNavigationController>(type, navCtrl));
 
                 var list = new List<UIViewController>();
 				if (_mainViewController.TabBarController.ViewControllers != null)
@@ -245,7 +245,7 @@ namespace MPfm.iOS.Classes.Delegates
                 switch (presentationType)
                 {
                     case MobileDialogPresentationType.Standard:
-                        var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
+                        var navCtrl = new SessionsNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
                         navCtrl.SetTitle(viewTitle);
 
                         if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
@@ -255,10 +255,10 @@ namespace MPfm.iOS.Classes.Delegates
                         navCtrl.ModalInPopover = true;
                         navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
                         navCtrl.ViewDismissedEvent += (sender, e) => {
-                            _dialogNavigationControllers.Remove(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
+                            _dialogNavigationControllers.Remove(new KeyValuePair<string, SessionsNavigationController>(viewTitle, navCtrl));
                         };
                         navCtrl.PushViewController(viewController, false);                
-                        _dialogNavigationControllers.Add(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
+                        _dialogNavigationControllers.Add(new KeyValuePair<string, SessionsNavigationController>(viewTitle, navCtrl));
 						_mainViewController.PresentViewController(navCtrl, true, null);
                         // TODO: Remove navCtrl from list when dialog is closed.
                         break;

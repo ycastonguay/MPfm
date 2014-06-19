@@ -1,37 +1,37 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Drawing;
 using Sessions.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Classes.Objects;
 using System.Collections.Generic;
 using Sessions.Sound.AudioFiles;
 using Sessions.MVP.Models;
-using MPfm.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Controls;
 using Sessions.Library.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Core;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
     public partial class SyncMenuViewController : BaseViewController, ISyncMenuView
     {
@@ -62,7 +62,7 @@ namespace MPfm.iOS
             longPress.WeakDelegate = this;
             tableView.AddGestureRecognizer(longPress);
 
-            var btnSync = new MPfmFlatButton();
+            var btnSync = new SessionsFlatButton();
             btnSync.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnSync.Label.Text = "Sync";
             btnSync.Label.TextAlignment = UITextAlignment.Right;
@@ -99,7 +99,7 @@ namespace MPfm.iOS
         {
             base.ViewWillAppear(animated);
 
-            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
 			navCtrl.SetTitle(_device.Name);
 
             _nowPlayingButtonPreviousAlpha = navCtrl.BtnNowPlaying.Alpha;
@@ -110,7 +110,7 @@ namespace MPfm.iOS
         {
             base.ViewWillDisappear(animated);
 
-            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
             navCtrl.BtnNowPlaying.Alpha = _nowPlayingButtonPreviousAlpha;
         }
 
@@ -171,10 +171,10 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
                 cell.OnRightButtonTap += HandleOnRightButtonTap;
             }
 
@@ -221,7 +221,7 @@ namespace MPfm.iOS
             return cell;
         }
 
-        private void HandleOnRightButtonTap(MPfmTableViewCell cell)
+        private void HandleOnRightButtonTap(SessionsTableViewCell cell)
         {
             Console.WriteLine("SyncMenuViewController - HandleOnRightButtonTap");
             int row = cell.Tag;
@@ -293,7 +293,7 @@ namespace MPfm.iOS
         {
 			InvokeOnMainThread(() => {
 				_device = device;
-				MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+				SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
 				navCtrl.SetTitle(_device.Name);
 			});
         }

@@ -1,49 +1,49 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Drawing;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmImageButton")]
-    public class MPfmImageButton : UIButton
+    [Register("SessionsImageButton")]
+    public class SessionsImageButton : UIButton
     {
         public delegate void ButtonClick();
         public event ButtonClick OnButtonClick;
 
-        public MPfmImageButton() 
+        public SessionsImageButton() 
             : base()
         {
             Initialize();
         }
 
-        public MPfmImageButton(IntPtr handle) 
+        public SessionsImageButton(IntPtr handle) 
             : base(handle)
         {
             Initialize();
         }
 
-        public MPfmImageButton(RectangleF frame)
+        public SessionsImageButton(RectangleF frame)
             : base(frame)
         {
             Initialize();
@@ -58,14 +58,14 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
-            Console.WriteLine("MPfmImageButton - TouchesBegan");
+            Console.WriteLine("SessionsImageButton - TouchesBegan");
             AnimatePress(true);
             base.TouchesBegan(touches, evt);
         }
 
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
-            Console.WriteLine("MPfmImageButton - TouchesEnded");
+            Console.WriteLine("SessionsImageButton - TouchesEnded");
             AnimatePress(false);
 
             if (OnButtonClick != null)
@@ -76,7 +76,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesCancelled(NSSet touches, UIEvent evt)
         {
-            Console.WriteLine("MPfmImageButton - TouchesCancelled");
+            Console.WriteLine("SessionsImageButton - TouchesCancelled");
             AnimatePress(false);
             base.TouchesCancelled(touches, evt);
         }

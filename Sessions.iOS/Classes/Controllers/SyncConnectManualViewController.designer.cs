@@ -7,16 +7,16 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("SyncConnectManualViewController")]
 	partial class SyncConnectManualViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnCancel { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnConnect { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnConnect { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField txtUrl { get; set; }

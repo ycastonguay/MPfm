@@ -38,7 +38,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                         </textField>
-                        <view contentMode="scaleToFill" id="22" customClass="MPfmEqualizerPresetGraphView">
+                        <view contentMode="scaleToFill" id="22" customClass="SessionsEqualizerPresetGraphView">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Drawing;
@@ -24,14 +24,14 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using TinyMessenger;
-using MPfm.iOS.Classes.Controllers;
-using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Controllers;
+using Sessions.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Helpers;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmNavigationController")]
-    public class MPfmNavigationController : UINavigationController
+    [Register("SessionsNavigationController")]
+    public class SessionsNavigationController : UINavigationController
     {
         bool _isPlayerPlaying;
         bool _viewShouldShowPlayerButton;
@@ -40,19 +40,19 @@ namespace MPfm.iOS.Classes.Controls
         bool _confirmedViewPop;
         UILabel _lblTitle;
         UIImageView _imageViewIcon;
-        MPfmFlatButton _btnBack;
-        MPfmFlatButton _btnPlaylist;
-		//MPfmFlatButton _btnPlaylist;
-        MPfmFlatButton _btnNowPlaying;
+        SessionsFlatButton _btnBack;
+        SessionsFlatButton _btnPlaylist;
+		//SessionsFlatButton _btnPlaylist;
+        SessionsFlatButton _btnNowPlaying;
         ITinyMessengerHub _messengerHub;
 
-        public MPfmFlatButton BtnEffects { get { return _btnPlaylist; } }
-        public MPfmFlatButton BtnNowPlaying { get { return _btnNowPlaying; } }
+        public SessionsFlatButton BtnEffects { get { return _btnPlaylist; } }
+        public SessionsFlatButton BtnNowPlaying { get { return _btnNowPlaying; } }
         public MobileNavigationTabType TabType { get; set; }
 
         public event EventHandler ViewDismissedEvent;
         
-        public MPfmNavigationController(MobileNavigationTabType tabType) : base(typeof(MPfmNavigationBar), typeof(UIToolbar))
+        public SessionsNavigationController(MobileNavigationTabType tabType) : base(typeof(SessionsNavigationBar), typeof(UIToolbar))
         {
             TabType = tabType;
             WeakDelegate = this;
@@ -88,7 +88,7 @@ namespace MPfm.iOS.Classes.Controls
             _imageViewIcon.Image = UIImage.FromBundle("Images/Nav/album");
             _imageViewIcon.BackgroundColor = UIColor.Clear;
 
-            _btnBack = new MPfmFlatButton();
+            _btnBack = new SessionsFlatButton();
             _btnBack.Alpha = 0;
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
             _btnBack.OnButtonClick += () =>  {
@@ -123,7 +123,7 @@ namespace MPfm.iOS.Classes.Controls
 				}
             };
 
-            _btnPlaylist = new MPfmFlatButton();
+            _btnPlaylist = new SessionsFlatButton();
             _btnPlaylist.LabelAlignment = UIControlContentHorizontalAlignment.Right;
 			_btnPlaylist.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 80, 0, 80, 44);
             _btnPlaylist.Alpha = 0;
@@ -136,7 +136,7 @@ namespace MPfm.iOS.Classes.Controls
 				_messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlaylistView));
             };
 
-            _btnNowPlaying = new MPfmFlatButton();
+            _btnNowPlaying = new SessionsFlatButton();
             _btnNowPlaying.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
             _btnNowPlaying.Alpha = 0;

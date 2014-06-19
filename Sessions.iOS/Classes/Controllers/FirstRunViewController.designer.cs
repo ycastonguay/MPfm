@@ -7,13 +7,13 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("FirstRunViewController")]
 	partial class FirstRunViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnClose { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnClose { get; set; }
 
 		[Action ("actionClose:")]
 		partial void actionClose (MonoTouch.Foundation.NSObject sender);

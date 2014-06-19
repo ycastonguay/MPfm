@@ -48,7 +48,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" id="59" customClass="MPfmOutputMeterView">
+                        <view contentMode="scaleToFill" id="59" customClass="SessionsOutputMeterView">
                             <rect key="frame" x="0.0" y="0.0" width="64" height="110"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

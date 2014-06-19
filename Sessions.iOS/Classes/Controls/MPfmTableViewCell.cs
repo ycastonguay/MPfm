@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -25,13 +25,13 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Helpers;
 
-namespace MPfm.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls
 {
-    [Register("MPfmTableViewCell")]
-    public class MPfmTableViewCell : UITableViewCell
+    [Register("SessionsTableViewCell")]
+    public class SessionsTableViewCell : UITableViewCell
     {
         private bool _isTextLabelAllowedToChangeFrame = true;
 
@@ -55,9 +55,9 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
 
-		public MPfmSecondaryMenuButton PlayButton { get; set; }
-		public MPfmSecondaryMenuButton AddButton { get; set; }
-		public MPfmSecondaryMenuButton DeleteButton { get; set; }
+		public SessionsSecondaryMenuButton PlayButton { get; set; }
+		public SessionsSecondaryMenuButton AddButton { get; set; }
+		public SessionsSecondaryMenuButton DeleteButton { get; set; }
 
 		public bool IsQueued { get; set; }
         public bool IsTextAnimationEnabled { get; set; }
@@ -65,26 +65,26 @@ namespace MPfm.iOS.Classes.Controls
 
         public float RightOffset { get; set; }
 
-        public delegate void RightButtonTap(MPfmTableViewCell cell);
+        public delegate void RightButtonTap(SessionsTableViewCell cell);
         public event RightButtonTap OnRightButtonTap;
 
-        public MPfmTableViewCell() : base()
+        public SessionsTableViewCell() : base()
         {
             Initialize();
         }
 
 		// Keep this or cell reuse won't work for the first items
-		public MPfmTableViewCell(IntPtr handle) : base(handle)
+		public SessionsTableViewCell(IntPtr handle) : base(handle)
 		{
 			Initialize();
 		}
 
-        public MPfmTableViewCell(RectangleF frame) : base(frame)
+        public SessionsTableViewCell(RectangleF frame) : base(frame)
         {
             Initialize();
         }
 
-        public MPfmTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
+        public SessionsTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
         {
             Initialize();
         }
@@ -247,7 +247,7 @@ namespace MPfm.iOS.Classes.Controls
 			ContainerView.AddSubview(TextLabel);
 
 			// Maybe add icons only to iPad where there is enough space
-			PlayButton = new MPfmSecondaryMenuButton();
+			PlayButton = new SessionsSecondaryMenuButton();
 			PlayButton.Frame = new RectangleF(4, 53, 100, 64);
 			PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
 			PlayButton.SetTitle("Play", UIControlState.Normal); 
@@ -255,7 +255,7 @@ namespace MPfm.iOS.Classes.Controls
             PlayButton.Alpha = 0;
 			ContainerView.AddSubview(PlayButton);
 
-			AddButton = new MPfmSecondaryMenuButton();
+			AddButton = new SessionsSecondaryMenuButton();
 			AddButton.Frame = new RectangleF(108, 53, 100, 64);
 			AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
 			AddButton.SetTitle("Add to playlist", UIControlState.Normal);
@@ -263,7 +263,7 @@ namespace MPfm.iOS.Classes.Controls
             AddButton.Alpha = 0;
 			ContainerView.AddSubview(AddButton);
 
-			DeleteButton = new MPfmSecondaryMenuButton();
+			DeleteButton = new SessionsSecondaryMenuButton();
 			DeleteButton.Frame = new RectangleF(212, 53, 100, 64);
 			DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
 			DeleteButton.SetTitle("Delete", UIControlState.Normal);

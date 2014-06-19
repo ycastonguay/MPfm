@@ -7,16 +7,16 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("TimeShiftingViewController")]
 	partial class TimeShiftingViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementTempo { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnDecrementTempo { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementTempo { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnIncrementTempo { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }

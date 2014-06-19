@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -26,14 +26,14 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Controllers.Base;
+using Sessions.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
-using MPfm.iOS.Helpers;
+using Sessions.iOS.Helpers;
 using Sessions.Core;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
     public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {
@@ -44,7 +44,7 @@ namespace MPfm.iOS
         UIBarButtonItem _btnSave;       
         UIBarButtonItem _btnReset;
         UIBarButtonItem _btnNormalize;
-        List<MPfmEqualizerFaderView> _faderViews = new List<MPfmEqualizerFaderView>();
+        List<SessionsEqualizerFaderView> _faderViews = new List<SessionsEqualizerFaderView>();
         
         public EqualizerPresetDetailsViewController(Guid presetId)
             : base (UserInterfaceIdiomIsPhone ? "EqualizerPresetDetailsViewController_iPhone" : "EqualizerPresetDetailsViewController_iPad", null)
@@ -70,7 +70,7 @@ namespace MPfm.iOS
                 return true;
             };
 
-            var btnBack = new MPfmFlatButton();
+            var btnBack = new SessionsFlatButton();
             btnBack.Label.Text = "Back";
             btnBack.Frame = new RectangleF(0, 0, 70, 44);
             btnBack.OnButtonClick += HandleButtonBackClick;
@@ -80,7 +80,7 @@ namespace MPfm.iOS
             btnBackView.AddSubview(btnBack);
             _btnBack = new UIBarButtonItem(btnBackView);
 
-            var btnSave = new MPfmFlatButton();
+            var btnSave = new SessionsFlatButton();
             btnSave.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnSave.Label.Text = "Save";
             btnSave.Label.TextAlignment = UITextAlignment.Right;
@@ -94,14 +94,14 @@ namespace MPfm.iOS
             btnSaveView.AddSubview(btnSave);
             _btnSave = new UIBarButtonItem(btnSaveView);
 
-            var btnReset = new MPfmButton();
+            var btnReset = new SessionsButton();
             btnReset.SetTitle("Reset", UIControlState.Normal);
             btnReset.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnReset.Frame = new RectangleF(0, 12, 60, 40);
             btnReset.TouchUpInside += HandleButtonResetTouchUpInside;
             _btnReset = new UIBarButtonItem(btnReset);
 
-            var btnNormalize = new MPfmButton();
+            var btnNormalize = new SessionsButton();
             btnNormalize.SetTitle("Normalize", UIControlState.Normal);
             btnNormalize.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnNormalize.Frame = new RectangleF(0, 12, 80, 40);
@@ -112,7 +112,7 @@ namespace MPfm.iOS
             NavigationItem.SetRightBarButtonItem(_btnSave, true);
             toolbar.Items = new UIBarButtonItem[2]{ _btnNormalize, _btnReset };
             
-            var navCtrl = (MPfmNavigationController)NavigationController;
+            var navCtrl = (SessionsNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
             navCtrl.SetTitle("Equalizer Preset");
 
@@ -144,7 +144,7 @@ namespace MPfm.iOS
 			{
 				Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - a: {0} a*44: {1}", a, (a * 44));
 				var view = scrollView.Subviews[a];
-				if (view is MPfmEqualizerFaderView)
+				if (view is SessionsEqualizerFaderView)
 				{
 					view.Frame = new RectangleF(0, y, screenSize.Width, 44);
 					y += 44;
@@ -201,7 +201,7 @@ namespace MPfm.iOS
         private void AddFaderToScrollView(string frequency)
         {
 			Tracing.Log("EqualizerPresetDetailsVC - AddFaderToScrollView - frequency: {0} faderCount: {1}", frequency, _faderViews.Count);
-            MPfmEqualizerFaderView view = new MPfmEqualizerFaderView();
+            SessionsEqualizerFaderView view = new SessionsEqualizerFaderView();
             view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
             view.SetValue(frequency, 0);
             view.ValueChanged += HandleFaderValueChanged;
@@ -210,9 +210,9 @@ namespace MPfm.iOS
             _faderViews.Add(view);
         }
 
-        private void HandleFaderValueChanged(object sender, MPfmEqualizerFaderValueChangedEventArgs e)
+        private void HandleFaderValueChanged(object sender, SessionsEqualizerFaderValueChangedEventArgs e)
         {
-            MPfmEqualizerFaderView view = (MPfmEqualizerFaderView)sender;
+            SessionsEqualizerFaderView view = (SessionsEqualizerFaderView)sender;
 
             var band = _preset.Bands.FirstOrDefault(x => x.CenterString == view.Frequency);
             band.Gain = e.Value;

@@ -7,7 +7,7 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("CloudConnectViewController")]
 	partial class CloudConnectViewController
@@ -16,7 +16,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnOK { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsButton btnOK { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblStatus { get; set; }

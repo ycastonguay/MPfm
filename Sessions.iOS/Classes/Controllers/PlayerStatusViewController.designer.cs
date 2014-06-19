@@ -5,7 +5,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
     [Register("PlayerStatusViewController")]
     partial class PlayerStatusViewController

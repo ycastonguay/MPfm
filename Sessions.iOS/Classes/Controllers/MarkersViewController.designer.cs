@@ -7,19 +7,19 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace MPfm.iOS
+namespace Sessions.iOS
 {
 	[Register ("MarkersViewController")]
 	partial class MarkersViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentRoundButton btnAddMarker { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsSemiTransparentRoundButton btnAddMarker { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmTableView tableView { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsTableView tableView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
