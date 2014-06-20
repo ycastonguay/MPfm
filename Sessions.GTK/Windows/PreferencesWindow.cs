@@ -16,12 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Views;
 using System.Collections.Generic;
-using MPfm.MVP.Config.Models;
-using MPfm.MVP.Models;
-using MPfm.Library.Objects;
+using Sessions.MVP.Config.Models;
+using Sessions.MVP.Models;
+using Sessions.Library.Objects;
 
 namespace MPfm.GTK.Windows
 {
@@ -115,7 +115,7 @@ namespace MPfm.GTK.Windows
 
         #region IAudioPreferencesView implementation
 
-        public Action<MPfm.MVP.Config.Models.AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
 
         public void AudioPreferencesError(Exception ex)
         {

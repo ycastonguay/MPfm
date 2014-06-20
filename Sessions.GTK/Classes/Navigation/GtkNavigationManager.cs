@@ -17,9 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.MVP;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace MPfm.GTK.Navigation
 {

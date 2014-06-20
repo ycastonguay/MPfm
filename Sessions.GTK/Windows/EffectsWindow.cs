@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Pango;
-using MPfm.MVP;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using Sessions.MVP;
+using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 using Gtk;
 
 namespace MPfm.GTK.Windows

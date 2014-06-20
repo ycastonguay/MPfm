@@ -16,15 +16,15 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP.Views;
+using Sessions.MVP.Views;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
+using Sessions.MVP.Models;
 using MPfm.GTK.Windows;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 using System.Reflection;
 using System.Text;
 using Gtk;
-using MPfm.Sound.AudioFiles;
+using Sessions.Sound.AudioFiles;
 using MPfm.GTK.Helpers;
 
 namespace MPfm.GTK

@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.Text;
 using MPfm.GTK.Helpers;
 using MPfm.GTK.Windows;
-using MPfm.Library.Objects;
-using MPfm.MVP.Views;
+using Sessions.Library.Objects;
+using Sessions.MVP.Views;
 using Gtk;
 
 namespace MPfm.GTK

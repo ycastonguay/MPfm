@@ -16,10 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP;
-using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
+using Sessions.MVP;
+using Sessions.MVP.Views;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 using System.Collections.Generic;
 
 namespace MPfm.GTK.Windows

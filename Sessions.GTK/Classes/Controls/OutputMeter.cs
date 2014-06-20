@@ -19,7 +19,7 @@ using System;
 using System.Reflection;
 using Gtk;
 using Pango;
-using MPfm.GenericControls.Controls;
+using Sessions.GenericControls.Controls;
 using MPfm.GTK.Classes.Controls.Graphics;
 
 namespace MPfm.GTK.Classes.Controls

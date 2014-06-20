@@ -18,8 +18,8 @@
 using System;
 using System.Reflection;
 using Gdk;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Graphics;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
 using Cairo;
 using MPfm.GTK.Helpers;
 

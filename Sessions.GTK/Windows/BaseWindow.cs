@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using Pango;
-using MPfm.MVP;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Views;
 
 namespace MPfm.GTK.Windows
 {

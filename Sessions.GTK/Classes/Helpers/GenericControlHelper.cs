@@ -18,7 +18,7 @@
 using System;
 using System.Reflection;
 using Cairo;
-using MPfm.GenericControls.Basics;
+using Sessions.GenericControls.Basics;
 
 namespace MPfm.GTK.Helpers
 {

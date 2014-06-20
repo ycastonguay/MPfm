@@ -17,8 +17,8 @@
 
 using System;
 using MPfm.GTK.Windows;
-using MPfm.MVP.Views;
-using MPfm.Library.Objects;
+using Sessions.MVP.Views;
+using Sessions.Library.Objects;
 using System.Text;
 using Gtk;
 

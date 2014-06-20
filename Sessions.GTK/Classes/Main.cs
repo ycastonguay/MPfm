@@ -19,17 +19,17 @@ using System;
 using System.IO;
 using System.Reflection;
 using Gtk;
-using MPfm.MVP;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Services;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Services;
+using Sessions.MVP.Views;
 using MPfm.GTK.Navigation;
 using MPfm.GTK.Windows;
-using MPfm.Library;
-using MPfm.Library.Services.Interfaces;
-using MPfm.MVP.Config.Providers;
-using MPfm.Library.Services;
+using Sessions.Library;
+using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Config.Providers;
+using Sessions.Library.Services;
 
 namespace MPfm.GTK.Classes
 {

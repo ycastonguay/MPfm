@@ -17,8 +17,8 @@
 
 using System;
 using Gdk;
-using MPfm.MVP;
-using MPfm.MVP.Views;
+using Sessions.MVP;
+using Sessions.MVP.Views;
 using MPfm.GTK.Helpers;
 
 namespace MPfm.GTK.Windows

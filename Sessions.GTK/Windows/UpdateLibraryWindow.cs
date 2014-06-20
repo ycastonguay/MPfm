@@ -17,19 +17,19 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library;
-using MPfm.MVP;
+using Sessions.Library;
+using Sessions.MVP;
 using Pango;
 using Gtk;
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
-using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Presenters;
-using MPfm.MVP.Services;
-using MPfm.MVP.Bootstrap;
-using MPfm.Library.Services;
-using MPfm.Library.Objects;
+using Sessions.MVP.Presenters.Interfaces;
+using Sessions.MVP.Views;
+using Sessions.MVP.Models;
+using Sessions.Library.UpdateLibrary;
+using Sessions.MVP.Presenters;
+using Sessions.MVP.Services;
+using Sessions.MVP.Bootstrap;
+using Sessions.Library.Services;
+using Sessions.Library.Objects;
 
 namespace MPfm.GTK.Windows
 {

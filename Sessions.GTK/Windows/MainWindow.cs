@@ -26,16 +26,16 @@ using Pango;
 using Mono.Unix;
 using System.Drawing.Imaging;
 using System.Text;
-using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.MVP.Models;
-using MPfm.Library.UpdateLibrary;
+using Sessions.MVP.Views;
+using Sessions.Sound.AudioFiles;
+using Sessions.MVP.Models;
+using Sessions.Library.UpdateLibrary;
 using MPfm.GTK.Helpers;
-using MPfm.MVP.Messages;
-using MPfm.Player.Objects;
-using MPfm.MVP.Presenters;
+using Sessions.MVP.Messages;
+using Sessions.Player.Objects;
+using Sessions.MVP.Presenters;
 using MPfm.GTK.Classes.Controls;
-using MPfm.Library.Objects;
+using Sessions.Library.Objects;
 
 namespace MPfm.GTK.Windows
 {
@@ -718,6 +718,7 @@ namespace MPfm.GTK.Windows
 
         #region IMainView implementation
 
+		public System.Action OnOpenAboutWindow { get; set; }
         public System.Action OnOpenPreferencesWindow { get; set; }
         public System.Action OnOpenEffectsWindow { get; set; }
         public System.Action OnOpenPlaylistWindow { get; set; }
@@ -1164,9 +1165,12 @@ namespace MPfm.GTK.Windows
 		#region ILoopDetailsView implementation
 
 		public System.Action OnAddSegment { get; set; }
-		public Action<MPfm.Player.Objects.Segment> OnEditSegment { get; set; }
-		public Action<MPfm.Player.Objects.Segment> OnDeleteSegment { get; set; }
+		public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
+		public Action<Sessions.Player.Objects.Segment> OnEditSegment { get; set; }
+		public Action<Sessions.Player.Objects.Segment> OnDeleteSegment { get; set; }
 		public Action<Loop> OnUpdateLoopDetails { get; set; }
+		public Action<Sessions.Player.Objects.Segment, int> OnChangeSegmentOrder { get; set; }
+		public Action<Sessions.Player.Objects.Segment, Guid> OnLinkSegmentToMarker { get; set; }
 
 		public void LoopDetailsError(Exception ex)
 		{
@@ -1197,25 +1201,20 @@ namespace MPfm.GTK.Windows
 
 		#region ISegmentDetailsView implementation
 
-		public System.Action<float> OnChangeStartPositionSegmentDetails { get; set; }
-		public System.Action<float> OnChangeEndPositionSegmentDetails { get; set; }
-		public System.Action OnPunchInStartPositionSegmentDetails { get; set; }
-		public System.Action OnPunchInEndPositionSegmentDetails { get; set; }
-		public System.Action<MPfm.Player.Objects.Segment> OnUpdateSegmentDetails { get; set; }
+		public Action<float> OnChangePositionSegmentDetails { get; set; }
+		public System.Action OnPunchInPositionSegmentDetails { get; set; }
+		public Action<Sessions.Player.Objects.Segment> OnUpdateSegmentDetails { get; set; }
+		public Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
 
 		public void SegmentDetailsError(Exception ex)
 		{
 		}
 
-		public void RefreshSegmentDetails(MPfm.Player.Objects.Segment segment, long audioFileLength)
+		public void RefreshSegmentDetails(Sessions.Player.Objects.Segment segment, long audioFileLength)
 		{
 		}
 
-		public void RefreshSegmentStartPosition(string position, float positionPercentage)
-		{
-		}
-
-		public void RefreshSegmentEndPosition(string position, float positionPercentage)
+		public void RefreshSegmentPosition(string position, float positionPercentage)
 		{
 		}
 
