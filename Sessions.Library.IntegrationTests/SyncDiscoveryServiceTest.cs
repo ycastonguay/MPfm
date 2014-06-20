@@ -21,7 +21,7 @@ using System.Linq;
 using NUnit.Framework;
 using Sessions.Library.Services;
 
-namespace Sessions.Sound.Tests
+namespace Sessions.Library.IntegrationTests
 {
     [TestFixture()]
     public class SyncDiscoveryServiceTest

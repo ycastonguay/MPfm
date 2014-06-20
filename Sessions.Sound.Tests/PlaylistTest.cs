@@ -510,5 +510,37 @@ namespace Sessions.Sound.Tests
                 
             }
         }
+
+        [TestFixture]
+        public class IntegrationTest : PlaylistTest
+        {
+            [SetUp]
+            public void PrepareTest()
+            {
+                PreparePlaylist();
+            }
+
+            [Test]
+            public void EveryPlaylistItemShouldBePlayed()
+            {
+                var guids = new List<Guid>();
+                for (int a = 0; a < Playlist.Items.Count; a++)
+                {
+                    //Console.WriteLine("a: {0} guid: {1} currentItemIndex: {2} count: {3}", a, Playlist.CurrentItem.Id, Playlist.CurrentItemIndex, Playlist.Items.Count);
+                    guids.Add(Playlist.CurrentItem.Id);
+                    Playlist.Next();
+                }
+
+                // Validate that every id is unique (i.e. the same playlist item hasn't been played more than once)
+                Assert.True(guids.Distinct().Count() == guids.Count);
+
+                // Validate that every id is part of the playlist
+                foreach (var id in guids)
+                {
+                    var item = Playlist.Items.FirstOrDefault(x => x.Id == id);
+                    Assert.IsNotNull(item);
+                }
+            }
+        }
     }
 }
