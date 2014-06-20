@@ -737,14 +737,16 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ChkSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
         {
+        //    SetSegmentLinkedMarker();
+        }
+
+        private void ChkSegmentLinkToMarker_OnClick(object sender, RoutedEventArgs e)
+        {
             SetSegmentLinkedMarker();
         }
 
         private void SetSegmentLinkedMarker()
         {
-            if (comboSegmentMarker.SelectedIndex == -1)
-                return;
-
             if (_segmentMarkers.Count == 0)
             {
                 chkSegmentLinkToMarker.IsChecked = false;
@@ -753,7 +755,7 @@ namespace Sessions.WPF.Classes.Windows
             }
 
             comboSegmentMarker.Visibility = chkSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
-            if (chkSegmentLinkToMarker.IsChecked.Value)
+            if (chkSegmentLinkToMarker.IsChecked.Value && comboSegmentMarker.SelectedIndex >= 0)
             {
                 var marker = _segmentMarkers[comboSegmentMarker.SelectedIndex];
                 OnLinkToMarkerSegmentDetails(marker.MarkerId);
@@ -1544,7 +1546,7 @@ namespace Sessions.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 lblSegmentPosition.Content = position;
-                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
 
                 if (_currentSegment != null)
                 {

@@ -4,7 +4,7 @@
         xmlns:base="clr-namespace:Sessions.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Welcome to Sessions" Height="426" Width="677.9" Icon="/Sessions.WPF;component/Resources/Icon.ico">
+        Title="Welcome" Height="327.855" Width="506.647" Icon="/Sessions.WPF;component/Resources/Icon.ico">
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -13,24 +13,17 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" />
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="4">
-            <Label Foreground="White" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8">
+            <Label Foreground="White" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" FontFamily="/Resources/Fonts/#Roboto Light" Padding="8">
                 Welcome to Sessions!
             </Label>
-            <TextBlock Foreground="#FFCCCCCC" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" FontFamily="/Resources/Fonts/#Junction" Padding="8">
+            <TextBlock Foreground="#FFCCCCCC" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Padding="8">
                 Sessions is a multi-platform music player designed for audiophiles and musicians.
                 You will find many features to help you practice for your next gig or just listening to your library across different platforms easily.
             </TextBlock>
-            <TextBlock Foreground="#FFCCCCCC" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" FontFamily="/Resources/Fonts/#Junction" Padding="8">
+            <TextBlock Foreground="#FFCCCCCC" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Padding="8">
                 If you need some help, just go to the Help section of the Sessions web site (sessionsapp.org).
             </TextBlock>
-            <Button x:Name="btnClose" Click="btnClose_OnClick">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/ok.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">
-                        Start using Sessions
-                    </Label>
-                </StackPanel>
-            </Button>
+            <controls:ImageButton x:Name="btnClose" Title="OK" ImageSource="/Resources/Images/Buttons/ok.png" Style="{StaticResource ImageButton}" Click="btnClose_OnClick" />
         </StackPanel>
         <StackPanel Grid.Row="2" />
     </Grid>

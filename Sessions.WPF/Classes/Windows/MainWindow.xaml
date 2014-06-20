@@ -167,7 +167,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="Update Library" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                            <Label Grid.Column="0" Content="Update Library" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                             <controls:HeaderImageButton Grid.Column="1" Title="Cancel" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource HeaderImageButton}" />
                         </Grid>
                         <Grid Margin="2,2,2,2">
@@ -574,7 +574,7 @@
                                             </Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <controls:ImageButton x:Name="btnPunchInSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" HorizontalAlignment="Left" Click="BtnPunchInSegment_OnClick" />
-                                                <CheckBox x:Name="chkSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkSegmentLinkToMarker_OnChecked" />
+                                                <CheckBox x:Name="chkSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkSegmentLinkToMarker_OnChecked" Click="ChkSegmentLinkToMarker_OnClick" />
                                                 <ComboBox x:Name="comboSegmentMarker" Margin="0,2,0,0" Height="26" SelectionChanged="ComboSegmentMarker_OnSelectionChanged" />
                                             </StackPanel>                                            
                                         </StackPanel>

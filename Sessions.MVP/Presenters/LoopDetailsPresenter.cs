@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Linq;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
@@ -85,9 +86,21 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        private void RefreshLoopDetailsViewWithUpdatedIndexes()
+	    private void SetSegmentMarkers()
+	    {
+	        var markers = _libraryService.SelectMarkers(_audioFile.Id);
+	        foreach (var segment in _loop.Segments)
+	        {
+	            var marker = markers.FirstOrDefault(x => x.MarkerId == segment.MarkerId);
+	            if (marker != null)
+	                segment.Marker = marker.Name;
+	        }
+	    }
+
+        private void RefreshLoopDetailsViewWithUpdatedMetadata()
         {
             SetSegmentIndexes();
+            SetSegmentMarkers();
             View.RefreshLoopDetails(_loop, _audioFile);
         }
 
@@ -105,7 +118,7 @@ namespace Sessions.MVP.Presenters
                 });
                 UpdateLoopSegmentsOrder(true);
                 _messageHub.PublishAsync(new SegmentBeingEditedMessage(this, segment.SegmentId));
-                RefreshLoopDetailsViewWithUpdatedIndexes();
+                RefreshLoopDetailsViewWithUpdatedMetadata();
             } 
             catch (Exception ex)
             {
@@ -138,7 +151,7 @@ namespace Sessions.MVP.Presenters
                     LoopId = _loopId
                 });
                 UpdateLoopSegmentsOrder(true);
-                RefreshLoopDetailsViewWithUpdatedIndexes();
+                RefreshLoopDetailsViewWithUpdatedMetadata();
             } 
             catch (Exception ex)
             {
@@ -171,7 +184,7 @@ namespace Sessions.MVP.Presenters
                     LoopId = _loop.LoopId,
                     SegmentId = segment.SegmentId
                 });
-                RefreshLoopDetailsViewWithUpdatedIndexes();
+                RefreshLoopDetailsViewWithUpdatedMetadata();
             } 
             catch (Exception ex)
             {
@@ -189,7 +202,7 @@ namespace Sessions.MVP.Presenters
                 _loop.Segments.Remove(segment);
                 _loop.Segments.Insert(index, segment);
                 UpdateLoopSegmentsOrder(false);
-                RefreshLoopDetailsViewWithUpdatedIndexes();
+                RefreshLoopDetailsViewWithUpdatedMetadata();
             } 
             catch (Exception ex)
             {
@@ -277,7 +290,7 @@ namespace Sessions.MVP.Presenters
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 //float positionPercentage = ((float)_rker.PositionBytes / (float)_lengthBytes) * 100;
-                RefreshLoopDetailsViewWithUpdatedIndexes();                
+                RefreshLoopDetailsViewWithUpdatedMetadata();                
             }
             catch(Exception ex)
             {

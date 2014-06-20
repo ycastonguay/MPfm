@@ -138,7 +138,7 @@ namespace Sessions.Sound.PeakFiles
                     // How many blocks will there be?                        
                     double blocks = Math.Ceiling(((double)audioFileLength / (double)chunkSize) * 2) + 1;
 
-                    // Write file header (30 characters)                       
+                    // Write file header (34 characters)                       
                     // 123456789012345678901234567890
                     // Sessions Peak File (version# 1.00)
                     string version = "Sessions Peak File (version# " + _version + ")";
@@ -352,9 +352,9 @@ namespace Sessions.Sound.PeakFiles
                 binaryReader = new BinaryReader(fileStream);
                 gzipStream = new GZipStream(fileStream, CompressionMode.Decompress);
 
-                // Read file header (30 characters) 
+                // Read file header (34 characters) 
                 // Ex: Sessions Peak File (version# 1.00)                
-                fileHeader = new string(binaryReader.ReadChars(31));
+                fileHeader = new string(binaryReader.ReadChars(35));
 
                 // Extract version and validate
                 string version = fileHeader.Substring(fileHeader.Length - 5, 4);
