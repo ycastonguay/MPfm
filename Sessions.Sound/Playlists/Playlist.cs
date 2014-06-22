@@ -105,7 +105,6 @@ namespace Sessions.Sound.Playlists
        
         public void DisposeChannels()
         {
-            CurrentItem = null;
             for (int a = 0; a < Items.Count; a++)
                 Items[a].Dispose();
         }

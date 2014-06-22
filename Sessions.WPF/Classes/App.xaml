@@ -245,20 +245,24 @@
                         <Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FFE74C3C" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FFF07568" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FFF07568" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource ButtonBackgroundColor}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF693E3A" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF693E3A" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>

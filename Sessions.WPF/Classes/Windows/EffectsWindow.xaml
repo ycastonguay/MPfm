@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         xmlns:converters="clr-namespace:Sessions.WPF.Classes.Converters"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Effects" Height="426" Width="1080" Icon="/Sessions.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" WindowStyle="ToolWindow">    
+        Title="Effects" Height="426" Width="1020" Icon="/Sessions.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" WindowStyle="ToolWindow">    
     <Window.Resources>        
         <Style x:Key="HiddenHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
@@ -14,7 +14,7 @@
     </Window.Resources>
     <Grid Margin="0" Background="{DynamicResource BrushBackgroundColor}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Margin="1,0,11,0">
@@ -62,7 +62,7 @@
                     <TextBlock Margin="2,4,0,0" Padding="0" Text="New preset" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtPresetName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
                     <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 </Grid>
-                <controls:ImageButton Grid.Row="2" x:Name="btnSavePreset" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnSavePreset_OnClick" />
+                <controls:ImageButton Grid.Row="2" x:Name="btnSavePreset" Visibility="Collapsed" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnSavePreset_OnClick" />
                 <controls:ImageButton Grid.Row="3" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnNormalize_OnClick" />
                 <controls:ImageButton Grid.Row="4" x:Name="btnReset" Title="Reset" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnReset_OnClick" />
             </Grid>

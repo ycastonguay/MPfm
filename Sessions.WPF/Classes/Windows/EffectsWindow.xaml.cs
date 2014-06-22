@@ -35,6 +35,7 @@ namespace Sessions.WPF.Classes.Windows
     {
         private EQPreset _preset;
         private List<EQPreset> _presets;
+        private bool _hasPresetChanged = false;
 
         public EffectsWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -171,10 +172,11 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ListViewPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
-
-            //if (listViewMarkers.SelectedIndex >= 0)
-            //    _selectedMarkerIndex = listViewMarkers.SelectedIndex;
+            if (_preset != null && _hasPresetChanged)
+            {
+                OnSavePreset(txtPresetName.Text);
+                _hasPresetChanged = false;
+            }
 
             EnablePresetDetails(listViewPresets.SelectedIndex >= 0);
             EnableFaders(listViewPresets.SelectedIndex >= 0);
@@ -225,7 +227,7 @@ namespace Sessions.WPF.Classes.Windows
         }
 
         private void Fader_OnFaderValueChanged(object sender, EventArgs e)
-        {
+        {            
             var fader = sender as Fader;
             int faderIndex = 0;
             int.TryParse(fader.Name.Replace("fader", ""), out faderIndex);
@@ -244,6 +246,8 @@ namespace Sessions.WPF.Classes.Windows
                 label.Content = FormatEQValue(value);
                 OnSetFaderGain(band.CenterString, value);
             }
+
+            _hasPresetChanged = true;
         }
 
         private string FormatEQValue(float value)
@@ -282,6 +286,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
+            bool isFirstRefresh = _presets == null;
             _presets = presets.ToList();
             _preset = _presets.FirstOrDefault(x => x.EQPresetId == selectedPresetId);
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -289,10 +294,9 @@ namespace Sessions.WPF.Classes.Windows
                 listViewPresets.Items.Clear();
                 foreach (var preset in _presets)
                     listViewPresets.Items.Add(preset);
-                //cboPresets.DisplayMemberPath = "Name";
-                //cboPresets.SelectedValuePath = "EQPresetId";
-                //cboPresets.ItemsSource = _presets;
-                RefreshPreset(_preset);
+
+                if(isFirstRefresh)
+                    RefreshPreset(_preset);
             }));
         }
 
@@ -338,13 +342,10 @@ namespace Sessions.WPF.Classes.Windows
             if (preset == null)
                 return;
 
+            _hasPresetChanged = false;
             _preset = preset;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
-                if (row >= 0)
-                    listViewPresets.SelectedIndex = row;
-
                 EnableFaders(true);
                 EnablePresetDetails(true);
 
@@ -389,6 +390,10 @@ namespace Sessions.WPF.Classes.Windows
                 lblValue15.Content = FormatEQValue(preset.Bands[15].Gain);
                 lblValue16.Content = FormatEQValue(preset.Bands[16].Gain);
                 lblValue17.Content = FormatEQValue(preset.Bands[17].Gain);
+
+                int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
+                if (row >= 0)
+                    listViewPresets.SelectedIndex = row;
             }));
         }
 
