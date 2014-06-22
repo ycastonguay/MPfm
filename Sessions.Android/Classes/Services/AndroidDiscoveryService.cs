@@ -1,28 +1,28 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using Android.Content;
 using Android.Net.Nsd;
 using Android.Net.Wifi.P2p;
-using MPfm.Android.Classes.Listeners;
-using MPfm.Android.Classes.Receivers;
+using Sessions.Android.Classes.Listeners;
+using Sessions.Android.Classes.Receivers;
 
-namespace MPfm.Android.Classes.Services
+namespace Sessions.Android.Classes.Services
 {
     /// <summary>
     /// This service requires API 16+ (Android 4.1+)
@@ -58,7 +58,7 @@ namespace MPfm.Android.Classes.Services
             serviceInfo.ServiceName = "SessionsDiscoveryService";
             serviceInfo.ServiceType = "_http._tcp.";
             serviceInfo.Port = 53552;
-            _nsdManager = (NsdManager)MPfmApplication.Context.GetSystemService(Context.NsdService);
+            _nsdManager = (NsdManager)SessionsApplication.Context.GetSystemService(Context.NsdService);
             _discoveryListener = new DiscoveryListener(_nsdManager);
             _registrationListener = new RegistrationListener();
             _registrationListener.ServiceRegistered += delegate(NsdServiceInfo info)
@@ -78,11 +78,11 @@ namespace MPfm.Android.Classes.Services
 
             _actionListener = new ActionListener();
             _peerListListener = new PeerListListener();
-            _wifiManager = (WifiP2pManager)MPfmApplication.Context.GetSystemService(Context.WifiP2pService);
-            _wifiChannel = _wifiManager.Initialize(MPfmApplication.Context, MPfmApplication.Context.MainLooper, null);
+            _wifiManager = (WifiP2pManager)SessionsApplication.Context.GetSystemService(Context.WifiP2pService);
+            _wifiChannel = _wifiManager.Initialize(SessionsApplication.Context, SessionsApplication.Context.MainLooper, null);
             _wifiDirectReceiver = new WifiDirectReceiver();
             _wifiDirectReceiver.SetManager(_wifiManager, _wifiChannel, _peerListListener);
-            MPfmApplication.Context.RegisterReceiver(_wifiDirectReceiver, _intentFilter);
+            SessionsApplication.Context.RegisterReceiver(_wifiDirectReceiver, _intentFilter);
         }
 
         public void StartDiscovery()

@@ -127,6 +127,11 @@ namespace Sessions.WPF.Classes.Windows
             fader17.ValueWithoutEvent = 0;
         }
 
+        private void BaseWindow_Deactivated(object sender, EventArgs e)
+        {
+            SavePreset();
+        }
+
         private void BtnSavePreset_OnClick(object sender, RoutedEventArgs e)
         {
             OnSavePreset(txtPresetName.Text);
@@ -170,14 +175,18 @@ namespace Sessions.WPF.Classes.Windows
             OnResetPreset();
         }
 
-        private void ListViewPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SavePreset()
         {
             if (_preset != null && _hasPresetChanged)
             {
                 OnSavePreset(txtPresetName.Text);
                 _hasPresetChanged = false;
             }
+        }
 
+        private void ListViewPresets_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SavePreset();
             EnablePresetDetails(listViewPresets.SelectedIndex >= 0);
             EnableFaders(listViewPresets.SelectedIndex >= 0);
             EnableContextMenu(listViewPresets.SelectedIndex >= 0);

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("MPfm.Android.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Sessions.Android.Resource", IsApplication=true)]
 
-namespace MPfm.Android
+namespace Sessions.Android
 {
 	
 	

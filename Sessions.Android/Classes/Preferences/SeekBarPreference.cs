@@ -1,19 +1,19 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using Android;
@@ -71,7 +71,7 @@ namespace org.sessionsapp.android
         private void Initialize(Context context, IAttributeSet attrs)
         {
             LoadValuesFromXml(attrs);
-            WidgetLayoutResource = MPfm.Android.Resource.Layout.seekbar_preference;
+            WidgetLayoutResource = Sessions.Android.Resource.Layout.seekbar_preference;
         }
 
         private void LoadValuesFromXml(IAttributeSet attrs)
@@ -83,11 +83,11 @@ namespace org.sessionsapp.android
         protected override View OnCreateView(ViewGroup parent)
         {
             var view = base.OnCreateView(parent);
-            _seekBar = view.FindViewById<SeekBar>(MPfm.Android.Resource.Id.seekBarPreference_seekBar);
-            _lblTitle = view.FindViewById<TextView>(MPfm.Android.Resource.Id.seekBarPreference_lblTitle);
-            _lblMinValue = view.FindViewById<TextView>(MPfm.Android.Resource.Id.seekBarPreference_lblMinValue);
-            _lblMaxValue = view.FindViewById<TextView>(MPfm.Android.Resource.Id.seekBarPreference_lblMaxValue);
-            _lblValue = view.FindViewById<TextView>(MPfm.Android.Resource.Id.seekBarPreference_lblValue);
+            _seekBar = view.FindViewById<SeekBar>(Sessions.Android.Resource.Id.seekBarPreference_seekBar);
+            _lblTitle = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblTitle);
+            _lblMinValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblMinValue);
+            _lblMaxValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblMaxValue);
+            _lblValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblValue);
 
             _lblTitle.Text = _title;
             _seekBar.Max = _maxValue;

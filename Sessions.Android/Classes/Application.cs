@@ -1,31 +1,31 @@
 ﻿// Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Runtime;
-using MPfm.Android.Classes.Controls.Graphics;
-using MPfm.Android.Classes.Fragments;
-using MPfm.Android.Classes.Navigation;
-using MPfm.Android.Classes.Providers;
-using MPfm.Android.Classes.Receivers;
-using MPfm.Android.Classes.Services;
+using Sessions.Android.Classes.Controls.Graphics;
+using Sessions.Android.Classes.Fragments;
+using Sessions.Android.Classes.Navigation;
+using Sessions.Android.Classes.Providers;
+using Sessions.Android.Classes.Receivers;
+using Sessions.Android.Classes.Services;
 using org.sessionsapp.android;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Services;
@@ -38,14 +38,14 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.Player;
 
-namespace MPfm.Android.Classes
+namespace Sessions.Android.Classes
 {
 #if DEBUG
     [Application(Name = "my.App", Debuggable = true, Label = "Sessions")]
 #else
     [Application (Name="my.App", Debuggable=false, Label="Sessions")]
 #endif
-    public class MPfmApplication : Application
+    public class SessionsApplication : Application
     {
         static Context _context;
         ConnectionChangeReceiver _connectionChangeReceiver;
@@ -61,7 +61,7 @@ namespace MPfm.Android.Classes
         private AndroidDiscoveryService _discoveryService;
 #endif
 
-        public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 
+        public SessionsApplication(IntPtr javaReference, JniHandleOwnership transfer) 
             : base(javaReference, transfer) 
         { 
         }

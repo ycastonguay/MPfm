@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         xmlns:converters="clr-namespace:Sessions.WPF.Classes.Converters"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Effects" Height="426" Width="1020" Icon="/Sessions.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" WindowStyle="ToolWindow">    
+        Title="Effects" Height="426" Width="1020" Icon="/Sessions.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" WindowStyle="ToolWindow" Deactivated="BaseWindow_Deactivated">    
     <Window.Resources>        
         <Style x:Key="HiddenHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
