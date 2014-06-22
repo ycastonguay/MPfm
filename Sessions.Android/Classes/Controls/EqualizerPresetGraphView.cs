@@ -77,6 +77,9 @@ namespace org.sessionsapp.android
             paintRect.SetStyle(Paint.Style.Fill);
             canvas.DrawRect(new Rect(0, 0, Width, Height), paintRect);
 
+            if (_preset == null)
+                return;
+
             // Draw center line
             var paintCenterLine = new Paint {
                 AntiAlias = true,

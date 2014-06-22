@@ -21,6 +21,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
+using org.sessionsapp.android;
 using Sessions.MVP.Views;
 
 namespace Sessions.Android
@@ -96,6 +97,17 @@ namespace Sessions.Android
                     return base.OnOptionsItemSelected(item);
                     break;
             }
+        }
+
+        protected override bool IsValidFragment(string fragmentName)
+        {
+            // Required by API 19
+            if (fragmentName == typeof(AudioPreferencesFragment).FullName ||
+                fragmentName == typeof(GeneralPreferencesFragment).FullName ||
+                fragmentName == typeof(LibraryPreferencesFragment).FullName ||
+                fragmentName == typeof(CloudPreferencesFragment).FullName)
+                return true;
+            return false;
         }
 
         #region IPreferencesView implementation
