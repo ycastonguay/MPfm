@@ -24,13 +24,13 @@ namespace Sessions.WPF.Classes.Controls
     /// <summary>
     /// http://stackoverflow.com/questions/15640263/how-to-add-a-before-expanding-event-to-the-wpf-treeview-without-using-threads
     /// </summary> 
-    public class SessionsTreeViewItem : TreeViewItem
+    public class LibraryTreeViewItem : TreeViewItem
     {
         public LibraryBrowserEntity Entity { get; set; }
         public bool IsDummyNode { get; set; }
 
-        public static readonly RoutedEvent CollapsingEvent = EventManager.RegisterRoutedEvent("Collapsing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SessionsTreeViewItem));
-        public static readonly RoutedEvent ExpandingEvent = EventManager.RegisterRoutedEvent("Expanding", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SessionsTreeViewItem));
+        public static readonly RoutedEvent CollapsingEvent = EventManager.RegisterRoutedEvent("Collapsing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LibraryTreeViewItem));
+        public static readonly RoutedEvent ExpandingEvent = EventManager.RegisterRoutedEvent("Expanding", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LibraryTreeViewItem));
 
         public event RoutedEventHandler Collapsing
         {

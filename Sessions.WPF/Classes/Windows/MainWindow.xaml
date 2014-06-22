@@ -142,7 +142,7 @@
                         <Label Grid.Column="0" Content="Filter by Sound Format:" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" />
                         <ComboBox Grid.Column="1" x:Name="comboSoundFormat" Margin="0,2,0,0" SelectionChanged="ComboSoundFormat_OnSelectionChanged" />
                     </Grid>
-                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Grid.ColumnSpan="2" Background="White" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" PreviewMouseRightButtonDown="TreeViewLibrary_OnPreviewMouseRightButtonDown" >
+                    <controls:SessionsTreeView Grid.Row="2" x:Name="treeViewLibrary" Grid.ColumnSpan="2" Background="White" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" PreviewMouseRightButtonDown="TreeViewLibrary_OnPreviewMouseRightButtonDown" >
                         <TreeView.ContextMenu>
                             <ContextMenu x:Name="contextMenuLibraryBrowser">
                                 <MenuItem x:Name="menuItemLibraryBrowserPlay" Header="Play songs" Click="MenuItemLibraryBrowserPlay_OnClick" />
@@ -157,7 +157,7 @@
                                 <EventSetter Event="MouseDoubleClick" Handler="TreeViewLibrary_OnTreeViewItemMouseDoubleClick" />
                             </Style>
                         </TreeView.ItemContainerStyle>
-                    </TreeView>
+                    </controls:SessionsTreeView>
                     <StackPanel Grid.Row="3" x:Name="panelUpdateLibrary" Grid.ColumnSpan="2" Background="{DynamicResource BrushBackgroundColor}">
                         <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">
                             <Grid.ColumnDefinitions>

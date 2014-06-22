@@ -62,6 +62,7 @@ namespace Sessions.WPF.Classes.Windows
         private int _selectedSegmentIndex = -1;
         private AudioFile _currentAudioFile;
         private string _currentAlbumArtKey;
+        private LibraryBrowserEntity _selectedLibraryNode;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -207,10 +208,10 @@ namespace Sessions.WPF.Classes.Windows
         private void treeViewLibrary_OnExpanded(object sender, RoutedEventArgs e)
         {            
             //Tracing.Log("treeViewLibrary_OnExpanded");
-            var item = e.OriginalSource as SessionsTreeViewItem;
+            var item = e.OriginalSource as LibraryTreeViewItem;
             if (item != null && item.Items.Count == 1)
             {
-                var firstItem = item.Items[0] as SessionsTreeViewItem;
+                var firstItem = item.Items[0] as LibraryTreeViewItem;
                 if (firstItem.IsDummyNode)
                 {
                     item.Items.Clear();
@@ -811,7 +812,7 @@ namespace Sessions.WPF.Classes.Windows
 
         private void StartPlaybackOfSelectedLibraryBrowserTreeViewItem()
         {
-            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (LibraryTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnTreeNodeDoubleClicked(entity);            
@@ -832,7 +833,7 @@ namespace Sessions.WPF.Classes.Windows
         private void MenuItemLibraryBrowserAddToPlaylist_OnClick(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (LibraryTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnAddToPlaylist(entity);
@@ -845,7 +846,7 @@ namespace Sessions.WPF.Classes.Windows
             if (MessageBox.Show("Are you sure you wish to remove these audio files from your library?\nThis does not delete the audio files from your hard disk.", "Audio files will be removed from library", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (LibraryTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnRemoveFromLibrary(entity);
@@ -858,7 +859,7 @@ namespace Sessions.WPF.Classes.Windows
             if (MessageBox.Show("Are you sure you wish to delete these audio files from your hard disk?\nWARNING: This operation CANNOT be undone!", "Audio files will be deleted from hard disk", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            var value = (SessionsTreeViewItem)treeViewLibrary.SelectedValue;
+            var value = (LibraryTreeViewItem)treeViewLibrary.SelectedValue;
             var entity = value.Entity;
             if (entity != null)
                 OnDeleteFromHardDisk(entity);
@@ -953,13 +954,14 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
         {
+            //Console.WriteLine("MainWindow - RefreshLibraryBrowser - entities.Count: {0}", entities.Count());
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 _itemsLibraryBrowser = entities.ToList();
                 treeViewLibrary.Items.Clear();
                 foreach (var entity in entities)
                 {
-                    var item = new SessionsTreeViewItem();
+                    var item = new LibraryTreeViewItem();
                     //item.Expanding += (sender, args) => { Console.WriteLine("Expanding"); };
                     item.Entity = entity;
                     item.Header = entity;
@@ -967,7 +969,7 @@ namespace Sessions.WPF.Classes.Windows
 
                     if (entity.SubItems.Count > 0)
                     {
-                        var dummy = new SessionsTreeViewItem();
+                        var dummy = new LibraryTreeViewItem();
                         dummy.IsDummyNode = true;
                         item.Items.Add(dummy);
                     }
@@ -979,39 +981,158 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
         {
-            Console.WriteLine("MainWindow - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
+            //Console.WriteLine("MainWindow - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                var item = (SessionsTreeViewItem) userData;
+                var item = (LibraryTreeViewItem) userData;
                 foreach (var subentity in entities)
                 {
-                    var subitem = new SessionsTreeViewItem();
+                    var subitem = new LibraryTreeViewItem();
                     subitem.Entity = subentity;
                     subitem.Header = subentity;
                     subitem.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
                     if (subentity.SubItems.Count > 0)
                     {
-                        var dummy = new SessionsTreeViewItem();                        
+                        var dummy = new LibraryTreeViewItem();                        
                         dummy.IsDummyNode = true;
                         subitem.Items.Add(dummy);
                     }
 
                     item.Items.Add(subitem);
                 }
+
+                if (_selectedLibraryNode != null)
+                {
+                    switch (entity.EntityType)
+                    {
+                        case LibraryBrowserEntityType.Artists:
+                            var artistNode = GetLibraryTreeViewItemByArtistName(item.Items, _selectedLibraryNode.Query.ArtistName);
+                            if (artistNode != null)
+                            {
+                                if (_selectedLibraryNode.EntityType == LibraryBrowserEntityType.Artist)
+                                {
+                                    artistNode.IsSelected = true;
+                                    artistNode.BringIntoView();
+                                    _selectedLibraryNode = null;
+                                }
+                                else if (_selectedLibraryNode.EntityType == LibraryBrowserEntityType.ArtistAlbum)
+                                {
+                                    artistNode.IsExpanded = true;
+                                    artistNode.BringIntoView();
+                                }
+                            }
+                            break;
+                        case LibraryBrowserEntityType.Artist:
+                            var artistAlbumNode = GetLibraryTreeViewItemByAlbumTitle(item.Items, _selectedLibraryNode.Query.AlbumTitle);
+                            if (artistAlbumNode != null)
+                            {
+                                artistAlbumNode.IsSelected = true;
+                                artistAlbumNode.BringIntoView(); //new Rect(0, treeViewLibrary.ScrollViewer.VerticalOffset, 10, 10));
+                            }
+                            _selectedLibraryNode = null;
+                            break;
+                        case LibraryBrowserEntityType.Albums:
+                            var albumNode = GetLibraryTreeViewItemByAlbumTitle(item.Items, _selectedLibraryNode.Query.AlbumTitle);
+                            if (albumNode != null)
+                            {
+                                albumNode.IsSelected = true;
+                                albumNode.BringIntoView();
+                            }
+                            _selectedLibraryNode = null;
+                            break;
+                    }
+                }
+
+                // When calling BringIntoView, the horizontal offset is not always zero. 
+                // This is a workaround, BringIntoView(Rect) doesn't seem to work...
+                treeViewLibrary.ScrollViewer.ScrollToHorizontalOffset(0);
             }));
+        }
+
+        // Note: these helper methods only exist because you cannot use LINQ on ItemCollection :-(
+        public static LibraryTreeViewItem GetLibraryTreeViewItem(ItemCollection items, LibraryBrowserEntityType entityType)
+        {        
+            foreach (var treeViewItem in items)
+            {
+                var item = treeViewItem as LibraryTreeViewItem;
+                if (item.Entity.EntityType == entityType)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        public static LibraryTreeViewItem GetLibraryTreeViewItemByArtistName(ItemCollection items, string artistName)
+        {
+            foreach (var treeViewItem in items)
+            {
+                var item = treeViewItem as LibraryTreeViewItem;
+                if (string.Compare(item.Entity.Query.ArtistName, artistName, true) == 0)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        public static LibraryTreeViewItem GetLibraryTreeViewItemByAlbumTitle(ItemCollection items, string albumTitle)
+        {
+            foreach (var treeViewItem in items)
+            {
+                var item = treeViewItem as LibraryTreeViewItem;
+                if (string.Compare(item.Entity.Query.AlbumTitle, albumTitle, true) == 0)
+                {
+                    return item;
+                }
+            }
+
+            return null;
         }
 
         public void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity)
         {
+            _selectedLibraryNode = entity;
+            Console.WriteLine("MainWindow - RefreshLibraryBrowserSelectedNode - isnull: {0} title: {1}", entity == null, entity == null ? string.Empty : entity.Title);
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                LibraryTreeViewItem item = null;
+                switch (entity.EntityType)
+                {
+                    case LibraryBrowserEntityType.Artists:
+                        item = GetLibraryTreeViewItem(treeViewLibrary.Items, LibraryBrowserEntityType.Artists);
+                        item.IsSelected = true;
+                        break;
+                    case LibraryBrowserEntityType.Albums:
+                        item = GetLibraryTreeViewItem(treeViewLibrary.Items, LibraryBrowserEntityType.Albums);
+                        item.IsSelected = true;
+                        break;
+                    case LibraryBrowserEntityType.ArtistAlbum:
+                    case LibraryBrowserEntityType.Artist:
+                        item = GetLibraryTreeViewItem(treeViewLibrary.Items, LibraryBrowserEntityType.Artists);
+                        item.IsExpanded = true;
+                        item.BringIntoView();
+                        break;
+                    case LibraryBrowserEntityType.Album:
+                        item = GetLibraryTreeViewItem(treeViewLibrary.Items, LibraryBrowserEntityType.Albums);
+                        item.IsExpanded = true;
+                        item.BringIntoView();
+                        break;
+                }
+            }));
         }
 
         public void NotifyLibraryBrowserNewNode(int position, LibraryBrowserEntity entity)
         {
+            //Console.WriteLine("===========>>>> MainWindow - RefreshLibraryBrowserSelectedNode - isnull: {0} title: {1} position: {2}", entity == null, entity == null ? string.Empty : entity.Title, position);
         }
 
         public void NotifyLibraryBrowserRemovedNode(int position)
         {
+            //Console.WriteLine("===========>>>> MainWindow - RefreshLibraryBrowserSelectedNode - position: {0}", position);
         }
 
         #endregion
