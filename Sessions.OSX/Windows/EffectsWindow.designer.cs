@@ -13,7 +13,7 @@ namespace Sessions.OSX
 	partial class EffectsWindowController
 	{
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnAddPreset { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnAddPreset { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
@@ -22,67 +22,64 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSButton btnEQOn { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnRemovePreset { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnRemovePreset { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnReset { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnSavePreset { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader0 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader0 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader1 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader1 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader10 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader10 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader11 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader11 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader12 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader12 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader13 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader13 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader14 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader14 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader15 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader15 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader16 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader16 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader17 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader17 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader2 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader2 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader3 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader3 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader4 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader4 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader5 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader5 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader6 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader6 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader7 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader7 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader8 { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader8 { get; set; }
-
-		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsFaderView fader9 { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsFaderView fader9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQ0 { get; set; }
@@ -232,22 +229,22 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField txtName { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewBackground { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewBackground { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewBackgroundFaders { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewBackgroundFaders { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewBackgroundInformation { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewBackgroundInformation { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewBackgroundPreset { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewBackgroundPreset { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewPresetsHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewPresetsHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewTitle { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewTitle { get; set; }
 
 		[Action ("actionAddPreset:")]
 		partial void actionAddPreset (MonoMac.Foundation.NSObject sender);
@@ -272,9 +269,6 @@ namespace Sessions.OSX
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSavePreset:")]
-		partial void actionSavePreset (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -301,11 +295,6 @@ namespace Sessions.OSX
 			if (btnReset != null) {
 				btnReset.Dispose ();
 				btnReset = null;
-			}
-
-			if (btnSavePreset != null) {
-				btnSavePreset.Dispose ();
-				btnSavePreset = null;
 			}
 
 			if (fader0 != null) {
@@ -618,6 +607,21 @@ namespace Sessions.OSX
 				lblTitlePreset = null;
 			}
 
+			if (menuDuplicatePreset != null) {
+				menuDuplicatePreset.Dispose ();
+				menuDuplicatePreset = null;
+			}
+
+			if (menuExportPreset != null) {
+				menuExportPreset.Dispose ();
+				menuExportPreset = null;
+			}
+
+			if (menuRemovePreset != null) {
+				menuRemovePreset.Dispose ();
+				menuRemovePreset = null;
+			}
+
 			if (tablePresets != null) {
 				tablePresets.Dispose ();
 				tablePresets = null;
@@ -656,21 +660,6 @@ namespace Sessions.OSX
 			if (viewTitle != null) {
 				viewTitle.Dispose ();
 				viewTitle = null;
-			}
-
-			if (menuRemovePreset != null) {
-				menuRemovePreset.Dispose ();
-				menuRemovePreset = null;
-			}
-
-			if (menuDuplicatePreset != null) {
-				menuDuplicatePreset.Dispose ();
-				menuDuplicatePreset = null;
-			}
-
-			if (menuExportPreset != null) {
-				menuExportPreset.Dispose ();
-				menuExportPreset = null;
 			}
 		}
 	}

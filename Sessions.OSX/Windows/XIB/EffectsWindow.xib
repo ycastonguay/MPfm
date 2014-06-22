@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -13,7 +13,6 @@
                 <outlet property="btnRemovePreset" destination="WI5-YP-CE1" id="lh1-do-LMm"/>
                 <outlet property="btnReset" destination="398" id="517"/>
                 <outlet property="btnResetEQ" destination="398" id="510"/>
-                <outlet property="btnSavePreset" destination="cok-8l-gBI" id="gb9-Sg-oDl"/>
                 <outlet property="fader" destination="BuC-au-wPF" id="l1e-cb-aPJ"/>
                 <outlet property="fader0" destination="6CU-QU-dfa" id="6Nl-wg-ufw"/>
                 <outlet property="fader1" destination="N2x-vN-ELy" id="str-vi-RX2"/>
@@ -102,18 +101,18 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView id="541" customClass="SessionsView">
-                        <rect key="frame" x="0.0" y="180" width="212" height="191"/>
+                        <rect key="frame" x="0.0" y="147" width="212" height="224"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="ufV-5f-8G0">
-                                <rect key="frame" x="0.0" y="0.0" width="212" height="165"/>
+                                <rect key="frame" x="0.0" y="0.0" width="212" height="198"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="4Sj-B4-Bvu">
-                                    <rect key="frame" x="0.0" y="0.0" width="212" height="165"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="212" height="198"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" id="FQy-3d-4cQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="212" height="165"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="212" height="198"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,7 +202,7 @@
                                 </connections>
                             </scrollView>
                             <customView id="vk9-Ba-Gzg" customClass="SessionsView">
-                                <rect key="frame" x="0.0" y="164" width="281" height="27"/>
+                                <rect key="frame" x="0.0" y="197" width="281" height="27"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" id="xcv-ow-lFW" customClass="SessionsButton">
@@ -671,11 +670,11 @@
                         </subviews>
                     </customView>
                     <customView id="549" customClass="SessionsView">
-                        <rect key="frame" x="0.0" y="0.0" width="212" height="181"/>
+                        <rect key="frame" x="0.0" y="0.0" width="212" height="149"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" id="386">
-                                <rect key="frame" x="6" y="161" width="124" height="18"/>
+                                <rect key="frame" x="6" y="129" width="124" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Preset Details" id="387">
                                     <font key="font" metaFont="systemBold"/>
@@ -684,7 +683,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="388">
-                                <rect key="frame" x="6" y="138" width="100" height="16"/>
+                                <rect key="frame" x="6" y="106" width="100" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Name:" id="389">
                                     <font key="font" metaFont="smallSystem"/>
@@ -693,7 +692,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="390" customClass="SessionsTextField">
-                                <rect key="frame" x="8" y="109" width="197" height="25"/>
+                                <rect key="frame" x="8" y="77" width="197" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Required" drawsBackground="YES" id="391">
                                     <font key="font" metaFont="cellTitle"/>
@@ -724,17 +723,6 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="actionAutoLevel:" target="-2" id="515"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" id="cok-8l-gBI" customClass="SessionsButton">
-                                <rect key="frame" x="8" y="75" width="197" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="smallSquare" title="Save Preset" bezelStyle="smallSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FD4-YT-U0J">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="actionSavePreset:" target="-2" id="9x7-yl-Irm"/>
                                 </connections>
                             </button>
                         </subviews>

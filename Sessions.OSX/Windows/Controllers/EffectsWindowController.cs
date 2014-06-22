@@ -36,6 +36,7 @@ namespace Sessions.OSX
     {
         private List<EQPreset> _presets = new List<EQPreset>();
         private EQPreset _preset;
+        private bool _hasPresetChanged;
 
         public EffectsWindowController(IntPtr handle) 
             : base (handle)
@@ -51,6 +52,7 @@ namespace Sessions.OSX
         
         private void Initialize()
         {
+            this.Window.WeakDelegate = this;
             ShowWindowCentered();
         }
         
@@ -125,7 +127,6 @@ namespace Sessions.OSX
             txtName.Font = NSFont.FromFontName("Roboto", 12f);
 
             btnAutoLevel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
-            btnSavePreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_save");
             btnReset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
             btnAddPreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnRemovePreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
@@ -206,7 +207,6 @@ namespace Sessions.OSX
         private void EnablePresetDetails(bool enable)
         {
             txtName.Enabled = enable;
-            btnSavePreset.Enabled = enable;
             btnAutoLevel.Enabled = enable;
             btnReset.Enabled = enable;
         }
@@ -314,11 +314,6 @@ namespace Sessions.OSX
             }
         }
 
-        partial void actionSavePreset(NSObject sender)
-        {
-            OnSavePreset(txtName.StringValue);
-        }
-
         partial void actionAutoLevel(NSObject sender)
         {
             using(NSAlert alert = new NSAlert())
@@ -417,6 +412,8 @@ namespace Sessions.OSX
                 label.StringValue = FormatEQValue(value);
                 OnSetFaderGain(_preset.Bands[pos].CenterString, value);
             }
+
+            _hasPresetChanged = true;
         }
 
         private string FormatEQValue(float value)
@@ -432,6 +429,21 @@ namespace Sessions.OSX
         private int FormatFaderValue(float value)
         {
             return (int)(value * 10);
+        }
+
+        private void SavePreset()
+        {
+            if (_preset != null && _hasPresetChanged)
+            {
+                OnSavePreset(txtName.StringValue);
+                _hasPresetChanged = false;
+            }
+        }
+
+        [Export ("windowDidResignKey:")]
+        public void WindowDidResignKey(NSNotification notification)
+        {
+            SavePreset();
         }
 
         [Export ("numberOfRowsInTableView:")]
@@ -452,6 +464,7 @@ namespace Sessions.OSX
         [Export ("tableViewSelectionDidChange:")]
         public void SelectionDidChange(NSNotification notification)
         {
+            SavePreset();
             EnablePresetDetails(tablePresets.SelectedRow >= 0);
             EnableFaders(tablePresets.SelectedRow >= 0);
             EnableContextMenu(tablePresets.SelectedRow >= 0);
@@ -562,12 +575,9 @@ namespace Sessions.OSX
 
         public void RefreshPreset(EQPreset preset)
         {
+            _hasPresetChanged = false;
             _preset = preset;
             InvokeOnMainThread(delegate {
-                int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
-                if(row >= 0)
-                    tablePresets.SelectRows(NSIndexSet.FromIndex(row), false);
-
                 EnableFaders(true);
                 EnablePresetDetails(true);
 
@@ -608,6 +618,10 @@ namespace Sessions.OSX
                 lblEQValue15.StringValue = FormatEQValue(_preset.Gain15);
                 lblEQValue16.StringValue = FormatEQValue(_preset.Gain16);
                 lblEQValue17.StringValue = FormatEQValue(_preset.Gain17);
+
+                int row = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
+                if(row >= 0)
+                    tablePresets.SelectRows(NSIndexSet.FromIndex(row), false);
             });
         }
 
