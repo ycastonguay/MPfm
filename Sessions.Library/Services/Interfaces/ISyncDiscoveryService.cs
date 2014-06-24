@@ -22,7 +22,7 @@ namespace Sessions.Library.Services.Interfaces
 {
     public delegate void DiscoveryProgress(float percentageDone, string status);
     public delegate void DeviceFound(SyncDevice device);
-    public delegate void DiscoveryEnded(IEnumerable<SyncDevice> devices);
+    public delegate void DiscoveryEnded();
 
     /// <summary>
     /// Interface for the SyncDiscoveryService class.
@@ -31,13 +31,14 @@ namespace Sessions.Library.Services.Interfaces
     {
         event DeviceFound OnDeviceFound;
         event DiscoveryProgress OnDiscoveryProgress;
+        event DiscoveryEnded OnDiscoveryEnded;
 
         bool IsRunning { get; }
 
         void Start();
         void AddToSearchList(string baseIP);
         void AddDeviceToSearchList(string ip);
-        void AddDevicesToSearchList(List<string> ips);
+        void AddDevicesToSearchList(IEnumerable<string> ips);
         void Cancel();
     }
 }

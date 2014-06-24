@@ -34,6 +34,7 @@ namespace Sessions.Library.Services
         public const int MaximumNumberOfTasks = 2;
         private readonly object _lock = new object();
         private readonly object _lockerIps = new object();
+        private readonly IHttpServiceFactory _httpServiceFactory;
         private bool _isCancelling = false;
         private Task _currentTask;
         private CancellationTokenSource _cancellationTokenSource = null;
@@ -46,10 +47,16 @@ namespace Sessions.Library.Services
         public int Port { get; private set; }
 
         public event DiscoveryProgress OnDiscoveryProgress;
+        public event DiscoveryEnded OnDiscoveryEnded;
         public event DeviceFound OnDeviceFound;
 
-        public SyncDiscoveryService()
+        public SyncDiscoveryService(IHttpServiceFactory httpServiceFactory)
         {
+            OnDiscoveryEnded += () => { };
+            OnDiscoveryProgress += (percentageDone, status) => { };
+            OnDeviceFound += (device) => { };
+            
+            _httpServiceFactory = httpServiceFactory;
             _devices = new List<SyncDevice>();
             _ipsToSearch = new List<string>();
             Port = 53551;
@@ -67,7 +74,7 @@ namespace Sessions.Library.Services
         /// Searches for devices in the IP addresses passed in parameter.
         /// </summary>
         /// <param name="ips">IP addresses to search</param>
-        public void AddDevicesToSearchList(List<string> ips)
+        public void AddDevicesToSearchList(IEnumerable<string> ips)
         {
             lock (_lock)
             {
@@ -84,8 +91,8 @@ namespace Sessions.Library.Services
         {
             //Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
             var commonIPs = new List<string>();
-            commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".0"), IPAddress.Parse(baseIP + ".25")).ToList());
-            commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".100"), IPAddress.Parse(baseIP + ".125")).ToList());
+            commonIPs.AddRange(IPAddressRangeFinderHelper.GetIPRange(IPAddress.Parse(baseIP + ".0"), IPAddress.Parse(baseIP + ".25")).ToList());
+            commonIPs.AddRange(IPAddressRangeFinderHelper.GetIPRange(IPAddress.Parse(baseIP + ".100"), IPAddress.Parse(baseIP + ".125")).ToList());
 
             lock (_lock)
             {
@@ -133,6 +140,9 @@ namespace Sessions.Library.Services
                             _ipsToSearch.RemoveAt(index);
                         }
                     }
+                    
+                    if(ipsToProcess.Count == 0)
+                        OnDiscoveryEnded();
 
                     //Console.WriteLine("SyncDiscoveryService - Looper - ipsToProcess.Count: {0} numberOfTasksRunning: {1}", ipsToProcess.Count, _numberOfTasksRunning);
                     foreach (var ip in ipsToProcess)
@@ -142,17 +152,16 @@ namespace Sessions.Library.Services
                             if (OnDiscoveryProgress != null)
                                 OnDiscoveryProgress(0, string.Format("Pinging ip {0}...", ip));
 
-                            Console.WriteLine("SyncDiscoveryService - Looper - Pinging ip {0}...", ip);
+                            //Console.WriteLine("SyncDiscoveryService - Looper - Pinging ip {0}...", ip);
                             PingDevice(ip);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("SyncDiscoveryService - Looper - Failed to ping ip {0}: {1}", ip, ex);
+                            //Console.WriteLine("SyncDiscoveryService - Looper - Failed to ping ip {0}: {1}", ip, ex);
                         }
-                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
-                        //_waveFormRenderingService.RequestBitmap(request); // ThreadQueueWorkItem will manage a thread pool
                     }
 
+                    // TODO: Replace by Monitor
                     Thread.Sleep(250);
                 }
             }));
@@ -171,13 +180,16 @@ namespace Sessions.Library.Services
             try
             {
                 string ip = (string)stateInfo;
-                //Console.WriteLine("SyncDiscoveryService - PingDeviceInternal - Pinging {0}...", ip);
-                WebClientTimeout client = new WebClientTimeout(800);
-                string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ip, Port));
+                //Console.WriteLine("SyncDiscoveryService - PingDeviceInternal - {0} - Pinging...", ip);
+                var httpService = _httpServiceFactory.CreateService(800);
+                string content = httpService.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ip, Port));
+                if (string.IsNullOrEmpty(content))
+                    return;
 
-                //Console.WriteLine("SyncDiscoveryService - PingDeviceInternal - Got version from {0}: {1}", ip, content);
+                //Console.WriteLine("SyncDiscoveryService - PingDeviceInternal - {0} - Got version: {1}", ip, content);
                 var device = XmlSerialization.Deserialize<SyncDevice>(content);
-                if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                //Console.WriteLine("SyncDiscoveryService - PingDeviceInternal - {0} - Deserialized XML successfully!", ip);
+                if (device != null && device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
                 {
                     device.Url = String.Format("http://{0}:{1}/", ip, Port);
 
@@ -186,14 +198,14 @@ namespace Sessions.Library.Services
                         _devices.Add(device);
                     }
 
-                    //Console.WriteLine("SyncDiscoveryService - The following host is available: {0}", ips[index]);
+                    //Console.WriteLine("SyncDiscoveryService - The following host is available: {0}", device.Url);
                     if (OnDeviceFound != null)
                         OnDeviceFound(device);
                 }
             }
             catch(Exception ex)
             {
-                //Tracing.Log("SyncDiscoveryService - PingDeviceInternal failed: {0}", ex);
+                Console.WriteLine("SyncDiscoveryService - PingDeviceInternal failed: {0}", ex);
             }
             finally
             {

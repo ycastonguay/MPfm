@@ -26,6 +26,7 @@ using Sessions.Library.Services;
 using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
+using Sessions.Core.Network;
 
 namespace Sessions.MVP.Bootstrap
 {
@@ -59,6 +60,8 @@ namespace Sessions.MVP.Bootstrap
             container.Register<ISyncDiscoveryService, SyncDiscoveryService>().AsSingleton();
             container.Register<ISyncDeviceManagerService, SyncDeviceManagerService>().AsSingleton();
             container.Register<ICloudLibraryService, CloudLibraryService>().AsSingleton();
+            container.Register<IHttpService, HttpService>().AsSingleton();
+            container.Register<IHttpServiceFactory, HttpServiceFactory>().AsSingleton();
 
             // Register presenters
             container.Register<ISplashPresenter, SplashPresenter>().AsSingleton();

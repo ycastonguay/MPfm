@@ -116,7 +116,11 @@
     <Compile Include="Attributes\DatabaseFieldAttribute.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Helpers\XMLHelper.cs" />
-    <Compile Include="Network\IPAddressRangeFinder.cs" />
+    <Compile Include="Network\HttpService.cs" />
+    <Compile Include="Network\HttpServiceFactory.cs" />
+    <Compile Include="Network\IHttpService.cs" />
+    <Compile Include="Network\IHttpServiceFactory.cs" />
+    <Compile Include="Network\IPAddressRangeFinderHelper.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
     <Compile Include="WinRT\ExtensionMethods.cs" />
     <Compile Include="XmlSerialization.cs" />

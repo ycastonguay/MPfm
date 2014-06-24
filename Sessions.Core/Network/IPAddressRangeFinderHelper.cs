@@ -18,7 +18,7 @@ using System.Xml.Linq;
 
 namespace Sessions.Core.Network
 {
-    public static class IPAddressRangeFinder
+    public static class IPAddressRangeFinderHelper
     {
         public static IEnumerable<string> GetIPRange(IPAddress startIP, IPAddress endIP)
         {
