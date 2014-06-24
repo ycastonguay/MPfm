@@ -4,33 +4,23 @@
         xmlns:base="clr-namespace:Sessions.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Connect to" Height="300" Width="540" Icon="/Sessions.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">
+        Title="Connect to" Height="300" Width="540" Icon="/Sessions.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="True" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" x:Name="lblTitle" Content="Connect to" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+        <Label Grid.Row="0" x:Name="lblTitle" Content="Connect to" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Medium" />
         <StackPanel Grid.Row="1" Margin="6">
             <ProgressBar x:Name="progressBar" Height="20" IsIndeterminate="true" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Margin="5,8,5,8" VerticalContentAlignment="Center" />
-            <Label x:Name="lblStep1" Content="Step 1: Fetch request token from Dropbox API" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Junction" />
-            <Label x:Name="lblStep2" Content="Step 2: Enter credentials in web browser" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Junction" />
-            <Label x:Name="lblStep2B" Content="Return to this window once you are logged in to the cloud service." Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Margin="10,0,0,0" />
-            <Label x:Name="lblStep3" Content="Step 3: Request access token from Dropbox API" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Junction" />
-            <Label x:Name="lblStep4" Content="Step 4: Connect to Dropbox" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Junction" />
+            <Label x:Name="lblStep1" Content="Step 1: Fetch request token from Dropbox API" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+            <Label x:Name="lblStep2" Content="Step 2: Enter credentials in web browser" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+            <Label x:Name="lblStep2B" Content="Return to this window once you are logged in to the cloud service." Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" Margin="10,0,0,0" />
+            <Label x:Name="lblStep3" Content="Step 3: Request access token from Dropbox API" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+            <Label x:Name="lblStep4" Content="Step 4: Connect to Dropbox" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnOK" Width="120" Margin="10" IsEnabled="false" Click="btnOK_OnClick">
-                    <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                        <Image x:Name="imageButtonOK" Source="/Resources/Images/Buttons/ok.png" Stretch="None" Opacity="0.5" />
-                        <Label x:Name="lblButtonOK" FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0" Opacity="0.5">OK</Label>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="btnCancel" Width="120" Margin="10" Click="btnCancel_OnClick">
-                    <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                        <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                        <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Cancel</Label>
-                    </StackPanel>
-                </Button>
+                <controls:ImageButton x:Name="btnOK" Title="OK" ImageSource="/Resources/Images/Buttons/ok.png" Style="{StaticResource ImageButton}" Click="btnOK_OnClick" />
+                <controls:ImageButton x:Name="btnCancel" Title="Cancel" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource ImageButton}" Click="btnCancel_OnClick" />
             </StackPanel>
         </StackPanel>
     </Grid>

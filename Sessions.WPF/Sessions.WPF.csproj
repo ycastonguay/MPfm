@@ -439,6 +439,12 @@
     <Resource Include="Resources\Images\Devices\tablet_windows_large%402x.png" />
     <Resource Include="Resources\Images\Devices\tablet_windows_large.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\open.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

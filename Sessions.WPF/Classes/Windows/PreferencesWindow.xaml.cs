@@ -73,6 +73,47 @@ namespace Sessions.WPF.Classes.Windows
             btnTabCloud.Style = res["TabButton"] as Style;
         }
 
+        private void ComboOutputDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void ComboSampleRate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void sliderBufferSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+        }
+
+        private void TxtBufferSize_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void sliderUpdatePeriod_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+        }
+
+        private void TxtUpdatePeriod_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void btnTestAudioSettings_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnResetAudioSettings_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void chkLibraryServiceEnabled_OnChecked(object sender, RoutedEventArgs e)
+        {
+            bool value = false;
+            if (chkLibraryServiceEnabled.IsChecked != null)
+                value = chkLibraryServiceEnabled.IsChecked.Value;
+
+            OnEnableSyncListener(value);
+        }
+
         #region General Preferences
 
         private void sliderOutputMeter_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -294,12 +335,12 @@ namespace Sessions.WPF.Classes.Windows
                 if (entity.IsDropboxLinkedToApp)
                 {
                     lblDropbox_Authenticated.Content = "True";
-                    lblDropbox_Login.Content = "Logout from Dropbox";
+                    btnDropboxLoginLogout.Title = "Logout from Dropbox";
                 }
                 else
                 {
                     lblDropbox_Authenticated.Content = "False";
-                    lblDropbox_Login.Content = "Login to Dropbox";
+                    btnDropboxLoginLogout.Title = "Login to Dropbox";
                 }
             }));            
         }
@@ -358,36 +399,5 @@ namespace Sessions.WPF.Classes.Windows
 
         #endregion
 
-        private void ComboOutputDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void ComboSampleRate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void sliderBufferSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-        private void TxtBufferSize_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
-
-        private void sliderUpdatePeriod_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-        private void TxtUpdatePeriod_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
-
-        private void btnTestAudioSettings_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void btnResetAudioSettings_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

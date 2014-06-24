@@ -84,8 +84,6 @@ namespace Sessions.WPF.Classes.Windows
                 lblStep3.Foreground = entity.CurrentStep > 3 ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Color.FromRgb(153, 153, 153));
                 lblStep4.Foreground = entity.IsAuthenticated ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Color.FromRgb(153, 153, 153));
                 btnOK.IsEnabled = entity.IsAuthenticated;
-                lblButtonOK.Opacity = entity.IsAuthenticated ? 1 : 0.5;
-                imageButtonOK.Opacity = entity.IsAuthenticated ? 1 : 0.5;
 
                 if (entity.IsAuthenticated)
                 {
