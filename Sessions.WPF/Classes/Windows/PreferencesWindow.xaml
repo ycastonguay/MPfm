@@ -41,7 +41,7 @@
         <Label Grid.Row="1" x:Name="lblTitle" Content="General Preferences" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" />
         <StackPanel Grid.Row="2" x:Name="gridAudio" Visibility="Hidden" Background="#EEEEEE">
             <StackPanel Margin="0,0,8,0">
-                <Label Content="Output" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+                <Label Content="Output" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
                 <StackPanel Margin="0,4,8,4">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Output device:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
@@ -55,7 +55,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="0,0,0,0">
-                <Label Content="Mixer" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <Label Content="Mixer" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="0,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Buffer size:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
@@ -74,7 +74,7 @@
                 </StackPanel>
             </StackPanel>            
             <StackPanel Margin="0,8,8,0" Orientation="Vertical">
-                <Label Content="Status" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+                <Label Content="Status" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
                 <Label x:Name="lblAudioStatus" Content="The audio settings haven't changed." Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <StackPanel Orientation="Horizontal">
                     <controls:ImageButton x:Name="btnTestAudioSettings" Title="Test Audio Settings" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Click="btnTestAudioSettings_OnClick" />
@@ -83,7 +83,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Hidden" Background="#EEEEEE">
-            <Label Content="Folders" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+            <Label Content="Folders" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
             <Grid Margin="0,2,8,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -108,14 +108,14 @@
                 </ListView>
                 <Label Grid.Row="2" x:Name="lblLibrarySize" Content="Library size: Calculating..." Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="0,0,0,0" />                
             </Grid>
-            <Label Content="Library Service" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
+            <Label Content="Library Service" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
             <Grid Margin="0,2,8,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="106" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical" Margin="2,2,2,0">
-                    <CheckBox x:Name="chkLibraryServiceEnabled" VerticalContentAlignment="Center" Margin="4" Content="Enable Library Service" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="chkLibraryServiceEnabled_OnChecked" />
+                    <CheckBox x:Name="chkLibraryServiceEnabled" VerticalContentAlignment="Center" Margin="4" Content="Enable Library Service" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="chkLibraryServiceEnabled_OnChecked" Unchecked="chkLibraryServiceEnabled_OnChecked" />
                     <TextBlock TextWrapping="WrapWithOverflow" Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="24,0,0,5" Padding="0">
                         <Run Text="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time" />
                         <LineBreak />
@@ -134,51 +134,51 @@
         </StackPanel>
         <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Hidden" Background="#EEEEEE">
             <StackPanel Margin="0,0,0,0" Orientation="Vertical">
-                <Label Content="Dropbox" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <Label Content="Dropbox" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <controls:ImageButton x:Name="btnDropboxLoginLogout" Title="Delete Peak Files" ImageSource="/Resources/Images/Buttons/dropbox.png" Style="{StaticResource ImageButton}" Click="btnDropboxLoginLogout_OnClick" />
                         <Label Content="Authenticated:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Visibility="Hidden" />
                         <Label x:Name="lblDropbox_Authenticated" Content="False" Foreground="#222222" FontSize="12" FontWeight="Bold" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Visibility="Hidden" />                                        
                     </StackPanel>
-                    <CheckBox x:Name="chkDropbox_ResumePlayback" VerticalContentAlignment="Center" Margin="4" Content="Enable Resume Playback with Dropbox" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="chkDropboxResumePlayback_OnChecked" />
+                    <CheckBox x:Name="chkDropbox_ResumePlayback" VerticalContentAlignment="Center" Margin="4" Content="Enable Resume Playback with Dropbox" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="chkDropboxResumePlayback_OnChecked" Unchecked="chkDropboxResumePlayback_OnChecked" />
                     <Label Content="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song." Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="24,0,0,5" Padding="0" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2" x:Name="gridGeneral" Visibility="Visible" Background="#EEEEEE">
             <StackPanel Margin="0,0,0,0">
-                <Label Content="Update Frequency" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <Label Content="Update Frequency" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Song position:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Slider x:Name="sliderUpdateFrequency_SongPosition" Width="200" Margin="4" Minimum="10" Maximum="100" Value="10" ValueChanged="sliderSongPosition_ValueChanged" />
                         <Label Content="every" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
-                        <TextBox x:Name="txtUpdateFrequency_SongPosition" Width="60" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="4" IsEnabled="False" TextChanged="TxtUpdateFrequency_SongPosition_OnTextChanged" />
+                        <Label x:Name="lblUpdateFrequency_SongPosition" Content="0" Foreground="#222222" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Medium" VerticalAlignment="Center" />
                         <Label Content="ms" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Output meter:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Slider x:Name="sliderUpdateFrequency_OutputMeter" Width="200" Margin="4" Minimum="10" Maximum="100" Value="10" ValueChanged="sliderOutputMeter_ValueChanged" />
                         <Label Content="every" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
-                        <TextBox x:Name="txtUpdateFrequency_OutputMeter" Width="60" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="4" IsEnabled="False" TextChanged="TxtUpdateFrequency_OutputMeter_OnTextChanged" />
+                        <Label x:Name="lblUpdateFrequency_OutputMeter" Content="0" Foreground="#222222" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Medium" VerticalAlignment="Center" />
                         <Label Content="ms" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="0,8,0,0">
-                <Label Content="User Interface" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <Label Content="User Interface" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,2,0,0">
-                    <CheckBox x:Name="chkShowTooltips" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Show tooltips" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkShowTooltips_OnChecked" />
-                    <CheckBox x:Name="chkShowAppInSystemTray" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Show application in system tray" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkShowAppInSystemTray_OnChecked" />
-                    <CheckBox x:Name="chkMinimizeAppInSystemTray" VerticalContentAlignment="Center" Margin="24,4,4,4" Content="Minimize in system tray when the app is closed" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkMinimizeAppInSystemTray_OnChecked" />
+                    <CheckBox x:Name="chkShowTooltips" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Show tooltips" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkShowTooltips_OnChecked" Unchecked="ChkShowTooltips_OnChecked" />
+                    <CheckBox x:Name="chkShowAppInSystemTray" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Show application in system tray" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkShowAppInSystemTray_OnChecked" Unchecked="ChkShowAppInSystemTray_OnChecked" />
+                    <CheckBox x:Name="chkMinimizeAppInSystemTray" VerticalContentAlignment="Center" Margin="24,4,4,4" Content="Minimize in system tray when the app is closed" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkMinimizeAppInSystemTray_OnChecked" Unchecked="ChkMinimizeAppInSystemTray_OnChecked" />
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="0,8,0,0">
-                <Label Content="Peak Files" Background="{DynamicResource BrushSecondaryHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <Label Content="Peak Files" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,2,0,0">
-                    <RadioButton x:Name="radioPeakFiles_UseDefaultDirectory" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Use default directory ([dir])" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="RadioPeakFiles_UseDefaultDirectory_OnChecked" />
-                    <RadioButton x:Name="radioPeakFiles_UseCustomDirectory" VerticalContentAlignment="Center" Margin="4,4,4,4" Content="Use custom directory:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="RadioPeakFiles_UseCustomDirectory_OnChecked" />
+                    <RadioButton x:Name="radioPeakFiles_UseDefaultDirectory" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Use default directory ([dir])" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="RadioPeakFiles_UseDefaultDirectory_OnChecked" Unchecked="RadioPeakFiles_UseDefaultDirectory_OnChecked" />
+                    <RadioButton x:Name="radioPeakFiles_UseCustomDirectory" VerticalContentAlignment="Center" Margin="4,4,4,4" Content="Use custom directory:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="RadioPeakFiles_UseCustomDirectory_OnChecked" Unchecked="RadioPeakFiles_UseCustomDirectory_OnChecked" />
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                             <TextBox x:Name="txtPeakFiles_CustomDirectory" Width="300" Height="24" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" IsEnabled="False" />
@@ -194,7 +194,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <controls:ImageButton x:Name="btnRemovePeakFiles" Title="Delete Peak Files" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource ImageButton}" Click="btnRemovePeakFiles_Click" />
-                        <Label Content="Peak file folder size: Calculating..." Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0" />
+                        <Label x:Name="lblPeakFolderSize" Content="Peak file folder size: Calculating..." Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

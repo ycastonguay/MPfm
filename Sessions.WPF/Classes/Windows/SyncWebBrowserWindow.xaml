@@ -10,14 +10,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical" Margin="4">
-            <Label Content="Sync (Web Browser)" Foreground="White" FontSize="16" FontWeight="Bold" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="4,2,4,2" />
-            <Label Content="Step 1" Foreground="#FFFFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
-            <Label Content="Open a web browser and enter the following url in the address bar:" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
+            <Label Content="Sync (Web Browser)" Foreground="White" FontSize="16" FontWeight="Bold" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="4,2,4,2" />
+            <Label Content="Step 1" Foreground="#FFFFFFFF" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="4,2,4,2" />
+            <Label Content="Open a web browser and enter the following url in the address bar:" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="4,2,4,2" />
             <Label x:Name="lblUrl" FontSize="12" FontFamily="/Resources/Fonts/#Droid Sans Mono" Padding="4,2,4,2" HorizontalContentAlignment="Center">
                 <Hyperlink NavigateUri="http://www.apple.com" Foreground="White">http://192.168.1.1:53551</Hyperlink>
             </Label>
-            <Label Content="Step 2" Foreground="#FFFFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
-            <Label Content="Enter the following authentication code and click on the Login button:" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
+            <Label Content="Step 2" Foreground="#FFFFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="4,2,4,2" />
+            <Label Content="Enter the following authentication code and click on the Login button:" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="4,2,4,2" />
             <Label x:Name="lblAuthenticationCode" Content="00000" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Droid Sans Mono" Padding="4,2,4,2" HorizontalContentAlignment="Center">                
             </Label>
         </StackPanel>

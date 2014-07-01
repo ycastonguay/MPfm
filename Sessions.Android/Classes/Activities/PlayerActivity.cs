@@ -418,7 +418,7 @@ namespace Sessions.Android
                 _viewPagerAdapter.NotifyDataSetChanged();
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status)
+        public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
         {
             _isPlaying = status == PlayerStatusType.Playing;
             RunOnUiThread(() => {

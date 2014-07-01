@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +26,12 @@ using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Sessions.MVP.Config;
 using Sessions.WPF.Classes.Controls;
 using Sessions.WPF.Classes.Helpers;
 using Sessions.WPF.Classes.Windows.Base;
@@ -40,6 +43,10 @@ using Sessions.MVP.Presenters;
 using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Application = System.Windows.Application;
+using ListView = System.Windows.Controls.ListView;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Sessions.WPF.Classes.Windows
 {
@@ -63,6 +70,7 @@ namespace Sessions.WPF.Classes.Windows
         private AudioFile _currentAudioFile;
         private string _currentAlbumArtKey;
         private LibraryBrowserEntity _selectedLibraryNode;
+        private static NotifyIcon _playerNotifyIcon;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -80,6 +88,55 @@ namespace Sessions.WPF.Classes.Windows
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
+            InitializeComboBoxes();
+            EnableMarkerButtons(false);
+            EnableLoopButtons(false);
+            EnableSegmentButtons(false);
+            RefreshSongInformation(null, 0, 0, 0);
+            CreatePlayerNotifyIcon(() =>
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;                
+            });
+        }
+
+        public static void CreatePlayerNotifyIcon(Action doubleClickAction)
+        {
+            var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Sessions.WPF;component/Resources/Icon.ico")).Stream;
+            _playerNotifyIcon = new NotifyIcon();
+            _playerNotifyIcon.Icon = new Icon(stream);
+            _playerNotifyIcon.Visible = AppConfigManager.Instance.Root.General.ShowAppInSystemTray;
+            _playerNotifyIcon.DoubleClick += (sender, args) => doubleClickAction();
+        }
+
+        public static void EnablePlayerNotifyIcon(bool enable)
+        {
+            if (enable)
+            {
+                var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Sessions.WPF;component/Resources/Icon.ico")).Stream;
+                _playerNotifyIcon.Icon = new Icon(stream);
+                _playerNotifyIcon.Visible = true;
+            }
+            else
+            {
+                _playerNotifyIcon.Visible = false;
+                _playerNotifyIcon.Icon = null;
+            }
+        }
+
+        public static void DisposePlayerNotifyIcon()
+        {
+            if (_playerNotifyIcon == null)
+                return;
+
+            _playerNotifyIcon.Visible = false;
+            _playerNotifyIcon.Icon = null;
+            _playerNotifyIcon.Dispose();
+            _playerNotifyIcon = null;
+        }
+
+        private void InitializeComboBoxes()
+        {
             comboSoundFormat.Items.Add(AudioFileFormat.All);
             comboSoundFormat.Items.Add(AudioFileFormat.APE);
             comboSoundFormat.Items.Add(AudioFileFormat.FLAC);
@@ -89,11 +146,23 @@ namespace Sessions.WPF.Classes.Windows
             comboSoundFormat.Items.Add(AudioFileFormat.WMA);
             comboSoundFormat.Items.Add(AudioFileFormat.WV);
             comboSoundFormat.SelectedIndex = 0;
+        }
 
-            EnableMarkerButtons(false);
-            EnableLoopButtons(false);
-            EnableSegmentButtons(false);
-            RefreshSongInformation(null, 0, 0, 0);
+        protected override void OnClosed(EventArgs e)
+        {
+            DisposePlayerNotifyIcon();
+            base.OnClosed(e);
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (!AppConfigManager.Instance.Root.General.MinimizeAppInSystemTray)
+                return;
+
+            if(WindowState == WindowState.Minimized)
+                this.Hide();
+
+            base.OnStateChanged(e);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -142,10 +211,10 @@ namespace Sessions.WPF.Classes.Windows
             {
                 OnOpenSyncWindow();
             }
-            else if (sender == miWindows_SyncCloud)
-            {
-                OnOpenSyncCloudWindow();
-            }
+            //else if (sender == miWindows_SyncCloud)
+            //{
+            //    OnOpenSyncCloudWindow();
+            //}
             else if (sender == miWindows_SyncWebBrowser)
             {
                 OnOpenSyncWebBrowserWindow();
@@ -1190,7 +1259,7 @@ namespace Sessions.WPF.Classes.Windows
         {
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status)
+        public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
@@ -1199,6 +1268,24 @@ namespace Sessions.WPF.Classes.Windows
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/pause.png"));
                 else
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/play.png"));
+
+                switch (repeatType)
+                {
+                    case RepeatType.Off:
+                        imageRepeat.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/repeat_off.png"));
+                        break;
+                    case RepeatType.Playlist:
+                        imageRepeat.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/repeat_on.png"));
+                        break;
+                    case RepeatType.Song:
+                        imageRepeat.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/repeat_single.png"));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                string imageName = isShuffleEnabled ? "shuffle_on" : "shuffle_off";
+                imageShuffle.Source = new BitmapImage(new Uri(string.Format("pack://application:,,,/Resources/Images/Toolbar/{0}.png", imageName)));
             }));
         }
 

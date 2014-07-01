@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Sessions.Core.Helpers;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
 using Sessions.MVP.Config.Models;
@@ -118,9 +119,9 @@ namespace Sessions.WPF.Classes.Windows
 
         private void sliderOutputMeter_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (txtUpdateFrequency_OutputMeter == null) return;
+            if (lblUpdateFrequency_OutputMeter == null) return;
             int value = (int)sliderUpdateFrequency_OutputMeter.Value;
-            txtUpdateFrequency_OutputMeter.Text = value.ToString();
+            lblUpdateFrequency_OutputMeter.Content = value.ToString();
 
             _generalAppConfig.OutputMeterUpdateFrequency = value;
             OnSetGeneralPreferences(_generalAppConfig);
@@ -128,20 +129,12 @@ namespace Sessions.WPF.Classes.Windows
 
         private void sliderSongPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (txtUpdateFrequency_SongPosition == null) return;
+            if (lblUpdateFrequency_SongPosition == null) return;
             int value = (int)sliderUpdateFrequency_SongPosition.Value;
-            txtUpdateFrequency_SongPosition.Text = value.ToString();
+            lblUpdateFrequency_SongPosition.Content = value.ToString();
 
             _generalAppConfig.SongPositionUpdateFrequency = value;
             OnSetGeneralPreferences(_generalAppConfig);
-        }
-
-        private void TxtUpdateFrequency_SongPosition_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
-
-        private void TxtUpdateFrequency_OutputMeter_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
         }
 
         private void ChkShowTooltips_OnChecked(object sender, RoutedEventArgs e)
@@ -153,6 +146,7 @@ namespace Sessions.WPF.Classes.Windows
         private void ChkShowAppInSystemTray_OnChecked(object sender, RoutedEventArgs e)
         {
             _generalAppConfig.ShowAppInSystemTray = chkShowAppInSystemTray.IsChecked.GetValueOrDefault();
+            MainWindow.EnablePlayerNotifyIcon(_generalAppConfig.ShowAppInSystemTray);
             OnSetGeneralPreferences(_generalAppConfig);
         }
 
@@ -383,17 +377,21 @@ namespace Sessions.WPF.Classes.Windows
             {
                 sliderUpdateFrequency_SongPosition.Value = config.SongPositionUpdateFrequency;
                 sliderUpdateFrequency_OutputMeter.Value = config.OutputMeterUpdateFrequency;
-                txtUpdateFrequency_OutputMeter.Text = config.OutputMeterUpdateFrequency.ToString();
-                txtUpdateFrequency_SongPosition.Text = config.SongPositionUpdateFrequency.ToString();
+                lblUpdateFrequency_OutputMeter.Content = config.OutputMeterUpdateFrequency.ToString();
+                lblUpdateFrequency_SongPosition.Content = config.SongPositionUpdateFrequency.ToString();
 
                 chkShowTooltips.IsChecked = config.ShowTooltips;
                 chkShowAppInSystemTray.IsChecked = config.ShowAppInSystemTray;
                 chkMinimizeAppInSystemTray.IsChecked = config.MinimizeAppInSystemTray;
 
                 radioPeakFiles_UseCustomDirectory.IsChecked = config.UseCustomPeakFileFolder;
+                radioPeakFiles_UseDefaultDirectory.IsChecked = !config.UseCustomPeakFileFolder;
                 sliderMaximumFolderSize.Value = config.MaximumPeakFolderSize;
                 txtMaximumFolderSize.Text = config.MaximumPeakFolderSize.ToString();
                 txtPeakFiles_CustomDirectory.Text = config.CustomPeakFileFolder;
+
+                lblPeakFolderSize.Content = string.Format("Peak file folder size: {0}", peakFolderSize);
+                radioPeakFiles_UseDefaultDirectory.Content = string.Format("Use default directory ({0})", PathHelper.PeakFileDirectory);
             }));
         }
 

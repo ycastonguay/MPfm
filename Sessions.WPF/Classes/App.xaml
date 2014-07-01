@@ -8,6 +8,7 @@
         <Color x:Key="BackgroundColor">#FF20282E</Color>
         <Color x:Key="HeaderBackgroundColor">#FF455865</Color>
         <Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>
+        <Color x:Key="MoreHeaderBackgroundColor">#FF758794</Color>
         <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
         <Color x:Key="HeaderButtonOverBackgroundColor">#FF5A6B75</Color>
         <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>        
@@ -23,6 +24,7 @@
         <SolidColorBrush x:Key="BrushBackgroundColor" Color="{DynamicResource BackgroundColor}" />
         <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="{DynamicResource HeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushSecondaryHeaderBackgroundColor" Color="{DynamicResource SecondaryHeaderBackgroundColor}" />
+        <SolidColorBrush x:Key="BrushMoreHeaderBackgroundColor" Color="{DynamicResource MoreHeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushButtonBackgroundColor" Color="{DynamicResource ButtonBackgroundColor}" />
         <SolidColorBrush x:Key="BrushMenuItemOverBackgroundColor" Color="{DynamicResource MenuItemOverBackgroundColor}" />
         <SolidColorBrush x:Key="BrushListViewSelectedBackgroundColor" Color="{DynamicResource ListViewSelectedBackgroundColor}" />
@@ -164,27 +166,27 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid x:Name="gridButton" Background="#FF576B78">
+                        <Grid x:Name="gridButton" Background="#FF455865">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">                                        
                                         <Storyboard>
-                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF455865" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF455865" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF455865" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF576B78" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#FF455865" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>

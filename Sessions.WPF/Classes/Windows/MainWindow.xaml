@@ -47,13 +47,11 @@
                     </MenuItem>-->
                 </MenuItem>
                 <MenuItem Header="_Windows">
+                    <MenuItem x:Name="miWindows_Sync" Header="Devices" Click="MenuItem_Click" />
                     <MenuItem x:Name="miWindows_Effects" Header="Effects" Click="MenuItem_Click" />
                     <MenuItem x:Name="miWindows_Playlist" Header="Playlist" Click="MenuItem_Click" />
                     <MenuItem x:Name="miWindows_Preferences" Header="Preferences" Click="MenuItem_Click" />
-                    <Separator />
-                    <MenuItem x:Name="miWindows_Sync" Header="Sync (Nearby Devices)" Click="MenuItem_Click" />
-                    <MenuItem x:Name="miWindows_SyncCloud" Header="Sync (Cloud)" Click="MenuItem_Click" />
-                    <MenuItem x:Name="miWindows_SyncWebBrowser" Header="Sync (Web Browser)" Click="MenuItem_Click" />
+                    <MenuItem x:Name="miWindows_SyncWebBrowser" Header="Web Interface" Click="MenuItem_Click" />
                 </MenuItem>
                 <MenuItem Header="_Help">
                     <MenuItem x:Name="miHelp_About" Header="About Sessions..." Click="MenuItem_Click" />
@@ -91,10 +89,10 @@
                         <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
                     </Button>
                     <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Cycles through repeat types." Click="BtnToolbar_OnClick">
-                        <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
+                        <Image x:Name="imageRepeat" Source="/Resources/Images/Toolbar/repeat_off.png" Stretch="None" />
                     </Button>
                     <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Shuffles the song in the playlist." Click="BtnToolbar_OnClick">
-                        <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
+                        <Image x:Name="imageShuffle" Source="/Resources/Images/Toolbar/shuffle_off.png" Stretch="None" />
                     </Button>
                     <StackPanel Grid.Column="5"></StackPanel>
                     <Button Grid.Column="6" x:Name="btnPlaylist" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Playlist window." Click="BtnToolbar_OnClick">
@@ -106,7 +104,7 @@
                     <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/devices.png" Stretch="None" />
                     </Button>
-                    <Button Grid.Column="9" x:Name="btnSyncCloud" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
+                    <Button Grid.Column="9" x:Name="btnSyncCloud" Visibility="Collapsed" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
                     </Button>
                     <Button Grid.Column="10" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">

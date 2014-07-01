@@ -331,8 +331,6 @@
     <Resource Include="Resources\Images\Toolbar\pause.png" />
     <Resource Include="Resources\Images\Toolbar\playlist.png" />
     <Resource Include="Resources\Images\Toolbar\previous.png" />
-    <Resource Include="Resources\Images\Toolbar\repeat.png" />
-    <Resource Include="Resources\Images\Toolbar\shuffle.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Icons\linux.png" />
@@ -444,6 +442,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Buttons\open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Toolbar\repeat_off.png" />
+    <Resource Include="Resources\Images\Toolbar\repeat_on.png" />
+    <Resource Include="Resources\Images\Toolbar\repeat_single.png" />
+    <Resource Include="Resources\Images\Toolbar\shuffle_off.png" />
+    <Resource Include="Resources\Images\Toolbar\shuffle_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
