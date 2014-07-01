@@ -50,7 +50,7 @@ namespace Sessions.MVP.Views
 
         void PlayerError(Exception ex);
 	    void PushSubView(IBaseView view);
-        void RefreshPlayerStatus(PlayerStatusType status);
+        void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled);
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshMarkers(IEnumerable<Marker> markers);

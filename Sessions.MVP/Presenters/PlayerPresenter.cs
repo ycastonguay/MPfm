@@ -117,7 +117,7 @@ namespace Sessions.MVP.Presenters
                 View.RefreshMarkers(markers);
             });
             _messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
-                View.RefreshPlayerStatus(m.Status);
+                View.RefreshPlayerStatus(m.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
 
                 if(!View.IsOutputMeterEnabled)
                     return;
@@ -193,7 +193,7 @@ namespace Sessions.MVP.Presenters
                 Volume = 100,
                 VolumeString = "100%"
             });
-            View.RefreshPlayerStatus(_playerService.Status);
+            View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
 
             if (_playerService.IsPlaying && View.IsOutputMeterEnabled)
                 _timerOutputMeter.Start();
@@ -499,12 +499,15 @@ namespace Sessions.MVP.Presenters
 		}
 		
         private void Shuffle()
-        {            
+        {
+            _playerService.IsShuffleEnabled = !_playerService.IsShuffleEnabled;
+            View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
         }
 
         private void Repeat()
         {
             _playerService.ToggleRepeatType();
+            View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
         }
 
         private PlayerPositionEntity RequestPosition(float positionPercentage)

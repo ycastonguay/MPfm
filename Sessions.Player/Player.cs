@@ -241,6 +241,19 @@ namespace Sessions.Player
             }
         }
 
+        private bool _isShuffleEnabled = false;
+        public bool IsShuffleEnabled
+        {
+            get
+            {
+                return _isShuffleEnabled;
+            }
+            set
+            {
+                _isShuffleEnabled = value;
+            }
+        }
+
         private RepeatType _repeatType = RepeatType.Off;
         /// <summary>
         /// Repeat type (Off, Playlist, Song)

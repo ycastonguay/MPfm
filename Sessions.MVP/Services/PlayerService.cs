@@ -52,6 +52,7 @@ namespace Sessions.MVP.Services
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPlaying { get { return _player.IsPlaying; } }
         public bool IsPaused { get { return _player.IsPaused; } }
+        public bool IsShuffleEnabled { get { return _player.IsShuffleEnabled; } set { _player.IsShuffleEnabled = value; } }
         public bool UseFloatingPoint { get { return _player.UseFloatingPoint; } }
         public RepeatType RepeatType { get { return _player.RepeatType; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }

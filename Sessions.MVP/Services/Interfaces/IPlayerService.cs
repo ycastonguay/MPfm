@@ -35,6 +35,7 @@ namespace Sessions.MVP.Services.Interfaces
         bool IsSettingPosition { get; }
         bool IsPlaying { get; }
         bool IsPaused { get; }
+        bool IsShuffleEnabled { get; set; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
         bool UseFloatingPoint { get; }

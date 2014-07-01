@@ -401,8 +401,8 @@ namespace Sessions.OSX
             btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
             btnToolbarPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
             btnToolbarNext.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_next");
-            btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat");
-            btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
+            btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_off");
+            btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle_off");
             btnToolbarPlaylist.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_playlist");
             btnToolbarEffects.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_equalizer");
             btnToolbarSync.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_devices");
@@ -591,10 +591,12 @@ namespace Sessions.OSX
 
 		partial void actionRepeatType(NSObject sender)
 		{
+            OnPlayerRepeat();
 		}
 
         partial void actionShuffle(NSObject sender)
         {
+            OnPlayerShuffle();        
         }
 
 		partial void actionOpenPlaylistWindow(NSObject sender)
@@ -1419,8 +1421,9 @@ namespace Sessions.OSX
             ShowError(ex);
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status)
+        public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
         {
+            Console.WriteLine("RefreshPlayerStatus - Status: {0} - RepeatType: {1} - IsShuffleEnabled: {2}", status, repeatType, isShuffleEnabled);
             InvokeOnMainThread(() => {
                 switch (status)
                 {
@@ -1434,7 +1437,27 @@ namespace Sessions.OSX
                     case PlayerStatusType.Playing:
                         btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_pause");
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
+
+                switch (repeatType)
+                {
+                    case RepeatType.Off:
+                        btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_off");
+                        break;
+                    case RepeatType.Playlist:
+                        btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_on");
+                        break;
+                    case RepeatType.Song:
+                        btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_single");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                string imageName = isShuffleEnabled ? "toolbar_shuffle_on" : "toolbar_shuffle_off";
+                btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == imageName);
             });
         }
 

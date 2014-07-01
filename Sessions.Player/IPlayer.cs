@@ -48,6 +48,7 @@ namespace Sessions.Player
         bool IsEQEnabled { get; }
         bool IsPaused { get; }
         bool IsPlaying { get; }
+        bool IsShuffleEnabled { get; set; }
         bool UseFloatingPoint { get; }
         int MixerSampleRate { get; }
         int CurrentSegmentIndex { get; }
