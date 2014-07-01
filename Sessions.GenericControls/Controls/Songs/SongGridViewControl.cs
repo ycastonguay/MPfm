@@ -817,16 +817,19 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 if (_items[a].IsSelected)
                 {
-                    // Use darker color
-                    int diff = 40;
-                    colorBackground1 = new BasicColor(255,
-                        (byte)((colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff),
-                        (byte)((colorBackground1.G - diff < 0) ? 0 : colorBackground1.G - diff),
-                        (byte)((colorBackground1.B - diff < 0) ? 0 : colorBackground1.B - diff));
-                    colorBackground2 = new BasicColor(255,
-                        (byte)((colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff),
-                        (byte)((colorBackground2.G - diff < 0) ? 0 : colorBackground2.G - diff),
-                        (byte)((colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff));
+                    colorBackground1 = _theme.SelectedBackgroundColor;
+                    colorBackground2 = _theme.SelectedBackgroundColor;
+
+//                    // Use darker color
+//                    byte diff = 4;
+//                    colorBackground1 = new BasicColor(255,
+//                        (byte)((colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff),
+//                        (byte)((colorBackground1.G - diff < 0) ? 0 : colorBackground1.G - diff),
+//                        (byte)((colorBackground1.B - diff < 0) ? 0 : colorBackground1.B - diff));
+//                    colorBackground2 = new BasicColor(255,
+//                        (byte)((colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff),
+//                        (byte)((colorBackground2.G - diff < 0) ? 0 : colorBackground2.G - diff),
+//                        (byte)((colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff));
                 }
 
                 //// Check if mouse is over item

@@ -677,7 +677,7 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status)
+		public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
         {
             InvokeOnMainThread(() => {
                 switch (status)

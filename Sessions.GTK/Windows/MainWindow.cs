@@ -755,7 +755,7 @@ namespace MPfm.GTK.Windows
         {
         }
 
-		public void RefreshPlayerStatus(PlayerStatusType status)
+		public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
         {
             Console.WriteLine("MainWindow - RefreshPlayerStatus - status: {0}", status.ToString());
             Gtk.Application.Invoke(delegate{
