@@ -412,11 +412,23 @@
                 </Grid.ColumnDefinitions>
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="MouseOver">
+                        <VisualState x:Name="Normal">
                             <Storyboard>
                                 <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="Border">
-                                    <EasingColorKeyFrame KeyTime="0" Value="Beige" />
+                                    <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderBackgroundColor}" />
+                                </ColorAnimationUsingKeyFrames>
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Arrow">
+                                    <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderBackgroundColor}" />
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <!--<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="Border">
+                                    <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderButtonOverBackgroundColor}" />
+                                </ColorAnimationUsingKeyFrames>-->
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Arrow">
+                                    <EasingColorKeyFrame KeyTime="0" Value="#DDDDDD" />
                                 </ColorAnimationUsingKeyFrames>
                             </Storyboard>
                         </VisualState>
@@ -439,7 +451,7 @@
                         <VisualState x:Name="Checked">
                             <Storyboard>
                                 <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="Border">
-                                    <EasingColorKeyFrame KeyTime="0" Value="HotPink" />
+                                    <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderBackgroundColor}" />
                                 </ColorAnimationUsingKeyFrames>
                             </Storyboard>
                         </VisualState>
@@ -447,30 +459,33 @@
                         <VisualState x:Name="Indeterminate" />
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
-                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" BorderThickness="1">
+                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="4" BorderThickness="1">
                     <Border.BorderBrush>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                            <GradientStop Color="MediumAquamarine" Offset="0" />
-                            <GradientStop Color="BurlyWood" Offset="1" />
+                            <GradientStop Color="{DynamicResource HeaderBackgroundColor}" Offset="0" />
+                            <GradientStop Color="{DynamicResource HeaderBackgroundColor}" Offset="1" />
                         </LinearGradientBrush>
                     </Border.BorderBrush>
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <LinearGradientBrush.GradientStops>
                                 <GradientStopCollection>
-                                    <GradientStop Color="PaleTurquoise" />
-                                    <GradientStop Color="PaleGoldenrod" Offset="1.0" />
+                                    <GradientStop Color="{DynamicResource HeaderBackgroundColor}" />
+                                    <GradientStop Color="{DynamicResource HeaderBackgroundColor}" Offset="1.0" />
                                 </GradientStopCollection>
                             </LinearGradientBrush.GradientStops>
                         </LinearGradientBrush>
                     </Border.Background>
                 </Border>
-                <Border Grid.Column="0" CornerRadius="2,0,0,2" Margin="1">
+                <Border Grid.Column="0" CornerRadius="4,4,0,4" Margin="1">
                     <Border.Background>
-                        <SolidColorBrush Color="Purple"/>
+                        <SolidColorBrush Color="{DynamicResource HeaderBackgroundColor}"/>
                     </Border.Background>
                 </Border>
-                <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Blue" Data="M 0 0 L 4 4 L 8 0 Z" >
+                <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" >
+                    <Path.Stroke>
+                        <SolidColorBrush Color="#DDDDDD"/>
+                    </Path.Stroke>
                     <Path.Fill>
                         <SolidColorBrush Color="HotPink"/>
                     </Path.Fill>
@@ -486,20 +501,18 @@
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-            <!--<Setter Property="MinWidth" Value="120" />-->
             <Setter Property="MinHeight" Value="20" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
-                        <Grid Background="DeepPink">
+                        <Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="MouseOver" />
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_EditableTextBox"
-                                                Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_EditableTextBox" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
                                                 <EasingColorKeyFrame KeyTime="0" Value="BlueViolet" />
                                             </ColorAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -523,7 +536,7 @@
                                 Focusable="false" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                             <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}"
                                 ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
-                                Margin="3,3,23,3" TextBlock.FontFamily="Roboto Regular" TextBlock.FontSize="12" 
+                                Margin="6,6,23,6" TextBlock.FontFamily="Roboto Regular" TextBlock.FontSize="12" TextBlock.Foreground="#FFFFFF"
                                 VerticalAlignment="Stretch" HorizontalAlignment="Left">
                             </ContentPresenter>
                             <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -532,13 +545,13 @@
                                 <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <Border x:Name="DropDownBorder" BorderThickness="1">
                                         <Border.BorderBrush>
-                                            <SolidColorBrush Color="YellowGreen" />
+                                            <SolidColorBrush Color="{DynamicResource HeaderBackgroundColor}" />
                                         </Border.BorderBrush>
                                         <Border.Background>
-                                            <SolidColorBrush Color="Yellow" />
+                                            <SolidColorBrush Color="{DynamicResource HeaderBackgroundColor}" />
                                         </Border.Background>
                                     </Border>
-                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Grid>
@@ -566,29 +579,56 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                        <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true" Background="Transparent">
+                        <Border x:Name="Border" Padding="6" SnapsToDevicePixels="true" Background="Transparent">
                             <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderBackgroundColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="ComboContentPresenter" Storyboard.TargetProperty="(TextBlock.Foreground).Color">
+                                                <EasingColorKeyFrame KeyTime="0" Value="#DDDDDD" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderButtonOverBackgroundColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="ComboContentPresenter" Storyboard.TargetProperty="(TextBlock.Foreground).Color">
+                                                <EasingColorKeyFrame KeyTime="0" Value="#FFFFFF" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
                                 <VisualStateGroup x:Name="SelectionStates">
                                     <VisualState x:Name="Unselected" />
                                     <VisualState x:Name="Selected">
                                         <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="#DDDDDD" />
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderButtonOverBackgroundColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="ComboContentPresenter" Storyboard.TargetProperty="(TextBlock.Foreground).Color">
+                                                <EasingColorKeyFrame KeyTime="0" Value="#FFFFFF" />
                                             </ColorAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="SelectedUnfocused">
                                         <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="#DDDDDD" />
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource HeaderButtonOverBackgroundColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="ComboContentPresenter" Storyboard.TargetProperty="(TextBlock.Foreground).Color">
+                                                <EasingColorKeyFrame KeyTime="0" Value="#FFFFFF" />
                                             </ColorAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter TextBlock.FontFamily="Roboto Regular" TextBlock.FontSize="12" />
+                            <ContentPresenter x:Name="ComboContentPresenter" TextBlock.FontFamily="Roboto Regular" TextBlock.FontSize="12" TextBlock.Foreground="#DDDDDD" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
