@@ -45,12 +45,15 @@
                 <StackPanel Margin="0,4,8,4">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Output device:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
-                        <ComboBox x:Name="comboOutputDevice" Margin="0,2,0,0" SelectionChanged="ComboOutputDevice_OnSelectionChanged" VerticalAlignment="Center" />
+                        <ComboBox x:Name="comboOutputDevice" Margin="0,2,0,0" SelectionChanged="ComboOutputDevice_OnSelectionChanged" VerticalAlignment="Center" DisplayMemberPath="Name" SelectedValuePath="Name" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Sample rate:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
-                        <ComboBox x:Name="comboSampleRate" Margin="0,2,0,0" SelectionChanged="ComboSampleRate_OnSelectionChanged" VerticalAlignment="Center" />                        
-                        <Label Content="Hz" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
+                        <ComboBox x:Name="comboSampleRate" Margin="0,2,0,0" SelectionChanged="ComboSampleRate_OnSelectionChanged" VerticalAlignment="Center">
+                            <ComboBoxItem Name="cbi44100Hz" IsSelected="True">44100 Hz</ComboBoxItem>
+                            <ComboBoxItem Name="cbi48000Hz">48000 Hz</ComboBoxItem>
+                            <ComboBoxItem Name="cbi96000Hz">96000 Hz</ComboBoxItem>
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

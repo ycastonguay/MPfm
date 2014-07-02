@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 using System;
+using System.Collections.Generic;
 using Sessions.MVP.Config.Models;
+using Sessions.Sound.BassNetWrapper;
 
 namespace Sessions.MVP.Views
 {
@@ -28,5 +30,6 @@ namespace Sessions.MVP.Views
 
         void AudioPreferencesError(Exception ex);
         void RefreshAudioPreferences(AudioAppConfig config);
+	    void RefreshAudioDevices(IEnumerable<Device> devices);
 	}
 }

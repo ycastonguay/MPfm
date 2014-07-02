@@ -21,6 +21,7 @@ using Sessions.MVP.Config.Models;
 using Sessions.MVP.Config;
 using System;
 using Sessions.Core;
+using Sessions.Sound.BassNetWrapper;
 using TinyMessenger;
 using Sessions.MVP.Messages;
 
@@ -43,6 +44,7 @@ namespace Sessions.MVP.Presenters
             view.OnSetAudioPreferences = SetAudioPreferences;
             base.BindView(view);
 
+            RefreshAudioDevices();
             RefreshPreferences();
         }
 
@@ -74,5 +76,19 @@ namespace Sessions.MVP.Presenters
                 View.AudioPreferencesError(ex);
             }
         }
+
+	    private void RefreshAudioDevices()
+	    {
+            try
+            {
+                var devices = DeviceHelper.DetectOutputDevices();
+                View.RefreshAudioDevices(devices);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("AudioPreferencesPresenter - RefreshAudioDevices - Exception: {0}", ex);
+                View.AudioPreferencesError(ex);
+            }
+	    }
 	}
 }

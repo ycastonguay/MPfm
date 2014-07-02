@@ -17,10 +17,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Sessions.Core.Helpers;
+using Sessions.Sound.BassNetWrapper;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
 using Sessions.MVP.Config.Models;
@@ -201,6 +203,10 @@ namespace Sessions.WPF.Classes.Windows
 
         private void btnRemovePeakFiles_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show(this, "Are you sure you wish to delete the peak files folder?\nPeak files can always be generated later.", "Peak files will be deleted", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
+                return;
+
+            OnDeletePeakFiles();
         }
 
         #endregion
@@ -355,6 +361,15 @@ namespace Sessions.WPF.Classes.Windows
             _audioAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
+            }));
+        }
+
+        public void RefreshAudioDevices(IEnumerable<Device> devices)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                comboOutputDevice.ItemsSource = devices.ToList();
+                comboOutputDevice.SelectedIndex = 0;
             }));
         }
 

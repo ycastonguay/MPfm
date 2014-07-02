@@ -32,22 +32,18 @@ namespace Sessions.Sound.BassNetWrapper
     public static class DeviceHelper
     {
         /// <summary>
-        /// Detects the output devices present in the system (DirectSound, ASIO, WASAPI).
+        /// Detects the standard/DirectSound output devices present in the system.
         /// </summary>
-        /// <returns>List of DirectSound/ASIO/WASPI output devices</returns>
-        public static List<Device> DetectOutputDevices()
+        /// <returns>List of standard/DirectSound output devices</returns>
+        public static IEnumerable<Device> DetectOutputDevices()
         {
-            // Create variables
-            List<Device> devices = new List<Device>();
-
-            // Detect DirectSound devices
-            List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
+            var devices = new List<Device>();
+            var devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
             for(int a = 0; a < devicesDirectSound.Count; a++)
             {
                 // Make sure the device is usable
                 if (devicesDirectSound[a].IsEnabled)
                 {
-                    // Create device and add to list
                     Device device = new Device();
                     device.IsDefault = devicesDirectSound[a].IsDefault;
                     device.Id = a;
@@ -63,29 +59,51 @@ namespace Sessions.Sound.BassNetWrapper
                 }
             }
 
+            return devices;
+        }
+
+        /// <summary>
+        /// Detects the ASIO output devices present in the system.
+        /// </summary>
+        /// <returns>List of ASIO output devices</returns>
+        public static IEnumerable<Device> DetectASIOOutputDevices()
+        {
+            var devices = new List<Device>();
+
 #if !IOS && !ANDROID
-            // Detect ASIO devices
-            List<BASS_ASIO_DEVICEINFO> devicesASIO = BassAsio.BASS_ASIO_GetDeviceInfos().ToList();
+
+            var devicesASIO = BassAsio.BASS_ASIO_GetDeviceInfos().ToList();
             for (int a = 0; a < devicesASIO.Count; a++)
             {
-                // Create device and add to list
                 Device device = new Device();
                 device.IsDefault = false;
                 device.Id = a;
                 device.DriverType = DriverType.ASIO;
                 device.Name = devicesASIO[a].name;
                 device.Driver = devicesASIO[a].driver;
-                devices.Add(device);                
+                devices.Add(device);
             }
+#endif
 
-            // Detect WASAPI devices
-            List<BASS_WASAPI_DEVICEINFO> devicesWASAPI = BassWasapi.BASS_WASAPI_GetDeviceInfos().ToList();
+            return devices;
+        }
+
+        /// <summary>
+        /// Detects the WASAPI output devices present in the system. For Windows only.
+        /// </summary>
+        /// <returns>List of WASAPI output devices</returns>
+        public static IEnumerable<Device> DetectWASAPIOutputDevices()
+        {
+            var devices = new List<Device>();
+
+#if !IOS && !ANDROID
+
+            var devicesWASAPI = BassWasapi.BASS_WASAPI_GetDeviceInfos().ToList();
             for (int a = 0; a < devicesWASAPI.Count; a++)
             {
                 // Make sure the device is usable, and an output device
                 if (devicesWASAPI[a].IsEnabled && !devicesWASAPI[a].IsInput)
                 {
-                    // Create device and add to list
                     Device device = new Device();
                     device.IsDefault = devicesWASAPI[a].IsDefault;
                     device.Id = a;
