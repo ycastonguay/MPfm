@@ -115,13 +115,20 @@ namespace MPfm.GTK.Windows
 
         #region IAudioPreferencesView implementation
 
-        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }		
+        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action OnResetAudioSettings { get; set; }
+        public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
         public void AudioPreferencesError(Exception ex)
         {
         }
 
         public void RefreshAudioPreferences(AudioAppConfig config)
+        {
+        }
+		
+		public void RefreshAudioDevices(IEnumerable<Device> devices)
         {
         }
 

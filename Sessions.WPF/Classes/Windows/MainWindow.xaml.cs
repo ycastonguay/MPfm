@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -55,7 +56,6 @@ namespace Sessions.WPF.Classes.Windows
     /// </summary>
     public partial class MainWindow : BaseWindow, IMainView
     {
-        private List<LibraryBrowserEntity> _itemsLibraryBrowser;
         private List<Marker> _markers;
         private List<Marker> _segmentMarkers;
         private List<Loop> _loops;
@@ -172,6 +172,10 @@ namespace Sessions.WPF.Classes.Windows
 
         protected override void OnClosed(EventArgs e)
         {
+            // We must close all windows of the application before leaving
+            for(int i = App.Current.Windows.Count - 1; i >= 0; i--)
+                App.Current.Windows[i].Close();
+
             DisposePlayerNotifyIcon();
             base.OnClosed(e);
         }
@@ -1048,7 +1052,6 @@ namespace Sessions.WPF.Classes.Windows
             //Console.WriteLine("MainWindow - RefreshLibraryBrowser - entities.Count: {0}", entities.Count());
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                _itemsLibraryBrowser = entities.ToList();
                 treeViewLibrary.Items.Clear();
                 foreach (var entity in entities)
                 {

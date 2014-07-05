@@ -119,6 +119,9 @@ namespace Sessions.iOS
 		#region IAudioPreferencesView implementation
 
 		public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action OnResetAudioSettings { get; set; }
+        public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
 		public void AudioPreferencesError(Exception ex)
 		{
@@ -133,6 +136,10 @@ namespace Sessions.iOS
 				tableView.ReloadData();
 			});
 		}
+
+        public void RefreshAudioDevices(IEnumerable<Device> devices)
+        {
+        }
 
 		#endregion
 

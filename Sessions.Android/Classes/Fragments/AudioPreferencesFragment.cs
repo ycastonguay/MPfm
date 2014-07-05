@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -28,6 +29,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
+using Sessions.Sound.BassNetWrapper;
 
 namespace org.sessionsapp.android
 {
@@ -73,12 +75,19 @@ namespace org.sessionsapp.android
         #region IAudioPreferencesView implementation
 
         public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action OnResetAudioSettings { get; set; }
+        public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
         public void AudioPreferencesError(Exception ex)
         {
         }
 
         public void RefreshAudioPreferences(AudioAppConfig config)
+        {
+        }
+
+        public void RefreshAudioDevices(IEnumerable<Device> devices)
         {
         }
 

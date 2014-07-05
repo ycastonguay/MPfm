@@ -704,7 +704,10 @@ namespace Sessions.OSX
 
         #region IAudioPreferencesView implementation
 
-        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }		
+        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action OnResetAudioSettings { get; set; }
+        public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
         public void AudioPreferencesError(Exception ex)
         {
@@ -720,7 +723,10 @@ namespace Sessions.OSX
                 txtBufferSize.StringValue = config.BufferSize.ToString();
                 txtUpdatePeriod.StringValue = config.UpdatePeriod.ToString();
             });
-
+        }
+		
+		public void RefreshAudioDevices(IEnumerable<Device> devices)
+        {
         }
 
         #endregion
