@@ -268,12 +268,7 @@ namespace Sessions.WPF.Classes.Windows
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
                 return;
 
-            _libraryAppConfig.Folders.Add(new Folder()
-            {
-                FolderPath = dialog.SelectedPath,
-                IsRecursive = true
-            });
-            OnSetLibraryPreferences(_libraryAppConfig);
+            OnAddFolder(dialog.SelectedPath, true);
         }
 
         private void btnRemoveFolder_OnClick(object sender, RoutedEventArgs e)
@@ -285,15 +280,12 @@ namespace Sessions.WPF.Classes.Windows
             if(result == MessageBoxResult.Cancel)
                 return;
 
-            if (result == MessageBoxResult.Yes)
-            {
-                // TODO: Remove files from library
-            }
-
+            bool removeAudioFilesFromLibrary = result == MessageBoxResult.Yes;
             var folders = listViewFolders.SelectedItems;
+            var list = new List<Folder>();
             foreach (Folder folder in folders)
-                _libraryAppConfig.Folders.Remove(folder);
-            OnSetLibraryPreferences(_libraryAppConfig);
+                list.Add(folder);
+            OnRemoveFolders(list, removeAudioFilesFromLibrary);
         }
 
         private void btnUpdateLibrary_OnClick(object sender, RoutedEventArgs e)
@@ -332,7 +324,8 @@ namespace Sessions.WPF.Classes.Windows
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
-        public Action<Folder> OnRemoveFolder { get; set; }
+        public Action<string, bool> OnAddFolder { get; set; }
+        public Action<IEnumerable<Folder>, bool> OnRemoveFolders { get; set; }
         public Action OnSelectFolders { get; set; }
         public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }

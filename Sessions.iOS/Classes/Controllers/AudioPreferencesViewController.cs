@@ -22,6 +22,7 @@ using MonoTouch.UIKit;
 using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Controllers.Base;
+using Sessions.Sound.BassNetWrapper;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using System.Collections.Generic;

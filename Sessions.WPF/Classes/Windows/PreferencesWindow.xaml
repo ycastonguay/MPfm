@@ -114,8 +114,19 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
+                            <GridViewColumn Header="Folder" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Margin="0,2,2,2" />
+                                            <TextBlock Margin="2,2,2,2" Text="{Binding Path=FolderPath}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Path=Status}" />
                         </GridView>
-                    </ListView.View>
+                    </ListView.View>                    
                 </ListView>
                 <Label Grid.Row="2" x:Name="lblLibrarySize" Content="Library size: Calculating..." Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="0,0,0,0" />                
             </Grid>

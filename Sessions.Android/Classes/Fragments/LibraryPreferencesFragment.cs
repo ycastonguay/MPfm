@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -103,7 +104,8 @@ namespace org.sessionsapp.android
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
-        public Action<Folder> OnRemoveFolder { get; set; }
+        public Action<string, bool> OnAddFolder { get; set; }
+        public Action<IEnumerable<Folder>, bool> OnRemoveFolders { get; set; }
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnSelectFolders { get; set; }
         public Action<bool> OnEnableSyncListener { get; set; }

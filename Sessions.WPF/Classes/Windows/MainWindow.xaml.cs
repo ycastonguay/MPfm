@@ -237,10 +237,6 @@ namespace Sessions.WPF.Classes.Windows
             {
                 OnOpenSyncWindow();
             }
-            //else if (sender == miWindows_SyncCloud)
-            //{
-            //    OnOpenSyncCloudWindow();
-            //}
             else if (sender == miWindows_SyncWebBrowser)
             {
                 OnOpenSyncWebBrowserWindow();
@@ -253,10 +249,12 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ShowUpdateLibraryPanel(bool show, Action onAnimationCompleted)
         {
-            // Reset values
+            if (panelUpdateLibrary.Visibility == Visibility.Visible && show)
+                return;
+
             if (show)
             {
-                lblUpdateLibraryTitle.Text = "Loading...";                
+                lblUpdateLibraryTitle.Text = "Loading...";
                 progressBarUpdateLibrary.Value = 0;
             }
 
@@ -1006,6 +1004,11 @@ namespace Sessions.WPF.Classes.Windows
             e.Handled = true;
         }
 
+        private void BtnHideUpdateLibrary_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowUpdateLibraryPanel(false, () => panelUpdateLibrary.Visibility = Visibility.Collapsed);
+        }
+
         private void MenuItemZoomIn_OnClick(object sender, RoutedEventArgs e)
         {
         }
@@ -1629,10 +1632,17 @@ namespace Sessions.WPF.Classes.Windows
 
         public void ProcessStarted()
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                ShowUpdateLibraryPanel(true, null);
+            }));
         }
 
         public void ProcessEnded(bool canceled)
         {
+            if (panelUpdateLibrary.Visibility == Visibility.Collapsed)
+                return;
+
             // Show finish state
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {

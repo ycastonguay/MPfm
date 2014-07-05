@@ -19,6 +19,7 @@ using System;
 using Sessions.MVP;
 using Sessions.MVP.Views;
 using System.Collections.Generic;
+using Sessions.Sound.BassNetWrapper;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Models;
 using Sessions.Library.Objects;
@@ -62,7 +63,8 @@ namespace MPfm.GTK.Windows
         #region ILibraryPreferencesView implementation
 
         public System.Action OnSelectFolders { get; set; }
-		public System.Action<Folder> OnRemoveFolder { get; set; }
+        public System.Action<string, bool> OnAddFolder { get; set; }
+        public System.Action<IEnumerable<Folder>, bool> OnRemoveFolders { get; set; }
         public System.Action OnResetLibrary { get; set; }
         public System.Action OnUpdateLibrary { get; set; }
         public System.Action<bool> OnEnableSyncListener { get; set; }

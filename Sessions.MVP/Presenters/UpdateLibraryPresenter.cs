@@ -49,27 +49,23 @@ namespace Sessions.MVP.Presenters
 		    _audioFileCacheService = audioFileCacheService;
             _libraryService = libraryService;
 			_updateLibraryService = updateLibraryService;
-            _updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
-            _updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
+            _updateLibraryService.RaiseRefreshStatusEvent += UpdateLibraryServiceOnRaiseRefreshStatusEvent;
+            _updateLibraryService.RaiseProcessStartedEvent += UpdateLibraryServiceOnRaiseProcessStartedEvent;
+            _updateLibraryService.RaiseProcessEndedEvent += UpdateLibraryServiceOnRaiseProcessEndedEvent;
             _syncDeviceSpecifications = syncDeviceSpecifications;
 		}
 
-        /// <summary>
-        /// Raises when the Update Library service needs to update its consumer.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        protected void updateLibraryService_RaiseRefreshStatusEvent(object sender, RefreshStatusEventArgs e)
+        protected void UpdateLibraryServiceOnRaiseRefreshStatusEvent(object sender, RefreshStatusEventArgs e)
         {            
             View.RefreshStatus(e.Entity);
         }
 
-        /// <summary>
-        /// Raises when the Update Library service needs to tell its consumer that the process has ended.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
+        protected void UpdateLibraryServiceOnRaiseProcessStartedEvent(object sender, EventArgs eventArgs)
+        {
+            View.ProcessStarted();
+        }
+
+        protected void UpdateLibraryServiceOnRaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
         {
             View.RefreshStatus(new UpdateLibraryEntity() {
                 Title = "Refreshing cache",

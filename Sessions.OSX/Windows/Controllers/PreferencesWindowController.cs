@@ -24,6 +24,7 @@ using Sessions.MVP;
 using Sessions.MVP.Views;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Models;
+using Sessions.Sound.BassNetWrapper;
 using Sessions.OSX.Classes.Controls;
 using Sessions.OSX.Classes.Objects;
 using Sessions.Core.Helpers;
@@ -576,7 +577,7 @@ namespace Sessions.OSX
                     NSApplication.SharedApplication.StopModal();
 
                     // Remove files from database
-                    OnRemoveFolder(_libraryAppConfig.Folders[tableFolders.SelectedRow]);
+                    //OnRemoveFolder(_libraryAppConfig.Folders[tableFolders.SelectedRow]);
 
                     // Remove folder from list of configured folders
                     _libraryAppConfig.Folders.RemoveAt(tableFolders.SelectedRow);
@@ -622,7 +623,8 @@ namespace Sessions.OSX
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
-        public Action<Folder> OnRemoveFolder { get; set; }
+        public Action<string, bool> OnAddFolder { get; set; }
+        public Action<IEnumerable<Folder>, bool> OnRemoveFolders { get; set; }
         public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }

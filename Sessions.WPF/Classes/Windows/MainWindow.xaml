@@ -166,7 +166,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="Update Library" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                            <controls:HeaderImageButton Grid.Column="1" Title="Cancel" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource HeaderImageButton}" />
+                            <controls:HeaderImageButton x:Name="btnHideUpdateLibrary" Grid.Column="1" Title="Hide" ImageSource="/Resources/Images/Buttons/ok.png" Style="{StaticResource HeaderImageButton}" Click="BtnHideUpdateLibrary_OnClick" />
                         </Grid>
                         <Grid Margin="2,2,2,2">
                             <Grid.RowDefinitions>

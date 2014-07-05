@@ -30,6 +30,7 @@ namespace Sessions.Library.Services.Interfaces
 	{
 		bool IsUpdatingLibrary { get; }
         event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;
+        event EventHandler<EventArgs> RaiseProcessStartedEvent;
         event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		
 		void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths);

@@ -37,18 +37,20 @@ namespace Sessions.MVP.Presenters
 	/// </summary>
     public class LibraryPreferencesPresenter : BasePresenter<ILibraryPreferencesView>, ILibraryPreferencesPresenter
 	{
-        readonly NavigationManager _navigationManager;
-        readonly MobileNavigationManager _mobileNavigationManager;
-        readonly ISyncListenerService _syncListenerService;
-        readonly ILibraryService _libraryService;
-        readonly IAudioFileCacheService _audioFileCacheService;
-        readonly ITinyMessengerHub _messageHub;
+        private readonly NavigationManager _navigationManager;
+        private readonly MobileNavigationManager _mobileNavigationManager;
+        private readonly ISyncListenerService _syncListenerService;
+        private readonly ILibraryService _libraryService;
+	    private readonly IUpdateLibraryService _updateLibraryService;
+        private readonly IAudioFileCacheService _audioFileCacheService;
+        private readonly ITinyMessengerHub _messageHub;
 
-        public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, 
+        public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, IUpdateLibraryService updateLibraryService,
                                            IAudioFileCacheService audioFileCacheService, ITinyMessengerHub messageHub)
 		{	
             _syncListenerService = syncListenerService;
             _libraryService = libraryService;
+            _updateLibraryService = updateLibraryService;
             _audioFileCacheService = audioFileCacheService;
             _messageHub = messageHub;
 
@@ -65,7 +67,8 @@ namespace Sessions.MVP.Presenters
             view.OnResetLibrary = ResetLibrary;
             view.OnUpdateLibrary = UpdateLibrary;
             view.OnSelectFolders = SelectFolders;
-            view.OnRemoveFolder = RemoveFolder;
+            view.OnAddFolder = AddFolder;
+            view.OnRemoveFolders = RemoveFolders;
             view.OnEnableSyncListener = EnableSyncService;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
@@ -82,8 +85,8 @@ namespace Sessions.MVP.Presenters
                 AppConfigManager.Instance.Save();
 
                 // Update service configuration
-                EnableSyncService(config.IsSyncServiceEnabled);
                 SetSyncListenerPort(config.SyncServicePort);
+                EnableSyncService(config.IsSyncServiceEnabled);
 
                 // Make sure preferences are in sync
                 RefreshPreferences();
@@ -124,7 +127,10 @@ namespace Sessions.MVP.Presenters
                 var view = _mobileNavigationManager.CreateUpdateLibraryView();
                 _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.NotificationBar, "Update Library", View, view);
 #else
-                _navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
+                //_navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
+
+                if(!_updateLibraryService.IsUpdatingLibrary)
+                    _updateLibraryService.UpdateLibrary(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
 #endif
             }
             catch(Exception ex)
@@ -148,11 +154,36 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        private void RemoveFolder(Folder folder)
+        private void AddFolder(string folderPath, bool isRecursive)
         {
             try
             {
-                _libraryService.DeleteAudioFiles(folder.FolderPath);
+                // TODO: Compare paths and 
+                var folder = new Folder(folderPath, isRecursive);
+                AppConfigManager.Instance.Root.Library.Folders.Add(folder);
+                AppConfigManager.Instance.Save();
+                RefreshPreferences();
+                UpdateLibrary();
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log(ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void RemoveFolders(IEnumerable<Folder> folders, bool removeAudioFilesFromLibrary)
+        {
+            try
+            {
+                foreach (var folder in folders)
+                {
+                    AppConfigManager.Instance.Root.Library.Folders.Remove(folder);
+                    if (removeAudioFilesFromLibrary)
+                        _libraryService.DeleteAudioFiles(folder.FolderPath);
+                }
+                AppConfigManager.Instance.Save();
+                RefreshPreferences();
             }
             catch (Exception ex)
             {

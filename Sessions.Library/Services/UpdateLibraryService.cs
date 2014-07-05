@@ -46,8 +46,9 @@ namespace Sessions.Library.Services
 
 		public bool IsUpdatingLibrary { get { return _workerUpdateLibrary.IsBusy; } }
 		
-		public event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;	
-		public event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
+		public event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;
+	    public event EventHandler<EventArgs> RaiseProcessStartedEvent;
+	    public event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Sessions.UI.UpdateLibraryService"/> class.
@@ -65,22 +66,20 @@ namespace Sessions.Library.Services
             _workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);
 		}
 		
-		/// <summary>
-		/// Raises the refresh status event. Wraps the event invocation by
-		/// creating the event arguments from the entity.
-		/// </summary>
-		/// <param name='e'>Event arguments</param>		
 		protected virtual void OnRaiseRefreshStatusEvent(UpdateLibraryEntity entity)
 		{
 			EventHandler<RefreshStatusEventArgs> handler = RaiseRefreshStatusEvent;
 			if(handler != null)
 				handler(this, new RefreshStatusEventArgs(entity));
 		}
-		
-		/// <summary>
-		/// Raises the process ended event. Wraps the event invocation.
-		/// </summary>
-		/// <param name='e'>Event arguments</param>		
+
+        protected virtual void OnRaiseProcessStartedEvent(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = RaiseProcessStartedEvent;
+            if (handler != null)
+                handler(this, e);
+        }
+
 		protected virtual void OnRaiseProcessEndedEvent(ProcessEndedEventArgs e)
 		{
 			EventHandler<ProcessEndedEventArgs> handler = RaiseProcessEndedEvent;
@@ -134,8 +133,7 @@ namespace Sessions.Library.Services
             arg.FolderPaths = folderPaths;
 			
 			_cancelUpdateLibrary = false;
-
-            // Start the background process
+            OnRaiseProcessStartedEvent(new EventArgs());
             _workerUpdateLibrary.RunWorkerAsync(arg);
 
             // TODO: Add time elapsed/time remaining

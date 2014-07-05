@@ -31,7 +31,8 @@ namespace Sessions.MVP.Views
         Action OnSelectFolders { get; set; }
         Action OnResetLibrary { get; set; }
         Action OnUpdateLibrary { get; set; }
-        Action<Folder> OnRemoveFolder { get; set; }
+        Action<string, bool> OnAddFolder { get; set; }
+        Action<IEnumerable<Folder>, bool> OnRemoveFolders { get; set; }
         Action<bool> OnEnableSyncListener { get; set; }
         Action<int> OnSetSyncListenerPort { get; set; }
 
