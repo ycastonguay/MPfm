@@ -272,11 +272,7 @@
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
                                                     <StackPanel Height="40" HorizontalAlignment="Right">
-                                                        <Button Margin="0" Click="BtnUseThisTempo_OnClick">
-                                                            <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
-                                                                <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Use this tempo</Label>
-                                                            </StackPanel>
-                                                        </Button>
+                                                        <controls:ImageButton x:Name="btnUseThisTempo" Margin="0" Title="Use this tempo" Style="{StaticResource ImageButton}" Click="BtnUseThisTempo_OnClick" />
                                                     </StackPanel>
                                                     <Border Height="40">
                                                         <StackPanel VerticalAlignment="Center">
@@ -293,13 +289,13 @@
                                                     <ColumnDefinition Width="36" />
                                                     <ColumnDefinition Width="36" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementTime_OnClick">
+                                                <Button x:Name="btnDecrementTime" Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementTime_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/minus.png" Stretch="None" />
                                                 </Button>
-                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementTime_OnClick">
+                                                <Button x:Name="btnIncrementTime" Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementTime_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                                                 </Button>
-                                                <Button Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnResetTime_OnClick">
+                                                <Button x:Name="btnResetTime" Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnResetTime_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
                                                 </Button>
                                             </Grid>
@@ -331,11 +327,7 @@
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
                                                     <StackPanel Height="40" HorizontalAlignment="Right">
-                                                        <Button Margin="0" Click="BtnChangeKey_OnClick">
-                                                            <StackPanel Orientation="Horizontal" Margin="4,2,2,2">                                                                
-                                                                <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Change key</Label>
-                                                            </StackPanel>
-                                                        </Button>
+                                                        <controls:ImageButton x:Name="btnChangeKey" Margin="0" Title="Change key" Style="{StaticResource ImageButton}" Click="BtnChangeKey_OnClick" />
                                                     </StackPanel>
                                                     <Border Height="40">
                                                         <StackPanel VerticalAlignment="Center">
@@ -352,13 +344,13 @@
                                                     <ColumnDefinition Width="36" />
                                                     <ColumnDefinition Width="36" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementPitch_OnClick">
+                                                <Button x:Name="btnDecrementPitch" Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementPitch_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/minus.png" Stretch="None" />
                                                 </Button>
-                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementPitch_OnClick">
+                                                <Button x:Name="btnIncrementPitch" Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementPitch_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                                                 </Button>
-                                                <Button Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnResetPitch_OnClick">
+                                                <Button x:Name="btnResetPitch" Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnResetPitch_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
                                                 </Button>
                                             </Grid>                                            
@@ -390,11 +382,7 @@
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
-                                            <Button Grid.Row="0" Margin="0,6,0,0" Width="200" Click="BtnEditSongMetadata_OnClick">
-                                                <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
-                                                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Edit song metadata</Label>
-                                                </StackPanel>
-                                            </Button>
+                                            <controls:ImageButton x:Name="btnEditSongMetadata" Grid.Row="0" Margin="0,6,0,0" Width="200" Title="Edit song metadata" Style="{StaticResource ImageButton}" Click="BtnEditSongMetadata_OnClick" />
                                             <Label Grid.Row="1" Content="Browse the web for:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="6" HorizontalContentAlignment="Center" />
                                             <Grid Grid.Row="2" HorizontalAlignment="Center" Width="200">
                                                 <Grid.ColumnDefinitions>
@@ -402,21 +390,9 @@
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0" Margin="0" Click="BtnSearchGuitarTabs_OnClick">
-                                                    <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
-                                                        <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Guitar tabs</Label>
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button Grid.Column="1" Margin="0" Click="BtnSearchBassTabs_OnClick">
-                                                    <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
-                                                        <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Bass tabs</Label>
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button Grid.Column="2" Margin="0" Click="BtnSearchLyrics_OnClick">
-                                                    <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
-                                                        <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Lyrics</Label>
-                                                    </StackPanel>
-                                                </Button>
+                                                <controls:ImageButton x:Name="btnSearchGuitarTabs" Grid.Column="0" Margin="0" Title="Guitar tabs" Style="{StaticResource ImageButton}" Click="BtnSearchGuitarTabs_OnClick" />
+                                                <controls:ImageButton x:Name="btnSearchBassTabs" Grid.Column="1" Margin="0" Title="Bass tabs" Style="{StaticResource ImageButton}" Click="BtnSearchBassTabs_OnClick" />
+                                                <controls:ImageButton x:Name="btnSearchLyrics" Grid.Column="2" Margin="0" Title="Lyrics" Style="{StaticResource ImageButton}" Click="BtnSearchLyrics_OnClick" />
                                             </Grid>
                                         </Grid>
                                     </Grid>

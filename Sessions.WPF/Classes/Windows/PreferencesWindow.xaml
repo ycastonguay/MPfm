@@ -5,7 +5,12 @@
         xmlns:objects1="clr-namespace:Sessions.Library.Objects;assembly=Sessions.Library"
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Preferences" Height="528" Width="680" Icon="/Sessions.WPF;component/Resources/Icon.ico" ShowInTaskbar="True" WindowStyle="ToolWindow" Topmost="True">
+        Title="Preferences" Height="580" Width="680" Icon="/Sessions.WPF;component/Resources/Icon.ico" ShowInTaskbar="True" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <Style x:Key="HiddenHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -39,8 +44,8 @@
             </Button>
         </StackPanel>
         <Label Grid.Row="1" x:Name="lblTitle" Content="General Preferences" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" />
-        <StackPanel Grid.Row="2" x:Name="gridAudio" Visibility="Visible" Background="#EEEEEE">
-            <StackPanel Margin="0,0,8,0">
+        <StackPanel Grid.Row="2" x:Name="gridAudio" Visibility="Hidden" Background="#F2F2F2">
+            <StackPanel Margin="0">
                 <Label Content="Output" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
                 <StackPanel Margin="0,4,8,4">
                     <StackPanel Orientation="Horizontal">
@@ -57,35 +62,34 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Margin="0,0,0,0">
+            <StackPanel Margin="0">
                 <Label Content="Mixer" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="0,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Buffer size:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <controls:TrackBar x:Name="trackBufferSize" Width="200" Margin="4" Minimum="100" Maximum="5000" Value="1000" OnTrackBarValueChanged="TrackBufferSize_OnTrackBarValueChanged" />
-                        <Label Content="every" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Label x:Name="lblBufferSize" Content="0" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Label Content="ms" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Width="90" Content="Update period:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <controls:TrackBar x:Name="trackUpdatePeriod" Width="200" Margin="4" Minimum="10" Maximum="100" Value="10" OnTrackBarValueChanged="TrackUpdatePeriod_OnTrackBarValueChanged" />
-                        <Label Content="every" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Label x:Name="lblUpdatePeriod" Content="0" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Label Content="ms" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                     </StackPanel>
+                    <TextBlock TextWrapping="WrapWithOverflow" Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="5,6,0,8" Padding="0">
+                        <Run Text="Note: A higher buffer size will add lag to effects such as time shifting, pitch shifting and EQ." />
+                    </TextBlock>
                 </StackPanel>
-            </StackPanel>            
-            <StackPanel Margin="0,8,8,0" Orientation="Vertical">
-                <Label Content="Status" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
-                <Label x:Name="lblAudioStatus" Content="The audio settings haven't changed." Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                <StackPanel Orientation="Horizontal">
-                    <controls:ImageButton x:Name="btnTestAudioSettings" Title="Test settings" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Click="btnTestAudioSettings_OnClick" />
-                    <controls:ImageButton x:Name="btnResetAudioSettings" Title="Reset to default" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Click="btnResetAudioSettings_OnClick" />
+            </StackPanel>
+            <StackPanel Margin="0,0,0,0">
+                <Label Content="Reset Audio Settings" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <StackPanel Margin="0,0,0,0">
+                    <controls:ImageButton x:Name="btnResetAudioSettings" Margin="0" Width="136" Title="Reset to default" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="btnResetAudioSettings_OnClick" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Hidden" Background="#EEEEEE">
+        <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Hidden" Background="#F2F2F2">
             <Label Content="Folders" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" />
             <Grid Margin="0,2,8,0">
                 <Grid.RowDefinitions>
@@ -108,6 +112,10 @@
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </ListView.Resources>
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
+                        </GridView>
+                    </ListView.View>
                 </ListView>
                 <Label Grid.Row="2" x:Name="lblLibrarySize" Content="Library size: Calculating..." Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="0,0,0,0" />                
             </Grid>
@@ -120,9 +128,7 @@
                 <StackPanel Grid.Column="0" Orientation="Vertical" Margin="2,2,2,0">
                     <CheckBox x:Name="chkLibraryServiceEnabled" VerticalContentAlignment="Center" Margin="4" Content="Enable Library Service" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="chkLibraryServiceEnabled_OnChecked" Unchecked="chkLibraryServiceEnabled_OnChecked" />
                     <TextBlock TextWrapping="WrapWithOverflow" Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="24,0,0,5" Padding="0">
-                        <Run Text="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time" />
-                        <LineBreak />
-                        <Run Text="the player switches to a new song." />
+                        <Run Text="Allows remote devices to access this library and use the remote player" />
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2,2,2,0" VerticalAlignment="Top">
@@ -135,7 +141,7 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Hidden" Background="#EEEEEE">
+        <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Hidden" Background="#F2F2F2">
             <StackPanel Margin="0,0,0,0" Orientation="Vertical">
                 <Label Content="Dropbox" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,0,0,0">
@@ -149,7 +155,7 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridGeneral" Visibility="Hidden" Background="#EEEEEE">
+        <StackPanel Grid.Row="2" x:Name="gridGeneral" Visibility="Visible" Background="#F2F2F2">
             <StackPanel Margin="0,0,0,0">
                 <Label Content="Update Frequency" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,0,0,0">
@@ -167,6 +173,9 @@
                         <Label x:Name="lblUpdateFrequency_OutputMeter" Content="0" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Label Content="ms" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                     </StackPanel>
+                    <TextBlock TextWrapping="WrapWithOverflow" Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="5,6,0,0" Padding="0">
+                        <Run Text="Warning: Lower values require more CPU but results in a more precise cursor." />
+                    </TextBlock>
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="0,8,0,0">
@@ -189,10 +198,15 @@
                         </StackPanel>
                         <Label Content="Note: You will need to launch the app as administrator to use a custom directory." Foreground="#999999" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="15,0,0,0" />
                     </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="0,8,0,0">
+                <Label Content="Peak File Deletion" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
+                <StackPanel Margin="2,2,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Maximum folder size:" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <controls:TrackBar x:Name="trackMaximumFolderSize" Width="200" Margin="4" Minimum="0" Maximum="10000" Value="10" OnTrackBarValueChanged="TrackMaximumFolderSize_OnTrackBarValueChanged" />
-                        <TextBox x:Name="txtMaximumFolderSize" Width="60" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="4" TextChanged="TxtMaximumFolderSize_OnTextChanged" />
+                        <Label x:Name="lblMaximumFolderSize" Content="100" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                         <Label Content="MB" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">

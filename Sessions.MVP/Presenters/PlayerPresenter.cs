@@ -132,6 +132,8 @@ namespace Sessions.MVP.Presenters
                         break;
                     case PlayerStatusType.Stopped:
                         _timerOutputMeter.Stop();
+                        View.RefreshSongInformation(null, 0, 0, 0);
+                        View.RefreshPlayerPosition(new PlayerPositionEntity());
                         break;
                 }
             });
@@ -431,17 +433,10 @@ namespace Sessions.MVP.Presenters
 		{
             try
             {
-				// Stop timer
-                Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
 				_timerRefreshSongPosition.Stop();
                 _timerSavePlayerStatus.Stop();
-				
-				// Stop player
-                Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
                 _playerService.Stop();
-				
-				// Refresh view with empty information
-                Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
+
 			    View.RefreshSongInformation(null, 0, 0, 0);
                 View.RefreshPlayerPosition(new PlayerPositionEntity());
             }

@@ -46,6 +46,11 @@ namespace Sessions.WPF.Classes.Controls
             _control.AddWaveDataBlock(waveDataLeft, waveDataRight);
         }
 
+        public void Reset()
+        {
+            _control.Reset();
+        }
+
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);

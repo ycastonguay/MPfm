@@ -286,6 +286,12 @@ namespace Sessions.WPF.Classes.Controls
             WaveFormScaleView.AudioFile = audioFile;
         }
 
+        public void Reset()
+        {
+            WaveFormView.Reset();
+            WaveFormScaleView.Reset();
+        }
+
         public void SetWaveFormLength(long lengthBytes)
         {
             _waveFormLength = lengthBytes;

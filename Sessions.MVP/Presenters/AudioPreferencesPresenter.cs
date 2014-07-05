@@ -23,6 +23,7 @@ using Sessions.MVP.Config;
 using System;
 using Sessions.Core;
 using Sessions.Sound.BassNetWrapper;
+using Sessions.Sound.PeakFiles;
 using TinyMessenger;
 using Sessions.MVP.Messages;
 
@@ -35,23 +36,28 @@ namespace Sessions.MVP.Presenters
 	{
         private readonly ITinyMessengerHub _messageHub;
 	    private readonly IPlayerService _playerService;
+	    private readonly IPeakFileService _peakFileService;
 
-	    public AudioPreferencesPresenter(ITinyMessengerHub messageHub, IPlayerService playerService)
+	    public AudioPreferencesPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IPeakFileService peakFileService)
         {
             _messageHub = messageHub;
             _playerService = playerService;
+	        _peakFileService = peakFileService;
         }
 
 	    public override void BindView(IAudioPreferencesView view)
         {
             view.OnSetAudioPreferences = SetAudioPreferences;
+            view.OnSetOutputDeviceAndSampleRate = SetOutputDeviceAndSampleRate;
+            view.OnResetAudioSettings = ResetAudioSettings;
+            view.OnCheckIfPlayerIsPlaying = CheckIfPlayerIsPlaying;
             base.BindView(view);
 
             RefreshAudioDevices();
             RefreshPreferences();
         }
 
-        private void SetAudioPreferences(AudioAppConfig config)
+	    private void SetAudioPreferences(AudioAppConfig config)
         {
             try
             {
@@ -71,6 +77,56 @@ namespace Sessions.MVP.Presenters
             }
         }
 
+        private void SetOutputDeviceAndSampleRate(Device device, int sampleRate)
+        {
+            try
+            {                
+                if(_peakFileService.IsLoading || _peakFileService.IsProcessing)
+                    _peakFileService.Cancel();
+
+                if(_playerService.IsPlaying)
+                    _playerService.Stop();
+
+                // Keep original settings, or reset to default if this fails?
+                _playerService.Dispose();
+                _playerService.Initialize(device, sampleRate, AppConfigManager.Instance.Root.Audio.BufferSize, AppConfigManager.Instance.Root.Audio.UpdatePeriod);
+
+                // No exception; this audio config should work, save settings
+                AppConfigManager.Instance.Root.Audio.AudioDevice = device;
+                AppConfigManager.Instance.Root.Audio.SampleRate = sampleRate;
+                AppConfigManager.Instance.Save();        
+        
+                _messageHub.PublishAsync(new PlayerReinitializedMessage(this));
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("AudioPreferencesPresenter - SetOutputDeviceAndSampleRate - Failed: {0}", ex);
+                View.AudioPreferencesError(ex);
+            }
+        }
+
+        private void ResetAudioSettings()
+        {
+            try
+            {
+                AppConfigManager.Instance.Root.Audio.BufferSize = 1000;
+                AppConfigManager.Instance.Root.Audio.UpdatePeriod = 100;
+                var defaultDevice = DeviceHelper.GetDefaultDirectSoundOutputDevice();
+                SetOutputDeviceAndSampleRate(defaultDevice, 44100);
+                RefreshPreferences();
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("AudioPreferencesPresenter - ResetAudioSettings - Failed: {0}", ex);
+                View.AudioPreferencesError(ex);
+            }
+        }
+
+        private bool CheckIfPlayerIsPlaying()
+        {
+            return _playerService.IsPlaying;
+        }
+
         private void RefreshPreferences()
         {
             try
@@ -79,7 +135,7 @@ namespace Sessions.MVP.Presenters
             } 
             catch (Exception ex)
             {
-                Tracing.Log("AudioPreferencesPresenter - RefreshPreferences - Failed to refresh preferences: {0}", ex);
+                Tracing.Log("AudioPreferencesPresenter - SetSampleRate - Failed to set sample rate: {0}", ex);
                 View.AudioPreferencesError(ex);
             }
         }

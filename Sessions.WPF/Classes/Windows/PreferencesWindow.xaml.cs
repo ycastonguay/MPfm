@@ -39,6 +39,8 @@ namespace Sessions.WPF.Classes.Windows
         private AudioAppConfig _audioAppConfig;
         private LibraryAppConfig _libraryAppConfig;
         private CloudAppConfig _cloudAppConfig;
+        private List<Device> _devices;
+        private bool _isRefreshingComboBoxes;
 
         public PreferencesWindow(Action<IBaseView> onViewReady)
             : base(onViewReady)
@@ -50,7 +52,7 @@ namespace Sessions.WPF.Classes.Windows
 
         private void InitializeTrackBars()
         {
-            var backgroundColor = new BasicColor(238, 238, 238);
+            var backgroundColor = new BasicColor(242, 242, 242);
             trackBufferSize.Theme.BackgroundColor = backgroundColor;
             trackMaximumFolderSize.Theme.BackgroundColor = backgroundColor;
             trackUpdateFrequency_OutputMeter.Theme.BackgroundColor = backgroundColor;
@@ -86,14 +88,6 @@ namespace Sessions.WPF.Classes.Windows
             btnTabAudio.Style = res["TabButton"] as Style;
             btnTabLibrary.Style = res["TabButton"] as Style;
             btnTabCloud.Style = res["TabButton"] as Style;
-        }
-
-        private void btnTestAudioSettings_OnClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void btnResetAudioSettings_OnClick(object sender, RoutedEventArgs e)
-        {
         }
 
         private void chkLibraryServiceEnabled_OnChecked(object sender, RoutedEventArgs e)
@@ -189,9 +183,9 @@ namespace Sessions.WPF.Classes.Windows
 
         private void TrackMaximumFolderSize_OnTrackBarValueChanged()
         {
-            if (txtMaximumFolderSize == null) return;
+            if (lblMaximumFolderSize == null) return;
             int value = trackMaximumFolderSize.Value;
-            txtMaximumFolderSize.Text = value.ToString();
+            lblMaximumFolderSize.Content = value.ToString();
 
             _generalAppConfig.MaximumPeakFolderSize = value;
             OnSetGeneralPreferences(_generalAppConfig);
@@ -203,7 +197,7 @@ namespace Sessions.WPF.Classes.Windows
 
         private void TrackBufferSize_OnTrackBarValueChanged()
         {
-            if (lblBufferSize == null) return;
+            if (lblBufferSize == null || _isRefreshingComboBoxes) return;
             int value = trackBufferSize.Value;
             lblBufferSize.Content = value.ToString();
 
@@ -213,7 +207,7 @@ namespace Sessions.WPF.Classes.Windows
 
         private void TrackUpdatePeriod_OnTrackBarValueChanged()
         {
-            if (lblUpdatePeriod == null) return;
+            if (lblUpdatePeriod == null || _isRefreshingComboBoxes) return;
             int value = trackUpdatePeriod.Value;
             lblUpdatePeriod.Content = value.ToString();
 
@@ -221,13 +215,45 @@ namespace Sessions.WPF.Classes.Windows
             OnSetAudioPreferences(_audioAppConfig);
         }
 
+        private void btnResetAudioSettings_OnClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(this, "Resetting the audio settings will stop the playback.\nIf you click OK, the playback will stop and changes will be applied immediately.\nIf you click Cancel, the changes will be applied the next time the player is reinitialized.", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Cancel)
+                return;
+
+            OnResetAudioSettings();
+        }
+
         private void ComboOutputDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //OnSetOutputDevice()
+            SetOutputDeviceAndSampleRate();
         }
 
         private void ComboSampleRate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SetOutputDeviceAndSampleRate();
+        }
+
+        private void SetOutputDeviceAndSampleRate()
+        {
+            if (comboOutputDevice.SelectedIndex == -1 || comboSampleRate.SelectedIndex == -1 || _isRefreshingComboBoxes)
+                return;
+
+            if (OnCheckIfPlayerIsPlaying())
+            {
+                var result = MessageBox.Show(this, "Changing the output device or sample rate will stop the playback.\nIf you click OK, the playback will stop and changes will be applied immediately.\nIf you click Cancel, the changes will be applied the next time the player is reinitialized.", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Cancel)
+                    return;
+            }
+
+            int sampleRate = 44100;
+            if (comboSampleRate.SelectedIndex == 1)
+                sampleRate = 48000;
+            else if (comboSampleRate.SelectedIndex == 2)
+                sampleRate = 96000;
+            var device = _devices[comboOutputDevice.SelectedIndex];
+            if (device != null)
+                OnSetOutputDeviceAndSampleRate(device, sampleRate);
         }
 
         #endregion
@@ -371,8 +397,9 @@ namespace Sessions.WPF.Classes.Windows
         #region IAudioPreferencesView implementation
 
         public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        public Action<Device> OnSetOutputDevice { get; set; }
-        public Action<int> OnSetSampleRate { get; set; }
+        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action OnResetAudioSettings { get; set; }
+        public Func<bool> OnCheckIfPlayerIsPlaying { get; set; } 
 
         public void AudioPreferencesError(Exception ex)
         {
@@ -384,20 +411,35 @@ namespace Sessions.WPF.Classes.Windows
             _audioAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
+                _isRefreshingComboBoxes = true;
                 trackBufferSize.Value = config.BufferSize;
                 trackUpdatePeriod.Value = config.UpdatePeriod;
-
                 lblBufferSize.Content = config.BufferSize.ToString();
                 lblUpdatePeriod.Content = config.UpdatePeriod.ToString();
+                comboOutputDevice.SelectedIndex = _devices.FindIndex(d => d.Id == config.AudioDevice.Id && d.DriverType == config.AudioDevice.DriverType);
+
+                if (config.SampleRate == 44100)
+                    comboSampleRate.SelectedIndex = 0;
+                else if (config.SampleRate == 48000)
+                    comboSampleRate.SelectedIndex = 1;
+                else if (config.SampleRate == 96000)
+                    comboSampleRate.SelectedIndex = 2;
+                else
+                    comboSampleRate.SelectedIndex = -1;
+
+                _isRefreshingComboBoxes = false;
             }));
         }
 
         public void RefreshAudioDevices(IEnumerable<Device> devices)
         {
+            _devices = devices.ToList();
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
+                _isRefreshingComboBoxes = true;
                 comboOutputDevice.ItemsSource = devices.ToList();
                 comboOutputDevice.SelectedIndex = 0;
+                _isRefreshingComboBoxes = false;
             }));
         }
 
@@ -430,7 +472,7 @@ namespace Sessions.WPF.Classes.Windows
                 radioPeakFiles_UseCustomDirectory.IsChecked = config.UseCustomPeakFileFolder;
                 radioPeakFiles_UseDefaultDirectory.IsChecked = !config.UseCustomPeakFileFolder;
                 trackMaximumFolderSize.Value = config.MaximumPeakFolderSize;
-                txtMaximumFolderSize.Text = config.MaximumPeakFolderSize.ToString();
+                lblMaximumFolderSize.Content = config.MaximumPeakFolderSize.ToString();
                 txtPeakFiles_CustomDirectory.Text = config.CustomPeakFileFolder;
 
                 lblPeakFolderSize.Content = string.Format("Peak file folder size: {0}", peakFolderSize);

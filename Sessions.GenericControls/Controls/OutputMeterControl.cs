@@ -99,6 +99,12 @@ namespace Sessions.GenericControls.Controls
             _penPeakLine = new BasicPen(new BasicBrush(ColorPeakLine), 1);
         }
 
+        public void Reset()
+        {
+            _waveDataHistory.Clear();
+            OnInvalidateVisual();
+        }
+
         /// <summary>
         /// Block of 10ms synchronized with timerelapsed on Player.
         /// </summary>

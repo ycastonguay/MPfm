@@ -90,6 +90,11 @@ namespace Sessions.WPF.Classes.Controls
             }));
         }
 
+        public void Reset()
+        {
+            _control.Reset();
+        }
+
         protected override void OnRender(DrawingContext dc)
         {
             //Console.WriteLine("WaveFormScale - OnRender - width: {0} height: {1}", ActualWidth, ActualHeight);
@@ -98,6 +103,6 @@ namespace Sessions.WPF.Classes.Controls
             var dirtyRect = new BasicRectangle(0, 0, (float)ActualWidth, (float)ActualHeight); 
             var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight, dirtyRect);
             _control.Render(wrapper);
-        }   
+        }
     }
 }

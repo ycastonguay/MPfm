@@ -269,21 +269,25 @@ namespace Sessions.Sound.PeakFiles
                     floatRight = null;
                     buffer = null;
                     minMax = null;
-                } catch (Exception ex)
+                } 
+                catch (Exception ex)
                 {
                     // Return exception
                     //e.Result = ex;
                     Console.WriteLine("PeakFileService - Error: " + ex.Message);
-                    throw ex;
-                } finally
+                } 
+                finally
                 {
                     // Close writer and stream
                     Console.WriteLine("PeakFileService - Closing file stream...");
-                    gzipStream.Close();
-                    binaryWriter.Close();
-                    fileStream.Close();
 
-                    // Set nulls
+                    if (gzipStream != null)
+                        gzipStream.Close();
+                    if (binaryWriter != null)
+                        binaryWriter.Close();
+                    if (fileStream != null)
+                        fileStream.Close();
+
                     gzipStream = null;
                     binaryWriter = null;
                     fileStream = null;

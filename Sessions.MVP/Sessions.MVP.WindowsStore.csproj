@@ -113,6 +113,7 @@
     <Compile Include="Config\Providers\IAppConfigProvider.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+	<Compile Include="Messages\PlayerReinitializedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />

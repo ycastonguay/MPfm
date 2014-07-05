@@ -36,6 +36,7 @@ namespace Sessions.WPF.Classes.Controls
             set
             {
                 _imageIcon.Source = value;
+                SetMargins();
             }
         }
 
@@ -95,6 +96,17 @@ namespace Sessions.WPF.Classes.Controls
             _lblTitle.FontFamily = new FontFamily("Roboto");
             _lblTitle.FontSize = 11;
             _stackPanel.Children.Add(_lblTitle);
+
+            SetMargins();
+        }
+
+        private void SetMargins()
+        {
+            int marginLeft = 0;
+            if (ImageSource != null)
+                marginLeft = 6;
+
+            _lblTitle.Margin = new Thickness(marginLeft, -2, 0, 0);
         }
     }
 }

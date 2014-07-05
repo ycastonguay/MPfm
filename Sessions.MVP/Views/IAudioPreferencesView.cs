@@ -27,8 +27,9 @@ namespace Sessions.MVP.Views
     public interface IAudioPreferencesView : IBaseView
 	{        
         Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        Action<Device> OnSetOutputDevice { get; set; }
-        Action<int> OnSetSampleRate { get; set; }
+        Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        Action OnResetAudioSettings { get; set; }
+        Func<bool> OnCheckIfPlayerIsPlaying { get; set; } 
 
         void AudioPreferencesError(Exception ex);
         void RefreshAudioPreferences(AudioAppConfig config);

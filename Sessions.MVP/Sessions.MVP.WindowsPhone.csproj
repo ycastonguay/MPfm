@@ -138,6 +138,7 @@
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
+	<Compile Include="Messages\PlayerReinitializedMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
     <Compile Include="Models\FolderEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />

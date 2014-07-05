@@ -174,6 +174,11 @@ namespace Sessions.WPF.Classes.Controls
             _control.LoadPeakFile(audioFile);
         }
 
+        public void Reset()
+        {
+            _control.Reset();
+        }
+
         public void InvalidateBitmaps()
         {
             _control.InvalidateBitmaps();

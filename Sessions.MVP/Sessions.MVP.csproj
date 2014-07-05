@@ -143,6 +143,7 @@
     <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
+    <Compile Include="Messages\PlayerReinitializedMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />

@@ -1292,6 +1292,9 @@ namespace Sessions.Player
             if (_mixerChannel == null)// || !m_isPlaying)
                 throw new Exception("Player.Stop error: The main channel is null!");
 
+            if (_timerPlayer != null && _timerPlayer.Enabled)
+                _timerPlayer.Stop();
+
             _currentLoop = null;
             _isPlaying = false;
             if (_isEQEnabled)

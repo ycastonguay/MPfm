@@ -517,10 +517,7 @@ namespace Sessions.MVP.Services
         public void Dispose()
         {
             if (_player != null)
-            {
                 _player.Dispose();
-                _player = null;
-            }
         }
     }
 }

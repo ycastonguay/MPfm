@@ -71,6 +71,7 @@ namespace Sessions.GenericControls.Controls
         private BasicColor _markerBackgroundColor = new BasicColor(255, 0, 0, 125);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
 
+        public bool IsEmpty { get; private set; }
         public bool IsLoading { get; private set; }
         public InputInteractionMode InteractionMode { get; set; }
         public BasicRectangle Frame { get; set; }
@@ -203,6 +204,7 @@ namespace Sessions.GenericControls.Controls
 
         private void Initialize()
         {
+            IsEmpty = true;
             ShowScrollBar = true;
             DisplayType = WaveFormDisplayType.Stereo;
             OnInvalidateVisual += () => { };
@@ -367,15 +369,23 @@ namespace Sessions.GenericControls.Controls
         {
 			//Console.WriteLine("WaveFormControl - LoadPeakFile " + audioFile.FilePath);
             IsLoading = true;
+            IsEmpty = false;
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
             _waveFormCacheService.LoadPeakFile(audioFile);
         }
 
+        public void Reset()
+        {
+            IsEmpty = true;            
+            IsLoading = false;            
+            _waveFormCacheService.FlushCache();
+            OnInvalidateVisual();
+        }
+
         private void RefreshStatus(string status)
         {
 			//Console.WriteLine("WaveFormControl - RefreshStatus - status: {0}", status);            
-            //IsLoading = true;
             _status = status;
             OnInvalidateVisual();
         }
@@ -571,6 +581,10 @@ namespace Sessions.GenericControls.Controls
             {
                 //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
                 DrawStatus(context, _status);
+            }
+            else if (IsEmpty)
+            {
+                DrawStatus(context, "No peak file information.");
             }
             else
             {

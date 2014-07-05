@@ -148,6 +148,28 @@ namespace Sessions.WPF.Classes.Windows
             comboSoundFormat.SelectedIndex = 0;
         }
 
+        private void EnableUIForPlayerStatus(PlayerStatusType status)
+        {
+            bool enabled = status != PlayerStatusType.Stopped && status != PlayerStatusType.Initialized;
+            trackPosition.IsEnabled = enabled;
+            trackTimeShifting.IsEnabled = enabled;
+            trackPitchShifting.IsEnabled = enabled;
+            btnAddLoop.IsEnabled = enabled;
+            btnAddMarker.IsEnabled = enabled;
+            btnUseThisTempo.IsEnabled = enabled;
+            btnChangeKey.IsEnabled = enabled;
+            btnEditSongMetadata.IsEnabled = enabled;
+            btnSearchGuitarTabs.IsEnabled = enabled;
+            btnSearchBassTabs.IsEnabled = enabled;
+            btnSearchLyrics.IsEnabled = enabled;
+            btnIncrementPitch.IsEnabled = enabled;
+            btnDecrementPitch.IsEnabled = enabled;
+            btnResetPitch.IsEnabled = enabled;
+            btnIncrementTime.IsEnabled = enabled;
+            btnDecrementTime.IsEnabled = enabled;
+            btnResetTime.IsEnabled = enabled;
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             DisposePlayerNotifyIcon();
@@ -1196,7 +1218,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void NotifyLibraryBrowserNewNode(int position, LibraryBrowserEntity entity)
         {
-            //Console.WriteLine("===========>>>> MainWindow - RefreshLibraryBrowserSelectedNode - isnull: {0} title: {1} position: {2}", entity == null, entity == null ? string.Empty : entity.Title, position);
+            //Console.WriteLine("===========>>>> MainWindow - RefreshLibraryBrowserSelectedNode - isnull: {0} title: {1} position: {2}", entity == null, entity == null ? string.Reset : entity.Title, position);
         }
 
         public void NotifyLibraryBrowserRemovedNode(int position)
@@ -1263,7 +1285,6 @@ namespace Sessions.WPF.Classes.Windows
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                trackPosition.IsEnabled = status == PlayerStatusType.Playing;
                 if (status == PlayerStatusType.Playing)
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/pause.png"));
                 else
@@ -1286,6 +1307,8 @@ namespace Sessions.WPF.Classes.Windows
 
                 string imageName = isShuffleEnabled ? "shuffle_on" : "shuffle_off";
                 imageShuffle.Source = new BitmapImage(new Uri(string.Format("pack://application:,,,/Resources/Images/Toolbar/{0}.png", imageName)));
+
+                EnableUIForPlayerStatus(status);
             }));
         }
 
@@ -1325,6 +1348,12 @@ namespace Sessions.WPF.Classes.Windows
                     lblGenre.Content = string.Empty;
                     lblPlayCount.Content = string.Empty;
                     lblLastPlayed.Content = string.Empty;
+                    lblPosition.Content = "0:00.000";
+                    lblLength.Content = "0:00.000";
+                    _currentAlbumArtKey = string.Empty;
+                    imageAlbum.Source = null;
+                    scrollViewWaveForm.Reset();   
+                    outputMeter.Reset();
                 }
                 else
                 {
