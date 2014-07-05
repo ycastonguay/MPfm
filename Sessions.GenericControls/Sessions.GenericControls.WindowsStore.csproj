@@ -116,6 +116,8 @@
     <Compile Include="Basics\BasicPen.cs" />
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
+    <Compile Include="Controls\Themes\IControlTheme.cs" />
+    <Compile Include="Controls\Themes\TrackBarTheme.cs" />	
     <Compile Include="Controls\WaveFormScaleControl.cs" />
     <Compile Include="Controls\FaderControl.cs" />
     <Compile Include="Controls\IControl.cs" />

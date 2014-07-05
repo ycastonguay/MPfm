@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Sessions.Core.Helpers;
+using Sessions.GenericControls.Basics;
 using Sessions.Sound.BassNetWrapper;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
@@ -39,11 +40,22 @@ namespace Sessions.WPF.Classes.Windows
         private LibraryAppConfig _libraryAppConfig;
         private CloudAppConfig _cloudAppConfig;
 
-        public PreferencesWindow(Action<IBaseView> onViewReady) 
-            : base (onViewReady)
+        public PreferencesWindow(Action<IBaseView> onViewReady)
+            : base(onViewReady)
         {
             InitializeComponent();
+            InitializeTrackBars();
             ViewIsReady();
+        }
+
+        private void InitializeTrackBars()
+        {
+            var backgroundColor = new BasicColor(238, 238, 238);
+            trackBufferSize.Theme.BackgroundColor = backgroundColor;
+            trackMaximumFolderSize.Theme.BackgroundColor = backgroundColor;
+            trackUpdateFrequency_OutputMeter.Theme.BackgroundColor = backgroundColor;
+            trackUpdateFrequency_SongPosition.Theme.BackgroundColor = backgroundColor;
+            trackUpdatePeriod.Theme.BackgroundColor = backgroundColor;
         }
 
         private void btnTab_OnClick(object sender, RoutedEventArgs e)
@@ -76,30 +88,6 @@ namespace Sessions.WPF.Classes.Windows
             btnTabCloud.Style = res["TabButton"] as Style;
         }
 
-        private void ComboOutputDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void ComboSampleRate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void sliderBufferSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-        private void TxtBufferSize_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
-
-        private void sliderUpdatePeriod_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-        private void TxtUpdatePeriod_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-        }
-
         private void btnTestAudioSettings_OnClick(object sender, RoutedEventArgs e)
         {
         }
@@ -118,26 +106,6 @@ namespace Sessions.WPF.Classes.Windows
         }
 
         #region General Preferences
-
-        private void sliderOutputMeter_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (lblUpdateFrequency_OutputMeter == null) return;
-            int value = (int)sliderUpdateFrequency_OutputMeter.Value;
-            lblUpdateFrequency_OutputMeter.Content = value.ToString();
-
-            _generalAppConfig.OutputMeterUpdateFrequency = value;
-            OnSetGeneralPreferences(_generalAppConfig);
-        }
-
-        private void sliderSongPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (lblUpdateFrequency_SongPosition == null) return;
-            int value = (int)sliderUpdateFrequency_SongPosition.Value;
-            lblUpdateFrequency_SongPosition.Content = value.ToString();
-
-            _generalAppConfig.SongPositionUpdateFrequency = value;
-            OnSetGeneralPreferences(_generalAppConfig);
-        }
 
         private void ChkShowTooltips_OnChecked(object sender, RoutedEventArgs e)
         {
@@ -187,16 +155,6 @@ namespace Sessions.WPF.Classes.Windows
             }
         }
 
-        private void sliderMaximumFolderSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (txtMaximumFolderSize == null) return;
-            int value = (int)sliderMaximumFolderSize.Value;
-            txtMaximumFolderSize.Text = value.ToString();
-
-            _generalAppConfig.MaximumPeakFolderSize = value;
-            OnSetGeneralPreferences(_generalAppConfig);
-        }
-
         private void TxtMaximumFolderSize_OnTextChanged(object sender, TextChangedEventArgs e)
         {
         }
@@ -207,6 +165,69 @@ namespace Sessions.WPF.Classes.Windows
                 return;
 
             OnDeletePeakFiles();
+        }
+
+        private void TrackUpdateFrequencySongPosition_OnTrackBarValueChanged()
+        {
+            if (lblUpdateFrequency_SongPosition == null) return;
+            int value = trackUpdateFrequency_SongPosition.Value;
+            lblUpdateFrequency_SongPosition.Content = value.ToString();
+
+            _generalAppConfig.SongPositionUpdateFrequency = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void TrackUpdateFrequencyOutputMeter_OnTrackBarValueChanged()
+        {
+            if (lblUpdateFrequency_OutputMeter == null) return;
+            int value = trackUpdateFrequency_OutputMeter.Value;
+            lblUpdateFrequency_OutputMeter.Content = value.ToString();
+
+            _generalAppConfig.OutputMeterUpdateFrequency = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void TrackMaximumFolderSize_OnTrackBarValueChanged()
+        {
+            if (txtMaximumFolderSize == null) return;
+            int value = trackMaximumFolderSize.Value;
+            txtMaximumFolderSize.Text = value.ToString();
+
+            _generalAppConfig.MaximumPeakFolderSize = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        #endregion
+
+        #region Audio Preferences
+
+        private void TrackBufferSize_OnTrackBarValueChanged()
+        {
+            if (lblBufferSize == null) return;
+            int value = trackBufferSize.Value;
+            lblBufferSize.Content = value.ToString();
+
+            _audioAppConfig.BufferSize = value;
+            OnSetAudioPreferences(_audioAppConfig);
+        }
+
+        private void TrackUpdatePeriod_OnTrackBarValueChanged()
+        {
+            if (lblUpdatePeriod == null) return;
+            int value = trackUpdatePeriod.Value;
+            lblUpdatePeriod.Content = value.ToString();
+
+            _audioAppConfig.UpdatePeriod = value;
+            OnSetAudioPreferences(_audioAppConfig);
+        }
+
+        private void ComboOutputDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //OnSetOutputDevice()
+        }
+
+        private void ComboSampleRate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
         }
 
         #endregion
@@ -350,6 +371,8 @@ namespace Sessions.WPF.Classes.Windows
         #region IAudioPreferencesView implementation
 
         public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<Device> OnSetOutputDevice { get; set; }
+        public Action<int> OnSetSampleRate { get; set; }
 
         public void AudioPreferencesError(Exception ex)
         {
@@ -361,6 +384,11 @@ namespace Sessions.WPF.Classes.Windows
             _audioAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
+                trackBufferSize.Value = config.BufferSize;
+                trackUpdatePeriod.Value = config.UpdatePeriod;
+
+                lblBufferSize.Content = config.BufferSize.ToString();
+                lblUpdatePeriod.Content = config.UpdatePeriod.ToString();
             }));
         }
 
@@ -390,8 +418,8 @@ namespace Sessions.WPF.Classes.Windows
             _generalAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                sliderUpdateFrequency_SongPosition.Value = config.SongPositionUpdateFrequency;
-                sliderUpdateFrequency_OutputMeter.Value = config.OutputMeterUpdateFrequency;
+                trackUpdateFrequency_SongPosition.Value = config.SongPositionUpdateFrequency;
+                trackUpdateFrequency_OutputMeter.Value = config.OutputMeterUpdateFrequency;
                 lblUpdateFrequency_OutputMeter.Content = config.OutputMeterUpdateFrequency.ToString();
                 lblUpdateFrequency_SongPosition.Content = config.SongPositionUpdateFrequency.ToString();
 
@@ -401,7 +429,7 @@ namespace Sessions.WPF.Classes.Windows
 
                 radioPeakFiles_UseCustomDirectory.IsChecked = config.UseCustomPeakFileFolder;
                 radioPeakFiles_UseDefaultDirectory.IsChecked = !config.UseCustomPeakFileFolder;
-                sliderMaximumFolderSize.Value = config.MaximumPeakFolderSize;
+                trackMaximumFolderSize.Value = config.MaximumPeakFolderSize;
                 txtMaximumFolderSize.Text = config.MaximumPeakFolderSize.ToString();
                 txtPeakFiles_CustomDirectory.Text = config.CustomPeakFileFolder;
 

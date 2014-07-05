@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using Sessions.MVP.Presenters.Interfaces;
+using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Config;
@@ -33,13 +34,15 @@ namespace Sessions.MVP.Presenters
     public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
 	{
         private readonly ITinyMessengerHub _messageHub;
+	    private readonly IPlayerService _playerService;
 
-        public AudioPreferencesPresenter(ITinyMessengerHub messageHub)
+	    public AudioPreferencesPresenter(ITinyMessengerHub messageHub, IPlayerService playerService)
         {
             _messageHub = messageHub;
+            _playerService = playerService;
         }
 
-        public override void BindView(IAudioPreferencesView view)
+	    public override void BindView(IAudioPreferencesView view)
         {
             view.OnSetAudioPreferences = SetAudioPreferences;
             base.BindView(view);
@@ -55,6 +58,10 @@ namespace Sessions.MVP.Presenters
                 AppConfigManager.Instance.Root.Audio = config;
                 AppConfigManager.Instance.Save();
                 RefreshPreferences();
+
+                _playerService.BufferSize = config.BufferSize;
+                _playerService.UpdatePeriod = config.UpdatePeriod;
+
                 _messageHub.PublishAsync<AudioAppConfigChangedMessage>(new AudioAppConfigChangedMessage(this, config));
             }
             catch (Exception ex)

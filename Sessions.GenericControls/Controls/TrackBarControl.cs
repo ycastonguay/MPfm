@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Themes;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 
@@ -25,19 +26,6 @@ namespace Sessions.GenericControls.Controls
 {
     public class TrackBarControl : IControl, IControlMouseInteraction
     {
-        private BasicBrush _brushBackground;
-        private BasicPen _penTransparent;
-        private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
-        private BasicColor _backgroundColor2 = new BasicColor(32, 40, 46);
-        private BasicColor _faderColor1 = new BasicColor(255, 255, 255);
-        private BasicColor _faderColor2 = new BasicColor(245, 245, 245);
-        private BasicColor _faderShadowColor1 = new BasicColor(188, 188, 188);
-        private BasicColor _faderShadowColor2 = new BasicColor(220, 220, 220);
-        private BasicColor _centerLineColor = new BasicColor(0, 0, 0, 150);
-        private BasicColor _centerLineShadowColor = new BasicColor(169, 169, 169, 80);
-        private BasicColor _faderMiddleLineColor = new BasicColor(0, 0, 0);
-        private BasicColor _faderShadowColor = new BasicColor(169, 169, 169);
-
         private BasicRectangle _rectFader = new BasicRectangle();
         private bool _isTrackBarMoving = false;
         private float _trackWidth = 0;
@@ -45,6 +33,28 @@ namespace Sessions.GenericControls.Controls
         private float _valueRelativeToValueRange = 0;
         private float _valueRange = 0;
         private bool _mouseButtonDown = false;
+
+        private BasicBrush _brushBackground;
+        private BasicBrush _brushFaderColor2;
+        private BasicPen _penTransparent;
+        private BasicPen _penShadowColor1;
+        private BasicPen _penCenterLineShadow;
+        private BasicPen _penCenterLine;
+
+        private TrackBarTheme _theme;
+        public TrackBarTheme Theme
+        {
+            get
+            {
+                return _theme;
+            }
+            set
+            {
+                _theme = value;
+                _theme.OnControlThemeChanged += CreateDrawingResources;
+                CreateDrawingResources();
+            }
+        }
 
         public int FaderWidth { get; set; }
         public int FaderHeight { get; set; }
@@ -55,11 +65,6 @@ namespace Sessions.GenericControls.Controls
         public int Maximum { get; set; }
 
         private int _value = 0;
-        private BasicBrush _brushFaderColor2;
-        private BasicPen _penShadowColor1;
-        private BasicPen _penCenterLineShadow;
-        private BasicPen _penCenterLine;
-
         public int Value
         {
             get
@@ -108,20 +113,19 @@ namespace Sessions.GenericControls.Controls
             Margin = 16;
             StepSize = 1;
             WheelStepSize = 1;
+            Theme = new TrackBarTheme();
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
-
-            CreateDrawingResources();
         }
 
         private void CreateDrawingResources()
         {
             _penTransparent = new BasicPen();
-            _penShadowColor1 = new BasicPen(new BasicBrush(_faderShadowColor1), 1);
-            _penCenterLine = new BasicPen(new BasicBrush(_centerLineColor), 1);
-            _penCenterLineShadow = new BasicPen(new BasicBrush(_centerLineShadowColor), 1);
-            _brushBackground = new BasicBrush(_backgroundColor);
-            _brushFaderColor2 = new BasicBrush(_faderColor2);
+            _penShadowColor1 = new BasicPen(new BasicBrush(_theme.FaderShadowColor), 1);
+            _penCenterLine = new BasicPen(new BasicBrush(_theme.CenterLineColor), 1);
+            _penCenterLineShadow = new BasicPen(new BasicBrush(_theme.CenterLineShadowColor), 1);
+            _brushBackground = new BasicBrush(_theme.BackgroundColor);
+            _brushFaderColor2 = new BasicBrush(_theme.FaderColor);
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
@@ -312,23 +316,23 @@ namespace Sessions.GenericControls.Controls
             ////g.FillRectangle(Brushes.DarkGray, rectTickZone);            
 
             // Draw fader outline (with 8px border)
-            var rectFaderLeft = new BasicRectangle(faderX, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
-            var rectFaderRight = new BasicRectangle(faderX + FaderWidth - 8, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
+            //var rectFaderLeft = new BasicRectangle(faderX, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
+            //var rectFaderRight = new BasicRectangle(faderX + FaderWidth - 8, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
             var rectFaderCenter = new BasicRectangle(faderX + 4, (context.BoundsHeight / 2) - (FaderHeight / 2), FaderWidth - 8, FaderHeight);
 
-            //context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(_faderColor1, _faderColor, 90), new BasicPen());
             //context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(new BasicColor(255, 0, 0), new BasicColor(0, 0, 255), 90), new BasicPen());
-            //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(_faderColor1, _faderColor, 90), new BasicPen());
             //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(new BasicColor(0, 255, 0), new BasicColor(255, 0, 255), 90), new BasicPen());
-            context.DrawEllipsis(rectFaderCenter, _brushFaderColor2, _penTransparent);
-            //context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
+            context.DrawEllipsis(rectFaderCenter, _brushFaderColor2, _penShadowColor1);
+            //context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor), new BasicPen());
 
             // Draw fader inside (with 4px border)
-            var rectFaderInsideLeft = new BasicRectangle(faderX + 2, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
-            var rectFaderInsideRight = new BasicRectangle(faderX + FaderWidth - 6, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
-
-            //context.DrawEllipsis(rectFaderInsideLeft, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
-            //context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
+            //var rectFaderInsideLeft = new BasicRectangle(faderX + 2, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
+            //var rectFaderInsideRight = new BasicRectangle(faderX + FaderWidth - 6, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
+            //context.DrawEllipsis(rectFaderInsideLeft, new BasicGradientBrush(_faderShadowColor, _faderShadowColor, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor, _faderShadowColor, 90), new BasicPen());
+            
             context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), _penShadowColor1);
         }
     }

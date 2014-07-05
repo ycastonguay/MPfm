@@ -65,6 +65,8 @@ namespace Sessions.MVP.Services
         public float TimeShifting { get { return _player.TimeShifting; } }
         public int PitchShifting { get { return _player.PitchShifting; } }
         public PlayerStatusType Status { get; private set; }
+        public int BufferSize { get { return _player.BufferSize; } set { _player.BufferSize = value; } }
+        public int UpdatePeriod { get { return _player.UpdatePeriod; } set { _player.UpdatePeriod = value; } }
 
         public delegate void BPMDetected(float bpm);
         /// <summary>

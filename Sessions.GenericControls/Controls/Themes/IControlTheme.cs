@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright � 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -14,24 +14,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Collections.Generic;
-using Sessions.MVP.Config.Models;
-using Sessions.Sound.BassNetWrapper;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Graphics;
+using Sessions.GenericControls.Interaction;
 
-namespace Sessions.MVP.Views
+namespace Sessions.GenericControls.Controls.Themes
 {
-	/// <summary>
-    /// Audio preferences view interface.
-	/// </summary>
-    public interface IAudioPreferencesView : IBaseView
-	{        
-        Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        Action<Device> OnSetOutputDevice { get; set; }
-        Action<int> OnSetSampleRate { get; set; }
-
-        void AudioPreferencesError(Exception ex);
-        void RefreshAudioPreferences(AudioAppConfig config);
-	    void RefreshAudioDevices(IEnumerable<Device> devices);
-	}
+    public delegate void ControlThemeChanged();
+    public interface IControlTheme
+    {
+        event ControlThemeChanged OnControlThemeChanged;
+    }
 }

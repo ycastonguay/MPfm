@@ -155,6 +155,8 @@
     <Compile Include="Controls\ProgressBarControl.cs" />
     <Compile Include="Controls\CircularProgressBarControl.cs" />
     <Compile Include="Basics\BasicPath.cs" />
+    <Compile Include="Controls\Themes\IControlTheme.cs" />
+    <Compile Include="Controls\Themes\TrackBarTheme.cs" />	
     <Compile Include="Basics\IBasicPathItem.cs" />
     <Compile Include="Basics\BasicPathLine.cs" />
         <Compile Include="Controls\CheckBoxControl.cs" />

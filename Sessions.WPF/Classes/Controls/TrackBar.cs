@@ -20,6 +20,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Sessions.GenericControls.Controls.Themes;
 using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
@@ -31,8 +32,8 @@ namespace Sessions.WPF.Classes.Controls
     public class TrackBar : Control
     {
         private TrackBarControl _control;
-
-        // TODO: Move to ifaderproperties
+        
+        public TrackBarTheme Theme { get { return _control.Theme; } set { _control.Theme = value; } }
         public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
         public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
         public int Value { get { return _control.Value; } set { _control.Value = value; } }

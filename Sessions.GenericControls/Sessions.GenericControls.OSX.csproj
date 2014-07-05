@@ -93,6 +93,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
+    <Compile Include="Controls\Themes\IControlTheme.cs" />
+    <Compile Include="Controls\Themes\TrackBarTheme.cs" />	
     <Compile Include="Theme\GenericTheme.cs" />
     <Compile Include="Basics\IBasicImage.cs" />
     <Compile Include="Controls\ProgressBarControl.cs" />

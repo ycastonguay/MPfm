@@ -47,6 +47,8 @@ namespace Sessions.MVP.Services.Interfaces
         float TimeShifting { get; }
         int PitchShifting { get; }
         float Volume { get; set; }
+        int BufferSize { get; set; }
+        int UpdatePeriod { get; set; }
 
         PlaylistItem CurrentPlaylistItem { get; }
         Playlist CurrentPlaylist { get; }
