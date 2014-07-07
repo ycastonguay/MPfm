@@ -28,6 +28,7 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace Sessions.Player
 {
+    public delegate void PlaylistEnded();
     public delegate void SegmentIndexChanged(int segmentIndex);
     public delegate void PlaylistIndexChanged(PlayerPlaylistIndexChangedData data);
     public delegate void AudioInterrupted(AudioInterruptedData data);
@@ -60,6 +61,7 @@ namespace Sessions.Player
         int UpdateThreads { get; set; }
         float Volume { get; set; }
 
+        event PlaylistEnded OnPlaylistEnded;
         event PlaylistIndexChanged OnPlaylistIndexChanged;
         event AudioInterrupted OnAudioInterrupted;
         event BPMDetected OnBPMDetected;

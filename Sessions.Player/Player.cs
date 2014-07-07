@@ -133,6 +133,12 @@ namespace Sessions.Player
         /// The OnPlaylistIndexChanged event is triggered when the playlist index changes (i.e. when an audio file
         /// starts to play).
         /// </summary>
+        public event PlaylistEnded OnPlaylistEnded;
+
+        /// <summary>
+        /// The OnPlaylistIndexChanged event is triggered when the playlist index changes (i.e. when an audio file
+        /// starts to play).
+        /// </summary>
         public event PlaylistIndexChanged OnPlaylistIndexChanged;
 
         /// <summary>
@@ -251,6 +257,7 @@ namespace Sessions.Player
             set
             {
                 _isShuffleEnabled = value;
+                Playlist.IsShuffled = value;
             }
         }
 
@@ -549,6 +556,8 @@ namespace Sessions.Player
         /// <param name="initializeDevice">Indicates if the device should be initialized</param>
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
+            OnPlaylistEnded += () => { };
+
             Player.CurrentPlayer = this;            
             _device = device;
             _mixerSampleRate = mixerSampleRate;
@@ -1382,8 +1391,10 @@ namespace Sessions.Player
         /// </summary>
         public void Previous()
         {
-            if (Playlist.CurrentItemIndex > 0)
-                GoTo(Playlist.CurrentItemIndex - 1);
+            Stop();
+            Playlist.Previous();
+            _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
+            Play();
         }
 
         /// <summary>
@@ -1391,8 +1402,19 @@ namespace Sessions.Player
         /// </summary>
         public void Next()
         {
-            if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)
-                GoTo(Playlist.CurrentItemIndex + 1);
+            Stop();
+            try
+            {
+                Playlist.Next();
+            }
+            catch (EndOfPlaylistException ex)
+            {
+                OnPlaylistEnded();
+                _currentMixPlaylistIndex = -1;
+                return;
+            }
+            _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
+            Play();
         }       
 
         /// <summary>

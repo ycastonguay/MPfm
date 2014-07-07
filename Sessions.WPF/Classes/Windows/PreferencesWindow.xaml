@@ -146,7 +146,7 @@
                     <Label Content="HTTP Port:" Foreground="#333333" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="0,0,0,2" Padding="0" VerticalAlignment="Center" />
                     <Grid Background="White" Margin="4,4,4,4" Height="24" VerticalAlignment="Center">
                         <TextBlock Text="53551" Margin="5,2" Padding="0,4,0,0" Foreground="DarkSlateGray"  FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular"
-                                        Visibility="{Binding ElementName=txtAddDevicePort, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
+                                        Visibility="{Binding ElementName=txtLibraryServicePort, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
                         <TextBox x:Name="txtLibraryServicePort" Padding="0,4,0,0" Background="Transparent" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                     </Grid>
                 </StackPanel>

@@ -61,8 +61,10 @@ namespace Sessions.Sound.Playlists
 
             var item = RandomizeNextItem();
             CurrentItem = item;
+            CurrentItemIndex = Items.IndexOf(item);
         }
 
+        // Move to helper since this is not supposed to be public, but is unit tested
         public PlaylistItem RandomizeNextItem()
         {
             while (true)

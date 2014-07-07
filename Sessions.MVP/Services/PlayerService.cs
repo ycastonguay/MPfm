@@ -84,6 +84,7 @@ namespace Sessions.MVP.Services
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
         {
             _player = new Sessions.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
+            _player.OnPlaylistEnded += HandlePlayerOnPlaylistEnded;
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
@@ -99,6 +100,14 @@ namespace Sessions.MVP.Services
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
             _messengerHub.Subscribe<PlayerSetPositionMessage>(PlayerSetPositionMessageReceived);
             IsInitialized = true;
+        }
+
+        private void HandlePlayerOnPlaylistEnded()
+        {
+            if (Status == PlayerStatusType.Stopped)
+                return;
+
+            UpdatePlayerStatus(PlayerStatusType.Stopped);
         }
 
         void HandleOnBPMDetected(float bpm)
@@ -128,10 +137,8 @@ namespace Sessions.MVP.Services
                     AppConfigManager.Instance.Save();
 
                     // Store player status on Cloud if enabled in preferences
-                    //if (AppConfigManager.Instance.Root.Cloud.IsDropboxResumePlaybackEnabled)
-                    //{
+                    if (AppConfigManager.Instance.Root.Cloud.IsResumePlaybackEnabled)
                         _cloudLibraryService.PushDeviceInfo(data.AudioFileStarted, 0, "0:00.000");
-                    //}
                 }
                 catch (Exception ex)
                 {

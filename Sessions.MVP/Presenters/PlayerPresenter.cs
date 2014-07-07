@@ -266,7 +266,7 @@ namespace Sessions.MVP.Presenters
         private void HandleTimerSavePlayerStatusElapsed(object sender, object eventArgs)
         #endif
         {
-            if(_playerService.IsSettingPosition)
+            if(_playerService.IsSettingPosition || !_playerService.IsPlaying)
                 return;
 
             PlayerPositionEntity entity = new PlayerPositionEntity();
