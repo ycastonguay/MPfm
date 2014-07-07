@@ -28,6 +28,7 @@ using Sessions.MVP.Views;
 using Sessions.Core;
 using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
+using Sessions.Sound;
 using Sessions.Sound.BassNetWrapper;
 using Timer = System.Timers.Timer;
 using Sessions.MVP.Config;
@@ -78,12 +79,20 @@ namespace Sessions.MVP.Presenters
             // TODO: Some refactoring here. Should not be a static method in InitializationService!
 	        InitializationService.CreateDirectories(); // make sure directories exist before initializing configuration
             AppConfigManager.Instance.Load();
-            var device = new Device()
-            {
-                DriverType = DriverType.DirectSound,
-                Id = -1
-            };
-            _playerService.Initialize(device, 44100, 1000, 100);
+
+            // Register BASS.NET
+            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
+
+	        try
+	        {
+                // Try to inialize device with configured settings. 
+                InitializeDevice(false);
+	        }
+	        catch
+	        {
+                // Failed to initialize; use the default device. If this fails, an exception will be thrown
+                InitializeDevice(true);
+	        }
             //View.RefreshStatus("Init player done");
 
 #if LINUX
@@ -113,7 +122,35 @@ namespace Sessions.MVP.Presenters
             });
 	    }
 
-        private void CloudLibraryServiceOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)
+	    private void InitializeDevice(bool useDefaultDevice)
+	    {
+            try
+            {
+                var device = DeviceHelper.GetDefaultDirectSoundOutputDevice();
+                int sampleRate = 44100;
+                int bufferSize = 1000;
+                int updatePeriod = 100;
+                if (!useDefaultDevice)
+                {
+                    sampleRate = AppConfigManager.Instance.Root.Audio.SampleRate;
+                    bufferSize = AppConfigManager.Instance.Root.Audio.BufferSize;
+                    updatePeriod = AppConfigManager.Instance.Root.Audio.UpdatePeriod;
+                    var configuredDevice = AppConfigManager.Instance.Root.Audio.AudioDevice;
+                    var foundConfiguredDevice = DeviceHelper.FindOutputDevice(configuredDevice.DriverType, configuredDevice.Name);
+                    if (foundConfiguredDevice != null)
+                        device = foundConfiguredDevice;
+                }
+
+                _playerService.Initialize(device, sampleRate, bufferSize, updatePeriod);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("Failed to initialize player: {0}", ex);
+                throw;
+            }
+	    }
+
+	    private void CloudLibraryServiceOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)
         {
             Tracing.Log("SplashPresenter - CloudLibraryServiceOnDeviceInfosAvailable - deviceInfos.Count: {0}", deviceInfos.Count());
             Close();

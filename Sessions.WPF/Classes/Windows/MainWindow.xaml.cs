@@ -155,7 +155,9 @@ namespace Sessions.WPF.Classes.Windows
             trackTimeShifting.IsEnabled = enabled;
             trackPitchShifting.IsEnabled = enabled;
             btnAddLoop.IsEnabled = enabled;
+            btnAddLoop.Enabled = enabled;
             btnAddMarker.IsEnabled = enabled;
+            btnAddMarker.Enabled = enabled;
             btnUseThisTempo.IsEnabled = enabled;
             btnChangeKey.IsEnabled = enabled;
             btnEditSongMetadata.IsEnabled = enabled;

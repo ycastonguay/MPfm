@@ -410,6 +410,8 @@ namespace Sessions.WPF.Classes.Windows
                 lblBufferSize.Content = config.BufferSize.ToString();
                 lblUpdatePeriod.Content = config.UpdatePeriod.ToString();
                 comboOutputDevice.SelectedIndex = _devices.FindIndex(d => d.Id == config.AudioDevice.Id && d.DriverType == config.AudioDevice.DriverType);
+                if (comboOutputDevice.SelectedIndex == -1)
+                    comboOutputDevice.SelectedIndex = 0;
 
                 if (config.SampleRate == 44100)
                     comboSampleRate.SelectedIndex = 0;

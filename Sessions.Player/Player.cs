@@ -554,7 +554,7 @@ namespace Sessions.Player
             _mixerSampleRate = mixerSampleRate;
             _bufferSize = bufferSize;
             _updatePeriod = updatePeriod;
-            _decodingService = new DecodingService(100000, UseFloatingPoint);
+            //_decodingService = new DecodingService(100000, UseFloatingPoint);
             _playlist = new ShufflePlaylist();
             _syncProcs = new List<PlayerSyncProc>();
 
@@ -566,9 +566,6 @@ namespace Sessions.Player
             _timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(timerPlayer_Elapsed);
             _timerPlayer.Interval = 1000;
             _timerPlayer.Enabled = false;
-
-            // Register BASS.NET
-            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
 
             // Initialize BASS library by OS type
             if (OS.Type == OSType.Windows)
