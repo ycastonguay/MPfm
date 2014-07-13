@@ -121,7 +121,7 @@ namespace Sessions.OSX.Classes.Controls
             } 
             else
             {
-                var path = NSBezierPath.FromRoundedRect(Bounds, RoundedRadius, RoundedRadius);
+                var roundedPath = NSBezierPath.FromRoundedRect(Bounds, RoundedRadius, RoundedRadius);
                 NSColor nsColor = null;
                 if(!Enabled)
                     nsColor = NSColor.FromCIColor(CIColor.FromCGColor(DisabledBackgroundColor));
@@ -132,7 +132,7 @@ namespace Sessions.OSX.Classes.Controls
                 else
                     nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundColor));
                 nsColor.SetFill();
-                path.Fill();
+                roundedPath.Fill();
             }
 
             //CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor, 2);
@@ -149,10 +149,23 @@ namespace Sessions.OSX.Classes.Controls
             } 
             else
             {
-                rectText = new RectangleF((Bounds.Width - rectTextSize.Width) / 2, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
+                rectText = new RectangleF(padding * 2, ((Bounds.Height - rectTextSize.Height) / 2) - 2, rectTextSize.Width, rectTextSize.Height);
             }
 
             CoreGraphicsHelper.DrawText(rectText, 0, 0, Title, "Roboto", 11, NSColor.White);
+
+            var triangleColor = new CGColor(0.8f, 0.8f, 0.8f);
+            float trianglePadding = 8;
+            float triangleWidth = 8;
+            var path = new CGPath();
+            path.MoveToPoint(new PointF(Bounds.Width - trianglePadding, trianglePadding));
+            path.AddLineToPoint(new PointF(Bounds.Width - trianglePadding - (triangleWidth / 2), Bounds.Height - trianglePadding));
+            path.AddLineToPoint(new PointF(Bounds.Width - trianglePadding - triangleWidth, trianglePadding));
+            path.AddLineToPoint(new PointF(Bounds.Width - trianglePadding, trianglePadding));
+
+            CoreGraphicsHelper.StrokePath(context, path, 1, triangleColor);
+            if(_isMouseOver)
+                CoreGraphicsHelper.FillPath(context, path, triangleColor);
         }
 
         RectangleF Get1pxRect(RectangleF rect)

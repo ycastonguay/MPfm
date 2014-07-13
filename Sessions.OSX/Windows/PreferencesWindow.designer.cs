@@ -13,46 +13,46 @@ namespace Sessions.OSX
 	partial class PreferencesWindowController
 	{
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnAddFolder { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnAddFolder { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnBrowseCustomDirectory { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnBrowseCustomDirectory { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnDeletePeakFiles { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnDeletePeakFiles { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnLoginDropbox { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnLoginDropbox { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnRemoveFolder { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnRemoveFolder { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnResetAudioSettings { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnResetAudioSettings { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnResetLibrary { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnResetLibrary { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTabButton btnTabAudio { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTabButton btnTabAudio { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTabButton btnTabCloud { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTabButton btnTabCloud { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTabButton btnTabGeneral { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTabButton btnTabGeneral { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTabButton btnTabLibrary { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTabButton btnTabLibrary { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsButton btnTestAudioSettings { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsButton btnUpdateLibrary { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsCheckBoxView chkEnableLibraryService { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsCheckBoxView chkEnableLibraryService { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsCheckBoxView chkEnableResumePlayback { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsCheckBoxView chkEnableResumePlayback { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblAudioMixer { get; set; }
@@ -70,16 +70,19 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblBufferSize { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblBufferSizeValue { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblCloudDropbox { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblCloudPreferences { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsLabel lblEnableLibraryService { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsLabel lblEnableLibraryService { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsLabel lblEnableResumePlayback { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsLabel lblEnableResumePlayback { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEvery { get; set; }
@@ -94,6 +97,9 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblEvery4 { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblGeneralPeakFileDeletion { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblGeneralPeakFiles { get; set; }
 
 		[Outlet]
@@ -104,9 +110,6 @@ namespace Sessions.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblHttpPort { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblHz { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibraryFolders { get; set; }
@@ -127,7 +130,13 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblMaximumPeakFolderSize { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblMaximumPeakFolderSizeValue { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblMB { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMixerNote { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblMS { get; set; }
@@ -148,6 +157,9 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblOutputMeter { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblOutputMeterValue { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblPeakFileFolderSize { get; set; }
 
 		[Outlet]
@@ -160,7 +172,7 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblSongPosition { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblStatusDescription { get; set; }
+		MonoMac.AppKit.NSTextField lblSongPositionValue { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblUpdateFrequencyWarning { get; set; }
@@ -169,34 +181,34 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblUpdatePeriod { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblUpdatePeriodValue { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSMatrix matrixPeakFiles { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsPopUpButton popupOutputDevice { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsPopUpButton popupOutputDevice { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsPopUpButton popupSampleRate { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsPopUpButton popupSampleRate { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableFolders { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTrackBarView trackBufferSize { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTrackBarView trackBufferSize { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTrackBarView trackMaximumPeakFolderSize { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTrackBarView trackMaximumPeakFolderSize { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTrackBarView trackOutputMeter { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTrackBarView trackOutputMeter { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTrackBarView trackSongPosition { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTrackBarView trackSongPosition { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsTrackBarView trackUpdatePeriod { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField txtBufferSize { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsTrackBarView trackUpdatePeriod { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtCustomDirectory { get; set; }
@@ -205,64 +217,55 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField txtHttpPort { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtMaximumPeakFolderSize { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewAudioPreferences { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtOutputMeter { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewAudioPreferencesHeader { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtSongPosition { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewCloudPreferences { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtUpdatePeriod { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewCloudPreferencesHeader { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSView viewAudioPreferences { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewDropboxHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewAudioPreferencesHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewFoldersHeader { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSView viewCloudPreferences { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewGeneralPreferences { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewCloudPreferencesHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewGeneralPreferencesHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewDropboxHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewLibraryPreferences { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewFoldersHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewLibraryPreferencesHeader { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSView viewGeneralPreferences { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewLibraryServiceHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewGeneralPreferencesHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewMixerHeader { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSView viewLibraryPreferences { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewOutputHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewLibraryPreferencesHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewPeakFileDeletionHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewLibraryServiceHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewPeakFilesHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewMixerHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewStatusHeader { get; set; }
 
 		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewOutputHeader { get; set; }
-
-		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewPeakFilesHeader { get; set; }
-
-		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewStatusHeader { get; set; }
-
-		[Outlet]
-        Sessions.OSX.Classes.Controls.SessionsView viewUpdateFrequencyHeader { get; set; }
+		Sessions.OSX.Classes.Controls.SessionsView viewUpdateFrequencyHeader { get; set; }
 
 		[Action ("actionEnableLibraryService:")]
 		partial void actionEnableLibraryService (MonoMac.Foundation.NSObject sender);
@@ -330,14 +333,14 @@ namespace Sessions.OSX
 				btnTabLibrary = null;
 			}
 
-			if (btnTestAudioSettings != null) {
-				btnTestAudioSettings.Dispose ();
-				btnTestAudioSettings = null;
-			}
-
 			if (chkEnableLibraryService != null) {
 				chkEnableLibraryService.Dispose ();
 				chkEnableLibraryService = null;
+			}
+
+			if (chkEnableResumePlayback != null) {
+				chkEnableResumePlayback.Dispose ();
+				chkEnableResumePlayback = null;
 			}
 
 			if (lblAudioMixer != null) {
@@ -373,6 +376,16 @@ namespace Sessions.OSX
 			if (lblCloudPreferences != null) {
 				lblCloudPreferences.Dispose ();
 				lblCloudPreferences = null;
+			}
+
+			if (lblEnableLibraryService != null) {
+				lblEnableLibraryService.Dispose ();
+				lblEnableLibraryService = null;
+			}
+
+			if (lblEnableResumePlayback != null) {
+				lblEnableResumePlayback.Dispose ();
+				lblEnableResumePlayback = null;
 			}
 
 			if (lblEvery != null) {
@@ -413,11 +426,6 @@ namespace Sessions.OSX
 			if (lblHttpPort != null) {
 				lblHttpPort.Dispose ();
 				lblHttpPort = null;
-			}
-
-			if (lblHz != null) {
-				lblHz.Dispose ();
-				lblHz = null;
 			}
 
 			if (lblLibraryFolders != null) {
@@ -485,6 +493,16 @@ namespace Sessions.OSX
 				lblOutputMeter = null;
 			}
 
+			if (lblSongPositionValue != null) {
+				lblSongPositionValue.Dispose ();
+				lblSongPositionValue = null;
+			}
+
+			if (lblOutputMeterValue != null) {
+				lblOutputMeterValue.Dispose ();
+				lblOutputMeterValue = null;
+			}
+
 			if (lblPeakFileFolderSize != null) {
 				lblPeakFileFolderSize.Dispose ();
 				lblPeakFileFolderSize = null;
@@ -503,11 +521,6 @@ namespace Sessions.OSX
 			if (lblSongPosition != null) {
 				lblSongPosition.Dispose ();
 				lblSongPosition = null;
-			}
-
-			if (lblStatusDescription != null) {
-				lblStatusDescription.Dispose ();
-				lblStatusDescription = null;
 			}
 
 			if (lblUpdateFrequencyWarning != null) {
@@ -545,6 +558,11 @@ namespace Sessions.OSX
 				trackBufferSize = null;
 			}
 
+			if (btnUpdateLibrary != null) {
+				btnUpdateLibrary.Dispose ();
+				btnUpdateLibrary = null;
+			}
+
 			if (trackMaximumPeakFolderSize != null) {
 				trackMaximumPeakFolderSize.Dispose ();
 				trackMaximumPeakFolderSize = null;
@@ -565,9 +583,9 @@ namespace Sessions.OSX
 				trackUpdatePeriod = null;
 			}
 
-			if (txtBufferSize != null) {
-				txtBufferSize.Dispose ();
-				txtBufferSize = null;
+			if (lblMixerNote != null) {
+				lblMixerNote.Dispose ();
+				lblMixerNote = null;
 			}
 
 			if (txtCustomDirectory != null) {
@@ -580,34 +598,9 @@ namespace Sessions.OSX
 				txtHttpPort = null;
 			}
 
-			if (chkEnableResumePlayback != null) {
-				chkEnableResumePlayback.Dispose ();
-				chkEnableResumePlayback = null;
-			}
-
-			if (txtMaximumPeakFolderSize != null) {
-				txtMaximumPeakFolderSize.Dispose ();
-				txtMaximumPeakFolderSize = null;
-			}
-
-			if (txtOutputMeter != null) {
-				txtOutputMeter.Dispose ();
-				txtOutputMeter = null;
-			}
-
-			if (txtSongPosition != null) {
-				txtSongPosition.Dispose ();
-				txtSongPosition = null;
-			}
-
-			if (txtUpdatePeriod != null) {
-				txtUpdatePeriod.Dispose ();
-				txtUpdatePeriod = null;
-			}
-
-			if (lblEnableResumePlayback != null) {
-				lblEnableResumePlayback.Dispose ();
-				lblEnableResumePlayback = null;
+			if (lblMaximumPeakFolderSizeValue != null) {
+				lblMaximumPeakFolderSizeValue.Dispose ();
+				lblMaximumPeakFolderSizeValue = null;
 			}
 
 			if (viewAudioPreferences != null) {
@@ -685,14 +678,29 @@ namespace Sessions.OSX
 				viewStatusHeader = null;
 			}
 
+			if (viewPeakFileDeletionHeader != null) {
+				viewPeakFileDeletionHeader.Dispose ();
+				viewPeakFileDeletionHeader = null;
+			}
+
 			if (viewUpdateFrequencyHeader != null) {
 				viewUpdateFrequencyHeader.Dispose ();
 				viewUpdateFrequencyHeader = null;
 			}
 
-			if (lblEnableLibraryService != null) {
-				lblEnableLibraryService.Dispose ();
-				lblEnableLibraryService = null;
+			if (lblUpdatePeriodValue != null) {
+				lblUpdatePeriodValue.Dispose ();
+				lblUpdatePeriodValue = null;
+			}
+
+			if (lblGeneralPeakFileDeletion != null) {
+				lblGeneralPeakFileDeletion.Dispose ();
+				lblGeneralPeakFileDeletion = null;
+			}
+
+			if (lblBufferSizeValue != null) {
+				lblBufferSizeValue.Dispose ();
+				lblBufferSizeValue = null;
 			}
 		}
 	}

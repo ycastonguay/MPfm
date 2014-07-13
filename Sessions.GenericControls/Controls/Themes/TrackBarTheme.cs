@@ -62,7 +62,7 @@ namespace Sessions.GenericControls.Controls.Themes
             }
         }
 
-        private BasicColor _faderColor = new BasicColor(245, 245, 245);
+        private BasicColor _faderColor = new BasicColor(255, 255, 255);
         public BasicColor FaderColor
         {
             get { return _faderColor; }

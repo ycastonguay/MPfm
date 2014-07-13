@@ -23,6 +23,7 @@ using MonoMac.Foundation;
 using Sessions.GenericControls.Controls;
 using Sessions.OSX.Classes.Controls.Graphics;
 using Sessions.OSX.Classes.Controls.Helpers;
+using Sessions.GenericControls.Controls.Themes;
 
 namespace Sessions.OSX.Classes.Controls
 {
@@ -37,6 +38,7 @@ namespace Sessions.OSX.Classes.Controls
 
         public bool BlockValueChangeWhenDraggingMouse { get; set; }
 
+        public TrackBarTheme Theme { get { return _control.Theme; } }
         public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
         public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
         public int StepSize { get { return _control.StepSize; } set { _control.StepSize = value; } }

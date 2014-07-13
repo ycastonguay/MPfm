@@ -17,6 +17,7 @@
 
 using MonoMac.CoreGraphics;
 using MonoMac.AppKit;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.OSX.Classes.Objects
 {
@@ -64,6 +65,10 @@ namespace Sessions.OSX.Classes.Objects
         public static CGColor SettingsTabColor = new CGColor(32f/255f, 40f/255f, 46f/255f, 1);
         public static CGColor SettingsTabSelectedColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
         public static CGColor SettingsTabOverColor = new CGColor(50f/255f, 60f/255f, 67f/255f, 1);
+        public static CGColor SettingsHeaderColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
+        public static CGColor SettingsHeader2Color = new CGColor(117f/255f, 135f/255f, 148f/255f, 1);
+        public static CGColor SettingsBackgroundColor = new CGColor(242f/255f, 242f/255f, 242f/255f, 1);
+        public static BasicColor SettingsGenericBackgroundColor = new BasicColor(242, 242, 242);
 
         public static CGColor AlbumCoverBackgroundColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
         public static CGColor AlbumCoverBackgroundColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);

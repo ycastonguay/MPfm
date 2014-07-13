@@ -99,12 +99,7 @@ namespace Sessions.OSX
 
         private void LoadTextBoxes()
         {
-            txtBufferSize.WeakDelegate = this;
             txtCustomDirectory.WeakDelegate = this;
-            txtMaximumPeakFolderSize.WeakDelegate = this;
-            txtOutputMeter.WeakDelegate = this;
-            txtSongPosition.WeakDelegate = this;
-            txtUpdatePeriod.WeakDelegate = this;
 
             var cell = txtCustomDirectory.Cell as NSTextFieldCell;
             cell.PlaceholderString = PathHelper.PeakFileDirectory;
@@ -124,7 +119,6 @@ namespace Sessions.OSX
             btnAddFolder.OnButtonSelected += HandleOnAddFolderButtonSelected;
             btnRemoveFolder.OnButtonSelected += HandleOnRemoveFolderButtonSelected;
             btnResetLibrary.OnButtonSelected += HandleOnResetLibraryButtonSelected;
-            btnTestAudioSettings.OnButtonSelected += HandleOnTestAudioSettingsButtonSelected;
             btnResetAudioSettings.OnButtonSelected += HandleOnResetAudioSettingsButtonSelected;
         }
 
@@ -146,40 +140,55 @@ namespace Sessions.OSX
             trackBufferSize.Maximum = 5000;
             trackBufferSize.Value = 100;
 
-            trackOutputMeter.OnTrackBarValueChanged += HandleOnOutputMeterTrackBarValueChanged; 
-            trackSongPosition.OnTrackBarValueChanged += HandleOnSongPositionTrackBarValueChanged;
+            trackMaximumPeakFolderSize.OnTrackBarValueChanged += HandleOnMaximumPeakFolderSizeTrackBarValueChanged;
             trackBufferSize.OnTrackBarValueChanged += HandleOnBufferSizeTrackBarValueChanged;
             trackUpdatePeriod.OnTrackBarValueChanged += HandleOnUpdatePeriodTrackBarValueChanged;
-            trackMaximumPeakFolderSize.OnTrackBarValueChanged += HandleOnMaximumPeakFolderSizeTrackBarValueChanged;
-        }
+        }       
 
         private void LoadFontsAndImages()
         {
-            viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            trackBufferSize.Theme.BackgroundColor = GlobalTheme.SettingsGenericBackgroundColor;
+            trackMaximumPeakFolderSize.Theme.BackgroundColor = GlobalTheme.SettingsGenericBackgroundColor;
+            trackOutputMeter.Theme.BackgroundColor = GlobalTheme.SettingsGenericBackgroundColor;
+            trackSongPosition.Theme.BackgroundColor = GlobalTheme.SettingsGenericBackgroundColor;
+            trackUpdatePeriod.Theme.BackgroundColor = GlobalTheme.SettingsGenericBackgroundColor;
 
-            viewOutputHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewOutputHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewMixerHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewMixerHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewStatusHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewStatusHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewDropboxHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewDropboxHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewUpdateFrequencyHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewUpdateFrequencyHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewFoldersHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewFoldersHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewPeakFilesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewPeakFilesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewLibraryServiceHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewLibraryServiceHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.SettingsHeaderColor;
+            viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.SettingsHeaderColor;
+            viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.SettingsHeaderColor;
+            viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.SettingsHeaderColor;
+            viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.SettingsHeaderColor;
+            viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.SettingsHeaderColor;
+            viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.SettingsHeaderColor;
+            viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.SettingsHeaderColor;
+
+            viewGeneralPreferences.BackgroundColor1 = GlobalTheme.SettingsBackgroundColor;
+            viewGeneralPreferences.BackgroundColor2 = GlobalTheme.SettingsBackgroundColor;
+            viewAudioPreferences.BackgroundColor1 = GlobalTheme.SettingsBackgroundColor;
+            viewAudioPreferences.BackgroundColor2 = GlobalTheme.SettingsBackgroundColor;
+            viewLibraryPreferences.BackgroundColor1 = GlobalTheme.SettingsBackgroundColor;
+            viewLibraryPreferences.BackgroundColor2 = GlobalTheme.SettingsBackgroundColor;
+            viewCloudPreferences.BackgroundColor1 = GlobalTheme.SettingsBackgroundColor;
+            viewCloudPreferences.BackgroundColor2 = GlobalTheme.SettingsBackgroundColor;
+
+            viewOutputHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewOutputHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewMixerHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewMixerHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewStatusHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewStatusHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewDropboxHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewDropboxHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewUpdateFrequencyHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewUpdateFrequencyHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewFoldersHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewFoldersHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewPeakFilesHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewPeakFilesHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewPeakFileDeletionHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewPeakFileDeletionHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
+            viewLibraryServiceHeader.BackgroundColor1 = GlobalTheme.SettingsHeader2Color;
+            viewLibraryServiceHeader.BackgroundColor2 = GlobalTheme.SettingsHeader2Color;
 
             var headerFont = NSFont.FromFontName("Roboto Light", 16f);
             lblGeneralPreferences.Font = headerFont;
@@ -188,8 +197,10 @@ namespace Sessions.OSX
             lblCloudPreferences.Font = headerFont;
 
             var subtitleFont = NSFont.FromFontName("Roboto Light", 13f);
+            var subtitleColor = NSColor.FromDeviceRgba(0, 0, 0, 1);
             lblGeneralUpdateFrequency.Font = subtitleFont;
             lblGeneralPeakFiles.Font = subtitleFont;
+            lblGeneralPeakFileDeletion.Font = subtitleFont;
             lblAudioOutput.Font = subtitleFont;
             lblAudioMixer.Font = subtitleFont;
             lblAudioStatus.Font = subtitleFont;
@@ -197,19 +208,26 @@ namespace Sessions.OSX
             lblCloudDropbox.Font = subtitleFont;
             lblLibraryService.Font = subtitleFont;
             lblEnableLibraryService.Font = subtitleFont;
+            lblEnableLibraryService.TextColor = subtitleColor;
             lblEnableResumePlayback.Font = subtitleFont;
+            lblEnableResumePlayback.TextColor = subtitleColor;
 
             var textFont = NSFont.FromFontName("Roboto", 12f);
-            var textColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
+            var textColor = NSColor.FromDeviceRgba(0, 0, 0, 1);
             lblOutputDevice.Font = textFont;
+            lblOutputDevice.TextColor = textColor;
             lblSampleRate.Font = textFont;
-            lblStatusDescription.Font = textFont;
-            lblStatusDescription.TextColor = textColor;
+            lblSampleRate.TextColor = textColor;
             lblUpdatePeriod.Font = textFont;
+            lblUpdatePeriod.TextColor = textColor;
             lblSongPosition.Font = textFont;
+            lblSongPosition.TextColor = textColor;
             lblOutputMeter.Font = textFont;
+            lblOutputMeter.TextColor = textColor;
             lblBufferSize.Font = textFont;
+            lblBufferSize.TextColor = textColor;
             lblMaximumPeakFolderSize.Font = textFont;
+            lblMaximumPeakFolderSize.TextColor = textColor;
             lblEvery.Font = textFont;
             lblEvery.TextColor = textColor;
             lblEvery2.Font = textFont;
@@ -218,6 +236,8 @@ namespace Sessions.OSX
             lblEvery3.TextColor = textColor;
             lblEvery4.Font = textFont;
             lblEvery4.TextColor = textColor;
+            lblMB.Font = textFont;
+            lblMB.TextColor = textColor;
             lblMS.Font = textFont;
             lblMS.TextColor = textColor;
             lblMS2.Font = textFont;
@@ -226,14 +246,13 @@ namespace Sessions.OSX
             lblMS3.TextColor = textColor;
             lblMS4.Font = textFont;
             lblMS4.TextColor = textColor;
-            lblHz.Font = textFont;
-            lblHz.TextColor = textColor;
             lblMS.Font = textFont;
             lblMS.TextColor = textColor;
             lblHttpPort.Font = textFont;
+            lblHttpPort.TextColor = textColor;
 
             var noteFont = NSFont.FromFontName("Roboto", 11f);
-            var noteColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
+            var noteColor = NSColor.FromDeviceRgba(0.7f, 0.7f, 0.7f, 1);
             lblResumePlaybackNote.Font = noteFont;
             lblResumePlaybackNote.TextColor = noteColor;           
             lblPeakFileFolderSize.Font = noteFont;
@@ -244,14 +263,26 @@ namespace Sessions.OSX
             lblLibraryServiceNote.TextColor = noteColor;   
             lblUpdateFrequencyWarning.Font = noteFont;
             lblUpdateFrequencyWarning.TextColor = noteColor;
+            lblMixerNote.Font = noteFont;
+            lblMixerNote.TextColor = noteColor;
+
+            var valueFont = NSFont.FromFontName("Roboto", 12f);
+            var valueColor = NSColor.FromDeviceRgba(0.05f, 0.05f, 0.05f, 1);
+            lblBufferSizeValue.Font = valueFont;
+            lblBufferSizeValue.TextColor = valueColor;
+            lblUpdatePeriodValue.Font = valueFont;
+            lblUpdatePeriodValue.TextColor = valueColor;
+            lblSongPositionValue.Font = valueFont;
+            lblSongPositionValue.TextColor = valueColor;
+            lblOutputMeterValue.Font = valueFont;
+            lblOutputMeterValue.TextColor = valueColor;
+            lblMaximumPeakFolderSizeValue.Font = valueFont;
+            lblMaximumPeakFolderSizeValue.TextColor = valueColor;
+//            lblMaximumPeakFolderSize.Font = valueFont;
+//            lblOutputMeterValue.TextColor = valueColor;
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
-            txtBufferSize.Font = textBoxFont;
             txtCustomDirectory.Font = textBoxFont;
-            txtMaximumPeakFolderSize.Font = textBoxFont;
-            txtOutputMeter.Font = textBoxFont;
-            txtSongPosition.Font = textBoxFont;
-            txtUpdatePeriod.Font = textBoxFont;
             txtHttpPort.Font = textBoxFont;
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
@@ -267,7 +298,7 @@ namespace Sessions.OSX
 
             // NSMatrix doesn't allow changing text color, so use an attributed string instead
             var dictAttrStr2 = new NSMutableDictionary();
-            dictAttrStr2.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1));
+            dictAttrStr2.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.FromDeviceRgba(0f, 0f, 0f, 1));
             dictAttrStr2.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
             var radioStr1 = new NSAttributedString(string.Format("Use default directory ({0})", PathHelper.PeakFileDirectory), dictAttrStr2);
             var radioStr2 = new NSAttributedString("Use custom directory:", dictAttrStr2);
@@ -309,7 +340,7 @@ namespace Sessions.OSX
             btnAddFolder.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnRemoveFolder.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnResetLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
-            btnTestAudioSettings.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_test");
+            btnUpdateLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_refresh");
             btnResetAudioSettings.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
             btnLoginDropbox.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_dropbox");
             btnBrowseCustomDirectory.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_open");
@@ -353,49 +384,13 @@ namespace Sessions.OSX
 
         }       
 
-        private void HandleOnSongPositionTrackBarValueChanged()
-        {
-            int value = (int)trackSongPosition.Value;
-            txtSongPosition.StringValue = value.ToString();
-
-            _generalAppConfig.SongPositionUpdateFrequency = value;
-            OnSetGeneralPreferences(_generalAppConfig);    
-        }
-
-        private void HandleOnOutputMeterTrackBarValueChanged()
-        {
-            int value = (int)trackOutputMeter.Value;
-            txtOutputMeter.StringValue = value.ToString();
-
-            _generalAppConfig.OutputMeterUpdateFrequency = value;
-            OnSetGeneralPreferences(_generalAppConfig);    
-        }
-
         private void HandleOnMaximumPeakFolderSizeTrackBarValueChanged()
         {
             int value = (int)trackMaximumPeakFolderSize.Value;
-            txtMaximumPeakFolderSize.StringValue = value.ToString();
+            lblMaximumPeakFolderSizeValue.StringValue = value.ToString();
 
             _generalAppConfig.MaximumPeakFolderSize = value;
             OnSetGeneralPreferences(_generalAppConfig);
-        }
-
-        private void HandleOnBufferSizeTrackBarValueChanged()
-        {
-            int value = (int)trackBufferSize.Value;
-            txtBufferSize.StringValue = value.ToString();
-
-            _audioAppConfig.BufferSize = value;
-            OnSetAudioPreferences(_audioAppConfig);
-        }
-
-        private void HandleOnUpdatePeriodTrackBarValueChanged()
-        {
-            int value = (int)trackUpdatePeriod.Value;
-            txtUpdatePeriod.StringValue = value.ToString();
-
-            _audioAppConfig.UpdatePeriod = value;
-            OnSetAudioPreferences(_audioAppConfig);
         }
 
         private void HandleOnTabButtonSelected(SessionsTabButton button)
@@ -618,6 +613,16 @@ namespace Sessions.OSX
 
         }
 
+        private void HandleOnBufferSizeTrackBarValueChanged()
+        {
+
+        }
+
+        private void HandleOnUpdatePeriodTrackBarValueChanged()
+        {
+
+        }
+
         #region ILibraryPreferencesView implementation
 
         public Action OnResetLibrary { get; set; }
@@ -666,9 +671,9 @@ namespace Sessions.OSX
                 trackSongPosition.Value = config.SongPositionUpdateFrequency;
                 trackOutputMeter.Value = config.OutputMeterUpdateFrequency;
                 trackMaximumPeakFolderSize.Value = config.MaximumPeakFolderSize;
-                txtSongPosition.StringValue = config.SongPositionUpdateFrequency.ToString();
-                txtOutputMeter.StringValue = config.OutputMeterUpdateFrequency.ToString();
-                txtMaximumPeakFolderSize.StringValue = config.MaximumPeakFolderSize.ToString();
+                lblSongPositionValue.StringValue = config.SongPositionUpdateFrequency.ToString();
+                lblOutputMeterValue.StringValue = config.OutputMeterUpdateFrequency.ToString();
+                lblMaximumPeakFolderSizeValue.StringValue = config.MaximumPeakFolderSize.ToString();
                 matrixPeakFiles.SelectCell(config.UseCustomPeakFileFolder ? 1 : 0, 0);
                 btnBrowseCustomDirectory.Enabled = matrixPeakFiles.SelectedRow == 1;
             });
@@ -722,8 +727,8 @@ namespace Sessions.OSX
             InvokeOnMainThread(() => {
                 trackBufferSize.Value = config.BufferSize;
                 trackUpdatePeriod.Value = config.UpdatePeriod;
-                txtBufferSize.StringValue = config.BufferSize.ToString();
-                txtUpdatePeriod.StringValue = config.UpdatePeriod.ToString();
+                lblBufferSizeValue.StringValue = config.BufferSize.ToString();
+                lblUpdatePeriodValue.StringValue = config.UpdatePeriod.ToString();
             });
         }
 		

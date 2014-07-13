@@ -163,7 +163,17 @@ namespace Sessions.OSX.Classes.Helpers
             context.FillPath();
             context.RestoreState();
         }
-        
+
+        public static void StrokePath(CGContext context, CGPath path, float pathWidth, CGColor color)
+        {
+            context.SaveState();
+            context.SetLineWidth(pathWidth);
+            context.SetStrokeColor(color);
+            context.AddPath(path);
+            context.StrokePath();
+            context.RestoreState();
+        }
+
         public static void EOFillPath(CGContext context, CGPath path, CGColor color)
         {
             context.SaveState();
