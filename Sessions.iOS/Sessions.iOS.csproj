@@ -25,8 +25,8 @@
     <MtouchSdkVersion>6.0</MtouchSdkVersion>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchArch>i386</MtouchArch>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
   </PropertyGroup>
@@ -59,7 +59,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
   </PropertyGroup>
@@ -143,6 +143,8 @@
     <None Include="Lib\taglib-sharp.dll" />
     <None Include="Lib\libbassenc.a" />
     <None Include="Lib\DropBoxSync.iOS.dll" />
+    <None Include="bass_missing_defs.c" />
+    <None Include="Lib\bass_missing_defs.o" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Controllers\PlayerViewController.designer.cs">

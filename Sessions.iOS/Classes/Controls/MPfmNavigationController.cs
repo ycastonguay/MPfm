@@ -234,7 +234,7 @@ namespace Sessions.iOS.Classes.Controls
         }
 
         [Export("navigationBar:shouldPushItem:")]
-        public bool ShouldPushItem(UINavigationItem item)
+        public bool ShouldPushItem(UINavigationBar bar, UINavigationItem item)
         {
 			//Console.WriteLine("NavCtrl - ShouldPushItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
             SetButtonVisibility();
@@ -253,7 +253,7 @@ namespace Sessions.iOS.Classes.Controls
         }
 
         [Export("navigationBar:shouldPopItem:")]
-        public bool ShouldPopItem(UINavigationItem item)
+        public bool ShouldPopItem(UINavigationBar bar, UINavigationItem item)
         {
 			//Console.WriteLine("NavCtrl - ShouldPopItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
             SetButtonVisibility();
