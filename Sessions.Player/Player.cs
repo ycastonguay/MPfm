@@ -558,18 +558,18 @@ namespace Sessions.Player
         {
             OnPlaylistEnded += () => { };
 
+            #if !ANDROID
+            _useFloatingPoint = true;
+            #endif
+
             Player.CurrentPlayer = this;            
             _device = device;
             _mixerSampleRate = mixerSampleRate;
             _bufferSize = bufferSize;
             _updatePeriod = updatePeriod;
-            //_decodingService = new DecodingService(100000, UseFloatingPoint);
+            _decodingService = new DecodingService(1000000, UseFloatingPoint);
             _playlist = new ShufflePlaylist();
             _syncProcs = new List<PlayerSyncProc>();
-
-#if !ANDROID
-            _useFloatingPoint = true;
-#endif
 
             _timerPlayer = new System.Timers.Timer();
             _timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(timerPlayer_Elapsed);
@@ -963,10 +963,14 @@ namespace Sessions.Player
 
                 // Load the current channel and the next channel if it exists
                 for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
+                {
                     _playlist.Items[a].Load(_useFloatingPoint);
 
-                // Start decoding first playlist item
-                //_decodingService.StartDecodingFile(_playlist.Items[0].AudioFile.FilePath, _positionOffset);
+                    if(a == Playlist.CurrentItemIndex)
+                        _decodingService.StartDecodingFile(_playlist.Items[a].AudioFile.FilePath, _positionOffset);
+                    else
+                        _decodingService.AddFileToDecodeQueue(_playlist.Items[a].AudioFile.FilePath);
+                }
 
                 try
                 {
@@ -1340,7 +1344,7 @@ namespace Sessions.Player
 
             // Stop decoding the current file (doesn't throw an exception if decode has finished)
             //Playlist.CurrentItem.CancelDecode();
-            //_decodingService.StopDecoding();
+            _decodingService.StopDecoding();
             
             RemoveSyncCallbacks();
             RemoveBPMCallbacks();
@@ -1571,6 +1575,7 @@ namespace Sessions.Player
                 bytesPosition *= 2;
 
             Playlist.CurrentItem.Channel.SetPosition(bytesPosition);
+            _decodingService.SetDecodePosition(bytesPosition);
             SetSyncCallback(length - bytesPosition);
 
             if(!IsPaused)
@@ -1822,8 +1827,6 @@ namespace Sessions.Player
                 ApplyEQPreset(_currentEQPreset);
         }
 
-
-
         /// <summary>
         /// Resets the gain of every EQ band.
         /// </summary>
@@ -2023,14 +2026,29 @@ namespace Sessions.Player
                 if (_playlist.CurrentItemIndex < _playlist.Items.Count - 1)                    
                     _timerPlayer.Start();
 
-                // Get data from the current channel since it is running
-                int data = _playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
-                return data;
+//                // Get data from the current channel since it is running
+//                int data = _playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+//                return data;
 
                 //byte[] bufferData = _playlist.Items[_currentMixPlaylistIndex].GetData(length);
-                //byte[] bufferData = _decodingService.DequeueData(length);
-                //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
-                //return bufferData.Length;
+
+                //Console.WriteLine("Player - StreamCallback - BufferDataLength: {0} requestedLength: {1}", _decodingService.BufferDataLength, length);
+
+//                byte[] bufferData = _decodingService.DequeueDataDirect(length);
+//                Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
+//                return bufferData.Length;
+
+                if (_decodingService.BufferDataLength > 0)
+                {
+                    byte[] bufferData = _decodingService.DequeueData(length);
+                    Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
+                    return bufferData.Length;
+                } 
+                else
+                {
+                    Console.WriteLine("Player - StreamCallback - No more data to dequeue!");
+                    return 0;
+                }
 
                 //stopwatch.Stop();
                 //if(stopwatch.ElapsedMilliseconds > 0)
@@ -2043,7 +2061,7 @@ namespace Sessions.Player
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
-                //Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
+                Console.WriteLine("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
                 _currentLoop = null;
                 if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
                 {
@@ -2058,13 +2076,13 @@ namespace Sessions.Player
 
                         // Load first item                        
                         Playlist.Items[0].Load(_useFloatingPoint);                        
-                        //_decodingService.AddFileToDecodeQueue(Playlist.Items[0].AudioFile.FilePath);
+                        _decodingService.AddFileToDecodeQueue(Playlist.Items[0].AudioFile.FilePath);
 
                         // Load second item if it exists
                         if (Playlist.Items.Count > 1)
                         {
                             Playlist.Items[1].Load(_useFloatingPoint);
-                            //_decodingService.AddFileToDecodeQueue(Playlist.Items[1].AudioFile.FilePath);
+                            _decodingService.AddFileToDecodeQueue(Playlist.Items[1].AudioFile.FilePath);
                         }
 
                         // Return data from the new channel                
