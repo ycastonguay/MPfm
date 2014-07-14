@@ -332,6 +332,12 @@ namespace Sessions.OSX.Classes.Controls
             WaveFormView.SetSegment(segment);
         }
 
+        public void Reset()
+        {
+            WaveFormView.Reset();
+            WaveFormScaleView.Reset();
+        }
+
         public void FocusZoomOnLoop(Loop loop)
         {
             float waveFormWidth = WaveFormView.Bounds.Width * Zoom;

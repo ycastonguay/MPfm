@@ -244,5 +244,10 @@ namespace Sessions.OSX.Classes.Controls
         {
             _control.LoadPeakFile(audioFile);
         }
+
+        public void Reset()
+        {
+            _control.Reset();
+        }
     }
 }

@@ -96,6 +96,7 @@ namespace Sessions.OSX
             EnableLoopButtons(false);
             EnableMarkerButtons(false);
             EnableSegmentButtons(false);
+            RefreshSongInformation(null, 0, 0, 0);
 
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
@@ -288,91 +289,80 @@ namespace Sessions.OSX
             lblSongTitle.Font = NSFont.FromFontName("Roboto Light", 17);
             lblSongPath.Font = NSFont.FromFontName("Roboto Light", 12);
 
-            lblSampleRate.Font = NSFont.FromFontName("Roboto", 11f);
-            lblBitrate.Font = NSFont.FromFontName("Roboto", 11f);
-            lblMonoStereo.Font = NSFont.FromFontName("Roboto", 11f);
-            lblFileType.Font = NSFont.FromFontName("Roboto", 11f);
-            lblBitsPerSample.Font = NSFont.FromFontName("Roboto", 11f);
-            lblFilterBySoundFormat.Font = NSFont.FromFontName("Roboto", 11f);
-            lblYear.Font = NSFont.FromFontName("Roboto", 11f);
-            lblGenre.Font = NSFont.FromFontName("Roboto", 11f);
-            lblFileSize.Font = NSFont.FromFontName("Roboto", 11f);
-            lblPlayCount.Font = NSFont.FromFontName("Roboto", 11f);
-            lblLastPlayed.Font = NSFont.FromFontName("Roboto", 11f);
-            lblQueueDetails.Font = NSFont.FromFontName("Roboto", 11f);
+            var textFont = NSFont.FromFontName("Roboto", 11f);
+            lblSampleRate.Font = textFont;
+            lblBitrate.Font = textFont;
+            lblMonoStereo.Font = textFont;
+            lblFileType.Font = textFont;
+            lblBitsPerSample.Font = textFont;
+            lblFilterBySoundFormat.Font = textFont;
+            lblYear.Font = textFont;
+            lblGenre.Font = textFont;
+            lblFileSize.Font = textFont;
+            lblPlayCount.Font = textFont;
+            lblLastPlayed.Font = textFont;
+            lblQueueDetails.Font = textFont;
 
-            lblTitleLibraryBrowser.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleLoopDetails.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleLoopPlayback.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleSegments.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleSegmentDetails.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleMarkerDetails.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleUpdateLibrary.Font = NSFont.FromFontName("Roboto", 13);
-            lblTitleQueue.Font = NSFont.FromFontName("Roboto", 13);
+            var titleFont = NSFont.FromFontName("Roboto", 13f);
+            lblTitleLibraryBrowser.Font = titleFont;
+            lblTitleCurrentSong.Font = titleFont;
+            lblTitleLoops.Font = titleFont;
+            lblTitleLoopDetails.Font = titleFont;
+            lblTitleLoopPlayback.Font = titleFont;
+            lblTitleSegments.Font = titleFont;
+            lblTitleSegmentDetails.Font = titleFont;
+            lblTitleMarkers.Font = titleFont;
+            lblTitleMarkerDetails.Font = titleFont;
+            lblTitleSongBrowser.Font = titleFont;
+            lblTitleUpdateLibrary.Font = titleFont;
+            lblTitleQueue.Font = titleFont;
 
-            lblUpdateLibraryStatus.Font = NSFont.FromFontName("Roboto", 12);
-            lblSearchWeb.Font = NSFont.FromFontName("Roboto", 12);
-            lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
-            lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
-            lblCurrentLoop.Font = NSFont.FromFontName("Roboto", 12);
-            lblCurrentSegment.Font = NSFont.FromFontName("Roboto", 12);
-            lblVolume.Font = NSFont.FromFontName("Roboto Light", 12f);
-            lblDetectedTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
-            lblReferenceTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
-            txtCurrentTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
-            lblReferenceKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
-            lblNewKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
-            txtIntervalValue.Font = NSFont.FromFontName("Roboto", 12f);
-            lblSegmentLinkToMarker.Font = NSFont.FromFontName("Roboto", 12f);
+            var secondaryTextFont = NSFont.FromFontName("Roboto", 12f);
+            lblUpdateLibraryStatus.Font = secondaryTextFont;
+            lblSearchWeb.Font = secondaryTextFont;
+            lblSubtitleSongPosition.Font = secondaryTextFont;
+            lblSubtitleVolume.Font = secondaryTextFont;
+            lblCurrentLoop.Font = secondaryTextFont;
+            lblCurrentSegment.Font = secondaryTextFont;
+            lblDetectedTempoValue.Font = secondaryTextFont;
+            lblReferenceTempoValue.Font = secondaryTextFont;
+            txtCurrentTempoValue.Font = secondaryTextFont;
+            lblReferenceKeyValue.Font = secondaryTextFont;
+            lblNewKeyValue.Font = secondaryTextFont;
+            txtIntervalValue.Font = secondaryTextFont;
+            lblSegmentLinkToMarker.Font = secondaryTextFont;
 
-            lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
-            lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
-            lblLoopPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
-            lblSegmentPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
+            var valueFont = NSFont.FromFontName("Roboto Light", 12f);
+            lblVolume.Font = valueFont;
+            lblMarkerName.Font = valueFont;
+            lblMarkerPosition.Font = valueFont;
+            lblSegmentPosition.Font = valueFont;
+            lblDetectedTempo.Font = valueFont;
+            lblCurrentTempo.Font = valueFont;
+            lblReferenceTempo.Font = valueFont;
+            lblReferenceKey.Font = valueFont;
+            lblInterval.Font = valueFont;
+            lblNewKey.Font = valueFont;
 
-            lblDetectedTempo.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblCurrentTempo.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblReferenceTempo.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblReferenceKey.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblInterval.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblNewKey.Font = NSFont.FromFontName("Roboto Light", 12);
-
-            lblMarkerName.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblMarkerPosition.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblMarkerPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
-
-            lblLoopName.Font = NSFont.FromFontName("Roboto Light", 11);
-            lblSegmentPosition.Font = NSFont.FromFontName("Roboto Light", 12);
-            lblSegmentPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
-
-            cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
-            searchSongBrowser.Font = NSFont.FromFontName("Roboto", 12);
+            var largePositionFont = NSFont.FromFontName("Roboto Light", 15f);
+            lblPosition.Font = largePositionFont;
+            lblLength.Font = largePositionFont;
+            lblLoopPosition.Font = largePositionFont;
+            lblSegmentPosition.Font = largePositionFont;
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
             txtMarkerName.Font = textBoxFont;
-            txtLoopName.Font = NSFont.FromFontName("Roboto", 11f);
+            searchSongBrowser.Font = textBoxFont;
+            txtLoopName.Font = textBoxFont;
+
+            lblMarkerPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
+            lblSegmentPositionValue.Font = NSFont.FromFontName("Roboto Light", 14f);
+            lblLoopName.Font = NSFont.FromFontName("Roboto Light", 11);
+            cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
             columnText.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-
-            btnDetectTempo.Font = NSFont.FromFontName("Roboto", 11f);
-            btnPlayLoop.Font = NSFont.FromFontName("Roboto", 11f);
-            btnAddLoop.Font = NSFont.FromFontName("Roboto", 11f);
-            btnEditLoop.Font = NSFont.FromFontName("Roboto", 11f);
-            btnRemoveLoop.Font = NSFont.FromFontName("Roboto", 11f);
-            btnGoToMarker.Font = NSFont.FromFontName("Roboto", 11f);
-            btnAddMarker.Font = NSFont.FromFontName("Roboto", 11f);
-            btnEditMarker.Font = NSFont.FromFontName("Roboto", 11f);
-            btnRemoveMarker.Font = NSFont.FromFontName("Roboto", 11f);
-            btnBackLoop.Font = NSFont.FromFontName("Roboto", 11f);
-            btnBackLoopPlayback.Font = NSFont.FromFontName("Roboto", 11f);
-            btnBackMarker.Font = NSFont.FromFontName("Roboto", 11f);
-            btnBackSegment.Font = NSFont.FromFontName("Roboto", 11f);
         }
 
         /// <summary>
@@ -1492,6 +1482,12 @@ namespace Sessions.OSX
                     lblGenre.StringValue = string.Empty;
                     lblPlayCount.StringValue = string.Empty;
                     lblLastPlayed.StringValue = string.Empty;
+                    lblPosition.StringValue = "0:00.000";
+                    lblLength.StringValue = "0:00.000";
+                    _currentAlbumArtKey = string.Empty;
+                    imageAlbumCover.Image = null;
+                    waveFormScrollView.Reset();   
+                    outputMeter.Reset();
                 }
                 else
                 {
@@ -1510,11 +1506,10 @@ namespace Sessions.OSX
                     lblGenre.StringValue = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
                     lblPlayCount.StringValue = string.Format("{0} times played", audioFile.PlayCount);
                     lblLastPlayed.StringValue = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
-
-                    waveFormScrollView.SetWaveFormLength(lengthBytes);
-                    waveFormScrollView.LoadPeakFile(audioFile);
                     songGridView.NowPlayingAudioFileId = audioFile.Id;
                     LoadAlbumArt(audioFile);
+                    waveFormScrollView.SetWaveFormLength(lengthBytes);
+                    waveFormScrollView.LoadPeakFile(audioFile);
                 }
             });
 		}

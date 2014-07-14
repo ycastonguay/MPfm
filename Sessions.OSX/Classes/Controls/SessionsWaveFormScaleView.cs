@@ -106,6 +106,11 @@ namespace Sessions.OSX.Classes.Controls
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
+
+        public void Reset()
+        {
+            _control.Reset();
+        }
         
         public override void DrawRect(RectangleF dirtyRect)
         {

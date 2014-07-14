@@ -85,5 +85,10 @@ namespace Sessions.OSX.Classes.Controls
         {
             _control.AddWaveDataBlock(waveDataLeft, waveDataRight);
         }
+
+        public void Reset()
+        {
+            _control.Reset();
+        }
     }
 }

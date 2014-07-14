@@ -110,7 +110,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <button verticalHuggingPriority="750" id="2lp-QR-qbh" customClass="SessionsTabButton">
-                                <rect key="frame" x="0.0" y="373" width="80" height="32"/>
+                                <rect key="frame" x="0.0" y="373" width="85" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="General" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zfo-64-tFH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -118,7 +118,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" id="vW3-kP-sy9" customClass="SessionsTabButton">
-                                <rect key="frame" x="79" y="373" width="80" height="32"/>
+                                <rect key="frame" x="84" y="373" width="77" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Audio" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fpA-CZ-o1y">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -126,7 +126,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" id="4z8-EN-uhw" customClass="SessionsTabButton">
-                                <rect key="frame" x="158" y="373" width="80" height="32"/>
+                                <rect key="frame" x="160" y="373" width="82" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Library" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oF4-6e-7hc">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -134,7 +134,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" id="643-Eh-s57" customClass="SessionsTabButton">
-                                <rect key="frame" x="237" y="373" width="80" height="32"/>
+                                <rect key="frame" x="241" y="373" width="75" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Cloud" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mvv-l7-dxC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -289,7 +289,7 @@
                                         <rect key="frame" x="10" y="161" width="531" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        <size key="cellSize" width="410" height="18"/>
+                                        <size key="cellSize" width="400" height="18"/>
                                         <size key="intercellSpacing" width="4" height="2"/>
                                         <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="Emq-yf-Fek">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>

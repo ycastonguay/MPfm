@@ -78,7 +78,7 @@ namespace Sessions.OSX.Classes.Controls.Graphics
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
             CoreGraphicsHelper.FillEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(brush.Color));
-            // TODO: Add outline
+            CoreGraphicsHelper.DrawEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness);
         }
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

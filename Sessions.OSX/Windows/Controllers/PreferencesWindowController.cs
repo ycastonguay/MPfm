@@ -52,15 +52,15 @@ namespace Sessions.OSX
         public PreferencesWindowController(Action<IBaseView> onViewReady)
             : base ("PreferencesWindow", onViewReady)
         {
-            Initialize();
-        }
-        
-        private void Initialize()
-        {
             tableFolders.WeakDelegate = this;
             tableFolders.WeakDataSource = this;
             tableFolders.HeaderView = null;
 
+            ShowWindowCentered();
+        }
+        
+        private void Initialize()
+        {
             LoadTrackBars();
             LoadComboBoxes();
             LoadCheckBoxes();
@@ -68,12 +68,12 @@ namespace Sessions.OSX
             LoadFontsAndImages();
             LoadButtons();
             HandleOnTabButtonSelected(btnTabGeneral);
-            ShowWindowCentered();
         }
 
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
+            Initialize();
             OnViewReady(this);
         }
 
@@ -287,9 +287,8 @@ namespace Sessions.OSX
 //            lblMaximumPeakFolderSize.Font = valueFont;
 //            lblOutputMeterValue.TextColor = valueColor;
 
-            var textBoxFont = NSFont.FromFontName("Roboto", 12f);
-            txtCustomDirectory.Font = textBoxFont;
-            txtHttpPort.Font = textBoxFont;
+            txtCustomDirectory.Font = NSFont.FromFontName("Roboto", 11f);
+            txtHttpPort.Font = NSFont.FromFontName("Roboto", 12f);
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
 //            var dictAttrStr1 = new NSMutableDictionary();
