@@ -267,6 +267,12 @@ namespace Sessions.OSX
 		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsView viewUpdateFrequencyHeader { get; set; }
 
+		[Action ("actionChangeOutputDevice:")]
+		partial void actionChangeOutputDevice (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeSampleRate:")]
+		partial void actionChangeSampleRate (MonoMac.Foundation.NSObject sender);
+
 		[Action ("actionEnableLibraryService:")]
 		partial void actionEnableLibraryService (MonoMac.Foundation.NSObject sender);
 
@@ -333,6 +339,11 @@ namespace Sessions.OSX
 				btnTabLibrary = null;
 			}
 
+			if (btnUpdateLibrary != null) {
+				btnUpdateLibrary.Dispose ();
+				btnUpdateLibrary = null;
+			}
+
 			if (chkEnableLibraryService != null) {
 				chkEnableLibraryService.Dispose ();
 				chkEnableLibraryService = null;
@@ -366,6 +377,11 @@ namespace Sessions.OSX
 			if (lblBufferSize != null) {
 				lblBufferSize.Dispose ();
 				lblBufferSize = null;
+			}
+
+			if (lblBufferSizeValue != null) {
+				lblBufferSizeValue.Dispose ();
+				lblBufferSizeValue = null;
 			}
 
 			if (lblCloudDropbox != null) {
@@ -406,6 +422,11 @@ namespace Sessions.OSX
 			if (lblEvery4 != null) {
 				lblEvery4.Dispose ();
 				lblEvery4 = null;
+			}
+
+			if (lblGeneralPeakFileDeletion != null) {
+				lblGeneralPeakFileDeletion.Dispose ();
+				lblGeneralPeakFileDeletion = null;
 			}
 
 			if (lblGeneralPeakFiles != null) {
@@ -458,9 +479,19 @@ namespace Sessions.OSX
 				lblMaximumPeakFolderSize = null;
 			}
 
+			if (lblMaximumPeakFolderSizeValue != null) {
+				lblMaximumPeakFolderSizeValue.Dispose ();
+				lblMaximumPeakFolderSizeValue = null;
+			}
+
 			if (lblMB != null) {
 				lblMB.Dispose ();
 				lblMB = null;
+			}
+
+			if (lblMixerNote != null) {
+				lblMixerNote.Dispose ();
+				lblMixerNote = null;
 			}
 
 			if (lblMS != null) {
@@ -493,11 +524,6 @@ namespace Sessions.OSX
 				lblOutputMeter = null;
 			}
 
-			if (lblSongPositionValue != null) {
-				lblSongPositionValue.Dispose ();
-				lblSongPositionValue = null;
-			}
-
 			if (lblOutputMeterValue != null) {
 				lblOutputMeterValue.Dispose ();
 				lblOutputMeterValue = null;
@@ -523,6 +549,11 @@ namespace Sessions.OSX
 				lblSongPosition = null;
 			}
 
+			if (lblSongPositionValue != null) {
+				lblSongPositionValue.Dispose ();
+				lblSongPositionValue = null;
+			}
+
 			if (lblUpdateFrequencyWarning != null) {
 				lblUpdateFrequencyWarning.Dispose ();
 				lblUpdateFrequencyWarning = null;
@@ -531,6 +562,11 @@ namespace Sessions.OSX
 			if (lblUpdatePeriod != null) {
 				lblUpdatePeriod.Dispose ();
 				lblUpdatePeriod = null;
+			}
+
+			if (lblUpdatePeriodValue != null) {
+				lblUpdatePeriodValue.Dispose ();
+				lblUpdatePeriodValue = null;
 			}
 
 			if (matrixPeakFiles != null) {
@@ -558,11 +594,6 @@ namespace Sessions.OSX
 				trackBufferSize = null;
 			}
 
-			if (btnUpdateLibrary != null) {
-				btnUpdateLibrary.Dispose ();
-				btnUpdateLibrary = null;
-			}
-
 			if (trackMaximumPeakFolderSize != null) {
 				trackMaximumPeakFolderSize.Dispose ();
 				trackMaximumPeakFolderSize = null;
@@ -583,11 +614,6 @@ namespace Sessions.OSX
 				trackUpdatePeriod = null;
 			}
 
-			if (lblMixerNote != null) {
-				lblMixerNote.Dispose ();
-				lblMixerNote = null;
-			}
-
 			if (txtCustomDirectory != null) {
 				txtCustomDirectory.Dispose ();
 				txtCustomDirectory = null;
@@ -596,11 +622,6 @@ namespace Sessions.OSX
 			if (txtHttpPort != null) {
 				txtHttpPort.Dispose ();
 				txtHttpPort = null;
-			}
-
-			if (lblMaximumPeakFolderSizeValue != null) {
-				lblMaximumPeakFolderSizeValue.Dispose ();
-				lblMaximumPeakFolderSizeValue = null;
 			}
 
 			if (viewAudioPreferences != null) {
@@ -668,6 +689,11 @@ namespace Sessions.OSX
 				viewOutputHeader = null;
 			}
 
+			if (viewPeakFileDeletionHeader != null) {
+				viewPeakFileDeletionHeader.Dispose ();
+				viewPeakFileDeletionHeader = null;
+			}
+
 			if (viewPeakFilesHeader != null) {
 				viewPeakFilesHeader.Dispose ();
 				viewPeakFilesHeader = null;
@@ -678,29 +704,9 @@ namespace Sessions.OSX
 				viewStatusHeader = null;
 			}
 
-			if (viewPeakFileDeletionHeader != null) {
-				viewPeakFileDeletionHeader.Dispose ();
-				viewPeakFileDeletionHeader = null;
-			}
-
 			if (viewUpdateFrequencyHeader != null) {
 				viewUpdateFrequencyHeader.Dispose ();
 				viewUpdateFrequencyHeader = null;
-			}
-
-			if (lblUpdatePeriodValue != null) {
-				lblUpdatePeriodValue.Dispose ();
-				lblUpdatePeriodValue = null;
-			}
-
-			if (lblGeneralPeakFileDeletion != null) {
-				lblGeneralPeakFileDeletion.Dispose ();
-				lblGeneralPeakFileDeletion = null;
-			}
-
-			if (lblBufferSizeValue != null) {
-				lblBufferSizeValue.Dispose ();
-				lblBufferSizeValue = null;
 			}
 		}
 	}

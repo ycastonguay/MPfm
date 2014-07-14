@@ -40,6 +40,8 @@ namespace Sessions.OSX
         private AudioAppConfig _audioAppConfig;
         private LibraryAppConfig _libraryAppConfig;
         private CloudAppConfig _cloudAppConfig;
+        private List<Device> _devices;
+        private bool _isRefreshingComboBoxes = false;
 
         public PreferencesWindowController(IntPtr handle) 
             : base (handle)
@@ -57,6 +59,7 @@ namespace Sessions.OSX
         {
             tableFolders.WeakDelegate = this;
             tableFolders.WeakDataSource = this;
+            tableFolders.HeaderView = null;
 
             LoadTrackBars();
             LoadComboBoxes();
@@ -120,6 +123,7 @@ namespace Sessions.OSX
             btnRemoveFolder.OnButtonSelected += HandleOnRemoveFolderButtonSelected;
             btnResetLibrary.OnButtonSelected += HandleOnResetLibraryButtonSelected;
             btnResetAudioSettings.OnButtonSelected += HandleOnResetAudioSettingsButtonSelected;
+            btnUpdateLibrary.OnButtonSelected += HandleOnUpdateLibraryButtonSelected;
         }
 
         private void LoadTrackBars()
@@ -140,6 +144,8 @@ namespace Sessions.OSX
             trackBufferSize.Maximum = 5000;
             trackBufferSize.Value = 100;
 
+            trackSongPosition.OnTrackBarValueChanged += HandleOnSongPositionTrackBarValueChanged;
+            trackOutputMeter.OnTrackBarValueChanged += HandleOnOutputMeterTrackBarValueChanged;
             trackMaximumPeakFolderSize.OnTrackBarValueChanged += HandleOnMaximumPeakFolderSizeTrackBarValueChanged;
             trackBufferSize.OnTrackBarValueChanged += HandleOnBufferSizeTrackBarValueChanged;
             trackUpdatePeriod.OnTrackBarValueChanged += HandleOnUpdatePeriodTrackBarValueChanged;
@@ -345,7 +351,7 @@ namespace Sessions.OSX
             btnLoginDropbox.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_dropbox");
             btnBrowseCustomDirectory.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_open");
             btnDeletePeakFiles.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
-        }
+        }   
 
         [Export ("numberOfRowsInTableView:")]
         public int GetRowCount(NSTableView tableView)
@@ -362,7 +368,7 @@ namespace Sessions.OSX
         [Export ("tableView:viewForTableColumn:row:")]
         public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
-            NSTableCellView view = (NSTableCellView)tableView.MakeView("cellFolderPath", this);
+            var view = (NSTableCellView)tableView.MakeView("cellFolderPath", this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             view.TextField.StringValue = _libraryAppConfig.Folders[row].FolderPath;
             return view;
@@ -556,8 +562,8 @@ namespace Sessions.OSX
                 folderPath = openPanel.Url.Path;
             }
 
-//            if(!String.IsNullOrEmpty(folderPath))
-//                OnAddFolderToLibrary(folderPath);
+            if (!String.IsNullOrEmpty(folderPath))
+                OnAddFolder(folderPath, true);
         }
 
         private void HandleOnRemoveFolderButtonSelected(SessionsButton button)
@@ -603,24 +609,117 @@ namespace Sessions.OSX
             }
         }
 
-        private void HandleOnTestAudioSettingsButtonSelected(SessionsButton button)
+        private void HandleOnUpdateLibraryButtonSelected(SessionsButton button)
         {
-
+            OnUpdateLibrary();
         }
 
-        private void HandleOnResetAudioSettingsButtonSelected(SessionsButton button)
+        private void HandleOnSongPositionTrackBarValueChanged()
         {
+            int value = (int)trackSongPosition.Value;
+            lblSongPositionValue.StringValue = value.ToString();
 
+            _generalAppConfig.SongPositionUpdateFrequency = value;
+            OnSetGeneralPreferences(_generalAppConfig);    
+        }
+
+        private void HandleOnOutputMeterTrackBarValueChanged()
+        {
+            int value = (int)trackOutputMeter.Value;
+            lblOutputMeterValue.StringValue = value.ToString();
+
+            _generalAppConfig.OutputMeterUpdateFrequency = value;
+            OnSetGeneralPreferences(_generalAppConfig);    
         }
 
         private void HandleOnBufferSizeTrackBarValueChanged()
         {
+            int value = (int)trackBufferSize.Value;
+            lblBufferSizeValue.StringValue = value.ToString();
 
+            _audioAppConfig.BufferSize = value;
+            OnSetAudioPreferences(_audioAppConfig);
         }
 
         private void HandleOnUpdatePeriodTrackBarValueChanged()
         {
+            int value = (int)trackUpdatePeriod.Value;
+            lblUpdatePeriodValue.StringValue = value.ToString();
 
+            _audioAppConfig.UpdatePeriod = value;
+            OnSetAudioPreferences(_audioAppConfig);
+        }
+
+        partial void actionChangeOutputDevice(NSObject sender)
+        {
+            SetOutputDeviceAndSampleRate();
+        }
+
+        partial void actionChangeSampleRate(NSObject sender)
+        {
+            SetOutputDeviceAndSampleRate();
+        }
+
+        private void SetOutputDeviceAndSampleRate()
+        {
+            if (popupOutputDevice.IndexOfSelectedItem == -1 || popupSampleRate.IndexOfSelectedItem == -1 || _isRefreshingComboBoxes)
+                return;
+
+            if (OnCheckIfPlayerIsPlaying())
+            {
+                using (var alert = new NSAlert())
+                {
+                    alert.MessageText = "Confirmation";
+                    alert.InformativeText = "Resetting the audio settings will stop the playback.\n\nIf you click OK, the playback will stop and changes will be applied immediately.\n\nIf you click Cancel, the changes will be applied the next time the player is reinitialized.";
+                    alert.AlertStyle = NSAlertStyle.Warning;
+                    var btnOK = alert.AddButton("OK");
+                    btnOK.Activated += (sender2, e2) =>
+                    {
+                        NSApplication.SharedApplication.StopModal();
+                        SetOutputDeviceAndSampleRateInternal();
+                    };
+                    var btnCancel = alert.AddButton("Cancel");
+                    btnCancel.Activated += (sender3, e3) => NSApplication.SharedApplication.StopModal();
+                    alert.RunModal();
+                }
+            }
+            else
+            {
+                SetOutputDeviceAndSampleRateInternal();
+            }
+        }
+
+        private void SetOutputDeviceAndSampleRateInternal()
+        {
+            int sampleRate = 44100;
+            if (popupSampleRate.IndexOfSelectedItem == 1)
+                sampleRate = 48000;
+            else if (popupSampleRate.IndexOfSelectedItem == 2)
+                sampleRate = 96000;
+            var device = _devices[popupOutputDevice.IndexOfSelectedItem];
+            if (device != null)
+                OnSetOutputDeviceAndSampleRate(device, sampleRate);
+        }
+
+        private void HandleOnResetAudioSettingsButtonSelected(SessionsButton button)
+        {
+            if (OnCheckIfPlayerIsPlaying())
+            {
+                using(var alert = new NSAlert())
+                {
+                    alert.MessageText = "Confirmation";
+                    alert.InformativeText = "Resetting the audio settings will stop the playback.\n\nIf you click OK, the playback will stop and changes will be applied immediately.\n\nIf you click Cancel, the changes will be applied the next time the player is reinitialized.";
+                    alert.AlertStyle = NSAlertStyle.Warning;
+                    var btnOK = alert.AddButton("OK");
+                    btnOK.Activated += (sender2, e2) => {
+                        NSApplication.SharedApplication.StopModal();
+                        OnResetAudioSettings();
+                    };
+                    var btnCancel = alert.AddButton("Cancel");
+                    btnCancel.Activated += (sender3, e3) => NSApplication.SharedApplication.StopModal();
+                    alert.RunModal();
+                }
+            }
         }
 
         #region ILibraryPreferencesView implementation
@@ -725,15 +824,30 @@ namespace Sessions.OSX
         {
             _audioAppConfig = config;
             InvokeOnMainThread(() => {
+                _isRefreshingComboBoxes = true;
                 trackBufferSize.Value = config.BufferSize;
                 trackUpdatePeriod.Value = config.UpdatePeriod;
                 lblBufferSizeValue.StringValue = config.BufferSize.ToString();
                 lblUpdatePeriodValue.StringValue = config.UpdatePeriod.ToString();
+                popupOutputDevice.SelectItem(_devices.FindIndex(d => d.Id == config.AudioDevice.Id && d.DriverType == config.AudioDevice.DriverType));
+                if (popupOutputDevice.IndexOfSelectedItem == -1)
+                    popupOutputDevice.SelectItem(0);
+
+                _isRefreshingComboBoxes = false;
             });
         }
 		
 		public void RefreshAudioDevices(IEnumerable<Device> devices)
         {
+            _devices = devices.ToList();
+            InvokeOnMainThread(() => {
+                _isRefreshingComboBoxes = true;
+                popupOutputDevice.RemoveAllItems();
+                foreach(var device in devices)
+                    popupOutputDevice.AddItem(device.Name);
+                popupOutputDevice.SelectItem(0);
+                _isRefreshingComboBoxes = false;
+            });
         }
 
         #endregion

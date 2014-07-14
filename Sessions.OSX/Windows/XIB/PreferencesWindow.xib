@@ -176,7 +176,7 @@
                                         <rect key="frame" x="364" y="297" width="44" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100" id="iF7-UY-gAI">
-                                            <font key="font" metaFont="titleBar" size="12"/>
+                                            <font key="font" metaFont="cellTitle"/>
                                             <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -185,7 +185,7 @@
                                         <rect key="frame" x="364" y="272" width="44" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100" id="Aiz-6C-eNq">
-                                            <font key="font" metaFont="titleBar" size="12"/>
+                                            <font key="font" metaFont="cellTitle"/>
                                             <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -289,7 +289,7 @@
                                         <rect key="frame" x="10" y="161" width="531" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        <size key="cellSize" width="400" height="18"/>
+                                        <size key="cellSize" width="410" height="18"/>
                                         <size key="intercellSpacing" width="4" height="2"/>
                                         <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="Emq-yf-Fek">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -358,7 +358,7 @@
                                         <rect key="frame" x="367" y="63" width="54" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="10000" id="8zJ-sM-2Q4">
-                                            <font key="font" metaFont="titleBar" size="12"/>
+                                            <font key="font" metaFont="cellTitle"/>
                                             <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -422,7 +422,7 @@
                                         <rect key="frame" x="338" y="206" width="44" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1000" id="ql5-IO-IgM">
-                                            <font key="font" metaFont="titleBar" size="12"/>
+                                            <font key="font" metaFont="cellTitle"/>
                                             <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -431,7 +431,7 @@
                                         <rect key="frame" x="338" y="181" width="44" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100" id="p1L-N8-84A">
-                                            <font key="font" metaFont="titleBar" size="12"/>
+                                            <font key="font" metaFont="cellTitle"/>
                                             <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -495,6 +495,9 @@
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
+                                        <connections>
+                                            <action selector="actionChangeOutputDevice:" target="-2" id="A04-0P-nrb"/>
+                                        </connections>
                                     </popUpButton>
                                     <popUpButton verticalHuggingPriority="750" id="130" customClass="SessionsPopUpButton">
                                         <rect key="frame" x="107" y="266" width="112" height="23"/>
@@ -510,6 +513,9 @@
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
+                                        <connections>
+                                            <action selector="actionChangeSampleRate:" target="-2" id="xk6-Xv-jVB"/>
+                                        </connections>
                                     </popUpButton>
                                     <button verticalHuggingPriority="750" id="182" customClass="SessionsButton">
                                         <rect key="frame" x="10" y="80" width="130" height="26"/>
