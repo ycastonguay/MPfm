@@ -32,5 +32,7 @@ namespace Sessions.Player.Services
         void AddFileToDecodeQueue(string audioFilePath);
         void AddFilesToDecodeQueue(List<string> audioFilePaths);
         byte[] DequeueData(int length);
+        void SetDecodePosition(long position);
+        //byte[] DequeueDataDirect(int length);
     }
 }

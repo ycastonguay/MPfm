@@ -71,11 +71,13 @@ namespace Sessions.Player.Services
                     {
                         // Fill buffer until it is completely filled
                         // Check buffer fill state (make sure there is enough space to fill with a chunk)
+                        //Console.WriteLine("DecodingService - Worker - Looping...");
                         while (!string.IsNullOrEmpty(_currentFilePath) &&
-                               _dataQueue.BufferDataLength - _dataQueue.BufferLength < _chunkLength)
+                            _dataQueue.BufferDataLength - _dataQueue.BufferLength < _chunkLength)
                         {
                             // Size the chunk to try to fill the missing data into the queue
                             int chunkLength = Math.Min(-(_dataQueue.BufferDataLength - _dataQueue.BufferLength), _chunkLength);
+                            //Console.WriteLine("DecodingService - Worker - chunkLength: {0}", chunkLength);
                             if (chunkLength == 0)
                             {
                                 //Console.WriteLine("DecodingService - Worker - No chunk to decode");
@@ -86,6 +88,8 @@ namespace Sessions.Player.Services
                             if (_channelLength - _decodePosition < chunkLength)
                                 chunkLength = (int) (_channelLength - _decodePosition);
 
+                            // TO DO: Revise the strategy here. Use two decoding channels instead of only one. 
+                            // dispose/createdecodingchannel in advance, not right when skipping songs
                             bool skipToNextFile = chunkLength == 0;
                             if (!skipToNextFile)
                             {
@@ -94,17 +98,19 @@ namespace Sessions.Player.Services
                             }
 
                             if (skipToNextFile)
-                            {                                
+                            {       
+                                Console.WriteLine("DecodingService - Worker - Trying to skip to next file - audioFileQueue.Count: {0}", _audioFileQueue.Count);
                                 string audioFilePath = string.Empty;
                                 bool success = _audioFileQueue.TryDequeue(out audioFilePath);
                                 if (success)
                                 {
                                     Console.WriteLine("DecodingService - Worker - Skipping to next file: {0}...", audioFilePath);
-                                    CreateDecodingChannel(_currentFilePath);
+                                    DisposeDecodingChannel();
+                                    CreateDecodingChannel(audioFilePath);
                                 }
                                 else
                                 {
-                                    //Console.WriteLine("DecodingService - Worker - There is no other audio file to decode...");
+                                    Console.WriteLine("DecodingService - Worker - There is no other audio file to decode...");
                                     OnNoAudioFileToDecode();
                                 }
                             }
@@ -114,9 +120,13 @@ namespace Sessions.Player.Services
                     // The buffer has been filled; wait until a consumer removes data from the queue 
                     // before trying to fill the buffer again
                     //Console.WriteLine("DecodingService - Worker - Waiting for consumer to remove data from queue...");
-                    lock (_locker)
+                    bool bufferIsFull = _dataQueue.BufferDataLength == _dataQueue.BufferLength;
+                    if (bufferIsFull)
                     {
-                        Monitor.Wait(_locker);
+                        lock (_locker)
+                        {
+                            Monitor.Wait(_locker);
+                        }
                     }
 
                     //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Loop - requests.Count: {0} numberOfBitmapTasksRunning: {1}", _requests.Count, _numberOfBitmapTasksRunning);
@@ -141,6 +151,8 @@ namespace Sessions.Player.Services
 
         public void StopDecoding()
         {
+            Console.WriteLine("DecodingService - StopDecoding");
+            DisposeDecodingChannel();
             _currentFilePath = string.Empty;
             _dataQueue.Clear();
             _decodePosition = 0;
@@ -182,12 +194,28 @@ namespace Sessions.Player.Services
             _decodingChannel = Channel.CreateFileStreamForDecoding(audioFilePath, _useFloatingPoint);
             _currentFilePath = audioFilePath;
             _channelLength = _decodingChannel.GetLength();
+            _decodePosition = 0;
+            lock (_locker)
+            {
+                Monitor.Pulse(_locker);
+            }
+        }
+
+        private void DisposeDecodingChannel()
+        {
+            if (_decodingChannel != null)
+            {
+                _decodingChannel.Stop();
+                _decodingChannel.Free();
+                _decodingChannel = null;
+            }
         }
 
         private int DecodeChunk(int chunkLength)
         {
             byte[] bytes = new byte[chunkLength];
             int dataLength = _decodingChannel.GetData(bytes, chunkLength);            
+            //Console.WriteLine("DecodingService - chunkLength: {0} dataLength: {1} bytes.Length: {2}", chunkLength, dataLength, chunkLength);
             if (dataLength == -1)
             {
                 var error = Bass.BASS_ErrorGetCode();
@@ -198,7 +226,7 @@ namespace Sessions.Player.Services
                 }
                 else
                 {
-                    Console.WriteLine("DecodingService - DecodeChunk - " + error.ToString());
+                    //Console.WriteLine("DecodingService - DecodeChunk - " + error.ToString());
                     throw new Exception(error.ToString());
                 }
             }
@@ -208,9 +236,27 @@ namespace Sessions.Player.Services
             {
                 _dataQueue.Enqueue(bytes);
                 _decodePosition += bytes.Length;
+                //Console.WriteLine("DecodingService - Enqueuing bytes - decodePosition: {0}", _decodePosition);
                 //Console.WriteLine("DecodingService - DecodeChunk - Requested {0} bytes; decoded {1} bytes - decodePosition: {2}/{3} - queue size: {4}/{5} ({6}%)", chunkLength, dataLength, _decodePosition, _channelLength, _dataQueue.BufferDataLength, _dataQueue.BufferLength, _dataQueue.BufferFillPercentage);
             }
             return bytes.Length;
+        }
+
+//        public byte[] DequeueDataDirect(int length)
+//        {
+//            DecodeChunk(length);
+//            return _dataQueue.Dequeue(length);
+//        }
+
+        public void SetDecodePosition(long position)
+        {
+            lock (_locker)
+            {
+                _dataQueue.Clear();
+                _decodePosition = position;
+                _decodingChannel.SetPosition(position);
+                Monitor.Pulse(_locker);
+            }
         }
 
         public byte[] DequeueData(int length)
