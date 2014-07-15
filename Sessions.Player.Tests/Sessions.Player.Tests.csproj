@@ -11,6 +11,8 @@
     <AssemblyName>Sessions.Player.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,10 +35,6 @@
     <Reference Include="nunit.core">
       <HintPath>..\Sessions.Core.Tests\Lib\nunit.core.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,21 +42,24 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Player\Sessions.Player.csproj">
-      <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
       <Name>Sessions.Player</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
-      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>Sessions.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound</Name>
     </ProjectReference>
   </ItemGroup>

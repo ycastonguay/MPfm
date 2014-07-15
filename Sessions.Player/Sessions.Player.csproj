@@ -83,11 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
-      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>Sessions.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1526,7 +1526,8 @@ namespace Sessions.GenericControls.Controls.Songs
         /// </summary>
         public void MouseLeave()
         {
-            bool controlNeedsToBeUpdated = false;
+            bool controlNeedsToBePartiallyInvalidated = false;
+            var partialRect = new BasicRectangle();
             _isMouseOverControl = false;
 
             if (_columns == null || _songCache == null)
@@ -1540,9 +1541,9 @@ namespace Sessions.GenericControls.Controls.Songs
                     if (_items[b].IsMouseOverItem)
                     {
                         _items[b].IsMouseOverItem = false;
-                        OnInvalidateVisualInRect(new BasicRectangle(_columns[0].Width - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - _columns[0].Width + HorizontalScrollBar.Value, _songCache.LineHeight));
-                        controlNeedsToBeUpdated = true;
-
+                        var newPartialRect = new BasicRectangle(_columns[0].Width - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - _columns[0].Width + HorizontalScrollBar.Value, _songCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
                         break;
                     }
                 }
@@ -1557,17 +1558,17 @@ namespace Sessions.GenericControls.Controls.Songs
                     if (_songCache.ActiveColumns[b].IsMouseOverColumnHeader)
                     {
                         _songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
-                        OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight));
-                        controlNeedsToBeUpdated = true;
+                        var newPartialRect = new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
                     }
 
                     columnOffsetX2 += _songCache.ActiveColumns[b].Width;
                 }
             }
 
-            //// Check if control needs to be updated
-            //if (controlNeedsToBeUpdated)
-            //    Update();
+            if (controlNeedsToBePartiallyInvalidated)
+                OnInvalidateVisualInRect(partialRect);        
         }
 
         /// <summary>
@@ -1600,15 +1601,14 @@ namespace Sessions.GenericControls.Controls.Songs
         /// </summary>
         public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
-            // Reset flags
             _dragStartX = -1;
-            bool updateControl = false;
+            bool controlNeedsToBeFullyInvalidated = false;
             _isUserHoldingLeftMouseButton = false;
 
             if (_columns == null || _songCache == null)
                 return;
 
-            // Loop through columns
+            // Get reference to the moving column
             SongGridViewColumn columnMoving = null;
             foreach (var column in _songCache.ActiveColumns)
             {
@@ -1621,7 +1621,7 @@ namespace Sessions.GenericControls.Controls.Songs
             if (columnMoving != null)
             {
                 columnMoving.IsUserMovingColumn = false;
-                updateControl = true;
+                controlNeedsToBeFullyInvalidated = true;
 
                 // Find out on what column the mouse cursor is
                 SongGridViewColumn columnOver = null;
@@ -1702,8 +1702,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     columnsOrdered[a].Order = a;
             }
 
-            // Check if the control needs to be updated
-            if (updateControl)
+            if (controlNeedsToBeFullyInvalidated)
             {
                 InvalidateSongCache();
                 OnInvalidateVisual();
@@ -1712,33 +1711,30 @@ namespace Sessions.GenericControls.Controls.Songs
 
         public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
+            bool controlNeedsToBeFullyInvalidated = false;
+            bool controlNeedsToBePartiallyInvalidated = false;
+            var partialRect = new BasicRectangle();
+
             if (_columns == null || _songCache == null)
                 return;
-
-            // Calculate album cover art width
-            int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
 
             // Show context menu strip if the button click is right and not the album art column
             if (button == MouseButtonType.Right && x > _columns[0].Width && y > _songCache.LineHeight)
                 OnDisplayContextMenu(ContextMenuType.Item, x, y);
 
-            // Check if the user is resizing a column
+            int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
             var columnResizing = _columns.FirstOrDefault(col => col.IsUserResizingColumn == true);
-
-            // Calculate scrollbar offset Y
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
 
             // Check if the user has clicked on the header (for orderBy)
-            if (y >= 0 &&
-                y <= _songCache.LineHeight &&
-                columnResizing == null &&
-                !IsColumnMoving)
+            if (y >= 0 && y <= _songCache.LineHeight &&
+                columnResizing == null && !IsColumnMoving)
             {
                 // Check on what column the user has clicked
                 int offsetX = 0;
                 for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
                 {
-                    SongGridViewColumn column = _songCache.ActiveColumns[a];
+                    var column = _songCache.ActiveColumns[a];
                     if (column.Visible)
                     {
                         // Check if the mouse pointer is over this column
@@ -1771,8 +1767,7 @@ namespace Sessions.GenericControls.Controls.Songs
                                     OnColumnClick(data);
                                 }
 
-                                OnInvalidateVisual();
-                                return;
+                                controlNeedsToBeFullyInvalidated = true;
                             }
                             else if (button == MouseButtonType.Right)
                             {
@@ -1804,7 +1799,9 @@ namespace Sessions.GenericControls.Controls.Songs
                 // Invalidate the original selected lines
                 int startY = ((startIndex - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY;
                 int endY = ((endIndex - _startLineNumber + 2) * _songCache.LineHeight) + scrollbarOffsetY;
-                OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, startY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, endY - startY));
+                var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, startY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, endY - startY);
+                partialRect.Merge(newPartialRect);
+                controlNeedsToBePartiallyInvalidated = true;
             }
 
             // Reset selection (make sure SHIFT or CTRL isn't held down)
@@ -1821,12 +1818,12 @@ namespace Sessions.GenericControls.Controls.Songs
             for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
-                if (_items[a].IsMouseOverItem)
+                if (_items [a].IsMouseOverItem)
                 {
                     invalidatedNewSelection = true;
 
                     // Check if SHIFT is held
-                    if(keysHeld.IsShiftKeyHeld)
+                    if (keysHeld.IsShiftKeyHeld)
                     {
                         // Find the start index of the selection
                         int startIndexSelection = _lastItemIndexClicked;
@@ -1842,23 +1839,26 @@ namespace Sessions.GenericControls.Controls.Songs
 
                         // Loop through items to selected
                         for (int b = startIndexSelection; b < endIndexSelection; b++)
-                            _items[b].IsSelected = true;
+                            _items [b].IsSelected = true;
 
-                        // Invalidate region
-                        OnInvalidateVisual();
-                    }
+                        controlNeedsToBeFullyInvalidated = true;
+                    }                
                     // Check if CTRL is held
                     else if(keysHeld.IsCtrlKeyHeld)
                     {
                         // Invert selection
                         _items[a].IsSelected = !_items[a].IsSelected;
-                        OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
                     }
                     else
                     {
                         // Set this item as the new selected item
                         _items[a].IsSelected = true;
-                        OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
                     }
 
                     // Set the last item clicked index
@@ -1874,7 +1874,10 @@ namespace Sessions.GenericControls.Controls.Songs
                 OnSelectedIndexChanged(data);
             }
 
-            //Update();
+            if (controlNeedsToBeFullyInvalidated)
+                OnInvalidateVisual();
+            else if (controlNeedsToBePartiallyInvalidated)
+                OnInvalidateVisualInRect(partialRect);
         }
 
         /// <summary>
@@ -1887,6 +1890,8 @@ namespace Sessions.GenericControls.Controls.Songs
             if (_columns == null || _songCache == null)
                 return;
 
+            var partialRect = new BasicRectangle();
+            bool controlNeedsToBePartiallyInvalidated = false;
             int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
 
@@ -1909,20 +1914,26 @@ namespace Sessions.GenericControls.Controls.Songs
                     _nowPlayingPlaylistItemId = _items[a].PlaylistItemId;
 
                     OnItemDoubleClick(_nowPlayingAudioFileId, a);
-                    OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                    partialRect.Merge(newPartialRect);
+                    controlNeedsToBePartiallyInvalidated = true;
                 }
                 else if (_mode == SongGridViewMode.AudioFile && _items[a].AudioFile.Id == originalId)
                 {
-                    OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                    partialRect.Merge(newPartialRect);
+                    controlNeedsToBePartiallyInvalidated = true;
                 }
                 else if (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == originalId)
                 {
-                    OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                    partialRect.Merge(newPartialRect);
+                    controlNeedsToBePartiallyInvalidated = true;
                 }
             }
-
-            // Update invalid regions
-            //Update();
+                
+            if (controlNeedsToBePartiallyInvalidated)
+                OnInvalidateVisualInRect(partialRect);
         }        
 
         /// <summary>
@@ -1932,7 +1943,9 @@ namespace Sessions.GenericControls.Controls.Songs
         public void MouseMove(float x, float y, MouseButtonType button)
         {
             //Console.WriteLine("SongGridViewControl - MouseMove - x: {0} y: {1}", x, y);
-            bool controlNeedsToBeUpdated = false;
+            bool controlNeedsToBeFullyInvalidated = false;
+            bool controlNeedsToBePartiallyInvalidated = false;
+            var partialRect = new BasicRectangle();
             if (_columns == null || _songCache == null)
                 return;
 
@@ -1956,8 +1969,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     column.Width = newWidth;
 
                     // Refresh control (invalidate whole control)
-                    controlNeedsToBeUpdated = true;
-                    OnInvalidateVisual();
+                    controlNeedsToBeFullyInvalidated = true;
                     InvalidateSongCache();
 
                     // Auto adjust horizontal scrollbar value if it exceeds the value range (i.e. do not show empty column)
@@ -2004,8 +2016,7 @@ namespace Sessions.GenericControls.Controls.Songs
                         }
                     }
 
-                    OnInvalidateVisual();
-                    controlNeedsToBeUpdated = true;
+                    controlNeedsToBeFullyInvalidated = true;
                 }
             }
 
@@ -2052,8 +2063,9 @@ namespace Sessions.GenericControls.Controls.Songs
                         {
                             // Invalidate region
                             column.IsMouseOverColumnHeader = false;
-                            OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
-                            controlNeedsToBeUpdated = true;
+                            var newPartialRect = new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight);
+                            partialRect.Merge(newPartialRect);
+                            controlNeedsToBePartiallyInvalidated = true;
                         }
 
                         // Increment offset
@@ -2077,8 +2089,9 @@ namespace Sessions.GenericControls.Controls.Songs
                             {
                                 // Invalidate region
                                 column.IsMouseOverColumnHeader = true;
-                                OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
-                                controlNeedsToBeUpdated = true;
+                                var newPartialRect = new BasicRectangle(columnOffsetX - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight);
+                                partialRect.Merge(newPartialRect);
+                                controlNeedsToBePartiallyInvalidated = true;
                                 break;
                             }
 
@@ -2089,7 +2102,7 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 // Check if the mouse cursor is over a line (loop through lines)                        
                 int offsetY = 0;
-                int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+                //int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
 
                 // Check if there's at least one item
                 if (_items.Count > 0)
@@ -2105,7 +2118,6 @@ namespace Sessions.GenericControls.Controls.Songs
                             //Console.WriteLine("SongGridViewControl - MouseMove - Resetting mouse over flag for line {0}", b);
                             _items[b].IsMouseOverItem = false;
                             //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
-
                             break;
                         }
                     }
@@ -2129,16 +2141,17 @@ namespace Sessions.GenericControls.Controls.Songs
 
                             // Invalidate region and update control
                             //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, offsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
-                            controlNeedsToBeUpdated = true;
+                            //controlNeedsToBeFullyInvalidated = true;
                             break;
                         }
                     }
                 }
             }
 
-            //// Check if the control needs to be refreshed
-            //if (controlNeedsToBeUpdated)
-            //    Update();
+            if (controlNeedsToBeFullyInvalidated)
+                OnInvalidateVisual();
+            else if (controlNeedsToBePartiallyInvalidated)
+                OnInvalidateVisualInRect(partialRect);
         }
 
         /// <summary>

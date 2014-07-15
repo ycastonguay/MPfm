@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
+using System;
 
 namespace Sessions.GenericControls.Basics
 {
@@ -23,6 +24,11 @@ namespace Sessions.GenericControls.Basics
         public float Y { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
+
+        public float Top { get { return Y; } }
+        public float Bottom { get { return Y + Height; } }
+        public float Left { get { return X; } }
+        public float Right { get { return X + Width; } }
 
         public BasicRectangle()
         {
@@ -39,6 +45,25 @@ namespace Sessions.GenericControls.Basics
         public BasicPoint Center()
         {
             return new BasicPoint(X + Width / 2, Y + Height / 2);
+        }
+
+        public void Merge(BasicRectangle rect)
+        {
+            var mergedRect = BasicRectangle.Merge(this, rect);
+            this.X = mergedRect.X;
+            this.Y = mergedRect.Y;
+            this.Width = mergedRect.Width;
+            this.Height = mergedRect.Height;
+        }
+
+        public static BasicRectangle Merge(BasicRectangle rectA, BasicRectangle rectB)
+        {
+            var mergedRect = new BasicRectangle();
+            mergedRect.X = Math.Min(rectA.X, rectB.X);
+            mergedRect.Y = Math.Min(rectA.Y, rectB.Y);
+            mergedRect.Width = Math.Max(rectA.Right, rectB.Right) - mergedRect.X;
+            mergedRect.Height = Math.Max(rectA.Bottom, rectB.Bottom) - mergedRect.Y;
+            return mergedRect;
         }
 
         public override string ToString()
