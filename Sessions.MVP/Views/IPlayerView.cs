@@ -47,6 +47,7 @@ namespace Sessions.MVP.Views
         Action OnEditSongMetadata { get; set; }
         Action OnOpenPlaylist { get; set; }
         Action OnOpenEffects { get; set; }
+        Action OnPlayerViewAppeared { get; set; }
 
         void PlayerError(Exception ex);
 	    void PushSubView(IBaseView view);

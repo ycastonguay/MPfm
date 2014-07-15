@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -786,7 +787,6 @@ namespace Sessions.Player
 			}
             else if (OS.Type == OSType.Linux)
             {				
-				// Default
 				// 10ms update period does not work under Linux. Major stuttering
                 Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize);
                 Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);
@@ -797,14 +797,9 @@ namespace Sessions.Player
             }
             else if (OS.Type == OSType.MacOSX)
             {
-				// Default
-                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 100);// _bufferSize);
-                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 10);					
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, _updatePeriod);					
             }		
-
-
-
-
 
             _isDeviceInitialized = true;
         }
@@ -1350,7 +1345,6 @@ namespace Sessions.Player
             RemoveBPMCallbacks();
             _fxChannel.Free();
 
-            // Dispose channels
             if (_playlist != null && _playlist.CurrentItem != null)
             {
                 Tracing.Log("Player.Stop -- Disposing channels...");
@@ -2011,8 +2005,8 @@ namespace Sessions.Player
         /// <returns>Audio data</returns>
         internal int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
-            //var stopwatch = new Stopwatch();
-            //stopwatch.Start();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             // If the current sub channel is null, end the stream            
 			if(_playlist == null || _playlist.CurrentItem == null || _playlist.Items.Count < _currentMixPlaylistIndex || _playlist.Items[_currentMixPlaylistIndex] == null ||
@@ -2038,26 +2032,28 @@ namespace Sessions.Player
 //                Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
 //                return bufferData.Length;
 
+                int dataLength = 0;
                 if (_decodingService.BufferDataLength > 0)
                 {
                     byte[] bufferData = _decodingService.DequeueData(length);
                     Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
-                    return bufferData.Length;
+                    dataLength = bufferData.Length;
                 } 
                 else
                 {
                     Console.WriteLine("Player - StreamCallback - No more data to dequeue!");
-                    return 0;
+                    dataLength = 0;
                 }
 
-                //stopwatch.Stop();
+                stopwatch.Stop();
                 //if(stopwatch.ElapsedMilliseconds > 0)
-                //var info = Bass.BASS_GetInfo();
-                //float cpu = Bass.BASS_GetCPU();
-                //var timeSpan = DateTime.Now - _lastDateTime;
-                //_lastDateTime = DateTime.Now;
-                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} data: {5} length: {6}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, data, length);
-                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} elapsed since last call: {6}.{7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, DateTime.Now.Second, DateTime.Now.Millisecond);                
+                var info = Bass.BASS_GetInfo();
+                float cpu = Bass.BASS_GetCPU();
+                int dataAvailable = _mixerChannel.GetDataAvailable();
+                var timeSpan = DateTime.Now - _lastDateTime;
+                _lastDateTime = DateTime.Now;
+                Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} dataAvailable: {6} ms elapsed since last call: {7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, dataAvailable, timeSpan.TotalMilliseconds);
+                return dataLength;
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {

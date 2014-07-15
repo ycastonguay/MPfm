@@ -1405,6 +1405,7 @@ namespace Sessions.OSX
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
         public Action OnOpenResumePlayback { get; set; }
+        public Action OnPlayerViewAppeared { get; set; }
 
         public void PlayerError(Exception ex)
         {

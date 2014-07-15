@@ -172,6 +172,7 @@ namespace Sessions.MVP.Presenters
             view.OnEditSongMetadata = EditSongMetadata;
             view.OnOpenPlaylist = OpenPlaylist;
             view.OnOpenEffects = OpenEffects;
+            view.OnPlayerViewAppeared = PlayerViewAppeared;
 
             // If the player is already playing, refresh initial data
             if (_playerService.IsPlaying)
@@ -181,14 +182,6 @@ namespace Sessions.MVP.Presenters
 
                 var markers = _libraryService.SelectMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
                 View.RefreshMarkers(markers);
-            }
-
-            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
-                _playerService.Status == PlayerStatusType.StartPaused)
-            {
-                _playerService.Resume();
-                _timerRefreshSongPosition.Start();
-                _timerSavePlayerStatus.Start();
             }
 
             View.RefreshPlayerVolume(new PlayerVolumeEntity() {
@@ -503,6 +496,17 @@ namespace Sessions.MVP.Presenters
         {
             _playerService.ToggleRepeatType();
             View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
+        }
+
+        private void PlayerViewAppeared()
+        {
+            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
+                _playerService.Status == PlayerStatusType.StartPaused)
+            {
+                _playerService.Resume();
+                _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
+            }
         }
 
         private PlayerPositionEntity RequestPosition(float positionPercentage)
