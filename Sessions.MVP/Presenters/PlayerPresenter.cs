@@ -184,6 +184,16 @@ namespace Sessions.MVP.Presenters
                 View.RefreshMarkers(markers);
             }
 
+            #if !IOS
+            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
+                _playerService.Status == PlayerStatusType.StartPaused)
+            {
+                _playerService.Resume();
+                _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
+            }
+            #endif
+
             View.RefreshPlayerVolume(new PlayerVolumeEntity() {
                 Volume = 100,
                 VolumeString = "100%"

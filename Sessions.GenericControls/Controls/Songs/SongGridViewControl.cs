@@ -159,7 +159,9 @@ namespace Sessions.GenericControls.Controls.Songs
             }
             set
             {
+                var oldValue = _nowPlayingAudioFileId;
                 _nowPlayingAudioFileId = value;
+                InvalidateRow(oldValue, _nowPlayingAudioFileId);
             }
         }
 
@@ -2137,6 +2139,57 @@ namespace Sessions.GenericControls.Controls.Songs
             //// Check if the control needs to be refreshed
             //if (controlNeedsToBeUpdated)
             //    Update();
+        }
+
+        /// <summary>
+        /// Invalidates a row (useful for updating currently playing song).
+        /// </summary>
+        /// <param name="oldAudioFileId">Old audio file identifier.</param>
+        /// <param name="newAudioFileId">New audio file identifier.</param>
+        private void InvalidateRow(Guid oldAudioFileId, Guid newAudioFileId)
+        {
+            if (_items == null)
+                return;
+
+            int oldIndex = _items.FindIndex(x => x.AudioFile.Id == oldAudioFileId);
+            int newIndex = _items.FindIndex(x => x.AudioFile.Id == newAudioFileId);
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int firstIndex = oldIndex < newIndex ? oldIndex : newIndex;
+            int secondIndex = newIndex > oldIndex ? newIndex : oldIndex;
+
+            int firstY = -1;
+            if (oldIndex >= _startLineNumber && oldIndex <= _startLineNumber + _numberOfLinesToDraw)
+                firstY = ((firstIndex - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+
+            int secondY = -1;
+            if (newIndex >= _startLineNumber && newIndex <= _startLineNumber + _numberOfLinesToDraw)
+                secondY = ((secondIndex - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+
+            int finalY = 0;
+            int finalHeight = 0;
+            int lineHeight = _songCache.LineHeight;
+
+            if (firstY >= 0)
+            {
+                finalY = firstY;
+                if (secondY >= 0)
+                    finalHeight = (secondY + lineHeight) - firstY;
+                else
+                    finalHeight = lineHeight;
+            } 
+            else if (secondY >= 0)
+            {
+                finalY = secondY;
+                finalHeight = lineHeight;
+            }
+
+            if (finalHeight > 0)
+            {
+                int headerHeight = _songCache.LineHeight;
+                var rect = new BasicRectangle(0, finalY + headerHeight, Frame.Width, finalHeight);
+                //Console.WriteLine("SongGridViewControl - InvalidateRow - rect: {0} nowPlayingIndex: {1} startLineNumber: {2} numberOfLinesToDraw: {3} scrollbarOffsetY: {4}", rect, oldIndex, _startLineNumber, _numberOfLinesToDraw, scrollbarOffsetY);
+                OnInvalidateVisualInRect(rect);
+            }
         }
 
         /// <summary>

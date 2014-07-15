@@ -1419,10 +1419,10 @@ namespace Sessions.OSX
                 switch (status)
                 {
                     case PlayerStatusType.Initialized:
-                        goto case PlayerStatusType.Paused;
                     case PlayerStatusType.Stopped:
-                        goto case PlayerStatusType.Paused;
                     case PlayerStatusType.Paused:
+                    case PlayerStatusType.StartPaused:
+                    case PlayerStatusType.WaitingToStart:
                         btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
                         break;
                     case PlayerStatusType.Playing:
