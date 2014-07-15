@@ -44,6 +44,7 @@ namespace Sessions.Sound.Playlists
 
         public override void Clear()
         {            
+            base.Clear();
             _random = new Random();
             PlayedItemIds = new List<Guid>();
         }

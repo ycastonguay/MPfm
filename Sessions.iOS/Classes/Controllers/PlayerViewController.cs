@@ -253,7 +253,7 @@ namespace Sessions.iOS.Classes.Controllers
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
-
+            OnPlayerViewAppeared();
 //			if (scrollViewPlayer != null)
 //				scrollViewPlayer.FlashScrollIndicators();
 		}
@@ -510,6 +510,7 @@ namespace Sessions.iOS.Classes.Controllers
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
 		public Action OnOpenEffects { get; set; }
+        public Action OnPlayerViewAppeared { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
 
         public void PlayerError(Exception ex)
@@ -569,6 +570,28 @@ namespace Sessions.iOS.Classes.Controllers
 			if (_currentAudioFileId == audioFile.Id)
 				return;
 			_currentAudioFileId = audioFile.Id;
+
+            InvokeOnMainThread(() => {
+                try
+                {
+                    //_currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
+                    //SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
+                    //navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
+
+                    ShowPlayerMetadata(true, false);
+                    lblLength.Text = audioFile.Length;
+
+                    if(IsOutputMeterEnabled)
+                    {
+                        scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+                        scrollViewWaveForm.LoadPeakFile(audioFile);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set wave form information: {0}", ex);
+                }
+            });
 
             // Check if the album art needs to be refreshed
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
@@ -643,29 +666,6 @@ namespace Sessions.iOS.Classes.Controllers
                     });
                 //}, TaskScheduler.FromCurrentSynchronizationContext());
             }
-
-            // Refresh other fields
-            InvokeOnMainThread(() => {
-                try
-                {
-                    //_currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
-                    //SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
-                    //navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
-
-                    ShowPlayerMetadata(true, false);
-                    lblLength.Text = audioFile.Length;
-
-					if(IsOutputMeterEnabled)
-					{
-	                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
-	                    scrollViewWaveForm.LoadPeakFile(audioFile);
-					}
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set wave form information: {0}", ex);
-                }
-            });
         }
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)

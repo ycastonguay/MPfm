@@ -403,6 +403,7 @@ namespace Sessions.Android
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
+        public Action OnPlayerViewAppeared { get; set; }
 
         public void PlayerError(Exception ex)
         {
