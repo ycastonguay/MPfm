@@ -146,6 +146,23 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
+        private int _minimumRowsPerAlbum = 6;
+        /// <summary>
+        /// Defines the minimum number of rows per album; will fill space with empty rows.
+        /// </summary>
+        public int MinimumRowsPerAlbum
+        {
+            get
+            {
+                return _minimumRowsPerAlbum;
+            }
+            set
+            {
+                _minimumRowsPerAlbum = value;
+                OnInvalidateVisual();
+            }
+        }
+
         private Guid _nowPlayingAudioFileId = Guid.Empty;
         /// <summary>
         /// Defines the currently playing audio file identifier.
@@ -619,15 +636,31 @@ namespace Sessions.GenericControls.Controls.Songs
         {
             _mode = SongGridViewMode.AudioFile;
             _items = new List<SongGridViewItem>();
-            foreach (var audioFile in audioFiles)
+
+            var albums = audioFiles.GroupBy(x => new { x.ArtistName, x.AlbumTitle });
+            foreach (var album in albums)
             {
-                var item = new SongGridViewItem();
-                item.AudioFile = audioFile;
-                item.PlaylistItemId = Guid.NewGuid();
-                _items.Add(item);
+                var songs = audioFiles.Where(x => x.ArtistName == album.Key.ArtistName && x.AlbumTitle == album.Key.AlbumTitle).ToArray();
+                foreach (var song in songs)
+                {
+                    var item = new SongGridViewItem();
+                    item.AudioFile = song;
+                    item.PlaylistItemId = Guid.NewGuid();
+                    item.AlbumArtKey = album.Key.ArtistName + "_" + album.Key.AlbumTitle;
+                    _items.Add(item);
+                }
+                if (songs.Length < MinimumRowsPerAlbum)
+                {
+                    for (int a = 0; a < MinimumRowsPerAlbum - songs.Length; a++)
+                    {
+                        var item = new SongGridViewItem();
+                        item.IsEmptyRow = true;
+                        item.AlbumArtKey = album.Key.ArtistName + "_" + album.Key.AlbumTitle;
+                        _items.Add(item);
+                    }
+                } 
             }
 
-            // Reset scrollbar position
             VerticalScrollBar.Value = 0;
             _songCache = null;
             OnInvalidateVisual();
@@ -810,7 +843,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 var audioFile = _items[a].AudioFile;
                 var colorBackground1 = _theme.BackgroundColor;
                 var colorBackground2 = _theme.BackgroundColor;
-                if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == _nowPlayingAudioFileId) || 
+                if ((_mode == SongGridViewMode.AudioFile && audioFile != null && audioFile.Id == _nowPlayingAudioFileId) || 
                     (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == _nowPlayingPlaylistItemId))
                 {
                     colorBackground1 = _theme.NowPlayingBackgroundColor;
@@ -886,7 +919,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 if (column.Title == "Now Playing")
                 {
                     // Draw now playing icon
-                    if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == _nowPlayingAudioFileId) ||
+                    if ((_mode == SongGridViewMode.AudioFile && audioFile != null && audioFile.Id == _nowPlayingAudioFileId) ||
                         (_mode == SongGridViewMode.Playlist && _items[row].PlaylistItemId == _nowPlayingPlaylistItemId))
                     {
                         // Which size is the minimum? Width or height?                    
@@ -918,10 +951,10 @@ namespace Sessions.GenericControls.Controls.Songs
                 {
                     DrawAlbumCoverZone(context, row, audioFile, state);
                 }
-                else
+                else if (audioFile != null)
                 {
                     // Print value depending on type
-                    PropertyInfo propertyInfo = audioFile.GetType().GetProperty(column.FieldName);
+                    var propertyInfo = audioFile.GetType().GetProperty(column.FieldName);
                     if (propertyInfo != null)
                     {
                         string value = string.Empty;
@@ -996,248 +1029,249 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
-        private void DrawAlbumCoverZone(IGraphicsContext context, int row, AudioFile audioFile, DrawCellState state)
+        private void DrawAlbumCoverZone(IGraphicsContext context, int row, AudioFile audioFile2, DrawCellState state)
         {
             var pen = new BasicPen();
             var penTransparent = new BasicPen();
             var brushGradient = new BasicGradientBrush();
+            var item = _items[row];
+            //string albumTitle = audioFile != null ? audioFile.AlbumTitle : state.CurrentAlbumTitle; // if this is an empty row, keep last album title
 
             // Check for an album title change (or the last item of the grid)
-            if (state.CurrentAlbumTitle != audioFile.AlbumTitle)
+            if (state.CurrentAlbumArtKey == item.AlbumArtKey)
+                return;
+
+            state.CurrentAlbumArtKey = item.AlbumArtKey;
+
+            int albumCoverStartIndex = 0;
+            int albumCoverEndIndex = 0;
+
+            // For displaying the album cover, we need to know how many songs of the same album are bundled together
+            // Start by getting the start index
+            for (int c = row; c > 0; c--)
             {
-                // Set the new current album title
-                state.CurrentAlbumTitle = audioFile.AlbumTitle;
-
-                // For displaying the album cover, we need to know how many songs of the same album are bundled together
-                // Start by getting the start index
-                for (int c = row; c > 0; c--)
+                var previousItem = _items[c];
+                if (previousItem.AlbumArtKey != item.AlbumArtKey)
                 {
-                    // Get audio file
-                    AudioFile previousAudioFile = _items[c].AudioFile;
-
-                    // Check if the album title matches
-                    if (previousAudioFile.AlbumTitle != audioFile.AlbumTitle)
-                    {
-                        // Set album cover start index (+1 because the last song was the sound found in the previous loop iteration)
-                        state.AlbumCoverStartIndex = c + 1;
-                        break;
-                    }
+                    albumCoverStartIndex = c + 1;
+                    break;
                 }
-                // Find the end index
-                for (int c = row + 1; c < _items.Count; c++)
-                {
-                    // Get audio file
-                    AudioFile nextAudioFile = _items[c].AudioFile;
+            }
 
-                    // If the album title is different, this means we found the next album title
-                    if (nextAudioFile.AlbumTitle != audioFile.AlbumTitle)
-                    {
-                        // Set album cover end index (-1 because the last song was the song found in the previous loop iteration)
-                        state.AlbumCoverEndIndex = c - 1;
-                        break;
-                    }
-                    // If this is the last item of the grid...
-                    else if (c == _items.Count - 1)
-                    {
-                        // Set album cover end index as the last item of the grid
-                        state.AlbumCoverEndIndex = c;
-                        break;
-                    }
+            // Find the end index
+            for (int c = row + 1; c < _items.Count; c++)
+            {
+                var nextItem = _items[c];
+
+                // If the album title is different, this means we found the next album title
+                if (nextItem.AlbumArtKey != item.AlbumArtKey)
+                {
+                    albumCoverEndIndex = c - 1;
+                    break;
+                }
+                // If this is the last item of the grid...
+                else if (c == _items.Count - 1)
+                {
+                    albumCoverEndIndex = c;
+                    break;
+                }
+            }
+
+            var audioFile = _items [albumCoverStartIndex].AudioFile;
+
+            // Calculate y and height
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int y = ((albumCoverStartIndex - _startLineNumber) * _songCache.LineHeight) + _songCache.LineHeight + scrollbarOffsetY;
+
+            // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
+            int albumCoverZoneHeight = (albumCoverEndIndex + 1 - albumCoverStartIndex) * _songCache.LineHeight;
+
+            int heightWithPadding = albumCoverZoneHeight - (_theme.Padding * 2);
+            if (heightWithPadding > _songCache.ActiveColumns[0].Width - (_theme.Padding * 2))
+                heightWithPadding = _songCache.ActiveColumns[0].Width - (_theme.Padding * 2);
+
+            // Make sure the height is at least zero (not necessary to draw anything!)
+            if (albumCoverZoneHeight > 0)
+            {
+                // Draw album cover background
+                var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, _songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
+                brushGradient = new BasicGradientBrush(_theme.AlbumCoverBackgroundColor, _theme.AlbumCoverBackgroundColor, 90);
+                context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
+
+                // Measure available width for text
+                int widthAvailableForText = _columns[0].Width - (_theme.Padding * 2);
+
+                // Display titles depending on if an album art was found
+                var rectAlbumCoverArt = new BasicRectangle();
+                var rectAlbumTitleText = new BasicRectangle();
+                var rectArtistNameText = new BasicRectangle();
+                var sizeAlbumTitle = new BasicRectangle();
+                var sizeArtistName = new BasicRectangle();
+                bool useAlbumArtOverlay = false;
+
+                // Try to extract image from cache
+                IBasicImage imageAlbumCover = null;
+                SongGridViewImageCache cachedImage = null;
+                try
+                {
+                    cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
+                }
+                catch (Exception ex)
+                {
+                    Tracing.Log(ex);
                 }
 
-                // Calculate y and height
-                int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
-                int y = ((state.AlbumCoverStartIndex - _startLineNumber) * _songCache.LineHeight) + _songCache.LineHeight + scrollbarOffsetY;
+                if (cachedImage != null)
+                    imageAlbumCover = cachedImage.Image;
 
-                // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
-                int albumCoverZoneHeight = (state.AlbumCoverEndIndex + 1 - state.AlbumCoverStartIndex) * _songCache.LineHeight;
-
-                int heightWithPadding = albumCoverZoneHeight - (_theme.Padding * 2);
-                if (heightWithPadding > _songCache.ActiveColumns[0].Width - (_theme.Padding * 2))
-                    heightWithPadding = _songCache.ActiveColumns[0].Width - (_theme.Padding * 2);
-
-                // Make sure the height is at least zero (not necessary to draw anything!)
-                if (albumCoverZoneHeight > 0)
+                // Album art not found in cache; try to find an album cover in one of the file
+                if (cachedImage == null)
                 {
-                    // Draw album cover background
-                    var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, _songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
-                    brushGradient = new BasicGradientBrush(_theme.AlbumCoverBackgroundColor, _theme.AlbumCoverBackgroundColor, 90);
-                    context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
-
-                    // Measure available width for text
-                    int widthAvailableForText = _columns[0].Width - (_theme.Padding * 2);
-
-                    // Display titles depending on if an album art was found
-                    var rectAlbumCoverArt = new BasicRectangle();
-                    var rectAlbumTitleText = new BasicRectangle();
-                    var rectArtistNameText = new BasicRectangle();
-                    var sizeAlbumTitle = new BasicRectangle();
-                    var sizeArtistName = new BasicRectangle();
-                    bool useAlbumArtOverlay = false;
-
-                    // Try to extract image from cache
-                    IBasicImage imageAlbumCover = null;
-                    SongGridViewImageCache cachedImage = null;
                     try
                     {
-                        cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
-                    }
-                    catch (Exception ex)
-                    {
-                        Tracing.Log(ex);
-                    }
-
-                    if (cachedImage != null)
-                        imageAlbumCover = cachedImage.Image;
-
-                    // Album art not found in cache; try to find an album cover in one of the file
-                    if (cachedImage == null)
-                    {
-                        try
+                        // Check if the album cover is already in the pile
+                        bool albumCoverFound = false;
+                        foreach (var arg in _workerUpdateAlbumArtPile)
                         {
-                            // Check if the album cover is already in the pile
-                            bool albumCoverFound = false;
-                            foreach (var arg in _workerUpdateAlbumArtPile)
+                            // Match by file path
+                            if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
                             {
-                                // Match by file path
-                                if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
-                                {
-                                    // We found the album cover
-                                    albumCoverFound = true;
-                                }
-                            }
-
-                            // Add to the pile only if the album cover isn't already in it
-                            if (!albumCoverFound)
-                            {
-                                // Add item to update album art worker pile
-                                var arg = new SongGridViewBackgroundWorkerArgument();
-                                arg.AudioFile = audioFile;
-                                arg.LineIndex = row;
-                                arg.RectAlbumArt = new BasicRectangle(0, 0, heightWithPadding, heightWithPadding);
-                                _workerUpdateAlbumArtPile.Add(arg);
+                                // We found the album cover
+                                albumCoverFound = true;
                             }
                         }
-                        catch(Exception ex)
+
+                        // Add to the pile only if the album cover isn't already in it
+                        if (!albumCoverFound)
                         {
-                            Console.WriteLine("SongGridViewConrol - Failed to load cache image: {0}" , ex);
+                            // Add item to update album art worker pile
+                            var arg = new SongGridViewBackgroundWorkerArgument();
+                            arg.AudioFile = audioFile;
+                            arg.LineIndex = row;
+                            arg.RectAlbumArt = new BasicRectangle(0, 0, heightWithPadding, heightWithPadding);
+                            _workerUpdateAlbumArtPile.Add(arg);
                         }
                     }
-
-                    // If there's only one line, we need to do place the artist name and album title on one line
-                    if (state.AlbumCoverEndIndex - state.AlbumCoverStartIndex == 0)
+                    catch(Exception ex)
                     {
+                        Console.WriteLine("SongGridViewConrol - Failed to load cache image: {0}" , ex);
+                    }
+                }
+
+                // If there's only one line, we need to do place the artist name and album title on one line
+                if (albumCoverEndIndex - albumCoverStartIndex == 0)
+                {
+                    // Set string format
+                    //stringFormat.Alignment = StringAlignment.Near;
+                    //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+
+                    // Measure strings
+                    sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                    sizeAlbumTitle = context.MeasureText(state.CurrentAlbumArtKey, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
+
+                    // Display artist name at full width first, then album name
+                    rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + (_theme.Padding / 2), widthAvailableForText, _songCache.LineHeight);
+                    rectAlbumTitleText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value + sizeAlbumTitle.Width + _theme.Padding, y + (_theme.Padding / 2), widthAvailableForText - sizeArtistName.Width, _songCache.LineHeight);
+                }
+                else
+                {
+                    // There are at least two lines; is there an album cover to display?
+                    if (imageAlbumCover == null)
+                    {
+                        // There is no album cover to display; display only text.
                         // Set string format
-                        //stringFormat.Alignment = StringAlignment.Near;
-                        //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+                        //stringFormat.Alignment = StringAlignment.Center;
+                        //stringFormat.Trimming = StringTrimming.EllipsisWord;
 
                         // Measure strings
                         sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
-                        sizeAlbumTitle = context.MeasureText(state.CurrentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
+                        sizeAlbumTitle = context.MeasureText(state.CurrentAlbumArtKey, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
-                        // Display artist name at full width first, then album name
-                        rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + (_theme.Padding / 2), widthAvailableForText, _songCache.LineHeight);
-                        rectAlbumTitleText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value + sizeAlbumTitle.Width + _theme.Padding, y + (_theme.Padding / 2), widthAvailableForText - sizeArtistName.Width, _songCache.LineHeight);
+                        // Display the album title at the top of the zome
+                        rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding, widthAvailableForText, heightWithPadding);
+                        rectAlbumTitleText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding + sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
                     }
                     else
                     {
-                        // There are at least two lines; is there an album cover to display?
-                        if (imageAlbumCover == null)
+                        // There is an album cover to display with more than 2 lines.
+                        // Set string format
+                        //stringFormat.Alignment = StringAlignment.Near;
+                        //stringFormat.Trimming = StringTrimming.EllipsisWord;
+
+                        // Measure strings
+                        sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                        sizeAlbumTitle = context.MeasureText(state.CurrentAlbumArtKey, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
+
+                        // If there's only two lines, display text on only two lines
+                        if (albumCoverEndIndex - albumCoverStartIndex == 1)
+                        {
+                            // Display artist name on first line; display album title on second line
+                            rectArtistNameText = new BasicRectangle(((_columns[0].Width - sizeArtistName.Width) / 2) - HorizontalScrollBar.Value, y, widthAvailableForText, heightWithPadding);
+                            rectAlbumTitleText = new BasicRectangle(((_columns[0].Width - sizeAlbumTitle.Width) / 2) - HorizontalScrollBar.Value, y + _songCache.LineHeight, widthAvailableForText, heightWithPadding);
+                        }
+                        // There is an album cover to display; between 2 and 6 lines AND the width of the column is at least 50 pixels (or
+                        // it will try to display text in a too thin area)
+                        else if (albumCoverEndIndex - albumCoverStartIndex <= 5 && _columns[0].Width > 175)
                         {
                             // There is no album cover to display; display only text.
-                            // Set string format
-                            //stringFormat.Alignment = StringAlignment.Center;
-                            //stringFormat.Trimming = StringTrimming.EllipsisWord;
-
-                            // Measure strings
-                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
-                            sizeAlbumTitle = context.MeasureText(state.CurrentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
-
-                            // Display the album title at the top of the zome
-                            rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding, widthAvailableForText, heightWithPadding);
-                            rectAlbumTitleText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding + sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
-                        }
-                        else
-                        {
-                            // There is an album cover to display with more than 2 lines.
                             // Set string format
                             //stringFormat.Alignment = StringAlignment.Near;
                             //stringFormat.Trimming = StringTrimming.EllipsisWord;
 
+                            float widthRemainingForText = _columns[0].Width - _theme.Padding - heightWithPadding;
+
                             // Measure strings
-                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
-                            sizeAlbumTitle = context.MeasureText(state.CurrentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
+                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                            sizeAlbumTitle = context.MeasureText(state.CurrentAlbumArtKey, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
-                            // If there's only two lines, display text on only two lines
-                            if (state.AlbumCoverEndIndex - state.AlbumCoverStartIndex == 1)
+                            // Try to center the cover art + padding + max text width
+                            float maxWidth = sizeArtistName.Width;
+                            if (sizeAlbumTitle.Width > maxWidth)
                             {
-                                // Display artist name on first line; display album title on second line
-                                rectArtistNameText = new BasicRectangle(((_columns[0].Width - sizeArtistName.Width) / 2) - HorizontalScrollBar.Value, y, widthAvailableForText, heightWithPadding);
-                                rectAlbumTitleText = new BasicRectangle(((_columns[0].Width - sizeAlbumTitle.Width) / 2) - HorizontalScrollBar.Value, y + _songCache.LineHeight, widthAvailableForText, heightWithPadding);
+                                // Set new maximal width
+                                maxWidth = sizeAlbumTitle.Width;
                             }
-                            // There is an album cover to display; between 2 and 6 lines AND the width of the column is at least 50 pixels (or
-                            // it will try to display text in a too thin area)
-                            else if (state.AlbumCoverEndIndex - state.AlbumCoverStartIndex <= 5 && _columns[0].Width > 175)
+
+                            useAlbumArtOverlay = true;
+
+                            float albumCoverX = (_columns[0].Width - heightWithPadding - _theme.Padding - _theme.Padding - maxWidth) / 2;
+                            float artistNameY = (albumCoverZoneHeight - sizeArtistName.Height - sizeAlbumTitle.Height) / 2;
+
+                            // Display the album title at the top of the zome
+                            rectArtistNameText = new BasicRectangle(albumCoverX + heightWithPadding + _theme.Padding - HorizontalScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
+                            rectAlbumTitleText = new BasicRectangle(albumCoverX + heightWithPadding + _theme.Padding - HorizontalScrollBar.Value, y + artistNameY + sizeArtistName.Height, widthRemainingForText, heightWithPadding);
+
+                            // Set cover art rectangle
+                            rectAlbumCoverArt = new BasicRectangle(albumCoverX - HorizontalScrollBar.Value, y + _theme.Padding, heightWithPadding, heightWithPadding);
+                        }
+                        // 7 and more lines
+                        else
+                        {
+                            // Display artist name at the top of the album cover; display album title at the bottom of the album cover
+                            rectArtistNameText = new BasicRectangle(((_columns[0].Width - sizeArtistName.Width) / 2) - HorizontalScrollBar.Value, y + (_theme.Padding * 2), widthAvailableForText, heightWithPadding);
+                            rectAlbumTitleText = new BasicRectangle(((_columns[0].Width - sizeAlbumTitle.Width) / 2) - HorizontalScrollBar.Value, y + heightWithPadding - sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
+
+                            // Draw background overlay behind text
+                            useAlbumArtOverlay = true;
+
+                            // Try to horizontally center the album cover if it's not taking the whole width (less padding)
+                            float albumCoverX = _theme.Padding;
+                            if (_columns[0].Width > heightWithPadding)
                             {
-                                // There is no album cover to display; display only text.
-                                // Set string format
-                                //stringFormat.Alignment = StringAlignment.Near;
-                                //stringFormat.Trimming = StringTrimming.EllipsisWord;
-
-                                float widthRemainingForText = _columns[0].Width - _theme.Padding - heightWithPadding;
-
-                                // Measure strings
-                                sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
-                                sizeAlbumTitle = context.MeasureText(state.CurrentAlbumTitle, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontName, _theme.FontSize);
-
-                                // Try to center the cover art + padding + max text width
-                                float maxWidth = sizeArtistName.Width;
-                                if (sizeAlbumTitle.Width > maxWidth)
-                                {
-                                    // Set new maximal width
-                                    maxWidth = sizeAlbumTitle.Width;
-                                }
-
-                                useAlbumArtOverlay = true;
-
-                                float albumCoverX = (_columns[0].Width - heightWithPadding - _theme.Padding - _theme.Padding - maxWidth) / 2;
-                                float artistNameY = (albumCoverZoneHeight - sizeArtistName.Height - sizeAlbumTitle.Height) / 2;
-
-                                // Display the album title at the top of the zome
-                                rectArtistNameText = new BasicRectangle(albumCoverX + heightWithPadding + _theme.Padding - HorizontalScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
-                                rectAlbumTitleText = new BasicRectangle(albumCoverX + heightWithPadding + _theme.Padding - HorizontalScrollBar.Value, y + artistNameY + sizeArtistName.Height, widthRemainingForText, heightWithPadding);
-
-                                // Set cover art rectangle
-                                rectAlbumCoverArt = new BasicRectangle(albumCoverX - HorizontalScrollBar.Value, y + _theme.Padding, heightWithPadding, heightWithPadding);
+                                // Get position
+                                albumCoverX = ((float)(_columns[0].Width - heightWithPadding) / 2) - HorizontalScrollBar.Value;
                             }
-                            // 7 and more lines
-                            else
-                            {
-                                // Display artist name at the top of the album cover; display album title at the bottom of the album cover
-                                rectArtistNameText = new BasicRectangle(((_columns[0].Width - sizeArtistName.Width) / 2) - HorizontalScrollBar.Value, y + (_theme.Padding * 2), widthAvailableForText, heightWithPadding);
-                                rectAlbumTitleText = new BasicRectangle(((_columns[0].Width - sizeAlbumTitle.Width) / 2) - HorizontalScrollBar.Value, y + heightWithPadding - sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
 
-                                // Draw background overlay behind text
-                                useAlbumArtOverlay = true;
-
-                                // Try to horizontally center the album cover if it's not taking the whole width (less padding)
-                                float albumCoverX = _theme.Padding;
-                                if (_columns[0].Width > heightWithPadding)
-                                {
-                                    // Get position
-                                    albumCoverX = ((float)(_columns[0].Width - heightWithPadding) / 2) - HorizontalScrollBar.Value;
-                                }
-
-                                // Set cover art rectangle
-                                rectAlbumCoverArt = new BasicRectangle(albumCoverX, y + _theme.Padding, heightWithPadding, heightWithPadding);
-                            }
+                            // Set cover art rectangle
+                            rectAlbumCoverArt = new BasicRectangle(albumCoverX, y + _theme.Padding, heightWithPadding, heightWithPadding);
                         }
                     }
+                }
 
-                    // Display album cover
-                    if (imageAlbumCover != null)
-                        context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, imageAlbumCover.ImageSize.Width, imageAlbumCover.ImageSize.Height), imageAlbumCover.Image);
-                        //context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover.Image);
+                // Display album cover
+                if (imageAlbumCover != null)
+                    context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, imageAlbumCover.ImageSize.Width, imageAlbumCover.ImageSize.Height), imageAlbumCover.Image);
+                    //context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover.Image);
 
 //                    if (useAlbumArtOverlay)
 //                    {
@@ -1249,22 +1283,21 @@ namespace Sessions.GenericControls.Controls.Songs
 //                        context.DrawRectangle(rectAlbumTitleBackground, brushTextBackground, penTransparent);
 //                    }
 
-                    if (!useAlbumArtOverlay)
-                    {
-                        // Check if this is the artist name column (set font to bold)
-                        context.DrawText(audioFile.ArtistName, rectArtistNameText, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
-                        context.DrawText(state.CurrentAlbumTitle, rectAlbumTitleText, _theme.HeaderTextColor, _theme.FontName, _theme.FontSize);
-                    }
-
-                    // Draw horizontal line to distinguish albums
-                    // Part 1: Draw line over grid
-                    pen = new BasicPen(new BasicBrush(new BasicColor(180, 180, 180)), 1);
-                    context.DrawLine(new BasicPoint(_columns[0].Width, y), new BasicPoint(Frame.Width, y), pen);
-
-                    // Part 2: Draw line over album art zone, in a lighter color
-                    pen = new BasicPen(new BasicBrush(new BasicColor(115, 115, 115)), 1);
-                    context.DrawLine(new BasicPoint(0, y), new BasicPoint(_columns[0].Width, y), pen);
+                if (!useAlbumArtOverlay)
+                {
+                    // Check if this is the artist name column (set font to bold)
+                    context.DrawText(audioFile.ArtistName, rectArtistNameText, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
+                    context.DrawText(state.CurrentAlbumArtKey, rectAlbumTitleText, _theme.HeaderTextColor, _theme.FontName, _theme.FontSize);
                 }
+
+                // Draw horizontal line to distinguish albums
+                // Part 1: Draw line over grid
+                pen = new BasicPen(new BasicBrush(new BasicColor(180, 180, 180)), 1);
+                context.DrawLine(new BasicPoint(_columns[0].Width, y), new BasicPoint(Frame.Width, y), pen);
+
+                // Part 2: Draw line over album art zone, in a lighter color
+                pen = new BasicPen(new BasicBrush(new BasicColor(115, 115, 115)), 1);
+                context.DrawLine(new BasicPoint(0, y), new BasicPoint(_columns[0].Width, y), pen);
             }
         }
 
@@ -1818,7 +1851,7 @@ namespace Sessions.GenericControls.Controls.Songs
             for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
-                if (_items [a].IsMouseOverItem)
+                if (_items[a].IsMouseOverItem)
                 {
                     invalidatedNewSelection = true;
 
@@ -1918,7 +1951,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
-                else if (_mode == SongGridViewMode.AudioFile && _items[a].AudioFile.Id == originalId)
+                else if (_mode == SongGridViewMode.AudioFile && _items[a].AudioFile != null && _items[a].AudioFile.Id == originalId)
                 {
                     var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
                     partialRect.Merge(newPartialRect);
@@ -2133,6 +2166,7 @@ namespace Sessions.GenericControls.Controls.Songs
                         if (x >= albumArtCoverWidth - HorizontalScrollBar.Value &&
                             y >= offsetY &&
                             y <= offsetY + _songCache.LineHeight &&
+                            !_items[a].IsEmptyRow &&
                             !_items[a].IsMouseOverItem)
                         {
                             // Set item as mouse over
@@ -2164,8 +2198,8 @@ namespace Sessions.GenericControls.Controls.Songs
             if (_items == null)
                 return;
 
-            int oldIndex = _items.FindIndex(x => x.AudioFile.Id == oldAudioFileId);
-            int newIndex = _items.FindIndex(x => x.AudioFile.Id == newAudioFileId);
+            int oldIndex = _items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == oldAudioFileId);
+            int newIndex = _items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == newAudioFileId);
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
             int firstIndex = oldIndex < newIndex ? oldIndex : newIndex;
             int secondIndex = newIndex > oldIndex ? newIndex : oldIndex;
@@ -2412,10 +2446,8 @@ namespace Sessions.GenericControls.Controls.Songs
         {
             public int OffsetX { get; set; }
             public int OffsetY { get; set; }
-            public int AlbumCoverStartIndex { get; set; }
-            public int AlbumCoverEndIndex { get; set; }
             public bool NowPlayingSongFound { get; set; }
-            public string CurrentAlbumTitle { get; set; }
+            public string CurrentAlbumArtKey { get; set; }
         }
     }
 }

@@ -41,6 +41,16 @@ namespace Sessions.GenericControls.Controls.Songs
         public bool IsMouseOverItem { get; set; }
 
         /// <summary>
+        /// Indicates an empty row (for spanning albums with less than a few songs).
+        /// </summary>
+        public bool IsEmptyRow { get; set; }
+
+        /// <summary>
+        /// Defines the key used for identifying common songs in albums.
+        /// </summary>
+        public string AlbumArtKey { get; set; }
+
+        /// <summary>
         /// AudioFile related to this item.
         /// </summary>
         public AudioFile AudioFile { get; set; }        
@@ -50,7 +60,9 @@ namespace Sessions.GenericControls.Controls.Songs
             PlaylistItemId = Guid.Empty;
             IsSelected = false;
             IsMouseOverItem = false;
+            IsEmptyRow = false;
             AudioFile = null;
+            AlbumArtKey = string.Empty;
         }
     }
 }
