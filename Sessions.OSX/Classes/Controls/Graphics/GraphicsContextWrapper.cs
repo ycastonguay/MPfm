@@ -128,7 +128,8 @@ namespace Sessions.OSX.Classes.Controls.Graphics
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
         {
-            var size = CoreGraphicsHelper.MeasureText(Context, text, fontFace, fontSize);
+            //var size = CoreGraphicsHelper.MeasureText(Context, text, fontFace, fontSize);
+            var size = CoreGraphicsHelper.MeasureString(new SizeF(rectangle.Width, rectangle.Height), text, fontFace, fontSize);
             return new BasicRectangle(0, 0, size.Width, size.Height);
         }
 

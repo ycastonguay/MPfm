@@ -39,6 +39,8 @@ namespace Sessions.GenericControls.Controls.Songs
 
         public string FontName { get; set; }
         public string FontNameBold { get; set; }
+        public string FontNameAlbumArtTitle { get; set; }
+        public string FontNameAlbumArtSubtitle { get; set; }
         public float FontSize { get; set; }
         public int Padding { get; set; }
 
@@ -67,7 +69,9 @@ namespace Sessions.GenericControls.Controls.Songs
             HeaderTextColor = new BasicColor(255, 255, 255);
 
             FontName = "Roboto";
-            FontNameBold = "Roboto Bold";
+            FontNameBold = "Roboto Medium";
+            FontNameAlbumArtTitle = "Roboto";
+            FontNameAlbumArtSubtitle = "Roboto Light";
             FontSize = 11f;
         }
     }
