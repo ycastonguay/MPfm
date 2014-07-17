@@ -91,7 +91,6 @@ namespace Sessions.WPF.Classes.Windows
             InitializeComboBoxes();
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
-            EnableSegmentButtons(false);
             RefreshSongInformation(null, 0, 0, 0);
             CreatePlayerNotifyIcon(() =>
             {
@@ -750,8 +749,6 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ListViewSegments_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EnableSegmentButtons(listViewLoops.SelectedIndex >= 0);
-
             if (listViewLoops.SelectedIndex >= 0)
                 _selectedLoopIndex = listViewLoops.SelectedIndex;
         }
@@ -801,14 +798,7 @@ namespace Sessions.WPF.Classes.Windows
             if (result == MessageBoxResult.Yes)
             {
                 OnDeleteSegment(_currentLoop.Segments[listViewSegments.SelectedIndex]);
-                EnableSegmentButtons(false);
             }
-        }
-
-        private void EnableSegmentButtons(bool enabled)
-        {
-            btnEditSegment.Enabled = enabled;
-            btnRemoveSegment.Enabled = enabled;
         }
 
         private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)

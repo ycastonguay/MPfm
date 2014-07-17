@@ -48,6 +48,18 @@ namespace Sessions.WPF.Classes.Controls
             set
             {
                 _lblTitle.Text = value;
+
+                _lblTitle.Visibility = string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
+                //if (string.IsNullOrEmpty(value))
+                //{
+                //    _lblTitle.Margin = new Thickness(6, 1, 0, 0);
+                //    _stackPanel.Margin = new Thickness(4);
+                //}
+                //else
+                //{
+                //    _lblTitle.Margin = new Thickness(6, 1, 0, 0);
+                //    _stackPanel.Margin = new Thickness(4);
+                //}
             }
         }
 

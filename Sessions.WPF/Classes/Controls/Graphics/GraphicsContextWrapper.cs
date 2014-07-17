@@ -115,8 +115,10 @@ namespace Sessions.WPF.Classes.Controls.Graphics
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
             var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
-            formattedText.MaxTextWidth = rectangle.Width;
-            formattedText.MaxTextHeight = rectangle.Height;
+            if (rectangle.Width > 0)
+                formattedText.MaxTextWidth = rectangle.Width;
+            if (rectangle.Height > 0)
+                formattedText.MaxTextHeight = rectangle.Height;
             formattedText.Trimming = TextTrimming.CharacterEllipsis;            
             _context.DrawText(formattedText, GenericControlHelper.ToPoint(new BasicPoint(rectangle.X, rectangle.Y)));            
         }
@@ -124,7 +126,12 @@ namespace Sessions.WPF.Classes.Controls.Graphics
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
         {
             var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, Brushes.Black);
-            return new BasicRectangle(0, 0, (float) formattedText.Width, (float) formattedText.Height);
+            if (rectangle.Width > 0)
+                formattedText.MaxTextWidth = rectangle.Width;
+            if (rectangle.Height > 0)
+                formattedText.MaxTextHeight = rectangle.Height;
+            formattedText.Trimming = TextTrimming.CharacterEllipsis;
+            return new BasicRectangle(0, 0, (float)formattedText.Width, (float)formattedText.Height);
         }
 
         public void Close()

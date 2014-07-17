@@ -453,10 +453,10 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Loops" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnPlayLoop" Title="Play" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnPlayLoop_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />                                                                        
-                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnPlayLoop" Title="" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnPlayLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown">                                            
                                             <ListView.View>
@@ -468,17 +468,17 @@
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
                                                     </controls:FixedWidthColumn>
-                                                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
-                                                    <GridViewColumn Header="Segments" Width="80" DisplayMemberBinding="{Binding Path=SegmentCount}" />
-                                                    <GridViewColumn Header="Total Length" Width="80" DisplayMemberBinding="{Binding Path=TotalLength}" />
+                                                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Path=Name}" />
+                                                    <GridViewColumn Header="Start" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
+                                                    <GridViewColumn Header="End" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
+                                                    <GridViewColumn Header="Length" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
                                     </Grid>
                                     <Grid x:Name="gridLoopDetails" Visibility="Hidden" Margin="0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="25" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <Grid Grid.Row="0">
@@ -494,28 +494,10 @@
                                             <Label Grid.Column="3" Content="Loop Name:" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
                                             <TextBox x:Name="txtLoopName" Grid.Column="4" Width="80" Margin="4,2,4,4" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
-                                        <Grid Grid.Row="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Segments" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddSegment" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddSegment_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnEditSegment" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditSegment_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnRemoveSegment" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveSegment_OnClick" />
-                                        </Grid>
-                                        <ListView Grid.Row="2" x:Name="listViewSegments" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick" PreviewMouseDown="ListViewSegments_OnPreviewMouseDown">
+                                        <ListView Grid.Row="1" x:Name="listViewSegments" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick" PreviewMouseDown="ListViewSegments_OnPreviewMouseDown">
                                             <ListView.View>
                                                 <GridView>
-                                                    <controls:FixedWidthColumn Header="" FixedWidth="26">
-                                                        <GridViewColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding Path=Index}" Margin="0" Padding="4,2,4,2" Background="Blue" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                            </DataTemplate>
-                                                        </GridViewColumn.CellTemplate>
-                                                    </controls:FixedWidthColumn>
+                                                    <controls:FixedWidthColumn Header="" FixedWidth="60" DisplayMemberBinding="{Binding Path=Position}" />
                                                     <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Position}" />
                                                     <GridViewColumn Header="Marker" Width="80" DisplayMemberBinding="{Binding Path=Marker}" />
                                                 </GridView>
@@ -601,8 +583,8 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Markers" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="Go To" ImageSource="/Resources/Images/Buttons/goto.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" ContextMenuService.Placement="Bottom" Click="BtnAddMarker_OnClick" MouseRightButtonDown="BtnAddMarker_OnMouseRightButtonDown">
+                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" ContextMenuService.Placement="Bottom" Click="BtnAddMarker_OnClick" MouseRightButtonDown="BtnAddMarker_OnMouseRightButtonDown">
                                                 <Button.ContextMenu>
                                                     <ContextMenu x:Name="contextMenuAddMarker" Visibility="Collapsed">
                                                         <MenuItem x:Name="menuItemVerse" Header="Verse" Click="MenuItemVerse_OnClick" />
@@ -612,8 +594,8 @@
                                                     </ContextMenu>
                                                 </Button.ContextMenu>
                                             </controls:HeaderImageButton>
-                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewMarkers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMarkers_OnSelectionChanged" SizeChanged="ListViewMarkers_OnSizeChanged" PreviewMouseDown="ListViewMarkers_OnPreviewMouseDown" MouseDoubleClick="ListViewMarkers_OnMouseDoubleClick">
                                             <ListView.View>

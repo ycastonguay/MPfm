@@ -109,10 +109,10 @@
                                 <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
                             </Button>
                             <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Cycles through repeat types." Click="BtnPlayerRepeat_OnClick">
-                                <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
+                                <Image Source="/Resources/Images/Toolbar/repeat_off.png" Stretch="None" />
                             </Button>
                             <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Shuffles the song in the playlist." Click="BtnPlayerShuffle_OnClick">
-                                <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
+                                <Image Source="/Resources/Images/Toolbar/shuffle_off.png" Stretch="None" />
                             </Button>
                         </Grid>
                     </StackPanel>

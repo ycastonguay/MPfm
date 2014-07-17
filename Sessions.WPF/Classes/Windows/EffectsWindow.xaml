@@ -17,39 +17,39 @@
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Margin="1,0,11,0">
-            <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">
+        <Grid Grid.Column="0" Margin="1,0,11,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="126" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Presets" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Light" />
-                <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddPreset" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddPreset_OnClick" />
-                <controls:HeaderImageButton Grid.Column="2" x:Name="btnRemovePreset" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemovePreset_OnClick" />
+                <controls:HeaderImageButton Grid.Column="1" x:Name="btnAddPreset" Title="" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddPreset_OnClick" />
+                <controls:HeaderImageButton Grid.Column="2" x:Name="btnRemovePreset" Title="" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemovePreset_OnClick" />
             </Grid>
-            <Grid x:Name="gridPresets" Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ListView Grid.Row="0" x:Name="listViewPresets" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewPresets_OnSelectionChanged" PreviewMouseDown="ListViewPresets_OnPreviewMouseDown">
-                    <ListView.ContextMenu>
-                        <ContextMenu x:Name="contextMenuPresets">
-                            <MenuItem x:Name="menuItemRemovePreset" Header="Remove preset" Click="MenuItemRemovePreset_OnClick" />
-                            <MenuItem x:Name="menuItemDuplicatePreset" Header="Duplicate preset" Click="MenuItemDuplicatePreset_OnClick" />
-                            <MenuItem x:Name="menuItemExportPreset" Header="Export preset..." Click="MenuItemExportPreset_OnClick" />
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewWidthConverter}}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
-            <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Preset Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Light" />
-            <Grid x:Name="gridCurrentPreset" Margin="0,4,0,0">
+            <ListView Grid.Row="1" x:Name="listViewPresets" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewPresets_OnSelectionChanged" PreviewMouseDown="ListViewPresets_OnPreviewMouseDown">
+                <ListView.ContextMenu>
+                    <ContextMenu x:Name="contextMenuPresets">
+                        <MenuItem x:Name="menuItemRemovePreset" Header="Remove preset" Click="MenuItemRemovePreset_OnClick" />
+                        <MenuItem x:Name="menuItemDuplicatePreset" Header="Duplicate preset" Click="MenuItemDuplicatePreset_OnClick" />
+                        <MenuItem x:Name="menuItemExportPreset" Header="Export preset..." Click="MenuItemExportPreset_OnClick" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewWidthConverter}}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Label Grid.Row="2" Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Preset Details" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Light" />
+            <Grid Grid.Row="3" x:Name="gridCurrentPreset" Margin="0,4,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -66,7 +66,7 @@
                 <controls:ImageButton Grid.Row="3" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnNormalize_OnClick" />
                 <controls:ImageButton Grid.Row="4" x:Name="btnReset" Title="Reset" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnReset_OnClick" />
             </Grid>
-        </StackPanel>
+        </Grid>
         <Grid Grid.Column="1" x:Name="gridFaders" Margin="8,0,7,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="42" />
