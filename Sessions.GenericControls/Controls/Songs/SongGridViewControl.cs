@@ -1397,27 +1397,67 @@ namespace Sessions.GenericControls.Controls.Songs
             {
                 case SpecialKeys.Down:
                     if (startEndIndexes.Item1 < _items.Count - 1)
-                        selectedIndex = startEndIndexes.Item1 + 1;
+                    {
+                        selectedIndex = startEndIndexes.Item1;
+                        while (selectedIndex >= 0 && selectedIndex <= _items.Count - 1)
+                        {
+                            selectedIndex++;
+                            if (!_items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
                     break;
                 case SpecialKeys.Up:
                     if (startEndIndexes.Item1 > 0)
-                        selectedIndex = startEndIndexes.Item1 - 1;
+                    {
+                        selectedIndex = startEndIndexes.Item1;
+                        while (selectedIndex >= 0 && selectedIndex <= _items.Count - 1)
+                        {
+                            selectedIndex--;
+                            if (!_items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
                     break;
                 case SpecialKeys.PageDown:
                     selectedIndex = startEndIndexes.Item1 + _songCache.NumberOfLinesFittingInControl - 2; // 2 is header + scrollbar height
-                    if (selectedIndex > _items.Count - 1)
-                        selectedIndex = _items.Count - 1;
+                    selectedIndex = Math.Min(selectedIndex, _items.Count - 1);
+
+                    if (selectedIndex == _items.Count - 1)
+                    {
+                        // If we are to select the last item, make sure the item we're selecting is NOT an empty row
+                        selectedIndex = _items.FindLastIndex(x => !x.IsEmptyRow);
+                    } 
+                    else
+                    {
+                        // Continue to interate until we find a selectable row
+                        while (selectedIndex >= 0 && selectedIndex <= _items.Count - 1)
+                        {
+                            selectedIndex++;
+                            if (!_items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
                     break;
                 case SpecialKeys.PageUp:
                     selectedIndex = startEndIndexes.Item1 - _songCache.NumberOfLinesFittingInControl + 2; 
-                    if (selectedIndex < 0)
-                        selectedIndex = 0;
+                    selectedIndex = Math.Max(selectedIndex, 0);
+
+                    if (selectedIndex > 0)
+                    {
+                        while (selectedIndex >= 0 && selectedIndex <= _items.Count - 1)
+                        {
+                            selectedIndex--;
+                            if (!_items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
                     break;
                 case SpecialKeys.Home:
-                    selectedIndex = 0;
+                    selectedIndex = 0; // First item cannot be empty
                     break;
                 case SpecialKeys.End:
-                    selectedIndex = _items.Count - 1;
+                    selectedIndex = _items.FindLastIndex(x => !x.IsEmptyRow);
                     break;
             }
 
