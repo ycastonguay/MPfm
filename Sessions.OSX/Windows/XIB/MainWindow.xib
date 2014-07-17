@@ -52,7 +52,6 @@
                 <outlet property="btnToolbarSettings" destination="Yrp-AP-eQP" id="Yei-dG-0Rf"/>
                 <outlet property="btnToolbarShuffle" destination="QSg-yI-Xhz" id="59N-B9-wab"/>
                 <outlet property="btnToolbarSync" destination="yVd-27-e8w" id="xMi-uh-BZL"/>
-                <outlet property="btnToolbarSyncCloud" destination="jLy-9t-69U" id="J59-ya-Sh1"/>
                 <outlet property="btnUseTempo" destination="763" id="ydJ-DC-lOd"/>
                 <outlet property="cboSoundFormat" destination="48" id="168"/>
                 <outlet property="chkSegmentLinkToMarker" destination="386-bF-FKz" id="CAM-Cq-Lvt"/>
@@ -1504,7 +1503,7 @@
                                                                                                                         <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                                     </tableHeaderCell>
                                                                                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="vgD-ty-gjP">
-                                                                                                                        <font key="font" metaFont="titleBar" size="12"/>
+                                                                                                                        <font key="font" metaFont="cellTitle"/>
                                                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     </textFieldCell>
@@ -1518,7 +1517,7 @@
                                                                                                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="17"/>
                                                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Gwg-qW-xb2">
-                                                                                                                                        <font key="font" metaFont="titleBar" size="12"/>
+                                                                                                                                        <font key="font" metaFont="cellTitle"/>
                                                                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                     </textFieldCell>
@@ -1763,7 +1762,7 @@
                                                                                                                         <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                                     </tableHeaderCell>
                                                                                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="fYR-Fy-0gE">
-                                                                                                                        <font key="font" metaFont="titleBar" size="12"/>
+                                                                                                                        <font key="font" metaFont="cellTitle"/>
                                                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     </textFieldCell>
@@ -1777,7 +1776,7 @@
                                                                                                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="17"/>
                                                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="gmX-eU-VYD">
-                                                                                                                                        <font key="font" metaFont="titleBar" size="12"/>
+                                                                                                                                        <font key="font" metaFont="cellTitle"/>
                                                                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                     </textFieldCell>
@@ -1962,7 +1961,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000036665483" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -2060,12 +2059,8 @@
                                     <action selector="actionOpenSyncWindow:" target="-2" id="Zh3-NP-UGq"/>
                                 </connections>
                             </customView>
-                            <customView id="jLy-9t-69U" customClass="SessionsRoundButton">
-                                <rect key="frame" x="391" y="8" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </customView>
                             <customView id="Yrp-AP-eQP" customClass="SessionsRoundButton">
-                                <rect key="frame" x="436" y="8" width="44" height="44"/>
+                                <rect key="frame" x="391" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="actionOpenPreferencesWindow:" target="-2" id="myF-cR-xkk"/>
