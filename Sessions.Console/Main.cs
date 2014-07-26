@@ -1,19 +1,19 @@
 // Copyright © 2011-2013 Yanick Castonguay
 //
-// This file is part of MPfm.
+// This file is part of Sessions.
 //
-// MPfm is free software: you can redistribute it and/or modify
+// Sessions is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// MPfm is distributed in the hope that it will be useful,
+// Sessions is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
@@ -26,15 +26,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mono;
 using Mono.Terminal;
-using MPfm.Player;
-using MPfm.Sound;
-using MPfm.Core;
-using MPfm.MVP.Services.Interfaces;
-using MPfm.Sound.AudioFiles;
-using MPfm.MVP.Bootstrapper;
-using MPfm.Sound.Bass.Net;
+using Sessions.MVP.Services.Interfaces;
+using Sessions.Sound.AudioFiles;
+using Sessions.MVP.Bootstrap;
+using Sessions.Sound.BassNetWrapper;
+using Sessions.Core;
+using Sessions.MVP.Services;
+using Sessions.Library;
+using Sessions.Library.Services.Interfaces;
+using Sessions.Library.Services;
+using Sessions.Sound;
+using Sessions.MVP.Config.Providers;
 
-namespace MPfm.Console
+namespace Sessions.Console
 {
     class MainClass
     {
@@ -58,8 +62,9 @@ namespace MPfm.Console
             {
                 InitializeApp();
                 InitializePlayer();
-                playerService.Player.PlayFiles(files.ToList());
-                playerService.Player.OnPlaylistIndexChanged += (data) => {
+
+                Player.Player.CurrentPlayer.PlayFiles(files.ToList());
+                Player.Player.CurrentPlayer.OnPlaylistIndexChanged += (data) => {
                     if(data.IsPlaybackStopped)
                     {
                         PrintSong(null);
@@ -70,7 +75,7 @@ namespace MPfm.Console
                     }
                 };
                 PrintMain();
-                PrintSong(playerService.Player.Playlist.Items[0].AudioFile);
+                PrintSong(Player.Player.CurrentPlayer.Playlist.Items[0].AudioFile);
             } 
             catch (Exception ex)
             {
@@ -92,7 +97,7 @@ namespace MPfm.Console
 //                try
 //                {
 //                    PrintMain();
-//                    playerService.Player.PlayFiles(files.ToList());
+//                    Player.Player.CurrentPlayer.PlayFiles(files.ToList());
 //                }
 //                catch(Exception ex)
 //                {
@@ -112,13 +117,13 @@ namespace MPfm.Console
                 switch(ch)
                 {
                     case Curses.KeyF1: // Player screen
-                        playerService.Player.Play();
+                        Player.Player.CurrentPlayer.Play();
                         break;
                     case Curses.KeyF2: // Playlist screen
-                        playerService.Player.Pause();
+                        Player.Player.CurrentPlayer.Pause();
                         break;
                     case Curses.KeyF3: // Effects screen
-                        playerService.Player.Stop();
+                        Player.Player.CurrentPlayer.Stop();
                         break;
                     case Curses.KeyF4: // 
                         break;
@@ -130,26 +135,26 @@ namespace MPfm.Console
                         break;
                     case Curses.KeyResize:
                         PrintMain();
-                        if(playerService.Player.Playlist.CurrentItem != null)
-                            PrintSong(playerService.Player.Playlist.CurrentItem.AudioFile);
+                        if(Player.Player.CurrentPlayer.Playlist.CurrentItem != null)
+                            PrintSong(Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile);
                         break;
                     case Curses.KeyLeft:
-                        pos = playerService.Player.GetPosition() - 50000;
+                        pos = Player.Player.CurrentPlayer.GetPosition() - 50000;
                         if(pos < 0)
                             pos = 0;
-                        playerService.Player.SetPosition(pos);
+                        Player.Player.CurrentPlayer.SetPosition(pos);
                         break;
                     case Curses.KeyRight:
-                        pos = playerService.Player.GetPosition() + 50000;
-                        if(pos > playerService.Player.Playlist.CurrentItem.LengthBytes)
-                            pos = playerService.Player.Playlist.CurrentItem.LengthBytes - 50000;
-                        playerService.Player.SetPosition(pos);
+                        pos = Player.Player.CurrentPlayer.GetPosition() + 50000;
+                        if(pos > Player.Player.CurrentPlayer.Playlist.CurrentItem.LengthBytes)
+                            pos = Player.Player.CurrentPlayer.Playlist.CurrentItem.LengthBytes - 50000;
+                        Player.Player.CurrentPlayer.SetPosition(pos);
                         break;
                     case Curses.KeyUp:
-                        playerService.Player.Previous();
+                        Player.Player.CurrentPlayer.Previous();
                         break;
                     case Curses.KeyDown:
-                        playerService.Player.Next();
+                        Player.Player.CurrentPlayer.Next();
                         break;
                 }
             }
@@ -159,7 +164,7 @@ namespace MPfm.Console
         {
             // Build loading screen text
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("MPfm: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");
+            sb.AppendLine("Sessions: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");
             sb.AppendLine("BASS audio library © 1999-2012 Un4seen Developments.");
             sb.AppendLine("BASS.NET audio library © 2005-2012 radio42.");
             sb.AppendLine();
@@ -178,6 +183,13 @@ namespace MPfm.Console
             Curses.init_pair(4, Curses.COLOR_YELLOW, Curses.COLOR_BLUE);
             Curses.addstr(sb.ToString());
             Curses.refresh();
+
+            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
+
+            var container = TinyIoC.TinyIoCContainer.Current;
+            container.Register<ISyncDeviceSpecifications, SyncDeviceSpecifications>().AsSingleton();
+            container.Register<ICloudService, DropboxCoreService>().AsSingleton();
+            container.Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
         }
 
         public static void ExitApp()
@@ -198,25 +210,25 @@ namespace MPfm.Console
             };
             playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
             playerService.Initialize(device, 44100, 5000, 100);
-            playerService.Player.Volume = 0.9f;
-            //playerService.Player.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
+            Player.Player.CurrentPlayer.Volume = 0.9f;
+            //Player.Player.CurrentPlayer.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
             
             timerRefreshPosition = new System.Timers.Timer();
             timerRefreshPosition.Interval = 100;
             timerRefreshPosition.Elapsed += (sender, e) => {
                 try
                 {
-                    long bytes = playerService.Player.GetPosition();
-                    long samples = ConvertAudio.ToPCM(bytes, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                    long ms = ConvertAudio.ToMS(samples, (uint)playerService.Player.Playlist.CurrentItem.AudioFile.SampleRate);
+                    long bytes = Player.Player.CurrentPlayer.GetPosition();
+                    long samples = ConvertAudio.ToPCM(bytes, (uint)Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                    long ms = ConvertAudio.ToMS(samples, (uint)Player.Player.CurrentPlayer.Playlist.CurrentItem.AudioFile.SampleRate);
                     string pos = Conversion.MillisecondsToTimeString((ulong)ms);
 
-                    //int dataAvailable = playerService.Player.MixerChannel.GetMixerDataAvailable();
-                    int dataAvailable = playerService.Player.MixerChannel.GetDataAvailable();
+                    //int dataAvailable = Player.Player.CurrentPlayer.MixerChannel.GetMixerDataAvailable();
+                    //int dataAvailable = Player.Player.CurrentPlayer.MixerChannel.GetDataAvailable();
 
                     Curses.move(6, 19);
                     Curses.attron(Curses.ColorPair(4));
-                    Curses.addstr(pos + " / " + playerService.Player.Playlist.CurrentItem.LengthString + " / " + dataAvailable.ToString());
+                    //Curses.addstr(pos + " / " + Player.Player.CurrentPlayer.Playlist.CurrentItem.LengthString + " / " + dataAvailable.ToString());
                     Curses.attroff(Curses.ColorPair(4));
                     Curses.move(12, 0);
                     Curses.refresh();
@@ -232,7 +244,7 @@ namespace MPfm.Console
         public static string[] CheckParams(string[] args)
         {
             List<string> options = new List<string>();
-            string file;
+            string file = null;
             
             // Validate parameters
             if (args.Length == 0)
@@ -290,20 +302,20 @@ namespace MPfm.Console
         
         public static void PrintHelp()
         {
-            System.Console.WriteLine("MPfm: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");            
+            System.Console.WriteLine("Sessions: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");            
             System.Console.WriteLine("BASS audio library © 1999-2012 Un4seen Developments.");
             System.Console.WriteLine("BASS.NET audio library © 2005-2012 radio42.");
             System.Console.WriteLine();            
-            System.Console.WriteLine("Usage: mpfm.exe [OPTION]... [FILE]...");
+            System.Console.WriteLine("Usage: Sessions.exe [OPTION]... [FILE]...");
             System.Console.WriteLine();
             System.Console.WriteLine("Parameters:");
             System.Console.WriteLine("  --open         Opens one or multiple audio files or playlist files.");
             System.Console.WriteLine("                 This is the default option if none are specified.");
             System.Console.WriteLine();
             System.Console.WriteLine("Examples for playing one, multiple, or all audio files from a directory:");
-            System.Console.WriteLine("  mpfm.exe \"/home/username/Documents/Test.OGG\"");
-            System.Console.WriteLine("  mpfm.exe \"/home/username/Documents/Test.OGG,/home/username/Documents/Test2.OGG\"");
-            System.Console.WriteLine("  mpfm.exe \"/home/username/Documents/ArtistName/\"");
+            System.Console.WriteLine("  Sessions.exe \"/home/username/Documents/Test.OGG\"");
+            System.Console.WriteLine("  Sessions.exe \"/home/username/Documents/Test.OGG,/home/username/Documents/Test2.OGG\"");
+            System.Console.WriteLine("  Sessions.exe \"/home/username/Documents/ArtistName/\"");
         }
         
         public static void PrintMSDOSChars()
@@ -342,7 +354,7 @@ namespace MPfm.Console
 
             // Write title
             Curses.attron(Curses.ColorPair(3));
-            Curses.addstr(ConsoleHelper.GetCenteredString("MPfm: Music Player for Musicians"));
+            Curses.addstr(ConsoleHelper.GetCenteredString("Sessions: Music Player for Musicians"));
             Curses.attroff(Curses.ColorPair(3));
 
             // Print windows
@@ -444,7 +456,7 @@ namespace MPfm.Console
                 // TODO: Make sure the song position refresh doesn't conflict with printing song (i.e. Curses.move).
                 uint trackCount = audioFile.TrackCount;
                 if(trackCount == 0)
-                    trackCount = (uint)playerService.Player.Playlist.Items.Count;
+                    trackCount = (uint)Player.Player.CurrentPlayer.Playlist.Items.Count;
                 Curses.attron(Curses.ColorPair(4));
                 Curses.move(2, 19);
                 Curses.addstr(ConsoleHelper.FillString(audioFile.ArtistName, availableWidth));

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -138,7 +138,7 @@
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
     <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
     <Compile Include="Messages\MarkerActivatedMessage.cs" />
-	<Compile Include="Messages\PlayerReinitializedMessage.cs" />
+    <Compile Include="Messages\PlayerReinitializedMessage.cs" />
     <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
