@@ -162,6 +162,7 @@ namespace Sessions.Android.Classes
             container.Register<ICloudService, AndroidDropboxService>().AsSingleton();
             container.Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();
             container.Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
+            container.Register<ITileCacheService, TileCacheService>().AsSingleton();
             container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();

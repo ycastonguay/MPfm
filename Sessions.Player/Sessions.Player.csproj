@@ -105,7 +105,11 @@
     <Compile Include="Objects\CastServerMetadata.cs" />
     <Compile Include="Objects\CastServerParams.cs" />
     <Compile Include="Objects\PlayerMetadata.cs" />
+    <Compile Include="Objects\PlayerPitchShifting.cs" />
+    <Compile Include="Objects\PlayerPosition.cs" />
     <Compile Include="Objects\PlayerSyncProc.cs" />
+    <Compile Include="Objects\PlayerTimeShifting.cs" />
+    <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\RepeatType.cs" />
     <Compile Include="Objects\EQPreset.cs" />

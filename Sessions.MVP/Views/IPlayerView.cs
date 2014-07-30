@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -43,7 +43,7 @@ namespace Sessions.MVP.Views
         Action<float> OnPlayerSetPitchShifting { get; set; }
         Action<float> OnPlayerSetTimeShifting { get; set; }
         Action<float> OnPlayerSetPosition { get; set; }
-        Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
         Action OnEditSongMetadata { get; set; }
         Action OnOpenPlaylist { get; set; }
         Action OnOpenEffects { get; set; }
@@ -52,14 +52,14 @@ namespace Sessions.MVP.Views
         void PlayerError(Exception ex);
 	    void PushSubView(IBaseView view);
         void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled);
-		void RefreshPlayerPosition(PlayerPositionEntity entity);
+		void RefreshPlayerPosition(PlayerPosition entity);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshActiveMarker(Guid markerId);
         void RefreshMarkerPosition(Marker marker);
         void RefreshLoops(IEnumerable<Loop> loops);
-        void RefreshPlayerVolume(PlayerVolumeEntity entity);
-        void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
+        void RefreshPlayerVolume(PlayerVolume entity);
+        void RefreshPlayerTimeShifting(PlayerTimeShifting entity);
         void RefreshOutputMeter(float[] dataLeft, float[] dataRight);
 	}
 }

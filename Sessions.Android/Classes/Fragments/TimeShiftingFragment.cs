@@ -25,6 +25,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 
 namespace Sessions.Android.Classes.Fragments
 {
@@ -90,7 +91,7 @@ namespace Sessions.Android.Classes.Fragments
             ShowErrorDialog(ex);
         }
 
-        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshTimeShifting(PlayerTimeShifting entity)
         {
             try
             {

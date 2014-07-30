@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.MVP.Models;
+using Sessions.Player.Objects;
 
 namespace Sessions.MVP.Views
 {
@@ -34,6 +35,6 @@ namespace Sessions.MVP.Views
 
         void PitchShiftingError(Exception ex);
         void RefreshKeys(List<Tuple<int, string>> keys);
-        void RefreshPitchShifting(PlayerPitchShiftingEntity entity);
+        void RefreshPitchShifting(PlayerPitchShifting entity);
 	}
 }

@@ -26,6 +26,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 
 namespace Sessions.Android.Classes.Fragments
 {
@@ -95,7 +96,7 @@ namespace Sessions.Android.Classes.Fragments
         {
         }
 
-        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        public void RefreshPitchShifting(PlayerPitchShifting entity)
         {
             try
             {

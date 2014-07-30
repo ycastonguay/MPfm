@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using TinyMessenger;
 using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
@@ -148,7 +149,7 @@ namespace Sessions.MVP.Presenters
                         break;
                 }
 
-                View.RefreshPitchShifting(new PlayerPitchShiftingEntity(){
+                View.RefreshPitchShifting(new PlayerPitchShifting(){
                     Interval = _interval.ToString("+#;-#;0") + intervalName,
                     IntervalValue = _interval,
                     NewKey = tupleNewKey,

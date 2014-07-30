@@ -15,21 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-namespace Sessions.MVP.Models
+using System;
+
+namespace Sessions.Player.Objects
 {
     /// <summary>
-    /// Data structure repesenting the current player volume.
+    /// Data structure repesenting the current player pitch shifting.
     /// </summary>
-    public class PlayerVolumeEntity
+    public class PlayerPitchShifting
     {
-        /// <summary>
-        /// Player volume (in float format, 0 to 100).
-        /// </summary>
-        public float Volume { get; set; }
-        /// <summary>
-        /// Player volume (in string format, 0 to 100%).
-        /// </summary>
-        public string VolumeString { get; set; }
+        public int IntervalValue { get; set; }
+        public string Interval { get; set; }
+        public Tuple<int, string> ReferenceKey { get; set; }
+        public Tuple<int, string> NewKey { get; set; }
     }
 }
-

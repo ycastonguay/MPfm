@@ -303,7 +303,7 @@ namespace Sessions.Android
             //Console.WriteLine("PlayerActivity - SeekBarOnProgressChanged");
             if (_isPositionChanging)
             {
-                PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
+                var entity = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
                 _lblPosition.Text = entity.Position;
                 _waveFormScrollView.SetSecondaryPosition(entity.PositionBytes);
             }
@@ -399,7 +399,7 @@ namespace Sessions.Android
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
@@ -435,7 +435,7 @@ namespace Sessions.Android
             });
         }
 
-        public void RefreshPlayerPosition(PlayerPositionEntity entity)
+        public void RefreshPlayerPosition(PlayerPosition entity)
         {
             RunOnUiThread(() => {
                 if (!_isPositionChanging)
@@ -495,11 +495,11 @@ namespace Sessions.Android
         {
         }
 
-        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        public void RefreshPlayerVolume(PlayerVolume entity)
         {
         }
 
-        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshPlayerTimeShifting(PlayerTimeShifting entity)
         {
         }
 

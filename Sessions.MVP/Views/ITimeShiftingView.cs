@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using Sessions.MVP.Models;
 using Sessions.MVP.Presenters;
+using Sessions.Player.Objects;
 
 namespace Sessions.MVP.Views
 {
@@ -34,6 +35,6 @@ namespace Sessions.MVP.Views
         Action OnDecrementTempo { get; set; }
 
         void TimeShiftingError(Exception ex);
-        void RefreshTimeShifting(PlayerTimeShiftingEntity entity);
+        void RefreshTimeShifting(PlayerTimeShifting entity);
 	}
 }

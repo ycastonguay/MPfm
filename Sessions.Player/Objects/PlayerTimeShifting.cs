@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-namespace Sessions.MVP.Models
+namespace Sessions.Player.Objects
 {
     /// <summary>
     /// Data structure repesenting the current player time shifting.
     /// </summary>
-    public class PlayerTimeShiftingEntity
+    public class PlayerTimeShifting
     {
         public string CurrentTempo { get; set; }
         public string ReferenceTempo { get; set; }

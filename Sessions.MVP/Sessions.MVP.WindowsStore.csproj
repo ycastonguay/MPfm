@@ -146,8 +146,7 @@
     <Compile Include="Presenters\SelectFoldersPresenter.cs" />
     <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\SyncCloudPresenter.cs" />
-    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
-    <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />    
     <Compile Include="Views\IAddMarkerView.cs" />
     <Compile Include="Views\IAddPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
@@ -177,8 +176,6 @@
     <Compile Include="Presenters\Interfaces\IUpdateLibraryPresenter.cs" />
     <Compile Include="Services\InitializationService.cs" />
     <Compile Include="Services\Interfaces\IInitializationService.cs" />
-    <Compile Include="Models\PlayerVolumeEntity.cs" />
-    <Compile Include="Models\PlayerTimeShiftingEntity.cs" />
     <Compile Include="Presenters\SplashPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
@@ -241,8 +238,7 @@
     <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
     <Compile Include="Views\ISyncView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
-    <Compile Include="Presenters\SyncPresenter.cs" />
-    <Compile Include="Models\PlayerPitchShiftingEntity.cs" />
+    <Compile Include="Presenters\SyncPresenter.cs" />    
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />

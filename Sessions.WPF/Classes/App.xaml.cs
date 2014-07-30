@@ -80,6 +80,7 @@ namespace Sessions.WPF.Classes
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ITileCacheService, TileCacheService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();

@@ -35,6 +35,7 @@ using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using TinyMessenger;
@@ -178,12 +179,12 @@ namespace Sessions.Android
         {
             if(_isPositionChanging)
             {
-                PlayerPositionEntity entity = RequestPosition((float) _seekBar.Progress/10000f);
+                PlayerPosition entity = RequestPosition((float) _seekBar.Progress/10000f);
                 _lblPosition.Text = entity.Position;
             }
         }
 
-        private PlayerPositionEntity RequestPosition(float positionPercentage)
+        private PlayerPosition RequestPosition(float positionPercentage)
         {
             try
             {
@@ -197,7 +198,7 @@ namespace Sessions.Android
                 long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
                 int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
                 string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
-                PlayerPositionEntity entity = new PlayerPositionEntity();
+                var entity = new PlayerPosition();
                 entity.Position = positionString;
                 entity.PositionBytes = positionBytes;
                 entity.PositionSamples = (uint)positionSamples;
@@ -207,7 +208,7 @@ namespace Sessions.Android
             {
                 Console.WriteLine("LockScreenActivity - An error occured while calculating the player position: " + ex.Message);
             }
-            return new PlayerPositionEntity();
+            return new PlayerPosition();
         }
 
         public bool OnTouch(View v, MotionEvent e)

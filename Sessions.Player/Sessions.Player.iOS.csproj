@@ -170,6 +170,10 @@
     <Compile Include="Objects\RepeatType.cs" />
     <Compile Include="Objects\EQPreset.cs" />
     <Compile Include="Objects\EQPresetBand.cs" />
+    <Compile Include="Objects\PlayerPitchShifting.cs" />
+    <Compile Include="Objects\PlayerPosition.cs" />
+    <Compile Include="Objects\PlayerTimeShifting.cs" />
+    <Compile Include="Objects\PlayerVolume.cs" />		
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />

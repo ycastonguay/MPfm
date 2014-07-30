@@ -27,6 +27,7 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
+using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using System.Threading.Tasks;
@@ -133,7 +134,7 @@ namespace Sessions.MVP.Presenters
                     case PlayerStatusType.Stopped:
                         _timerOutputMeter.Stop();
                         View.RefreshSongInformation(null, 0, 0, 0);
-                        View.RefreshPlayerPosition(new PlayerPositionEntity());
+                        View.RefreshPlayerPosition(new PlayerPosition());
                         break;
                 }
             });
@@ -194,7 +195,7 @@ namespace Sessions.MVP.Presenters
             }
             #endif
 
-            View.RefreshPlayerVolume(new PlayerVolumeEntity() {
+            View.RefreshPlayerVolume(new PlayerVolume() {
                 Volume = 100,
                 VolumeString = "100%"
             });
@@ -246,7 +247,7 @@ namespace Sessions.MVP.Presenters
         #endif
 		{
             //int available = playerService.GetDataAvailable();
-			PlayerPositionEntity entity = new PlayerPositionEntity();
+			PlayerPosition entity = new PlayerPosition();
 		    try
 		    {
                 // This might throw an exception when the application is closing
@@ -272,7 +273,7 @@ namespace Sessions.MVP.Presenters
             if(_playerService.IsSettingPosition || !_playerService.IsPlaying)
                 return;
 
-            PlayerPositionEntity entity = new PlayerPositionEntity();
+            PlayerPosition entity = new PlayerPosition();
             try
             {
                 entity = _playerService.GetPosition();
@@ -441,7 +442,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Stop();
 
 			    View.RefreshSongInformation(null, 0, 0, 0);
-                View.RefreshPlayerPosition(new PlayerPositionEntity());
+                View.RefreshPlayerPosition(new PlayerPosition());
             }
             catch(Exception ex)
             {
@@ -519,7 +520,7 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        private PlayerPositionEntity RequestPosition(float positionPercentage)
+        private PlayerPosition RequestPosition(float positionPercentage)
         {
             try
             {
@@ -532,7 +533,7 @@ namespace Sessions.MVP.Presenters
                 long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
                 int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
                 string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
-                PlayerPositionEntity entity = new PlayerPositionEntity();
+                PlayerPosition entity = new PlayerPosition();
                 entity.Position = positionString;
                 entity.PositionBytes = positionBytes;
                 entity.PositionSamples = (uint)positionSamples;
@@ -543,7 +544,7 @@ namespace Sessions.MVP.Presenters
                 Tracing.Log("An error occured while calculating the player position: " + ex.Message);
                 View.PlayerError(ex);
             }
-            return new PlayerPositionEntity();
+            return new PlayerPosition();
         }
         
         private void SetPosition(float percentage)
@@ -574,7 +575,7 @@ namespace Sessions.MVP.Presenters
             {
                 //Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
                 _playerService.Volume = volume / 100;
-                View.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
+                View.RefreshPlayerVolume(new PlayerVolume(){ 
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 
                 });

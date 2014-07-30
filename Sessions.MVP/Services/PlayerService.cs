@@ -431,9 +431,9 @@ namespace Sessions.MVP.Services
             return _player.GetDataAvailable();
         }
 
-        public static PlayerPositionEntity GetPositionEntity(long positionBytes, long lengthBytes, uint bitsPerSample, uint sampleRate)
+        public static PlayerPosition GetPositionEntity(long positionBytes, long lengthBytes, uint bitsPerSample, uint sampleRate)
         {
-            PlayerPositionEntity entity = new PlayerPositionEntity();
+            PlayerPosition entity = new PlayerPosition();
             entity.PositionBytes = positionBytes;
             entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, bitsPerSample, 2);
             entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
@@ -442,12 +442,12 @@ namespace Sessions.MVP.Services
             return entity;
         }
 
-        public PlayerPositionEntity GetPosition()
+        public PlayerPosition GetPosition()
         {
             if (CurrentPlaylistItem == null)
-                return new PlayerPositionEntity();
+                return new PlayerPosition();
 
-            PlayerPositionEntity entity = new PlayerPositionEntity();
+            PlayerPosition entity = new PlayerPosition();
             try
             {
                 entity.PositionBytes = _player.GetPosition();

@@ -777,6 +777,14 @@ namespace Sessions.WPF.Classes.Windows
             EditSegment();
         }
 
+        private void BtnEditStartPosition_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnEditEndPosition_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
         private void EditSegment()
         {
             if (listViewSegments.SelectedIndex < 0 || listViewSegments.SelectedIndex >= _currentLoop.Segments.Count)
@@ -1265,7 +1273,7 @@ namespace Sessions.WPF.Classes.Windows
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
@@ -1311,7 +1319,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPlayerPosition(PlayerPositionEntity entity)
+        public void RefreshPlayerPosition(PlayerPosition entity)
         {
             if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
@@ -1440,7 +1448,7 @@ namespace Sessions.WPF.Classes.Windows
         {
         }
 
-        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        public void RefreshPlayerVolume(PlayerVolume entity)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -1450,7 +1458,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshPlayerTimeShifting(PlayerTimeShifting entity)
         {
         }
 
@@ -1557,7 +1565,7 @@ namespace Sessions.WPF.Classes.Windows
             ShowErrorDialog(ex);
         }
 
-        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshTimeShifting(PlayerTimeShifting entity)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -1588,7 +1596,7 @@ namespace Sessions.WPF.Classes.Windows
         {
         }
 
-        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        public void RefreshPitchShifting(PlayerPitchShifting entity)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -1724,6 +1732,14 @@ namespace Sessions.WPF.Classes.Windows
 
                 listViewSegments.ItemsSource = _currentLoop.Segments;
                 listViewSegments.SelectedIndex = _selectedSegmentIndex;
+
+                var startPosition = _currentLoop.GetStartSegment();
+                if (startPosition != null)
+                    lblLoopStartPosition.Content = startPosition.Position;
+
+                var endPosition = _currentLoop.GetEndSegment();
+                if (endPosition != null)
+                    lblLoopEndPosition.Content = endPosition.Position;
             }));
         }
 

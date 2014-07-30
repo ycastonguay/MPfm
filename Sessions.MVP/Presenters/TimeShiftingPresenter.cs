@@ -24,6 +24,7 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Models;
 using System;
 using Sessions.Core;
+using Sessions.Player.Objects;
 using TinyMessenger;
 
 namespace Sessions.MVP.Presenters
@@ -90,7 +91,7 @@ namespace Sessions.MVP.Presenters
 //                                  " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
 //                                  " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
 
-                View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
+                View.RefreshTimeShifting(new PlayerTimeShifting(){
                     TimeShiftingValue = timeShiftingValue,
                     ReferenceTempo = String.Format("{0:0.0} bpm", _referenceTempo),
                     CurrentTempo = String.Format("{0:0.0} bpm ({1:0.0}%)", currentTempo, timeShiftingValue),

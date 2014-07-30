@@ -75,7 +75,7 @@ namespace Sessions.MVP.Services.Interfaces
         int GetDataAvailable();
         Tuple<short[], short[]> GetMixerData(double seconds);
         Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
-        PlayerPositionEntity GetPosition();
+        PlayerPosition GetPosition();
 
         void SetPosition(double percentage);
         void SetPosition(long bytes);

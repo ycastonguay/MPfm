@@ -502,21 +502,21 @@
                                                 <StackPanel Orientation="Vertical">
                                                     <Label Content="Start Position" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="0:00.000" Margin="0,2,0,0" Padding="4,4,4,0" Width="70"  Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                        <controls:HeaderImageButton Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource DarkImageButton}" />
+                                                        <Label x:Name="lblLoopStartPosition" Content="0:00.000" Margin="0,2,0,0" Padding="4,4,4,0" Width="70"  Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                                        <controls:HeaderImageButton x:Name="btnEditStartPosition" Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource DarkImageButton}" Click="BtnEditStartPosition_OnClick"  />
                                                     </StackPanel>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Vertical">
                                                     <Label Content="End Position" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="0:00.000" Margin="0,2,0,0" Padding="4,4,4,0" Width="70" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                        <controls:HeaderImageButton Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource DarkImageButton}" />
+                                                        <Label x:Name="lblLoopEndPosition" Content="0:00.000" Margin="0,2,0,0" Padding="4,4,4,0" Width="70" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                                        <controls:HeaderImageButton x:Name="btnEditEndPosition" Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource DarkImageButton}" Click="BtnEditEndPosition_OnClick" />
                                                     </StackPanel>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Vertical">
                                                     <Label Content="Length" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="0:00.000" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                                        <Label x:Name="lblLoopLength" Content="0:00.000" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </StackPanel>

@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-namespace Sessions.MVP.Models
+namespace Sessions.Player.Objects
 {
     /// <summary>
     /// Data structure repesenting the current player position.
     /// </summary>
-    public class PlayerPositionEntity
+    public class PlayerPosition
     {
         /// <summary>
         /// Player current position (in bytes).
@@ -43,7 +43,7 @@ namespace Sessions.MVP.Models
         /// </summary>
         public string Position { get; set; }
 
-        public PlayerPositionEntity()
+        public PlayerPosition()
         {
             Position = "0:00.000";
         }
