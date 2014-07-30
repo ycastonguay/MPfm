@@ -101,7 +101,7 @@ namespace Sessions.GenericControls.Services
 
                 // Try to get a bitmap tile that covers the area we're interested in. The content offset x must be adjusted depending on the zoom level because a tile with
                 // a lower zoom might cover a very large area when adjusted to the new zoom; we need to draw the bitmap tile with a large offset (most of the bitmap is off screen)
-                tiles = _tileCache.Where(obj => obj.ContentOffset.X == obj.GetAdjustedContentOffsetForZoom(x, WaveFormCacheService.TileSize, zoomThreshold)).ToList();
+                tiles = _tileCache.Where(obj => obj.ContentOffset.X == obj.GetAdjustedContentOffsetForZoom(x, WaveFormEngineService.TileSize, zoomThreshold)).ToList();
             }
 
             return tiles;
@@ -113,7 +113,7 @@ namespace Sessions.GenericControls.Services
             float zoomThreshold = (float)Math.Floor(zoom);
             lock (_lockerCache)
             {
-                tiles = _tileCache.Where(obj => obj.CheckIfTileIsInBounds(WaveFormCacheService.TileSize, zoomThreshold, bounds)).ToList();
+                tiles = _tileCache.Where(obj => obj.CheckIfTileIsInBounds(WaveFormEngineService.TileSize, zoomThreshold, bounds)).ToList();
             }
 
             return tiles;

@@ -45,11 +45,16 @@
     <Reference Include="nunit.framework">
       <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Sessions.Core.Tests\Lib\Moq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicRectangleTest.cs" />
     <Compile Include="TileCacheServiceTest.cs" />
+    <Compile Include="WaveFormRequestServiceTest.cs" />
+    <Compile Include="WaveFormEngineServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.GenericControls\Sessions.GenericControls.csproj">

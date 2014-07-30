@@ -15,16 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Sessions.GenericControls.Basics;
 
 namespace Sessions.GenericControls.Services.Interfaces
 {
     public interface IWaveFormRequestService
     {
+        int Count { get; }
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
         void Flush();
-        void AddBitmapRequestToList(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom, WaveFormDisplayType displayType);
+        Task RequestBitmap(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom, WaveFormDisplayType displayType);
     }
 }

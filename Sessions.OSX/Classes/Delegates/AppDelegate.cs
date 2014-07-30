@@ -52,7 +52,7 @@ namespace Sessions.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   
 
             Bootstrapper.GetContainer().Register<ITileCacheService, TileCacheService>().AsSingleton();   
-            Bootstrapper.GetContainer().Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();   
 

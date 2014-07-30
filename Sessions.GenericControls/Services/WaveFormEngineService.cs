@@ -18,8 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Services.Events;
 using Sessions.GenericControls.Services.Interfaces;
@@ -28,7 +26,7 @@ using Sessions.Sound.AudioFiles;
 
 namespace Sessions.GenericControls.Services
 {
-    public class WaveFormCacheService : IWaveFormCacheService
+    public class WaveFormEngineService : IWaveFormEngineService
     {
         public const int TileSize = 50;
         private readonly object _lockerCache = new object();
@@ -43,7 +41,7 @@ namespace Sessions.GenericControls.Services
         public event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
         public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
-        public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService, ITileCacheService cacheService, IWaveFormRequestService requestService)
+        public WaveFormEngineService(IWaveFormRenderingService waveFormRenderingService, ITileCacheService cacheService, IWaveFormRequestService requestService)
         {
             _cacheService = cacheService;
             _waveFormRenderingService = waveFormRenderingService;
@@ -165,7 +163,7 @@ namespace Sessions.GenericControls.Services
                         if (tile.Zoom != zoomThreshold)
                         {
                             //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoomThreshold: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoomThreshold, tile.Zoom, boundsBitmap, request.BoundsWaveForm);
-                            _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                            _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
                         } 
                         else
                         {
@@ -176,7 +174,7 @@ namespace Sessions.GenericControls.Services
                     {
                         // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
                         //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
-                        _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                        _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
                     }
                 }
 
@@ -273,7 +271,7 @@ namespace Sessions.GenericControls.Services
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-                    _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
+                    _requestService.RequestBitmap(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
                 }
 
                 return tile;
@@ -282,7 +280,7 @@ namespace Sessions.GenericControls.Services
             {
                 // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
                 //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
-                _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
+                _requestService.RequestBitmap(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
             }
 
             //stopwatch.Stop();

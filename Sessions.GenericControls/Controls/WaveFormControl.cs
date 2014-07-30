@@ -38,8 +38,7 @@ namespace Sessions.GenericControls.Controls
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
         private const int ScrollBarHeight = 16;//20;
-        private readonly object _locker = new object();
-        private IWaveFormCacheService _waveFormCacheService;
+        private IWaveFormEngineService _waveFormEngineService;
         private bool _isMouseDown;
         private bool _isDraggingThumb;
         private bool _isDraggingScrollBar;
@@ -212,12 +211,12 @@ namespace Sessions.GenericControls.Controls
             OnChangePosition += (position) => { };
             OnContentOffsetChanged += (offset) => { };
 
-            _waveFormCacheService = Bootstrapper.GetContainer().Resolve<IWaveFormCacheService>();
-            _waveFormCacheService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
-            _waveFormCacheService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
-            _waveFormCacheService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
-            _waveFormCacheService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
-            _waveFormCacheService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
+            _waveFormEngineService = Bootstrapper.GetContainer().Resolve<IWaveFormEngineService>();
+            _waveFormEngineService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
+            _waveFormEngineService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
+            _waveFormEngineService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
+            _waveFormEngineService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
+            _waveFormEngineService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
 
             CreateDrawingResources();
         }
@@ -284,7 +283,7 @@ namespace Sessions.GenericControls.Controls
 
             //Console.WriteLine("=========> WaveFormControl - InvalidateBitmaps");
             // Start generating the first tile
-            _waveFormCacheService.FlushCache();
+            _waveFormEngineService.FlushCache();
             //_waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
 
             // Start generating all tiles for zoom @ 100%
@@ -373,14 +372,14 @@ namespace Sessions.GenericControls.Controls
             IsEmpty = false;
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
-            _waveFormCacheService.LoadPeakFile(audioFile);
+            _waveFormEngineService.LoadPeakFile(audioFile);
         }
 
         public void Reset()
         {
             IsEmpty = true;            
             IsLoading = false;            
-            _waveFormCacheService.FlushCache();
+            _waveFormEngineService.FlushCache();
             OnInvalidateVisual();
         }
 
@@ -407,7 +406,7 @@ namespace Sessions.GenericControls.Controls
             // This enables a smoother effect when zooming, especially with touch input.
             int realScrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * ScrollBarHeight) : ScrollBarHeight);
             int heightAvailable = (int)Frame.Height;
-            int tileSize = WaveFormCacheService.TileSize;
+            int tileSize = WaveFormEngineService.TileSize;
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;
@@ -437,7 +436,7 @@ namespace Sessions.GenericControls.Controls
                 Zoom = _zoom,
                 DisplayType = _displayType
             };
-            var tiles = _waveFormCacheService.GetTiles(request);
+            var tiles = _waveFormEngineService.GetTiles(request);
 
             //Console.WriteLine("WaveFormControl - GetTiles - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfDirtyTilesToDraw: {4} firstTileX: {5}", request.StartTile, request.StartTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfDirtyTilesToDraw, (request.StartTile * tileSize) - ContentOffset.X);
             //Console.WriteLine("WaveFormControl - Draw - GetTiles - ContentOffset.X: {0} context.DirtyRect.X: {1} tileSize: {2} deltaZoom: {3}", ContentOffset.X, context.DirtyRect.X, tileSize, deltaZoom);
@@ -451,13 +450,13 @@ namespace Sessions.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
-                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
-                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, tileHeight), tile.Image.ImageSize, tile.Image.Image);
+                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
+                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, tileHeight), tile.Image.ImageSize, tile.Image.Image);
 
                 // Debug overlay
-//                string debugText = string.Format("{0:0.0}", tile.Zoom);
-//                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-//                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+                string debugText = string.Format("{0:0.0}", tile.Zoom);
+                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
+                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
         }
 
@@ -478,10 +477,15 @@ namespace Sessions.GenericControls.Controls
                     DisplayType = _displayType
                 };
                 // TODO: Cache those tiles, we do not need to request them continually since these tiles are always at 100%
-                var tilesScrollBar = _waveFormCacheService.GetTiles(requestScrollBar);
+                var tilesScrollBar = _waveFormEngineService.GetTiles(requestScrollBar);
                 foreach (var tile in tilesScrollBar)
                 {
-                    context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
+                    //context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
+
+                    // Debug overlay
+                    string debugText = string.Format("{0:0.0}", tile.Zoom);
+                    context.DrawRectangle(new BasicRectangle(tile.ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
+                    context.DrawText(debugText, new BasicPoint(tile.ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
                 }
 
                 // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.

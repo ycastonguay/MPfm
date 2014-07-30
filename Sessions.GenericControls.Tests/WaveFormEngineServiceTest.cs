@@ -26,12 +26,13 @@ using Sessions.GenericControls.Services.Objects;
 namespace Sessions.GenericControls.IntegrationTests
 {
 	[TestFixture]
-	public class WaveFormCacheServiceTest   
+	public class WaveFormEngineServiceTest   
 	{
         Mock<IWaveFormRenderingService> _mockRenderingService;
         Mock<IWaveFormRequestService> _mockRequestService;
         Mock<ITileCacheService> _mockCacheService;
-        IWaveFormCacheService _cacheService;
+
+        public IWaveFormEngineService Service { get; protected set; }
 
         [SetUp]
         public void InitializeTests()
@@ -42,7 +43,7 @@ namespace Sessions.GenericControls.IntegrationTests
             _mockRenderingService.Setup(m => m.RequestBitmap(It.IsAny<WaveFormBitmapRequest>()));
             _mockCacheService = new Mock<ITileCacheService>();
             _mockRequestService = new Mock<IWaveFormRequestService>();
-            _cacheService = new WaveFormCacheService(_mockRenderingService.Object, _mockCacheService.Object, _mockRequestService.Object);
+            Service = new WaveFormEngineService(_mockRenderingService.Object, _mockCacheService.Object, _mockRequestService.Object);
 
 //            var memoryGraphicsContextMock = new Mock<IMemoryGraphicsContext>();
 //            var memoryGraphicsContextFactoryMock = new Mock<IMemoryGraphicsContextFactory>();
@@ -60,7 +61,7 @@ namespace Sessions.GenericControls.IntegrationTests
             audioFile.AlbumTitle = "AlbumTitle";
             audioFile.Title = "SongTitle";
 
-            _cacheService.LoadPeakFile(audioFile);
+            Service.LoadPeakFile(audioFile);
         }
 	}
 }

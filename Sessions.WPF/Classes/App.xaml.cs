@@ -78,7 +78,7 @@ namespace Sessions.WPF.Classes
             Bootstrapper.GetContainer().Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<IDisposableImageFactory, DisposableImageFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();
-            Bootstrapper.GetContainer().Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();
+            Bootstrapper.GetContainer().Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();
             Bootstrapper.GetContainer().Register<ITileCacheService, TileCacheService>().AsSingleton();

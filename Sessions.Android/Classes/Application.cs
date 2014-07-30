@@ -160,7 +160,7 @@ namespace Sessions.Android.Classes
             container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
             container.Register<ICloudService, AndroidDropboxService>().AsSingleton();
-            container.Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();
+            container.Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();
             container.Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
             container.Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();
             container.Register<ITileCacheService, TileCacheService>().AsSingleton();

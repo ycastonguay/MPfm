@@ -21,14 +21,13 @@ using Sessions.Sound.AudioFiles;
 
 namespace Sessions.GenericControls.Services.Interfaces
 {
-    public interface IWaveFormCacheService
+    public interface IWaveFormEngineService
     {
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
         event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
-        //bool IsEmpty { get; }
 
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);

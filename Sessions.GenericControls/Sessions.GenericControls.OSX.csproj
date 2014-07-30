@@ -63,9 +63,7 @@
     <Compile Include="Services\Events\GenerateWaveFormEventArgs.cs" />
     <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
     <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
-    <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
     <Compile Include="Services\Objects\WaveFormBitmapRequest.cs" />
-    <Compile Include="Services\WaveFormCacheService.cs" />
     <Compile Include="Services\WaveFormRenderingService.cs" />
     <Compile Include="Services\Objects\WaveFormTile.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
@@ -107,7 +105,9 @@
     <Compile Include="Services\TileCacheService.cs" />
     <Compile Include="Services\Interfaces\ITileCacheService.cs" />
     <Compile Include="Services\WaveFormRequestService.cs" />
-    <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />    
+    <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormEngineService.cs" />
+    <Compile Include="Services\WaveFormEngineService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
