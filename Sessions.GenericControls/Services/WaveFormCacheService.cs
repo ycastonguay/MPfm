@@ -31,41 +31,34 @@ namespace Sessions.GenericControls.Services
     public class WaveFormCacheService : IWaveFormCacheService
     {
         public const int TileSize = 50;
-        public const int MaxNumberOfRequests = 20;
-        #if MACOSX
-        public const int MaximumNumberOfTasks = 1;
-        #else
-        public const int MaximumNumberOfTasks = 2;
-        #endif
         private readonly object _lockerCache = new object();
-        private readonly object _lockerRequests = new object();
-        private readonly object _lockerTiles = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
+        private readonly IWaveFormRequestService _requestService;
         private readonly ITileCacheService _cacheService;
-        private int _numberOfBitmapTasksRunning;
         private float _lastZoom;
-        private List<WaveFormBitmapRequest> _requests;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
         public event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
-        public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
-        public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService, ITileCacheService cacheService)
+        public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService, ITileCacheService cacheService, IWaveFormRequestService requestService)
         {
-            _requests = new List<WaveFormBitmapRequest>();
             _cacheService = cacheService;
             _waveFormRenderingService = waveFormRenderingService;
             _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
             _waveFormRenderingService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
             _waveFormRenderingService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
             _waveFormRenderingService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
-            _waveFormRenderingService.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
             _waveFormRenderingService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
+            _requestService = requestService;
+            _requestService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormBitmapEndedEvent;
+        }
 
-            StartBitmapRequestProcessLoop();
+        private void HandleGenerateWaveFormBitmapEndedEvent(object sender, GenerateWaveFormEventArgs e)
+        {
+            //Console.WriteLine("REQUEST SERVICE DONE");
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
@@ -92,26 +85,20 @@ namespace Sessions.GenericControls.Services
                 LoadedPeakFileSuccessfullyEvent(sender, e);
         }
 
-        private void HandleGenerateWaveFormBegunEvent(object sender, GenerateWaveFormEventArgs e)
-        {
-            if (GenerateWaveFormBitmapBegunEvent != null)
-                GenerateWaveFormBitmapBegunEvent(sender, e);
-        }
-
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             //Console.WriteLine("WaveFormCacheService - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
-            lock (_lockerTiles)
-            {
-                _numberOfBitmapTasksRunning--;
-                var tile = new WaveFormTile()
-                {
-                    ContentOffset = new BasicPoint(e.OffsetX, 0),
-                    Zoom = e.Zoom,
-                    Image = e.Image
-                };
-                _cacheService.AddTile(tile, e.IsScrollBar);
-            }
+//            lock (_lockerTiles)
+//            {
+//                _numberOfBitmapTasksRunning--;
+//                var tile = new WaveFormTile()
+//                {
+//                    ContentOffset = new BasicPoint(e.OffsetX, 0),
+//                    Zoom = e.Zoom,
+//                    Image = e.Image
+//                };
+//                _cacheService.AddTile(tile, e.IsScrollBar);
+//            }
 
             if (GenerateWaveFormBitmapEndedEvent != null)
                 GenerateWaveFormBitmapEndedEvent(sender, e);
@@ -119,11 +106,7 @@ namespace Sessions.GenericControls.Services
 
         public void FlushCache()
         {
-            lock (_lockerRequests)
-            {
-                _requests.Clear();
-            }
-
+            _requestService.Flush();
             _cacheService.Flush();
         }
 
@@ -182,7 +165,7 @@ namespace Sessions.GenericControls.Services
                         if (tile.Zoom != zoomThreshold)
                         {
                             //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoomThreshold: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoomThreshold, tile.Zoom, boundsBitmap, request.BoundsWaveForm);
-                            AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                            _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
                         } 
                         else
                         {
@@ -193,7 +176,7 @@ namespace Sessions.GenericControls.Services
                     {
                         // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
                         //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
-                        AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+                        _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
                     }
                 }
 
@@ -290,7 +273,7 @@ namespace Sessions.GenericControls.Services
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-                    AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
+                    _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
                 }
 
                 return tile;
@@ -299,109 +282,12 @@ namespace Sessions.GenericControls.Services
             {
                 // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
                 //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
-                AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
+                _requestService.AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
             }
 
             //stopwatch.Stop();
             //Console.WriteLine("WaveFormCacheService - GetTile - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);
             return tile;
-        }
-
-        private void AddBitmapRequestToList(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom, WaveFormDisplayType displayType)
-        {
-            // Make sure we don't slow down GetTile() by creating a task and running LINQ queries on another thread
-            Task.Factory.StartNew(() =>
-                {
-                    var request = new WaveFormBitmapRequest()
-                    {
-                        DisplayType = displayType,
-                        BoundsBitmap = boundsBitmap,
-                        BoundsWaveForm = boundsWaveForm,
-                        Zoom = zoom
-                    };
-
-                    // Check if a tile already exists
-                    WaveFormTile existingTile = null;
-                    lock (_lockerTiles)
-                    {
-                        //existingTile = _tiles.FirstOrDefault(obj => obj.ContentOffset.X == boundsBitmap.X && obj.Zoom == zoom);
-                        existingTile = _cacheService.GetTile(boundsBitmap.X, zoom);
-                    }
-
-                    lock (_lockerRequests)
-                    {
-                        // Check if bitmap has already been requested in queue
-                        var existingRequest = _requests.FirstOrDefault(obj =>
-                            obj.BoundsBitmap.Equals(request.BoundsBitmap) &&
-                            obj.BoundsWaveForm.Equals(request.BoundsWaveForm) &&
-                            obj.Zoom == request.Zoom);
-
-                        // Request a new bitmap only if necessary
-                        if (existingRequest == null && existingTile == null)
-                        {
-                            //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
-                            _requests.Add(request);
-
-                            // Remove the oldest request from the list if we hit the maximum 
-                            if(_requests.Count > MaxNumberOfRequests)
-                                _requests.RemoveAt(0);
-
-                            //Console.WriteLine("............. PULSING");
-                            Monitor.Pulse(_lockerRequests);                        
-                        }
-                    }
-                });
-        }
-
-        public void StartBitmapRequestProcessLoop()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-                {
-                    while (true)
-                    {
-                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Loop - requests.Count: {0} numberOfBitmapTasksRunning: {1}", _requests.Count, _numberOfBitmapTasksRunning);
-                        var requestsToProcess = new List<WaveFormBitmapRequest>();
-                        int requestCount = 0;
-                        lock (_lockerRequests)
-                        {
-                            while (_requests.Count > 0 && _numberOfBitmapTasksRunning < MaximumNumberOfTasks)
-                            {
-                                //int index = 0; // FIFO
-                                int index = _requests.Count - 1; // LIFO
-                                _numberOfBitmapTasksRunning++;
-                                var request = _requests[index];
-                                requestsToProcess.Add(request);
-                                _requests.RemoveAt(index);
-                            }
-                            requestCount = _requests.Count;
-                        }
-
-                        foreach (var request in requestsToProcess)
-                        {
-                            //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
-                            _waveFormRenderingService.RequestBitmap(request); // ThreadQueueWorkItem will manage a thread pool
-                        }
-
-                        if (requestCount > 0)
-                        {
-                            //Console.WriteLine(">>>>>>>>> SLEEPING");
-                            Thread.Sleep(50);
-                        }
-                        else
-                        {
-                            lock (_lockerRequests)
-                            {
-                                //Console.WriteLine(">>>>>>>>> WAITING");
-                                Monitor.Wait(_lockerRequests);
-                                //Console.WriteLine(">>>>>>>>> WOKEN UP!");
-                            }
-                        }
-                    }
-                }));
-            thread.IsBackground = true;
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-        }
-
+        }            
     }
 }

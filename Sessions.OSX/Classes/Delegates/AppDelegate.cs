@@ -54,6 +54,7 @@ namespace Sessions.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<ITileCacheService, TileCacheService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();   
 
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();

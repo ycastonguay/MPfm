@@ -156,6 +156,8 @@
     <Compile Include="Controls\CheckBoxControl.cs" />
     <Compile Include="Helpers\TileHelper.cs" />
     <Compile Include="Services\TileCacheService.cs" />
-    <Compile Include="Services\Interfaces\ITileCacheService.cs" />    
+    <Compile Include="Services\Interfaces\ITileCacheService.cs" /> 
+    <Compile Include="Services\WaveFormRequestService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />       
   </ItemGroup>
 </Project>

@@ -16,23 +16,15 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using Sessions.GenericControls.Services.Objects;
-using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.GenericControls.Services.Interfaces
 {
-    public interface IWaveFormCacheService
+    public interface IWaveFormRequestService
     {
-        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
-        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
-        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
-        event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
-        //bool IsEmpty { get; }
 
-        void FlushCache();
-        void LoadPeakFile(AudioFile audioFile);
-        WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
-        List<WaveFormTile> GetTiles(WaveFormBitmapRequest request);
+        void Flush();
+        void AddBitmapRequestToList(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom, WaveFormDisplayType displayType);
     }
 }

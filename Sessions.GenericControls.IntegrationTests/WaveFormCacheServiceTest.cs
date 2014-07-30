@@ -29,6 +29,7 @@ namespace Sessions.GenericControls.IntegrationTests
 	public class WaveFormCacheServiceTest   
 	{
         Mock<IWaveFormRenderingService> _mockRenderingService;
+        Mock<IWaveFormRequestService> _mockRequestService;
         Mock<ITileCacheService> _mockCacheService;
         IWaveFormCacheService _cacheService;
 
@@ -40,7 +41,8 @@ namespace Sessions.GenericControls.IntegrationTests
             _mockRenderingService.Setup(m => m.LoadPeakFile(It.IsAny<AudioFile>()));
             _mockRenderingService.Setup(m => m.RequestBitmap(It.IsAny<WaveFormBitmapRequest>()));
             _mockCacheService = new Mock<ITileCacheService>();
-            _cacheService = new WaveFormCacheService(_mockRenderingService.Object, _mockCacheService.Object);
+            _mockRequestService = new Mock<IWaveFormRequestService>();
+            _cacheService = new WaveFormCacheService(_mockRenderingService.Object, _mockCacheService.Object, _mockRequestService.Object);
 
 //            var memoryGraphicsContextMock = new Mock<IMemoryGraphicsContext>();
 //            var memoryGraphicsContextFactoryMock = new Mock<IMemoryGraphicsContextFactory>();
@@ -53,7 +55,6 @@ namespace Sessions.GenericControls.IntegrationTests
         [Test]
         public void Test()
         {
-
             var audioFile = new AudioFile();
             audioFile.ArtistName = "ArtistName";
             audioFile.AlbumTitle = "AlbumTitle";

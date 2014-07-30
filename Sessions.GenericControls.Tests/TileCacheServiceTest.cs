@@ -40,7 +40,6 @@ namespace Sessions.GenericControls.Tests
         {
             var tile = new WaveFormTile(){
                 ContentOffset = new BasicPoint(offsetX, 0),
-                OffsetX = offsetX,
                 Zoom = zoom
             };
             Service.AddTile(tile, false);
@@ -171,7 +170,6 @@ namespace Sessions.GenericControls.Tests
             [Test]
             public void ShouldReturnEmptyList()
             {     
-                // Fails           
                 var tiles = Service.GetTilesForPosition(_offsetX + 10, _startZoom);
 
                 Assert.AreEqual(0, tiles.Count);
