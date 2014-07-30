@@ -482,10 +482,10 @@ namespace Sessions.GenericControls.Controls
                 {
                     //context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
 
-                    // Debug overlay
-                    string debugText = string.Format("{0:0.0}", tile.Zoom);
-                    context.DrawRectangle(new BasicRectangle(tile.ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-                    context.DrawText(debugText, new BasicPoint(tile.ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+//                    // Debug overlay
+//                    string debugText = string.Format("{0:0.0}", tile.Zoom);
+//                    context.DrawRectangle(new BasicRectangle(tile.ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
+//                    context.DrawText(debugText, new BasicPoint(tile.ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
                 }
 
                 // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.

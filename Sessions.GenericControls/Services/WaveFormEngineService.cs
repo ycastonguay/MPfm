@@ -127,22 +127,17 @@ namespace Sessions.GenericControls.Services
                 }
             }
 
-            //float coveredAreaX = 0;
             float zoomThreshold = (float)Math.Floor(request.Zoom);
             var boundsWaveFormAdjusted = new BasicRectangle(0, 0, request.BoundsWaveForm.Width * zoomThreshold, request.BoundsWaveForm.Height);
             var tiles = new List<WaveFormTile>();
-            //List<WaveFormTile> previouslyAvailableTiles = new List<WaveFormTile>();
             for (int a = request.StartTile; a < request.EndTile; a++)
             {
                 float tileX = a * request.TileSize;
-                WaveFormTile tile = null;
-                WaveFormTile cachedTile = _cacheService.GetTile(tileX, request.IsScrollBar);
-                if (cachedTile != null)
-                {
-                    //Console.WriteLine(">>>>>>>>>> Taking cached tile!");
-                    tile = cachedTile;
-                } 
-                else
+                //Console.WriteLine("WaveFormEngineService - GetTiles - Requesting tile from cache at tileX: {0}", tileX);
+                var tile = _cacheService.GetTile(tileX, request.IsScrollBar);
+                //if (tile != null)
+                    //Console.WriteLine("WaveFormEngineService - GetTiles - Found tile in cache! tileOffsetX: {0} tileZoom: {1}", tile.ContentOffset.X, tile.Zoom);
+                if (tile == null)
                 {
                     // This is a hot line, and needs to be avoided as much as possible.
                     // the problem is that tiles vary in time in quality. 

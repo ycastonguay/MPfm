@@ -22,46 +22,123 @@ using Moq;
 using Sessions.GenericControls.Services;
 using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Objects;
+using Sessions.GenericControls.Basics;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Sessions.GenericControls.IntegrationTests
+namespace Sessions.GenericControls.Tests
 {
 	[TestFixture]
 	public class WaveFormEngineServiceTest   
 	{
         Mock<IWaveFormRenderingService> _mockRenderingService;
         Mock<IWaveFormRequestService> _mockRequestService;
-        Mock<ITileCacheService> _mockCacheService;
+        ITileCacheService _cacheService;
 
         public IWaveFormEngineService Service { get; protected set; }
 
-        [SetUp]
-        public void InitializeTests()
+        public int ControlWidth = 500;
+        public int ControlHeight = 100;
+        public int TileSize = 50;
+
+        public void PrepareTests()
         {
             _mockRenderingService = new Mock<IWaveFormRenderingService>();
-            _mockRenderingService.Setup(m => m.FlushCache());
-            _mockRenderingService.Setup(m => m.LoadPeakFile(It.IsAny<AudioFile>()));
-            _mockRenderingService.Setup(m => m.RequestBitmap(It.IsAny<WaveFormBitmapRequest>()));
-            _mockCacheService = new Mock<ITileCacheService>();
             _mockRequestService = new Mock<IWaveFormRequestService>();
-            Service = new WaveFormEngineService(_mockRenderingService.Object, _mockCacheService.Object, _mockRequestService.Object);
+            _cacheService = new TileCacheService();
 
-//            var memoryGraphicsContextMock = new Mock<IMemoryGraphicsContext>();
-//            var memoryGraphicsContextFactoryMock = new Mock<IMemoryGraphicsContextFactory>();
-//            memoryGraphicsContextFactoryMock.Setup(m => m.CreateMemoryGraphicsContext(It.IsAny<float>(), It.IsAny<float>()))
-//                                            .Returns(() => memoryGraphicsContextMock.Object);
-//
-//            base.SetMemoryGraphicsContextFactory(memoryGraphicsContextFactoryMock.Object);
+            Service = new WaveFormEngineService(_mockRenderingService.Object, _cacheService, _mockRequestService.Object);
+        }    
+
+        public WaveFormTile AddTile(float offsetX, float zoom)
+        {
+            var tile = new WaveFormTile()
+            {
+                ContentOffset = new BasicPoint(offsetX, 0),
+                Zoom = zoom
+            };
+            _cacheService.AddTile(tile, false);
+            return tile;
         }
 
-        [Test]
-        public void Test()
+        public WaveFormBitmapRequest GenerateRequest(float zoom, float offsetX, BasicRectangle dirtyRect)
         {
-            var audioFile = new AudioFile();
-            audioFile.ArtistName = "ArtistName";
-            audioFile.AlbumTitle = "AlbumTitle";
-            audioFile.Title = "SongTitle";
+            float deltaZoom = (float) (zoom/Math.Floor(zoom));
+            int startDirtyTile = (int)Math.Floor((offsetX + dirtyRect.X) / ((float)TileSize * deltaZoom));
+            int numberOfDirtyTilesToDraw = (int)Math.Ceiling(dirtyRect.Width / TileSize) + 1;
+            var request = new WaveFormBitmapRequest()
+            {
+                StartTile = startDirtyTile,
+                EndTile = startDirtyTile + numberOfDirtyTilesToDraw,
+                TileSize = TileSize,
+                BoundsWaveForm = new BasicRectangle(0, 0, ControlWidth, ControlHeight),
+                Zoom = zoom,
+                DisplayType = WaveFormDisplayType.Stereo
+            };
+            return request;
+        }
 
-            Service.LoadPeakFile(audioFile);
+        [TestFixture]
+        public class GetTilesTest : WaveFormEngineServiceTest
+        {
+            private List<WaveFormTile> _tilesAt100Percent;
+
+            [SetUp]
+            public void PrepareTest()
+            {
+                PrepareTests();
+            }                
+
+            private void PrepareAllTilesAt100Percent()
+            {
+                // For this test, we only need to mock the data in the cache service.
+                _tilesAt100Percent = new List<WaveFormTile>();
+                for (int a = 0; a < ControlWidth; a += TileSize)
+                {
+                    Console.WriteLine("Adding tile at {0}", a);
+                    var tile = AddTile(a, 1);
+                    _tilesAt100Percent.Add(tile);
+                }
+            }
+
+            [Test]
+            public void ShouldReturnTiles_ForZoomAt100()
+            {
+                // Arrange
+                PrepareAllTilesAt100Percent();
+                float zoom = 1;
+                float offsetX = 0;
+                var dirtyRect = new BasicRectangle(0, 0, ControlWidth, ControlHeight);
+                var request = GenerateRequest(zoom, offsetX, dirtyRect);
+
+                // Act
+                var tiles = Service.GetTiles(request);
+
+                foreach (var tile in tiles)
+                    Console.WriteLine("---> Returned tile offsetX: {0} zoom: {1}", tile.ContentOffset.X, tile.Zoom);
+
+                Assert.IsTrue(_tilesAt100Percent.Except(tiles).ToList().Count == 0);
+            }
+
+            [Test]
+            public void ShouldReturnTiles_ForZoomAt120()
+            {
+                // Arrange
+                PrepareAllTilesAt100Percent();
+                float zoom = 1.2f;
+                float offsetX = 0;
+                var dirtyRect = new BasicRectangle(0, 0, ControlWidth, ControlHeight);
+                var request = GenerateRequest(zoom, offsetX, dirtyRect);
+
+                // Act
+                var tiles = Service.GetTiles(request);
+
+                foreach (var tile in tiles)
+                    Console.WriteLine("---> Returned tile offsetX: {0} zoom: {1}", tile.ContentOffset.X, tile.Zoom);
+
+                Assert.IsTrue(_tilesAt100Percent.Except(tiles).ToList().Count == 0);
+                //Assert.AreEqual(0, tiles.Count);
+            }
         }
 	}
 }
