@@ -491,8 +491,8 @@ namespace Sessions.GenericControls.Controls
                 var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
                 float visibleAreaWidth = (1 / Zoom) * Frame.Width;
                 float visibleAreaX = (1 / Zoom) * ContentOffset.X;
-                var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, visibleAreaX, realScrollBarHeight);
-                var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Frame.Width - visibleAreaX - visibleAreaWidth, realScrollBarHeight);
+                var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, Math.Max(0, visibleAreaX), realScrollBarHeight);
+                var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Math.Max(0, Frame.Width - visibleAreaX - visibleAreaWidth), realScrollBarHeight);
                 //context.DrawRectangle(new BasicRectangle(visibleAreaX, Frame.Height - scrollBarHeight, visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
                 context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
                 context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());

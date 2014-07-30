@@ -125,7 +125,10 @@ namespace Sessions.MVP.Presenters
                 var loop = new Loop();
                 loop.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
                 loop.Name = "New Loop";
+                loop.CreateStartEndSegments();
                 _libraryService.InsertLoop(loop);
+                _libraryService.InsertSegment(loop.Segments[0]);
+                _libraryService.InsertSegment(loop.Segments[1]);
                 _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
                     AudioFileId = loop.AudioFileId,
                     LoopId = loop.LoopId

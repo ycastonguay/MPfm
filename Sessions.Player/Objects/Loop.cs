@@ -57,6 +57,13 @@ namespace Sessions.Player.Objects
             Segments = new List<Segment>();
         }
 
+        public void CreateStartEndSegments()
+        {
+            Segments.Clear();
+            Segments.Add(new Segment(0) { LoopId = this.LoopId });
+            Segments.Add(new Segment(1) { LoopId = this.LoopId });
+        }
+
         public Segment GetNextSegment(int index)
         {
             if (Segments.Count == 0)

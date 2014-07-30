@@ -82,7 +82,8 @@ namespace Sessions.MVP.Presenters
             for (int a = 0; a < _loop.Segments.Count; a++)
             {
                 var segment = _loop.Segments[a];
-                segment.Index = string.Format("{0}", a);
+                //segment.Index = string.Format("{0}", a);
+                segment.Index = a == 0 ? "Start" : "End";
             }
         }
 

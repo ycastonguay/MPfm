@@ -39,6 +39,17 @@ namespace Sessions.Player.Objects
 
         public Segment()
         {
+            Initialize();
+        }
+
+        public Segment(int segmentIndex)
+        {
+            SegmentIndex = segmentIndex;
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             SegmentId = Guid.NewGuid();
             LoopId = Guid.Empty;
             MarkerId = Guid.Empty;

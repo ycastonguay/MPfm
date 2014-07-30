@@ -735,7 +735,7 @@ namespace Sessions.WPF.Classes.Windows
             var result = MessageBox.Show("Are you sure you wish to remove this loop?", "Remove loop", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                OnDeleteMarker(_markers[listViewMarkers.SelectedIndex]);
+                OnDeleteLoop(_loops[listViewLoops.SelectedIndex]);
                 EnableLoopButtons(false);
             }
         }
