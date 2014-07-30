@@ -744,7 +744,7 @@ namespace MPfm.GTK.Windows
         public System.Action<float> OnPlayerSetTimeShifting { get; set; }
         public System.Action<float> OnPlayerSetVolume { get; set; }
         public System.Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
         public System.Action OnEditSongMetadata { get; set; }
         public System.Action OnPlayerShuffle { get; set; }
         public System.Action OnPlayerRepeat { get; set; }
@@ -776,7 +776,7 @@ namespace MPfm.GTK.Windows
             });
 		}
 
-		public void RefreshPlayerPosition(PlayerPositionEntity entity)
+		public void RefreshPlayerPosition(PlayerPosition entity)
 		{
 			Gtk.Application.Invoke(delegate{
 				lblCurrentPosition.Text = entity.Position.ToString();
@@ -877,7 +877,7 @@ namespace MPfm.GTK.Windows
 			});
 		}		
 		
-        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        public void RefreshPlayerVolume(PlayerVolume entity)
 		{			
 			Gtk.Application.Invoke(delegate{			
 				lblCurrentVolume.Text = entity.VolumeString;
@@ -886,7 +886,7 @@ namespace MPfm.GTK.Windows
 			});
 		}
 		
-        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshPlayerTimeShifting(PlayerTimeShifting entity)
 		{
 			Gtk.Application.Invoke(delegate{			
 //				lblTimeShiftingValue.Text = entity.TimeShiftingString;
@@ -1242,7 +1242,7 @@ namespace MPfm.GTK.Windows
             });
         }
 
-        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshTimeShifting(PlayerTimeShifting entity)
         {
         }
 
@@ -1269,7 +1269,7 @@ namespace MPfm.GTK.Windows
         {
         }
 
-        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        public void RefreshPitchShifting(PlayerPitchShifting entity)
         {
         }
 

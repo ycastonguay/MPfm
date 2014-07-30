@@ -1397,7 +1397,7 @@ namespace Sessions.OSX
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetVolume { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }        
         public Action OnPlayerShuffle { get; set; }
         public Action OnPlayerRepeat { get; set; }
@@ -1451,7 +1451,7 @@ namespace Sessions.OSX
             });
         }
 
-		public void RefreshPlayerPosition(PlayerPositionEntity entity)
+		public void RefreshPlayerPosition(PlayerPosition entity)
         {
             if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
@@ -1592,7 +1592,7 @@ namespace Sessions.OSX
         {
         }
 
-        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        public void RefreshPlayerVolume(PlayerVolume entity)
         {
             InvokeOnMainThread(() => {
                 lblVolume.StringValue = entity.VolumeString;
@@ -1601,7 +1601,7 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshPlayerTimeShifting(PlayerTimeShifting entity)
         {
             InvokeOnMainThread(() => {
 //                lblTimeShifting.StingValue = entity.TimeShiftingString;
@@ -1784,7 +1784,7 @@ namespace Sessions.OSX
         {
         }
 
-        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        public void RefreshPitchShifting(PlayerPitchShifting entity)
         {
             InvokeOnMainThread(() =>{
                 txtIntervalValue.StringValue = entity.Interval;
@@ -1809,7 +1809,7 @@ namespace Sessions.OSX
             ShowError(ex);
         }
 
-        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshTimeShifting(PlayerTimeShifting entity)
         {
             InvokeOnMainThread(() =>{
                 lblDetectedTempoValue.StringValue = entity.DetectedTempo;

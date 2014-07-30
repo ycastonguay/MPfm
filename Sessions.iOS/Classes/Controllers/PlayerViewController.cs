@@ -153,7 +153,7 @@ namespace Sessions.iOS.Classes.Controllers
             sliderPosition.TouchesMovedEvent += (sender, e) => {
                 _isPositionChanging = true;
                 _lastSliderPositionValue = sliderPosition.Value / 100;
-                PlayerPositionEntity entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
+                var entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
                 lblPosition.Text = entity.Position;
                 scrollViewWaveForm.SetSecondaryPosition(entity.PositionBytes);
             };
@@ -511,7 +511,7 @@ namespace Sessions.iOS.Classes.Controllers
         public Action OnOpenPlaylist { get; set; }
 		public Action OnOpenEffects { get; set; }
         public Action OnPlayerViewAppeared { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
 
         public void PlayerError(Exception ex)
         {
@@ -526,7 +526,7 @@ namespace Sessions.iOS.Classes.Controllers
             AddScrollView((UIViewController)view);
         }
 
-        public void RefreshPlayerPosition(PlayerPositionEntity entity)
+        public void RefreshPlayerPosition(PlayerPosition entity)
         {
             InvokeOnMainThread(() => {
                 if(!_isPositionChanging)
@@ -668,12 +668,12 @@ namespace Sessions.iOS.Classes.Controllers
             }
         }
 
-        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        public void RefreshPlayerVolume(PlayerVolume entity)
         {
             // Not necessary on iOS. The volume is controlled by the MPVolumeView.
         }
 
-        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        public void RefreshPlayerTimeShifting(PlayerTimeShifting entity)
         {
         }
 

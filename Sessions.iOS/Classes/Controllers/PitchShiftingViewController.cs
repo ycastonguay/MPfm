@@ -27,6 +27,7 @@ using Sessions.MVP.Models;
 using System.Linq;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using Sessions.Player.Objects;
 
 namespace Sessions.iOS
 {
@@ -166,7 +167,7 @@ namespace Sessions.iOS
             _keys = keys;
         }
 
-        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        public void RefreshPitchShifting(PlayerPitchShifting entity)
         {
             InvokeOnMainThread(() => {
                 try

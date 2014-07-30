@@ -27,6 +27,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Helpers;
 using Sessions.MVP.Models;
+using Sessions.Player.Objects;
 
 namespace Sessions.iOS
 {
@@ -101,7 +102,7 @@ namespace Sessions.iOS
             });
         }
 
-		public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+		public void RefreshTimeShifting(PlayerTimeShifting entity)
         {
             InvokeOnMainThread(() => {
                 try
