@@ -36,10 +36,11 @@ namespace Sessions.GenericControls.Tests
             Service = new TileCacheService();
         }
 
-        public WaveFormTile AddTile(float offsetX, float zoom)
+        public WaveFormTile AddTile(int offsetX, float zoom)
         {
             var tile = new WaveFormTile(){
                 ContentOffset = new BasicPoint(offsetX, 0),
+                OffsetX = offsetX,
                 Zoom = zoom
             };
             Service.AddTile(tile, false);
@@ -131,7 +132,7 @@ namespace Sessions.GenericControls.Tests
         [TestFixture]
         public class GetTilesForPositionTest : TileCacheServiceTest
         {
-            private float _offsetX = 50;
+            private int _offsetX = 50;
             private float _startZoom = 1;
             private List<WaveFormTile> _tiles;
 
@@ -143,16 +144,16 @@ namespace Sessions.GenericControls.Tests
                 _tiles = new List<WaveFormTile>();
 
                 // Generate tiles for testing
-                float x = _offsetX;
+                int x = _offsetX;
                 float zoom = _startZoom;
                 for (int a = 0; a < 4; a++)
                 {
                     // Generate a tile for expected results
-                    _tiles.Add(AddTile(x * zoom, zoom));
+                    _tiles.Add(AddTile((int)Math.Floor(x * zoom), zoom));
 
                     // Generate a tile that shouldn't be in the expected results
                     // Is it possible though that some tiles are in double when generating this way?
-                    AddTile((x * 2) * zoom, zoom);
+                    AddTile((int)Math.Floor((x * 2) * zoom), zoom);
 
                     zoom += 1;
                 }
@@ -173,7 +174,7 @@ namespace Sessions.GenericControls.Tests
                 // Fails           
                 var tiles = Service.GetTilesForPosition(_offsetX + 10, _startZoom);
 
-                Assert.AreEqual(tiles.Count, 0);
+                Assert.AreEqual(0, tiles.Count);
             } 
         }
 

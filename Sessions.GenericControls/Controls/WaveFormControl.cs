@@ -270,7 +270,7 @@ namespace Sessions.GenericControls.Controls
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
-            Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
+            //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
             float deltaZoom = Zoom / e.Zoom;
             float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
             //OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));

@@ -485,7 +485,8 @@ namespace Sessions.GenericControls.Services
 				Zoom = request.Zoom,
                 Width = context.BoundsWidth,
 				DisplayType = request.DisplayType,
-				Image = imageCache
+				Image = imageCache,
+                IsScrollBar = request.IsScrollBar
 			});
         }
     }

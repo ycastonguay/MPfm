@@ -110,8 +110,7 @@ namespace Sessions.GenericControls.Services
                     Zoom = e.Zoom,
                     Image = e.Image
                 };
-                //_tiles.Add(tile);
-                _cacheService.AddTile(tile, false);
+                _cacheService.AddTile(tile, e.IsScrollBar);
             }
 
             if (GenerateWaveFormBitmapEndedEvent != null)

@@ -40,7 +40,9 @@ namespace Sessions.GenericControls.Services.Objects
             float deltaZoom = zoom / Zoom;
             float xAdj = zoom > Zoom ? x * (1 / deltaZoom) : x * deltaZoom; 
             float xFloor = (float) (Math.Floor(xAdj / tileSize) * tileSize);
-            return xFloor;
+            //Console.WriteLine("   WaveFormTile - GetAdjustedContentOffsetForZoom x: {0} tileSize: {1} zoom: {2} // ContentOffset.X: {3} Zoom: {4} deltaZoom: {5} xAdj: {6} xFloor: {7}", x, tileSize, zoom, ContentOffset.X, Zoom, deltaZoom, xAdj, xFloor);
+            //return xFloor; // returns the wrong kind of tiles sometimes
+            return xAdj;
         }
 
         public bool CheckIfTileIsInBounds(int tileSize, float zoom, BasicRectangle bounds)

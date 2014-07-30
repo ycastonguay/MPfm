@@ -27,6 +27,7 @@ namespace Sessions.GenericControls.Services.Events
         public float Width { get; set; }
         public float OffsetX { get; set; }
         public WaveFormDisplayType DisplayType { get; set; }
+        public bool IsScrollBar { get; set; }
         public IBasicImage Image { get; set; }
     }
 }
