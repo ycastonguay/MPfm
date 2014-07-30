@@ -103,6 +103,9 @@
     <Compile Include="Basics\IBasicPathItem.cs" />
     <Compile Include="Basics\BasicPathLine.cs" />
     <Compile Include="Controls\CheckBoxControl.cs" />
+    <Compile Include="Helpers\TileHelper.cs" />
+    <Compile Include="Services\TileCacheService.cs" />
+    <Compile Include="Services\Interfaces\ITileCacheService.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.csproj">

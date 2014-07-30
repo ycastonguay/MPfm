@@ -37,6 +37,8 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Library.Services;
 using Sessions.Sound;
 using Sessions.MVP.Config.Providers;
+using Sessions.MVP.Presenters.Interfaces;
+using Sessions.MVP.Views;
 
 namespace Sessions.Console
 {
@@ -164,9 +166,9 @@ namespace Sessions.Console
         {
             // Build loading screen text
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Sessions: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");
-            sb.AppendLine("BASS audio library © 1999-2012 Un4seen Developments.");
-            sb.AppendLine("BASS.NET audio library © 2005-2012 radio42.");
+            sb.AppendLine("Sessions (v0.7.0.0) © 2011-2014 Yanick Castonguay");
+            sb.AppendLine("BASS audio library © 1999-2014 Un4seen Developments.");
+            sb.AppendLine("BASS.NET audio library © 2005-2014 radio42.");
             sb.AppendLine();
             sb.Append("Loading...");
 
@@ -198,13 +200,17 @@ namespace Sessions.Console
         }
 
         public static void InitializePlayer()
-        {           
+        {   
+            var fakeView = new FakeSplashView();
+            var presenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
+            presenter.BindView(fakeView);
+
             // Initialize app
-            IInitializationService initService = Bootstrapper.GetContainer().Resolve<IInitializationService>();
+            var initService = Bootstrapper.GetContainer().Resolve<IInitializationService>();
             initService.Initialize();
 
             // Initialize player
-            Device device = new Device(){
+            var device = new Device(){
                 DriverType = DriverType.DirectSound,
                 Id = -1
             };
@@ -302,9 +308,9 @@ namespace Sessions.Console
         
         public static void PrintHelp()
         {
-            System.Console.WriteLine("Sessions: Music Player for Musicians (v0.7.0.0) © 2011-2012 Yanick Castonguay");            
-            System.Console.WriteLine("BASS audio library © 1999-2012 Un4seen Developments.");
-            System.Console.WriteLine("BASS.NET audio library © 2005-2012 radio42.");
+            System.Console.WriteLine("Sessions (v0.7.0.0) © 2011-2014 Yanick Castonguay");            
+            System.Console.WriteLine("BASS audio library © 1999-2014 Un4seen Developments.");
+            System.Console.WriteLine("BASS.NET audio library © 2005-2014 radio42.");
             System.Console.WriteLine();            
             System.Console.WriteLine("Usage: Sessions.exe [OPTION]... [FILE]...");
             System.Console.WriteLine();
@@ -354,7 +360,7 @@ namespace Sessions.Console
 
             // Write title
             Curses.attron(Curses.ColorPair(3));
-            Curses.addstr(ConsoleHelper.GetCenteredString("Sessions: Music Player for Musicians"));
+            Curses.addstr(ConsoleHelper.GetCenteredString("Sessions"));
             Curses.attroff(Curses.ColorPair(3));
 
             // Print windows
@@ -472,5 +478,35 @@ namespace Sessions.Console
             Curses.move(12, 0);
         }
     }
-}
 
+    public class FakeSplashView : ISplashView
+    {
+
+        #region ISplashView implementation
+
+        public void RefreshStatus(string message)
+        {
+        }
+
+        public void InitDone(bool isAppFirstStart)
+        {
+        }
+
+        public void DestroyView()
+        {
+        }
+
+        #endregion
+
+        #region IBaseView implementation
+
+        public void ShowView(bool shown)
+        {
+        }
+
+        public Action<IBaseView> OnViewDestroy { get; set; }
+
+        #endregion
+
+    }       
+}

@@ -16,7 +16,6 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -42,11 +41,9 @@ namespace Sessions.GenericControls.Services
         private readonly object _lockerRequests = new object();
         private readonly object _lockerTiles = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
+        private readonly ITileCacheService _cacheService;
         private int _numberOfBitmapTasksRunning;
         private float _lastZoom;
-        private List<WaveFormTile> _tiles;
-        private List<WaveFormTile> _tileCacheForZoom;
-        private List<WaveFormTile> _tileCacheForScrollBar;
         private List<WaveFormBitmapRequest> _requests;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
@@ -56,14 +53,10 @@ namespace Sessions.GenericControls.Services
         public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
-        public bool IsEmpty { get { return _tiles.Count == 0; } }
-
-        public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService)
+        public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService, ITileCacheService cacheService)
         {
-            _tiles = new List<WaveFormTile>();
-            _tileCacheForZoom = new List<WaveFormTile>();
-            _tileCacheForScrollBar = new List<WaveFormTile>();
             _requests = new List<WaveFormBitmapRequest>();
+            _cacheService = cacheService;
             _waveFormRenderingService = waveFormRenderingService;
             _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
             _waveFormRenderingService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
@@ -117,7 +110,8 @@ namespace Sessions.GenericControls.Services
                     Zoom = e.Zoom,
                     Image = e.Image
                 };
-                _tiles.Add(tile);
+                //_tiles.Add(tile);
+                _cacheService.AddTile(tile, false);
             }
 
             if (GenerateWaveFormBitmapEndedEvent != null)
@@ -131,18 +125,7 @@ namespace Sessions.GenericControls.Services
                 _requests.Clear();
             }
 
-            lock (_lockerTiles)
-            {
-                foreach (var tile in _tiles)
-                    tile.Image.Image.Dispose();
-                _tiles.Clear();
-            }
-
-            lock (_lockerCache)
-            {
-                _tileCacheForZoom.Clear();
-                _tileCacheForScrollBar.Clear();
-            }
+            _cacheService.Flush();
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -160,7 +143,7 @@ namespace Sessions.GenericControls.Services
                     // Bug: when requesting the smaller tiles, the zoom changes
                     //Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
                     _lastZoom = request.Zoom;
-                    _tileCacheForZoom.Clear();
+                    _cacheService.Flush();
                 }
             }
 
@@ -171,18 +154,9 @@ namespace Sessions.GenericControls.Services
             //List<WaveFormTile> previouslyAvailableTiles = new List<WaveFormTile>();
             for (int a = request.StartTile; a < request.EndTile; a++)
             {
-                WaveFormTile tile = null;
                 float tileX = a * request.TileSize;
-
-                // Add lock for cache
-                WaveFormTile cachedTile = null;
-                lock (_lockerCache)
-                {
-                    if(request.IsScrollBar)
-                        cachedTile = _tileCacheForScrollBar.FirstOrDefault(x => x.ContentOffset.X == tileX);
-                    else
-                        cachedTile = _tileCacheForZoom.FirstOrDefault(x => x.ContentOffset.X == tileX);
-                }
+                WaveFormTile tile = null;
+                WaveFormTile cachedTile = _cacheService.GetTile(tileX, request.IsScrollBar);
                 if (cachedTile != null)
                 {
                     //Console.WriteLine(">>>>>>>>>> Taking cached tile!");
@@ -193,7 +167,7 @@ namespace Sessions.GenericControls.Services
                     // This is a hot line, and needs to be avoided as much as possible.
                     // the problem is that tiles vary in time in quality. 
                     // maybe as a first, when a tile at the right zoom is available, cache it locally so it isn't necessary to call the algo again.
-                    var availableTiles = GetAvailableTilesForPosition(tileX, request.Zoom);
+                    var availableTiles = _cacheService.GetTilesForPosition(tileX, request.Zoom);
                     var boundsBitmap = new BasicRectangle(tileX, 0, TileSize, request.BoundsWaveForm.Height);
                     if (availableTiles != null && availableTiles.Count > 0)
                     {
@@ -203,7 +177,7 @@ namespace Sessions.GenericControls.Services
                             tiles.Add(tileLowRes);
 
                         // Get the tile with the zoom that is the closest to the current zoom threshold 
-                        tile = GetOptimalTileAtZoom(availableTiles, zoomThreshold);
+                        tile = TileHelper.GetOptimalTileAtZoom(availableTiles, zoomThreshold);
 
                         // If we could not find a tile at this zoom level, we need to generate one 
                         if (tile.Zoom != zoomThreshold)
@@ -213,10 +187,7 @@ namespace Sessions.GenericControls.Services
                         } 
                         else
                         {
-                            lock (_lockerCache)
-                            {
-                                _tileCacheForZoom.Add(tile);
-                            }
+                            _cacheService.AddTile(tile, request.IsScrollBar);
                         }
                     } 
                     else
@@ -227,7 +198,7 @@ namespace Sessions.GenericControls.Services
                     }
                 }
 
-                //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
+                //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, request.Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
                 if (tile != null)
                 {
                     // Calculate the new covered area (adjusted with the zoom delta)
@@ -310,11 +281,11 @@ namespace Sessions.GenericControls.Services
             var boundsBitmap = new BasicRectangle(x, 0, TileSize, height);
             var boundsWaveForm = new BasicRectangle(0, 0, waveFormWidth * zoomThreshold, height);
 
-            var tiles = GetAvailableTilesForPosition(x, zoom);
+            var tiles = _cacheService.GetTilesForPosition(x, zoom);
             if (tiles != null && tiles.Count > 0)
             {
                 // Get the tile with the zoom that is the closest to the current zoom threshold 
-                tile = GetOptimalTileAtZoom(tiles, zoomThreshold);
+                tile = TileHelper.GetOptimalTileAtZoom(tiles, zoomThreshold);
 
                 // If we could not find a tile at this zoom level, we need to generate one 
                 if (tile.Zoom != zoomThreshold)
@@ -337,51 +308,6 @@ namespace Sessions.GenericControls.Services
             return tile;
         }
 
-        private List<WaveFormTile> GetAvailableTilesForPosition(float x, float zoom)
-        {
-            var tiles = new List<WaveFormTile>();
-            float zoomThreshold = (float)Math.Floor(zoom);
-            lock (_lockerTiles)
-            {
-                // Try to get a bitmap tile that covers the area we're interested in. The content offset x must be adjusted depending on the zoom level because a tile with
-                // a lower zoom might cover a very large area when adjusted to the new zoom; we need to draw the bitmap tile with a large offset (most of the bitmap is off screen)
-                tiles = _tiles.Where(obj => obj.ContentOffset.X == obj.GetAdjustedContentOffsetForZoom(x, TileSize, zoomThreshold)).ToList();
-            }
-
-            return tiles;
-        }
-
-        private List<WaveFormTile> GetAvailableTilesToFillBounds(float zoom, BasicRectangle bounds)
-        {
-            var tiles = new List<WaveFormTile>();
-            float zoomThreshold = (float)Math.Floor(zoom);
-            lock (_lockerTiles)
-            {
-                tiles = _tiles.Where(obj => obj.CheckIfTileIsInBounds(TileSize, zoomThreshold, bounds)).ToList();
-            }
-
-            return tiles;
-        }
-
-        private WaveFormTile GetOptimalTileAtZoom(IEnumerable<WaveFormTile> tiles, float zoom)
-        {
-            // We don't want to scale down bitmaps, it is more CPU intensive than scaling up
-            var orderedTiles = tiles.OrderBy(obj => obj.Zoom).ToList();
-            var tile = orderedTiles.Count > 0 ? orderedTiles[0] : null;
-            foreach (var thisTile in orderedTiles)
-            {
-                if (thisTile.Zoom <= zoom)
-                {
-                    //if (tile != null && thisTile.Zoom > tile.Zoom || tile == null)
-                    if (thisTile.Zoom > tile.Zoom)
-                    {
-                        tile = thisTile;
-                    }
-                }
-            }
-            return tile;
-        }
-
         private void AddBitmapRequestToList(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom, WaveFormDisplayType displayType)
         {
             // Make sure we don't slow down GetTile() by creating a task and running LINQ queries on another thread
@@ -399,7 +325,8 @@ namespace Sessions.GenericControls.Services
                     WaveFormTile existingTile = null;
                     lock (_lockerTiles)
                     {
-                        existingTile = _tiles.FirstOrDefault(obj => obj.ContentOffset.X == boundsBitmap.X && obj.Zoom == zoom);
+                        //existingTile = _tiles.FirstOrDefault(obj => obj.ContentOffset.X == boundsBitmap.X && obj.Zoom == zoom);
+                        existingTile = _cacheService.GetTile(boundsBitmap.X, zoom);
                     }
 
                     lock (_lockerRequests)

@@ -270,10 +270,11 @@ namespace Sessions.GenericControls.Controls
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
-            //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
+            Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
             float deltaZoom = Zoom / e.Zoom;
             float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
-            OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
+            //OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
+            OnInvalidateVisual();
         }
 
         public void InvalidateBitmaps()
@@ -438,7 +439,9 @@ namespace Sessions.GenericControls.Controls
             };
             var tiles = _waveFormCacheService.GetTiles(request);
 
-            //Console.WriteLine("WaveFormControl - #### startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+            //Console.WriteLine("WaveFormControl - GetTiles - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfDirtyTilesToDraw: {4} firstTileX: {5}", request.StartTile, request.StartTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfDirtyTilesToDraw, (request.StartTile * tileSize) - ContentOffset.X);
+            //Console.WriteLine("WaveFormControl - Draw - GetTiles - ContentOffset.X: {0} context.DirtyRect.X: {1} tileSize: {2} deltaZoom: {3}", ContentOffset.X, context.DirtyRect.X, tileSize, deltaZoom);
+            //Console.WriteLine("WaveFormControl - Draw - GetTiles - startTile: {0} endTile: {1} numberOfDirtyTilesToDraw: {2}", request.StartTile, request.EndTile, numberOfDirtyTilesToDraw);
             foreach (var tile in tiles)
             {
                 float tileDeltaZoom = Zoom / tile.Zoom;
@@ -446,14 +449,15 @@ namespace Sessions.GenericControls.Controls
                 float tileWidth = tileSize * tileDeltaZoom;
                 float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
-                //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
+                //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
-                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
+                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, tileHeight), tile.Image.ImageSize, tile.Image.Image);
 
                 // Debug overlay
-                //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-                //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+//                string debugText = string.Format("{0:0.0}", tile.Zoom);
+//                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
+//                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
         }
 

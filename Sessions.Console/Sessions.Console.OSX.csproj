@@ -18,10 +18,10 @@
     <DefineConstants>DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>True</Externalconsole>
     <AssemblyName>Sessions</AssemblyName>
     <Commandlineparameters>"/Volumes/Data1/Flac/Radiohead/OK Computer/"</Commandlineparameters>
     <ConsolePause>False</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>

@@ -17,7 +17,6 @@
 
 using System;
 using NUnit.Framework;
-using Moq;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services;
@@ -27,6 +26,8 @@ using Sessions.Sound.AudioFiles;
 using System.Threading;
 using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound;
+using Sessions.GenericControls.Services.Objects;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.GenericControls.IntegrationTests
 {
@@ -75,7 +76,7 @@ namespace Sessions.GenericControls.IntegrationTests
         }
 
         [Test]
-        public void ShouldGeneratePeakFile()
+        public void ShouldGenerateOrLoadPeakFile()
         {
             // Arrange
             RenderingService.GeneratePeakFileBegunEvent += (sender, e) => {
@@ -87,11 +88,49 @@ namespace Sessions.GenericControls.IntegrationTests
             RenderingService.GeneratePeakFileEndedEvent += (sender, e) => {
                 Console.WriteLine("GeneratePeakFileEndedEvent");
             };
+            RenderingService.LoadedPeakFileSuccessfullyEvent += (sender, e) => {
+                Console.WriteLine("LoadedPeakFileSuccessfullyEvent");
+            };
 
             // Act
             var finished = new ManualResetEvent(false);
             RenderingService.LoadPeakFile(GetTestAudioFile());
-            Assert.IsFalse(finished.WaitOne(100000));
+            Assert.IsFalse(finished.WaitOne(5000));
+        }
+
+        [Test]
+        public void RequestBitmap()
+        {
+            // Arrange
+            RenderingService.GeneratePeakFileBegunEvent += (sender, e) => {
+                Console.WriteLine("GeneratePeakFileBegunEvent");
+            };
+            RenderingService.GeneratePeakFileProgressEvent += (sender, e) => {
+                Console.WriteLine("GeneratePeakFileProgressEvent - percentageDone: {0}", e.PercentageDone);
+            };
+            RenderingService.GeneratePeakFileEndedEvent += (sender, e) => {
+                Console.WriteLine("GeneratePeakFileEndedEvent");
+            };
+            RenderingService.LoadedPeakFileSuccessfullyEvent += (sender, e) => {
+                Console.WriteLine("LoadedPeakFileSuccessfullyEvent");
+            };
+            RenderingService.GenerateWaveFormBitmapBegunEvent += (sender, e) => {
+                Console.WriteLine("GenerateWaveFormBitmapBegunEvent");
+            };
+            RenderingService.GenerateWaveFormBitmapEndedEvent += (sender, e) => {
+                Console.WriteLine("GenerateWaveFormBitmapEndedEvent");
+            };
+
+            // Act
+            var finished = new ManualResetEvent(false);
+            RenderingService.LoadPeakFile(GetTestAudioFile());
+            Assert.IsFalse(finished.WaitOne(5000));
+            RenderingService.RequestBitmap(new WaveFormBitmapRequest(){
+                BoundsBitmap = new BasicRectangle(0, 0, 50, 100),
+                BoundsWaveForm = new BasicRectangle(0, 0, 800, 100),
+                Zoom = 5
+            });
+            Assert.IsFalse(finished.WaitOne(5000));
         }
 	}
 }

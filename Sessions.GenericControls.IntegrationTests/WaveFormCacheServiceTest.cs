@@ -17,11 +17,49 @@
 
 using System;
 using NUnit.Framework;
+using Sessions.GenericControls.Services.Interfaces;
+using Moq;
+using Sessions.GenericControls.Services;
+using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Services.Objects;
 
 namespace Sessions.GenericControls.IntegrationTests
 {
 	[TestFixture]
 	public class WaveFormCacheServiceTest   
 	{
+        Mock<IWaveFormRenderingService> _mockRenderingService;
+        Mock<ITileCacheService> _mockCacheService;
+        IWaveFormCacheService _cacheService;
+
+        [SetUp]
+        public void InitializeTests()
+        {
+            _mockRenderingService = new Mock<IWaveFormRenderingService>();
+            _mockRenderingService.Setup(m => m.FlushCache());
+            _mockRenderingService.Setup(m => m.LoadPeakFile(It.IsAny<AudioFile>()));
+            _mockRenderingService.Setup(m => m.RequestBitmap(It.IsAny<WaveFormBitmapRequest>()));
+            _mockCacheService = new Mock<ITileCacheService>();
+            _cacheService = new WaveFormCacheService(_mockRenderingService.Object, _mockCacheService.Object);
+
+//            var memoryGraphicsContextMock = new Mock<IMemoryGraphicsContext>();
+//            var memoryGraphicsContextFactoryMock = new Mock<IMemoryGraphicsContextFactory>();
+//            memoryGraphicsContextFactoryMock.Setup(m => m.CreateMemoryGraphicsContext(It.IsAny<float>(), It.IsAny<float>()))
+//                                            .Returns(() => memoryGraphicsContextMock.Object);
+//
+//            base.SetMemoryGraphicsContextFactory(memoryGraphicsContextFactoryMock.Object);
+        }
+
+        [Test]
+        public void Test()
+        {
+
+            var audioFile = new AudioFile();
+            audioFile.ArtistName = "ArtistName";
+            audioFile.AlbumTitle = "AlbumTitle";
+            audioFile.Title = "SongTitle";
+
+            _cacheService.LoadPeakFile(audioFile);
+        }
 	}
 }

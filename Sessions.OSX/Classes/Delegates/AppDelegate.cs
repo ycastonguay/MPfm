@@ -50,8 +50,11 @@ namespace Sessions.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<IDisposableImageFactory, DisposableImageFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   
+
+            Bootstrapper.GetContainer().Register<ITileCacheService, TileCacheService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();   
+
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();

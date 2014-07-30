@@ -19,9 +19,6 @@ using System;
 using NUnit.Framework;
 using Moq;
 using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Services.Interfaces;
-using Sessions.GenericControls.Services;
-using Sessions.Sound.PeakFiles;
 
 namespace Sessions.GenericControls.IntegrationTests
 {

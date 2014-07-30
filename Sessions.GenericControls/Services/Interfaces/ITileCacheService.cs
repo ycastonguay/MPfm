@@ -16,24 +16,22 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.Sound.AudioFiles;
 
 namespace Sessions.GenericControls.Services.Interfaces
 {
-    public interface IWaveFormCacheService
+    public interface ITileCacheService
     {
-        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
-        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
-        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
-        event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
-        event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
-        event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
-        //bool IsEmpty { get; }
+        int Count { get; }
 
-        void FlushCache();
-        void LoadPeakFile(AudioFile audioFile);
-        WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
-        List<WaveFormTile> GetTiles(WaveFormBitmapRequest request);
+        void Flush();
+        void AddTile(WaveFormTile tile, bool isScrollBar);
+        WaveFormTile GetTile(float contentOffsetX, bool isScrollBar);
+        WaveFormTile GetTile(float contentOffsetX, float zoom);
+
+        List<WaveFormTile> GetTilesForPosition(float x, float zoom);
+        List<WaveFormTile> GetTilesToFillBounds(float zoom, BasicRectangle bounds);
     }
 }
