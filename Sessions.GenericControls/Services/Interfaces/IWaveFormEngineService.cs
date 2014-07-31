@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.GenericControls.Services.Interfaces
 {
@@ -33,5 +34,6 @@ namespace Sessions.GenericControls.Services.Interfaces
         void LoadPeakFile(AudioFile audioFile);
         WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
         List<WaveFormTile> GetTiles(WaveFormBitmapRequest request);
+        WaveFormBitmapRequest GetTilesRequest(float offsetX, float zoom, BasicRectangle controlFrame, BasicRectangle dirtyRect, WaveFormDisplayType displayType);
     }
 }

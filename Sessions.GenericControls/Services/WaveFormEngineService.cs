@@ -23,6 +23,7 @@ using Sessions.GenericControls.Services.Events;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Helpers;
 
 namespace Sessions.GenericControls.Services
 {
@@ -114,18 +115,36 @@ namespace Sessions.GenericControls.Services
             _waveFormRenderingService.LoadPeakFile(audioFile);
         }
 
+        public WaveFormBitmapRequest GetTilesRequest(float offsetX, float zoom, BasicRectangle controlFrame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
+        {
+            // This needs to be added in a service or helper, and unit tested
+            int startDirtyTile = TileHelper.GetStartDirtyTile(offsetX, dirtyRect.X, zoom, TileSize);
+            int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize);
+            var request = new WaveFormBitmapRequest()
+            {
+                StartTile = startDirtyTile,
+                EndTile = endDirtyTile,
+                TileSize = TileSize,
+                BoundsWaveForm = controlFrame,
+                Zoom = zoom,
+                DisplayType = displayType
+            };
+
+            return request;
+        }
+
         public List<WaveFormTile> GetTiles(WaveFormBitmapRequest request)
         {
-            if (request.Zoom != _lastZoom && request.Zoom > 1)
-            {
-                lock (_lockerCache)
-                {
-                    // Bug: when requesting the smaller tiles, the zoom changes
-                    //Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
-                    _lastZoom = request.Zoom;
-                    _cacheService.Flush();
-                }
-            }
+//            if (request.Zoom != _lastZoom && request.Zoom > 1)
+//            {
+//                lock (_lockerCache)
+//                {
+//                    // Bug: when requesting the smaller tiles, the zoom changes
+//                    //Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
+//                    _lastZoom = request.Zoom;
+//                    _cacheService.Flush();
+//                }
+//            }
 
             float zoomThreshold = (float)Math.Floor(request.Zoom);
             var boundsWaveFormAdjusted = new BasicRectangle(0, 0, request.BoundsWaveForm.Width * zoomThreshold, request.BoundsWaveForm.Height);
@@ -134,7 +153,8 @@ namespace Sessions.GenericControls.Services
             {
                 float tileX = a * request.TileSize;
                 //Console.WriteLine("WaveFormEngineService - GetTiles - Requesting tile from cache at tileX: {0}", tileX);
-                var tile = _cacheService.GetTile(tileX, request.IsScrollBar);
+                //var tile = _cacheService.GetTile(tileX, request.IsScrollBar);
+                var tile = _cacheService.GetTile(tileX, zoomThreshold);
                 //if (tile != null)
                     //Console.WriteLine("WaveFormEngineService - GetTiles - Found tile in cache! tileOffsetX: {0} tileZoom: {1}", tile.ContentOffset.X, tile.Zoom);
                 if (tile == null)

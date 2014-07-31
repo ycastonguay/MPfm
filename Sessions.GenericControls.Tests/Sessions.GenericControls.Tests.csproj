@@ -55,6 +55,7 @@
     <Compile Include="TileCacheServiceTest.cs" />
     <Compile Include="WaveFormRequestServiceTest.cs" />
     <Compile Include="WaveFormEngineServiceTest.cs" />
+    <Compile Include="TileHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.GenericControls\Sessions.GenericControls.csproj">
