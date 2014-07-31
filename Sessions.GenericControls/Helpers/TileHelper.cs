@@ -24,8 +24,6 @@ namespace Sessions.GenericControls.Helpers
 {
     public static class TileHelper
     {
-
-
         public static WaveFormTile GetOptimalTileAtZoom(IEnumerable<WaveFormTile> tiles, float zoom)
         {
             // We don't want to scale down bitmaps, it is more CPU intensive than scaling up
@@ -49,8 +47,13 @@ namespace Sessions.GenericControls.Helpers
         {
             // Make zoom go in steps (1, 2, 3, etc.)
             float deltaZoom = (float)(zoom/Math.Floor(zoom));
+            //float deltaZoom = zoom;
             //float deltaZoom = (float)Math.Floor(zoom);
-            return (int)Math.Floor((x * deltaZoom) / tileSize);
+            //deltaZoom = 1;
+            int index = (int)Math.Floor((x * deltaZoom) / tileSize);
+            //int index = (int)Math.Floor((x / deltaZoom) / tileSize);
+            Console.WriteLine("TileHelper - GetTileIndexAt - x: {0} zoom: {1} tileSize: {2} --> index: {3}", x, zoom, tileSize, index);
+            return index;
         }
 
         public static int GetStartDirtyTile(float offsetX, float dirtyRectX, float zoom, int tileSize)
@@ -61,8 +64,8 @@ namespace Sessions.GenericControls.Helpers
 
         public static int GetEndDirtyTile(float offsetX, float dirtyRectX, float dirtyRectWidth, float zoom, int tileSize)
         {
-            //return (int)Math.Floor((offsetX + dirtyRectX) / ((float)TileSize * deltaZoom));
-            return GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, tileSize);
+            //int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
+            return GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, tileSize) + 1;
         }
     }
 }

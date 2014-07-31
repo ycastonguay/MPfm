@@ -97,7 +97,7 @@ namespace Sessions.GenericControls.Services
                 };
 
                 // Check if a tile already exists
-                WaveFormTile existingTile = _cacheService.GetTile(boundsBitmap.X, zoom);
+                WaveFormTile existingTile = _cacheService.GetTile(boundsBitmap.X, zoom, false);
                 lock (_lockerRequests)
                 {
                     // Check if bitmap has already been requested in queue

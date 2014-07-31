@@ -120,6 +120,7 @@ namespace Sessions.GenericControls.Services
             // This needs to be added in a service or helper, and unit tested
             int startDirtyTile = TileHelper.GetStartDirtyTile(offsetX, dirtyRect.X, zoom, TileSize);
             int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize);
+            Console.WriteLine("WaveFormEngineService - GetTilesRequest - offsetX: {0} zoom: {1} startDirtyTile: {2} endDirtyTile: {3}", offsetX, zoom, startDirtyTile, endDirtyTile);
             var request = new WaveFormBitmapRequest()
             {
                 StartTile = startDirtyTile,
@@ -154,7 +155,7 @@ namespace Sessions.GenericControls.Services
                 float tileX = a * request.TileSize;
                 //Console.WriteLine("WaveFormEngineService - GetTiles - Requesting tile from cache at tileX: {0}", tileX);
                 //var tile = _cacheService.GetTile(tileX, request.IsScrollBar);
-                var tile = _cacheService.GetTile(tileX, zoomThreshold);
+                var tile = _cacheService.GetTile(tileX, zoomThreshold, request.IsScrollBar);
                 //if (tile != null)
                     //Console.WriteLine("WaveFormEngineService - GetTiles - Found tile in cache! tileOffsetX: {0} tileZoom: {1}", tile.ContentOffset.X, tile.Zoom);
                 if (tile == null)

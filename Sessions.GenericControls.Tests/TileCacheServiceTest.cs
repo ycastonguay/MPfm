@@ -84,7 +84,7 @@ namespace Sessions.GenericControls.Tests
                     Zoom = zoom
                 };
                 Service.AddTile(tile, false);
-                var newTile = Service.GetTile(offset.X, zoom);
+                var newTile = Service.GetTile(offset.X, zoom, false);
 
                 Assert.AreEqual(tile, newTile);
             }  
@@ -114,7 +114,7 @@ namespace Sessions.GenericControls.Tests
             [Test]
             public void ShouldAddAndReturnTile()
             {                
-                var newTile = Service.GetTile(_offset.X, _zoom);
+                var newTile = Service.GetTile(_offset.X, _zoom, false);
 
                 Assert.AreEqual(_tile, newTile);
             }  
@@ -122,7 +122,7 @@ namespace Sessions.GenericControls.Tests
             [Test]
             public void ShouldReturnNull()
             {                
-                var newTile = Service.GetTile(_offset.X, 1);
+                var newTile = Service.GetTile(_offset.X, 1, false);
 
                 Assert.IsNull(newTile);
             } 

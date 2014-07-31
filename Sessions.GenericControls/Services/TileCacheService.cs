@@ -67,25 +67,15 @@ namespace Sessions.GenericControls.Services
             }
         }
 
-        public WaveFormTile GetTile(float contentOffsetX, bool isScrollBar)
+        public WaveFormTile GetTile(float contentOffsetX, float zoom, bool isScrollBar)
         {
             WaveFormTile tile = null;
             lock (_lockerCache)
             {
                 if(isScrollBar)
-                    tile = _tileCacheForScrollBar.FirstOrDefault(x => x.ContentOffset.X == contentOffsetX);
+                    tile = _tileCacheForScrollBar.FirstOrDefault(x => x.ContentOffset.X == contentOffsetX && x.Zoom == zoom);
                 else
-                    tile = _tileCache.FirstOrDefault(x => x.ContentOffset.X == contentOffsetX);
-            }
-            return tile;
-        }
-
-        public WaveFormTile GetTile(float contentOffsetX, float zoom)
-        {
-            WaveFormTile tile = null;
-            lock (_lockerCache)
-            {
-                tile = _tileCache.FirstOrDefault(x => x.ContentOffset.X == contentOffsetX && x.Zoom == zoom);
+                    tile = _tileCache.FirstOrDefault(x => x.ContentOffset.X == contentOffsetX && x.Zoom == zoom);
             }
             return tile;
         }

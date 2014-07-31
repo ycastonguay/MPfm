@@ -89,16 +89,11 @@ namespace Sessions.GenericControls.Tests
             {
                 // Arrange
                 PrepareAllTilesAt100Percent();
-                float zoom = 1;
-                float offsetX = 0;
                 var dirtyRect = new BasicRectangle(0, 0, ControlFrame.Width, ControlFrame.Height);
+                var request = Service.GetTilesRequest(0, 1, ControlFrame, dirtyRect, WaveFormDisplayType.Stereo);
 
                 // Act
-                var request = Service.GetTilesRequest(offsetX, zoom, ControlFrame, dirtyRect, WaveFormDisplayType.Stereo);
                 var tiles = Service.GetTiles(request);
-
-                foreach (var tile in tiles)
-                    Console.WriteLine("---> Returned tile offsetX: {0} zoom: {1}", tile.ContentOffset.X, tile.Zoom);
 
                 //Assert.IsTrue(_tilesAt100Percent.Except(tiles).ToList().Count == 0);
                 Assert.IsTrue(_tilesAt100Percent.SequenceEqual(tiles));
@@ -109,16 +104,11 @@ namespace Sessions.GenericControls.Tests
             {
                 // Arrange
                 PrepareAllTilesAt100Percent();
-                float zoom = 1.2f;
-                float offsetX = 0;
                 var dirtyRect = new BasicRectangle(0, 0, ControlFrame.Width, ControlFrame.Height);
+                var request = Service.GetTilesRequest(0, 1.2f, ControlFrame, dirtyRect, WaveFormDisplayType.Stereo);
 
                 // Act
-                var request = Service.GetTilesRequest(offsetX, zoom, ControlFrame, dirtyRect, WaveFormDisplayType.Stereo);
                 var tiles = Service.GetTiles(request);
-
-                foreach (var tile in tiles)
-                    Console.WriteLine("---> Returned tile offsetX: {0} zoom: {1}", tile.ContentOffset.X, tile.Zoom);
 
                 Assert.IsTrue(_tilesAt100Percent.SequenceEqual(tiles));
             }
@@ -128,16 +118,14 @@ namespace Sessions.GenericControls.Tests
             {
                 // Arrange
                 PrepareAllTilesAt100Percent();
-                float zoom = 2f;
-                float offsetX = 0;
                 var dirtyRect = new BasicRectangle(0, 0, ControlFrame.Width - 50, ControlFrame.Height);
+                var request = Service.GetTilesRequest(0, 2, ControlFrame, dirtyRect, WaveFormDisplayType.Stereo);
 
                 // Act
-                var request = Service.GetTilesRequest(offsetX, zoom, ControlFrame, dirtyRect, WaveFormDisplayType.Stereo);
                 var tiles = Service.GetTiles(request);
 
-                foreach (var tile in tiles)
-                    Console.WriteLine("---> Returned tile offsetX: {0} zoom: {1}", tile.ContentOffset.X, tile.Zoom);
+//                foreach (var tile in tiles)
+//                    Console.WriteLine("---> Returned tile offsetX: {0} zoom: {1}", tile.ContentOffset.X, tile.Zoom);
 
                 // Should only return the first five tiles (i.e. we are seeing only half of the content)
                 var expectedTiles = new List<WaveFormTile>();

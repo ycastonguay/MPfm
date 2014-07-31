@@ -35,13 +35,21 @@ namespace Sessions.GenericControls.Tests
         {
             static object[] TestCases =
             {
-                new object[] { 0,   1, 0 },
-                new object[] { 50,  1, 1 },
-                new object[] { 100, 1, 2 },
+                new object[] { 0,   1.0f, 0 },
+                new object[] { 40,  1.0f, 0 },
+                new object[] { 50,  1.0f, 1 },
+                new object[] { 80,  1.0f, 1 },
+                new object[] { 100, 1.0f, 2 },
 
-                new object[] { 0,   2, 0 },
-                new object[] { 50,  2, 1 },
-                new object[] { 100, 2, 2 }
+                new object[] { 0,   1.5f, 0 },
+                new object[] { 40,  1.5f, 0 },
+                new object[] { 50,  1.5f, 1 },
+                new object[] { 80,  1.5f, 1 },
+                new object[] { 100, 1.5f, 2 },
+
+                new object[] { 0,   2.0f, 0 },
+                new object[] { 50,  2.0f, 1 },
+                new object[] { 100, 2.0f, 2 }
             };
 
             [SetUp]
@@ -57,72 +65,5 @@ namespace Sessions.GenericControls.Tests
                 Assert.AreEqual(expectedValue, value);
             }  
         }
-
-//        [TestFixture]
-//        public class GetStartDirtyTileTest : TileHelperTest
-//        {
-//            static object[] TestCases =
-//            {
-//                new object[] { 0,   0,  1, 0 },
-//                new object[] { 50,  0,  1, 1 },
-//                new object[] { 100, 0,  1, 2 },
-//
-//                new object[] { 0,   50, 1, 1 },
-//                new object[] { 50,  50, 1, 2 },
-//                new object[] { 100, 50, 1, 3 },
-//
-//                new object[] { 0,   0,  2, 0 },
-//                new object[] { 50,  0,  2, 1 },
-//                new object[] { 100, 0,  2, 2 },
-//
-//                new object[] { 0,   50, 2, 1 },
-//                new object[] { 50,  50, 2, 2 },
-//                new object[] { 100, 50, 2, 3 }
-//            };
-//
-//            [SetUp]
-//            public void PrepareTest()
-//            {
-//                PrepareTests();
-//            }
-//
-//            [Test, TestCaseSource("TestCases")]
-//            public void ExecuteTestCases(float offsetX, float dirtyRectX, float zoom, int expectedValue)
-//            {
-//                int value = TileHelper.GetStartDirtyTile(offsetX, dirtyRectX, zoom, TileSize);
-//                Assert.AreEqual(expectedValue, value);
-//            }  
-//        }
-//
-//        // Is this necessary to test when we know the only difference between this and GetTileAt is an addition?
-//        [TestFixture]
-//        public class GetEndDirtyTileTest : TileHelperTest
-//        {
-//            static object[] TestCases =
-//            {
-//                new object[] { 0,   0,  100, 1, 2 },
-//                new object[] { 50,  0,  100, 1, 3 },
-//                new object[] { 100, 0,  100, 1, 4 },
-//
-//                new object[] { 0,   0,  100, 2, 2 },
-//                new object[] { 50,  0,  100, 2, 3 },
-//                new object[] { 100, 0,  100, 2, 4 },
-//
-//                new object[] { 0,   0, 450, 2, 9 }
-//            };
-//
-//            [SetUp]
-//            public void PrepareTest()
-//            {
-//                PrepareTests();
-//            }
-//
-//            [Test, TestCaseSource("TestCases")]
-//            public void ExecuteTestCases(float offsetX, float dirtyRectX, float dirtyRectWidth, float zoom, int expectedValue)
-//            {
-//                int value = TileHelper.GetEndDirtyTile(offsetX, dirtyRectX, dirtyRectWidth, zoom, TileSize);
-//                Assert.AreEqual(expectedValue, value);
-//            }  
-//        }
 	}
 }

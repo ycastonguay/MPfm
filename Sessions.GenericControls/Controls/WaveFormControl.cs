@@ -424,18 +424,7 @@ namespace Sessions.GenericControls.Controls
 
         private void DrawTiles(IGraphicsContext context, int tileSize, float realScrollBarHeight)
         {
-            float deltaZoom = (float) (Zoom/Math.Floor(Zoom));
-            int startDirtyTile = (int)Math.Floor((ContentOffset.X + context.DirtyRect.X) / ((float)tileSize * deltaZoom));
-            int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
-            var request = new WaveFormBitmapRequest()
-            {
-                StartTile = startDirtyTile,
-                EndTile = startDirtyTile + numberOfDirtyTilesToDraw,
-                TileSize = tileSize,
-                BoundsWaveForm = Frame,
-                Zoom = _zoom,
-                DisplayType = _displayType
-            };
+            var request = _waveFormEngineService.GetTilesRequest(ContentOffset.X, Zoom, Frame, context.DirtyRect, _displayType);
             var tiles = _waveFormEngineService.GetTiles(request);
 
             //Console.WriteLine("WaveFormControl - GetTiles - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfDirtyTilesToDraw: {4} firstTileX: {5}", request.StartTile, request.StartTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfDirtyTilesToDraw, (request.StartTile * tileSize) - ContentOffset.X);

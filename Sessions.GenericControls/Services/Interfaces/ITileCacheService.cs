@@ -28,8 +28,7 @@ namespace Sessions.GenericControls.Services.Interfaces
 
         void Flush();
         void AddTile(WaveFormTile tile, bool isScrollBar);
-        WaveFormTile GetTile(float contentOffsetX, bool isScrollBar);
-        WaveFormTile GetTile(float contentOffsetX, float zoom);
+        WaveFormTile GetTile(float contentOffsetX, float zoom, bool isScrollBar);
 
         List<WaveFormTile> GetTilesForPosition(float x, float zoom);
         List<WaveFormTile> GetTilesToFillBounds(float zoom, BasicRectangle bounds);
