@@ -99,6 +99,7 @@ namespace Sessions.OSX.Classes.Controls
         public override void DrawRect(RectangleF dirtyRect)
         {
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
 
             if (_isMouseDown)
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
@@ -111,6 +112,8 @@ namespace Sessions.OSX.Classes.Controls
                 CoreGraphicsHelper.DrawText(new RectangleF(0, 0, column.Width, Bounds.Height), x + 1, 2, column.HeaderCell.Title, "Roboto", 10, NSColor.FromDeviceRgba(0.9f, 0.9f, 0.9f, 1));
                 x += column.Width + 3;
             }
+
+            context.RestoreState();
         }
     }
 }

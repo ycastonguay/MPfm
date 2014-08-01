@@ -127,6 +127,7 @@ namespace Sessions.OSX.Classes.Controls
         public override void DrawRect(RectangleF dirtyRect)
         {
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
 
             if (CGColor.Equals(BackgroundColor1, BackgroundColor2))
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor1);
@@ -139,6 +140,8 @@ namespace Sessions.OSX.Classes.Controls
                 CoreGraphicsHelper.FillRect(context, rectHeader, HeaderColor1);
                 //CocoaHelper.DrawLine(context, new PointF[2] { new PointF(0, Bounds.Height - 24), new PointF(Bounds.Width, Bounds.Height - 24) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
             }
+
+            context.RestoreState();
         }
 
         RectangleF Get1pxRect(RectangleF rect)

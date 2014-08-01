@@ -34,7 +34,7 @@ namespace Sessions.OSX.Classes.Helpers
             if (string.IsNullOrEmpty(text))
                 return 0;
 
-            context.SaveState();
+            //context.SaveState();
             PointF pos = context.TextPosition;
             context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
             context.TextMatrix = CGAffineTransform.MakeScale(1.0f, -1.0f);
@@ -43,49 +43,49 @@ namespace Sessions.OSX.Classes.Helpers
             context.SetTextDrawingMode(CGTextDrawingMode.Invisible);
             context.ShowTextAtPoint(pos.X, pos.Y, text);
             PointF pos2 = context.TextPosition;
-            context.RestoreState();
-            
+            //context.RestoreState();
+
             return pos2.X - pos.X;
         }
 
         public static void DrawRect(CGContext context, RectangleF rect, CGColor color, float lineWidth)
         {
-            context.SaveState();
+            //context.SaveState();
             context.AddRect(rect);
-            context.Clip();
+            //context.Clip();
             context.SetLineWidth(lineWidth);
             context.SetStrokeColor(color);
             context.StrokeRect(rect);
-            context.RestoreState();
+            //context.RestoreState();
         }
-        
+
         public static void FillRect(CGContext context, RectangleF rect, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.AddRect(rect);
-            context.Clip();
+            //context.Clip();
             context.SetFillColor(color);
             context.FillRect(rect);
-            context.RestoreState();
+            //context.RestoreState();
         }
-        
+
         public static void DrawEllipsis(CGContext context, RectangleF rect, CGColor color, float lineWidth)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetStrokeColor(color);
             context.SetLineWidth(lineWidth);
             context.AddEllipseInRect(rect);
             context.StrokePath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void FillEllipsis(CGContext context, RectangleF rect, CGColor color, float lineWidth)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.AddEllipseInRect(rect);
             context.FillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void DrawLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
@@ -130,7 +130,7 @@ namespace Sessions.OSX.Classes.Helpers
             if (points.Count == 0)
                 throw new ArgumentException("The line must have at least one point.");
 
-            context.SaveState();
+            //context.SaveState();
             context.SetStrokeColor(color);
             context.SetLineWidth(lineWidth);
             context.SetLineCap(CGLineCap.Round);
@@ -143,58 +143,58 @@ namespace Sessions.OSX.Classes.Helpers
             if (closePath)
                 context.ClosePath();
             context.StrokePath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void FillEllipsis(CGContext context, RectangleF rect, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.FillEllipseInRect(rect);
             context.FillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
-        
+
         public static void FillPath(CGContext context, CGPath path, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.AddPath(path);
             context.FillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void StrokePath(CGContext context, CGPath path, float pathWidth, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetLineWidth(pathWidth);
             context.SetStrokeColor(color);
             context.AddPath(path);
             context.StrokePath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void EOFillPath(CGContext context, CGPath path, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.AddPath(path);
             context.EOFillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
-        
+
         public static void FillGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2, bool isHorizontal)
         {
             CGGradient gradientBackground;
             CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-            
+
             float[] locationListBackground = new float[] { 1.0f, 0.0f };
             List<float> colorListBackground = new List<float>();
             colorListBackground.AddRange(color1.Components);
             colorListBackground.AddRange(color2.Components);
             gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
-            
-            context.SaveState();
+
+            //context.SaveState();
             context.AddRect(rect);
             context.Clip();
             //context.ScaleCTM(1, -1);
@@ -202,29 +202,29 @@ namespace Sessions.OSX.Classes.Helpers
                 context.DrawLinearGradient(gradientBackground, new PointF(rect.X, rect.Y), new PointF(rect.X + rect.Width, rect.Y + rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
             else
                 context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-            context.RestoreState();
+            //context.RestoreState();
         }       
-        
+
         public static void DrawTextAtPoint(CGContext context, PointF pt, string text, string fontName, float fontSize, NSColor fontColor)
         {
-            context.SaveState();
+            //context.SaveState();
             NSString str = new NSString(text);
             var dict = new NSMutableDictionary();
             dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
             dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
             str.DrawString(pt, dict);
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void DrawTextInRect(CGContext context, RectangleF rect, string text, string fontName, float fontSize, NSColor fontColor)
         {
-            context.SaveState();
+            //context.SaveState();
             NSString str = new NSString(text);
             var dict = new NSMutableDictionary();
             dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
             dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
             str.DrawString(rect, dict);
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static SizeF MeasureText(CGContext context, string text, string fontName, float fontSize)
@@ -238,7 +238,7 @@ namespace Sessions.OSX.Classes.Helpers
 
         public static void DrawText(CGContext context, string text, string fontName, float fontSize, float translateHeight, float x, float y)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
             context.SetTextDrawingMode(CGTextDrawingMode.Fill);
             context.SetFillColor(new CGColor(1, 1));
@@ -249,7 +249,7 @@ namespace Sessions.OSX.Classes.Helpers
             context.TranslateCTM(0, translateHeight);
             context.ScaleCTM(1, -1);
             context.ShowTextAtPoint(x, y, text);
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void DrawText(RectangleF rect, float x, float y, string text, string fontName, float fontSize, NSColor fontColor)

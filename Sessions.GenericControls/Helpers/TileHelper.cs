@@ -88,8 +88,8 @@ namespace Sessions.GenericControls.Helpers
             //float floorZoom = (float)(zoom/Math.Floor(zoom));
             //Console.WriteLine("DA FLOOR ZOOM: {0}", floorZoom);
             int tileIndex = GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, 1, tileSize);
-            //return tileIndex;// +1;
-            return tileIndex + (int)Math.Floor(zoom);
+            return tileIndex +1;
+            //return (int)(tileIndex + (zoom * (int)Math.Floor(zoom)));
             //return (int)((tileIndex * floorZoom) + 1);
         }
     }

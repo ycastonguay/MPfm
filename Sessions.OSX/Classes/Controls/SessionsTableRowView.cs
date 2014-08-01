@@ -88,10 +88,13 @@ namespace Sessions.OSX.Classes.Controls
             //Console.WriteLine("DrawBackground");
 
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
             CoreGraphicsHelper.FillRect(context, dirtyRect, new CGColor(1, 1, 1));
 
             if(IsBorderVisible)
                 CoreGraphicsHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.7f, 0.7f, 0.7f));
+
+            context.RestoreState();
         }
 
         public override void DrawSelection(RectangleF dirtyRect)
@@ -102,7 +105,9 @@ namespace Sessions.OSX.Classes.Controls
                 return;
 
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
             CoreGraphicsHelper.FillRect(context, dirtyRect, new CGColor(1, 0, 0));
+            context.RestoreState();
         }
     }
 }

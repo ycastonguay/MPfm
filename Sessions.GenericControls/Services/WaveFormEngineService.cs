@@ -120,7 +120,7 @@ namespace Sessions.GenericControls.Services
             // This needs to be added in a service or helper, and unit tested
             int startDirtyTile = TileHelper.GetStartDirtyTile(offsetX, dirtyRect.X, zoom, TileSize);
             int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize);
-            Console.WriteLine("WaveFormEngineService - GetTilesRequest - offsetX: {0} zoom: {1} startDirtyTile: {2} endDirtyTile: {3}", offsetX, zoom, startDirtyTile, endDirtyTile);
+            //Console.WriteLine("WaveFormEngineService - GetTilesRequest - offsetX: {0} zoom: {1} startDirtyTile: {2} endDirtyTile: {3}", offsetX, zoom, startDirtyTile, endDirtyTile);
             var request = new WaveFormBitmapRequest()
             {
                 StartTile = startDirtyTile,
@@ -163,35 +163,37 @@ namespace Sessions.GenericControls.Services
                     // This is a hot line, and needs to be avoided as much as possible.
                     // the problem is that tiles vary in time in quality. 
                     // maybe as a first, when a tile at the right zoom is available, cache it locally so it isn't necessary to call the algo again.
-                    var availableTiles = _cacheService.GetTilesForPosition(tileX, request.Zoom);
+                    //var availableTiles = _cacheService.GetTilesForPosition(tileX, request.Zoom);
                     var boundsBitmap = new BasicRectangle(tileX, 0, TileSize, request.BoundsWaveForm.Height);
-                    if (availableTiles != null && availableTiles.Count > 0)
-                    {
-                        // TEMP: Add every tile for zoom == 100% (TESTING) -- This fixes the empty areas and proves the coveredAreaX technique doesn't work.
-                        var tileLowRes = availableTiles.FirstOrDefault(x => x.Zoom == 1);
-                        if (tileLowRes != null && !tiles.Contains(tileLowRes))
-                            tiles.Add(tileLowRes);
+                    _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
 
-                        // Get the tile with the zoom that is the closest to the current zoom threshold 
-                        tile = TileHelper.GetOptimalTileAtZoom(availableTiles, zoomThreshold);
-
-                        // If we could not find a tile at this zoom level, we need to generate one 
-                        if (tile.Zoom != zoomThreshold)
-                        {
-                            //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoomThreshold: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoomThreshold, tile.Zoom, boundsBitmap, request.BoundsWaveForm);
-                            _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
-                        } 
-                        else
-                        {
-                            _cacheService.AddTile(tile, request.IsScrollBar);
-                        }
-                    } 
-                    else
-                    {
-                        // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
-                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
-                        _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
-                    }
+//                    if (availableTiles != null && availableTiles.Count > 0)
+//                    {
+//                        // TEMP: Add every tile for zoom == 100% (TESTING) -- This fixes the empty areas and proves the coveredAreaX technique doesn't work.
+//                        var tileLowRes = availableTiles.FirstOrDefault(x => x.Zoom == 1);
+//                        if (tileLowRes != null && !tiles.Contains(tileLowRes))
+//                            tiles.Add(tileLowRes);
+//
+//                        // Get the tile with the zoom that is the closest to the current zoom threshold 
+//                        tile = TileHelper.GetOptimalTileAtZoom(availableTiles, zoomThreshold);
+//
+//                        // If we could not find a tile at this zoom level, we need to generate one 
+//                        if (tile.Zoom != zoomThreshold)
+//                        {
+//                            //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoomThreshold: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoomThreshold, tile.Zoom, boundsBitmap, request.BoundsWaveForm);
+//                            _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+//                        } 
+//                        else
+//                        {
+//                            _cacheService.AddTile(tile, request.IsScrollBar);
+//                        }
+//                    } 
+//                    else
+//                    {
+//                        // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
+//                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} zoomThreshold: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, request.BoundsWaveForm);
+//                        _requestService.RequestBitmap(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold, request.DisplayType);
+//                    }
                 }
 
                 //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, request.Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);

@@ -115,8 +115,10 @@ namespace Sessions.OSX.Classes.Controls
             base.DrawRect(dirtyRect);
             
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
             _control.Render(wrapper);
+            context.RestoreState();
         }
         
         public override void MouseUp(NSEvent theEvent)

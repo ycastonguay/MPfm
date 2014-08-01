@@ -439,13 +439,13 @@ namespace Sessions.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
-                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
+                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
                 //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, tileHeight), tile.Image.ImageSize, tile.Image.Image);
 
-                // Debug overlay
-                string debugText = string.Format("{0:0.0}", tile.Zoom);
-                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+//                // Debug overlay
+//                string debugText = string.Format("{0:0.0}", tile.Zoom);
+//                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
+//                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
         }
 

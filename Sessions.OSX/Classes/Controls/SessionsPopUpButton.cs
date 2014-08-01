@@ -105,6 +105,7 @@ namespace Sessions.OSX.Classes.Controls
         {
             float padding = 4;
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
 
             if (RoundedRadius == 0)
             {
@@ -166,6 +167,8 @@ namespace Sessions.OSX.Classes.Controls
             CoreGraphicsHelper.StrokePath(context, path, 1, triangleColor);
             if(_isMouseOver)
                 CoreGraphicsHelper.FillPath(context, path, triangleColor);
+
+            context.RestoreState();
         }
 
         RectangleF Get1pxRect(RectangleF rect)
