@@ -35,21 +35,27 @@ namespace Sessions.GenericControls.Tests
         {
             static object[] TestCases =
             {
-                new object[] { 0,   1.0f, 0 },
-                new object[] { 40,  1.0f, 0 },
-                new object[] { 50,  1.0f, 1 },
-                new object[] { 80,  1.0f, 1 },
-                new object[] { 100, 1.0f, 2 },
+                new object[] { 0,   1.0f, 1.0f, 0 },
+                new object[] { 40,  1.0f, 1.0f, 0 },
+                new object[] { 50,  1.0f, 1.0f, 1 },
+                new object[] { 80,  1.0f, 1.0f, 1 },
+                new object[] { 100, 1.0f, 1.0f, 2 },
 
-                new object[] { 0,   1.5f, 0 },
-                new object[] { 40,  1.5f, 0 },
-                new object[] { 50,  1.5f, 1 },
-                new object[] { 80,  1.5f, 1 },
-                new object[] { 100, 1.5f, 2 },
+                new object[] { 0,   1.5f, 1.0f, 0 },
+                new object[] { 50,  1.5f, 1.0f, 0 },
+                new object[] { 75,  1.5f, 1.0f, 1 },
+                new object[] { 100, 1.5f, 1.0f, 1 },
+                new object[] { 150, 1.5f, 1.0f, 2 },
 
-                new object[] { 0,   2.0f, 0 },
-                new object[] { 50,  2.0f, 1 },
-                new object[] { 100, 2.0f, 2 }
+                new object[] { 0,   2.0f, 1.0f, 0 },
+                new object[] { 50,  2.0f, 1.0f, 0 },
+                new object[] { 100, 2.0f, 1.0f, 1 },
+                new object[] { 150, 2.0f, 1.0f, 1 },
+                new object[] { 200, 2.0f, 1.0f, 2 },
+
+                new object[] { 0,   2.0f, 2.0f, 0 },
+                new object[] { 50,  2.0f, 2.0f, 1 },
+                new object[] { 100, 2.0f, 2.0f, 2 }
             };
 
             [SetUp]
@@ -59,9 +65,9 @@ namespace Sessions.GenericControls.Tests
             }
 
             [Test, TestCaseSource("TestCases")]
-            public void ExecuteTestCases(float x, float zoom, int expectedValue)
+            public void ExecuteTestCases(float x, float zoom, float tileZoom, int expectedValue)
             {
-                int value = TileHelper.GetTileIndexAt(x, zoom, TileSize);
+                int value = TileHelper.GetTileIndexAt(x, zoom, tileZoom, TileSize);
                 Assert.AreEqual(expectedValue, value);
             }  
         }
