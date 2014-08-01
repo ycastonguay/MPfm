@@ -28,7 +28,7 @@ using Sessions.OSX.Classes.Controls.Helpers;
 namespace Sessions.OSX.Classes.Controls
 {
     [Register("SessionsOutputMeterView")]
-    public class SessionsOutputMeterView : NSOpenGLView
+    public class SessionsOutputMeterView : NSView //NSOpenGLView
     {
         private OutputMeterControl _control;
 
@@ -61,14 +61,16 @@ namespace Sessions.OSX.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            GL.ClearColor(0, 0, 0, 0);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-            TestDraw();
-            GL.Flush();
+//            GL.ClearColor(0, 0, 0, 0);
+//            GL.Clear(ClearBufferMask.ColorBufferBit);
+//            TestDraw();
+//            GL.Flush();
             //base.DrawRect(dirtyRect);
-//            var context = NSGraphicsContext.CurrentContext.GraphicsPort;
-//            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
-//            _control.Render(wrapper);
+            var context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
+            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
+            _control.Render(wrapper);
+            context.RestoreState();
         }
 
         private void TestDraw()

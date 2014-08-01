@@ -77,9 +77,7 @@
     <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
     <Compile Include="Controls\TrackBarControl.cs" />
     <Compile Include="Controls\WaveFormControl.cs" />
-    <Compile Include="Controls\WaveFormScaleControl.cs">
-      <DependentUpon>WaveFormControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controls\WaveFormScaleControl.cs" />
     <Compile Include="Controls\FaderControl.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\OutputMeterControl.cs" />
