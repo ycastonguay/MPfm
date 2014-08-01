@@ -89,6 +89,7 @@ namespace Sessions.GenericControls.Controls
             }
             set
             {
+                var previousValue = _position;
                 _position = value;
 
                 // Don't bother if a peak file is loading
@@ -100,12 +101,18 @@ namespace Sessions.GenericControls.Controls
                 float cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
                 float scrollBarCursorX = positionPercentage * Frame.Width;
 
+                float previousValuePercentage = (float)previousValue / (float)Length;                
+                float previousValueX = (previousValuePercentage * ContentSize.Width) - ContentOffset.X;
+                previousValueX = (float)Math.Round(previousValueX * 2) / 2; // Round to 0.5
+
                 // Invalidate cursor
-                float zoomAdjustment = Math.Max(1, Zoom/4);
-                var rectCursor = new BasicRectangle(cursorX - (5 * zoomAdjustment), 0, 10 * zoomAdjustment, Frame.Height);
-				var rectCursorScrollBar = new BasicRectangle(scrollBarCursorX - (5 * zoomAdjustment), Frame.Height - 30, 10 * zoomAdjustment, 30);
+                var rectCursor = new BasicRectangle(cursorX - 5, 0, 15, Frame.Height);
+                var rectPreviousCursor = new BasicRectangle(previousValueX - 5, 0, 15, Frame.Height);
+                var rectCursorScrollBar = new BasicRectangle(scrollBarCursorX - 5, Frame.Height - ScrollBarHeight, 15, ScrollBarHeight);
+
+                rectCursor.Merge(rectPreviousCursor);
+                rectCursor.Merge(rectCursorScrollBar);
                 OnInvalidateVisualInRect(rectCursor);
-                OnInvalidateVisualInRect(rectCursorScrollBar); // WARNING: Maybe it is a better idea to merge the dirty rectangles.
             }
         }
 
@@ -118,6 +125,7 @@ namespace Sessions.GenericControls.Controls
             }
             set
             {
+                var previousValue = _secondaryPosition;
                 _secondaryPosition = value;
 
                 // Don't bother if a peak file is loading
@@ -128,8 +136,15 @@ namespace Sessions.GenericControls.Controls
                 float secondaryCursorX = (secondaryPositionPercentage * ContentSize.Width) - ContentOffset.X;
                 secondaryCursorX = (float)Math.Round(secondaryCursorX * 2) / 2; // Round to 0.5
 
-                float zoomAdjustment = Math.Max(1, Zoom / 4);
-                var rectCursor = new BasicRectangle(secondaryCursorX - (5 * zoomAdjustment), 0, 25 * zoomAdjustment, Frame.Height);
+                float previousValuePercentage = (float)previousValue / (float)Length;                
+                float previousValueX = (previousValuePercentage * ContentSize.Width) - ContentOffset.X;
+                previousValueX = (float)Math.Round(previousValueX * 2) / 2; // Round to 0.5
+
+                var rectCursor = new BasicRectangle(secondaryCursorX - 5, 0, 15, Frame.Height);
+                var rectPreviousCursor = new BasicRectangle(previousValueX - 5, 0, 15, Frame.Height);
+
+                // Calling two times = completely draw two times. It'd be a better idea to merge the dirty rects.
+                rectCursor.Merge(rectPreviousCursor);
                 OnInvalidateVisualInRect(rectCursor);
             }
         }
@@ -485,21 +500,21 @@ namespace Sessions.GenericControls.Controls
 
                 byte startAlpha = 0;
                 byte maxAlpha = 100;
-                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (30 * Zoom)));
-                var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
+                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (15 * Zoom)));
+                //var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
                 //var colorThumb = new BasicColor(69, 88, 101, (byte)(alpha * 1.5f));
-                var colorThumb = new BasicColor(182, 198, 209, (byte)(alpha));
+                var colorThumb = new BasicColor(182, 198, 209, alpha);
 
                 float visibleAreaWidth = (1 / Zoom) * Frame.Width;
                 float visibleAreaX = (1 / Zoom) * ContentOffset.X;
-                var rectScrollBar = new BasicRectangle(0, Frame.Height - ScrollBarHeight, Frame.Width, ScrollBarHeight);
+                //var rectScrollBar = new BasicRectangle(0, Frame.Height - ScrollBarHeight, Frame.Width, ScrollBarHeight);
                 var rectThumb = new BasicRectangle(visibleAreaX, Frame.Height - ScrollBarHeight, visibleAreaWidth, ScrollBarHeight);
                 //var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, Math.Max(0, visibleAreaX), realScrollBarHeight);
                 //var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Math.Max(0, Frame.Width - visibleAreaX - visibleAreaWidth), realScrollBarHeight);
                 //context.DrawRectangle(new BasicRectangle(visibleAreaX, Frame.Height - scrollBarHeight, visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
                 //context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
                 //context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());
-                context.DrawRectangle(rectScrollBar, new BasicBrush(colorVisibleArea), new BasicPen());
+                //context.DrawRectangle(rectScrollBar, new BasicBrush(colorVisibleArea), new BasicPen());
                 context.DrawRectangle(rectThumb, new BasicBrush(colorThumb), new BasicPen());
             }
         }
