@@ -54,6 +54,7 @@ namespace Sessions.iOS.Classes.Controls
             float padding = 6;
             float heightAvailable = Bounds.Height - (padding * 2); // 14 = height
             var context = UIGraphics.GetCurrentContext();
+            context.SaveState();
 
             // IDEA: Put the equalizer line in the Equalizer Presets screen (in UITableViewCell)
             // IDEA: Put the value of the band currently changing over the graph (i.e. +3.5dB)
@@ -92,6 +93,7 @@ namespace Sessions.iOS.Classes.Controls
                 x += (Bounds.Width - (padding * 2)) / (Preset.Bands.Count - 1);
             }
             CoreGraphicsHelper.DrawRoundedLine(context, points, UIColor.Yellow.CGColor, 2, false, false);
+            context.RestoreState();
         }
     }
 }

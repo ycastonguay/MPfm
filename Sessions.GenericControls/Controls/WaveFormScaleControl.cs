@@ -300,6 +300,9 @@ namespace Sessions.GenericControls.Controls
                 if (tickX >= 0 && tickX <= Frame.Width)
                 {
                     //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
+                    #if MACOSX || IOS
+                    context.SetPen(_penBorder);
+                    #endif
 
                     if(isMajorTick)
                         //    //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);

@@ -36,8 +36,10 @@ namespace Sessions.iOS.Classes.Controls
         {
             var screenSize = UIKitHelper.GetDeviceSize();
             var context = UIGraphics.GetCurrentContext();
+            context.SaveState();
 			CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainColor.CGColor);
             CoreGraphicsHelper.FillRect(context, new RectangleF(0, 42, screenSize.Width, 2), GlobalTheme.MainLightColor.CGColor);
+            context.RestoreState();
         }
 
         public override void LayoutSubviews()

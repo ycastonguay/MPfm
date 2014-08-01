@@ -44,7 +44,7 @@ namespace Sessions.iOS.Helpers
 			if (string.IsNullOrEmpty(text))
 				return 0;
 
-            context.SaveState();
+            //context.SaveState();
             PointF pos = context.TextPosition;
             context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
             context.TextMatrix = CGAffineTransform.MakeScale(1.0f, -1.0f);
@@ -53,29 +53,29 @@ namespace Sessions.iOS.Helpers
             context.SetTextDrawingMode(CGTextDrawingMode.Invisible);
             context.ShowTextAtPoint(pos.X, pos.Y, text);
             PointF pos2 = context.TextPosition;
-            context.RestoreState();
+            //context.RestoreState();
             
             return pos2.X - pos.X;
         }
         
         public static void FillRect(CGContext context, RectangleF rect, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.AddRect(rect);
-            context.Clip();
+            //context.Clip();
             context.SetFillColor(color);
             context.FillRect(rect);
-            context.RestoreState();
+            //context.RestoreState();
         }
         
         public static void DrawEllipsis(CGContext context, RectangleF rect, CGColor color, float lineWidth)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetStrokeColor(color);
             context.SetLineWidth(lineWidth);
             context.AddEllipseInRect(rect);
             context.StrokePath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void DrawLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
@@ -86,7 +86,7 @@ namespace Sessions.iOS.Helpers
             if (points.Count == 0)
                 throw new ArgumentException("The line must have at least one point.");
 
-            context.SaveState();
+            //context.SaveState();
             context.SetStrokeColor(color);
             context.SetLineWidth(lineWidth);
             context.MoveTo(points[0].X, points[0].Y);
@@ -97,7 +97,7 @@ namespace Sessions.iOS.Helpers
             if (closePath)
                 context.ClosePath();
             context.StrokePath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void DrawRoundedLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
@@ -108,7 +108,7 @@ namespace Sessions.iOS.Helpers
             if (points.Count == 0)
                 throw new ArgumentException("The line must have at least one point.");
 
-            context.SaveState();
+            //context.SaveState();
             context.SetStrokeColor(color);
             context.SetLineWidth(lineWidth);
             context.SetLineCap(CGLineCap.Round);
@@ -121,34 +121,34 @@ namespace Sessions.iOS.Helpers
             if (closePath)
                 context.ClosePath();
             context.StrokePath();
-            context.RestoreState();
+            //context.RestoreState();
         }
 
         public static void FillEllipsis(CGContext context, RectangleF rect, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.FillEllipseInRect(rect);
             context.FillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
         
         public static void FillPath(CGContext context, CGPath path, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.AddPath(path);
             context.FillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
         
         public static void EOFillPath(CGContext context, CGPath path, CGColor color)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(color);
             context.AddPath(path);
             context.EOFillPath();
-            context.RestoreState();
+            //context.RestoreState();
         }
         
         public static void FillGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2)
@@ -162,31 +162,31 @@ namespace Sessions.iOS.Helpers
             colorListBackground.AddRange(color2.Components);
             gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
             
-            context.SaveState();
+            //context.SaveState();
             context.AddRect(rect);
             context.Clip();
             //context.ScaleCTM(1, -1);
             context.DrawLinearGradient(gradientBackground, new PointF(rect.X, rect.Y), new PointF(rect.X + rect.Width, rect.Y + rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-            context.RestoreState();
+            //context.RestoreState();
         }       
         
         public static SizeF DrawTextAtPoint(CGContext context, PointF pt, string text, string fontName, float fontSize, CGColor fontColor)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(fontColor);
             NSString str = new NSString(text);
             SizeF size = str.DrawString(pt, UIFont.FromName(fontName, fontSize));
-            context.RestoreState();
+            //context.RestoreState();
             return size;
         }
 
         public static SizeF DrawTextInRect(CGContext context, RectangleF rect, string text, string fontName, float fontSize, CGColor fontColor, UILineBreakMode breakMode, UITextAlignment alignment)
         {
-            context.SaveState();
+            //context.SaveState();
             context.SetFillColor(fontColor);
             NSString str = new NSString(text);
             SizeF size = str.DrawString(rect, UIFont.FromName(fontName, fontSize), breakMode, alignment);
-            context.RestoreState();
+            //context.RestoreState();
             return size;
         }
 

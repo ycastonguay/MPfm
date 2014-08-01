@@ -106,8 +106,10 @@ namespace Sessions.iOS.Classes.Controls
         public override void Draw(RectangleF rect)
         {
 			var context = UIGraphics.GetCurrentContext();
+            context.SaveState();
 			var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(rect));
 			_control.Render(wrapper);
+            context.RestoreState();
         }
     }
 }

@@ -112,6 +112,7 @@ namespace Sessions.iOS.Classes.Delegates
 			container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
             container.Register<ICloudService, iOSDropboxService>().AsSingleton();
+            container.Register<ITileCacheService, TileCacheService>().AsSingleton();
 			container.Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();
 			container.Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
   			container.Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();
