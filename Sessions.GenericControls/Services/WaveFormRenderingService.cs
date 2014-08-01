@@ -335,6 +335,10 @@ namespace Sessions.GenericControls.Services
                 if (request.BoundsWaveForm.Width - request.BoundsBitmap.X < request.BoundsBitmap.Width)
                     lastLine = request.BoundsWaveForm.Width;
 
+                // Make sure we don't end up in a value with decimals
+                startLine = (float)Math.Ceiling(startLine); // should it be Floor?
+                lastLine = (float)Math.Ceiling(lastLine);
+
 //                context.DrawRectangle(new BasicRectangle(0, 0, request.BoundsBitmap.Width, request.BoundsBitmap.Height), new BasicBrush(new BasicColor(0, 0, 0)), new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 2));
 //                context.DrawText(string.Format("{0:0.0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 22), new BasicColor(255, 255, 255), "Roboto", 11 * context.Density);
 //                context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto", 11 * context.Density);

@@ -29,7 +29,7 @@ namespace Sessions.GenericControls.Services
 {
     public class WaveFormEngineService : IWaveFormEngineService
     {
-        public const int TileSize = 50;
+        public const int TileSize = 250;
         private readonly object _lockerCache = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
         private readonly IWaveFormRequestService _requestService;
@@ -158,8 +158,29 @@ namespace Sessions.GenericControls.Services
                 var tile = _cacheService.GetTile(tileX, zoomThreshold, request.IsScrollBar);
                 //if (tile != null)
                     //Console.WriteLine("WaveFormEngineService - GetTiles - Found tile in cache! tileOffsetX: {0} tileZoom: {1}", tile.ContentOffset.X, tile.Zoom);
+
                 if (tile == null)
                 {
+                    // Try to find a tile that's a zoom level lower.
+                    int newZoom = (int)Math.Max(1, zoomThreshold - 1);
+                    while (true)
+                    {
+                        //int newZoom = (int)Math.Max(1, zoomThreshold - 1);
+                        //float daZoom = newZoom/ request.Zoom;
+                        //tile = _cacheService.GetTile(tileX, newZoom, request.IsScrollBar);
+                        //tile = _cacheService.GetTile(tileX * daZoom, newZoom, request.IsScrollBar);
+
+                        // This is buggy
+                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, zoomThreshold, newZoom, TileSize);
+                        int tileIndex = TileHelper.GetTileIndexAt(tileX, request.Zoom, newZoom, TileSize);
+                        tile = _cacheService.GetTile(tileIndex * TileSize, newZoom, false);
+
+                        if(tile != null || newZoom == 1)
+                            break;
+
+                        newZoom -= 1;
+                    }
+
                     // This is a hot line, and needs to be avoided as much as possible.
                     // the problem is that tiles vary in time in quality. 
                     // maybe as a first, when a tile at the right zoom is available, cache it locally so it isn't necessary to call the algo again.

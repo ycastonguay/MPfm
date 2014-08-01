@@ -45,15 +45,12 @@ namespace Sessions.GenericControls.Helpers
 
         public static int GetTileIndexAt(float x, float zoom, float tileZoom, int tileSize)
         {
-            // The problem here is that we expect the input zoom to be 100%, while the tilezoom
-
             // Make zoom go in steps (1, 2, 3, etc.)
-            float zoomForTile = (float)(zoom/Math.Floor(zoom));
-            float zoomForX = zoom / tileZoom;
+//            float zoomForTile = (float)(zoom/Math.Floor(zoom));
+//            float zoomForX = zoom / tileZoom;
             //float zoomForTile = zoom;
             //float deltaZoom = zoom;
             //float zoomForTile = (float)Math.Floor(zoom);
-            //deltaZoom = 1;
             //int index = (int)Math.Floor((x * deltaZoom) / tileSize);
             //int index = (int)Math.Floor((x / deltaZoom) / tileSize);
             //int index = (int)Math.Floor(x / tileSize);
@@ -66,7 +63,6 @@ namespace Sessions.GenericControls.Helpers
             // i.e. 1.5 = 1.5, 2.5 = 1.5, 3.5 = 1.5, etc.
             float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
             int index = (int)Math.Floor(x / (tileSize * myzoom));
-
 
             //int index = (int)Math.Floor((x / tileZoom) / (tileSize * zoom));
             //int index = (int)Math.Floor(x / (tileSize * (zoom / tileZoom)));
@@ -85,12 +81,9 @@ namespace Sessions.GenericControls.Helpers
         {
             //int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
             //return GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, 1, tileSize) + 1;
-            //float floorZoom = (float)(zoom/Math.Floor(zoom));
-            //Console.WriteLine("DA FLOOR ZOOM: {0}", floorZoom);
             int tileIndex = GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, 1, tileSize);
-            return tileIndex +1;
-            //return (int)(tileIndex + (zoom * (int)Math.Floor(zoom)));
-            //return (int)((tileIndex * floorZoom) + 1);
+            float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
+            return (int)(tileIndex * myzoom) + 1;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Sessions.GenericControls.Controls
     /// </summary>
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
-        private const int ScrollBarHeight = 16;//20;
+        private const int ScrollBarHeight = 8;
         private IWaveFormEngineService _waveFormEngineService;
         private bool _isMouseDown;
         private bool _isDraggingThumb;
@@ -435,7 +435,7 @@ namespace Sessions.GenericControls.Controls
                 float tileDeltaZoom = Zoom / tile.Zoom;
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
-                float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
+                //float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
@@ -478,17 +478,29 @@ namespace Sessions.GenericControls.Controls
                 }
 
                 // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.
-                byte startAlpha = 170;
-                byte maxAlpha = 210;
-                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (60 * (Zoom / 10))));
+//                byte startAlpha = 170;
+//                byte maxAlpha = 210;
+//                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (60 * (Zoom / 10))));
+//                var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
+
+                byte startAlpha = 0;
+                byte maxAlpha = 100;
+                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (30 * Zoom)));
                 var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
+                //var colorThumb = new BasicColor(69, 88, 101, (byte)(alpha * 1.5f));
+                var colorThumb = new BasicColor(182, 198, 209, (byte)(alpha));
+
                 float visibleAreaWidth = (1 / Zoom) * Frame.Width;
                 float visibleAreaX = (1 / Zoom) * ContentOffset.X;
-                var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, Math.Max(0, visibleAreaX), realScrollBarHeight);
-                var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Math.Max(0, Frame.Width - visibleAreaX - visibleAreaWidth), realScrollBarHeight);
+                var rectScrollBar = new BasicRectangle(0, Frame.Height - ScrollBarHeight, Frame.Width, ScrollBarHeight);
+                var rectThumb = new BasicRectangle(visibleAreaX, Frame.Height - ScrollBarHeight, visibleAreaWidth, ScrollBarHeight);
+                //var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, Math.Max(0, visibleAreaX), realScrollBarHeight);
+                //var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Math.Max(0, Frame.Width - visibleAreaX - visibleAreaWidth), realScrollBarHeight);
                 //context.DrawRectangle(new BasicRectangle(visibleAreaX, Frame.Height - scrollBarHeight, visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
-                context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
-                context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());
+                //context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
+                //context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());
+                context.DrawRectangle(rectScrollBar, new BasicBrush(colorVisibleArea), new BasicPen());
+                context.DrawRectangle(rectThumb, new BasicBrush(colorThumb), new BasicPen());
             }
         }
 
