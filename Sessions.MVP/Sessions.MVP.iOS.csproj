@@ -394,5 +394,9 @@
     <Compile Include="Models\LoopPlaybackEntity.cs" />
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
     <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
+    <Compile Include="Services\DownloadImageProvider.cs" />
+    <Compile Include="Services\DownloadImageService.cs" />
+    <Compile Include="Services\Interfaces\IDownloadImageProvider.cs" />
+    <Compile Include="Services\Interfaces\IDownloadImageService.cs" />
   </ItemGroup>
 </Project>

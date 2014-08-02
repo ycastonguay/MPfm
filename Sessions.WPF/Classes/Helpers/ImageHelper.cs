@@ -15,8 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Windows.Media.Imaging;
+using Sessions.Sound.AudioFiles;
 
 namespace Sessions.WPF.Classes.Helpers
 {
@@ -34,6 +38,29 @@ namespace Sessions.WPF.Classes.Helpers
             memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
             bitmap.StreamSource = memoryStream;
             bitmap.EndInit();
+
+            return bitmap;
+        }
+
+        public static BitmapImage GetAlbumArtFromAudioFile(string filePath)
+        {
+            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(filePath);
+            if (bytes.Length == 0)
+                return null;
+
+            return GetBitmapImageFromBytes(bytes);
+        }
+
+        public static BitmapImage GetBitmapImageFromBytes(byte[] bytes)
+        {
+            var stream = new MemoryStream(bytes);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+            bitmap.Freeze();
 
             return bitmap;
         }

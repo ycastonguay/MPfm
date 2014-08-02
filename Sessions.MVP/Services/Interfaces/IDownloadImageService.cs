@@ -15,31 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Net;
+using System.Threading.Tasks;
+using Sessions.Sound.AudioFiles;
 
-namespace Sessions.Core.Network
+namespace Sessions.MVP.Services.Interfaces
 {
-    public class HttpService : IHttpService
+    /// <summary>
+	/// Interface for the DownloadImageService class.
+	/// </summary>
+	public interface IDownloadImageService
     {
-        private WebClientTimeout _webClient;
-        
-        public int Timeout { get { return _webClient.Timeout; } set { _webClient.Timeout = value; } }
+        event DownloadImageService.ImageDownloaded OnImageDownloaded;
 
-        public HttpService()
-        {
-            _webClient = new WebClientTimeout();
-        }
-        
-        public string DownloadString(string url)
-        {
-            return _webClient.DownloadString(url);
-        }
-
-        public byte[] DownloadData(string url)
-        {
-            return _webClient.DownloadData(url);
-        }
-
-    }
+        Task<DownloadImageService.DownloadImageResult> DownloadAlbumArt(AudioFile audioFile);
+	}
 }

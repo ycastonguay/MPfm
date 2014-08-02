@@ -321,6 +321,50 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="Button" x:Key="TranslucentImageButton">
+            <!--Set to true to not get any properties from the themes.-->
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#0020282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#AA20282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#9920282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="#1120282E" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <StackPanel>
+                                <Border x:Name="borderButton" Background="#0020282E" Padding="2">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="Button" x:Key="HeaderImageButton">
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True"/>

@@ -62,6 +62,8 @@ namespace Sessions.MVP.Bootstrap
             container.Register<ICloudLibraryService, CloudLibraryService>().AsSingleton();
             container.Register<IHttpService, HttpService>().AsSingleton();
             container.Register<IHttpServiceFactory, HttpServiceFactory>().AsSingleton();
+            container.Register<IDownloadImageProvider, DownloadImageProvider>().AsSingleton();
+            container.Register<IDownloadImageService, DownloadImageService>().AsSingleton();
 
             // Register presenters
             container.Register<ISplashPresenter, SplashPresenter>().AsSingleton();

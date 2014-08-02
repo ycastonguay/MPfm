@@ -195,16 +195,6 @@ namespace Sessions.Library.Services
 						
 			try
 			{			
-                // Remove broken songs from the library
-				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
-					Title = "Checking for broken file paths",
-					Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library",
-					PercentageDone = 0
-				});
-                _libraryService.RemoveAudioFilesWithBrokenFilePaths();
-
-                if (_cancelUpdateLibrary) throw new UpdateLibraryException();
-
                 filePaths = SearchMediaFilesInFolders(arg.FolderPaths);
 				
                 if (_cancelUpdateLibrary) throw new UpdateLibraryException();
@@ -273,6 +263,17 @@ namespace Sessions.Library.Services
                     _libraryService.InsertAudioFiles(audioFiles);
 
                 // Cancel thread if necessary
+                if (_cancelUpdateLibrary) throw new UpdateLibraryException();
+
+                // Remove broken songs from the library
+                OnRaiseRefreshStatusEvent(new UpdateLibraryEntity()
+                {
+                    Title = "Checking for broken file paths",
+                    Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library",
+                    PercentageDone = 0
+                });
+                _libraryService.RemoveAudioFilesWithBrokenFilePaths();
+
                 if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 
 //                // Compact database						

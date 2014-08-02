@@ -15,11 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Sessions.WPF.Classes.Helpers
 {
@@ -81,6 +83,41 @@ namespace Sessions.WPF.Classes.Helpers
                 item.IsSelected = !item.IsSelected;
                 e.Handled = true;
             }
+        }
+
+        public static void FadeElement(FrameworkElement element, bool show, int durationMS, Action onAnimationCompleted)
+        {
+            FadeElement(element, show, durationMS, 0, onAnimationCompleted);
+        }
+
+        public static void FadeElement(FrameworkElement element, bool show, int durationMS, int delayMS, Action onAnimationCompleted)
+        {
+            //if (element.Visibility == Visibility.Visible && show)
+            //    return;
+
+            if (show && element.Opacity == 1 && element.Visibility == Visibility.Visible)
+                return;
+
+            if (!show && element.Opacity == 0 && element.Visibility == Visibility.Hidden)
+                return;
+
+            element.Opacity = show ? 0 : 1;
+            element.Visibility = Visibility.Visible;
+            var animOpacity = new DoubleAnimation();
+            animOpacity.From = show ? 0 : 1;
+            animOpacity.To = show ? 1 : 0;
+            if (delayMS > 0)
+                animOpacity.BeginTime = TimeSpan.FromMilliseconds(delayMS);
+            animOpacity.Duration = TimeSpan.FromMilliseconds(durationMS);
+            animOpacity.Completed += (sender, args) =>
+            {
+                if(!show)
+                    element.Visibility = Visibility.Hidden;
+
+                if (onAnimationCompleted != null)
+                    onAnimationCompleted();
+            };
+            element.BeginAnimation(UIElement.OpacityProperty, animOpacity);
         }
     }
 }

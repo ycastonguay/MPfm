@@ -32,7 +32,9 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config;
+using Sessions.MVP.Services.Interfaces;
 using Sessions.WPF.Classes.Controls;
 using Sessions.WPF.Classes.Helpers;
 using Sessions.WPF.Classes.Windows.Base;
@@ -56,6 +58,7 @@ namespace Sessions.WPF.Classes.Windows
     /// </summary>
     public partial class MainWindow : BaseWindow, IMainView
     {
+        private readonly IDownloadImageService _downloadImageService;
         private List<Marker> _markers;
         private List<Marker> _segmentMarkers;
         private List<Loop> _loops;
@@ -75,6 +78,8 @@ namespace Sessions.WPF.Classes.Windows
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
+            _downloadImageService = Bootstrapper.GetContainer().Resolve<IDownloadImageService>();
+
             InitializeComponent();
             Initialize();
             ViewIsReady();
@@ -1021,6 +1026,14 @@ namespace Sessions.WPF.Classes.Windows
         {
         }
 
+        private void BtnApplyAlbumArt_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnChooseAlbumArt_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
         #region IMainView implementation
 
         public Action OnOpenAboutWindow { get; set; }
@@ -1392,44 +1405,94 @@ namespace Sessions.WPF.Classes.Windows
                     string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
                     if (_currentAlbumArtKey != key)
                     {
-                        imageAlbum.Source = null;
-                        var task = Task<BitmapImage>.Factory.StartNew(() =>
+                        //panelImageDownloaded.Visibility = Visibility.Hidden;
+                        UIHelper.FadeElement(panelImageDownloaded, false, 200, null);
+                        UIHelper.FadeElement(imageAlbum, false, 200, () =>
                         {
-                            try
-                            {
-                                var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                                var stream = new MemoryStream(bytes);
-                                stream.Seek(0, SeekOrigin.Begin);
 
-                                var bitmap = new BitmapImage();
-                                bitmap.BeginInit();
-                                bitmap.StreamSource = stream;
-                                bitmap.EndInit();
-                                bitmap.Freeze();
-
-                                return bitmap;
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("An error occured while extracing album art in {0}: {1}",
-                                    audioFile.FilePath, ex);
-                            }
-
-                            return null;
+                            TryToDownloadAlbumArtFromFileOrInternet(audioFile, key);                            
                         });
-
-                        var imageResult = task.Result;
-                        if (imageResult != null)
-                        {
-                            _currentAlbumArtKey = key;
-                            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                imageAlbum.Source = imageResult;
-                            }));
-                        }
                     }
                 }
             }));
+        }
+
+        private async void TryToDownloadAlbumArtFromFileOrInternet(AudioFile audioFile, string key)
+        {
+            imageAlbum.Source = null;
+            var task = Task<BitmapImage>.Factory.StartNew(() =>
+            {
+                try
+                {
+                    var bitmap = ImageHelper.GetAlbumArtFromAudioFile(audioFile.FilePath);
+                    return bitmap;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occured while extracing album art in {0}: {1}",
+                        audioFile.FilePath, ex);
+                }
+
+                return null;
+            });
+
+            var imageResult = await task;
+            if (imageResult != null)
+            {
+                _currentAlbumArtKey = key;
+                Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    imageAlbum.Opacity = 0;
+                    imageAlbum.Source = imageResult;
+                    UIHelper.FadeElement(imageAlbum, true, 200, null);
+                }));
+            }
+            else
+            {
+                TryToDownloadAlbumArtFromInternet(audioFile, key);
+            }            
+        }
+
+        private async void TryToDownloadAlbumArtFromInternet(AudioFile audioFile, string key)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => UIHelper.FadeElement(panelImageDownloading, true, 200, null)));
+
+            var taskDownload = _downloadImageService.DownloadAlbumArt(audioFile);
+            taskDownload.Start();            
+            var result = await taskDownload;
+            if (result != null)
+            {
+                var task = Task<BitmapImage>.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        var bitmap = ImageHelper.GetBitmapImageFromBytes(result.ImageData);
+                        return bitmap;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("An error occured while extracing album art in {0}: {1}",
+                            audioFile.FilePath, ex);
+                    }
+
+                    return null;
+                });
+
+                var imageResult = await task;
+                Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    UIHelper.FadeElement(panelImageDownloading, false, 200, null);
+                    if (imageResult != null)
+                    {
+                        _currentAlbumArtKey = key;
+                        imageAlbum.Opacity = 0;
+                        imageAlbum.Source = imageResult;
+                        UIHelper.FadeElement(imageAlbum, true, 200, () => {
+                            UIHelper.FadeElement(panelImageDownloaded, true, 400, 200, null);
+                        });
+                    }
+                }));
+            }
         }
 
         public void RefreshMarkers(IEnumerable<Marker> markers)

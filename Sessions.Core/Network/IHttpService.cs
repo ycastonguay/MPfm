@@ -25,5 +25,6 @@ namespace Sessions.Core.Network
         int Timeout { get; set; }
         
         string DownloadString(string url);
+        byte[] DownloadData(string url);
     }
 }

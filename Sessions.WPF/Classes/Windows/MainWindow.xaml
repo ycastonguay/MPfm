@@ -207,7 +207,27 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" x:Name="imageAlbum" Stretch="Uniform" Width="170" Height="170" />
+                                <Grid Grid.Column="0">
+                                    <Image x:Name="imageAlbum" Stretch="Uniform" Width="170" Height="170" />
+                                    <StackPanel x:Name="panelImageDownloading" Visibility="Hidden" Orientation="Vertical" Margin="12" VerticalAlignment="Center">
+                                        <Label Content="Downloading album art..." Foreground="#EEEEEE" FontSize="10" FontFamily="/Resources/Fonts/#Roboto" HorizontalContentAlignment="Center" Padding="0,1,1,2" />
+                                        <ProgressBar x:Name="progressBarDownloadImage" Background="{DynamicResource BrushBackgroundColor}" BorderBrush="{DynamicResource BrushHeaderBackgroundColor}" Foreground="#FFE74C3C" Value="50" Margin="4,4,4,4" HorizontalContentAlignment="Center" IsIndeterminate="True" />
+                                    </StackPanel>
+                                    <StackPanel x:Name="panelImageDownloaded" Visibility="Hidden" Orientation="Vertical" VerticalAlignment="Bottom">
+                                        <StackPanel.Background>
+                                            <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+                                                <GradientStop Color="#00000000" Offset="0"/>
+                                                <GradientStop Color="#33000000" Offset="0.05"/>
+                                                <GradientStop Color="#AA000000" Offset="0.4"/>
+                                            </LinearGradientBrush>
+                                        </StackPanel.Background>
+                                        <TextBlock Text="This image has been downloaded from the internet." Foreground="#EEEEEE" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" Padding="4" Margin="0,6,0,0" TextWrapping="Wrap" TextAlignment="Center" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,4" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                            <controls:ImageButton x:Name="btnApplyAlbumArt" Margin="0" Title="Apply" Style="{StaticResource TranslucentImageButton}" Click="BtnApplyAlbumArt_OnClick" />
+                                            <controls:ImageButton x:Name="btnChooseAlbumArt" Margin="0" Title="Choose another..." Style="{StaticResource TranslucentImageButton}" Click="BtnChooseAlbumArt_OnClick" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>                                
                                 <Grid Grid.Column="1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />

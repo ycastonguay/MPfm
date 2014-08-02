@@ -199,6 +199,10 @@
     <Compile Include="Presenters\SyncCloudPresenter.cs" />
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
+    <Compile Include="Services\DownloadImageProvider.cs" />
+    <Compile Include="Services\DownloadImageService.cs" />
+    <Compile Include="Services\Interfaces\IDownloadImageProvider.cs" />
+    <Compile Include="Services\Interfaces\IDownloadImageService.cs" />
     <Compile Include="Views\ICloudConnectView.cs" />
     <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
