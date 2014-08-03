@@ -95,11 +95,14 @@ namespace Sessions.WPF.Classes.Helpers
             //if (element.Visibility == Visibility.Visible && show)
             //    return;
 
-            if (show && element.Opacity == 1 && element.Visibility == Visibility.Visible)
-                return;
+            if ((show && element.Opacity == 1 && element.Visibility == Visibility.Visible) ||
+               (!show && element.Opacity == 0 && element.Visibility == Visibility.Hidden))
+            {
+                if (onAnimationCompleted != null)
+                    onAnimationCompleted();
 
-            if (!show && element.Opacity == 0 && element.Visibility == Visibility.Hidden)
                 return;
+            }
 
             element.Opacity = show ? 0 : 1;
             element.Visibility = Visibility.Visible;

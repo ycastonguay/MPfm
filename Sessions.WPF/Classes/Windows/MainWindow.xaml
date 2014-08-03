@@ -489,8 +489,8 @@
                                                         </GridViewColumn.CellTemplate>
                                                     </controls:FixedWidthColumn>
                                                     <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Path=Name}" />
-                                                    <GridViewColumn Header="Start" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
-                                                    <GridViewColumn Header="End" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
+                                                    <GridViewColumn Header="Start" Width="60" DisplayMemberBinding="{Binding Path=StartPosition}" />
+                                                    <GridViewColumn Header="End" Width="60" DisplayMemberBinding="{Binding Path=EndPosition}" />
                                                     <GridViewColumn Header="Length" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
                                                 </GridView>
                                             </ListView.View>

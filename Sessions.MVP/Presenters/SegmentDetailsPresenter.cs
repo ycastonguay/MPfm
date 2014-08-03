@@ -40,6 +40,7 @@ namespace Sessions.MVP.Presenters
         private Segment _segment;
         private AudioFile _audioFile;
         private List<Marker> _markers;
+        private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
         private readonly ILibraryService _libraryService;
         private readonly IPlayerService _playerService;
         private readonly ITinyMessengerHub _messageHub;
@@ -59,11 +60,19 @@ namespace Sessions.MVP.Presenters
             view.OnLinkToMarkerSegmentDetails = LinkToMarker;
             base.BindView(view);
 
-            _messageHub.Subscribe<SegmentBeingEditedMessage>(SegmentBeingEdited);
-            _messageHub.Subscribe<MarkerUpdatedMessage>(MarkerUpdated);
+            _tokens.Add(_messageHub.Subscribe<SegmentBeingEditedMessage>(SegmentBeingEdited));
+            _tokens.Add(_messageHub.Subscribe<MarkerUpdatedMessage>(MarkerUpdated));
         }
 
-        private void SegmentBeingEdited(SegmentBeingEditedMessage message)
+	    public override void ViewDestroyed()
+	    {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+	        base.ViewDestroyed();
+	    }
+
+	    private void SegmentBeingEdited(SegmentBeingEditedMessage message)
         {
             _segmentId = message.SegmentId;
             RefreshSegment();

@@ -43,6 +43,40 @@ namespace Sessions.Player.Objects
         }
 
         [DatabaseField(false)]
+        public string StartPosition
+        {
+            get
+            {
+                var segment = GetStartSegment();
+                if (segment != null)
+                    return segment.Position;
+
+                return "0:00.000";
+            }
+            set
+            {
+                /* for WPF */
+            }
+        }
+
+        [DatabaseField(false)]
+        public string EndPosition
+        {
+            get
+            {
+                var segment = GetEndSegment();
+                if (segment != null)
+                    return segment.Position;
+
+                return "0:00.000";
+            }
+            set
+            {
+                /* for WPF */
+            }
+        }
+
+        [DatabaseField(false)]
         public string TotalLength
         {
             get { return "0:00.000"; }

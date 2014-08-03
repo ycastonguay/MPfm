@@ -71,6 +71,11 @@ namespace Sessions.MVP.Presenters
                 _audioFileId = m.AudioFileId;
                 RefreshLoops(_audioFileId);
             }));
+            _tokens.Add(_messageHub.Subscribe<SegmentUpdatedMessage>((SegmentUpdatedMessage m) =>
+            {
+                _audioFileId = m.AudioFileId;
+                RefreshLoops(_audioFileId);
+            }));
             _tokens.Add(_messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
                 _audioFileId = m.Data.AudioFileStarted.Id;
                 RefreshLoops(_audioFileId);

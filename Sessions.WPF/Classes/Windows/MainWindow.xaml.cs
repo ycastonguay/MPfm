@@ -784,10 +784,12 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnEditStartPosition_OnClick(object sender, RoutedEventArgs e)
         {
+            EditSegment(0);
         }
 
         private void BtnEditEndPosition_OnClick(object sender, RoutedEventArgs e)
         {
+            EditSegment(1);
         }
 
         private void EditSegment()
@@ -795,7 +797,12 @@ namespace Sessions.WPF.Classes.Windows
             if (listViewSegments.SelectedIndex < 0 || listViewSegments.SelectedIndex >= _currentLoop.Segments.Count)
                 return;
 
-            OnEditSegment(_currentLoop.Segments[listViewSegments.SelectedIndex]);
+            EditSegment(listViewSegments.SelectedIndex);
+        }
+
+        private void EditSegment(int index)
+        {
+            OnEditSegment(_currentLoop.Segments[index]);
             gridLoops.Visibility = Visibility.Hidden;
             gridLoopDetails.Visibility = Visibility.Hidden;
             gridLoopPlayback.Visibility = Visibility.Hidden;
@@ -1409,7 +1416,6 @@ namespace Sessions.WPF.Classes.Windows
                         UIHelper.FadeElement(panelImageDownloaded, false, 200, null);
                         UIHelper.FadeElement(imageAlbum, false, 200, () =>
                         {
-
                             TryToDownloadAlbumArtFromFileOrInternet(audioFile, key);                            
                         });
                     }

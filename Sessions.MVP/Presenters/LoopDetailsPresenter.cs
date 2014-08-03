@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Linq;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Views;
@@ -38,6 +39,7 @@ namespace Sessions.MVP.Presenters
         Loop _loop;
         AudioFile _audioFile;
         long _lengthBytes;
+        List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
         readonly ITinyMessengerHub _messageHub;
         readonly ILibraryService _libraryService;
         readonly IPlayerService _playerService;
@@ -61,8 +63,16 @@ namespace Sessions.MVP.Presenters
             view.OnLinkSegmentToMarker = LinkSegmentToMarker;
             base.BindView(view);
 
-            _messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited);
-            _messageHub.Subscribe<SegmentUpdatedMessage>(SegmentUpdated);
+            _tokens.Add(_messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited));            
+            _tokens.Add(_messageHub.Subscribe<SegmentUpdatedMessage>(SegmentUpdated));
+        }
+
+        public override void ViewDestroyed()
+        {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+            base.ViewDestroyed();
         }
 
         private void LoopBeingEdited(LoopBeingEditedMessage message)
