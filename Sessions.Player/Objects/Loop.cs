@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Core.Attributes;
+using Sessions.Sound.AudioFiles;
 
 namespace Sessions.Player.Objects
 {
@@ -36,10 +37,7 @@ namespace Sessions.Player.Objects
         [DatabaseField(false)]
         public int SegmentCount {
             get { return Segments.Count; }
-            set
-            {
-                /* for WPF */
-            }
+            set { /* for WPF */ }
         }
 
         [DatabaseField(false)]
@@ -53,10 +51,7 @@ namespace Sessions.Player.Objects
 
                 return "0:00.000";
             }
-            set
-            {
-                /* for WPF */
-            }
+            set { /* for WPF */ }
         }
 
         [DatabaseField(false)]
@@ -70,17 +65,25 @@ namespace Sessions.Player.Objects
 
                 return "0:00.000";
             }
-            set
-            {
-                /* for WPF */
-            }
+            set { /* for WPF */ }
         }
 
         [DatabaseField(false)]
         public string TotalLength
         {
-            get { return "0:00.000"; }
-            set { }
+            get
+            {
+                var startSegment = GetStartSegment();
+                var endSegment = GetEndSegment();
+                if(startSegment == null || endSegment == null)
+                    return "0:00.000";
+
+                var msStart = ConvertAudio.ToMS(startSegment.Position);
+                var msEnd = ConvertAudio.ToMS(endSegment.Position);
+                long length = msEnd - msStart;
+                return ConvertAudio.ToTimeString(length);
+            }
+            set { /* for WPF */ }
         }
 
         public Loop()

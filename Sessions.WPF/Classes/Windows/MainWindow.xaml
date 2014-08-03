@@ -213,6 +213,9 @@
                                         <Label Content="Downloading album art..." Foreground="#EEEEEE" FontSize="10" FontFamily="/Resources/Fonts/#Roboto" HorizontalContentAlignment="Center" Padding="0,1,1,2" />
                                         <ProgressBar x:Name="progressBarDownloadImage" Background="{DynamicResource BrushBackgroundColor}" BorderBrush="{DynamicResource BrushHeaderBackgroundColor}" Foreground="#FFE74C3C" Value="50" Margin="4,4,4,4" HorizontalContentAlignment="Center" IsIndeterminate="True" />
                                     </StackPanel>
+                                    <StackPanel x:Name="panelImageDownloadError" Visibility="Hidden" Orientation="Vertical" Margin="12" VerticalAlignment="Center">
+                                        <Label Content="Error downloading image." Foreground="#EEEEEE" FontSize="10" FontFamily="/Resources/Fonts/#Roboto" HorizontalContentAlignment="Center" Padding="0,1,1,2" />
+                                    </StackPanel>
                                     <StackPanel x:Name="panelImageDownloaded" Visibility="Hidden" Orientation="Vertical" VerticalAlignment="Bottom">
                                         <StackPanel.Background>
                                             <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">

@@ -1413,7 +1413,8 @@ namespace Sessions.WPF.Classes.Windows
                     if (_currentAlbumArtKey != key)
                     {
                         //panelImageDownloaded.Visibility = Visibility.Hidden;
-                        UIHelper.FadeElement(panelImageDownloaded, false, 200, null);
+                        UIHelper.FadeElement(panelImageDownloaded, false, 1, null);
+                        UIHelper.FadeElement(panelImageDownloadError, false, 1, null);
                         UIHelper.FadeElement(imageAlbum, false, 200, () =>
                         {
                             TryToDownloadAlbumArtFromFileOrInternet(audioFile, key);                            
@@ -1472,6 +1473,9 @@ namespace Sessions.WPF.Classes.Windows
                 {
                     try
                     {
+                        if (result.ImageData == null)
+                            return null;
+
                         var bitmap = ImageHelper.GetBitmapImageFromBytes(result.ImageData);
                         return bitmap;
                     }
@@ -1487,16 +1491,24 @@ namespace Sessions.WPF.Classes.Windows
                 var imageResult = await task;
                 Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
-                    UIHelper.FadeElement(panelImageDownloading, false, 200, null);
-                    if (imageResult != null)
-                    {
-                        _currentAlbumArtKey = key;
-                        imageAlbum.Opacity = 0;
-                        imageAlbum.Source = imageResult;
-                        UIHelper.FadeElement(imageAlbum, true, 200, () => {
-                            UIHelper.FadeElement(panelImageDownloaded, true, 400, 200, null);
-                        });
-                    }
+                    UIHelper.FadeElement(panelImageDownloading, false, 200, () =>
+                    {                                            
+                        if (imageResult != null)
+                        {
+                            // Show new album art with overloay
+                            _currentAlbumArtKey = key;
+                            imageAlbum.Opacity = 0;
+                            imageAlbum.Source = imageResult;
+                            UIHelper.FadeElement(imageAlbum, true, 200, () => {
+                                UIHelper.FadeElement(panelImageDownloaded, true, 400, 200, null);
+                            });
+                        }
+                        else
+                        {
+                            // Indicate error
+                            UIHelper.FadeElement(panelImageDownloadError, true, 200, null);
+                        }
+                    });
                 }));
             }
         }
@@ -1809,6 +1821,8 @@ namespace Sessions.WPF.Classes.Windows
                 var endPosition = _currentLoop.GetEndSegment();
                 if (endPosition != null)
                     lblLoopEndPosition.Content = endPosition.Position;
+
+                lblLoopLength.Content = _currentLoop.TotalLength;
             }));
         }
 
