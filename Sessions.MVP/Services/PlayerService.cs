@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Sessions.MVP.Config;
 using Sessions.MVP.Models;
@@ -431,13 +432,13 @@ namespace Sessions.MVP.Services
             return _player.GetDataAvailable();
         }
 
-        public static PlayerPosition GetPositionEntity(long positionBytes, long lengthBytes, uint bitsPerSample, uint sampleRate)
+        public static PlayerPosition GetPositionEntity(long positionBytes, long lengthBytes, int bitsPerSample, int sampleRate)
         {
             PlayerPosition entity = new PlayerPosition();
             entity.PositionBytes = positionBytes;
             entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, bitsPerSample, 2);
-            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
-            entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+            entity.PositionMS = ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
+            entity.Position = ConvertAudio.ToTimeString(entity.PositionMS);
             entity.PositionPercentage = ((float)positionBytes / (float)lengthBytes) * 100;
             return entity;
         }
@@ -447,13 +448,13 @@ namespace Sessions.MVP.Services
             if (CurrentPlaylistItem == null)
                 return new PlayerPosition();
 
-            PlayerPosition entity = new PlayerPosition();
+            var entity = new PlayerPosition();
             try
             {
                 entity.PositionBytes = _player.GetPosition();
-                entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-                entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)CurrentPlaylistItem.AudioFile.SampleRate);
-                entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+                entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+                entity.PositionMS = ConvertAudio.ToMS(entity.PositionSamples, CurrentPlaylistItem.AudioFile.SampleRate);
+                entity.Position = ConvertAudio.ToTimeString(entity.PositionMS);
                 entity.PositionPercentage = ((float)entity.PositionBytes / (float)CurrentPlaylistItem.LengthBytes) * 100;
             }
             catch (Exception ex)

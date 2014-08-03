@@ -22,25 +22,10 @@ namespace Sessions.Player.Objects
     /// </summary>
     public class PlayerPosition
     {
-        /// <summary>
-        /// Player current position (in bytes).
-        /// </summary>
         public long PositionBytes { get; set; }
-        /// <summary>
-        /// Player current position (in samples).
-        /// </summary>
         public long PositionSamples { get; set; }
-        /// <summary>
-        /// Player current position (in milliseconds).
-        /// </summary>
         public long PositionMS { get; set; }
-		/// <summary>
-		/// Player current position (in percentage).
-		/// </summary>
 		public float PositionPercentage { get; set; }		
-        /// <summary>
-        /// Player current position (in time string, such as 00:00.000).
-        /// </summary>
         public string Position { get; set; }
 
         public PlayerPosition()

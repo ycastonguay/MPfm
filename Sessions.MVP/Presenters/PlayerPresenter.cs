@@ -530,9 +530,9 @@ namespace Sessions.MVP.Presenters
                 var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 long positionBytes = (long)(positionPercentage * lengthBytes);
                 //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
-                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
-                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
+                long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
+                string positionString = ConvertAudio.ToTimeString(positionMS);
                 PlayerPosition entity = new PlayerPosition();
                 entity.Position = positionString;
                 entity.PositionBytes = positionBytes;

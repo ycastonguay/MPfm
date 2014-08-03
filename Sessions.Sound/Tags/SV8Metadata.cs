@@ -206,8 +206,8 @@ namespace Sessions.Sound.Tags
                 }
 
                 // Calculate length
-                data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, (uint)data.SampleRate);
-                data.Length = Conversion.MillisecondsToTimeString((ulong)data.LengthMS);
+                data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, data.SampleRate);
+                data.Length = ConvertAudio.ToTimeString(data.LengthMS);
                 long audioLengthBytes = fileLength - headerOffset;
                 data.Bitrate = (int)(audioLengthBytes / data.LengthMS) * 8;
             }

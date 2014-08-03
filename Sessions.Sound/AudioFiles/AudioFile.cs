@@ -690,7 +690,7 @@ namespace Sessions.Sound.AudioFiles
                         bitsPerSample = 16; // always 16-bit
                         channelMode = header.ChannelMode;
                         bitrate = header.AudioBitrate;
-                        length = Conversion.TimeSpanToTimeString(header.Duration);
+                        length = ConvertAudio.ToTimeString(header.Duration);
                     }
                 }
                 catch (Exception ex)
@@ -754,7 +754,7 @@ namespace Sessions.Sound.AudioFiles
                         audioChannels = header.AudioChannels;
                         sampleRate = header.AudioSampleRate;
                         bitsPerSample = header.BitsPerSample;
-                        length = Conversion.TimeSpanToTimeString(header.Duration);
+                        length = ConvertAudio.ToTimeString(header.Duration);
                     }
                 }
                 catch (Exception ex)
@@ -804,7 +804,7 @@ namespace Sessions.Sound.AudioFiles
                             audioChannels = header.AudioChannels;
                             sampleRate = header.AudioSampleRate;
                             bitsPerSample = 16;
-                            length = Conversion.TimeSpanToTimeString(header.Duration);
+                            length = ConvertAudio.ToTimeString(header.Duration);
                         }
                     }
                 }
@@ -857,7 +857,7 @@ namespace Sessions.Sound.AudioFiles
                             audioChannels = header.AudioChannels;
                             sampleRate = header.AudioSampleRate;
                             bitsPerSample = 16;
-                            length = Conversion.TimeSpanToTimeString(header.Duration);
+                            length = ConvertAudio.ToTimeString(header.Duration);
                         }
                     }
                 }
@@ -972,7 +972,7 @@ namespace Sessions.Sound.AudioFiles
                             audioChannels = header.AudioChannels;
                             sampleRate = header.AudioSampleRate;
                             bitsPerSample = 16;
-                            length = Conversion.TimeSpanToTimeString(header.Duration);
+                            length = ConvertAudio.ToTimeString(header.Duration);
                         }
                     }
                 }
@@ -1030,7 +1030,7 @@ namespace Sessions.Sound.AudioFiles
                             audioChannels = header.AudioChannels;
                             sampleRate = header.AudioSampleRate;
                             bitsPerSample = 16;
-                            length = Conversion.TimeSpanToTimeString(header.Duration);
+                            length = ConvertAudio.ToTimeString(header.Duration);
                         }
                     }
                 }
@@ -1064,7 +1064,7 @@ namespace Sessions.Sound.AudioFiles
                     FillProperties(file.Tag);
 
                     // The right length is here, not in the codec data structure
-                    length = Conversion.TimeSpanToTimeString(file.Properties.Duration);
+                    length = ConvertAudio.ToTimeString(file.Properties.Duration);
 
                     // Loop through codecs (usually just one)
                     foreach (TagLib.ICodec codec in file.Properties.Codecs)

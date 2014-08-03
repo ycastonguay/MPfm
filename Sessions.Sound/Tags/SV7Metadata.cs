@@ -171,8 +171,8 @@ namespace Sessions.Sound.Tags
 
                 // Calculate length
                 data.LengthSamples = ((((data.FrameCount - 1) * 1152) + data.LastFrameLength) * data.AudioChannels) / 2; // floating point
-                data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, (uint)data.SampleRate);
-                data.Length = Conversion.MillisecondsToTimeString((ulong)data.LengthMS);
+                data.LengthMS = ConvertAudio.ToMS(data.LengthSamples, data.SampleRate);
+                data.Length = ConvertAudio.ToTimeString(data.LengthMS);
                 long audioLengthBytes = fileLength - 28; // SV7 header is always 28 bytes
                 data.Bitrate = (int)(audioLengthBytes / data.LengthMS) * 8;
             }

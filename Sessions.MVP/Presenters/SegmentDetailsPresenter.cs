@@ -89,9 +89,9 @@ namespace Sessions.MVP.Presenters
             {
                 // Calculate new position from 0.0f/1.0f scale
                 long positionBytes = (long)(position * _lengthBytes);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)_audioFile.BitsPerSample, _audioFile.AudioChannels);
-                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)_audioFile.SampleRate);
-                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, _audioFile.BitsPerSample, _audioFile.AudioChannels);
+                long positionMS = ConvertAudio.ToMS(positionSamples, _audioFile.SampleRate);
+                string positionString = ConvertAudio.ToTimeString(positionMS);
 
                 // Update local segment and update view
                 _segment.Position = positionString;

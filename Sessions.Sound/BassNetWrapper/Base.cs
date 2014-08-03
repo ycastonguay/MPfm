@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Core;
+using Sessions.Sound.AudioFiles;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Fx;
 using Un4seen.Bass.AddOn.Mix;
@@ -365,7 +366,7 @@ namespace Sessions.Sound.BassNetWrapper
         /// <returns>Level in dB</returns>
         public static Double LevelToDB_16Bit(double level)
         {
-            return Conversion.LevelToDB(level, 65535);
+            return ConvertAudio.LevelToDB(level, 65535);
         }
 
         /// <summary>

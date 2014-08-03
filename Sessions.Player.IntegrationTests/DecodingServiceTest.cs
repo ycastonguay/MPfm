@@ -189,8 +189,8 @@ namespace Sessions.Player.Tests
 
 		private int GetByteArrayLengthForMS(uint milliseconds)
 		{
-			uint samples = ConvertAudio.ToPCM(100, 44100);
-			uint bytes = ConvertAudio.ToPCMBytes(samples, 16, 2);
+			int samples = ConvertAudio.ToPCM(100, 44100);
+            int bytes = ConvertAudio.ToPCMBytes(samples, 16, 2);
 			return (int) bytes;
 		}
 	}

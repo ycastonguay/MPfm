@@ -141,9 +141,9 @@ namespace Sessions.MVP.Presenters
                     Marker marker = new Marker();
                     marker.Name = markerName;
                     marker.PositionBytes = _playerService.GetPosition().PositionBytes;
-                    marker.PositionSamples = (uint)ConvertAudio.ToPCM(marker.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-                    int ms = (int)ConvertAudio.ToMS(marker.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
-                    marker.Position = Conversion.MillisecondsToTimeString((ulong)ms);
+                    marker.PositionSamples = (uint)ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+                    long ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentPlaylistItem.AudioFile.SampleRate);
+                    marker.Position = ConvertAudio.ToTimeString(ms);
                     marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
                     marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
                     _libraryService.InsertMarker(marker);
@@ -279,9 +279,9 @@ namespace Sessions.MVP.Presenters
                     var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
 
                     // Calculate new position from 0.0f/1.0f scale
-                    long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
-                    int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
-                    string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                    long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
+                    long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
+                    string positionString = ConvertAudio.ToTimeString(positionMS);
                     float positionPercentage = (float)marker.PositionBytes / (float)lengthBytes;
 
                     // Update marker and update view

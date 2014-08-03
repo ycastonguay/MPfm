@@ -99,77 +99,6 @@ namespace Sessions.Core
 		}
 
 		/// <summary>
-		/// The MillisecondsToTimeString static functions converts a time in milliseconds into a string 
-		/// displaying the time in the following format: 0:00.000
-		/// </summary>
-		/// <param name="time">Milliseconds value to convert</param>
-		/// <returns>A string displaying the time (0:00.000)</returns>
-		public static string MillisecondsToTimeString(ulong time)
-		{
-			ulong pos = time;
-			int minutes = 0;
-			int seconds = 0;
-			int milliseconds = 0;
-			string timeString = "";
-
-			// Minutes
-			if (pos > 60000)
-			{
-				minutes = (int) pos /  60000;
-				pos %= 60000;
-			}
-
-			// Seconds
-			if (pos > 1000)
-			{
-				seconds = (int) pos / 1000;
-				pos %= 1000;
-			}
-
-			// Milliseconds
-			milliseconds = Convert.ToInt32(pos);
-
-			// Convert to string and return
-			timeString = minutes.ToString("0") + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000"); ;
-			return timeString;
-		}
-
-		public static long TimeStringToMilliseconds(string time)
-		{
-			long totalms = 0;
-			int mins = 0;
-			int secs = 0;
-			int ms = 0;
-
-			if (string.IsNullOrEmpty(time))
-				return 0;
-
-			var split = time.Split(new char[2]{ ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
-			if(split.Length >= 0)
-				int.TryParse(split[0], out mins);
-			if(split.Length >= 1)
-				int.TryParse(split[1], out secs);
-			if(split.Length >= 2)
-				int.TryParse(split[2], out ms);
-
-			totalms += ms;
-			totalms += secs * 1000;
-			totalms += mins * 1000 * 60;
-
-			return totalms;
-		}
-
-		/// <summary>
-		/// Converts a TimeSpan to a time string (0:00.000 format).
-		/// </summary>
-		/// <param name="timeSpan">TimeSpan</param>
-		/// <returns>Time string</returns>
-		public static string TimeSpanToTimeString(TimeSpan timeSpan)
-		{
-			return timeSpan.Minutes.ToString("0") + ":" + timeSpan.Seconds.ToString("00") + "." + timeSpan.Milliseconds.ToString("000");
-		}
-
-		/// <summary>
 		/// Converts a DateTime structure into a UNIX date format (number of milliseconds since 1970).
 		/// </summary>
 		/// <param name="date">DateTime structure to convert</param>
@@ -180,57 +109,6 @@ namespace Sessions.Core
 
 			TimeSpan span = date.ToUniversalTime().Subtract(dateReference);
 			return Convert.ToInt64(span.TotalMilliseconds) + date.Millisecond;
-		}
-
-		/// <summary>
-		/// Converts milliseconds to a tempo (beats per minute)
-		/// </summary>
-		/// <param name="milliseconds">Value in milliseconds</param>
-		/// <returns>Value in tempo (BPM)</returns>
-		public static double MillisecondsToTempo(int milliseconds)
-		{
-			return ((double)60 / milliseconds) * (double)1000;                        
-			
-		}
-
-		/// <summary>
-		/// Converts a tempo (beats per minute) into milliseconds.
-		/// </summary>
-		/// <param name="tempo">Value in BPM (tempo)</param>
-		/// <returns>Value in milliseconds</returns>
-		public static double TempoToMilliseconds(double tempo)
-		{
-			return (double)60000 / tempo;
-		}
-
-		/// <summary>
-		/// Returns the fractionary number of minutes from absolute milliseconds.
-		/// </summary>
-		/// <param name="absolutems">Value in absolute milliseconds</param>
-		/// <returns>Number of minutes (in double format)</returns>
-		public static double GetMinutes(int absolutems)
-		{
-			return (double)absolutems / 1000 / 60;
-		}
-
-		/// <summary>
-		/// Returns the fractionary number of milliseconds from absolute milliseconds.
-		/// </summary>
-		/// <param name="absolutems">Value in absolute milliseconds</param>
-		/// <returns>Number of minutes (in double format)</returns>
-		public static double GetMilliseconds(int absolutems)
-		{
-			return (double)absolutems / 1000 % 100;
-		}
-
-		/// <summary>
-		/// Returns the fractionary number of seconds from absolute milliseconds.
-		/// </summary>
-		/// <param name="absolutems">Value in absolute milliseconds</param>
-		/// <returns>Number of minutes (in double format)</returns>
-		public static double GetSeconds(int absolutems)
-		{
-			return (double)absolutems / 1000 % 60;
 		}
 
 		/// <summary>
@@ -297,16 +175,6 @@ namespace Sessions.Core
         public static short HighWord(int dWord)
         {
             return (short)(dWord >> 16 & 65535);
-        }
-
-        public static double LevelToDB(int level, int maxLevel)
-        {
-            return 20.0 * Math.Log10((double)level / (double)maxLevel);
-        }
-
-        public static double LevelToDB(double level, double maxLevel)
-        {
-            return 20.0 * Math.Log10(level / maxLevel);
         }
 
         public static char IndexToLetter(int index)

@@ -25,6 +25,7 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
+using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 
 namespace Sessions.MVP.Presenters
@@ -64,8 +65,8 @@ namespace Sessions.MVP.Presenters
             long ms = 0;
             var lengths = _playerService.CurrentQueue.Items.Select(x => x.AudioFile.Length);
             foreach (string length in lengths)
-                ms += Conversion.TimeStringToMilliseconds(length);
-            string totalLength = Conversion.MillisecondsToTimeString((ulong)ms);
+                ms += ConvertAudio.ToMS(length);
+            string totalLength = ConvertAudio.ToTimeString(ms);
             string shortTotalLength = totalLength.Substring(0, totalLength.IndexOf(".", StringComparison.Ordinal));
             View.RefreshQueue(_playerService.CurrentQueue.Items.Count, shortTotalLength);
         }

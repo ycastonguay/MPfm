@@ -306,9 +306,9 @@ namespace Sessions.Library.Services
                 metadata.PlaylistIndex = player.Playlist.CurrentItemIndex;
 
                 long bytes = player.GetPosition();
-                long samples = ConvertAudio.ToPCM(bytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                long ms = (int)ConvertAudio.ToMS(samples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
-                string position = Conversion.MillisecondsToTimeString((ulong)ms);
+                long samples = ConvertAudio.ToPCM(bytes, player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+                long ms = ConvertAudio.ToMS(samples, player.Playlist.CurrentItem.AudioFile.SampleRate);
+                string position = ConvertAudio.ToTimeString(ms);
                 metadata.Position = position;
 
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(metadata);

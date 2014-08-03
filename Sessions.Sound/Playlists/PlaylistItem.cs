@@ -69,11 +69,11 @@ namespace Sessions.Sound.Playlists
             }
         }
 
-        private int _lengthMilliseconds = 0;
+        private long _lengthMilliseconds = 0;
         /// <summary>
         /// Playlist item length (in milliseconds).
         /// </summary>
-        public int LengthMilliseconds
+        public long LengthMilliseconds
         {
             get
             {
@@ -171,9 +171,9 @@ namespace Sessions.Sound.Playlists
             if (_audioFile.FileType == AudioFileFormat.FLAC && _audioFile.SampleRate > 44100)
                 _lengthBytes = (long)((float)_lengthBytes * 1.5f);
 
-            _lengthSamples = ConvertAudio.ToPCM(_lengthBytes, (uint)_audioFile.BitsPerSample, 2);
-            _lengthMilliseconds = (int)ConvertAudio.ToMS(_lengthSamples, (uint)_audioFile.SampleRate);
-            _lengthString = Conversion.MillisecondsToTimeString((ulong)_lengthMilliseconds);
+            _lengthSamples = ConvertAudio.ToPCM(_lengthBytes, _audioFile.BitsPerSample, 2);
+            _lengthMilliseconds = ConvertAudio.ToMS(_lengthSamples, _audioFile.SampleRate);
+            _lengthString = ConvertAudio.ToTimeString(_lengthMilliseconds);
 
             #endif
 
