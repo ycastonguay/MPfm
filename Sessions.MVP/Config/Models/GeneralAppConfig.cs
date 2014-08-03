@@ -33,6 +33,7 @@ namespace Sessions.MVP.Config.Models
         public int SongPositionUpdateFrequency { get; set; }
         public int OutputMeterUpdateFrequency { get; set; }
 
+        public bool DownloadAlbumArtFromTheInternet { get; set; }
         public bool ShowTooltips { get; set; }
         public bool ShowAppInSystemTray { get; set; }
         public bool MinimizeAppInSystemTray { get; set; }
@@ -43,6 +44,7 @@ namespace Sessions.MVP.Config.Models
             SongPositionUpdateFrequency = 80;
             OutputMeterUpdateFrequency = 100;
             ShowTooltips = true;
+            DownloadAlbumArtFromTheInternet = true;
         }        
     }
 }

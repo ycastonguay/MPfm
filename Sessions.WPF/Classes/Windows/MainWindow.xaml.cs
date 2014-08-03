@@ -1413,6 +1413,7 @@ namespace Sessions.WPF.Classes.Windows
                     if (_currentAlbumArtKey != key)
                     {
                         //panelImageDownloaded.Visibility = Visibility.Hidden;
+                        UIHelper.FadeElement(panelImageDownloading, false, 1, null);
                         UIHelper.FadeElement(panelImageDownloaded, false, 1, null);
                         UIHelper.FadeElement(panelImageDownloadError, false, 1, null);
                         UIHelper.FadeElement(imageAlbum, false, 200, () =>

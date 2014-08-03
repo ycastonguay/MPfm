@@ -5,7 +5,7 @@
         xmlns:objects1="clr-namespace:Sessions.Library.Objects;assembly=Sessions.Library"
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Preferences" Height="580" Width="680" Icon="/Sessions.WPF;component/Resources/Icon.ico" ShowInTaskbar="True" WindowStyle="ToolWindow">
+        Title="Preferences" Height="600" Width="680" Icon="/Sessions.WPF;component/Resources/Icon.ico" ShowInTaskbar="True" WindowStyle="ToolWindow">
     <Window.Resources>
         <Style x:Key="HiddenHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
@@ -192,6 +192,7 @@
             <StackPanel Margin="0,8,0,0">
                 <Label Content="User Interface" Background="{DynamicResource BrushMoreHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="0,0,0,4" />
                 <StackPanel Margin="2,2,0,0">
+                    <CheckBox x:Name="chkDownloadAlbumArt" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Download album art from the internet automatically" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkDownloadAlbumArt_OnChecked" Unchecked="ChkDownloadAlbumArt_OnChecked" />
                     <CheckBox x:Name="chkShowTooltips" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Show tooltips" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkShowTooltips_OnChecked" Unchecked="ChkShowTooltips_OnChecked" />
                     <CheckBox x:Name="chkShowAppInSystemTray" VerticalContentAlignment="Center" Margin="4,4,4,6" Content="Show application in system tray" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkShowAppInSystemTray_OnChecked" Unchecked="ChkShowAppInSystemTray_OnChecked" />
                     <CheckBox x:Name="chkMinimizeAppInSystemTray" VerticalContentAlignment="Center" Margin="24,4,4,4" Content="Minimize in system tray when the app is closed" Foreground="#222222" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkMinimizeAppInSystemTray_OnChecked" Unchecked="ChkMinimizeAppInSystemTray_OnChecked" />

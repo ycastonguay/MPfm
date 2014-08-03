@@ -101,6 +101,12 @@ namespace Sessions.WPF.Classes.Windows
 
         #region General Preferences
 
+        private void ChkDownloadAlbumArt_OnChecked(object sender, RoutedEventArgs e)
+        {
+            _generalAppConfig.DownloadAlbumArtFromTheInternet = chkDownloadAlbumArt.IsChecked.GetValueOrDefault();
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
         private void ChkShowTooltips_OnChecked(object sender, RoutedEventArgs e)
         {
             _generalAppConfig.ShowTooltips = chkShowTooltips.IsChecked.GetValueOrDefault();
@@ -460,6 +466,7 @@ namespace Sessions.WPF.Classes.Windows
                 lblUpdateFrequency_OutputMeter.Content = config.OutputMeterUpdateFrequency.ToString();
                 lblUpdateFrequency_SongPosition.Content = config.SongPositionUpdateFrequency.ToString();
 
+                chkDownloadAlbumArt.IsChecked = config.DownloadAlbumArtFromTheInternet;
                 chkShowTooltips.IsChecked = config.ShowTooltips;
                 chkShowAppInSystemTray.IsChecked = config.ShowAppInSystemTray;
                 chkMinimizeAppInSystemTray.IsChecked = config.MinimizeAppInSystemTray;
