@@ -1172,6 +1172,9 @@ namespace MPfm.GTK.Windows
 		public Action<Loop> OnUpdateLoopDetails { get; set; }
 		public Action<Sessions.Player.Objects.Segment, int> OnChangeSegmentOrder { get; set; }
 		public Action<Sessions.Player.Objects.Segment, Guid> OnLinkSegmentToMarker { get; set; }
+		public Action<Sessions.Player.Objects.Segment, float> OnChangingSegmentPosition { get; set; }
+        public Action<Sessions.Player.Objects.Segment, float> OnChangedSegmentPosition { get; set; }
+
 
 		public void LoopDetailsError(Exception ex)
 		{
@@ -1180,6 +1183,10 @@ namespace MPfm.GTK.Windows
 		public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
 		{
 		}
+		
+		public void RefreshLoopDetailsSegment(Segment segment)
+        {
+        }		
 
 		#endregion
 

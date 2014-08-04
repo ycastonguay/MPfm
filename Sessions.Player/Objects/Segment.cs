@@ -28,8 +28,8 @@ namespace Sessions.Player.Objects
         public int SegmentIndex { get; set; }
 
         public string Position { get; set; }
-        public uint PositionBytes { get; set; }
-        public uint PositionSamples { get; set; }
+        public long PositionBytes { get; set; }
+        public long PositionSamples { get; set; }
 
         [DatabaseField(false)]
         public string Marker { get; set; }

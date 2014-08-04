@@ -519,7 +519,7 @@
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
                                             <StackPanel Orientation="Horizontal">
                                                 <Label Content="Loop Name:" Margin="0,4,0,0" Padding="4,4,4,4" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                <TextBox x:Name="txtLoopName" Width="160" Margin="4,4,4,4" Padding="0,2,0,2" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Left" />
+                                                <TextBox x:Name="txtLoopName" Width="160" Margin="4,4,4,4" Padding="0,2,0,2" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Left" KeyDown="txtLoopName_KeyDown"  />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel Orientation="Vertical">
@@ -575,11 +575,11 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                <controls:TrackBar Grid.Column="1" x:Name="trackSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackSegmentPosition_OnOnTrackBarValueChanged" />
+                                                <controls:TrackBar Grid.Column="1" x:Name="trackSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackSegmentPosition_OnTrackBarValueChanged" />
                                                 <Label Grid.Column="2" x:Name="lblSegmentPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
                                             </Grid>
                                             <StackPanel Orientation="Horizontal">
-                                                <controls:ImageButton x:Name="btnPunchInSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" HorizontalAlignment="Left" Click="BtnPunchInSegment_OnClick" />
+                                                <controls:ImageButton x:Name="btnPunchInSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInSegment_OnClick" />
                                                 <CheckBox x:Name="chkSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkSegmentLinkToMarker_OnChecked" Click="ChkSegmentLinkToMarker_OnClick" />
                                                 <ComboBox x:Name="comboSegmentMarker" Margin="0,2,0,0" Height="26" SelectionChanged="ComboSegmentMarker_OnSelectionChanged" />
                                             </StackPanel>                                            
@@ -695,7 +695,7 @@
                                                 <controls:TrackBar Grid.Column="1" x:Name="trackMarkerPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackMarkerPosition_OnTrackBarValueChanged" />
                                                 <Label Grid.Column="2" x:Name="lblMarkerPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
                                             </Grid>
-                                            <controls:ImageButton x:Name="btnPunchInMarker" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" Margin="2" Width="120" HorizontalAlignment="Left" Click="BtnPunchInMarker_OnClick" />
+                                            <controls:ImageButton x:Name="btnPunchInMarker" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInMarker_OnClick" />
                                         </StackPanel>                                        
                                     </Grid>
                                 </Grid>

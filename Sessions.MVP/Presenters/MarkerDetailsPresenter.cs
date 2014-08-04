@@ -81,7 +81,7 @@ namespace Sessions.MVP.Presenters
                 // Update local marker and update view
                 _marker.Position = positionString;
                 _marker.PositionBytes = positionBytes;
-                _marker.PositionSamples = (uint)positionSamples;
+                _marker.PositionSamples = positionSamples;
                 float positionPercentage = (float)_marker.PositionBytes / (float)_lengthBytes;
                 View.RefreshMarkerPosition(positionString, positionPercentage);
             }
@@ -148,7 +148,7 @@ namespace Sessions.MVP.Presenters
                 _marker.Position = position.Position;
                 _marker.PositionBytes = position.PositionBytes;
                 _marker.PositionPercentage = position.PositionPercentage;
-                _marker.PositionSamples = (uint)position.PositionSamples;
+                _marker.PositionSamples = position.PositionSamples;
                 View.RefreshMarkerPosition(position.Position, position.PositionPercentage);
             } 
             catch (Exception ex)

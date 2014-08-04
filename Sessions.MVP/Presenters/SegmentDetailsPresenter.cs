@@ -95,9 +95,9 @@ namespace Sessions.MVP.Presenters
 
                 // Update local segment and update view
                 _segment.Position = positionString;
-                _segment.PositionBytes = (uint)positionBytes;
-                _segment.PositionSamples = (uint)positionSamples;
-                float positionPercentage = (float)_segment.PositionBytes / (float)_lengthBytes;
+                _segment.PositionBytes = positionBytes;
+                _segment.PositionSamples = positionSamples;
+                float positionPercentage = ((float)_segment.PositionBytes / (float)_lengthBytes) * 100;
                 View.RefreshSegmentPosition(positionString, positionPercentage);
             }
             catch(Exception ex)
@@ -113,8 +113,8 @@ namespace Sessions.MVP.Presenters
             {
                 var position = _playerService.GetPosition();
                 _segment.Position = position.Position;
-                _segment.PositionBytes = (uint)position.PositionBytes;
-                _segment.PositionSamples = (uint)position.PositionSamples;
+                _segment.PositionBytes = position.PositionBytes;
+                _segment.PositionSamples = position.PositionSamples;
                 View.RefreshSegmentPosition(position.Position, position.PositionPercentage);
             } 
             catch (Exception ex)
@@ -155,7 +155,7 @@ namespace Sessions.MVP.Presenters
 
                 _segment.MarkerId = markerId;
                 _segment.Position = marker.Position;
-                _segment.PositionBytes = (uint)marker.PositionBytes;
+                _segment.PositionBytes = marker.PositionBytes;
                 _segment.PositionSamples = marker.PositionSamples;
                 float positionPercentage = ((float)_segment.PositionBytes / (float)_lengthBytes) * 100;
                 View.RefreshSegmentPosition(marker.Position, positionPercentage);

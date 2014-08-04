@@ -30,8 +30,11 @@ namespace Sessions.MVP.Views
         Action<Loop> OnUpdateLoopDetails { get; set; }
         Action<Segment, int> OnChangeSegmentOrder { get; set; }
         Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
+        Action<Segment, float> OnChangingSegmentPosition { get; set; }
+        Action<Segment, float> OnChangedSegmentPosition { get; set; }
 
         void LoopDetailsError(Exception ex);
         void RefreshLoopDetails(Loop loop, AudioFile audioFile);
+	    void RefreshLoopDetailsSegment(Segment segment);        
 	}
 }

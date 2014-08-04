@@ -47,6 +47,7 @@ using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Application = System.Windows.Application;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.MessageBox;
@@ -92,6 +93,8 @@ namespace Sessions.WPF.Classes.Windows
             gridViewSongsNew.MenuItemClicked += GridViewSongsNewOnMenuItemClicked;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
+            scrollViewWaveForm.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
+            scrollViewWaveForm.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
 
             InitializeComboBoxes();
             EnableMarkerButtons(false);
@@ -821,6 +824,12 @@ namespace Sessions.WPF.Classes.Windows
             }
         }
 
+        private void txtLoopName_KeyDown(object sender, KeyEventArgs e)
+        {
+            //_currentLoop.Name = txtLoopName.Text;
+            //OnUpdateLoopDetails(_currentLoop);
+        }
+
         private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
         {
             gridLoops.Visibility = Visibility.Hidden;
@@ -882,13 +891,43 @@ namespace Sessions.WPF.Classes.Windows
             OnPunchInPositionSegmentDetails();
         }
 
-        private void TrackSegmentPosition_OnOnTrackBarValueChanged()
+        private void TrackSegmentPosition_OnTrackBarValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
+            ChangePositionSegmentDetails(trackSegmentPosition.Value / 1000f);
+        }
+
+        private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
+        {
+            if (gridLoopDetails.Visibility == Visibility.Visible)
+            {
+                OnChangingSegmentPosition(segment, positionPercentage);
+            }
+            else if (gridSegmentDetails.Visibility == Visibility.Visible)
+            {
+            }
+        }
+
+        private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
+        {
+            if (gridLoopDetails.Visibility == Visibility.Visible)
+            {
+                OnChangedSegmentPosition(segment, positionPercentage);
+            }
+            else if (gridSegmentDetails.Visibility == Visibility.Visible)
+            {
+                if(segment.SegmentId == _currentSegment.SegmentId)
+                    ChangePositionSegmentDetails(positionPercentage);
+            }
+        }
+
+        private void ChangePositionSegmentDetails(float percentage)
+        {
             chkSegmentLinkToMarker.IsChecked = false;
             comboSegmentMarker.Visibility = Visibility.Hidden;
+            //trackSegmentPosition.ValueWithoutEvent = (int) (percentage*1000f);
             if (OnChangePositionSegmentDetails != null)
-                OnChangePositionSegmentDetails((float)trackSegmentPosition.Value / 1000f);
+                OnChangePositionSegmentDetails(percentage);
         }
 
         private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
@@ -1797,6 +1836,8 @@ namespace Sessions.WPF.Classes.Windows
         public Action<Loop> OnUpdateLoopDetails { get; set; }
         public Action<Segment, int> OnChangeSegmentOrder { get; set; }
         public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
+        public Action<Segment, float> OnChangingSegmentPosition { get; set; }
+        public Action<Segment, float> OnChangedSegmentPosition { get; set; }
 
         public void LoopDetailsError(Exception ex)
         {
@@ -1806,7 +1847,7 @@ namespace Sessions.WPF.Classes.Windows
         public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
         {
             _currentLoop = loop;
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 txtLoopName.Text = loop.Name;
                 scrollViewWaveForm.SetLoop(loop);
@@ -1825,6 +1866,25 @@ namespace Sessions.WPF.Classes.Windows
 
                 lblLoopLength.Content = _currentLoop.TotalLength;
             }));
+        }
+
+        public void RefreshLoopDetailsSegment(Segment segment)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var startSegment = _currentLoop.GetStartSegment();
+                var endSegment = _currentLoop.GetEndSegment();
+
+                if (startSegment == null || endSegment == null)
+                    return;
+
+                if (startSegment.SegmentId == segment.SegmentId)
+                    lblLoopStartPosition.Content = segment.Position;
+                else if (endSegment.SegmentId == segment.SegmentId)
+                    lblLoopEndPosition.Content = segment.Position;
+
+                lblLoopLength.Content = _currentLoop.TotalLength;
+            }));        
         }
 
         #endregion
@@ -1848,11 +1908,7 @@ namespace Sessions.WPF.Classes.Windows
         #endregion
 
         #region ISegmentDetailsView implementation
-
-        public Action<float> OnChangeStartPositionSegmentDetails { get; set; }
-        public Action<float> OnChangeEndPositionSegmentDetails { get; set; }
-        public Action OnPunchInStartPositionSegmentDetails { get; set; }
-        public Action OnPunchInEndPositionSegmentDetails { get; set; }
+        
         public Action<float> OnChangePositionSegmentDetails { get; set; }
         public Action OnPunchInPositionSegmentDetails { get; set; }
         public Action<Segment> OnUpdateSegmentDetails { get; set; }
@@ -1870,7 +1926,6 @@ namespace Sessions.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //waveFormScrollView.SetSegment(segment);
-
                 chkSegmentLinkToMarker.IsChecked = segment.MarkerId != Guid.Empty;
                 comboSegmentMarker.Visibility = segment.MarkerId == Guid.Empty ? Visibility.Hidden : Visibility.Visible;
                 int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
@@ -1879,7 +1934,6 @@ namespace Sessions.WPF.Classes.Windows
 
                 float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
                 trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-
                 lblSegmentPosition.Content = segment.Position;
             }));
         }
@@ -1889,12 +1943,12 @@ namespace Sessions.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 lblSegmentPosition.Content = position;
-                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
 
                 if (_currentSegment != null)
                 {
                     _currentSegment.Position = position;
-                    //waveFormScrollView.SetSegment(_currentSegment);
+                    scrollViewWaveForm.SetSegment(_currentSegment);
                 }
             }));
         }

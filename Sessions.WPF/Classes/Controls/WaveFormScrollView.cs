@@ -93,12 +93,17 @@ namespace Sessions.WPF.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
 
         public WaveFormScrollView()
         {
             WaveFormView = new WaveForm();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
             WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
+            WaveFormView.OnChangingSegmentPosition += (segment, bytes) => OnChangingSegmentPosition(segment, bytes);
+            WaveFormView.OnChangedSegmentPosition += (segment, bytes) => OnChangedSegmentPosition(segment, bytes);
+            
             WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
 

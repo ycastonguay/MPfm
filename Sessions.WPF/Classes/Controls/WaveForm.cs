@@ -121,6 +121,8 @@ namespace Sessions.WPF.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
 
         public WaveForm()
         {
@@ -137,6 +139,9 @@ namespace Sessions.WPF.Classes.Controls
             }));
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
+            _control.OnChangingSegmentPosition += (segment, bytes) => OnChangingSegmentPosition(segment, bytes);
+            _control.OnChangedSegmentPosition += (segment, bytes) => OnChangedSegmentPosition(segment, bytes);
+            _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
         }
 
         public void SetMarkers(IEnumerable<Marker> markers)
@@ -212,6 +217,12 @@ namespace Sessions.WPF.Classes.Controls
         {
             GenericControlHelper.MouseMove(e, this, _control);
             base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            _control.MouseLeave();
+            base.OnMouseLeave(e);
         }
     }
 }

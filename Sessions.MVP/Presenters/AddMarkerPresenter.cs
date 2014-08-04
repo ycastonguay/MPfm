@@ -67,7 +67,7 @@ namespace Sessions.MVP.Presenters
                 Marker marker = new Marker();
                 marker.Name = markerName;
                 marker.PositionBytes = _playerService.GetPosition().PositionBytes;
-                marker.PositionSamples = (uint)ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+                marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
                 var ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentPlaylistItem.AudioFile.SampleRate);
                 marker.Position = ConvertAudio.ToTimeString(ms);
                 marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;

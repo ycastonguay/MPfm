@@ -59,15 +59,17 @@ namespace Sessions.MVP.Presenters
             view.OnEditSegment = EditSegment;
             view.OnDeleteSegment = DeleteSegment;
             view.OnUpdateLoopDetails = UpdateLoopDetails;            
-            view.OnChangeSegmentOrder = ChangeSegmentOrder;
             view.OnLinkSegmentToMarker = LinkSegmentToMarker;
+            view.OnChangeSegmentOrder = ChangeSegmentOrder;
+            view.OnChangingSegmentPosition = ChangingSegmentPosition;
+            view.OnChangedSegmentPosition = ChangedSegmentPosition;
             base.BindView(view);
 
             _tokens.Add(_messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited));            
             _tokens.Add(_messageHub.Subscribe<SegmentUpdatedMessage>(SegmentUpdated));
         }
 
-        public override void ViewDestroyed()
+	    public override void ViewDestroyed()
         {
             foreach (TinyMessageSubscriptionToken token in _tokens)
                 token.Dispose();
@@ -152,7 +154,7 @@ namespace Sessions.MVP.Presenters
                 segment.LoopId = _loopId;
                 segment.MarkerId = marker.MarkerId;
                 segment.Position = marker.Position;
-                segment.PositionBytes = (uint)marker.PositionBytes;
+                segment.PositionBytes = marker.PositionBytes;
                 segment.PositionSamples = marker.PositionSamples;
 
                 _loop.Segments.Insert(row, segment);
@@ -222,6 +224,51 @@ namespace Sessions.MVP.Presenters
             }
         }
 
+	    private void ChangedSegmentPosition(Segment segment, float positionPercentage)
+	    {
+	        ChangeSegmentPosition(segment, positionPercentage, true);
+	    }
+
+	    private void ChangingSegmentPosition(Segment segment, float positionPercentage)
+	    {
+            ChangeSegmentPosition(segment, positionPercentage, false);
+	    }
+
+        private void ChangeSegmentPosition(Segment segment, float positionPercentage, bool updateDatabase)
+        {
+            try
+            {
+                // Calculate new position from 0.0f/1.0f scale
+                long positionBytes = (long)(positionPercentage * _lengthBytes);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, _audioFile.BitsPerSample, _audioFile.AudioChannels);
+                long positionMS = ConvertAudio.ToMS(positionSamples, _audioFile.SampleRate);
+                string positionString = ConvertAudio.ToTimeString(positionMS);
+
+                // Update local segment and update view
+                segment.Position = positionString;
+                segment.PositionBytes = positionBytes;
+                segment.PositionSamples = positionSamples;
+                //float positionPercentage = ((float)segment.PositionBytes / (float)_lengthBytes) * 100;
+
+                if (updateDatabase)
+                {
+                    _libraryService.UpdateSegment(segment);
+                    _messageHub.PublishAsync(new LoopUpdatedMessage(this)
+                    {
+                        AudioFileId = _audioFile.Id,
+                        LoopId = _loopId
+                    });
+                }
+
+                View.RefreshLoopDetailsSegment(segment);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while calculating the segment position: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
         private void LinkSegmentToMarker(Segment segment, Guid markerId)
         {
             try
@@ -234,9 +281,9 @@ namespace Sessions.MVP.Presenters
                 // Update segment
                 segment.MarkerId = markerId;
                 segment.Position = marker.Position;
-                segment.PositionBytes = (uint)marker.PositionBytes;
+                segment.PositionBytes = marker.PositionBytes;
                 segment.PositionSamples = marker.PositionSamples;
-                float positionPercentage = ((float)segment.PositionBytes / (float)_lengthBytes) * 100;
+                //float positionPercentage = ((float)segment.PositionBytes / (float)_lengthBytes) * 100;
                 _libraryService.UpdateSegment(segment);
 
                 RefreshLoop();

@@ -1953,6 +1953,8 @@ namespace Sessions.OSX
         public Action<Loop> OnUpdateLoopDetails { get; set; }
         public Action<Segment, int> OnChangeSegmentOrder { get; set; }
         public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
+		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
+        public Action<Segment, float> OnChangedSegmentPosition { get; set; }
         
         public void LoopDetailsError(Exception ex)
         {
@@ -1977,6 +1979,10 @@ namespace Sessions.OSX
                         tableSegments.SelectRow(newRow, false);
                 }
             });
+        }
+		
+		public void RefreshLoopDetailsSegment(Segment segment)
+        {
         }
 
         #endregion

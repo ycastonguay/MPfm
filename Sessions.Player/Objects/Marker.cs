@@ -21,39 +21,17 @@ using Sessions.Core.Attributes;
 namespace Sessions.Player.Objects
 {
     /// <summary>
-    /// Defines a Marker, which points to a specific position in an audio file.
-    /// Loops are made of two markers.
+    /// Defines a Marker, which points to a specific position in an audio file.    
     /// </summary>
     public class Marker
     {
-        /// <summary>
-        /// Marker unique identifier (for database storage).
-        /// </summary>
         public Guid MarkerId { get; set; }
-        /// <summary>
-        /// Relationship to the AudioFile unique identifier (for database storage).
-        /// </summary>
         public Guid AudioFileId { get; set; }
-        /// <summary>
-        /// Marker name.
-        /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// Marker comments.
-        /// </summary>
         public string Comments { get; set; }
-        /// <summary>
-        /// Marker position (in 0:00.000 string format).
-        /// </summary>
         public string Position { get; set; }
-        /// <summary>
-        /// Marker position (in bytes).
-        /// </summary>
         public long PositionBytes { get; set; }
-        /// <summary>
-        /// Marker position (in samples).
-        /// </summary>
-        public uint PositionSamples { get; set; }
+        public long PositionSamples { get; set; }
 
 		[DatabaseField(false)]
 		public float PositionPercentage { get; set; }
@@ -61,12 +39,8 @@ namespace Sessions.Player.Objects
         [DatabaseField(false)]
         public string Index { get; set; }
 
-        /// <summary>
-        /// Default constructor for the Marker class.
-        /// </summary>
         public Marker()
         {
-            // Set default values
             MarkerId = Guid.NewGuid();
             AudioFileId = Guid.Empty;
             Name = string.Empty;
