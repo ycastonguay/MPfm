@@ -129,6 +129,8 @@ namespace Sessions.OSX.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
         public event WaveFormControl.ContentOffsetChanged OnContentOffsetChanged;
 
         [Export("init")]
@@ -148,12 +150,20 @@ namespace Sessions.OSX.Classes.Controls
             WantsLayer = true;
             LayerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay;
             _control = new WaveFormControl();    
-            _control.OnChangePosition += (position) => OnChangePosition(position);
-            _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
-            _control.OnContentOffsetChanged += (offset) => OnContentOffsetChanged(offset);
+            _control.OnChangePosition += OnChangePosition;
+            _control.OnChangeSecondaryPosition += OnChangeSecondaryPosition;
+            _control.OnChangingSegmentPosition += (segment, positionPercentage) => OnChangingSegmentPosition(segment, positionPercentage);
+            _control.OnChangedSegmentPosition += (segment, positionPercentage) => OnChangedSegmentPosition(segment, positionPercentage);
+            _control.OnContentOffsetChanged += OnContentOffsetChanged;
+            _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
-            
+
+            // Add tracking area to receive mouse move and mouse dragged events
+            var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.MouseEnteredAndExited | NSTrackingAreaOptions.EnabledDuringMouseDrag;
+            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
+            AddTrackingArea(trackingArea);
+
             SetFrame();
             PostsBoundsChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
@@ -210,6 +220,12 @@ namespace Sessions.OSX.Classes.Controls
         {
             base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+
+        public override void MouseExited(NSEvent theEvent)
+        {
+            base.MouseExited(theEvent);
+            _control.MouseLeave();
         }
 
         public void SetMarkers(IEnumerable<Marker> markers)

@@ -89,6 +89,8 @@ namespace Sessions.OSX.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
 
         [Export("init")]
         public SessionsWaveFormScrollView() : base(NSObjectFlag.Empty)
@@ -114,8 +116,10 @@ namespace Sessions.OSX.Classes.Controls
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
             
             WaveFormView = new SessionsWaveFormView();
-            WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
-            WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
+            WaveFormView.OnChangePosition += OnChangePosition;
+            WaveFormView.OnChangeSecondaryPosition += OnChangeSecondaryPosition;
+            WaveFormView.OnChangingSegmentPosition += (segment, positionPercentage) => OnChangingSegmentPosition(segment, positionPercentage);
+            WaveFormView.OnChangedSegmentPosition += (segment, positionPercentage) => OnChangedSegmentPosition(segment, positionPercentage);
             WaveFormView.OnContentOffsetChanged += (offset) => SetContentOffsetX(offset.X);
             AddSubview(WaveFormView);
 

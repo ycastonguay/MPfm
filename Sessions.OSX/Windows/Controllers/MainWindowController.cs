@@ -106,6 +106,8 @@ namespace Sessions.OSX
             viewUpdateLibrary.Hidden = true;
             waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
+            waveFormScrollView.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
+            waveFormScrollView.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
 
             OnViewReady(this);
@@ -302,6 +304,7 @@ namespace Sessions.OSX
             lblPlayCount.Font = textFont;
             lblLastPlayed.Font = textFont;
             lblQueueDetails.Font = textFont;
+            lblSegmentPosition.Font = textFont;
 
             var titleFont = NSFont.FromFontName("Roboto", 13f);
             lblTitleLibraryBrowser.Font = titleFont;
@@ -348,7 +351,6 @@ namespace Sessions.OSX
             lblPosition.Font = largePositionFont;
             lblLength.Font = largePositionFont;
             lblLoopPosition.Font = largePositionFont;
-            lblSegmentPosition.Font = largePositionFont;
 
             var textBoxFont = NSFont.FromFontName("Roboto", 12f);
             txtMarkerName.Font = textBoxFont;
@@ -642,10 +644,15 @@ namespace Sessions.OSX
         private void HandleOnTrackBarSegmentPositionValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
+            ChangePositionSegmentDetails((float)trackBarSegmentPosition.Value / 1000f);
+        }
+
+        private void ChangePositionSegmentDetails(float percentage)
+        {
             chkSegmentLinkToMarker.Value = false;
             comboSegmentMarker.Hidden = true;
             if (OnChangePositionSegmentDetails != null)
-                OnChangePositionSegmentDetails((float)trackBarSegmentPosition.Value / 1000f);
+                OnChangePositionSegmentDetails(percentage);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -826,6 +833,32 @@ namespace Sessions.OSX
             else
             {
                 OnLinkToMarkerSegmentDetails(Guid.Empty);
+            }
+        }
+
+        private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
+        {
+            if (!viewLoopDetails.Hidden)
+            {
+                OnChangingSegmentPosition(segment, positionPercentage);
+            }
+            else if (!viewSegmentDetails.Hidden)
+            {
+                if (segment.SegmentId == _currentSegment.SegmentId)
+                    ChangePositionSegmentDetails(positionPercentage);
+            }
+        }
+
+        private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
+        {
+            if (!viewLoopDetails.Hidden)
+            {
+                OnChangedSegmentPosition(segment, positionPercentage);
+            }
+            else if (!viewSegmentDetails.Hidden)
+            {
+                if(segment.SegmentId == _currentSegment.SegmentId)
+                    ChangePositionSegmentDetails(positionPercentage);
             }
         }
 

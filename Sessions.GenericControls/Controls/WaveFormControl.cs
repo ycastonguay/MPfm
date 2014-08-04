@@ -580,14 +580,16 @@ namespace Sessions.GenericControls.Controls
 
                     // Draw text
                     //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
-                    var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX > startX ? endX - startX : 0, 12);
+                    //var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX > startX ? endX - startX : 0, 12);
+                    var rectText = new BasicRectangle(startX, Frame.Height - 12, endX > startX ? endX - startX : 0, 12);
                     //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
                     context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
                     //context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
 
                     // Draw loop name in the pass of the first segment
                     if(a == 0)
-                        context.DrawText(_loop.Name, new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
+                        context.DrawText(_loop.Name, rectText, _textColor, LetterFontFace, LetterFontSize);
+                        //context.DrawText(_loop.Name, new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
                 }
             }
         }
@@ -661,6 +663,7 @@ namespace Sessions.GenericControls.Controls
             }
             else if (_segmentMouseOver != null)
             {
+                Console.WriteLine("Is dragging segment!");
                 _isDraggingSegment = true;
                 _segmentDragging = _segmentMouseOver;
             }
@@ -691,6 +694,7 @@ namespace Sessions.GenericControls.Controls
             } 
             else if (_isDraggingSegment)
             {
+                Console.WriteLine("STOPPING dragging segment!");
                 _isDraggingSegment = false;                
                 OnChangedSegmentPosition(_segmentDragging, positionPercentage);
                 _segmentDragging = null;
@@ -758,8 +762,8 @@ namespace Sessions.GenericControls.Controls
                     var startSegment = _loop.GetStartSegment();
                     var endSegment = _loop.GetEndSegment();
 
-                    if (_segmentDragging == startSegment)
-                        Console.WriteLine("WaveFormControl - MouseMove - startSegment - position: {0} endSegment.positionbytes: {1}", position, endSegment.PositionBytes);
+//                    if (_segmentDragging == startSegment)
+//                        Console.WriteLine("WaveFormControl - MouseMove - startSegment - position: {0} endSegment.positionbytes: {1}", position, endSegment.PositionBytes);
 
                     // Make sure the loop length doesn't get below 0
                     if (_segmentDragging == startSegment && position > endSegment.PositionBytes)
@@ -767,7 +771,7 @@ namespace Sessions.GenericControls.Controls
                     else if (_segmentDragging == endSegment && position < startSegment.PositionBytes)
                         position = startSegment.PositionBytes;
 
-                    Console.WriteLine("WaveFormControl - MouseMove - position: {0} startSegment.positionbyttes: {1} endSegment.positionbytes: {2}", position, startSegment.PositionBytes, endSegment.PositionBytes);
+                    //Console.WriteLine("WaveFormControl - MouseMove - position: {0} startSegment.positionbyttes: {1} endSegment.positionbytes: {2}", position, startSegment.PositionBytes, endSegment.PositionBytes);
 
                     _segmentDragging.PositionBytes = position;
                     OnChangingSegmentPosition(_segmentDragging, positionPercentage);
@@ -802,6 +806,9 @@ namespace Sessions.GenericControls.Controls
                         }
                     }
                 }
+
+                if (cursorType == MouseCursorType.Default)
+                    _segmentMouseOver = null;
 
                 ChangeMouseCursor(cursorType);
             }
