@@ -11,6 +11,7 @@
         <Color x:Key="MoreHeaderBackgroundColor">#FF758794</Color>
         <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
         <Color x:Key="SmallHeaderButtonOverBackgroundColor">#FF323C43</Color>
+        <Color x:Key="SmallHeaderButtonSelectedBackgroundColor">#FF283138</Color>
         <Color x:Key="HeaderButtonOverBackgroundColor">#FF5A6B75</Color>
         <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>        
         <Color x:Key="ButtonOverBackgroundColor">#FFF07568</Color>
@@ -161,7 +162,7 @@
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontSize" Value="11" />
             <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -192,7 +193,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,4" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -202,7 +203,7 @@
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontSize" Value="11" />
             <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -212,7 +213,7 @@
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource BackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource SmallHeaderButtonSelectedBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="MouseOver">
@@ -227,13 +228,13 @@
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource BackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource SmallHeaderButtonSelectedBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Border Background="#66FFFFFF" VerticalAlignment="Bottom" Height="2" />
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,4" />
+                            <Border Background="#66FFFFFF" VerticalAlignment="Bottom" Height="1" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
