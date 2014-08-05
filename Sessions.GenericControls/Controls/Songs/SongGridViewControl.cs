@@ -2306,11 +2306,11 @@ namespace Sessions.GenericControls.Controls.Songs
             {
                 // Cut 16 pixels
                 HorizontalScrollBar.Width = (int) (Frame.Width - 16);
-                VerticalScrollBar.Height = (int) (Frame.Height - (_songCache.LineHeight * 2) - 16);
+                VerticalScrollBar.Height = Math.Max(0, (int) (Frame.Height - (_songCache.LineHeight * 2) - 16));
             }
             else
             {
-                VerticalScrollBar.Height = (int) (Frame.Height - (_songCache.LineHeight * 2));
+                VerticalScrollBar.Height = Math.Max(0, (int) (Frame.Height - (_songCache.LineHeight * 2)));
             }
         }
 

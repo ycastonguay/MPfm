@@ -461,6 +461,19 @@ namespace Sessions.WPF.Classes.Windows
             btnActions.Style = res["HeaderButton"] as Style;
         }
 
+        private void ResetLoopHeaderPanelVisibility()
+        {
+            panelLoopStartPosition.Visibility = Visibility.Hidden;
+            panelLoopEndPosition.Visibility = Visibility.Hidden;            
+        }
+
+        private void ResetLoopHeaderButtonStyles()
+        {
+            var res = Application.Current.Resources;
+            btnLoopStartPosition.Style = res["SmallHeaderButton"] as Style;
+            btnLoopEndPosition.Style = res["SmallHeaderButton"] as Style;
+        }
+
         private void BtnUseThisTempo_OnClick(object sender, RoutedEventArgs e)
         {
         }
@@ -822,6 +835,22 @@ namespace Sessions.WPF.Classes.Windows
             {
                 OnDeleteSegment(_currentLoop.Segments[listViewSegments.SelectedIndex]);
             }
+        }
+
+        private void BtnLoopStartPosition_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetLoopHeaderButtonStyles();
+            ResetLoopHeaderPanelVisibility();
+            btnLoopStartPosition.Style = System.Windows.Application.Current.Resources["SmallHeaderButtonSelected"] as Style;
+            panelLoopStartPosition.Visibility = Visibility.Visible;            
+        }
+
+        private void BtnLoopEndPosition_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetLoopHeaderButtonStyles();
+            ResetLoopHeaderPanelVisibility();
+            btnLoopEndPosition.Style = System.Windows.Application.Current.Resources["SmallHeaderButtonSelected"] as Style;
+            panelLoopEndPosition.Visibility = Visibility.Visible;
         }
 
         private void txtLoopName_KeyDown(object sender, KeyEventArgs e)

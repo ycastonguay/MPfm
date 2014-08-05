@@ -10,6 +10,7 @@
         <Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>
         <Color x:Key="MoreHeaderBackgroundColor">#FF758794</Color>
         <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
+        <Color x:Key="SmallHeaderButtonOverBackgroundColor">#FF323C43</Color>
         <Color x:Key="HeaderButtonOverBackgroundColor">#FF5A6B75</Color>
         <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>        
         <Color x:Key="ButtonOverBackgroundColor">#FFF07568</Color>
@@ -145,6 +146,88 @@
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource HeaderBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Border Background="#66FFFFFF" VerticalAlignment="Bottom" Height="2" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="SmallHeaderButton">
+            <!--Set to true to not get any properties from the themes.-->
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="gridButton" Background="#FF20282E">
+                            <!-- if you use a predetermined brush, this will affect all buttons at the same time when applying color animation -->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource BackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource SmallHeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource SmallHeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource BackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="SmallHeaderButtonSelected">
+            <!--Set to true to not get any properties from the themes.-->
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="gridButton" Background="#FF20282E">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource BackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource SmallHeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource SmallHeaderButtonOverBackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0:0:0:0.1" To="{DynamicResource BackgroundColor}" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="gridButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
