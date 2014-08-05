@@ -1297,8 +1297,8 @@ namespace Sessions.iOS.Classes.Controllers
 							long ms = 0;
 							string totalLength = string.Empty;
 							foreach(var item in list)
-								ms += Conversion.TimeStringToMilliseconds(item.AudioFile.Length);
-							totalLength = Conversion.MillisecondsToTimeString((ulong)ms);
+                                ms += ConvertAudio.ToMS(item.AudioFile.Length);
+							totalLength = ConvertAudio.ToTimeString(ms);
 
 							var sectionIndex = new SectionIndex(){
 								ArtistName = artist,
