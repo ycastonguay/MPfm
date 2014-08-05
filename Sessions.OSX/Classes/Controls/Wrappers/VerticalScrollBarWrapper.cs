@@ -25,7 +25,7 @@ namespace Sessions.OSX.Classes.Controls
     public class VerticalScrollBarWrapper : NSScroller, IVerticalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
-        //bool IVerticalScrollBarWrapper.Visible { get { return !Hidden; } set { Hidden = !value; } }
+
         bool IVerticalScrollBarWrapper.Visible { get; set; }
         bool IVerticalScrollBarWrapper.Enabled { get { return Enabled; } set { Enabled = value; } }
         int IVerticalScrollBarWrapper.Width { get { return (int)Frame.Width; } set { 
@@ -39,6 +39,7 @@ namespace Sessions.OSX.Classes.Controls
                 Frame = frame;
             } }
 
+        private float _lastValue = 0;
         private float _value = 0;
         int IVerticalScrollBarWrapper.Value { get { 
                 int newValue = (int)(FloatValue * _maximum);
@@ -56,10 +57,6 @@ namespace Sessions.OSX.Classes.Controls
                 //Console.WriteLine("IVerticalScrollBarWrapper - Set Value to {0} ({1}) -- min: {2} max: {3}", value, newValue, _minimum, _maximum);
                 FloatValue = newValue; 
             } }
-//        int IHorizontalScrollBarWrapper.Minimum { get { return (int)Minimum; } set { Minimum = value; } }
-//        int IHorizontalScrollBarWrapper.Maximum { get { return (int)Maximum; } set { Maximum = value; } }
-//        int IHorizontalScrollBarWrapper.SmallChange { get { return (int)SmallChange; } set { SmallChange = value; } }
-//        int IHorizontalScrollBarWrapper.LargeChange { get { return (int)LargeChange; } set { LargeChange = value; } }
 
         private int _minimum = 0;
         int IVerticalScrollBarWrapper.Minimum { get { return _minimum; } set { _minimum = value; } }
@@ -78,41 +75,18 @@ namespace Sessions.OSX.Classes.Controls
             Action = new MonoMac.ObjCRuntime.Selector("scrollAction:");
         }
 
-        [Export ("scrollAction:")]
-        public void ScrollAction(NSObject sender)
+        public override void DrawKnob()
         {
-            // Doesn't work... why?!
-            Console.WriteLine("scrollAction");
-        }
+            base.DrawKnob();
 
-        public override NSScrollerPart HitPart
-        {
-            get
+            // I tried multiple events but this is the only reliable way to notify scroll bar value change
+            if (_lastValue != FloatValue)
             {
-                Console.WriteLine(">>>> HitPart");
-                return base.HitPart;
+                _lastValue = FloatValue;
+
+                if (OnScrollValueChanged != null)
+                    OnScrollValueChanged(this, new EventArgs());
             }
         }
-
-        public override void TrackKnob(NSEvent theEvent)
-        {
-            Console.WriteLine(">>>> TrackKnob");
-            base.TrackKnob(theEvent);
-        }
-
-        public override void TrackScrollButtons(NSEvent theEvent)
-        {
-            Console.WriteLine(">>>> TrackScrollButtons");
-            base.TrackScrollButtons(theEvent);
-        }
-
-
-//        protected override void OnValueChanged(double oldValue, double newValue)
-//        {
-//            //Console.WriteLine("HorizontalScrollBarWrapper - OnValueChanged - newValue: {0} (min: {1} max: {2})", newValue, Minimum, Maximum);
-//            base.OnValueChanged(oldValue, newValue);
-//            if (OnScrollValueChanged != null)
-//                OnScrollValueChanged(this, new EventArgs());
-//        }
     }
 }

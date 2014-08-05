@@ -36,6 +36,7 @@ namespace Sessions.OSX.Classes.Controls
                 frame.Height = value; 
                 Frame = frame;
             } }
+        private float _lastValue = 0;
         int IHorizontalScrollBarWrapper.Value { get { return (int)FloatValue; } set { FloatValue = value; } }
 //        int IHorizontalScrollBarWrapper.Minimum { get { return (int)Minimum; } set { Minimum = value; } }
 //        int IHorizontalScrollBarWrapper.Maximum { get { return (int)Maximum; } set { Maximum = value; } }
@@ -51,12 +52,18 @@ namespace Sessions.OSX.Classes.Controls
             //Orientation = Orientation.Horizontal;
         }       
 
-//        protected override void OnValueChanged(double oldValue, double newValue)
-//        {
-//            //Console.WriteLine("HorizontalScrollBarWrapper - OnValueChanged - newValue: {0} (min: {1} max: {2})", newValue, Minimum, Maximum);
-//            base.OnValueChanged(oldValue, newValue);
-//            if (OnScrollValueChanged != null)
-//                OnScrollValueChanged(this, new EventArgs());
-//        }
+        public override void DrawKnob()
+        {
+            base.DrawKnob();
+
+            // I tried multiple events but this is the only reliable way to notify scroll bar value change
+            if (_lastValue != FloatValue)
+            {
+                _lastValue = FloatValue;
+
+                if (OnScrollValueChanged != null)
+                    OnScrollValueChanged(this, new EventArgs());
+            }
+        }
     }
 }

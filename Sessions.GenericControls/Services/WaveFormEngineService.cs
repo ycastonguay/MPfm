@@ -29,12 +29,10 @@ namespace Sessions.GenericControls.Services
 {
     public class WaveFormEngineService : IWaveFormEngineService
     {
-        public const int TileSize = 250;
-        private readonly object _lockerCache = new object();
+        public const int TileSize = 50;
         private readonly IWaveFormRenderingService _waveFormRenderingService;
         private readonly IWaveFormRequestService _requestService;
         private readonly ITileCacheService _cacheService;
-        private float _lastZoom;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
@@ -118,9 +116,12 @@ namespace Sessions.GenericControls.Services
         public WaveFormBitmapRequest GetTilesRequest(float offsetX, float zoom, BasicRectangle controlFrame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
         {
             // This needs to be added in a service or helper, and unit tested
+            //float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
+            float myzoom = (float)(zoom / Math.Floor(zoom));
             int startDirtyTile = TileHelper.GetStartDirtyTile(offsetX, dirtyRect.X, zoom, TileSize);
-            int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize);
-            //Console.WriteLine("WaveFormEngineService - GetTilesRequest - offsetX: {0} zoom: {1} startDirtyTile: {2} endDirtyTile: {3}", offsetX, zoom, startDirtyTile, endDirtyTile);
+            //int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize);
+            int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, myzoom, TileSize) + 1;
+            //Console.WriteLine("GetTilesRequest --> offsetX: {0} zoom: {1} startTile: {2} endTile: {3} dirtyRect: {4}", offsetX, zoom, startDirtyTile, endDirtyTile, dirtyRect);
             var request = new WaveFormBitmapRequest()
             {
                 StartTile = startDirtyTile,
@@ -136,24 +137,14 @@ namespace Sessions.GenericControls.Services
 
         public List<WaveFormTile> GetTiles(WaveFormBitmapRequest request)
         {
-//            if (request.Zoom != _lastZoom && request.Zoom > 1)
-//            {
-//                lock (_lockerCache)
-//                {
-//                    // Bug: when requesting the smaller tiles, the zoom changes
-//                    //Console.WriteLine("WaveFormCacheService - Zoom has changed - lastZoom: {0} zoom: {1}", _lastZoom, request.Zoom);
-//                    _lastZoom = request.Zoom;
-//                    _cacheService.Flush();
-//                }
-//            }
-
             float zoomThreshold = (float)Math.Floor(request.Zoom);
             var boundsWaveFormAdjusted = new BasicRectangle(0, 0, request.BoundsWaveForm.Width * zoomThreshold, request.BoundsWaveForm.Height);
             var tiles = new List<WaveFormTile>();
             for (int a = request.StartTile; a < request.EndTile; a++)
             {
                 float tileX = a * request.TileSize;
-                //Console.WriteLine("WaveFormEngineService - GetTiles - Requesting tile from cache at tileX: {0}", tileX);
+                //Console.WriteLine("<---------------->");
+                //Console.WriteLine("GetTiles --> Requesting tile from cache - a: {0} tileX: {1} zoom: {2}", a, tileX, zoomThreshold);
                 //var tile = _cacheService.GetTile(tileX, request.IsScrollBar);
                 var tile = _cacheService.GetTile(tileX, zoomThreshold, request.IsScrollBar);
                 //if (tile != null)
@@ -172,7 +163,10 @@ namespace Sessions.GenericControls.Services
 
                         // This is buggy
                         //int tileIndex = TileHelper.GetTileIndexAt(tileX, zoomThreshold, newZoom, TileSize);
-                        int tileIndex = TileHelper.GetTileIndexAt(tileX, request.Zoom, newZoom, TileSize);
+                        //Console.WriteLine("GetTiles ----> Requesting tile from cache at different zoom - tileX: {0} request.Zoom: {1} newZoom: {2}", tileX, request.Zoom, newZoom);
+                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, request.Zoom, newZoom, TileSize);
+                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, newZoom, zoomThreshold, TileSize);
+                        int tileIndex = TileHelper.GetTileIndexAt(tileX, newZoom, newZoom, TileSize);
                         tile = _cacheService.GetTile(tileIndex * TileSize, newZoom, false);
 
                         if(tile != null || newZoom == 1)
@@ -220,6 +214,7 @@ namespace Sessions.GenericControls.Services
                 //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, request.Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
                 if (tile != null)
                 {
+                    //Console.WriteLine("GetTiles --> Got tile from cache - tileX: {0} tile.Zoom: {1}", tileX, tile.Zoom);
                     // Calculate the new covered area (adjusted with the zoom delta)
                     //float currentTileDeltaZoom = request.Zoom/tile.Zoom;
                     //float currentTileX = tile.ContentOffset.X*currentTileDeltaZoom;

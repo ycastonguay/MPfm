@@ -150,11 +150,11 @@ namespace Sessions.OSX.Classes.Controls
             WantsLayer = true;
             LayerContentsRedrawPolicy = NSViewLayerContentsRedrawPolicy.OnSetNeedsDisplay;
             _control = new WaveFormControl();    
-            _control.OnChangePosition += OnChangePosition;
-            _control.OnChangeSecondaryPosition += OnChangeSecondaryPosition;
+            _control.OnChangePosition += (positionPercentage) => OnChangePosition(positionPercentage);
+            _control.OnChangeSecondaryPosition += (positionPercentage) => OnChangeSecondaryPosition(positionPercentage);
             _control.OnChangingSegmentPosition += (segment, positionPercentage) => OnChangingSegmentPosition(segment, positionPercentage);
             _control.OnChangedSegmentPosition += (segment, positionPercentage) => OnChangedSegmentPosition(segment, positionPercentage);
-            _control.OnContentOffsetChanged += OnContentOffsetChanged;
+            _control.OnContentOffsetChanged += (offset) => OnContentOffsetChanged(offset);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));

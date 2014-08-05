@@ -116,8 +116,8 @@ namespace Sessions.OSX.Classes.Controls
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
             
             WaveFormView = new SessionsWaveFormView();
-            WaveFormView.OnChangePosition += OnChangePosition;
-            WaveFormView.OnChangeSecondaryPosition += OnChangeSecondaryPosition;
+            WaveFormView.OnChangePosition += (positionPercentage) => OnChangePosition(positionPercentage);
+            WaveFormView.OnChangeSecondaryPosition += (positionPercentage) => OnChangeSecondaryPosition(positionPercentage);
             WaveFormView.OnChangingSegmentPosition += (segment, positionPercentage) => OnChangingSegmentPosition(segment, positionPercentage);
             WaveFormView.OnChangedSegmentPosition += (segment, positionPercentage) => OnChangedSegmentPosition(segment, positionPercentage);
             WaveFormView.OnContentOffsetChanged += (offset) => SetContentOffsetX(offset.X);

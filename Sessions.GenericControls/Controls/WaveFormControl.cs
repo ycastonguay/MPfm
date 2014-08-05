@@ -465,7 +465,7 @@ namespace Sessions.GenericControls.Controls
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
                 //float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
-                //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
+                //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} tileDeltaZoom: {2}", x, tileWidth, tileDeltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
@@ -482,29 +482,29 @@ namespace Sessions.GenericControls.Controls
         {
             if (ShowScrollBar && Zoom > 1)
             {
-                int startTile = 0;
-                int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
-                var requestScrollBar = new WaveFormBitmapRequest()
-                {
-                    StartTile = startTile,
-                    EndTile = numberOfTilesToFillWidth,
-                    TileSize = tileSize,
-                    BoundsWaveForm = new BasicRectangle(0, 0, Frame.Width, ScrollBarHeight), // Frame
-                    Zoom = 1,
-                    IsScrollBar = true,
-                    DisplayType = _displayType
-                };
-                // TODO: Cache those tiles, we do not need to request them continually since these tiles are always at 100%
-                var tilesScrollBar = _waveFormEngineService.GetTiles(requestScrollBar);
-                foreach (var tile in tilesScrollBar)
-                {
-                    //context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
-
-//                    // Debug overlay
-//                    string debugText = string.Format("{0:0.0}", tile.Zoom);
-//                    context.DrawRectangle(new BasicRectangle(tile.ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-//                    context.DrawText(debugText, new BasicPoint(tile.ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
-                }
+//                int startTile = 0;
+//                int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
+//                var requestScrollBar = new WaveFormBitmapRequest()
+//                {
+//                    StartTile = startTile,
+//                    EndTile = numberOfTilesToFillWidth,
+//                    TileSize = tileSize,
+//                    BoundsWaveForm = new BasicRectangle(0, 0, Frame.Width, ScrollBarHeight), // Frame
+//                    Zoom = 1,
+//                    IsScrollBar = true,
+//                    DisplayType = _displayType
+//                };
+//                // TODO: Cache those tiles, we do not need to request them continually since these tiles are always at 100%
+//                var tilesScrollBar = _waveFormEngineService.GetTiles(requestScrollBar);
+//                foreach (var tile in tilesScrollBar)
+//                {
+//                    //context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
+//
+////                    // Debug overlay
+////                    string debugText = string.Format("{0:0.0}", tile.Zoom);
+////                    context.DrawRectangle(new BasicRectangle(tile.ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
+////                    context.DrawText(debugText, new BasicPoint(tile.ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+//                }
 
                 // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.
 //                byte startAlpha = 170;
@@ -663,7 +663,6 @@ namespace Sessions.GenericControls.Controls
             }
             else if (_segmentMouseOver != null)
             {
-                Console.WriteLine("Is dragging segment!");
                 _isDraggingSegment = true;
                 _segmentDragging = _segmentMouseOver;
             }
@@ -694,7 +693,6 @@ namespace Sessions.GenericControls.Controls
             } 
             else if (_isDraggingSegment)
             {
-                Console.WriteLine("STOPPING dragging segment!");
                 _isDraggingSegment = false;                
                 OnChangedSegmentPosition(_segmentDragging, positionPercentage);
                 _segmentDragging = null;
