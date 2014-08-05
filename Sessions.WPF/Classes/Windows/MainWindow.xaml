@@ -513,38 +513,38 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackLoopDetails" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackLoopDetails_OnClick" />
-                                            <Label Grid.Column="1" Content="Loop Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="1" Content="Loop Details" Padding="4,5,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
-                                            <Grid>
+                                            <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">                                            
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <Grid Grid.Column="0" Background="White" Height="24" Margin="6,8,6,4" VerticalAlignment="Center">
+                                                <Grid Grid.Column="0" Background="White" Height="24" Margin="4,6,6,4" VerticalAlignment="Center">
                                                     <TextBlock Margin="2,4,0,0" Padding="0" Text="Enter loop name" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtLoopName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
                                                     <TextBox x:Name="txtLoopName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                                 </Grid>
-                                                <StackPanel Grid.Column="1" Orientation="Vertical">
+                                                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0">
                                                     <Button x:Name="btnLoopStartPosition" Width="60" Style="{StaticResource SmallHeaderButtonSelected}" Click="BtnLoopStartPosition_OnClick" >
                                                         <StackPanel Orientation="Vertical">
-                                                            <Label Content="Start" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                                                            <Label Content="Start" Margin="0,2,0,0" Padding="4,2,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
                                                             <Label x:Name="lblLoopStartPosition" Content="0:00.000" Margin="0,0,0,0" Padding="4,2,4,0" Width="70" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                         </StackPanel>
                                                     </Button>
                                                 </StackPanel>
-                                                <StackPanel Grid.Column="2" Orientation="Vertical">
+                                                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0">
                                                     <Button x:Name="btnLoopEndPosition" Width="60" Style="{StaticResource SmallHeaderButton}" Click="BtnLoopEndPosition_OnClick">
                                                         <StackPanel Orientation="Vertical">
-                                                            <Label Content="End" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                                                            <Label Content="End" Margin="0,2,0,0" Padding="4,2,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
                                                             <Label x:Name="lblLoopEndPosition" Content="0:00.000" Margin="0,0,0,0" Padding="4,2,4,0" Width="70" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                         </StackPanel>
                                                     </Button>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="3" Orientation="Vertical" Margin="0,0,8,0">
-                                                    <Label Content="Length" Margin="0,2,0,0" Padding="4,4,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                                                    <Label Content="Length" Margin="0,2,0,0" Padding="4,2,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label x:Name="lblLoopLength" Content="0:00.000" Margin="0,0,0,0" Padding="4,2,4,0" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
                                                     </StackPanel>
@@ -552,7 +552,7 @@
                                             </Grid>
                                             <Grid>
                                                 <StackPanel x:Name="panelLoopStartPosition" Visibility="Visible" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">                                                
-                                                    <Grid Margin="0,4,8,0">
+                                                    <Grid Margin="0,4,4,0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition />
@@ -569,7 +569,7 @@
                                                     </StackPanel>
                                                 </StackPanel>
                                                 <StackPanel x:Name="panelLoopEndPosition" Visibility="Hidden" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
-                                                    <Grid Margin="0,4,8,0">
+                                                    <Grid Margin="0,4,4,0">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition />
