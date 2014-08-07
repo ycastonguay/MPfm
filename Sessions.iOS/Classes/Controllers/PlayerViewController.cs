@@ -40,11 +40,14 @@ using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Delegates;
+using Sessions.MVP.Services.Interfaces;
+using Sessions.MVP.Services;
 
 namespace Sessions.iOS.Classes.Controllers
 {
 	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
+        IDownloadImageService _downloadImageService;
 		Guid _currentAudioFileId;
         NSTimer _timerHidePlayerMetadata;
         bool _isPositionChanging = false;
@@ -73,14 +76,13 @@ namespace Sessions.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
+            _downloadImageService = new DownloadImageService();
+
 			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-			{
 				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
-			}
 
             viewAlbumArt.UserInteractionEnabled = true;
-            viewAlbumArt.OnButton1Click += HandleOnAlbumArtButton1Click;
-            viewAlbumArt.OnButton2Click += HandleOnAlbumArtButton2Click;
+            viewAlbumArt.OnButtonClick += HandleOnAlbumArtButtonClick;
                 
             View.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPrevious.GlyphImageView.Image = UIImage.FromBundle("Images/Player/previous");
@@ -226,10 +228,10 @@ namespace Sessions.iOS.Classes.Controllers
 				scrollViewPlayer.AddSubview(viewPlayerButtons);
 				scrollViewPlayer.AddSubview(viewVolume);
 				scrollViewPlayer.ContentSize = new SizeF(3 * UIScreen.MainScreen.Bounds.Width, 72);
+                scrollViewPlayer.ContentOffset = new PointF(UIScreen.MainScreen.Bounds.Width, 0);
 				viewEffects.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 72);
 				viewPlayerButtons.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, 72);
 				viewVolume.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width * 2, 0, UIScreen.MainScreen.Bounds.Width, 72);
-				scrollViewPlayer.ContentOffset = new PointF(UIScreen.MainScreen.Bounds.Width, 0);
 
 				imageViewVolumeLow.Image = UIImage.FromBundle("Images/Buttons/volume_low");
 				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/Buttons/volume_high");
@@ -388,9 +390,12 @@ namespace Sessions.iOS.Classes.Controllers
         [Export("scrollViewDidScroll:")]
         public void ScrollViewDidScroll(UIScrollView scrollview)
         {
-            float pageWidth = scrollView.Frame.Size.Width;
+            float pageWidth = scrollView.Frame.Width;
             int page = (int)Math.Floor((scrollView.ContentOffset.X - pageWidth / 2) / pageWidth) + 1;
             pageControl.CurrentPage = page;
+
+            float alpha = 1 - Math.Min(scrollView.ContentOffset.X, scrollView.Frame.Width) / scrollview.Frame.Width;
+            viewAlbumArt.Alpha = alpha;
 
             if(_timerHidePlayerMetadata != null)
             {
@@ -409,15 +414,15 @@ namespace Sessions.iOS.Classes.Controllers
             CreateHidePlayerMetadataTimer();
         }
 
-        private void HandleOnAlbumArtButton1Click()
+        private void HandleOnAlbumArtButtonClick()
         {
             // Show a list of templates for the marker name
-            var actionSheet = new UIActionSheet("Where do you wish to apply this album art:", null, "Cancel", null, new string[2] { "All Songs From This Album", "This Song Only" });
+            var actionSheet = new UIActionSheet("Do you wish to apply this album art to:", null, "Cancel", null, new string[3] { "All songs from this album", "This song only", "Choose another image..." });
             actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
             actionSheet.Clicked += (eventSender, e) => {
 
                 // Check for cancel
-                if(e.ButtonIndex == 2)
+                if(e.ButtonIndex == 3)
                     return;
 
                 //OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
@@ -426,11 +431,6 @@ namespace Sessions.iOS.Classes.Controllers
             // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
             var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
             actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
-        }
-
-        private void HandleOnAlbumArtButton2Click()
-        {
-            
         }
 
         private void ShowPlayerMetadata(bool show, bool swipeUp)
@@ -589,7 +589,7 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
-        public async void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             if (audioFile == null)
                 return;
@@ -689,11 +689,11 @@ namespace Sessions.iOS.Classes.Controllers
                         if (image == null)
                         {
                             Console.WriteLine("PlayerViewController - RefreshSongInformation - Downloading image from the internet...");
-                            viewAlbumArt.DownloadImage(audioFile);
+                            DownloadImage(audioFile);
                         }
                         else
                         {
-                            viewAlbumArt.SetImage(image);
+                            imageViewAlbumArt.Image = image;
                         }
                     }
                     catch(Exception ex)
@@ -702,6 +702,95 @@ namespace Sessions.iOS.Classes.Controllers
                     }
                 });
             }
+        }
+
+        public async void DownloadImage(AudioFile audioFile)
+        {
+            string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
+            if (_currentAlbumArtKey == key)
+                return;
+
+            viewAlbumArt.ShowDownloadingView();
+            InvokeOnMainThread(() =>  {
+                UIView.Animate(0.2, () =>
+                {
+                    imageViewAlbumArt.Alpha = 0;
+                });
+            });
+
+            var task = _downloadImageService.DownloadAlbumArt(audioFile);
+            task.Start();
+            var result = await task;
+            if (result == null)
+            {
+                Console.WriteLine("AlbumArtView - Error downloading image!");
+                viewAlbumArt.ShowDownloadErrorView();
+            }
+            else
+            {
+                UIImage image = await ResizeImage(result, key);
+                if (image == null)
+                {
+                    Console.WriteLine("AlbumArtView - Error resizing image!");
+                    viewAlbumArt.ShowDownloadErrorView();
+                }
+                else
+                {                    
+                    Console.WriteLine("AlbumArtView - Setting album art...");
+                    InvokeOnMainThread(() =>  {
+                        imageViewAlbumArt.Alpha = 0;
+                        imageViewAlbumArt.Image = image;
+                        viewAlbumArt.ShowDownloadedView(() => {
+                            UIView.Animate(0.2, () => {
+                                imageViewAlbumArt.Alpha = 1;
+                            });                            
+                        });                            
+                    });                        
+                }
+            }
+        }
+
+        private Task<UIImage> ResizeImage(DownloadImageService.DownloadImageResult result, string key)
+        {
+            // Load album art + resize in another thread
+            Console.WriteLine("AlbumArtView - Downloaded image successfully!");
+            var task = Task<UIImage>.Factory.StartNew(() =>
+            {
+                try
+                {
+                    using (NSData imageData = NSData.FromArray(result.ImageData))
+                    {
+                        using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
+                        {
+                            if (imageFullSize != null)
+                            {
+                                try
+                                {
+                                    UIImage imageResized = null;
+                                    Console.WriteLine("AlbumArtView - Resizing image...");
+                                    InvokeOnMainThread(() =>
+                                    {
+                                        _currentAlbumArtKey = key;                                    
+                                        imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, (int)imageViewAlbumArt.Frame.Height);
+                                    });
+                                    return imageResized;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error resizing image: {0}", ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("AlbumArtView - DownloadImage - Failed to process image: {0}", ex);
+                }
+
+                return null;
+            });
+            return task;
         }
 
         public void RefreshPlayerVolume(PlayerVolume entity)

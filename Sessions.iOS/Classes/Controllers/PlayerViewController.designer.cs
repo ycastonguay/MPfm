@@ -73,7 +73,7 @@ namespace Sessions.iOS.Classes.Controllers
 		Sessions.iOS.Classes.Controls.SessionsSlider sliderPosition { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsAlbumArtView viewAlbumArt { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsAlbumArtPopupView viewAlbumArt { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsScaleView viewEffects { get; set; }

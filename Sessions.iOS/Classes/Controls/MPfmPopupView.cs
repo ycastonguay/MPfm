@@ -32,8 +32,7 @@ namespace Sessions.iOS.Classes.Controls
         private ThemeType _themeType;    
         private UIActivityIndicatorView _activityIndicator;
         private UILabel _label;
-        private SessionsSemiTransparentRoundButton _button1;
-        private SessionsSemiTransparentRoundButton _button2;
+        private SessionsSemiTransparentRoundButton _button;
 
         public string LabelTitle
         {
@@ -48,8 +47,7 @@ namespace Sessions.iOS.Classes.Controls
         }
 
         public delegate void ButtonClick();
-        public event ButtonClick OnButton1Click;
-        public event ButtonClick OnButton2Click;
+        public event ButtonClick OnButtonClick;
 
         public SessionsPopupView() 
             : base()
@@ -88,17 +86,11 @@ namespace Sessions.iOS.Classes.Controls
             _label.Lines = 2;
             AddSubview(_label);
 
-            _button1 = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 44, 44));
-            _button1.Hidden = true;
-            _button1.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
-            _button1.OnButtonClick += HandleButton1TouchUpInside;
-            AddSubview(_button1);
-
-            _button2 = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 44, 44));
-            _button2.Hidden = true;
-            _button2.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
-            _button2.OnButtonClick += HandleButton2TouchUpInside;
-            AddSubview(_button2);
+            _button = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 44, 44));
+            _button.Hidden = true;
+            _button.GlyphImageView.Image = UIImage.FromBundle("Images/Player/more");
+            _button.OnButtonClick += HandleButton1TouchUpInside;
+            AddSubview(_button);
         }
             
         public void SetTheme(ThemeType themeType)
@@ -109,14 +101,16 @@ namespace Sessions.iOS.Classes.Controls
 
         private void HandleButton1TouchUpInside()
         {
-            if(OnButton1Click != null)
-                OnButton1Click();
+            if(OnButtonClick != null)
+                OnButtonClick();
         }
 
-        private void HandleButton2TouchUpInside()
+        public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
-            if(OnButton2Click != null)
-                OnButton2Click();            
+            base.TouchesEnded(touches, evt);
+
+            // Dismiss
+            AnimateOut();
         }
 
         public void AnimateIn()
@@ -179,8 +173,7 @@ namespace Sessions.iOS.Classes.Controls
 
                     _activityIndicator.StopAnimating();
                     _activityIndicator.Hidden = true;
-                    _button1.Hidden = true;
-                    _button2.Hidden = true;
+                    _button.Hidden = true;
                     break;
                 case ThemeType.LabelWithActivityIndicator:
                     float labelX = Padding + activityIndicatorSize + Padding;
@@ -190,20 +183,17 @@ namespace Sessions.iOS.Classes.Controls
 
                     _activityIndicator.StartAnimating();
                     _activityIndicator.Hidden = false;
-                    _button1.Hidden = true;
-                    _button2.Hidden = true;
+                    _button.Hidden = true;
                     break;
                 case ThemeType.LabelWithButtons:
                     float button1X = Frame.Width - buttonSize - Padding;
-                    float button2X = Frame.Width - ((buttonSize + Padding) * 2);
-                    _button1.Frame = new RectangleF(button1X, (Frame.Height - buttonSize) / 2f, buttonSize, buttonSize);
-                    _button2.Frame = new RectangleF(button2X, (Frame.Height - buttonSize) / 2f, buttonSize, buttonSize);
-                    _label.Frame = new RectangleF(Padding, 0, Frame.Width - ((buttonSize + Padding) * 2) - Padding, Frame.Height);
+                    //float button2X = Frame.Width - ((buttonSize + Padding) * 2);
+                    _button.Frame = new RectangleF(button1X, (Frame.Height - buttonSize) / 2f, buttonSize, buttonSize);
+                    _label.Frame = new RectangleF(Padding, 0, Frame.Width - buttonSize - Padding - Padding, Frame.Height);
 
                     _activityIndicator.StopAnimating();
                     _activityIndicator.Hidden = true;
-                    _button1.Hidden = false;
-                    _button2.Hidden = false;
+                    _button.Hidden = false;
                     break;
             }
         }

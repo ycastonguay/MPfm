@@ -350,8 +350,8 @@
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
     <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
-    <Compile Include="Classes\Controls\MPfmAlbumArtView.cs" />
     <Compile Include="Classes\Controls\MPfmPopupView.cs" />
+    <Compile Include="Classes\Controls\MPfmAlbumArtPopupView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -665,6 +665,8 @@
     <BundleResource Include="Images\Player\close%402x.png" />
     <BundleResource Include="Images\ContextualButtons\minus.png" />
     <BundleResource Include="Images\ContextualButtons\minus%402x.png" />
+    <BundleResource Include="Images\Player\more.png" />
+    <BundleResource Include="Images\Player\more%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.iOS.csproj">
