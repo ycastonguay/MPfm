@@ -104,7 +104,6 @@ namespace Sessions.iOS.Classes.Controls
             stupidButton.UserInteractionEnabled = true;
             stupidButton.SetTitle("BLEEEH", UIControlState.Normal);
             stupidButton.BackgroundColor = UIColor.Purple;
-            //stupidButton.Frame = new RectangleF(0, 60, 200, 40);
             stupidButton.TouchUpInside += (sender, e) => {
                 Console.WriteLine("ASDFASDFASODFIASIDOFAISODFOIASIFOASIODFIASIODFASDF");
             };
@@ -140,14 +139,7 @@ namespace Sessions.iOS.Classes.Controls
             if (_currentAlbumArtKey == key)
                 return;
 
-            UIView.Animate(0.2, () =>
-            {
-                _imageViewAlbum.Alpha = 0;
-                _viewImageDownloadError.Alpha = 0;
-                _viewImageDownloaded.Alpha = 0;
-            });
-
-            _viewImageDownloading.AnimateIn();
+            ShowDownloadingView();
 
             var task = _downloadImageService.DownloadAlbumArt(audioFile);
             task.Start();
@@ -155,81 +147,110 @@ namespace Sessions.iOS.Classes.Controls
             if (result == null)
             {
                 Console.WriteLine("AlbumArtView - Error downloading image!");
-                _viewImageDownloading.AnimateOut(() => {
-                    _viewImageDownloadError.AnimateIn();
-                });
+                ShowDownloadErrorView();
             }
             else
             {
-                // Load album art + resize in another thread
-                Console.WriteLine("AlbumArtView - Downloaded image successfully!");
-                var task2 = Task<UIImage>.Factory.StartNew(() =>
+                UIImage image = await ResizeImage(result, key);
+                if (image == null)
                 {
-                    try
+                    Console.WriteLine("AlbumArtView - Error resizing image!");
+                    ShowDownloadErrorView();
+                }
+                else
+                {                    
+                    Console.WriteLine("AlbumArtView - Setting album art...");
+                    ShowDownloadedView(image);
+                }
+            }
+        }
+
+        private Task<UIImage> ResizeImage(DownloadImageService.DownloadImageResult result, string key)
+        {
+            // Load album art + resize in another thread
+            Console.WriteLine("AlbumArtView - Downloaded image successfully!");
+            var task = Task<UIImage>.Factory.StartNew(() =>
+            {
+                try
+                {
+                    using (NSData imageData = NSData.FromArray(result.ImageData))
                     {
-                        using (NSData imageData = NSData.FromArray(result.ImageData))
+                        using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
                         {
-                            using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
+                            if (imageFullSize != null)
                             {
-                                if (imageFullSize != null)
+                                try
                                 {
-                                    try
+                                    UIImage imageResized = null;
+                                    Console.WriteLine("AlbumArtView - Resizing image...");
+                                    InvokeOnMainThread(() =>
                                     {
-                                        UIImage imageResized = null;
-                                        Console.WriteLine("AlbumArtView - Resizing image...");
-                                        InvokeOnMainThread(() => {
-                                            _currentAlbumArtKey = key;                                    
-                                            imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, (int)Frame.Height);
-                                        });
-                                        return imageResized;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
-                                    }
+                                        _currentAlbumArtKey = key;                                    
+                                        imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, (int)Frame.Height);
+                                    });
+                                    return imageResized;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error resizing image: {0}", ex);
                                 }
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("AlbumArtView - DownloadImage - Failed to process image: {0}", ex);
-                    }
-                    
-                    return null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("AlbumArtView - DownloadImage - Failed to process image: {0}", ex);
+                }
+                
+                return null;
+            });
+            return task;
+        }
+
+        public void SetStatus(StatusType statusType)
+        {
+            _statusType = statusType;
+        }
+
+        private void ShowDownloadingView()
+        {
+            InvokeOnMainThread(() =>
+            {
+                UIView.Animate(0.2, () =>
+                {
+                    _imageViewAlbum.Alpha = 0;
+                    _viewImageDownloadError.Alpha = 0;
+                    _viewImageDownloaded.Alpha = 0;
                 });
+                _viewImageDownloading.AnimateIn();
+            });
+        }
 
-                UIImage image = await task2;
-                InvokeOnMainThread(() => {
-
-                    try
-                    {
-                        if (image == null)
-                        {
-                            Console.WriteLine("AlbumArtView - Error resizing image!");
-                            _viewImageDownloading.AnimateOut(() => {
-                                _viewImageDownloadError.AnimateIn();
-                            });
-                        }
-                        else
-                        {                    
-                            Console.WriteLine("AlbumArtView - Setting album art...");
-                            _imageViewAlbum.Image = image;
-
-                            _viewImageDownloading.AnimateOut(() => {
-                                _viewImageDownloaded.AnimateIn();
-                                UIView.Animate(0.2, () => {
-                                    _imageViewAlbum.Alpha = 1;
-                                });                            
-                            });                        
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine("AlbumArtView - DownloadImage - Failed to set image after processing: {0}", ex);
-                    }
+        private void ShowDownloadErrorView()
+        {
+            InvokeOnMainThread(() =>
+            {
+                _viewImageDownloading.AnimateOut(() => {
+                    _viewImageDownloadError.AnimateIn();
                 });
-            }
+            });
+        }
+
+        private void ShowDownloadedView(UIImage image)
+        {
+            InvokeOnMainThread(() =>
+            {
+                _imageViewAlbum.Image = image;
+                _viewImageDownloading.AnimateOut(() =>
+                {
+                    _viewImageDownloaded.AnimateIn();
+                    UIView.Animate(0.2, () =>
+                    {
+                        _imageViewAlbum.Alpha = 1;
+                    });                            
+                }); 
+            });
         }
 
         public override void LayoutSubviews()

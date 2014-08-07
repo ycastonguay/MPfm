@@ -28,6 +28,7 @@ namespace Sessions.iOS.Classes.Controls
     [Register("SessionsPopupView")]
     public class SessionsPopupView : UIView
     {
+        private const int Padding = 8;
         private ThemeType _themeType;    
         private UIActivityIndicatorView _activityIndicator;
         private UILabel _label;
@@ -87,13 +88,13 @@ namespace Sessions.iOS.Classes.Controls
             _label.Lines = 2;
             AddSubview(_label);
 
-            _button1 = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 22, 22));
+            _button1 = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 44, 44));
             _button1.Hidden = true;
             _button1.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
             _button1.OnButtonClick += HandleButton1TouchUpInside;
             AddSubview(_button1);
 
-            _button2 = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 22, 22));
+            _button2 = new SessionsSemiTransparentRoundButton(new RectangleF(0, 0, 44, 44));
             _button2.Hidden = true;
             _button2.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
             _button2.OnButtonClick += HandleButton2TouchUpInside;
@@ -125,8 +126,7 @@ namespace Sessions.iOS.Classes.Controls
 
         public void AnimateIn(Action completed)
         {
-            float y = 8;
-            Animate(-Frame.Height, y, true, false, completed);
+            Animate(-Frame.Height, Padding, true, false, completed);
         }
 
         public void AnimateOut()
@@ -136,8 +136,7 @@ namespace Sessions.iOS.Classes.Controls
 
         public void AnimateOut(Action completed)
         {
-            float y = 8;
-            Animate(y, -Frame.Height, false, true, completed);
+            Animate(Padding, -Frame.Height, false, true, completed);
         }
 
         public void Animate(float startY, float endY, bool fadeIn, bool fadeOut, Action completed)
@@ -170,14 +169,13 @@ namespace Sessions.iOS.Classes.Controls
         {
             base.LayoutSubviews();
         
-            float padding = 8;
             float activityIndicatorSize = 22;
             float buttonSize = 44;
 
             switch (_themeType)
             {
                 case ThemeType.Label:
-                    _label.Frame = new RectangleF(padding, 0, Frame.Width - (padding * 2), Frame.Height);
+                    _label.Frame = new RectangleF(Padding, 0, Frame.Width - (Padding * 2), Frame.Height);
 
                     _activityIndicator.StopAnimating();
                     _activityIndicator.Hidden = true;
@@ -185,10 +183,10 @@ namespace Sessions.iOS.Classes.Controls
                     _button2.Hidden = true;
                     break;
                 case ThemeType.LabelWithActivityIndicator:
-                    float labelX = padding + activityIndicatorSize + padding;
+                    float labelX = Padding + activityIndicatorSize + Padding;
 
-                    _activityIndicator.Frame = new RectangleF(padding, (Frame.Height - activityIndicatorSize) / 2f, activityIndicatorSize, activityIndicatorSize);
-                    _label.Frame = new RectangleF(labelX, 0, Frame.Width - labelX - padding, Frame.Height);
+                    _activityIndicator.Frame = new RectangleF(Padding, (Frame.Height - activityIndicatorSize) / 2f, activityIndicatorSize, activityIndicatorSize);
+                    _label.Frame = new RectangleF(labelX, 0, Frame.Width - labelX - Padding, Frame.Height);
 
                     _activityIndicator.StartAnimating();
                     _activityIndicator.Hidden = false;
@@ -196,11 +194,11 @@ namespace Sessions.iOS.Classes.Controls
                     _button2.Hidden = true;
                     break;
                 case ThemeType.LabelWithButtons:
-                    float button1X = Frame.Width - buttonSize - padding;
-                    float button2X = Frame.Width - ((buttonSize + padding) * 2);
+                    float button1X = Frame.Width - buttonSize - Padding;
+                    float button2X = Frame.Width - ((buttonSize + Padding) * 2);
                     _button1.Frame = new RectangleF(button1X, (Frame.Height - buttonSize) / 2f, buttonSize, buttonSize);
                     _button2.Frame = new RectangleF(button2X, (Frame.Height - buttonSize) / 2f, buttonSize, buttonSize);
-                    _label.Frame = new RectangleF(padding, 0, Frame.Width - ((buttonSize + padding) * 2) - padding, Frame.Height);
+                    _label.Frame = new RectangleF(Padding, 0, Frame.Width - ((buttonSize + Padding) * 2) - Padding, Frame.Height);
 
                     _activityIndicator.StopAnimating();
                     _activityIndicator.Hidden = true;
