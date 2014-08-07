@@ -49,6 +49,12 @@ namespace Sessions.iOS.Classes.Controls
             Initialize();
         }
 
+        public SessionsSemiTransparentRoundButton(RectangleF frame)
+            : base(frame)
+        {
+            Initialize();
+        }
+
         private void Initialize()
         {
             TintColor = UIColor.White;

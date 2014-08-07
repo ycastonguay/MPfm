@@ -73,6 +73,9 @@ namespace Sessions.iOS.Classes.Controllers
 		Sessions.iOS.Classes.Controls.SessionsSlider sliderPosition { get; set; }
 
 		[Outlet]
+		Sessions.iOS.Classes.Controls.SessionsAlbumArtView viewAlbumArt { get; set; }
+
+		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsScaleView viewEffects { get; set; }
 
 		[Outlet]
@@ -205,6 +208,11 @@ namespace Sessions.iOS.Classes.Controllers
 			if (sliderPosition != null) {
 				sliderPosition.Dispose ();
 				sliderPosition = null;
+			}
+
+			if (viewAlbumArt != null) {
+				viewAlbumArt.Dispose ();
+				viewAlbumArt = null;
 			}
 
 			if (viewEffects != null) {

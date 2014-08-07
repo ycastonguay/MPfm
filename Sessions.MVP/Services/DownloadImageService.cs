@@ -66,7 +66,8 @@ namespace Sessions.MVP.Services
                 catch (Exception ex)
                 {
                     Console.WriteLine("DownloadImageService - Failed to download image: {0}", ex);
-                    throw;
+                    //return null;
+                    return new DownloadImageResult(audioFile, string.Empty, null);
                 }
             });
             return task;

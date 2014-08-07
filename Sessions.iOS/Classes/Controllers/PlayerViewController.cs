@@ -39,6 +39,7 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using Sessions.iOS.Classes.Delegates;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -50,7 +51,6 @@ namespace Sessions.iOS.Classes.Controllers
         string _currentAlbumArtKey = string.Empty;
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
-
 		MPVolumeView _volumeView;
 
 		public PlayerViewController()
@@ -78,6 +78,10 @@ namespace Sessions.iOS.Classes.Controllers
 				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
 			}
 
+            viewAlbumArt.UserInteractionEnabled = true;
+            viewAlbumArt.OnButton1Click += HandleOnAlbumArtButton1Click;
+            viewAlbumArt.OnButton2Click += HandleOnAlbumArtButton2Click;
+                
             View.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPrevious.GlyphImageView.Image = UIImage.FromBundle("Images/Player/previous");
             btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
@@ -241,7 +245,7 @@ namespace Sessions.iOS.Classes.Controllers
 
             base.ViewDidLoad();           
 		}
-
+            
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
@@ -405,6 +409,30 @@ namespace Sessions.iOS.Classes.Controllers
             CreateHidePlayerMetadataTimer();
         }
 
+        private void HandleOnAlbumArtButton1Click()
+        {
+            // Show a list of templates for the marker name
+            var actionSheet = new UIActionSheet("Where do you wish to apply this album art:", null, "Cancel", null, new string[2] { "All Songs From This Album", "This Song Only" });
+            actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
+            actionSheet.Clicked += (eventSender, e) => {
+
+                // Check for cancel
+                if(e.ButtonIndex == 2)
+                    return;
+
+                //OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
+            };
+
+            // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
+            var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+            actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
+        }
+
+        private void HandleOnAlbumArtButton2Click()
+        {
+            
+        }
+
         private void ShowPlayerMetadata(bool show, bool swipeUp)
         {
 			//Console.WriteLine("PlayerVC - ShowPlayerMetadata: {0}", show);
@@ -563,15 +591,16 @@ namespace Sessions.iOS.Classes.Controllers
 
         public async void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
-            if(audioFile == null)
+            if (audioFile == null)
                 return;
 
-			// Prevent refreshing song twice
-			if (_currentAudioFileId == audioFile.Id)
-				return;
-			_currentAudioFileId = audioFile.Id;
+            // Prevent refreshing song twice
+            if (_currentAudioFileId == audioFile.Id)
+                return;
+            _currentAudioFileId = audioFile.Id;
 
-            InvokeOnMainThread(() => {
+            InvokeOnMainThread(() =>
+            {
                 try
                 {
                     //_currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
@@ -581,39 +610,47 @@ namespace Sessions.iOS.Classes.Controllers
                     ShowPlayerMetadata(true, false);
                     lblLength.Text = audioFile.Length;
 
-                    if(IsOutputMeterEnabled)
+                    if (IsOutputMeterEnabled)
                     {
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                         scrollViewWaveForm.LoadPeakFile(audioFile);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set wave form information: {0}", ex);
                 }
             });
 
+            LoadAlbumArt(audioFile);
+        }
+
+        public async void LoadAlbumArt(AudioFile audioFile)
+        {
             // Check if the album art needs to be refreshed
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
-            if(_currentAlbumArtKey != key)
+            if (_currentAlbumArtKey != key)
             {
                 int height = 44;
-                InvokeOnMainThread(() => {
+                InvokeOnMainThread(() =>
+                {
                     try
                     {
                         height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
-                        UIView.Animate(0.3, () => {
+                        UIView.Animate(0.3, () =>
+                        {
                             imageViewAlbumArt.Alpha = 0;
                         });
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image view album art alpha: {0}", ex);
                     }
                 });
 
                 // Load album art + resize in another thread
-                var task = Task<UIImage>.Factory.StartNew(() => {
+                var task = Task<UIImage>.Factory.StartNew(() =>
+                {
                     try
                     {
                         byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
@@ -644,27 +681,26 @@ namespace Sessions.iOS.Classes.Controllers
                     
                     return null;
                 });
-                //}).ContinueWith(t => {
-                UIImage image = await task;
-                    if(image == null)
-                        return;
-                    
-                    InvokeOnMainThread(() => {
-                        try
-                        {
-                            imageViewAlbumArt.Alpha = 0;
-                            imageViewAlbumArt.Image = image;              
 
-                            UIView.Animate(0.3, () => {
-                                imageViewAlbumArt.Alpha = 1;
-                            });
-                        }
-                        catch(Exception ex)
+                UIImage image = await task;                    
+                InvokeOnMainThread(() => {
+                    try
+                    {
+                        if (image == null)
                         {
-                            Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                            Console.WriteLine("PlayerViewController - RefreshSongInformation - Downloading image from the internet...");
+                            viewAlbumArt.DownloadImage(audioFile);
                         }
-                    });
-                //}, TaskScheduler.FromCurrentSynchronizationContext());
+                        else
+                        {
+                            viewAlbumArt.SetImage(image);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                    }
+                });
             }
         }
 

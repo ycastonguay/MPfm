@@ -350,6 +350,8 @@
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
     <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
+    <Compile Include="Classes\Controls\MPfmAlbumArtView.cs" />
+    <Compile Include="Classes\Controls\MPfmPopupView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
