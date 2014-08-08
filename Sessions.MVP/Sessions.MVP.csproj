@@ -346,5 +346,8 @@
     <Compile Include="Models\LoopPlaybackEntity.cs" />
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
     <Compile Include="Presenters\LoopPlaybackPresenter.cs" />
+    <Compile Include="Views\ISelectAlbumArtView.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectAlbumArtPresenter.cs" />
+    <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />    
   </ItemGroup>
 </Project>

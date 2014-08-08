@@ -103,6 +103,7 @@ namespace Sessions.MVP.Bootstrap
             container.Register<IAboutPresenter, AboutPresenter>().AsSingleton();
             container.Register<ISelectFoldersPresenter, SelectFoldersPresenter>().AsMultiInstance();
             container.Register<ISelectPlaylistPresenter, SelectPlaylistPresenter>().AsMultiInstance();
+            container.Register<ISelectAlbumArtPresenter, SelectAlbumArtPresenter>().AsMultiInstance();
             container.Register<IAddPlaylistPresenter, AddPlaylistPresenter>().AsMultiInstance();
             container.Register<IAddMarkerPresenter, AddMarkerPresenter>().AsMultiInstance();
             container.Register<IResumePlaybackPresenter, ResumePlaybackPresenter>().AsMultiInstance();

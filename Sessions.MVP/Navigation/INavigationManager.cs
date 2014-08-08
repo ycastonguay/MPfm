@@ -123,6 +123,9 @@ namespace Sessions.MVP.Navigation
         void CreateSyncDownloadView();
         void BindSyncDownloadView(ISyncDownloadView view);
 
+        void CreateSelectAlbumArtView();
+        void BindSelectAlbumArtView(ISelectAlbumArtView view);
+
         void CreateAboutView();
         void BindAboutView(IAboutView view);
 

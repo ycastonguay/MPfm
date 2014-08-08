@@ -346,5 +346,8 @@
     <Compile Include="Services\DownloadImageService.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageProvider.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageService.cs" />
+    <Compile Include="Views\ISelectAlbumArtView.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectAlbumArtPresenter.cs" />
+    <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />    
   </ItemGroup>
 </Project>

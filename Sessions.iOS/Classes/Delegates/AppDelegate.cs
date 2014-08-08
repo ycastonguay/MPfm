@@ -152,6 +152,7 @@ namespace Sessions.iOS.Classes.Delegates
             container.Register<IResumePlaybackView, ResumePlaybackViewController>().AsMultiInstance();
             container.Register<IStartResumePlaybackView, StartResumePlaybackViewController>().AsMultiInstance();
 			container.Register<IQueueView, QueueViewController>().AsMultiInstance();
+            container.Register<ISelectAlbumArtView, SelectAlbumArtViewController>().AsMultiInstance();
             container.Register<IFirstRunView, FirstRunViewController>().AsMultiInstance();
         }
 

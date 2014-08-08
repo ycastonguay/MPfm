@@ -1486,13 +1486,10 @@ namespace Sessions.Sound.AudioFiles
             {
                 try
                 {
-                    // Get tags using TagLib
                     using (TagLib.Mpeg.AudioFile file = new TagLib.Mpeg.AudioFile(filePath))
                     {
-                        // Can we get the image from the ID3 tags?
                         if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
                         {
-                            // Get image from ID3 tags
                             bytes = file.Tag.Pictures[0].Data.Data;
                         }
                     }
@@ -1502,8 +1499,58 @@ namespace Sessions.Sound.AudioFiles
                     // Failed to recover album art. Do nothing.
                 }
             }
+
+            // If we can't get the album art from the tags, try to use FOLDER.JPG instead
+            if(bytes.Length == 0 || bytes == null)
+            {
+                try
+                {
+                    string albumArtFilePath = Path.Combine(Path.GetDirectoryName(filePath), "folder.jpg");
+                    Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - Trying to extract album art from FOLDER.JPG - Path: {0}", albumArtFilePath);
+                    if(File.Exists(albumArtFilePath))
+                    {
+                        Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - File exists");
+                        bytes = File.ReadAllBytes(albumArtFilePath);
+                        Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - Read bytes length: {0}", bytes.Length);
+                    }
+                }
+                catch
+                {
+                    // Failed to recover album art. Do nothing.
+                }
+            }
             
             return bytes;
+        }
+
+        public static void SetAlbumArtForAudioFile(string filePath, byte[] imageData)
+        {
+            if (!File.Exists(filePath))
+                return;
+
+            string extension = Path.GetExtension(filePath).ToUpper();
+            if (extension == ".MP3")
+            {
+                using (var file = new TagLib.Mpeg.AudioFile(filePath))
+                {
+                    if (file != null && file.Tag != null)
+                    {
+                        file.Tag.Pictures = new TagLib.IPicture[1];
+                        file.Tag.Pictures[0].Data = new TagLib.ByteVector(imageData, imageData.Length);
+                    }
+                }
+            }
+            else if (extension == ".FLAC")
+            {
+                // Check if it uses APE
+                //var apeTag = APEMetadata.Read(filePath);
+                //APEMetadata.Write(filePath, apeTag.Dictionary);
+
+                // Or place it as folder.jpg in the same folder
+                string albumArtFilePath = Path.Combine(Path.GetDirectoryName(filePath), "folder.jpg");
+                Console.WriteLine("AudioFile - SetAlbumArtForAudioFile - Writing folder.jpg... - Path: {0}", albumArtFilePath);
+                File.WriteAllBytes(albumArtFilePath, imageData);
+            }
         }
 	}
 }

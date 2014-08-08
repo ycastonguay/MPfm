@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -191,7 +191,7 @@
     <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
     <Compile Include="Messages\MarkerActivatedMessage.cs" />
     <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
-	<Compile Include="Messages\PlayerReinitializedMessage.cs" />
+    <Compile Include="Messages\PlayerReinitializedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
@@ -246,7 +246,7 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\SyncCloudPresenter.cs" />
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
-    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />    
+    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Views\ICloudConnectView.cs" />
     <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
@@ -352,7 +352,7 @@
     <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
     <Compile Include="Views\ISyncView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
-    <Compile Include="Presenters\SyncPresenter.cs" />    
+    <Compile Include="Presenters\SyncPresenter.cs" />
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
@@ -393,10 +393,13 @@
     <Compile Include="Views\ILoopPlaybackView.cs" />
     <Compile Include="Models\LoopPlaybackEntity.cs" />
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
-    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
+    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />
     <Compile Include="Services\DownloadImageProvider.cs" />
     <Compile Include="Services\DownloadImageService.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageProvider.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageService.cs" />
+    <Compile Include="Views\ISelectAlbumArtView.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectAlbumArtPresenter.cs" />
+    <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />
   </ItemGroup>
 </Project>

@@ -54,6 +54,8 @@ namespace Sessions.iOS.Classes.Controllers
         string _currentAlbumArtKey = string.Empty;
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
+        UIImage _downloadedAlbumArtImage;
+        byte[] _downloadedAlbumArtData;
 		MPVolumeView _volumeView;
 
 		public PlayerViewController()
@@ -420,12 +422,18 @@ namespace Sessions.iOS.Classes.Controllers
             var actionSheet = new UIActionSheet("Do you wish to apply this album art to:", null, "Cancel", null, new string[3] { "All songs from this album", "This song only", "Choose another image..." });
             actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
             actionSheet.Clicked += (eventSender, e) => {
-
-                // Check for cancel
-                if(e.ButtonIndex == 3)
-                    return;
-
-                //OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
+                switch(e.ButtonIndex)
+                {
+                    case 0:
+                        OnApplyAlbumArtToAlbum(_downloadedAlbumArtData);
+                        break;
+                    case 1:
+                        OnApplyAlbumArtToSong(_downloadedAlbumArtData);
+                        break;
+                    case 2:
+                        OnOpenSelectAlbumArt();
+                        break;
+                }
             };
 
             // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
@@ -538,8 +546,11 @@ namespace Sessions.iOS.Classes.Controllers
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
 		public Action OnOpenEffects { get; set; }
+        public Action OnOpenSelectAlbumArt { get; set; }
         public Action OnPlayerViewAppeared { get; set; }
         public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
+        public Action<byte[]> OnApplyAlbumArtToSong { get; set; }
+        public Action<byte[]> OnApplyAlbumArtToAlbum { get; set; }
 
         public void PlayerError(Exception ex)
         {
@@ -728,8 +739,9 @@ namespace Sessions.iOS.Classes.Controllers
             }
             else
             {
-                UIImage image = await ResizeImage(result, key);
-                if (image == null)
+                _downloadedAlbumArtData = result.ImageData;
+                _downloadedAlbumArtImage = await ResizeImage(result, key);
+                if (_downloadedAlbumArtImage == null)
                 {
                     Console.WriteLine("AlbumArtView - Error resizing image!");
                     viewAlbumArt.ShowDownloadErrorView();
@@ -739,7 +751,7 @@ namespace Sessions.iOS.Classes.Controllers
                     Console.WriteLine("AlbumArtView - Setting album art...");
                     InvokeOnMainThread(() =>  {
                         imageViewAlbumArt.Alpha = 0;
-                        imageViewAlbumArt.Image = image;
+                        imageViewAlbumArt.Image = _downloadedAlbumArtImage;
                         viewAlbumArt.ShowDownloadedView(() => {
                             UIView.Animate(0.2, () => {
                                 imageViewAlbumArt.Alpha = 1;

@@ -85,6 +85,8 @@ namespace Sessions.MVP.Navigation
         private IStartResumePlaybackPresenter _startResumePlaybackPresenter;
         private ICloudConnectView _cloudConnectView;
         private ICloudConnectPresenter _cloudConnectPresenter;
+        private ISelectAlbumArtView _selectAlbumArtView;
+        private ISelectAlbumArtPresenter _selectAlbumArtPresenter;
         private IFirstRunView _firstRunView;
         private IFirstRunPresenter _firstRunPresenter;
 
@@ -949,6 +951,25 @@ namespace Sessions.MVP.Navigation
             };
             _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IFirstRunPresenter>();
             _firstRunPresenter.BindView(view);
+        }
+
+        public virtual void CreateSelectAlbumArtView()
+        {
+            if (_selectAlbumArtView == null)
+                _selectAlbumArtView = Bootstrapper.GetContainer().Resolve<ISelectAlbumArtView>();
+        }
+
+        public virtual void BindSelectAlbumArtView(ISelectAlbumArtView view)
+        {
+            _selectAlbumArtView = view;
+            _selectAlbumArtView.OnViewDestroy = (view2) =>
+            {
+                _selectAlbumArtPresenter.ViewDestroyed();
+                _selectAlbumArtPresenter = null;
+                _selectAlbumArtView = null;
+            };
+            _selectAlbumArtPresenter = Bootstrapper.GetContainer().Resolve<ISelectAlbumArtPresenter>();
+            _selectAlbumArtPresenter.BindView(view);
         }
 
         public virtual void CreateResumePlaybackView()

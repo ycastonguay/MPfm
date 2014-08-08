@@ -62,6 +62,9 @@ namespace Sessions.MVP.Navigation
         ISegmentDetailsView _segmentDetailsView;
         ISegmentDetailsPresenter _segmentDetailsPresenter;
 
+        ISelectAlbumArtView _selectAlbumArtView;
+        ISelectAlbumArtPresenter _selectAlbumArtPresenter;
+
         IFirstRunView _firstRunView;
         IFirstRunPresenter _firstRunPresenter;
 
@@ -407,6 +410,30 @@ namespace Sessions.MVP.Navigation
                 _syncDownloadView = null;
             };
             return _syncDownloadView;
+        }
+
+        public virtual ISelectAlbumArtView CreateSelectAlbumArtView()
+        {
+            if(_selectAlbumArtView != null)
+            {
+                _selectAlbumArtView.ShowView(true);
+                return _selectAlbumArtView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _selectAlbumArtPresenter = Bootstrapper.GetContainer().Resolve<ISelectAlbumArtPresenter>();
+                _selectAlbumArtPresenter.BindView((ISelectAlbumArtView)view);
+            };
+
+            // Create view and manage view destruction
+            _selectAlbumArtView = Bootstrapper.GetContainer().Resolve<ISelectAlbumArtView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _selectAlbumArtView.OnViewDestroy = (view) => {
+                _selectAlbumArtPresenter.ViewDestroyed();
+                _selectAlbumArtPresenter = null;
+                _selectAlbumArtView = null;
+            };
+            return _selectAlbumArtView;
         }
 
         public virtual IPlaylistView CreatePlaylistView()

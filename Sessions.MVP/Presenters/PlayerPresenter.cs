@@ -32,6 +32,7 @@ using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using System.Threading.Tasks;
 using Sessions.MVP.Config;
+using Sessions.Library.Objects;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
@@ -173,7 +174,10 @@ namespace Sessions.MVP.Presenters
             view.OnEditSongMetadata = EditSongMetadata;
             view.OnOpenPlaylist = OpenPlaylist;
             view.OnOpenEffects = OpenEffects;
+            view.OnOpenSelectAlbumArt = OpenSelectAlbumArt;
             view.OnPlayerViewAppeared = PlayerViewAppeared;
+            view.OnApplyAlbumArtToSong = ApplyAlbumArtToSong;
+            view.OnApplyAlbumArtToAlbum = ApplyAlbumArtToAlbum;
 
             // If the player is already playing, refresh initial data
             if (_playerService.IsPlaying)
@@ -356,6 +360,11 @@ namespace Sessions.MVP.Presenters
         private void OpenEffects()
         {
             _mobileNavigationManager.CreateEqualizerPresetsView(View);
+        }
+
+        private void OpenSelectAlbumArt()
+        {
+            _mobileNavigationManager.CreateSelectAlbumArtView();
         }
 
 	    /// <summary>
@@ -579,6 +588,38 @@ namespace Sessions.MVP.Presenters
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 
                 });
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }                
+        }
+
+        private void ApplyAlbumArtToSong(byte[] imageData)
+        {
+            try
+            {
+                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                AudioFile.SetAlbumArtForAudioFile(audioFile.FilePath, imageData);
+            }
+            catch(Exception ex)
+            {
+                SetError(ex);
+            }                
+        }
+
+        private void ApplyAlbumArtToAlbum(byte[] imageData)
+        {
+            try
+            {
+                var currentAudioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){
+                    ArtistName = currentAudioFile.ArtistName,
+                    AlbumTitle = currentAudioFile.AlbumTitle
+                });
+
+                foreach(var audioFile in audioFiles)
+                    AudioFile.SetAlbumArtForAudioFile(currentAudioFile.FilePath, imageData);
             }
             catch(Exception ex)
             {
