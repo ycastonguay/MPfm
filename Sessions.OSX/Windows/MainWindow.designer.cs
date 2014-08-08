@@ -163,9 +163,6 @@ namespace Sessions.OSX
 		Sessions.OSX.Classes.Controls.SessionsFaderView faderVolume { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSImageView imageAlbumCover { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSTextField lblAlbumTitle { get; set; }
 
 		[Outlet]
@@ -404,6 +401,9 @@ namespace Sessions.OSX
 
 		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsView viewActions { get; set; }
+
+		[Outlet]
+		Sessions.OSX.Classes.Controls.SessionsAlbumArtView viewAlbumArt { get; set; }
 
 		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsView viewInformation { get; set; }
@@ -922,11 +922,6 @@ namespace Sessions.OSX
 			if (faderVolume != null) {
 				faderVolume.Dispose ();
 				faderVolume = null;
-			}
-
-			if (imageAlbumCover != null) {
-				imageAlbumCover.Dispose ();
-				imageAlbumCover = null;
 			}
 
 			if (lblAlbumTitle != null) {
@@ -1482,6 +1477,11 @@ namespace Sessions.OSX
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (viewAlbumArt != null) {
+				viewAlbumArt.Dispose ();
+				viewAlbumArt = null;
 			}
 		}
 	}

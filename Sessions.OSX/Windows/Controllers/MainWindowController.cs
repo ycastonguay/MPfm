@@ -1437,7 +1437,10 @@ namespace Sessions.OSX
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
         public Action OnOpenResumePlayback { get; set; }
+        public Action OnOpenSelectAlbumArt { get; set; }
         public Action OnPlayerViewAppeared { get; set; }
+        public Action<byte[]> OnApplyAlbumArtToSong { get; set; }
+        public Action<byte[]> OnApplyAlbumArtToAlbum { get; set; }
 
         public void PlayerError(Exception ex)
         {
@@ -1518,7 +1521,7 @@ namespace Sessions.OSX
                     lblPosition.StringValue = "0:00.000";
                     lblLength.StringValue = "0:00.000";
                     _currentAlbumArtKey = string.Empty;
-                    imageAlbumCover.Image = null;
+                    viewAlbumArt.SetImage(null);
                     waveFormScrollView.Reset();   
                     outputMeter.Reset();
                 }
@@ -1549,11 +1552,10 @@ namespace Sessions.OSX
         
         private async void LoadAlbumArt(AudioFile audioFile)
         {
-            // Check if the album art needs to be refreshed
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
-            if(_currentAlbumArtKey != key)
-            {
-            // Load album art + resize in another thread
+            if (_currentAlbumArtKey == key)
+                return;
+
             var task = Task<NSImage>.Factory.StartNew(() => {
                 try
                 {
@@ -1562,25 +1564,8 @@ namespace Sessions.OSX
                     using (NSData imageData = NSData.FromArray(bytesImage))
                     {
                         InvokeOnMainThread(() => {
-                                image = new NSImage(imageData);
-//                        using (NSImage imageFullSize = new NSImage(imageData))
-//                        {
-//                            if (imageFullSize != null)
-//                            {
-//                                try
-//                                {
-//                                    _currentAlbumArtKey = key;                                    
-//                                    //UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
-//                                    //return imageResized;
-//                                    image = imageFullSize;
-//                                }
-//                                catch (Exception ex)
-//                                {
-//                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
-//                                }
-//                            }
-//                        }
-                                });
+                            image = new NSImage(imageData);
+                        });
                     }
                         return image;
                 }
@@ -1591,30 +1576,22 @@ namespace Sessions.OSX
                 
                 return null;
             });
-            //}).ContinueWith(t => {
+
             NSImage imageFromTask = await task;
-                if(imageFromTask == null)
-                    return;
-                
-                InvokeOnMainThread(() => {
-                    try
-                    {
-                        _currentAlbumArtKey = key;
-                        imageAlbumCover.Image = imageFromTask;
-//                        imageViewAlbumArt.Alpha = 0;
-//                        imageViewAlbumArt.Image = image;              
-//
-//                        UIView.Animate(0.3, () => {
-//                            imageViewAlbumArt.Alpha = 1;
-//                        });
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
-                    }
-                });
-            //}, TaskScheduler.FromCurrentSynchronizationContext());
-            }
+            if(imageFromTask == null)
+                return;
+            
+            InvokeOnMainThread(() => {
+                try
+                {
+                    _currentAlbumArtKey = key;
+                    viewAlbumArt.SetImage(imageFromTask);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                }
+            });
         }
 
         public void RefreshMarkers(IEnumerable<Marker> markers)

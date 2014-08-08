@@ -15,7 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MonoMac.CoreAnimation;
 
 namespace Sessions.OSX.Classes.Helpers
 {
@@ -33,6 +37,43 @@ namespace Sessions.OSX.Classes.Helpers
                 alert.AlertStyle = alertStyle;
                 alert.RunModal();
             }
+        }
+
+        public static void FadeIn(NSObject target, double duration, Action completed = null)
+        {
+            var dict = new NSMutableDictionary();
+            dict.Add(NSViewAnimation.TargetKey, target);
+            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
+            var anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+            anim.Duration = duration;
+            anim.AnimationDidEnd += (sender, e) => {
+                if(completed != null)
+                    completed();
+            };
+            anim.StartAnimation();
+        }
+
+        public static void FadeIn2(NSView target, double duration, Action completed = null)
+        {
+            var anim = CABasicAnimation.FromKeyPath("alphaValue");
+            anim.Duration = duration;
+            anim.From = NSValue.FromObject(0);
+            anim.To = NSValue.FromObject(1);
+            //åtargetanim
+        }
+
+        public static void FadeOut(NSObject target, double duration, Action completed = null)
+        {
+            var dict = new NSMutableDictionary();
+            dict.Add(NSViewAnimation.TargetKey, target);
+            dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeOutEffect);
+            var anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+            anim.Duration = duration;
+            anim.AnimationDidEnd += (sender, e) => {
+                if(completed != null)
+                    completed();
+            };
+            anim.StartAnimation();
         }
     }
 }

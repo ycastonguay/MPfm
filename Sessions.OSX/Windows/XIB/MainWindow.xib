@@ -57,7 +57,6 @@
                 <outlet property="chkSegmentLinkToMarker" destination="386-bF-FKz" id="CAM-Cq-Lvt"/>
                 <outlet property="comboSegmentMarker" destination="r3y-CL-WTb" id="xBy-Jf-zar"/>
                 <outlet property="faderVolume" destination="IE1-VU-bW9" id="oVd-F0-y3x"/>
-                <outlet property="imageAlbumCover" destination="112" id="174"/>
                 <outlet property="lblAlbumTitle" destination="61" id="67"/>
                 <outlet property="lblArtistName" destination="54" id="58"/>
                 <outlet property="lblBitrate" destination="n9O-Vc-HhR" id="tag-rS-XDc"/>
@@ -140,6 +139,7 @@
                 <outlet property="txtLoopName" destination="iVZ-lV-BD5" id="eIz-UW-IxE"/>
                 <outlet property="txtMarkerName" destination="oul-0V-zmG" id="LXm-Lh-U0i"/>
                 <outlet property="viewActions" destination="520" id="Mth-hQ-NZc"/>
+                <outlet property="viewAlbumArt" destination="xCd-LS-uJu" id="4lr-X2-Cye"/>
                 <outlet property="viewInformation" destination="883" id="Ndc-Rl-Bga"/>
                 <outlet property="viewLeft" destination="29" id="479"/>
                 <outlet property="viewLeftHeader" destination="487" id="493"/>
@@ -406,11 +406,10 @@
                                         <rect key="frame" x="0.0" y="498" width="800" height="184"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
-                                            <imageView id="112">
+                                            <customView id="xCd-LS-uJu" customClass="SessionsAlbumArtView">
                                                 <rect key="frame" x="0.0" y="0.0" width="184" height="184"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="113"/>
-                                            </imageView>
+                                            </customView>
                                             <customView id="499" customClass="SessionsView">
                                                 <rect key="frame" x="184" y="1" width="302" height="64"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -1961,7 +1960,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000006053591" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>

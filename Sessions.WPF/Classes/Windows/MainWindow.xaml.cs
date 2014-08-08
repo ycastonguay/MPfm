@@ -1365,7 +1365,10 @@ namespace Sessions.WPF.Classes.Windows
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
+        public Action OnOpenSelectAlbumArt { get; set; }
         public Action OnPlayerViewAppeared { get; set; }
+        public Action<byte[]> OnApplyAlbumArtToSong { get; set; }
+        public Action<byte[]> OnApplyAlbumArtToAlbum { get; set; }
 
         public void PlayerError(Exception ex)
         {

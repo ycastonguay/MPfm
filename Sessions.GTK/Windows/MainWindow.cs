@@ -750,7 +750,10 @@ namespace MPfm.GTK.Windows
         public System.Action OnPlayerRepeat { get; set; }
         public System.Action OnOpenPlaylist { get; set; }
         public System.Action OnOpenEffects { get; set; }
+        public System.Action OnOpenSelectAlbumArt { get; set; }
         public System.Action OnPlayerViewAppeared { get; set; }
+        public System.Action<byte[]> OnApplyAlbumArtToSong { get; set; }
+        public System.Action<byte[]> OnApplyAlbumArtToAlbum { get; set; }        
 
         public void PushSubView(IBaseView view)
         {
