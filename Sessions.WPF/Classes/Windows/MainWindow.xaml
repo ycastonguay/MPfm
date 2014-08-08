@@ -504,7 +504,7 @@
                                             <RowDefinition Height="25" />                                            
                                             <RowDefinition />                                            
                                         </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0"  Background="{DynamicResource BrushHeaderBackgroundColor}">
+                                        <Grid Grid.Row="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
@@ -717,27 +717,30 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackMarker" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackMarker_OnClick" />
-                                            <Label Grid.Column="1" Content="Marker Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                            <Label Grid.Column="1" Content="Marker Details" Padding="4,5,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                         </Grid>
                                         <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
-                                            <Grid Margin="2,8,8,0">
+                                            <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">                                            
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="62" />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Margin="0,-3,0,0" Content="Name:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                <TextBox x:Name="txtMarkerName" Grid.Column="1" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            </Grid>
-                                            <Grid Margin="2,4,8,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="62" />
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                <controls:TrackBar Grid.Column="1" x:Name="trackMarkerPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackMarkerPosition_OnTrackBarValueChanged" />
-                                                <Label Grid.Column="2" x:Name="lblMarkerPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
-                                            </Grid>
+                                                <Grid Grid.Column="0" Background="White" Height="24" Margin="4,6,6,4" VerticalAlignment="Center">
+                                                    <TextBlock Margin="2,4,0,0" Padding="0" Text="Enter marker name" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtMarkerName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
+                                                    <TextBox x:Name="txtMarkerName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                </Grid>
+                                                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0">
+                                                    <Button x:Name="btnMarkerPosition" Width="60" Style="{StaticResource SmallHeaderButtonSelected}" Click="BtnLoopStartPosition_OnClick" >
+                                                        <StackPanel Orientation="Vertical">
+                                                            <Label Content="Position" Margin="0,2,0,0" Padding="4,2,4,0" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto" />
+                                                            <Label x:Name="lblMarkerPosition" Content="0:00.000" Margin="0,0,0,0" Padding="4,2,4,0" Width="70" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
+                                                        </StackPanel>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>                                                                                
+                                            <controls:TrackBar x:Name="trackMarkerPosition" Minimum="0" Maximum="1000" Value="0" Margin="2,4,8,0" Height="30" OnTrackBarValueChanged="TrackMarkerPosition_OnTrackBarValueChanged" />
                                             <controls:ImageButton x:Name="btnPunchInMarker" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInMarker_OnClick" />
                                         </StackPanel>                                        
                                     </Grid>
