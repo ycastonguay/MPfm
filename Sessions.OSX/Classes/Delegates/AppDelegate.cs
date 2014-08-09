@@ -78,6 +78,7 @@ namespace Sessions.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<ISyncDownloadView, SyncDownloadWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncCloudView, SyncCloudWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncWebBrowserView, SyncWebBrowserWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISelectAlbumArtView, SelectAlbumArtWindowController>().AsMultiInstance();
 
             // Create and start navigation manager
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();

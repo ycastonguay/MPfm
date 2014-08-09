@@ -74,12 +74,8 @@
     <CreatePackage>False</CreatePackage>
     <EnablePackageSigning>False</EnablePackageSigning>
     <IncludeMonoRuntime>False</IncludeMonoRuntime>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
-    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <Externalconsole>True</Externalconsole>
     <UseSGen>False</UseSGen>
-    <I18n>
-    </I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -255,13 +251,18 @@
     <Compile Include="Classes\Controls\SessionsCircularProgressBarView.cs" />
     <Compile Include="Classes\Controls\SessionsButton.cs" />
     <Compile Include="Classes\Controls\SessionsAlbumArtView.cs" />
+    <Compile Include="Windows\SelectAlbumArtWindow.cs" />
+    <Compile Include="Windows\SelectAlbumArtWindow.designer.cs">
+      <DependentUpon>SelectAlbumArtWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SelectAlbumArtWindowController.cs" />
+    <Compile Include="Classes\Controls\SessionsOverlayView.cs" />
+    <Compile Include="Classes\Controls\SessionsAlbumArtCollectionViewItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
     <InterfaceDefinition Include="Windows\XIB\UpdateLibraryWindow.xib" />
-    <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib">
-      <DependentUpon>MainWindow.xib</DependentUpon>
-    </InterfaceDefinition>
+    <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PlaylistWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PreferencesWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SplashWindow.xib" />
@@ -275,6 +276,7 @@
     <InterfaceDefinition Include="Windows\XIB\StartResumePlaybackWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\CloudConnectWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\EditSongMetadataWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SelectAlbumArtWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

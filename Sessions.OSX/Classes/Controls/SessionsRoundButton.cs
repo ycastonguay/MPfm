@@ -62,6 +62,21 @@ namespace Sessions.OSX.Classes.Controls
             Initialize();
         }
 
+        public SessionsRoundButton(RectangleF frameRect) : base(frameRect)
+        {
+            Initialize();
+        }
+
+        public SessionsRoundButton(NSObjectFlag t) : base(t)
+        {
+            Initialize();
+        }
+
+        public SessionsRoundButton(NSCoder coder) : base(coder)
+        {
+            Initialize();
+        }
+
         private void Initialize()
         {
             //Layer.CornerRadius = 8; // Crashes the app. Bug in MonoMac?

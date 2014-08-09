@@ -364,7 +364,10 @@ namespace Sessions.MVP.Presenters
 
         private void OpenSelectAlbumArt()
         {
-            _mobileNavigationManager.CreateSelectAlbumArtView();
+            if (_navigationManager != null)
+                _navigationManager.CreateSelectAlbumArtView();
+            else if(_mobileNavigationManager != null)
+                _mobileNavigationManager.CreateSelectAlbumArtView();
         }
 
 	    /// <summary>

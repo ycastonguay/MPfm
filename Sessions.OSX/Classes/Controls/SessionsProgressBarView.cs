@@ -70,6 +70,21 @@ namespace Sessions.OSX.Classes.Controls
             Initialize();
         }
 
+        public SessionsProgressBarView(RectangleF frameRect) : base(frameRect)
+        {
+            Initialize();
+        }
+
+        public SessionsProgressBarView(NSObjectFlag t) : base(t)
+        {
+            Initialize();
+        }
+
+        public SessionsProgressBarView(NSCoder coder) : base(coder)
+        {
+            Initialize();
+        }
+
         private void Initialize()
         {
             // Add tracking area to receive mouse move and mouse dragged events

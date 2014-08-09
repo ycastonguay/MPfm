@@ -110,6 +110,8 @@ namespace Sessions.OSX
             waveFormScrollView.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
 
+            viewAlbumArt.OnButtonSelected += HandleOnSelectAlbumArtButtonSelected;
+
             OnViewReady(this);
 		}
 
@@ -556,7 +558,7 @@ namespace Sessions.OSX
 
 			if(filePaths != null && filePaths.Count() > 0)
                 OnPlayerPlayFiles(filePaths);
-		}
+		}            
 
         partial void actionSoundFormatChanged(NSObject sender)
         {
@@ -1148,6 +1150,11 @@ namespace Sessions.OSX
             _isPlayerPositionChanging = false;
             OnPlayerSetPosition((float) trackBarPosition.Value / 10f);
             waveFormScrollView.ShowSecondaryPosition(false);
+        }
+
+        private void HandleOnSelectAlbumArtButtonSelected(SessionsRoundButton button)
+        {
+            OnOpenSelectAlbumArt();
         }
 
         [Export ("controlTextDidChange")]

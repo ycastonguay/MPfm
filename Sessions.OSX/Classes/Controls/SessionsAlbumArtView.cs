@@ -33,9 +33,15 @@ namespace Sessions.OSX.Classes.Controls
     public class SessionsAlbumArtView : NSView
     {
         private NSImageView _imageViewAlbumArt;
-        private NSView _viewImageDownloading;
-        private NSView _viewImageDownloaded;
-        private NSView _viewImageDownloadError;
+        private SessionsOverlayView _viewImageDownloading;
+        private SessionsOverlayView _viewImageDownloaded;
+        private SessionsOverlayView _viewImageDownloadError;
+
+        public override bool WantsDefaultClipping { get { return false; } }
+        public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
+
+        public event SessionsRoundButton.ButtonSelected OnButtonSelected;
 
         [Export("init")]
         public SessionsAlbumArtView() : base(NSObjectFlag.Empty)
@@ -66,18 +72,36 @@ namespace Sessions.OSX.Classes.Controls
 
         private void Initialize()
         {
+            WantsLayer = true;
+
             _imageViewAlbumArt = new NSImageView(Bounds);
             _imageViewAlbumArt.WantsLayer = true;
             AddSubview(_imageViewAlbumArt);
 
-            _viewImageDownloading = new NSView(Bounds);
+            _viewImageDownloading = new SessionsOverlayView(Bounds);
+            _viewImageDownloading.Hidden = true;
+            _viewImageDownloading.SetTheme(SessionsOverlayView.ThemeType.LabelWithActivityIndicator);
+            _viewImageDownloading.LabelTitle = "Downloading image from the internet...";
             AddSubview(_viewImageDownloading);
 
-            _viewImageDownloaded = new NSView(Bounds);
+            _viewImageDownloaded = new SessionsOverlayView(Bounds);
+            _viewImageDownloaded.Hidden = false;
+            _viewImageDownloaded.SetTheme(SessionsOverlayView.ThemeType.LabelWithButtons);
+            _viewImageDownloaded.LabelTitle = "This image has been downloaded from the internet.";
+            _viewImageDownloaded.OnButtonSelected += HandleOnButtonSelected;
             AddSubview(_viewImageDownloaded);
 
-            _viewImageDownloadError = new NSView(Bounds);
+            _viewImageDownloadError = new SessionsOverlayView(Bounds);
+            _viewImageDownloadError.Hidden = true;
+            _viewImageDownloadError.SetTheme(SessionsOverlayView.ThemeType.Label);
+            _viewImageDownloadError.LabelTitle = "Error downloading image from the internet.";
             AddSubview(_viewImageDownloadError);
+        }
+
+        private void HandleOnButtonSelected(SessionsRoundButton button)
+        {
+            if (OnButtonSelected != null)
+                OnButtonSelected(button);
         }
 
         public void SetImage(NSImage image)

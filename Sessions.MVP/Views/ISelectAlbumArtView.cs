@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
+using System;
 
 namespace Sessions.MVP.Views
 {
@@ -22,6 +23,7 @@ namespace Sessions.MVP.Views
 	/// </summary>
     public interface ISelectAlbumArtView : IBaseView
 	{
-    
+        Action<int> OnApplyToAllSongs { get; set; }
+        Action<int> OnApplyToThisSong { get; set; }
 	}
 }
