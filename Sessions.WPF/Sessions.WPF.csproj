@@ -86,6 +86,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Classes\Windows\SelectAlbumArtWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Classes\Windows\StartResumePlaybackWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -184,6 +188,9 @@
     <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
     <Compile Include="Classes\Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\SelectAlbumArtWindow.xaml.cs">
+      <DependentUpon>SelectAlbumArtWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Windows\StartResumePlaybackWindow.xaml.cs">
       <DependentUpon>StartResumePlaybackWindow.xaml</DependentUpon>

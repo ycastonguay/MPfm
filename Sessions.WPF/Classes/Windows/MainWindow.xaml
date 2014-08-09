@@ -525,7 +525,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Grid Grid.Column="0" Background="White" Height="24" Margin="4,6,6,4" VerticalAlignment="Center">
                                                     <TextBlock Margin="2,4,0,0" Padding="0" Text="Enter loop name" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtLoopName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
-                                                    <TextBox x:Name="txtLoopName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                    <TextBox x:Name="txtLoopName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" TextChanged="TxtLoopName_OnTextChanged" />
                                                 </Grid>
                                                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0">
                                                     <Button x:Name="btnLoopStartPosition" Width="60" Style="{StaticResource SmallHeaderButtonSelected}" Click="BtnLoopStartPosition_OnClick" >
@@ -564,8 +564,8 @@
                                                     </Grid>
                                                     <StackPanel Orientation="Horizontal">
                                                         <controls:ImageButton x:Name="btnPunchInStartSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInStartSegment_OnClick" />
-                                                        <CheckBox x:Name="chkStartSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkStartSegmentLinkToMarker_OnChecked" Unchecked="ChkStartSegmentLinkToMarker_OnChecked" />
-                                                        <ComboBox x:Name="comboStartSegmentMarker" Margin="0,2,0,0" Height="26" />
+                                                        <CheckBox x:Name="chkStartSegmentLinkToMarker" VerticalAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkStartSegmentLinkToMarker_OnChecked" Unchecked="ChkStartSegmentLinkToMarker_OnChecked" />
+                                                        <ComboBox x:Name="comboStartSegmentMarker" Margin="0,2,0,0" Height="26" Visibility="Hidden" />
                                                     </StackPanel>
                                                 </StackPanel>
                                                 <StackPanel x:Name="panelLoopEndPosition" Visibility="Hidden" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
@@ -581,8 +581,8 @@
                                                     </Grid>
                                                     <StackPanel Orientation="Horizontal">
                                                         <controls:ImageButton x:Name="btnPunchInEndSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInEndSegment_OnClick" />
-                                                        <CheckBox x:Name="chkEndSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkEndSegmentLinkToMarker_OnChecked" Unchecked="ChkEndSegmentLinkToMarker_OnChecked" />
-                                                        <ComboBox x:Name="comboEndSegmentMarker" Margin="0,2,0,0" Height="26" />
+                                                        <CheckBox x:Name="chkEndSegmentLinkToMarker" VerticalAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkEndSegmentLinkToMarker_OnChecked" Unchecked="ChkEndSegmentLinkToMarker_OnChecked" />
+                                                        <ComboBox x:Name="comboEndSegmentMarker" Margin="0,2,0,0" Height="26" Visibility="Hidden" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </Grid>

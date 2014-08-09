@@ -268,7 +268,7 @@ namespace Sessions.MVP.Presenters
                     });
                 }
 
-                View.RefreshLoopDetailsSegment(segment);
+                View.RefreshLoopDetailsSegment(segment, _lengthBytes);
             }
             catch (Exception ex)
             {
@@ -291,8 +291,7 @@ namespace Sessions.MVP.Presenters
                     segment.PositionSamples = marker.PositionSamples;
                 }
                 _libraryService.UpdateSegment(segment);
-
-                RefreshLoop();
+                View.RefreshLoopDetailsSegment(segment, _lengthBytes);
             }
             catch(Exception ex)
             {

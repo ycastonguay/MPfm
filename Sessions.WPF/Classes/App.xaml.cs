@@ -86,8 +86,6 @@ namespace Sessions.WPF.Classes
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, MainWindow>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<ILoopDetailsView, frmLoopDetails>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<IMarkerDetailsView, frmMarkerDetails>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IEditSongMetadataView, EditSongMetadataWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IAboutView, AboutWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IFirstRunView, FirstRunWindow>().AsMultiInstance();
@@ -103,6 +101,7 @@ namespace Sessions.WPF.Classes
             Bootstrapper.GetContainer().Register<ISyncWebBrowserView, SyncWebBrowserWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IResumePlaybackView, ResumePlaybackWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IStartResumePlaybackView, StartResumePlaybackWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISelectAlbumArtView, SelectAlbumArtWindow>().AsMultiInstance();
         }
     }
 }

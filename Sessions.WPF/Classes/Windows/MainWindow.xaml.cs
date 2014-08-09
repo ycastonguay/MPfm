@@ -790,6 +790,12 @@ namespace Sessions.WPF.Classes.Windows
             panelLoopEndPosition.Visibility = Visibility.Visible;
         }
 
+        private void TxtLoopName_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            _currentLoop.Name = txtLoopName.Text;
+            scrollViewWaveForm.SetLoop(_currentLoop);
+        }
+
         private void TrackStartSegmentPosition_OnTrackBarValueChanged()
         {
             ChangeStartSegment(trackStartSegmentPosition.Value / 1000f, false);
@@ -824,7 +830,9 @@ namespace Sessions.WPF.Classes.Windows
         {
             if (_loopMarkers.Count == 0)
             {
+                chkStartSegmentLinkToMarker.Unchecked -= ChkStartSegmentLinkToMarker_OnChecked;
                 chkStartSegmentLinkToMarker.IsChecked = false;
+                chkStartSegmentLinkToMarker.Unchecked += ChkStartSegmentLinkToMarker_OnChecked;
                 MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -837,7 +845,10 @@ namespace Sessions.WPF.Classes.Windows
             }
             else
             {
-                OnLinkSegmentToMarker(_startSegment, Guid.Empty);
+                //OnLinkSegmentToMarker(_startSegment, Guid.Empty);
+                comboStartSegmentMarker.SelectedIndex = 0;
+                var marker = _loopMarkers[0];
+                OnLinkSegmentToMarker(_startSegment, marker.MarkerId);
             }
         }
 
@@ -845,7 +856,9 @@ namespace Sessions.WPF.Classes.Windows
         {
             if (_loopMarkers.Count == 0)
             {
+                chkEndSegmentLinkToMarker.Unchecked -= ChkEndSegmentLinkToMarker_OnChecked;
                 chkEndSegmentLinkToMarker.IsChecked = false;
+                chkEndSegmentLinkToMarker.Unchecked += ChkEndSegmentLinkToMarker_OnChecked;
                 MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -1078,10 +1091,12 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnApplyAlbumArt_OnClick(object sender, RoutedEventArgs e)
         {
+            
         }
 
         private void BtnChooseAlbumArt_OnClick(object sender, RoutedEventArgs e)
         {
+            OnOpenSelectAlbumArt();
         }
 
         #region IMainView implementation
@@ -1825,7 +1840,7 @@ namespace Sessions.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 lblMarkerPosition.Content = position;
-                trackMarkerPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                trackMarkerPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
                 _currentMarker.Position = position;
                 _currentMarker.PositionPercentage = positionPercentage;
                 scrollViewWaveForm.SetMarkerPosition(_currentMarker);
@@ -1866,7 +1881,7 @@ namespace Sessions.WPF.Classes.Windows
                 {
                     lblLoopStartPosition.Content = _startSegment.Position;
                     float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
-                    trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                    trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
                 }
 
                 _endSegment = _currentLoop.GetEndSegment();
@@ -1874,14 +1889,14 @@ namespace Sessions.WPF.Classes.Windows
                 {
                     lblLoopEndPosition.Content = _endSegment.Position;
                     float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
-                    trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                    trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
                 }
 
                 lblLoopLength.Content = _currentLoop.TotalLength;
             }));
         }
 
-        public void RefreshLoopDetailsSegment(Segment segment)
+        public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
@@ -1892,11 +1907,20 @@ namespace Sessions.WPF.Classes.Windows
                     return;
 
                 if (startSegment.SegmentId == segment.SegmentId)
+                {
                     lblLoopStartPosition.Content = segment.Position;
+                    float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
+                    trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+                }
                 else if (endSegment.SegmentId == segment.SegmentId)
+                {
                     lblLoopEndPosition.Content = segment.Position;
+                    float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
+                    trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+                }
 
                 lblLoopLength.Content = _currentLoop.TotalLength;
+                scrollViewWaveForm.SetLoop(_currentLoop);
             }));        
         }
 

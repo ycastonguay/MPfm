@@ -581,7 +581,7 @@ namespace Sessions.GenericControls.Controls
                     // Draw text
                     //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
                     //var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX > startX ? endX - startX : 0, 12);
-                    var rectText = new BasicRectangle(startX, Frame.Height - 12, endX > startX ? endX - startX : 0, 12);
+                    var rectText = new BasicRectangle(startX, Frame.Height - 14, endX > startX ? endX - startX : 0, 14);
                     //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
                     context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
                     //context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);

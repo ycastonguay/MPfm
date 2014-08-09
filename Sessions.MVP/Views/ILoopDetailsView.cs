@@ -39,7 +39,7 @@ namespace Sessions.MVP.Views
 
         void LoopDetailsError(Exception ex);
         void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength);
-	    void RefreshLoopDetailsSegment(Segment segment);
+	    void RefreshLoopDetailsSegment(Segment segment, long audioFileLength);
         void RefreshLoopMarkers(IEnumerable<Marker> markers);
 	}
 }

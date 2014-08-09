@@ -1,0 +1,26 @@
+﻿<base:BaseWindow x:Class="Sessions.WPF.Classes.Windows.SelectAlbumArtWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:base="clr-namespace:Sessions.WPF.Classes.Windows.Base"
+        xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"        
+        WindowStartupLocation="CenterScreen" Title="SelectAlbumArtWindow" Height="500" Width="600">
+    <Grid>
+      <Grid.RowDefinitions>          
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <ListView Grid.Row="0" x:Name="listViewAlbumArt">        
+      </ListView>
+      <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>            
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <controls:ImageButton Grid.Column="1" x:Name="btnCancel" Margin="0" Title="Cancel" Style="{StaticResource ImageButton}" Click="BtnCancel_OnClick" />
+        <controls:ImageButton Grid.Column="2" x:Name="btnApplyToThisSong" Margin="0" Title="Apply to this song" Style="{StaticResource ImageButton}" Click="BtnApplyToThisSong_OnClick" />
+        <controls:ImageButton Grid.Column="3" x:Name="btnApplyToAllSongs" Margin="0" Title="Apply to album" Style="{StaticResource ImageButton}" Click="BtnApplyToAllSongs_OnClick" />
+      </Grid>        
+    </Grid>
+</base:BaseWindow>

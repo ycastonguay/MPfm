@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -1187,7 +1187,7 @@ namespace MPfm.GTK.Windows
 		{
 		}
 		
-		public void RefreshLoopDetailsSegment(Segment segment)
+		public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
         {
         }		
 		
