@@ -61,7 +61,7 @@ namespace Sessions.WPF.Classes.Windows
     {
         private readonly IDownloadImageService _downloadImageService;
         private List<Marker> _markers;
-        private List<Marker> _segmentMarkers;
+        private List<Marker> _loopMarkers;
         private List<Loop> _loops;
         private Marker _currentMarker;
         private Loop _currentLoop;
@@ -75,6 +75,8 @@ namespace Sessions.WPF.Classes.Windows
         private string _currentAlbumArtKey;
         private LibraryBrowserEntity _selectedLibraryNode;
         private static NotifyIcon _playerNotifyIcon;
+        private Segment _startSegment;
+        private Segment _endSegment;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -710,7 +712,13 @@ namespace Sessions.WPF.Classes.Windows
             gridLoops.Visibility = Visibility.Visible;
             gridLoopDetails.Visibility = Visibility.Hidden;
             gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Hidden;
+
+            //_currentSegment.MarkerId = Guid.Empty;
+            //if (chkSegmentLinkToMarker.IsChecked.Value && comboSegmentMarker.SelectedIndex >= 0)
+            //    _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.SelectedIndex].MarkerId;
+
+            //OnUpdateSegmentDetails(_currentSegment);
+            //_currentSegment = null;
 
             _currentLoop.Name = txtLoopName.Text;
             OnUpdateLoopDetails(_currentLoop);
@@ -728,7 +736,6 @@ namespace Sessions.WPF.Classes.Windows
             gridLoops.Visibility = Visibility.Hidden;
             gridLoopDetails.Visibility = Visibility.Visible;
             gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Hidden;
         }
 
         private void BtnEditLoop_OnClick(object sender, RoutedEventArgs e)
@@ -745,7 +752,6 @@ namespace Sessions.WPF.Classes.Windows
             gridLoops.Visibility = Visibility.Hidden;
             gridLoopDetails.Visibility = Visibility.Visible;
             gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Hidden;
         }
 
         private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
@@ -768,75 +774,6 @@ namespace Sessions.WPF.Classes.Windows
             btnRemoveLoop.Enabled = enabled;
         }
 
-        private void ListViewSegments_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (listViewLoops.SelectedIndex >= 0)
-                _selectedLoopIndex = listViewLoops.SelectedIndex;
-        }
-
-        private void ListViewSegments_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            EditSegment();
-        }
-
-        private void ListViewSegments_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewSegments, e);
-        }
-
-        private void BtnAddSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-            OnAddSegment();
-            gridLoops.Visibility = Visibility.Hidden;
-            gridLoopDetails.Visibility = Visibility.Hidden;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Visible;
-        }
-
-        private void BtnEditSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-            EditSegment();
-        }
-
-        private void BtnEditStartPosition_OnClick(object sender, RoutedEventArgs e)
-        {
-            EditSegment(0);
-        }
-
-        private void BtnEditEndPosition_OnClick(object sender, RoutedEventArgs e)
-        {
-            EditSegment(1);
-        }
-
-        private void EditSegment()
-        {
-            if (listViewSegments.SelectedIndex < 0 || listViewSegments.SelectedIndex >= _currentLoop.Segments.Count)
-                return;
-
-            EditSegment(listViewSegments.SelectedIndex);
-        }
-
-        private void EditSegment(int index)
-        {
-            OnEditSegment(_currentLoop.Segments[index]);
-            gridLoops.Visibility = Visibility.Hidden;
-            gridLoopDetails.Visibility = Visibility.Hidden;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Visible;
-        }
-
-        private void BtnRemoveSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (listViewSegments.SelectedIndex < 0 || listViewSegments.SelectedIndex >= _currentLoop.Segments.Count)
-                return;
-
-            var result = MessageBox.Show("Are you sure you wish to remove this segment?", "Remove segment", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
-            {
-                OnDeleteSegment(_currentLoop.Segments[listViewSegments.SelectedIndex]);
-            }
-        }
-
         private void BtnLoopStartPosition_OnClick(object sender, RoutedEventArgs e)
         {
             ResetLoopHeaderButtonStyles();
@@ -853,77 +790,96 @@ namespace Sessions.WPF.Classes.Windows
             panelLoopEndPosition.Visibility = Visibility.Visible;
         }
 
-        private void txtLoopName_KeyDown(object sender, KeyEventArgs e)
+        private void TrackStartSegmentPosition_OnTrackBarValueChanged()
         {
-            //_currentLoop.Name = txtLoopName.Text;
-            //OnUpdateLoopDetails(_currentLoop);
+            ChangeStartSegment(trackStartSegmentPosition.Value / 1000f, false);
         }
 
-        private void BtnBackSegmentDetails_OnClick(object sender, RoutedEventArgs e)
+        private void TrackStartSegmentPosition_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            gridLoops.Visibility = Visibility.Hidden;
-            gridLoopDetails.Visibility = Visibility.Visible;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Hidden;
-
-            _currentSegment.MarkerId = Guid.Empty;
-            if (chkSegmentLinkToMarker.IsChecked.Value && comboSegmentMarker.SelectedIndex >= 0)
-                _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.SelectedIndex].MarkerId;
-
-            OnUpdateSegmentDetails(_currentSegment);
-            _currentSegment = null;
+            ChangeStartSegment(trackStartSegmentPosition.Value / 1000f, true);
         }
 
-        private void ComboSegmentMarker_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TrackEndSegmentPosition_OnTrackBarValueChanged()
         {
-            SetSegmentLinkedMarker();
+            ChangeEndSegment(trackEndSegmentPosition.Value / 1000f, false);
         }
 
-        private void ChkSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
+        private void TrackEndSegmentPosition_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-        //    SetSegmentLinkedMarker();
+            ChangeEndSegment(trackEndSegmentPosition.Value / 1000f, true);
         }
 
-        private void ChkSegmentLinkToMarker_OnClick(object sender, RoutedEventArgs e)
+        private void ChkStartSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
         {
-            SetSegmentLinkedMarker();
+            SetStartSegmentLinkedMarker();
         }
 
-        private void SetSegmentLinkedMarker()
+        private void ChkEndSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
         {
-            if (_segmentMarkers.Count == 0)
+            SetEndSegmentLinkedMarker();
+        }
+
+        private void SetStartSegmentLinkedMarker()
+        {
+            if (_loopMarkers.Count == 0)
             {
-                chkSegmentLinkToMarker.IsChecked = false;
+                chkStartSegmentLinkToMarker.IsChecked = false;
                 MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            comboSegmentMarker.Visibility = chkSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
-            if (chkSegmentLinkToMarker.IsChecked.Value && comboSegmentMarker.SelectedIndex >= 0)
+            comboStartSegmentMarker.Visibility = chkStartSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
+            if (chkStartSegmentLinkToMarker.IsChecked.Value && comboStartSegmentMarker.SelectedIndex >= 0)
             {
-                var marker = _segmentMarkers[comboSegmentMarker.SelectedIndex];
-                OnLinkToMarkerSegmentDetails(marker.MarkerId);
+                var marker = _loopMarkers[comboStartSegmentMarker.SelectedIndex];
+                OnLinkSegmentToMarker(_startSegment, marker.MarkerId);
             }
             else
             {
-                OnLinkToMarkerSegmentDetails(Guid.Empty);
+                OnLinkSegmentToMarker(_startSegment, Guid.Empty);
             }
         }
 
-        private void BtnPunchInSegment_OnClick(object sender, RoutedEventArgs e)
+        private void SetEndSegmentLinkedMarker()
         {
-            if (_currentSegment == null)
+            if (_loopMarkers.Count == 0)
+            {
+                chkEndSegmentLinkToMarker.IsChecked = false;
+                MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
+            }
 
-            chkSegmentLinkToMarker.IsChecked = false;
-            comboSegmentMarker.Visibility = Visibility.Hidden;
-            OnPunchInPositionSegmentDetails();
+            comboEndSegmentMarker.Visibility = chkEndSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
+            if (chkEndSegmentLinkToMarker.IsChecked.Value && comboEndSegmentMarker.SelectedIndex >= 0)
+            {
+                var marker = _loopMarkers[comboEndSegmentMarker.SelectedIndex];
+                OnLinkSegmentToMarker(_endSegment, marker.MarkerId);
+            }
+            else
+            {
+                OnLinkSegmentToMarker(_endSegment, Guid.Empty);
+            }
         }
 
-        private void TrackSegmentPosition_OnTrackBarValueChanged()
+        private void BtnPunchInStartSegment_OnClick(object sender, RoutedEventArgs e)
         {
-            // The value of the slider is changed at the startup of the app and the view is not ready
-            ChangePositionSegmentDetails(trackSegmentPosition.Value / 1000f);
+            if (_startSegment == null)
+                return;
+
+            chkStartSegmentLinkToMarker.IsChecked = false;
+            comboStartSegmentMarker.Visibility = Visibility.Hidden;
+            OnPunchInSegment(_startSegment);
+        }
+
+        private void BtnPunchInEndSegment_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_endSegment == null)
+                return;
+
+            chkEndSegmentLinkToMarker.IsChecked = false;
+            comboEndSegmentMarker.Visibility = Visibility.Hidden;
+            OnPunchInSegment(_endSegment);
         }
 
         private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
@@ -931,9 +887,6 @@ namespace Sessions.WPF.Classes.Windows
             if (gridLoopDetails.Visibility == Visibility.Visible)
             {
                 OnChangingSegmentPosition(segment, positionPercentage);
-            }
-            else if (gridSegmentDetails.Visibility == Visibility.Visible)
-            {
             }
         }
 
@@ -943,20 +896,42 @@ namespace Sessions.WPF.Classes.Windows
             {
                 OnChangedSegmentPosition(segment, positionPercentage);
             }
-            else if (gridSegmentDetails.Visibility == Visibility.Visible)
+        }
+
+        private void ChangeStartSegment(float percentage, bool mouseUp)
+        {
+            chkStartSegmentLinkToMarker.IsChecked = false;
+            comboStartSegmentMarker.Visibility = Visibility.Hidden;
+            //trackSegmentPosition.ValueWithoutEvent = (int) (percentage*1000f);
+
+            if (mouseUp)
             {
-                if(segment.SegmentId == _currentSegment.SegmentId)
-                    ChangePositionSegmentDetails(positionPercentage);
+                if (OnChangedSegmentPosition != null)
+                    OnChangedSegmentPosition(_startSegment, percentage);
+            }
+            else
+            {                
+                if (OnChangingSegmentPosition != null)
+                    OnChangingSegmentPosition(_startSegment, percentage);
             }
         }
 
-        private void ChangePositionSegmentDetails(float percentage)
+        private void ChangeEndSegment(float percentage, bool mouseUp)
         {
-            chkSegmentLinkToMarker.IsChecked = false;
-            comboSegmentMarker.Visibility = Visibility.Hidden;
+            chkEndSegmentLinkToMarker.IsChecked = false;
+            comboEndSegmentMarker.Visibility = Visibility.Hidden;
             //trackSegmentPosition.ValueWithoutEvent = (int) (percentage*1000f);
-            if (OnChangePositionSegmentDetails != null)
-                OnChangePositionSegmentDetails(percentage);
+
+            if (mouseUp)
+            {
+                if (OnChangedSegmentPosition != null)
+                    OnChangedSegmentPosition(_endSegment, percentage);
+            }
+            else
+            {
+                if (OnChangingSegmentPosition != null)
+                    OnChangingSegmentPosition(_endSegment, percentage);                
+            }
         }
 
         private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
@@ -964,7 +939,7 @@ namespace Sessions.WPF.Classes.Windows
             gridLoops.Visibility = Visibility.Visible;
             gridLoopDetails.Visibility = Visibility.Hidden;
             gridLoopPlayback.Visibility = Visibility.Hidden;
-            gridSegmentDetails.Visibility = Visibility.Hidden;
+            //gridSegmentDetails.Visibility = Visibility.Hidden;
         }
 
         private void SliderMarkerPosition_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1428,7 +1403,7 @@ namespace Sessions.WPF.Classes.Windows
         {
             _selectedMarkerIndex = -1;
             _currentAudioFile = audioFile;
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 if (audioFile == null)
                 {
@@ -1603,7 +1578,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshPlayerVolume(PlayerVolume entity)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 lblVolume.Content = entity.VolumeString;
                 if (faderVolume.Value != (int)entity.Volume)
@@ -1617,7 +1592,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 outputMeter.AddWaveDataBlock(dataLeft, dataRight);
                 outputMeter.InvalidateVisual();
@@ -1648,7 +1623,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshMarkers(List<Marker> markers)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 _markers = markers.ToList();
                 listViewMarkers.Items.Clear();
@@ -1665,7 +1640,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshMarkerPosition(Marker marker, int newIndex)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 //Console.WriteLine("index: {0} value: {1} newIndex: {2}", listViewMarkers.SelectedIndex, marker.Position, newIndex);
                 _markers[_selectedMarkerIndex].Position = marker.Position;
@@ -1696,7 +1671,7 @@ namespace Sessions.WPF.Classes.Windows
         public void RefreshLoops(List<Loop> loops)
         {
             _loops = loops.ToList();
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 listViewLoops.ItemsSource = _loops;
                 listViewLoops.SelectedIndex = _selectedLoopIndex;
@@ -1720,7 +1695,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshTimeShifting(PlayerTimeShifting entity)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 lblDetectedTempo.Content = entity.DetectedTempo;
                 lblReferenceTempo.Content = entity.ReferenceTempo;
@@ -1751,7 +1726,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshPitchShifting(PlayerPitchShifting entity)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 lblInterval.Content = entity.Interval;
                 lblCurrentKey.Content = entity.NewKey.Item2;
@@ -1866,6 +1841,7 @@ namespace Sessions.WPF.Classes.Windows
         public Action<Segment> OnEditSegment { get; set; }
         public Action<Segment> OnDeleteSegment { get; set; }
         public Action<Loop> OnUpdateLoopDetails { get; set; }
+        public Action<Segment> OnPunchInSegment { get; set; }
         public Action<Segment, int> OnChangeSegmentOrder { get; set; }
         public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
         public Action<Segment, float> OnChangingSegmentPosition { get; set; }
@@ -1876,7 +1852,7 @@ namespace Sessions.WPF.Classes.Windows
             ShowErrorDialog(ex);
         }
 
-        public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+        public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
         {
             _currentLoop = loop;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -1885,16 +1861,21 @@ namespace Sessions.WPF.Classes.Windows
                 scrollViewWaveForm.SetLoop(loop);
                 //scrollViewWaveForm.FocusZoomOnLoop(_currentLoop);
 
-                listViewSegments.ItemsSource = _currentLoop.Segments;
-                listViewSegments.SelectedIndex = _selectedSegmentIndex;
+                _startSegment = _currentLoop.GetStartSegment();
+                if (_startSegment != null)
+                {
+                    lblLoopStartPosition.Content = _startSegment.Position;
+                    float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
+                    trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                }
 
-                var startPosition = _currentLoop.GetStartSegment();
-                if (startPosition != null)
-                    lblLoopStartPosition.Content = startPosition.Position;
-
-                var endPosition = _currentLoop.GetEndSegment();
-                if (endPosition != null)
-                    lblLoopEndPosition.Content = endPosition.Position;
+                _endSegment = _currentLoop.GetEndSegment();
+                if (_endSegment != null)
+                {
+                    lblLoopEndPosition.Content = _endSegment.Position;
+                    float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
+                    trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+                }
 
                 lblLoopLength.Content = _currentLoop.TotalLength;
             }));
@@ -1917,6 +1898,21 @@ namespace Sessions.WPF.Classes.Windows
 
                 lblLoopLength.Content = _currentLoop.TotalLength;
             }));        
+        }
+
+        public void RefreshLoopMarkers(IEnumerable<Marker> markers)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                _loopMarkers = markers.ToList();
+                comboStartSegmentMarker.Items.Clear();
+                comboEndSegmentMarker.Items.Clear();
+                foreach (var marker in markers)
+                {
+                    comboStartSegmentMarker.Items.Add(marker.Name);
+                    comboEndSegmentMarker.Items.Add(marker.Name);
+                }
+            }));
         }
 
         #endregion
@@ -1953,47 +1949,47 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshSegmentDetails(Segment segment, long audioFileLength)
         {
-            //Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
-            _currentSegment = segment;
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                //waveFormScrollView.SetSegment(segment);
-                chkSegmentLinkToMarker.IsChecked = segment.MarkerId != Guid.Empty;
-                comboSegmentMarker.Visibility = segment.MarkerId == Guid.Empty ? Visibility.Hidden : Visibility.Visible;
-                int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
-                if (index >= 0)
-                    comboSegmentMarker.SelectedIndex = index;
+            ////Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
+            //_currentSegment = segment;
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    //waveFormScrollView.SetSegment(segment);
+            //    chkSegmentLinkToMarker.IsChecked = segment.MarkerId != Guid.Empty;
+            //    comboSegmentMarker.Visibility = segment.MarkerId == Guid.Empty ? Visibility.Hidden : Visibility.Visible;
+            //    int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
+            //    if (index >= 0)
+            //        comboSegmentMarker.SelectedIndex = index;
 
-                float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
-                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-                lblSegmentPosition.Content = segment.Position;
-            }));
+            //    float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
+            //    trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+            //    lblSegmentPosition.Content = segment.Position;
+            //}));
         }
 
         public void RefreshSegmentPosition(string position, float positionPercentage)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                lblSegmentPosition.Content = position;
-                trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    lblSegmentPosition.Content = position;
+            //    trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
 
-                if (_currentSegment != null)
-                {
-                    _currentSegment.Position = position;
-                    scrollViewWaveForm.SetSegment(_currentSegment);
-                }
-            }));
+            //    if (_currentSegment != null)
+            //    {
+            //        _currentSegment.Position = position;
+            //        scrollViewWaveForm.SetSegment(_currentSegment);
+            //    }
+            //}));
         }
 
         public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                _segmentMarkers = markers.ToList();
-                comboSegmentMarker.Items.Clear();
-                foreach (var marker in markers)
-                    comboSegmentMarker.Items.Add(marker.Name);
-            }));
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    _segmentMarkers = markers.ToList();
+            //    comboSegmentMarker.Items.Clear();
+            //    foreach (var marker in markers)
+            //        comboSegmentMarker.Items.Add(marker.Name);
+            //}));
         }
 
         #endregion

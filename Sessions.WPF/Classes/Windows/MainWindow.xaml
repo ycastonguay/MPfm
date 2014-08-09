@@ -559,12 +559,12 @@
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <Label Grid.Column="0" Visibility="Collapsed" Margin="0,3,0,0" Content="Start Position:" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                        <controls:TrackBar Grid.Column="1" x:Name="trackStartSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" />
+                                                        <controls:TrackBar Grid.Column="1" x:Name="trackStartSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackStartSegmentPosition_OnTrackBarValueChanged" MouseUp="TrackStartSegmentPosition_OnMouseUp" />
                                                         <Label Grid.Column="2" x:Name="lblStartSegmentPosition" Visibility="Collapsed" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
                                                     </Grid>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <controls:ImageButton x:Name="btnPunchInStartSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" />
-                                                        <CheckBox x:Name="chkStartSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                        <controls:ImageButton x:Name="btnPunchInStartSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInStartSegment_OnClick" />
+                                                        <CheckBox x:Name="chkStartSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkStartSegmentLinkToMarker_OnChecked" Unchecked="ChkStartSegmentLinkToMarker_OnChecked" />
                                                         <ComboBox x:Name="comboStartSegmentMarker" Margin="0,2,0,0" Height="26" />
                                                     </StackPanel>
                                                 </StackPanel>
@@ -576,56 +576,16 @@
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <Label Grid.Column="0" Visibility="Collapsed" Margin="0,3,0,0" Content="End Position:" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                        <controls:TrackBar Grid.Column="1" x:Name="trackEndSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" />
+                                                        <controls:TrackBar Grid.Column="1" x:Name="trackEndSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackEndSegmentPosition_OnTrackBarValueChanged" MouseUp="TrackEndSegmentPosition_OnMouseUp" />
                                                         <Label Grid.Column="2" x:Name="lblEndSegmentPosition" Visibility="Collapsed" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
                                                     </Grid>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <controls:ImageButton x:Name="btnPunchInEndSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" />
-                                                        <CheckBox x:Name="chkEndSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                        <controls:ImageButton x:Name="btnPunchInEndSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInEndSegment_OnClick" />
+                                                        <CheckBox x:Name="chkEndSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkEndSegmentLinkToMarker_OnChecked" Unchecked="ChkEndSegmentLinkToMarker_OnChecked" />
                                                         <ComboBox x:Name="comboEndSegmentMarker" Margin="0,2,0,0" Height="26" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </Grid>
-                                        </StackPanel>
-                                        <ListView x:Name="listViewSegments" Visibility="Collapsed" SelectionChanged="ListViewSegments_OnSelectionChanged" MouseDoubleClick="ListViewSegments_OnMouseDoubleClick" PreviewMouseDown="ListViewSegments_OnPreviewMouseDown">
-                                            <ListView.View>
-                                                <GridView>
-                                                    <controls:FixedWidthColumn Header="" FixedWidth="60" DisplayMemberBinding="{Binding Path=Index}" />
-                                                    <GridViewColumn Header="Position" Width="150" DisplayMemberBinding="{Binding Path=Position}" />
-                                                    <GridViewColumn Header="Marker" Width="80" DisplayMemberBinding="{Binding Path=Marker}" />
-                                                </GridView>
-                                            </ListView.View>
-                                        </ListView>
-                                    </Grid>
-                                    <Grid x:Name="gridSegmentDetails" Visibility="Hidden" Margin="0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <controls:HeaderImageButton Grid.Column="0" x:Name="btnBackSegmentDetails" Title="Back" ImageSource="/Resources/Images/Buttons/back.png" Style="{StaticResource HeaderImageButton}" Click="BtnBackSegmentDetails_OnClick" />
-                                            <Label Grid.Column="1" Content="Segment Details" Padding="4,4,0,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                        </Grid>
-                                        <StackPanel Grid.Row="1" Orientation="Vertical" Background="{DynamicResource BrushBackgroundColor}">
-                                            <Grid Margin="2,4,8,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="62" />
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Margin="0,3,0,0" Content="Position:" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" />
-                                                <controls:TrackBar Grid.Column="1" x:Name="trackSegmentPosition" Minimum="0" Maximum="1000" Value="0" Margin="0,0,0,0" Height="30" OnTrackBarValueChanged="TrackSegmentPosition_OnTrackBarValueChanged" />
-                                                <Label Grid.Column="2" x:Name="lblSegmentPosition" Content="00:00.000" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2,2,0,2" />
-                                            </Grid>
-                                            <StackPanel Orientation="Horizontal">
-                                                <controls:ImageButton x:Name="btnPunchInSegment" Title="Punch In" ImageSource="/Resources/Images/Buttons/punch_in.png" Style="{StaticResource ImageButton}" HorizontalAlignment="Left" Click="BtnPunchInSegment_OnClick" />
-                                                <CheckBox x:Name="chkSegmentLinkToMarker" VerticalContentAlignment="Center" Margin="4,4,8,6" Content="Link to marker" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Checked="ChkSegmentLinkToMarker_OnChecked" Click="ChkSegmentLinkToMarker_OnClick" />
-                                                <ComboBox x:Name="comboSegmentMarker" Margin="0,2,0,0" Height="26" SelectionChanged="ComboSegmentMarker_OnSelectionChanged" />
-                                            </StackPanel>
                                         </StackPanel>
                                     </Grid>
                                     <Grid x:Name="gridLoopPlayback" Visibility="Hidden" Margin="0">

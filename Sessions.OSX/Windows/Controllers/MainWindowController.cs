@@ -1965,13 +1965,14 @@ namespace Sessions.OSX
         public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
 		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
         public Action<Segment, float> OnChangedSegmentPosition { get; set; }
+		public Action<Segment> OnPunchInSegment { get; set; }
         
         public void LoopDetailsError(Exception ex)
         {
             ShowError(ex);
         }
         
-        public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+        public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
         {
             InvokeOnMainThread(delegate {
                 _currentLoop = loop;
@@ -1994,6 +1995,10 @@ namespace Sessions.OSX
 		public void RefreshLoopDetailsSegment(Segment segment)
         {
         }
+		
+		public void RefreshLoopMarkers(IEnumerable<Marker> markers)
+		{
+		}
 
         #endregion
 

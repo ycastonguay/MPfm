@@ -1177,19 +1177,23 @@ namespace MPfm.GTK.Windows
 		public Action<Sessions.Player.Objects.Segment, Guid> OnLinkSegmentToMarker { get; set; }
 		public Action<Sessions.Player.Objects.Segment, float> OnChangingSegmentPosition { get; set; }
         public Action<Sessions.Player.Objects.Segment, float> OnChangedSegmentPosition { get; set; }
-
+		public Action<Segment> OnPunchInSegment { get; set; }
 
 		public void LoopDetailsError(Exception ex)
 		{
 		}
 
-		public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+		public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
 		{
 		}
 		
 		public void RefreshLoopDetailsSegment(Segment segment)
         {
         }		
+		
+		public void RefreshLoopMarkers(IEnumerable<Marker> markers)
+		{
+		}
 
 		#endregion
 

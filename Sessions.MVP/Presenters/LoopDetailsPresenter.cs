@@ -35,16 +35,17 @@ namespace Sessions.MVP.Presenters
 	/// </summary>
 	public class LoopDetailsPresenter : BasePresenter<ILoopDetailsView>, ILoopDetailsPresenter
 	{
-        Guid _loopId;
-        Loop _loop;
-        AudioFile _audioFile;
-        long _lengthBytes;
-        List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
-        readonly ITinyMessengerHub _messageHub;
-        readonly ILibraryService _libraryService;
-        readonly IPlayerService _playerService;
-        
-        public LoopDetailsPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
+        private Guid _loopId;
+        private Loop _loop;
+        private AudioFile _audioFile;
+        private long _lengthBytes;
+        private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
+        private readonly ITinyMessengerHub _messageHub;
+        private readonly ILibraryService _libraryService;
+        private readonly IPlayerService _playerService;
+	    private List<Marker> _markers;
+
+	    public LoopDetailsPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
             _messageHub = messageHub;
             _libraryService = libraryService;
@@ -63,10 +64,12 @@ namespace Sessions.MVP.Presenters
             view.OnChangeSegmentOrder = ChangeSegmentOrder;
             view.OnChangingSegmentPosition = ChangingSegmentPosition;
             view.OnChangedSegmentPosition = ChangedSegmentPosition;
+            view.OnPunchInSegment = PunchInSegment;
             base.BindView(view);
 
             _tokens.Add(_messageHub.Subscribe<LoopBeingEditedMessage>(LoopBeingEdited));            
             _tokens.Add(_messageHub.Subscribe<SegmentUpdatedMessage>(SegmentUpdated));
+            _tokens.Add(_messageHub.Subscribe<MarkerUpdatedMessage>(MarkerUpdated));
         }
 
 	    public override void ViewDestroyed()
@@ -87,6 +90,11 @@ namespace Sessions.MVP.Presenters
         {
             UpdateLoopSegmentsOrder(true);
             RefreshLoop();
+        }
+
+        private void MarkerUpdated(MarkerUpdatedMessage message)
+        {
+            RefreshMarkers();
         }
 
         private void SetSegmentIndexes()
@@ -114,7 +122,7 @@ namespace Sessions.MVP.Presenters
         {
             SetSegmentIndexes();
             SetSegmentMarkers();
-            View.RefreshLoopDetails(_loop, _audioFile);
+            View.RefreshLoopDetails(_loop, _audioFile, _lengthBytes);
         }
 
         private void AddSegment()
@@ -273,17 +281,15 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                // Get marker from database
                 var marker = _libraryService.SelectMarker(markerId);
-                if(marker == null)
-                    throw new NullReferenceException("The marker could not be found in the database!");
-
-                // Update segment
                 segment.MarkerId = markerId;
-                segment.Position = marker.Position;
-                segment.PositionBytes = marker.PositionBytes;
-                segment.PositionSamples = marker.PositionSamples;
-                //float positionPercentage = ((float)segment.PositionBytes / (float)_lengthBytes) * 100;
+
+                if (marker != null)
+                {
+                    segment.Position = marker.Position;
+                    segment.PositionBytes = marker.PositionBytes;
+                    segment.PositionSamples = marker.PositionSamples;
+                }
                 _libraryService.UpdateSegment(segment);
 
                 RefreshLoop();
@@ -291,6 +297,21 @@ namespace Sessions.MVP.Presenters
             catch(Exception ex)
             {
                 Tracing.Log("An error occured while linking a segment to a marker: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void PunchInSegment(Segment segment)
+        {
+            try
+            {
+                var position = _playerService.GetPosition();
+                float positionPercentage = (float)position.PositionBytes / (float)_lengthBytes;
+                ChangeSegmentPosition(segment, positionPercentage, true);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while punching in a segment: " + ex.Message);
                 View.LoopDetailsError(ex);
             }
         }
@@ -348,11 +369,29 @@ namespace Sessions.MVP.Presenters
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 //float positionPercentage = ((float)_rker.PositionBytes / (float)_lengthBytes) * 100;
-                RefreshLoopDetailsViewWithUpdatedMetadata();                
+                RefreshLoopDetailsViewWithUpdatedMetadata();
+                RefreshMarkers();
             }
             catch(Exception ex)
             {
                 Tracing.Log("An error occured while refreshing a loop: " + ex.Message);
+                View.LoopDetailsError(ex);
+            }
+        }
+
+        private void RefreshMarkers()
+        {
+            try
+            {
+                if (_audioFile == null)
+                    return;
+
+                _markers = _libraryService.SelectMarkers(_audioFile.Id);
+                View.RefreshLoopMarkers(_markers);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while refreshing loop markers: " + ex.Message);
                 View.LoopDetailsError(ex);
             }
         }
