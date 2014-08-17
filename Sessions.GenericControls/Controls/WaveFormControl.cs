@@ -18,12 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Services;
 using Sessions.GenericControls.Services.Events;
 using Sessions.GenericControls.Services.Interfaces;
-using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Graphics;
 using Sessions.Core;
@@ -36,7 +36,7 @@ namespace Sessions.GenericControls.Controls
     /// <summary>
     /// The WaveFormScale control displays the scale in minutes/seconds on top of the wave form.
     /// </summary>
-    public class WaveFormControl : IControl, IControlMouseInteraction
+    public class WaveFormControl : ControlBase, IControlMouseInteraction
     {
         private const int ScrollBarHeight = 8;
         private IWaveFormEngineService _waveFormEngineService;
@@ -78,7 +78,6 @@ namespace Sessions.GenericControls.Controls
         public bool IsEmpty { get; private set; }
         public bool IsLoading { get; private set; }
         public InputInteractionMode InteractionMode { get; set; }
-        public BasicRectangle Frame { get; set; }
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
 		public float LetterFontSize { get; set; }
@@ -117,7 +116,7 @@ namespace Sessions.GenericControls.Controls
 
                 rectCursor.Merge(rectPreviousCursor);
                 rectCursor.Merge(rectCursorScrollBar);
-                OnInvalidateVisualInRect(rectCursor);
+                InvalidateVisualInRect(rectCursor);
             }
         }
 
@@ -150,7 +149,7 @@ namespace Sessions.GenericControls.Controls
 
                 // Calling two times = completely draw two times. It'd be a better idea to merge the dirty rects.
                 rectCursor.Merge(rectPreviousCursor);
-                OnInvalidateVisualInRect(rectCursor);
+                InvalidateVisualInRect(rectCursor);
             }
         }
 
@@ -164,7 +163,7 @@ namespace Sessions.GenericControls.Controls
             set
             {
                 _zoom = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
         }
         
@@ -186,7 +185,7 @@ namespace Sessions.GenericControls.Controls
             set
             {
                 _contentOffset = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
         }
 
@@ -212,8 +211,6 @@ namespace Sessions.GenericControls.Controls
         public delegate void ChangeSegmentPosition(Segment segment, float positionPercentage);
         public delegate void ContentOffsetChanged(BasicPoint offset);
         public delegate void ChangeMouseCursorType(MouseCursorType mouseCursorType);
-        public event InvalidateVisual OnInvalidateVisual;
-        public event InvalidateVisualInRect OnInvalidateVisualInRect;
         public event ChangePosition OnChangePosition;
         public event ChangePosition OnChangeSecondaryPosition;
         public event ChangeSegmentPosition OnChangingSegmentPosition;
@@ -228,8 +225,6 @@ namespace Sessions.GenericControls.Controls
 
         private void Initialize()
         {
-            OnInvalidateVisual += () => { };
-            OnInvalidateVisualInRect += (rect) => { };
             OnChangePosition += (position) => { };
             OnChangeSecondaryPosition += position => { };
             OnChangingSegmentPosition += (segment, position) => { };
@@ -303,7 +298,7 @@ namespace Sessions.GenericControls.Controls
             float deltaZoom = Zoom / e.Zoom;
             float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
             //OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         public void InvalidateBitmaps()
@@ -321,7 +316,7 @@ namespace Sessions.GenericControls.Controls
             //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
 
             IsLoading = false;
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         public void SetActiveMarker(Guid markerId)
@@ -344,7 +339,7 @@ namespace Sessions.GenericControls.Controls
                 float xPct = (float)marker.PositionBytes / (float)Length;
                 float xMarker = xPct * Frame.Width;
                 var rectCursor = new BasicRectangle(xMarker - 5, 0, 25, Frame.Height);
-                OnInvalidateVisualInRect(rectCursor);
+                InvalidateVisualInRect(rectCursor);
             }
             catch (Exception ex)
             {
@@ -355,7 +350,7 @@ namespace Sessions.GenericControls.Controls
         public void SetMarkers(IEnumerable<Marker> markers)
         {
             _markers = markers.ToList();
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         public void SetMarkerPosition(Marker marker)
@@ -370,13 +365,13 @@ namespace Sessions.GenericControls.Controls
             localMarker.PositionSamples = marker.PositionSamples;
 
             // TODO: Only refresh the old/new marker positions
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         public void SetLoop(Loop loop)
         {
             _loop = loop;
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         public void SetSegment(Segment segment)
@@ -392,7 +387,7 @@ namespace Sessions.GenericControls.Controls
             localSegment.PositionBytes = segment.PositionBytes;
             localSegment.PositionSamples = segment.PositionSamples;
 
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -410,14 +405,14 @@ namespace Sessions.GenericControls.Controls
             IsEmpty = true;            
             IsLoading = false;            
             _waveFormEngineService.FlushCache();
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         private void RefreshStatus(string status)
         {
 			//Console.WriteLine("WaveFormControl - RefreshStatus - status: {0}", status);            
             _status = status;
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         private void DrawStatus(IGraphicsContext context, string status)
@@ -616,11 +611,12 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        public void Render(IGraphicsContext context)
+        public override void Render(IGraphicsContext context)
         {
+            base.Render(context);
+
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
-            Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             _density = context.Density;
             if (IsLoading)
             {
@@ -777,7 +773,7 @@ namespace Sessions.GenericControls.Controls
 
                     // Merge with new rect to make a dirty zone to update
                     rect.Merge(GetCurrentLoopRect());
-                    OnInvalidateVisualInRect(rect);
+                    InvalidateVisualInRect(rect);
                 }
                 else
                 {

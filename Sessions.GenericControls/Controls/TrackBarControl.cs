@@ -16,8 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Controls.Themes;
 using Sessions.GenericControls.Graphics;
@@ -25,7 +25,7 @@ using Sessions.GenericControls.Interaction;
 
 namespace Sessions.GenericControls.Controls
 {
-    public class TrackBarControl : IControl, IControlMouseInteraction
+    public class TrackBarControl : ControlBase, IControlMouseInteraction
     {
         private BasicRectangle _rectFader = new BasicRectangle();
         private bool _isTrackBarMoving = false;
@@ -57,7 +57,6 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        public BasicRectangle Frame { get; set; }
         public int FaderWidth { get; set; }
         public int FaderHeight { get; set; }
         public int Margin { get; set; }
@@ -79,7 +78,7 @@ namespace Sessions.GenericControls.Controls
                     return;
 
                 _value = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
 
                 if (OnTrackBarValueChanged != null)
                     OnTrackBarValueChanged();
@@ -95,15 +94,12 @@ namespace Sessions.GenericControls.Controls
             set
             {
                 _value = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
         }
 
         public delegate void TrackBarValueChanged();
         public event TrackBarValueChanged OnTrackBarValueChanged;
-
-        public event InvalidateVisual OnInvalidateVisual;
-        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public TrackBarControl()
             : base()
@@ -116,8 +112,6 @@ namespace Sessions.GenericControls.Controls
             StepSize = 1;
             WheelStepSize = 1;
             Theme = new TrackBarTheme();
-            OnInvalidateVisual += () => { };
-            OnInvalidateVisualInRect += (rect) => { };
         }
 
         private void CreateDrawingResources()
@@ -174,7 +168,7 @@ namespace Sessions.GenericControls.Controls
                 if (OnTrackBarValueChanged != null)
                     OnTrackBarValueChanged();
 
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
 
             _mouseButtonDown = false;
@@ -245,7 +239,7 @@ namespace Sessions.GenericControls.Controls
                     if (OnTrackBarValueChanged != null)
                         OnTrackBarValueChanged();
 
-                    OnInvalidateVisual();
+                    InvalidateVisual();
                 }
             }
         }
@@ -268,8 +262,10 @@ namespace Sessions.GenericControls.Controls
             Value = newValue;
         }
 
-        public void Render(IGraphicsContext context)
+        public override void Render(IGraphicsContext context)
         {
+            base.Render(context);
+
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
             _valueRange = (Maximum - Minimum) + 1;

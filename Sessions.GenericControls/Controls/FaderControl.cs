@@ -16,8 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
@@ -28,7 +28,7 @@ namespace Sessions.GenericControls.Controls
     /// The Fader control is a vertical track bar with the appearance of a fader.
     /// The control appearance can be changed using the public properties.
     /// </summary>
-    public class FaderControl : IControl, IControlMouseInteraction
+    public class FaderControl : ControlBase, IControlMouseInteraction
     {
         private BasicBrush _brushBackground;
         private BasicBrush _brushFaderShadowColor;
@@ -57,7 +57,6 @@ namespace Sessions.GenericControls.Controls
         private float _valueRange = 0;
         private bool _mouseButtonDown;
 
-        public BasicRectangle Frame { get; set; }
         public int FaderWidth { get; set; }
         public int FaderHeight { get; set; }
         public int Minimum { get; set; }
@@ -75,7 +74,7 @@ namespace Sessions.GenericControls.Controls
             set
             {
                 _value = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
 
                 if (OnFaderValueChanged != null)
                     OnFaderValueChanged(this, new EventArgs());
@@ -91,15 +90,12 @@ namespace Sessions.GenericControls.Controls
             set
             {
                 _value = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
         }
 
         public delegate void FaderValueChanged(object sender, EventArgs e);
         public event FaderValueChanged OnFaderValueChanged;
-
-        public event InvalidateVisual OnInvalidateVisual;
-        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public FaderControl()
             : base()
@@ -110,8 +106,6 @@ namespace Sessions.GenericControls.Controls
             Maximum = 1;
             Margin = 16;
             StepSize = 1;
-            OnInvalidateVisual += () => { };
-            OnInvalidateVisualInRect += (rect) => { };
 
             CreateDrawingResources();
         }
@@ -132,7 +126,6 @@ namespace Sessions.GenericControls.Controls
         {
             // Make sure the mouse button pressed was the left mouse button
             _mouseButtonDown = true;
-            //CaptureMouse();
             if (button == MouseButtonType.Left)
             {
                 // Check if the user clicked in the fader area
@@ -150,7 +143,6 @@ namespace Sessions.GenericControls.Controls
         public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             // Check if the track bar was moving (mouse down)
-            //ReleaseMouseCapture();
             if (!_isTrackBarMoving)
             {
                 // The user clicked without dragging the mouse; we need to add or
@@ -173,7 +165,7 @@ namespace Sessions.GenericControls.Controls
                 if (OnFaderValueChanged != null)
                     OnFaderValueChanged(this, new EventArgs());
 
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
 
             //Console.WriteLine("FaderControl - MouseDown - Mouse up; stopping track bar movement");
@@ -247,7 +239,7 @@ namespace Sessions.GenericControls.Controls
                     if (OnFaderValueChanged != null)
                         OnFaderValueChanged(this, new EventArgs());
 
-                    OnInvalidateVisual();
+                    InvalidateVisual();
                 }
             }
         }
@@ -270,8 +262,10 @@ namespace Sessions.GenericControls.Controls
             Value = newValue;
         }
 
-        public void Render(IGraphicsContext context)
+        public override void Render(IGraphicsContext context)
         {
+            base.Render(context);
+
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
             _valueRange = (Maximum - Minimum) + 1;

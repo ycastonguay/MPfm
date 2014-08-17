@@ -488,6 +488,8 @@ namespace Sessions.GenericControls.Controls.Songs
         /// </summary>
         public override void Render(IGraphicsContext context)
         {
+            base.Render(context);
+
             if (Items == null)
                 return;
 
@@ -497,7 +499,7 @@ namespace Sessions.GenericControls.Controls.Songs
             // If frame doesn't match, refresh frame and song cache
             if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight || _cache == null)
             {
-                Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
+                Frame = new BasicRectangle(context.BoundsWidth, context.BoundsHeight);
                 InvalidateSongCache();
             }            
 

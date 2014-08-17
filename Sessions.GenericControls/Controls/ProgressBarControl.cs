@@ -16,16 +16,15 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Interaction;
 using System.Timers;
 
 namespace Sessions.GenericControls.Controls
 {
-    public class ProgressBarControl : IControl
+    public class ProgressBarControl : ControlBase
     {
         private int _animationCounter;
         private Timer _timerRefresh;
@@ -34,7 +33,6 @@ namespace Sessions.GenericControls.Controls
         private BasicBrush _brushIndeterminateForeground;
         private BasicPen _penTransparent;
 
-        public BasicRectangle Frame { get; set; }
         public BasicColor ColorBackground { get; set; }
         public BasicColor ColorForeground { get; set; }
         public BasicColor ColorIndeterminateForeground { get; set; }
@@ -72,7 +70,7 @@ namespace Sessions.GenericControls.Controls
                 var dirtyRect = new BasicRectangle(leftX, 0, leftX + rightX, Frame.Height);
 
                 _value = value;
-                OnInvalidateVisualInRect(dirtyRect);
+                InvalidateVisualInRect(dirtyRect);
             }
         }
 
@@ -92,12 +90,9 @@ namespace Sessions.GenericControls.Controls
                     _timerRefresh.Stop();
 
                 _isIndeterminate = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
         }
-
-        public event InvalidateVisual OnInvalidateVisual;
-        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public ProgressBarControl()
         {
@@ -120,7 +115,7 @@ namespace Sessions.GenericControls.Controls
         private void HandleTimerRefreshElapsed(object sender, ElapsedEventArgs e)
         {
             _animationCounter++;
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         private void CreateDrawingResources()
@@ -134,9 +129,10 @@ namespace Sessions.GenericControls.Controls
             _penTransparent = new BasicPen();
         }
 
-        public void Render(IGraphicsContext context)
+        public override void Render(IGraphicsContext context)
         {
-            Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
+            base.Render(context);
+
             var rectBackground = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             context.DrawRectangle(rectBackground, _brushBackground, _penTransparent);
 

@@ -16,21 +16,19 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Interaction;
 
 namespace Sessions.GenericControls.Controls
 {
-    public class CircularProgressBarControl : IControl
+    public class CircularProgressBarControl : ControlBase
     {
         private BasicBrush _brushBackground;
         private BasicBrush _brushForeground;
         private BasicPen _penTransparent;
 
-        public BasicRectangle Frame { get; set; }
         public BasicColor ColorBackground { get; set; }
         public BasicColor ColorForeground { get; set; }
 		public float FontSize { get; set; }
@@ -49,12 +47,9 @@ namespace Sessions.GenericControls.Controls
                     return;
 
                 _value = value;
-                OnInvalidateVisual();
+                InvalidateVisual();
             }
         }
-
-        public event InvalidateVisual OnInvalidateVisual;
-        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public CircularProgressBarControl()
         {
@@ -78,10 +73,11 @@ namespace Sessions.GenericControls.Controls
             _penTransparent = new BasicPen();
         }
 
-        public void Render(IGraphicsContext context)
+        public override void Render(IGraphicsContext context)
         {
-            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
+            base.Render(context);
 
+            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
         }
     }
 }

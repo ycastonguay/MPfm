@@ -18,14 +18,14 @@
 using System;
 using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Interaction;
 using Sessions.Sound.AudioFiles;
 
 namespace Sessions.GenericControls.Controls
 {
-    public class OutputMeterControl : IControl
+    public class OutputMeterControl : ControlBase
     {
 		private List<WaveDataMinMax> _waveDataHistory;
         private BasicBrush _brushBackground;
@@ -55,7 +55,6 @@ namespace Sessions.GenericControls.Controls
         /// </summary>
 		public float DrawFloor { get; set; }
 
-        public BasicRectangle Frame { get; set; }
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
 		public BasicColor ColorBackground { get { return new BasicColor(32, 40, 46); } }
@@ -71,9 +70,6 @@ namespace Sessions.GenericControls.Controls
         public BasicColor ColorMeterDistortion2 { get { return new BasicColor(220, 0, 0); } }
         public BasicColor Color0dBLine { get { return new BasicColor(225, 225, 225); } }
         public BasicColor ColorPeakLine { get { return new BasicColor(0, 225, 0); } }
-
-        public event InvalidateVisual OnInvalidateVisual;
-        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public OutputMeterControl()
         {
@@ -104,7 +100,7 @@ namespace Sessions.GenericControls.Controls
         public void Reset()
         {
             _waveDataHistory.Clear();
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         /// <summary>
@@ -115,7 +111,7 @@ namespace Sessions.GenericControls.Controls
         public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
         {
             AddToHistory(AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, true));
-            OnInvalidateVisual();
+            InvalidateVisual();
         }
 
         /// <summary>
@@ -138,8 +134,10 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        public void Render(IGraphicsContext context)
+        public override void Render(IGraphicsContext context)
         {
+            base.Render(context);
+
             // Note: creating the gradient brush in advance means the output meter cannot change size or the gradient won't fit the new control size
             _brushBarLeft = new BasicGradientBrush(ColorMeter1, ColorMeter2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight));
             _brushBarRight = new BasicGradientBrush(ColorMeterB1, ColorMeterB2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight));
