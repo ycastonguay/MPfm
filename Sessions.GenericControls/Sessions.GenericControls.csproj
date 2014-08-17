@@ -57,6 +57,11 @@
     <Compile Include="Basics\BasicPen.cs" />
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
+    <Compile Include="Controls\Base\ControlBase.cs" />
+    <Compile Include="Controls\Base\GridViewControlBase.cs" />
+    <Compile Include="Controls\Base\ListViewControlBase.cs" />
+    <Compile Include="Controls\Items\GridViewColumn.cs" />
+    <Compile Include="Controls\Items\ListViewItem.cs" />
     <Compile Include="Controls\Themes\IControlTheme.cs" />
     <Compile Include="Controls\Themes\TrackBarTheme.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />

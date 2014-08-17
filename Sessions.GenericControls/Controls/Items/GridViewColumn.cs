@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// Copyright Â© 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -15,20 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Sessions.GenericControls.Basics;
-using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Renderers;
-
-namespace Sessions.GenericControls.Controls
+namespace Sessions.GenericControls.Controls.Items
 {
-    public delegate void InvalidateVisual();
-    public delegate void InvalidateVisualInRect(BasicRectangle rect);
-    public interface IControl : IRenderer
+    public class GridViewColumn
     {
-        event InvalidateVisual OnInvalidateVisual;
-        event InvalidateVisualInRect OnInvalidateVisualInRect;
-
-        BasicRectangle Frame { get; set; }
+        public GridViewColumn()
+        {
+        }
     }
 }

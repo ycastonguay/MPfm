@@ -34,6 +34,14 @@ namespace Sessions.GenericControls.Basics
         {
         }
 
+        public BasicRectangle(float width, float height)
+        {
+            X = 0;
+            Y = 0;
+            Width = width;
+            Height = height;
+        }
+
         public BasicRectangle(float x, float y, float width, float height)
         {
             X = x;

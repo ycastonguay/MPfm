@@ -218,5 +218,10 @@
     <Compile Include="Services\Interfaces\ITileCacheService.cs" />   
     <Compile Include="Services\WaveFormRequestService.cs" />
     <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />         
+    <Compile Include="Controls\Base\ControlBase.cs" />
+    <Compile Include="Controls\Base\GridViewControlBase.cs" />
+    <Compile Include="Controls\Base\ListViewControlBase.cs" />
+    <Compile Include="Controls\Items\GridViewColumn.cs" />
+    <Compile Include="Controls\Items\ListViewItem.cs" />		
   </ItemGroup>
 </Project>

@@ -84,7 +84,7 @@ namespace Sessions.WPF.Classes.Controls
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
             _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
-            _control.OnItemDoubleClick += (id, index) => DoubleClick(this, new EventArgs());
+            _control.OnItemDoubleClick += (index) => DoubleClick(this, new EventArgs());
             _control.OnDisplayContextMenu += (type, x, y) => 
             {            
                 // Create contextual menu

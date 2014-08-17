@@ -56,6 +56,7 @@ namespace Sessions.GenericControls.Controls
         private float _valueRange = 0;
         private bool _mouseButtonDown;
 
+        public BasicRectangle Frame { get; set; }
         public int FaderWidth { get; set; }
         public int FaderHeight { get; set; }
         public int Minimum { get; set; }

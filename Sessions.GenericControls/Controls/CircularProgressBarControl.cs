@@ -29,6 +29,7 @@ namespace Sessions.GenericControls.Controls
         private BasicBrush _brushForeground;
         private BasicPen _penTransparent;
 
+        public BasicRectangle Frame { get; set; }
         public BasicColor ColorBackground { get; set; }
         public BasicColor ColorForeground { get; set; }
 		public float FontSize { get; set; }

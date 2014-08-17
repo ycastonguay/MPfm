@@ -56,6 +56,7 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
+        public BasicRectangle Frame { get; set; }
         public int FaderWidth { get; set; }
         public int FaderHeight { get; set; }
         public int Margin { get; set; }

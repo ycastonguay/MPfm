@@ -54,6 +54,7 @@ namespace Sessions.GenericControls.Controls
         /// </summary>
 		public float DrawFloor { get; set; }
 
+        public BasicRectangle Frame { get; set; }
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
 		public BasicColor ColorBackground { get { return new BasicColor(32, 40, 46); } }

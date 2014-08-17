@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -15,38 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Sessions.GenericControls.Controls.Base;
-using Sessions.GenericControls.Controls.Items;
-using Sessions.Sound.AudioFiles;
-
-namespace Sessions.GenericControls.Controls.Songs
+namespace Sessions.GenericControls.Controls.Items
 {
-    /// <summary>
-    /// Item for the SongGridView control.
-    /// </summary>
-    public class SongGridViewItem : ListViewItem
+    public class ListViewItem
     {
         /// <summary>
-        /// Defines the associated playlist item identifier.
+        /// Indicates if the item is currently selected.
         /// </summary>
-        public Guid PlaylistItemId { get; set; }
+        public bool IsSelected { get; set; }
 
         /// <summary>
-        /// Defines the key used for identifying common songs in albums.
+        /// Indicates if the mouse cursor is currently over the item.
         /// </summary>
-        public string AlbumArtKey { get; set; }
+        public bool IsMouseOverItem { get; set; }
 
         /// <summary>
-        /// AudioFile related to this item.
+        /// Indicates an empty row (for spanning albums with less than a few songs).
         /// </summary>
-        public AudioFile AudioFile { get; set; }        
+        public bool IsEmptyRow { get; set; }
 
-        public SongGridViewItem()
+        public ListViewItem()
         {
-            PlaylistItemId = Guid.Empty;
-            AudioFile = null;
-            AlbumArtKey = string.Empty;
+            IsSelected = false;
+            IsMouseOverItem = false;
+            IsEmptyRow = false;
         }
     }
 }

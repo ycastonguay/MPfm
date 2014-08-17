@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using Sessions.GenericControls.Controls.Base;
+using Sessions.GenericControls.Controls.Items;
+
 namespace Sessions.GenericControls.Controls.Songs
 {
-    /// <summary>
-    /// Column for the SongGridView control.
-    /// </summary>
-    public class SongGridViewColumn
+    public class SongGridViewColumn : GridViewColumn
     {
         /// <summary>
         /// Column title.
