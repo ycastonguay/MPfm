@@ -40,5 +40,12 @@ namespace Sessions.iOS.Classes.Controllers
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindSelectAlbumArtView(this);
         }
+
+        #region ISelectAlbumArtView implementation
+
+        public Action<int> OnApplyToAllSongs { get; set; }
+        public Action<int> OnApplyToThisSong { get; set; }
+
+        #endregion
     }
 }

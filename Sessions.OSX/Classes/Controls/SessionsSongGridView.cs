@@ -84,7 +84,7 @@ namespace Sessions.OSX.Classes.Controls
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
             _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);   
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
-            _control.OnItemDoubleClick += (id, index) => DoubleClick(this, new EventArgs());
+            _control.OnItemDoubleClick += (index) => DoubleClick(this, new EventArgs());
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
             _control.OnDisplayContextMenu += (contextMenuType, x, y) => 
@@ -151,11 +151,6 @@ namespace Sessions.OSX.Classes.Controls
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
             _control.ImportAudioFiles(audioFiles);
-        }
-
-        public void ImportPlaylist(Playlist playlist)
-        {
-            _control.ImportPlaylist(playlist);
         }
 
         public override void DrawRect(RectangleF dirtyRect)

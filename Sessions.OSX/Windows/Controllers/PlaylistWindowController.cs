@@ -96,7 +96,6 @@ namespace Sessions.OSX
         {
             Console.WriteLine("PlaylistWindowController - RefreshPlaylist");
             _playlist = playlist;
-            InvokeOnMainThread(() => songGridView.ImportPlaylist(playlist));
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)

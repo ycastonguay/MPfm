@@ -62,19 +62,24 @@ namespace Sessions.iOS
 		public Action<Segment, int> OnChangeSegmentOrder { get; set; }
 		public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
 		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
+        public Action<Segment> OnPunchInSegment { get; set; }
         public Action<Segment, float> OnChangedSegmentPosition { get; set; }		
 
 		public void LoopDetailsError(Exception ex)
 		{
 		}
 
-		public void RefreshLoopDetails(Loop loop, AudioFile audioFile)
+        public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
 		{
 		}
 		
-		public void RefreshLoopDetailsSegment(Segment segment)
+        public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
         {
         }		
+
+        public void RefreshLoopMarkers(System.Collections.Generic.IEnumerable<Marker> markers)
+        {
+        }
 
 		#endregion
     }
