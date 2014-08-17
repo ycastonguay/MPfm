@@ -25,31 +25,30 @@ using System.Text;
 using System.Timers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Base;
+using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
-using Sessions.WindowsControls;
 using Sessions.Core;
 using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
 
 namespace Sessions.GenericControls.Controls.Songs
 {
     /// <summary>
     /// This custom grid view control displays the Sessions library.
     /// </summary>
-    public class SongGridViewControl : GridViewControlBase<SongGridViewItem, SongGridViewColumn>, IControlMouseInteraction, IControlKeyboardInteraction
+    public class SongGridViewControl : GridViewControlBase<SongGridViewItem, GridViewColumn>, IControlMouseInteraction, IControlKeyboardInteraction
     {
-        private IDisposableImageFactory _disposableImageFactory;
-        private SongGridViewMode _mode = SongGridViewMode.AudioFile;
-
-        private int _preloadLinesAlbumCover = 20;
-        private BackgroundWorker _workerUpdateAlbumArt = null;
-        private List<SongGridViewBackgroundWorkerArgument> _workerUpdateAlbumArtPile = null;
-        private Timer _timerUpdateAlbumArt = null;        
-        private SongGridViewCache _songCache = null;
-        private List<SongGridViewImageCache> _imageCache = new List<SongGridViewImageCache>();
+        private const int PreloadLinesAlbumCover = 20;
         private const int MinimumColumnWidth = 30;
+
+        private readonly IDisposableImageFactory _disposableImageFactory;
+        private readonly BackgroundWorker _workerUpdateAlbumArt = null;
+        private readonly List<SongGridViewBackgroundWorkerArgument> _workerUpdateAlbumArtPile = null;
+        private readonly Timer _timerUpdateAlbumArt = null;        
+
+        private GridViewCache _cache = null;
+        private List<SongGridViewImageCache> _imageCache = new List<SongGridViewImageCache>();
 
         // Private variables used for mouse events
         private int _columnMoveMarkerX = 0;
@@ -64,9 +63,7 @@ namespace Sessions.GenericControls.Controls.Songs
         // Animation timer and counter for currently playing song
         private int _timerAnimationNowPlayingCount = 0;
         private BasicRectangle _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
-        private Timer timerAnimationNowPlaying = null;
-        
-        #region Properties
+        private Timer _timerAnimationNowPlaying = null;
         
         private SongGridViewTheme _theme;
         /// <summary>
@@ -83,9 +80,6 @@ namespace Sessions.GenericControls.Controls.Songs
                 _theme = value;
             }
         }
-
-        #region Other Properties (Items, Columns, Menus, etc.)
-
 
         private int _minimumRowsPerAlbum = 6;
         /// <summary>
@@ -123,71 +117,6 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
-        private Guid _nowPlayingPlaylistItemId = Guid.Empty;
-        /// <summary>
-        /// Defines the currently playing playlist item identifier.
-        /// </summary>
-        [Browsable(false)]
-        public Guid NowPlayingPlaylistItemId
-        {
-            get
-            {
-                return _nowPlayingPlaylistItemId;
-            }
-            set
-            {
-                _nowPlayingPlaylistItemId = value;
-            }
-        }
-
-        #endregion
-
-        #region Filter / OrderBy Properties
-
-        private string _orderByFieldName = string.Empty;
-        /// <summary>
-        /// Indicates which field should be used for ordering songs.
-        /// </summary>
-        public string OrderByFieldName
-        {
-            get
-            {
-                return _orderByFieldName;
-            }
-            set
-            {
-                _orderByFieldName = value;
-
-                // Invalidate item list and cache
-                //Items = null;
-                Items.Clear();
-                _songCache = null;
-
-                // Refresh whole control
-                InvalidateVisual();
-            }
-        }
-
-        private bool _orderByAscending = true;
-        /// <summary>
-        /// Indicates if the order should be ascending (true) or descending (false).
-        /// </summary>
-        public bool OrderByAscending
-        {
-            get
-            {
-                return _orderByAscending;
-            }
-            set
-            {
-                _orderByAscending = value;
-            }
-        }
-
-        #endregion
-
-        #region Settings Properties
-
         private bool _displayDebugInformation = false;
         /// <summary>
         /// If true, the debug information will be shown over the first column.
@@ -201,70 +130,6 @@ namespace Sessions.GenericControls.Controls.Songs
             set
             {
                 _displayDebugInformation = value;
-            }
-        }
-
-        private bool _canResizeColumns = true;
-        /// <summary>
-        /// Indicates if the user can resize the columns or not.
-        /// </summary>
-        public bool CanResizeColumns
-        {
-            get
-            {
-                return _canResizeColumns;
-            }
-            set
-            {
-                _canResizeColumns = value;
-            }
-        }
-
-        private bool _canMoveColumns = true;
-        /// <summary>
-        /// Indicates if the user can move the columns or not.
-        /// </summary>
-        public bool CanMoveColumns
-        {
-            get
-            {
-                return _canMoveColumns;
-            }
-            set
-            {
-                _canMoveColumns = value;
-            }
-        }
-
-        private bool _canChangeOrderBy = true;
-        /// <summary>
-        /// Indicates if the user can change the order by or not.
-        /// </summary>
-        public bool CanChangeOrderBy
-        {
-            get
-            {
-                return _canChangeOrderBy;
-            }
-            set
-            {
-                _canChangeOrderBy = value;
-            }
-        }
-
-        private bool _canReorderItems = true;
-        /// <summary>
-        /// Indicates if the user can reorder the items or not.
-        /// </summary>
-        public bool CanReorderItems
-        {
-            get
-            {
-                return _canReorderItems;
-            }
-            set
-            {
-                _canReorderItems = value;
             }
         }
 
@@ -284,44 +149,6 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
-        #endregion
-
-        /// <summary>
-        /// Indicates if a column is currently moving.
-        /// </summary>
-        public bool IsColumnMoving
-        {
-            get
-            {
-                foreach (var column in Columns)
-                {
-                    if (column.IsUserMovingColumn)
-                        return true;
-                }
-
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Indicates if a column is currently resizing.
-        /// </summary>
-        public bool IsColumnResizing
-        {
-            get
-            {
-                foreach (SongGridViewColumn column in Columns)
-                {
-                    if (column.IsUserResizingColumn)
-                        return true;
-                }
-
-                return false;
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Default constructor for SongGridView.
         /// </summary>
@@ -329,16 +156,12 @@ namespace Sessions.GenericControls.Controls.Songs
             base(horizontalScrollBar, verticalScrollBar)
         {
             _disposableImageFactory = disposableImageFactory;
-
-            // Add default event handlers so we don't always have to check for null
-            OnColumnClick += data => { };
-
             _theme = new SongGridViewTheme();
 
-            timerAnimationNowPlaying = new Timer();
-            timerAnimationNowPlaying.Interval = 50;
-            timerAnimationNowPlaying.Elapsed += TimerAnimationNowPlayingOnElapsed;
-            timerAnimationNowPlaying.Enabled = true;
+            _timerAnimationNowPlaying = new Timer();
+            _timerAnimationNowPlaying.Interval = 50;
+            _timerAnimationNowPlaying.Elapsed += TimerAnimationNowPlayingOnElapsed;
+            _timerAnimationNowPlaying.Enabled = true;
 
             // Create background worker for updating album art
             _workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
@@ -357,23 +180,23 @@ namespace Sessions.GenericControls.Controls.Songs
 
         private void CreateColumns()
         {
-            var columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
-            var columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
-            var columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
-            var columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
-            var columnSongTrackCount = new SongGridViewColumn("Track Count", "TrackCount", false, 4);
-            var columnSongFilePath = new SongGridViewColumn("File Path", "FilePath", false, 5);
-            var columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 6);
-            var columnSongLength = new SongGridViewColumn("Length", "Length", true, 7);
-            var columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 8);
-            var columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 9);
-            var columnSongGenre = new SongGridViewColumn("Genre", "Genre", false, 10);
-            var columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 11);
-            var columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 12);
-            var columnSongBitrate = new SongGridViewColumn("Bitrate", "Bitrate", false, 13);
-            var columnSongSampleRate = new SongGridViewColumn("Sample Rate", "SampleRate", false, 14);
-            var columnSongTempo = new SongGridViewColumn("Tempo", "Tempo", false, 15);
-            var columnSongYear = new SongGridViewColumn("Year", "Year", false, 16);
+            var columnSongAlbumCover = new GridViewColumn("Album Cover", string.Empty, true, 0);
+            var columnSongNowPlaying = new GridViewColumn("Now Playing", string.Empty, true, 1);
+            var columnSongFileType = new GridViewColumn("Type", "FileType", false, 2);
+            var columnSongTrackNumber = new GridViewColumn("Tr#", "DiscTrackNumber", true, 3);
+            var columnSongTrackCount = new GridViewColumn("Track Count", "TrackCount", false, 4);
+            var columnSongFilePath = new GridViewColumn("File Path", "FilePath", false, 5);
+            var columnSongTitle = new GridViewColumn("Song Title", "Title", true, 6);
+            var columnSongLength = new GridViewColumn("Length", "Length", true, 7);
+            var columnSongArtistName = new GridViewColumn("Artist Name", "ArtistName", true, 8);
+            var columnSongAlbumTitle = new GridViewColumn("Album Title", "AlbumTitle", true, 9);
+            var columnSongGenre = new GridViewColumn("Genre", "Genre", false, 10);
+            var columnSongPlayCount = new GridViewColumn("Play Count", "PlayCount", true, 11);
+            var columnSongLastPlayed = new GridViewColumn("Last Played", "LastPlayed", true, 12);
+            var columnSongBitrate = new GridViewColumn("Bitrate", "Bitrate", false, 13);
+            var columnSongSampleRate = new GridViewColumn("Sample Rate", "SampleRate", false, 14);
+            var columnSongTempo = new GridViewColumn("Tempo", "Tempo", false, 15);
+            var columnSongYear = new GridViewColumn("Year", "Year", false, 16);
 
             // Set visible column titles
             columnSongAlbumCover.IsHeaderTitleVisible = false;
@@ -424,6 +247,11 @@ namespace Sessions.GenericControls.Controls.Songs
             Columns.Add(columnSongYear);
         }
 
+        protected override void ItemsCleared()
+        {
+            _cache = null;
+        }
+
         /// <summary>
         /// Occurs when the Update Album Art timer expires.
         /// Checks if there are more album art covers to load and starts the background
@@ -433,7 +261,6 @@ namespace Sessions.GenericControls.Controls.Songs
         /// <param name="e">Event arguments</param>
         private void TimerUpdateAlbumArtOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            // Stop timer
             _timerUpdateAlbumArt.Enabled = false;
 
             // Check for the next album art to fetch
@@ -449,7 +276,7 @@ namespace Sessions.GenericControls.Controls.Songs
                         var arg = _workerUpdateAlbumArtPile[a];
 
                         // Check if this album is still visible (cancel if it is out of display).                             
-                        if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + _preloadLinesAlbumCover)
+                        if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + PreloadLinesAlbumCover)
                         {
                             indexToDelete = a;
                             break;
@@ -467,7 +294,6 @@ namespace Sessions.GenericControls.Controls.Songs
                     _workerUpdateAlbumArt.RunWorkerAsync(_workerUpdateAlbumArtPile[0]);
             }
 
-            // Restart timer
             _timerUpdateAlbumArt.Enabled = true;
         }
 
@@ -487,7 +313,7 @@ namespace Sessions.GenericControls.Controls.Songs
             result.AudioFile = arg.AudioFile;
 
             // Check if this album is still visible (cancel if it is out of display).     
-            if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + _preloadLinesAlbumCover)
+            if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + PreloadLinesAlbumCover)
             {
                 // Set result with empty image
                 e.Result = result;
@@ -551,27 +377,11 @@ namespace Sessions.GenericControls.Controls.Songs
         }
 
         /// <summary>
-        /// Clears the currently selected items.
-        /// </summary>
-        public void ClearSelectedItems()
-        {
-            foreach (var item in Items)
-            {
-                if (item.IsSelected)
-                    item.IsSelected = false;
-            }
-
-            InvalidateVisual();
-        }
-
-        /// <summary>
         /// Imports audio files as SongGridViewItems.
         /// </summary>
         /// <param name="audioFiles">List of AudioFiles</param>
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
-            _mode = SongGridViewMode.AudioFile;
-            //Items = new List<SongGridViewItem>();
             Items.Clear();
 
             var albums = audioFiles.GroupBy(x => new { x.ArtistName, x.AlbumTitle });
@@ -598,31 +408,8 @@ namespace Sessions.GenericControls.Controls.Songs
                 } 
             }
 
+            _cache = null;
             VerticalScrollBar.Value = 0;
-            _songCache = null;
-            InvalidateVisual();
-        }
-
-        /// <summary>
-        /// Imports playlist items as SongGridViewItems.
-        /// </summary>
-        /// <param name="playlist">Playlist</param>
-        public void ImportPlaylist(Playlist playlist)
-        {
-            _mode = SongGridViewMode.Playlist;
-            //Items = new List<SongGridViewItem>();
-            Items.Clear();
-            foreach (var playlistItem in playlist.Items)
-            {
-                var item = new SongGridViewItem();
-                item.AudioFile = playlistItem.AudioFile;
-                item.PlaylistItemId = playlistItem.Id;
-                Items.Add(item);
-            }
-
-            // Reset scrollbar position
-            VerticalScrollBar.Value = 0;
-            _songCache = null;
             InvalidateVisual();
         }
 
@@ -635,11 +422,10 @@ namespace Sessions.GenericControls.Controls.Songs
             // Find the position of the line            
             for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
             {
-                // Calculate offset
-                int offsetY = (a * _songCache.LineHeight) - VerticalScrollBar.Value + _songCache.LineHeight;
+                int offsetY = (a * _cache.LineHeight) - VerticalScrollBar.Value + _cache.LineHeight;
                 if (Items[a].AudioFile.Id == audioFileId)
                 {
-                    InvalidateVisualInRect(new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, offsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, _songCache.LineHeight));
+                    InvalidateVisualInRect(new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, offsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, _cache.LineHeight));
                     break;
                 }
             }
@@ -662,7 +448,7 @@ namespace Sessions.GenericControls.Controls.Songs
         //        menuItem.Checked = !menuItem.Checked;
 
         //        // Get column
-        //        SongGridViewColumn column = Columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
+        //        GridViewColumn column = Columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
         //        if (column != null)
         //        {
         //            // Set visibility
@@ -670,15 +456,14 @@ namespace Sessions.GenericControls.Controls.Songs
         //        }
 
         //        // Reset cache
-        //        _songCache = null;
+        //        _cache = null;
         //        Refresh();
         //    }
         //}
 
         public void MouseWheel(float delta)
         {
-            // Check if all the data is valid
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             // Make sure the mouse cursor is over the control, and that the vertical scrollbar is enabled
@@ -688,17 +473,11 @@ namespace Sessions.GenericControls.Controls.Songs
             // Get relative value
             //int value = delta / SystemInformation.MouseWheelScrollDelta;
 
-            // Calculate new value
-            int newValue = (int) (VerticalScrollBar.Value + (-delta * _songCache.LineHeight));
-            //Console.WriteLine("SongGridViewControl - MouseWheel - delta: {0} VerticalScrollBar.Value: {1} lineHeight: {2} newValue: {3}", delta, VerticalScrollBar.Value, _songCache.LineHeight, newValue);
+            int newValue = (int) (VerticalScrollBar.Value + (-delta * _cache.LineHeight));
+            //Console.WriteLine("SongGridViewControl - MouseWheel - delta: {0} VerticalScrollBar.Value: {1} lineHeight: {2} newValue: {3}", delta, VerticalScrollBar.Value, _cache.LineHeight, newValue);
 
-            // Check for maximum
-            if (newValue > VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange)
-                newValue = VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange;
-
-            // Check for minimum
-            if (newValue < 0)
-                newValue = 0;
+            newValue = Math.Min(newValue, VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange);
+            newValue = Math.Max(newValue, 0);
             
             VerticalScrollBar.Value = newValue;
             InvalidateVisual();
@@ -716,7 +495,7 @@ namespace Sessions.GenericControls.Controls.Songs
             //stopwatch.Start();
 
             // If frame doesn't match, refresh frame and song cache
-            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight || _songCache == null)
+            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight || _cache == null)
             {
                 Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
                 InvalidateSongCache();
@@ -743,15 +522,14 @@ namespace Sessions.GenericControls.Controls.Songs
         private void DrawRows(IGraphicsContext context)
         {
             var state = new DrawCellState();
-            BasicGradientBrush brushGradient = null;
             var penTransparent = new BasicPen();    
 
             // Calculate how many lines must be skipped because of the scrollbar position
-            _startLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (_songCache.LineHeight)), 0);
+            _startLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (_cache.LineHeight)), 0);
 
             // Check if the total number of lines exceeds the number of icons fitting in height
             _numberOfLinesToDraw = 0;
-            if (_startLineNumber + _songCache.NumberOfLinesFittingInControl > Items.Count)
+            if (_startLineNumber + _cache.NumberOfLinesFittingInControl > Items.Count)
             {
                 // There aren't enough lines to fill the screen
                 _numberOfLinesToDraw = Items.Count - _startLineNumber;
@@ -759,7 +537,7 @@ namespace Sessions.GenericControls.Controls.Songs
             else
             {
                 // Fill up screen 
-                _numberOfLinesToDraw = _songCache.NumberOfLinesFittingInControl;
+                _numberOfLinesToDraw = _cache.NumberOfLinesFittingInControl;
             }
 
             // Add one line for overflow; however, make sure we aren't adding a line without content 
@@ -771,7 +549,7 @@ namespace Sessions.GenericControls.Controls.Songs
             {                
                 // Calculate offsets, widths and other variants
                 state.OffsetX = 0;
-                state.OffsetY = (a * _songCache.LineHeight) - VerticalScrollBar.Value + _songCache.LineHeight; // compensate for scrollbar position
+                state.OffsetY = (a * _cache.LineHeight) - VerticalScrollBar.Value + _cache.LineHeight; // compensate for scrollbar position
                 int albumArtColumnWidth = Columns[0].Visible ? Columns[0].Width : 0;
                 int lineBackgroundWidth = (int) (Frame.Width + HorizontalScrollBar.Value - albumArtColumnWidth);
                 if (VerticalScrollBar.Visible)
@@ -781,8 +559,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 var audioFile = Items[a].AudioFile;
                 var colorBackground1 = _theme.BackgroundColor;
                 var colorBackground2 = _theme.BackgroundColor;
-                if ((_mode == SongGridViewMode.AudioFile && audioFile != null && audioFile.Id == _nowPlayingAudioFileId) || 
-                    (_mode == SongGridViewMode.Playlist && Items[a].PlaylistItemId == _nowPlayingPlaylistItemId))
+                if (audioFile != null && audioFile.Id == _nowPlayingAudioFileId)
                 {
                     colorBackground1 = _theme.NowPlayingBackgroundColor;
                     colorBackground2 = _theme.NowPlayingBackgroundColor;
@@ -829,15 +606,13 @@ namespace Sessions.GenericControls.Controls.Songs
                 //}
 
                 // Draw row background
-                var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, state.OffsetY, lineBackgroundWidth, _songCache.LineHeight + 1);
-                brushGradient = new BasicGradientBrush(colorBackground1, colorBackground2, 90);
+                var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, state.OffsetY, lineBackgroundWidth, _cache.LineHeight + 1);
+                var brushGradient = new BasicGradientBrush(colorBackground1, colorBackground2, 90);
                 context.DrawRectangle(rectBackground, brushGradient, penTransparent);
 
                 // Loop through columns                
-                for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
-                {
+                for (int b = 0; b < _cache.ActiveColumns.Count; b++)
                     DrawCell(context, a, b, audioFile, state);
-                }
             }
 
             // If no songs are playing, set the current now playing rectangle as "empty"
@@ -851,25 +626,24 @@ namespace Sessions.GenericControls.Controls.Songs
             var brush = new BasicBrush();
             var brushGradient = new BasicGradientBrush();
             var penTransparent = new BasicPen();
-            var column = _songCache.ActiveColumns[col];
+            var column = _cache.ActiveColumns[col];
             if (column.Visible)
             {
                 if (column.Title == "Now Playing")
                 {
                     // Draw now playing icon
-                    if ((_mode == SongGridViewMode.AudioFile && audioFile != null && audioFile.Id == _nowPlayingAudioFileId) ||
-                        (_mode == SongGridViewMode.Playlist && Items[row].PlaylistItemId == _nowPlayingPlaylistItemId))
+                    if (audioFile != null && audioFile.Id == _nowPlayingAudioFileId)
                     {
                         // Which size is the minimum? Width or height?                    
                         int availableWidthHeight = column.Width - 4;
-                        if (_songCache.LineHeight <= column.Width)
-                            availableWidthHeight = _songCache.LineHeight - 4;
+                        if (_cache.LineHeight <= column.Width)
+                            availableWidthHeight = _cache.LineHeight - 4;
                         else
                             availableWidthHeight = column.Width - 4;
 
                         // Calculate the icon position                                
                         float iconNowPlayingX = ((column.Width - availableWidthHeight) / 2) + state.OffsetX - HorizontalScrollBar.Value;
-                        float iconNowPlayingY = state.OffsetY + ((_songCache.LineHeight - availableWidthHeight) / 2);
+                        float iconNowPlayingY = state.OffsetY + ((_cache.LineHeight - availableWidthHeight) / 2);
 
                         // Create NowPlaying rect (MUST be in integer)                    
                         _rectNowPlaying = new BasicRectangle((int)iconNowPlayingX, (int)iconNowPlayingY, availableWidthHeight, availableWidthHeight);
@@ -887,7 +661,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 }
                 else if (column.Title == "Album Cover")
                 {
-                    DrawAlbumCoverZone(context, row, audioFile, state);
+                    DrawAlbumCoverZone(context, row, state);
                 }
                 else if (audioFile != null)
                 {
@@ -928,7 +702,7 @@ namespace Sessions.GenericControls.Controls.Songs
                             }
                             else if (propertyInfo.PropertyType.FullName.Contains("Sessions.Sound.AudioFileFormat"))
                             {
-                                AudioFileFormat theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
+                                var theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
                                 value = theValue.ToString();
                             }
                         }
@@ -939,19 +713,19 @@ namespace Sessions.GenericControls.Controls.Songs
 
                         //// The last column always take the remaining width
                         //int columnWidth = column.Width;
-                        //if (b == _songCache.ActiveColumns.Count - 1)
+                        //if (b == _cache.ActiveColumns.Count - 1)
                         //{
                         //    // Calculate the remaining width
                         //    int columnsWidth = 0;
-                        //    for (int c = 0; c < _songCache.ActiveColumns.Count - 1; c++)
+                        //    for (int c = 0; c < _cache.ActiveColumns.Count - 1; c++)
                         //    {
-                        //        columnsWidth += _songCache.ActiveColumns[c].Width;
+                        //        columnsWidth += _cache.ActiveColumns[c].Width;
                         //    }
                         //    //columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
                         //}
 
                         // Display text
-                        rect = new BasicRectangle(state.OffsetX - HorizontalScrollBar.Value + 2, state.OffsetY + (_theme.Padding / 2), _songCache.ActiveColumns[col].Width, _songCache.LineHeight - _theme.Padding + 2);
+                        rect = new BasicRectangle(state.OffsetX - HorizontalScrollBar.Value + 2, state.OffsetY + (_theme.Padding / 2), _cache.ActiveColumns[col].Width, _cache.LineHeight - _theme.Padding + 2);
                         //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         //stringFormat.Alignment = StringAlignment.Near;
 
@@ -967,7 +741,7 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
-        private void DrawAlbumCoverZone(IGraphicsContext context, int row, AudioFile audioFile2, DrawCellState state)
+        private void DrawAlbumCoverZone(IGraphicsContext context, int row, DrawCellState state)
         {
             var pen = new BasicPen();
             var penTransparent = new BasicPen();
@@ -1018,19 +792,19 @@ namespace Sessions.GenericControls.Controls.Songs
             var audioFile = Items[albumCoverStartIndex].AudioFile;
 
             // Calculate y and height
-            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
-            int y = ((albumCoverStartIndex - _startLineNumber) * _songCache.LineHeight) + _songCache.LineHeight + scrollbarOffsetY;
+            int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
+            int y = ((albumCoverStartIndex - _startLineNumber) * _cache.LineHeight) + _cache.LineHeight + scrollbarOffsetY;
 
             // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
             int linesToCover = Math.Min(MinimumRowsPerAlbum, (albumCoverEndIndex + 1 - albumCoverStartIndex));
-            int albumCoverZoneHeight = linesToCover * _songCache.LineHeight;
-            int heightWithPadding = Math.Min(albumCoverZoneHeight - (_theme.Padding * 2), _songCache.ActiveColumns[0].Width - (_theme.Padding * 2));
+            int albumCoverZoneHeight = linesToCover * _cache.LineHeight;
+            int heightWithPadding = Math.Min(albumCoverZoneHeight - (_theme.Padding * 2), _cache.ActiveColumns[0].Width - (_theme.Padding * 2));
 
             // Make sure the height is at least zero (not necessary to draw anything!)
             if (albumCoverZoneHeight > 0)
             {
                 // Draw album cover background
-                var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, _songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
+                var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, _cache.ActiveColumns[0].Width, albumCoverZoneHeight);
                 brushGradient = new BasicGradientBrush(_theme.AlbumCoverBackgroundColor, _theme.AlbumCoverBackgroundColor, 90);
                 context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
 
@@ -1175,24 +949,24 @@ namespace Sessions.GenericControls.Controls.Songs
             var brushGradient = new BasicGradientBrush(_theme.HeaderBackgroundColor, _theme.HeaderBackgroundColor, 90);
 
             // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
-            var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, _songCache.LineHeight + 1);
+            var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, _cache.LineHeight + 1);
             context.DrawRectangle(rectBackgroundHeader, brushGradient, penTransparent);
 
             // Loop through columns
             int offsetX = 0;
-            for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
+            for (int b = 0; b < _cache.ActiveColumns.Count; b++)
             {
-                var column = _songCache.ActiveColumns[b];
+                var column = _cache.ActiveColumns[b];
                 if (column.Visible)
                 {
                     // The last column always take the remaining width
                     int columnWidth = column.Width;
-                    if (b == _songCache.ActiveColumns.Count - 1)
+                    if (b == _cache.ActiveColumns.Count - 1)
                     {
                         // Calculate the remaining width
                         int columnsWidth = 0;
-                        for (int c = 0; c < _songCache.ActiveColumns.Count - 1; c++)
-                            columnsWidth += _songCache.ActiveColumns[c].Width;
+                        for (int c = 0; c < _cache.ActiveColumns.Count - 1; c++)
+                            columnsWidth += _cache.ActiveColumns[c].Width;
                         columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
                     }
 
@@ -1200,23 +974,23 @@ namespace Sessions.GenericControls.Controls.Songs
                     if (column.IsMouseOverColumnHeader)
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
-                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, _songCache.LineHeight + 1);
+                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, _cache.LineHeight + 1);
                         brushGradient = new BasicGradientBrush(_theme.MouseOverHeaderBackgroundColor, _theme.MouseOverHeaderBackgroundColor, 90);
                         context.DrawRectangle(rect, brushGradient, penTransparent);
                     }
                     else if (column.IsUserMovingColumn)
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
-                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, _songCache.LineHeight + 1);
+                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, _cache.LineHeight + 1);
                         brushGradient = new BasicGradientBrush(new BasicColor(0, 0, 255), new BasicColor(0, 255, 0), 90);
                         context.DrawRectangle(rect, brushGradient, penTransparent);
                     }
 
                     // Check if the header title must be displayed
-                    if (_songCache.ActiveColumns[b].IsHeaderTitleVisible)
+                    if (_cache.ActiveColumns[b].IsHeaderTitleVisible)
                     {
                         // Display title                
-                        var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, _theme.Padding / 2, column.Width, _songCache.LineHeight - _theme.Padding + 2);
+                        var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, _theme.Padding / 2, column.Width, _cache.LineHeight - _theme.Padding + 2);
                         //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         context.DrawText(column.Title, rectTitle, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
                     }
@@ -1225,35 +999,35 @@ namespace Sessions.GenericControls.Controls.Songs
                     int columnHeight = (int) Frame.Height;
 
                     // Determine the height of the line; if the items don't fit the control height...
-                    if (Items.Count < _songCache.NumberOfLinesFittingInControl)
+                    if (Items.Count < _cache.NumberOfLinesFittingInControl)
                     {
                         // Set height as the number of items (plus header)
-                        columnHeight = (Items.Count + 1) * _songCache.LineHeight;
+                        columnHeight = (Items.Count + 1) * _cache.LineHeight;
                     }
 
                     // Draw column line
                     //g.DrawLine(Pens.DarkGray, new Point(offsetX + column.Width - HorizontalScrollBar.Value, 0), new Point(offsetX + column.Width - HorizontalScrollBar.Value, columnHeight));
 
                     // Check if the column is ordered by
-                    if (column.FieldName == _orderByFieldName && !String.IsNullOrEmpty(column.FieldName))
+                    if (column.FieldName == OrderByFieldName && !String.IsNullOrEmpty(column.FieldName))
                     {
                         // Create triangle points,,,
                         var ptTriangle = new BasicPoint[3];
 
                         // ... depending on the order by ascending value
                         int triangleWidthHeight = 8;
-                        int trianglePadding = (_songCache.LineHeight - triangleWidthHeight) / 2;
-                        if (_orderByAscending)
+                        int trianglePadding = (_cache.LineHeight - triangleWidthHeight) / 2;
+                        if (OrderByAscending)
                         {
                             // Create points for ascending
                             ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, trianglePadding);
-                            ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, _songCache.LineHeight - trianglePadding);
-                            ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, _songCache.LineHeight - trianglePadding);
+                            ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, _cache.LineHeight - trianglePadding);
+                            ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, _cache.LineHeight - trianglePadding);
                         }
                         else
                         {
                             // Create points for descending
-                            ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, _songCache.LineHeight - trianglePadding);
+                            ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, _cache.LineHeight - trianglePadding);
                             ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, trianglePadding);
                             ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, trianglePadding);
                         }
@@ -1284,11 +1058,11 @@ namespace Sessions.GenericControls.Controls.Songs
                 // Build debug string
                 var sbDebug = new StringBuilder();
                 sbDebug.AppendLine("Line Count: " + Items.Count.ToString());
-                sbDebug.AppendLine("Line Height: " + _songCache.LineHeight.ToString());
-                sbDebug.AppendLine("Lines Fit In Height: " + _songCache.NumberOfLinesFittingInControl.ToString());
-                sbDebug.AppendLine("Total Width: " + _songCache.TotalWidth);
-                sbDebug.AppendLine("Total Height: " + _songCache.TotalHeight);
-                sbDebug.AppendLine("Scrollbar Offset Y: " + _songCache.ScrollBarOffsetY);
+                sbDebug.AppendLine("Line Height: " + _cache.LineHeight.ToString());
+                sbDebug.AppendLine("Lines Fit In Height: " + _cache.NumberOfLinesFittingInControl.ToString());
+                sbDebug.AppendLine("Total Width: " + _cache.TotalWidth);
+                sbDebug.AppendLine("Total Height: " + _cache.TotalHeight);
+                sbDebug.AppendLine("Scrollbar Offset Y: " + _cache.ScrollBarOffsetY);
                 sbDebug.AppendLine("HScrollbar Maximum: " + HorizontalScrollBar.Maximum.ToString());
                 sbDebug.AppendLine("HScrollbar LargeChange: " + HorizontalScrollBar.LargeChange.ToString());
                 sbDebug.AppendLine("HScrollbar Value: " + HorizontalScrollBar.Value.ToString());
@@ -1297,9 +1071,6 @@ namespace Sessions.GenericControls.Controls.Songs
                 sbDebug.AppendLine("VScrollbar Value: " + VerticalScrollBar.Value.ToString());
 
                 // Measure string
-                //stringFormat.Trimming = StringTrimming.Word;
-                //stringFormat.LineAlignment = StringAlignment.Near;
-                //SizeF sizeDebugText = g.MeasureString(sbDebug.ToString(), fontDefault, Columns[0].Width - 1, stringFormat);
                 var sizeDebugText = context.MeasureText(sbDebug.ToString(), new BasicRectangle(0, 0, Columns[0].Width, 40), _theme.FontName, _theme.FontSize);
                 var rect = new BasicRectangle(0, 0, Columns[0].Width - 1, sizeDebugText.Height);
 
@@ -1315,11 +1086,11 @@ namespace Sessions.GenericControls.Controls.Songs
 
         public void KeyDown(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
         {
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             int selectedIndex = -1;
-            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
             var startEndIndexes = GetStartIndexAndEndIndexOfSelectedRows();
 
             if (specialKeys == SpecialKeys.Enter)
@@ -1356,7 +1127,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     }
                     break;
                 case SpecialKeys.PageDown:
-                    selectedIndex = startEndIndexes.Item1 + _songCache.NumberOfLinesFittingInControl - 2; // 2 is header + scrollbar height
+                    selectedIndex = startEndIndexes.Item1 + _cache.NumberOfLinesFittingInControl - 2; // 2 is header + scrollbar height
                     selectedIndex = Math.Min(selectedIndex, Items.Count - 1);
 
                     if (selectedIndex == Items.Count - 1)
@@ -1376,7 +1147,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     }
                     break;
                 case SpecialKeys.PageUp:
-                    selectedIndex = startEndIndexes.Item1 - _songCache.NumberOfLinesFittingInControl + 2; 
+                    selectedIndex = startEndIndexes.Item1 - _cache.NumberOfLinesFittingInControl + 2; 
                     selectedIndex = Math.Max(selectedIndex, 0);
 
                     if (selectedIndex > 0)
@@ -1404,7 +1175,7 @@ namespace Sessions.GenericControls.Controls.Songs
             Items[selectedIndex].IsSelected = true;
 
             // Check if new selection is out of bounds of visible area
-            float y = ((selectedIndex - _startLineNumber + 1)*_songCache.LineHeight) + scrollbarOffsetY;
+            float y = ((selectedIndex - _startLineNumber + 1)*_cache.LineHeight) + scrollbarOffsetY;
             //Console.WriteLine("SongGridViewControl - KeyDown - y: {0} scrollbarOffsetY: {1} VerticalScrollBar.Value: {2}", y, scrollbarOffsetY, VerticalScrollBar.Value);
 
             int newVerticalScrollBarValue = VerticalScrollBar.Value;
@@ -1412,20 +1183,20 @@ namespace Sessions.GenericControls.Controls.Songs
             {
                 case SpecialKeys.Down:
                     // Check for out of bounds
-                    if (y > Frame.Height - HorizontalScrollBar.Height - _songCache.LineHeight)
-                        newVerticalScrollBarValue = VerticalScrollBar.Value + _songCache.LineHeight;
+                    if (y > Frame.Height - HorizontalScrollBar.Height - _cache.LineHeight)
+                        newVerticalScrollBarValue = VerticalScrollBar.Value + _cache.LineHeight;
                     break;
                 case SpecialKeys.Up:
                     // Check for out of bounds
-                    if (y < _songCache.LineHeight)
-                        newVerticalScrollBarValue = VerticalScrollBar.Value - _songCache.LineHeight;
+                    if (y < _cache.LineHeight)
+                        newVerticalScrollBarValue = VerticalScrollBar.Value - _cache.LineHeight;
                     break;
                 case SpecialKeys.PageDown:
-                    int heightToScrollDown = ((startEndIndexes.Item1 - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+                    int heightToScrollDown = ((startEndIndexes.Item1 - _startLineNumber) * _cache.LineHeight) + scrollbarOffsetY;
                     newVerticalScrollBarValue = VerticalScrollBar.Value + heightToScrollDown;
                     break;
                 case SpecialKeys.PageUp:
-                    int heightToScrollUp = ((_startLineNumber + _songCache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * _songCache.LineHeight) - scrollbarOffsetY;
+                    int heightToScrollUp = ((_startLineNumber + _cache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * _cache.LineHeight) - scrollbarOffsetY;
                     newVerticalScrollBarValue = VerticalScrollBar.Value - heightToScrollUp;
                     break;
                 case SpecialKeys.Home:
@@ -1444,7 +1215,7 @@ namespace Sessions.GenericControls.Controls.Songs
             VerticalScrollBar.Value = newVerticalScrollBarValue;
 
             // Is this necessary when scrolling the whole area? it will refresh all anyway
-            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, y, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, y, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _cache.LineHeight));
             InvalidateVisual();
         }
 
@@ -1469,10 +1240,10 @@ namespace Sessions.GenericControls.Controls.Songs
             var partialRect = new BasicRectangle();
             _isMouseOverControl = false;
 
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
-            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
             if (Items.Count > 0)
             {
                 for (int b = _startLineNumber; b < _startLineNumber + _numberOfLinesToDraw; b++)
@@ -1480,7 +1251,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     if (Items[b].IsMouseOverItem)
                     {
                         Items[b].IsMouseOverItem = false;
-                        var newPartialRect = new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, _songCache.LineHeight);
+                        var newPartialRect = new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _cache.LineHeight) + scrollbarOffsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, _cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                         break;
@@ -1490,19 +1261,19 @@ namespace Sessions.GenericControls.Controls.Songs
 
             // Reset column flags
             int columnOffsetX2 = 0;
-            for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
+            for (int b = 0; b < _cache.ActiveColumns.Count; b++)
             {
-                if (_songCache.ActiveColumns[b].Visible)
+                if (_cache.ActiveColumns[b].Visible)
                 {
-                    if (_songCache.ActiveColumns[b].IsMouseOverColumnHeader)
+                    if (_cache.ActiveColumns[b].IsMouseOverColumnHeader)
                     {
-                        _songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
-                        var newPartialRect = new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight);
+                        _cache.ActiveColumns[b].IsMouseOverColumnHeader = false;
+                        var newPartialRect = new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, _cache.ActiveColumns[b].Width, _cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                     }
 
-                    columnOffsetX2 += _songCache.ActiveColumns[b].Width;
+                    columnOffsetX2 += _cache.ActiveColumns[b].Width;
                 }
             }
 
@@ -1516,11 +1287,11 @@ namespace Sessions.GenericControls.Controls.Songs
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             _dragStartX = (int) x;
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             // Loop through columns
-            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
+            foreach (var column in _cache.ActiveColumns)
             {
                 // Check for resizing column
                 if (column.IsMouseCursorOverColumnLimit && column.CanBeResized && CanResizeColumns)
@@ -1544,12 +1315,12 @@ namespace Sessions.GenericControls.Controls.Songs
             bool controlNeedsToBeFullyInvalidated = false;
             _isUserHoldingLeftMouseButton = false;
 
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             // Get reference to the moving column
-            SongGridViewColumn columnMoving = null;
-            foreach (var column in _songCache.ActiveColumns)
+            GridViewColumn columnMoving = null;
+            foreach (var column in _cache.ActiveColumns)
             {
                 column.IsUserResizingColumn = false;
                 if (column.IsUserMovingColumn)
@@ -1563,12 +1334,12 @@ namespace Sessions.GenericControls.Controls.Songs
                 controlNeedsToBeFullyInvalidated = true;
 
                 // Find out on what column the mouse cursor is
-                SongGridViewColumn columnOver = null;
+                GridViewColumn columnOver = null;
                 int currentX = 0;
                 bool isPastCurrentlyMovingColumn = false;
-                for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
+                for (int a = 0; a < _cache.ActiveColumns.Count; a++)
                 {
-                    var currentColumn = _songCache.ActiveColumns[a];
+                    var currentColumn = _cache.ActiveColumns[a];
                     if (currentColumn.FieldName == columnMoving.FieldName)
                         isPastCurrentlyMovingColumn = true;
 
@@ -1579,9 +1350,9 @@ namespace Sessions.GenericControls.Controls.Songs
                             x <= currentX + (currentColumn.Width/2) - HorizontalScrollBar.Value)
                         {
                             if (isPastCurrentlyMovingColumn && currentColumn.FieldName != columnMoving.FieldName)
-                                columnOver = _songCache.ActiveColumns[a - 1];
+                                columnOver = _cache.ActiveColumns[a - 1];
                             else
-                                columnOver = _songCache.ActiveColumns[a];
+                                columnOver = _cache.ActiveColumns[a];
                             break;
                         }
                             // Check if the cursor is over the right part of the column
@@ -1589,12 +1360,12 @@ namespace Sessions.GenericControls.Controls.Songs
                                  x <= currentX + currentColumn.Width - HorizontalScrollBar.Value)
                         {
                             // Check if there is a next item
-                            if (a < _songCache.ActiveColumns.Count - 1)
+                            if (a < _cache.ActiveColumns.Count - 1)
                             {
                                 if (isPastCurrentlyMovingColumn)
-                                    columnOver = _songCache.ActiveColumns[a];
+                                    columnOver = _cache.ActiveColumns[a];
                                 else
-                                    columnOver = _songCache.ActiveColumns[a + 1];
+                                    columnOver = _cache.ActiveColumns[a + 1];
                             }
                             break;
                         }
@@ -1654,26 +1425,26 @@ namespace Sessions.GenericControls.Controls.Songs
             bool controlNeedsToBePartiallyInvalidated = false;
             var partialRect = new BasicRectangle();
 
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             // Show context menu strip if the button click is right and not the album art column
-            if (button == MouseButtonType.Right && x > Columns[0].Width && y > _songCache.LineHeight)
+            if (button == MouseButtonType.Right && x > Columns[0].Width && y > _cache.LineHeight)
                 DisplayContextMenu(ContextMenuType.Item, x, y);
 
             int albumArtCoverWidth = Columns[0].Visible ? Columns[0].Width : 0;
             var columnResizing = Columns.FirstOrDefault(col => col.IsUserResizingColumn == true);
-            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
 
             // Check if the user has clicked on the header (for orderBy)
-            if (y >= 0 && y <= _songCache.LineHeight &&
+            if (y >= 0 && y <= _cache.LineHeight &&
                 columnResizing == null && !IsColumnMoving)
             {
                 // Check on what column the user has clicked
                 int offsetX = 0;
-                for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
+                for (int a = 0; a < _cache.ActiveColumns.Count; a++)
                 {
-                    var column = _songCache.ActiveColumns[a];
+                    var column = _cache.ActiveColumns[a];
                     if (column.Visible)
                     {
                         // Check if the mouse pointer is over this column
@@ -1682,20 +1453,20 @@ namespace Sessions.GenericControls.Controls.Songs
                             if (button == MouseButtonType.Left && CanChangeOrderBy)
                             {
                                 // Check if the column order was already set
-                                if (_orderByFieldName == column.FieldName)
+                                if (OrderByFieldName == column.FieldName)
                                 {
                                     // Reverse ascending/descending
-                                    _orderByAscending = !_orderByAscending;
+                                    OrderByAscending = !OrderByAscending;
                                 }
                                 else
                                 {
                                     // Set order by field name
-                                    _orderByFieldName = column.FieldName;
-                                    _orderByAscending = true;
+                                    OrderByFieldName = column.FieldName;
+                                    OrderByAscending = true;
                                 }
 
                                 // Raise column click event and invalidate control
-                                _songCache = null;
+                                _cache = null;
                                 ColumnClick(a);
                                 InvalidateVisual();
                                 return;
@@ -1705,7 +1476,7 @@ namespace Sessions.GenericControls.Controls.Songs
                                 //// Refresh column visibility in menu before opening
                                 //foreach (ToolStripMenuItem menuItem in _menuColumns.Items)
                                 //{
-                                //    SongGridViewColumn menuItemColumn = Columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
+                                //    GridViewColumn menuItemColumn = Columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
                                 //    if (menuItemColumn != null)
                                 //        menuItem.Checked = menuItemColumn.Visible;
                                 //}
@@ -1728,8 +1499,8 @@ namespace Sessions.GenericControls.Controls.Songs
             if (startIndex > -1 && endIndex > -1)
             {
                 // Invalidate the original selected lines
-                int startY = ((startIndex - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY;
-                int endY = ((endIndex - _startLineNumber + 2) * _songCache.LineHeight) + scrollbarOffsetY;
+                int startY = ((startIndex - _startLineNumber + 1) * _cache.LineHeight) + scrollbarOffsetY;
+                int endY = ((endIndex - _startLineNumber + 2) * _cache.LineHeight) + scrollbarOffsetY;
                 var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, startY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, endY - startY);
                 partialRect.Merge(newPartialRect);
                 controlNeedsToBePartiallyInvalidated = true;
@@ -1779,7 +1550,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     {
                         // Invert selection
                         Items[a].IsSelected = !Items[a].IsSelected;
-                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                     }
@@ -1787,7 +1558,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     {
                         // Set this item as the new selected item
                         Items[a].IsSelected = true;
-                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                     }
@@ -1820,22 +1591,16 @@ namespace Sessions.GenericControls.Controls.Songs
         /// <param name="e">Event arguments</param>
         public void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             var partialRect = new BasicRectangle();
             bool controlNeedsToBePartiallyInvalidated = false;
             int albumArtCoverWidth = Columns[0].Visible ? Columns[0].Width : 0;
-            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
 
             // Keep original songId in case the now playing value is set before invalidating the older value
-            Guid originalId = Guid.Empty;
-
-            // Set original id
-            if (_mode == SongGridViewMode.AudioFile)
-                originalId = _nowPlayingAudioFileId;
-            else if (_mode == SongGridViewMode.Playlist)
-                originalId = _nowPlayingPlaylistItemId;
+            Guid originalId = _nowPlayingAudioFileId;
 
             // Loop through visible lines
             for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
@@ -1844,22 +1609,15 @@ namespace Sessions.GenericControls.Controls.Songs
                 {
                     // Set this item as the new now playing
                     _nowPlayingAudioFileId = Items[a].AudioFile.Id;
-                    _nowPlayingPlaylistItemId = Items[a].PlaylistItemId;
 
                     ItemDoubleClick(a);
-                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _cache.LineHeight);
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
-                else if (_mode == SongGridViewMode.AudioFile && Items[a].AudioFile != null && Items[a].AudioFile.Id == originalId)
+                else if (Items[a].AudioFile != null && Items[a].AudioFile.Id == originalId)
                 {
-                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
-                    partialRect.Merge(newPartialRect);
-                    controlNeedsToBePartiallyInvalidated = true;
-                }
-                else if (_mode == SongGridViewMode.Playlist && Items[a].PlaylistItemId == originalId)
-                {
-                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight);
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _cache.LineHeight);
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
@@ -1879,14 +1637,14 @@ namespace Sessions.GenericControls.Controls.Songs
             bool controlNeedsToBeFullyInvalidated = false;
             bool controlNeedsToBePartiallyInvalidated = false;
             var partialRect = new BasicRectangle();
-            if (Columns == null || _songCache == null)
+            if (Columns == null || _cache == null)
                 return;
 
             // Calculate album cover art width
             int albumArtCoverWidth = Columns[0].Visible ? Columns[0].Width : 0;
 
             // Check if the user is currently resizing a column (loop through columns)
-            foreach (var column in _songCache.ActiveColumns)
+            foreach (var column in _cache.ActiveColumns)
             {
                 // Check if the user is currently resizing this column
                 if (column.IsUserResizingColumn && column.Visible)
@@ -1933,7 +1691,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 {
                     // Loop through columns
                     int currentX = 0;
-                    foreach (SongGridViewColumn columnOver in _songCache.ActiveColumns)
+                    foreach (GridViewColumn columnOver in _cache.ActiveColumns)
                     {
                         // Check if column is visible
                         if (columnOver.Visible)
@@ -1958,7 +1716,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 // Check if the cursor needs to be changed            
                 int offsetX = 0;
                 bool mousePointerIsOverColumnLimit = false;
-                foreach (var column in _songCache.ActiveColumns)
+                foreach (var column in _cache.ActiveColumns)
                 {
                     if (column.Visible)
                     {
@@ -1986,9 +1744,9 @@ namespace Sessions.GenericControls.Controls.Songs
                     ChangeMouseCursorType(MouseCursorType.Default);
 
                 int columnOffsetX2 = 0;
-                for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
+                for (int b = 0; b < _cache.ActiveColumns.Count; b++)
                 {
-                    var column = _songCache.ActiveColumns[b];
+                    var column = _cache.ActiveColumns[b];
                     if (column.Visible)
                     {
                         // Was mouse over this column header?
@@ -1996,7 +1754,7 @@ namespace Sessions.GenericControls.Controls.Songs
                         {
                             // Invalidate region
                             column.IsMouseOverColumnHeader = false;
-                            var newPartialRect = new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight);
+                            var newPartialRect = new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _cache.LineHeight);
                             partialRect.Merge(newPartialRect);
                             controlNeedsToBePartiallyInvalidated = true;
                         }
@@ -2008,13 +1766,13 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 // Check if the mouse pointer is over the header
                 if (y >= 0 &&
-                    y <= _songCache.LineHeight)
+                    y <= _cache.LineHeight)
                 {
                     // Check on what column the user has clicked
                     int columnOffsetX = 0;
-                    for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
+                    for (int a = 0; a < _cache.ActiveColumns.Count; a++)
                     {
-                        var column = _songCache.ActiveColumns[a];
+                        var column = _cache.ActiveColumns[a];
                         if (column.Visible)
                         {
                             // Check if the mouse pointer is over this column
@@ -2022,7 +1780,7 @@ namespace Sessions.GenericControls.Controls.Songs
                             {
                                 // Invalidate region
                                 column.IsMouseOverColumnHeader = true;
-                                var newPartialRect = new BasicRectangle(columnOffsetX - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight);
+                                var newPartialRect = new BasicRectangle(columnOffsetX - HorizontalScrollBar.Value, 0, column.Width, _cache.LineHeight);
                                 partialRect.Merge(newPartialRect);
                                 controlNeedsToBePartiallyInvalidated = true;
                                 break;
@@ -2035,7 +1793,7 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 // Check if the mouse cursor is over a line (loop through lines)                        
                 int offsetY = 0;
-                //int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+                //int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
 
                 // Check if there's at least one item
                 if (Items.Count > 0)
@@ -2050,7 +1808,6 @@ namespace Sessions.GenericControls.Controls.Songs
                             // Reset flag and invalidate region
                             //Console.WriteLine("SongGridViewControl - MouseMove - Resetting mouse over flag for line {0}", b);
                             Items[b].IsMouseOverItem = false;
-                            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
                             break;
                         }
                     }
@@ -2059,23 +1816,19 @@ namespace Sessions.GenericControls.Controls.Songs
                     for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
                     {
                         // Calculate offset
-                        offsetY = (a * _songCache.LineHeight) - VerticalScrollBar.Value + _songCache.LineHeight;
+                        offsetY = (a * _cache.LineHeight) - VerticalScrollBar.Value + _cache.LineHeight;
                         //Console.WriteLine("SongGridViewControl - MouseMove - Checking for setting mouse over flag for line {0} - offsetY: {1}", a, offsetY);
 
                         // Check if the mouse cursor is over this line (and not already mouse over)
                         if (x >= albumArtCoverWidth - HorizontalScrollBar.Value &&
                             y >= offsetY &&
-                            y <= offsetY + _songCache.LineHeight &&
+                            y <= offsetY + _cache.LineHeight &&
                             !Items[a].IsEmptyRow &&
                             !Items[a].IsMouseOverItem)
                         {
                             // Set item as mouse over
                             //Console.WriteLine("SongGridViewControl - MouseMove - Mouse is over item {0} {1}/{2}/{3}", a, Items[a].AudioFile.ArtistName, Items[a].AudioFile.AlbumTitle, Items[a].AudioFile.Title);
                             Items[a].IsMouseOverItem = true;
-
-                            // Invalidate region and update control
-                            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, offsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
-                            //controlNeedsToBeFullyInvalidated = true;
                             break;
                         }
                     }
@@ -2100,21 +1853,21 @@ namespace Sessions.GenericControls.Controls.Songs
 
             int oldIndex = Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == oldAudioFileId);
             int newIndex = Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == newAudioFileId);
-            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
             int firstIndex = oldIndex < newIndex ? oldIndex : newIndex;
             int secondIndex = newIndex > oldIndex ? newIndex : oldIndex;
 
             int firstY = -1;
             if (oldIndex >= _startLineNumber && oldIndex <= _startLineNumber + _numberOfLinesToDraw)
-                firstY = ((firstIndex - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+                firstY = ((firstIndex - _startLineNumber) * _cache.LineHeight) + scrollbarOffsetY;
 
             int secondY = -1;
             if (newIndex >= _startLineNumber && newIndex <= _startLineNumber + _numberOfLinesToDraw)
-                secondY = ((secondIndex - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+                secondY = ((secondIndex - _startLineNumber) * _cache.LineHeight) + scrollbarOffsetY;
 
             int finalY = 0;
             int finalHeight = 0;
-            int lineHeight = _songCache.LineHeight;
+            int lineHeight = _cache.LineHeight;
 
             if (firstY >= 0)
             {
@@ -2132,7 +1885,7 @@ namespace Sessions.GenericControls.Controls.Songs
 
             if (finalHeight > 0)
             {
-                int headerHeight = _songCache.LineHeight;
+                int headerHeight = _cache.LineHeight;
                 var rect = new BasicRectangle(0, finalY + headerHeight, Frame.Width, finalHeight);
                 //Console.WriteLine("SongGridViewControl - InvalidateRow - rect: {0} nowPlayingIndex: {1} startLineNumber: {2} numberOfLinesToDraw: {3} scrollbarOffsetY: {4}", rect, oldIndex, _startLineNumber, _numberOfLinesToDraw, scrollbarOffsetY);
                 InvalidateVisualInRect(rect);
@@ -2150,10 +1903,10 @@ namespace Sessions.GenericControls.Controls.Songs
                 return;
 
             // Create cache
-            _songCache = new SongGridViewCache();
+            _cache = new GridViewCache();
 
             // Get active columns and order them
-            _songCache.ActiveColumns = Columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
+            _cache.ActiveColumns = Columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
 
             //// Create temporary bitmap/graphics objects to measure a string (to determine line height)
             //Bitmap bmpTemp = new Bitmap(200, 100);
@@ -2169,43 +1922,43 @@ namespace Sessions.GenericControls.Controls.Songs
             var rectText = new BasicRectangle(0, 0, 100, 14);
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
-            _songCache.LineHeight = (int)rectText.Height + _theme.Padding;
-            _songCache.TotalHeight = _songCache.LineHeight * Items.Count;
+            _cache.LineHeight = (int)rectText.Height + _theme.Padding;
+            _cache.TotalHeight = _cache.LineHeight * Items.Count;
 
             // Check if the total active columns width exceed the width available in the control
-            _songCache.TotalWidth = 0;
-            for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
-                if (_songCache.ActiveColumns[a].Visible)
-                    _songCache.TotalWidth += _songCache.ActiveColumns[a].Width;
+            _cache.TotalWidth = 0;
+            for (int a = 0; a < _cache.ActiveColumns.Count; a++)
+                if (_cache.ActiveColumns[a].Visible)
+                    _cache.TotalWidth += _cache.ActiveColumns[a].Width;
 
             // Calculate the number of lines visible (count out the header, which is one line height)
-            _songCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(Frame.Height) / (double)(_songCache.LineHeight));
+            _cache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(Frame.Height) / (double)(_cache.LineHeight));
 
             // Set vertical scrollbar dimensions
-            //VerticalScrollBar.Top = _songCache.LineHeight;
+            //VerticalScrollBar.Top = _cache.LineHeight;
             //VerticalScrollBar.Left = ClientRectangle.Width - VerticalScrollBar.Width;
             VerticalScrollBar.Minimum = 0;            
 
             // Scrollbar maximum is the number of lines fitting in the screen + the remaining line which might be cut
             // by the control height because it's not a multiple of line height (i.e. the last line is only partly visible)
-            int lastLineHeight = (int) (Frame.Height - (_songCache.LineHeight * _songCache.NumberOfLinesFittingInControl));
+            int lastLineHeight = (int) (Frame.Height - (_cache.LineHeight * _cache.NumberOfLinesFittingInControl));
 
             // Check width
-            if (_songCache.TotalWidth > Frame.Width - VerticalScrollBar.Width)
+            if (_cache.TotalWidth > Frame.Width - VerticalScrollBar.Width)
             {
                 // Set scrollbar values
-                HorizontalScrollBar.Maximum = _songCache.TotalWidth;
+                HorizontalScrollBar.Maximum = _cache.TotalWidth;
                 HorizontalScrollBar.SmallChange = 5;
                 HorizontalScrollBar.LargeChange = (int) Frame.Width;
                 HorizontalScrollBar.Visible = true;
             }
 
             // Check if the horizontal scrollbar needs to be turned off
-            if (_songCache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
+            if (_cache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
                 HorizontalScrollBar.Visible = false;
 
             // If there are less items than items fitting on screen...            
-            if (((_songCache.NumberOfLinesFittingInControl - 1) * _songCache.LineHeight) - HorizontalScrollBar.Height >= _songCache.TotalHeight)
+            if (((_cache.NumberOfLinesFittingInControl - 1) * _cache.LineHeight) - HorizontalScrollBar.Height >= _cache.TotalHeight)
             {
                 // Disable the scrollbar
                 VerticalScrollBar.Enabled = false;
@@ -2216,7 +1969,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 VerticalScrollBar.Enabled = true;
 
                 // Calculate the vertical scrollbar maximum
-                int vMax = _songCache.LineHeight * (Items.Count - _songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight;
+                int vMax = _cache.LineHeight * (Items.Count - _cache.NumberOfLinesFittingInControl + 1) - lastLineHeight;
 
                 // Add the horizontal scrollbar height if visible
                 if (HorizontalScrollBar.Visible)
@@ -2224,23 +1977,23 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 // Compensate for the header, and for the last line which might be truncated by the control height
                 VerticalScrollBar.Maximum = vMax;
-                VerticalScrollBar.SmallChange = _songCache.LineHeight;
-                VerticalScrollBar.LargeChange = 1 + _songCache.LineHeight * 5;
+                VerticalScrollBar.SmallChange = _cache.LineHeight;
+                VerticalScrollBar.LargeChange = 1 + _cache.LineHeight * 5;
             }
 
             // Calculate the scrollbar offset Y
-            _songCache.ScrollBarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            _cache.ScrollBarOffsetY = (_startLineNumber * _cache.LineHeight) - VerticalScrollBar.Value;
 
             // If both scrollbars need to be visible, the width and height must be changed
             if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
             {
                 // Cut 16 pixels
                 HorizontalScrollBar.Width = (int) (Frame.Width - 16);
-                VerticalScrollBar.Height = Math.Max(0, (int) (Frame.Height - (_songCache.LineHeight * 2) - 16));
+                VerticalScrollBar.Height = Math.Max(0, (int) (Frame.Height - (_cache.LineHeight * 2) - 16));
             }
             else
             {
-                VerticalScrollBar.Height = Math.Max(0, (int) (Frame.Height - (_songCache.LineHeight * 2)));
+                VerticalScrollBar.Height = Math.Max(0, (int) (Frame.Height - (_cache.LineHeight * 2)));
             }
         }
 
@@ -2265,41 +2018,6 @@ namespace Sessions.GenericControls.Controls.Songs
 //
 //            // Invalidate region for now playing
 //            OnInvalidateVisualInRect(_rectNowPlaying);
-        }
-
-        private void ResetSelection()
-        {
-            // Reset selection, unless the CTRL key is held (TODO)
-            var selectedItems = Items.Where(item => item.IsSelected == true).ToList();
-            foreach (var item in selectedItems)
-                item.IsSelected = false;
-        }
-
-        private Tuple<int, int> GetStartIndexAndEndIndexOfSelectedRows()
-        {
-            if (Items == null)
-                return new Tuple<int, int>(-1, -1);
-
-            // Loop through visible lines to find the original selected items
-            int startIndex = -1;
-            int endIndex = -1;
-            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-            {
-                // Check if the item is selected
-                if (Items[a].IsSelected)
-                {
-                    // Check if the start index was set
-                    if (startIndex == -1)
-                        startIndex = a;
-
-                    // Check if the end index is set or if it needs to be updated
-                    if (endIndex == -1 || endIndex < a)
-                        // Set end index
-                        endIndex = a;
-                }
-            }
-
-            return new Tuple<int, int>(startIndex, endIndex);
         }
 
         /// <summary>

@@ -16,16 +16,15 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using Sessions.WindowsControls;
 
-namespace Sessions.GenericControls.Controls.Songs
+namespace Sessions.GenericControls.Controls.Items
 {
     /// <summary>
-    /// General cache for the SongGridView control.
+    /// Cache for the ListView control.
     /// Contains data which doesn't need to be calculated for every
     /// control refresh, such as the line height, scrollbar offset, etc.
     /// </summary>
-    public class SongGridViewCache
+    public class ListViewCache
     {
         /// <summary>
         /// Indicates the line height for the grid view items.
@@ -33,31 +32,15 @@ namespace Sessions.GenericControls.Controls.Songs
         public int LineHeight { get; set; }
         
         /// <summary>
-        /// Indicates the total width of all the visible grid view columns,
-        /// even those off screen.
-        /// </summary>
-        public int TotalWidth { get; set; }
-
-        /// <summary>
         /// Indicates the total height of all the visible grid view items,
         /// even those off screen.
         /// </summary>
         public int TotalHeight { get; set; }
 
         /// <summary>
-        /// Current scrollbar offset Y value (
-        /// </summary>
-        public int ScrollBarOffsetY { get; set; }
-
-        /// <summary>
         /// Indicates how many lines fit the visible control area, including
         /// lines that are partly visible.
         /// </summary>
         public int NumberOfLinesFittingInControl { get; set; }
-
-        /// <summary>
-        /// List of currently active columns.
-        /// </summary>
-        public List<SongGridViewColumn> ActiveColumns { get; set; }
     }
 }

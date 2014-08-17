@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 using Sessions.Sound.AudioFiles;

@@ -60,6 +60,7 @@
     <Compile Include="Controls\Base\ControlBase.cs" />
     <Compile Include="Controls\Base\GridViewControlBase.cs" />
     <Compile Include="Controls\Base\ListViewControlBase.cs" />
+    <Compile Include="Controls\Items\ListViewCache.cs" />
     <Compile Include="Controls\Items\GridViewColumn.cs" />
     <Compile Include="Controls\Items\ListViewItem.cs" />
     <Compile Include="Controls\Themes\IControlTheme.cs" />
@@ -78,11 +79,9 @@
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />
-    <Compile Include="Controls\Songs\SongGridViewCache.cs" />
-    <Compile Include="Controls\Songs\SongGridViewColumn.cs" />
+    <Compile Include="Controls\Items\GridViewCache.cs" />
     <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
     <Compile Include="Controls\Songs\SongGridViewItem.cs" />
-    <Compile Include="Controls\Songs\SongGridViewMode.cs" />
     <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
     <Compile Include="Controls\TrackBarControl.cs" />
     <Compile Include="Controls\WaveFormControl.cs" />
@@ -90,7 +89,7 @@
       <DependentUpon>WaveFormControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\FaderControl.cs" />
-    <Compile Include="Controls\IControl.cs" />
+    <Compile Include="Controls\Interfaces\IControl.cs" />
     <Compile Include="Controls\OutputMeterControl.cs" />
     <Compile Include="Graphics\IMemoryGraphicsContext.cs" />
     <Compile Include="Graphics\IGraphicsContext.cs" />

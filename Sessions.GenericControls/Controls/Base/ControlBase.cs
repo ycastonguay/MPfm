@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Interaction;
-using Sessions.GenericControls.Wrappers;
 
 namespace Sessions.GenericControls.Controls.Base
 {

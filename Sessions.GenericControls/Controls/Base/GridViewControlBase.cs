@@ -15,25 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Timers;
-using System.Web.UI.WebControls;
-using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Items;
-using Sessions.GenericControls.Controls.Songs;
-using Sessions.GenericControls.Graphics;
-using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
-using Sessions.WindowsControls;
-using Sessions.Core;
-using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
 
 namespace Sessions.GenericControls.Controls.Base
 {
@@ -42,6 +28,8 @@ namespace Sessions.GenericControls.Controls.Base
     /// </summary>
     public abstract class GridViewControlBase<T, U> : ListViewControlBase<T> where T : ListViewItem where U : GridViewColumn  //, IControlMouseInteraction, IControlKeyboardInteraction
     {
+        protected abstract void ItemsCleared();
+
         private List<U> _columns;
         [Browsable(false)]
         public List<U> Columns
@@ -49,6 +37,111 @@ namespace Sessions.GenericControls.Controls.Base
             get
             {
                 return _columns;
+            }
+        }
+
+        private string _orderByFieldName = string.Empty;
+        /// <summary>
+        /// Indicates which field should be used for ordering songs.
+        /// </summary>
+        public string OrderByFieldName
+        {
+            get
+            {
+                return _orderByFieldName;
+            }
+            set
+            {
+                _orderByFieldName = value;
+                Items.Clear();
+                ItemsCleared();
+                InvalidateVisual();
+            }
+        }
+
+        private bool _orderByAscending = true;
+        /// <summary>
+        /// Indicates if the order should be ascending (true) or descending (false).
+        /// </summary>
+        public bool OrderByAscending
+        {
+            get
+            {
+                return _orderByAscending;
+            }
+            set
+            {
+                _orderByAscending = value;
+            }
+        }
+
+        /// <summary>
+        /// Indicates if a column is currently moving.
+        /// </summary>
+        public bool IsColumnMoving
+        {
+            get
+            {
+                return Columns.Any(column => column.IsUserMovingColumn);
+            }
+        }
+
+        /// <summary>
+        /// Indicates if a column is currently resizing.
+        /// </summary>
+        public bool IsColumnResizing
+        {
+            get
+            {
+                return Columns.Any(column => column.IsUserResizingColumn);
+            }
+        }
+
+        private bool _canResizeColumns = true;
+        /// <summary>
+        /// Indicates if the user can resize the columns or not.
+        /// </summary>
+        public bool CanResizeColumns
+        {
+            get
+            {
+                return _canResizeColumns;
+            }
+            set
+            {
+                _canResizeColumns = value;
+            }
+        }
+
+        private bool _canMoveColumns = true;
+        /// <summary>
+        /// Indicates if the user can move the columns or not.
+        /// </summary>
+        public bool CanMoveColumns
+        {
+            get
+            {
+                return _canMoveColumns;
+            }
+            set
+            {
+                _canMoveColumns = value;
+            }
+        }
+
+        private bool _canChangeOrderBy = true;
+        /// <summary>
+        /// Indicates if the user can change the order by or not.
+        /// </summary>
+        public bool CanChangeOrderBy
+        {
+            get
+            {
+                return _canChangeOrderBy;
+            }
+            set
+            {
+                _canChangeOrderBy = value;
             }
         }
 

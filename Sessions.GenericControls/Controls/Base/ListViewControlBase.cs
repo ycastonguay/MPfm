@@ -18,21 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Timers;
-using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Items;
-using Sessions.GenericControls.Controls.Songs;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
-using Sessions.WindowsControls;
-using Sessions.Core;
-using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
 
 namespace Sessions.GenericControls.Controls.Base
 {
@@ -70,6 +60,22 @@ namespace Sessions.GenericControls.Controls.Base
                     return _items.Where(x => x.IsSelected).ToList();
 
                 return null;
+            }
+        }
+
+        private bool _canReorderItems = true;
+        /// <summary>
+        /// Indicates if the user can reorder the items or not.
+        /// </summary>
+        public bool CanReorderItems
+        {
+            get
+            {
+                return _canReorderItems;
+            }
+            set
+            {
+                _canReorderItems = value;
             }
         }
 
@@ -120,6 +126,56 @@ namespace Sessions.GenericControls.Controls.Base
 
         public override void Render(IGraphicsContext context)
         {
+        }
+
+        /// <summary>
+        /// Clears the currently selected items.
+        /// </summary>
+        public void ClearSelectedItems()
+        {
+            foreach (var item in Items)
+            {
+                if (item.IsSelected)
+                    item.IsSelected = false;
+            }
+
+            InvalidateVisual();
+        }
+
+        public void ResetSelection()
+        {
+            // Reset selection, unless the CTRL key is held (TODO)
+            var selectedItems = Items.Where(item => item.IsSelected == true).ToList();
+            foreach (var item in selectedItems)
+                item.IsSelected = false;
+        }
+
+        public Tuple<int, int> GetStartIndexAndEndIndexOfSelectedRows()
+        {
+            if (Items == null)
+                return new Tuple<int, int>(-1, -1);
+
+            // Loop through visible lines to find the original selected items
+            int startIndex = -1;
+            int endIndex = -1;
+            //for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            for (int a = 0; a < _items.Count; a++)
+            {
+                // Check if the item is selected
+                if (Items[a].IsSelected)
+                {
+                    // Check if the start index was set
+                    if (startIndex == -1)
+                        startIndex = a;
+
+                    // Check if the end index is set or if it needs to be updated
+                    if (endIndex == -1 || endIndex < a)
+                        // Set end index
+                        endIndex = a;
+                }
+            }
+
+            return new Tuple<int, int>(startIndex, endIndex);
         }
 
         public enum ContextMenuType

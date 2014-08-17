@@ -1,4 +1,4 @@
-// Copyright Â© 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -15,25 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Renderers;
 
-namespace Sessions.WindowsControls
+namespace Sessions.GenericControls.Controls.Interfaces
 {
-    /// <summary>
-    /// Defines the modes for the SongGridView control.
-    /// </summary>
-    public enum SongGridViewMode
+    public delegate void InvalidateVisual();
+    public delegate void InvalidateVisualInRect(BasicRectangle rect);
+    public interface IControl : IRenderer
     {
-        /// <summary>
-        /// Takes the NowPlayingAudioFileId property for the currently playing item.
-        /// </summary>
-        AudioFile = 0, 
-        /// <summary>
-        /// Tales the NowPlayingPlaylistItemId property for the currently playing item.
-        /// </summary>
-        Playlist = 1
+        event InvalidateVisual OnInvalidateVisual;
+        event InvalidateVisualInRect OnInvalidateVisualInRect;
+
+        BasicRectangle Frame { get; set; }
     }
 }
