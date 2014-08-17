@@ -63,21 +63,12 @@ namespace Sessions.GenericControls.Controls.Base
             }
         }
 
-        private bool _canReorderItems = true;
         /// <summary>
         /// Indicates if the user can reorder the items or not.
         /// </summary>
-        public bool CanReorderItems
-        {
-            get
-            {
-                return _canReorderItems;
-            }
-            set
-            {
-                _canReorderItems = value;
-            }
-        }
+        public bool CanReorderItems { get; set; }
+
+        public int Padding { get; set; }
 
         public delegate void SelectedIndexChangedDelegate();
         public delegate void ItemDoubleClickDelegate(int index);
@@ -91,6 +82,8 @@ namespace Sessions.GenericControls.Controls.Base
 
         protected ListViewControlBase(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar)
         {
+            Padding = 6;
+            CanReorderItems = true;
             VerticalScrollBar = verticalScrollBar;
             VerticalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
 

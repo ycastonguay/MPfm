@@ -20,32 +20,21 @@ using System.Collections.Generic;
 namespace Sessions.GenericControls.Controls.Items
 {
     /// <summary>
-    /// Cache for the ListView control.
+    /// Cache for the GridView control.
     /// Contains data which doesn't need to be calculated for every
     /// control refresh, such as the line height, scrollbar offset, etc.
     /// </summary>
-    public class ListViewCache
+    public class GridViewCache : ListViewCache
     {
         /// <summary>
-        /// Indicates the line height for the grid view items.
-        /// </summary>
-        public int LineHeight { get; set; }
-        
-        /// <summary>
-        /// Indicates the total height of all the visible grid view items,
+        /// Indicates the total width of all the visible grid view columns,
         /// even those off screen.
         /// </summary>
-        public int TotalHeight { get; set; }
+        public int TotalWidth { get; set; }
 
         /// <summary>
-        /// Current scrollbar offset Y value.
+        /// List of currently active columns.
         /// </summary>
-        public int ScrollBarOffsetY { get; set; }
-
-        /// <summary>
-        /// Indicates how many lines fit the visible control area, including
-        /// lines that are partly visible.
-        /// </summary>
-        public int NumberOfLinesFittingInControl { get; set; }
+        public List<GridViewColumn> ActiveColumns { get; set; }
     }
 }
