@@ -30,6 +30,7 @@ using Sessions.Core;
 using Sessions.MVP.Bootstrap;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Services.Objects;
 
 namespace Sessions.GenericControls.Controls
 {
@@ -297,9 +298,11 @@ namespace Sessions.GenericControls.Controls
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
-            float deltaZoom = Zoom / e.Zoom;
-            float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
+            //float deltaZoom = Zoom / e.Zoom;
+            //float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
             //OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
+
+            // TODO: Invalidate only dirty zone
             InvalidateVisual();
         }
 
@@ -309,15 +312,12 @@ namespace Sessions.GenericControls.Controls
                 return;
 
             //Console.WriteLine("=========> WaveFormControl - InvalidateBitmaps");
-            // Start generating the first tile
             _waveFormEngineService.FlushCache();
-            //_waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
 
             // Start generating all tiles for zoom @ 100%
             //for(int a = 0; a < Frame.Width; a = a + WaveFormCacheService.TileSize)
             //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
 
-            //IsLoading = false;
             InvalidateVisual();
         }
 
@@ -441,35 +441,28 @@ namespace Sessions.GenericControls.Controls
             float scrollBarCursorX = positionPercentage * Frame.Width;
             float cursorHeight = heightAvailable - realScrollBarHeight;
 
-            DrawTiles(context, tileSize, realScrollBarHeight);
-            DrawScrollBar(context, tileSize, realScrollBarHeight);
-            //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent); // for debugging
+            DrawTiles(context, tileSize);
+            DrawScrollBar(context, realScrollBarHeight);
+            //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent); // for debugging dirty rects
             DrawMarkers(context, cursorHeight);
             DrawLoops(context, cursorHeight, realScrollBarHeight);
             DrawCursors(context, heightAvailable, cursorHeight, scrollBarCursorX);
         }
 
-        private void DrawTiles(IGraphicsContext context, int tileSize, float realScrollBarHeight)
+        private void DrawTiles(IGraphicsContext context, int tileSize)
         {
-            Console.WriteLine("-------------- DrawTiles -----------");
-            var request = _waveFormEngineService.GetTilesRequest(ContentOffset.X, Zoom, Frame, context.DirtyRect, _displayType);
-            Console.WriteLine("====> Request - startTile: {0} endTile: {1}", request.StartTile, request.EndTile);
-            var tiles = _waveFormEngineService.GetTiles(request);
+            //Console.WriteLine("-------------- DrawTiles -----------");
+            var tiles = GetTiles(context);
 
             //Console.WriteLine("WaveFormControl - GetTiles - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfDirtyTilesToDraw: {4} firstTileX: {5}", request.StartTile, request.StartTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfDirtyTilesToDraw, (request.StartTile * tileSize) - ContentOffset.X);
-            //Console.WriteLine("WaveFormControl - Draw - GetTiles - ContentOffset.X: {0} context.DirtyRect.X: {1} tileSize: {2} deltaZoom: {3}", ContentOffset.X, context.DirtyRect.X, tileSize, deltaZoom);
-            //Console.WriteLine("WaveFormControl - Draw - GetTiles - startTile: {0} endTile: {1} numberOfDirtyTilesToDraw: {2}", request.StartTile, request.EndTile, numberOfDirtyTilesToDraw);
             foreach (var tile in tiles)
             {
                 float tileDeltaZoom = Zoom / tile.Zoom;
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
-                //float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
-                Console.WriteLine("WaveFormControl - Draw - tile x: {0} tileWidth: {1} tileDeltaZoom: {2} tile.Zoom: {3}", x, tileWidth, tileDeltaZoom, tile.Zoom);
-                //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
+                //Console.WriteLine("WaveFormControl - Draw - tile x: {0} tileWidth: {1} tileDeltaZoom: {2} tile.Zoom: {3}", x, tileWidth, tileDeltaZoom, tile.Zoom);
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
-                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, tileHeight), tile.Image.ImageSize, tile.Image.Image);
 
 //                // Debug overlay
 //                string debugText = string.Format("{0:0.0}", tile.Zoom);
@@ -478,57 +471,49 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        private void DrawScrollBar(IGraphicsContext context, int tileSize, float realScrollBarHeight)
+        private List<WaveFormTile> GetTiles(IGraphicsContext context)
+        {
+            var tiles = new List<WaveFormTile>();
+
+            var requestAtCurrentZoom = _waveFormEngineService.GetTilesRequest(ContentOffset.X, Zoom, Frame, context.DirtyRect, _displayType);
+            //Console.WriteLine("====> RequestAtCurrentZoom - startTile: {0} endTile: {1}", requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile);
+
+            // For now, force having 100% zoom level tiles drawn first so we don't have "holes" because of missing tiles.
+            if (Zoom >= 2)
+            {
+                // Create a "dirty" rect that identifies the visible area at a different zoom level
+                var dirtyRect = new BasicRectangle(ContentOffset.X / Zoom, 0, Frame.Width / Zoom, Frame.Height);
+                var requestAt100Percent = _waveFormEngineService.GetTilesRequest(0, 1, Frame, dirtyRect, _displayType);
+                var tilesAt100Percent = _waveFormEngineService.GetTiles(requestAt100Percent);
+                tiles.AddRange(tilesAt100Percent);
+                //Console.WriteLine("=======> RequestAt100Percent - startTile: {0} endTile: {1}", requestAt100Percent.StartTile, requestAt100Percent.EndTile);
+            }
+
+            var tilesAtCurrentZoom = _waveFormEngineService.GetTiles(requestAtCurrentZoom);
+            tiles.AddRange(tilesAtCurrentZoom);
+            return tiles;
+        }
+
+        // TODO: Find an algorithm for this.
+        // Make this generic in a helper. Instead of using tiles, use a list of rects.
+        private bool AreTilesCoveringAllArea(List<WaveFormTile> tiles, BasicRectangle area)
+        {
+            // Ideally this should return a list of missing tiles/rects that we can use as "dirty" rects in further requests at lower zoom levels.
+            return true;
+        }
+
+        private void DrawScrollBar(IGraphicsContext context, float realScrollBarHeight)
         {
             if (ShowScrollBar && Zoom > 1)
             {
-//                int startTile = 0;
-//                int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
-//                var requestScrollBar = new WaveFormBitmapRequest()
-//                {
-//                    StartTile = startTile,
-//                    EndTile = numberOfTilesToFillWidth,
-//                    TileSize = tileSize,
-//                    BoundsWaveForm = new BasicRectangle(0, 0, Frame.Width, ScrollBarHeight), // Frame
-//                    Zoom = 1,
-//                    IsScrollBar = true,
-//                    DisplayType = _displayType
-//                };
-//                // TODO: Cache those tiles, we do not need to request them continually since these tiles are always at 100%
-//                var tilesScrollBar = _waveFormEngineService.GetTiles(requestScrollBar);
-//                foreach (var tile in tilesScrollBar)
-//                {
-//                    //context.DrawImage(new BasicRectangle(tile.ContentOffset.X, Frame.Height - realScrollBarHeight, tileSize, realScrollBarHeight), tile.Image.ImageSize, tile.Image.Image);
-//
-////                    // Debug overlay
-////                    string debugText = string.Format("{0:0.0}", tile.Zoom);
-////                    context.DrawRectangle(new BasicRectangle(tile.ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-////                    context.DrawText(debugText, new BasicPoint(tile.ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
-//                }
-
-                // Draw a veil over the area that's not visible. The veil alpha gets stronger as the zoom progresses.
-//                byte startAlpha = 170;
-//                byte maxAlpha = 210;
-//                byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (60 * (Zoom / 10))));
-//                var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
-
                 byte startAlpha = 0;
                 byte maxAlpha = 100;
                 byte alpha = (byte)Math.Min(maxAlpha, (startAlpha + (15 * Zoom)));
-                //var colorVisibleArea = new BasicColor(32, 40, 46, alpha);
-                //var colorThumb = new BasicColor(69, 88, 101, (byte)(alpha * 1.5f));
                 var colorThumb = new BasicColor(182, 198, 209, alpha);
 
                 float visibleAreaWidth = (1 / Zoom) * Frame.Width;
                 float visibleAreaX = (1 / Zoom) * ContentOffset.X;
-                //var rectScrollBar = new BasicRectangle(0, Frame.Height - ScrollBarHeight, Frame.Width, ScrollBarHeight);
-                var rectThumb = new BasicRectangle(visibleAreaX, Frame.Height - ScrollBarHeight, visibleAreaWidth, ScrollBarHeight);
-                //var rectLeftArea = new BasicRectangle(0, Frame.Height - realScrollBarHeight, Math.Max(0, visibleAreaX), realScrollBarHeight);
-                //var rectRightArea = new BasicRectangle(visibleAreaX + visibleAreaWidth, Frame.Height - realScrollBarHeight, Math.Max(0, Frame.Width - visibleAreaX - visibleAreaWidth), realScrollBarHeight);
-                //context.DrawRectangle(new BasicRectangle(visibleAreaX, Frame.Height - scrollBarHeight, visibleAreaWidth, scrollBarHeight), new BasicBrush(colorVisibleArea), new BasicPen());
-                //context.DrawRectangle(rectLeftArea, new BasicBrush(colorVisibleArea), new BasicPen());
-                //context.DrawRectangle(rectRightArea, new BasicBrush(colorVisibleArea), new BasicPen());
-                //context.DrawRectangle(rectScrollBar, new BasicBrush(colorVisibleArea), new BasicPen());
+                var rectThumb = new BasicRectangle(visibleAreaX, Frame.Height - realScrollBarHeight, visibleAreaWidth, realScrollBarHeight);
                 context.DrawRectangle(rectThumb, new BasicBrush(colorThumb), new BasicPen());
             }
         }
@@ -579,8 +564,6 @@ namespace Sessions.GenericControls.Controls
                     context.StrokeLine(new BasicPoint(startX, 0), new BasicPoint(startX, cursorHeight));
 
                     // Draw text
-                    //var rectText = new BasicRectangle(startX, Frame.Height - 12, 12, 12);
-                    //var rectText = new BasicRectangle(startX, Frame.Height - realScrollBarHeight -12, endX > startX ? endX - startX : 0, 12);
                     var rectText = new BasicRectangle(startX, Frame.Height - 14, endX > startX ? endX - startX : 0, 14);
                     //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
                     context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);

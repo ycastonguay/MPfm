@@ -45,36 +45,9 @@ namespace Sessions.GenericControls.Helpers
 
         public static int GetTileIndexAt(float x, float zoom, float tileZoom, int tileSize)
         {
-            // Make zoom go in steps (1, 2, 3, etc.)
-//            float zoomForTile = (float)(zoom/Math.Floor(zoom));
-//            float zoomForX = zoom / tileZoom;
-            //float zoomForTile = zoom;
-            //float deltaZoom = zoom;
-            //float zoomForTile = (float)Math.Floor(zoom);
-            //int index = (int)Math.Floor((x * deltaZoom) / tileSize);
-            //int index = (int)Math.Floor((x / deltaZoom) / tileSize);
-            //int index = (int)Math.Floor(x / tileSize);
-            //int index = (int)Math.Floor((x * zoomForX) / (tileSize * zoomForTile));
-
-            // This one works with tilezoom == 1
-            //int index = (int)Math.Floor(x / (tileSize * zoom));
-
-            // The idea is to get a range from 1.0 to almost 2 for zoom.
-            // i.e. 1.5 = 1.5, 2.5 = 1.5, 3.5 = 1.5, etc.
-            //float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
-            //float myzoom = zoom;
-            //float myzoom = zoom / tileZoom;
-            float myzoom = (float)(zoom / Math.Floor(zoom));
-            float myx = (float)(x / myzoom);
-
-            //int index = (int)Math.Floor(x / (tileSize * myzoom));
-            //int index = (int)Math.Floor(x / tileSize);
-            int index = (int)Math.Floor(myx / tileSize);
-
-            //int index = (int)Math.Floor((x / tileZoom) / (tileSize * zoom));
-            //int index = (int)Math.Floor(x / (tileSize * (zoom / tileZoom)));
-            //Console.WriteLine("GetTileIndexAt --> x: {0} zoom: {1} tileZoom: {2} tileSize: {3} --> myzoom: {4} index: {5}", x, zoom, tileZoom, tileSize, myzoom, index);
-            //Console.WriteLine("TileHelper - GetTileIndexAt - x: {0} zoom: {1} tileZoom: {2} tileSize: {3} --> zoomForX: {4} zoomForTile: {5} index: {6}", x, zoom, tileZoom, tileSize, zoomForX, zoomForTile, index);
+            float floorZoom = (float)(zoom / Math.Floor(zoom));
+            float adjustedX = (x / floorZoom);
+            int index = (int)Math.Floor(adjustedX / tileSize);
             return index;
         }
 
@@ -85,7 +58,6 @@ namespace Sessions.GenericControls.Helpers
 
         public static int GetStartDirtyTile(float offsetX, float dirtyRectX, float zoom, float tileZoom, int tileSize)
         {
-            //return (int)Math.Floor((offsetX + dirtyRectX) / ((float)TileSize * deltaZoom));
             return GetTileIndexAt(offsetX + dirtyRectX, zoom, tileZoom, tileSize);
         }
 
@@ -96,13 +68,9 @@ namespace Sessions.GenericControls.Helpers
 
         public static int GetEndDirtyTile(float offsetX, float dirtyRectX, float dirtyRectWidth, float zoom, float tileZoom, int tileSize)
         {
-            //int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
-            //return GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, 1, tileSize) + 1;
-            Console.WriteLine("TileHelper - GetEndDirtyTile - zoom: {0} tileZoom: {1} --- offsetX: {2} dirtyRectX: {3} dirtyRectWidth: {4} --- X: {5}", zoom, tileZoom, offsetX, dirtyRectX, dirtyRectWidth, offsetX + dirtyRectX + dirtyRectWidth);
+            //Console.WriteLine("TileHelper - GetEndDirtyTile - zoom: {0} tileZoom: {1} --- offsetX: {2} dirtyRectX: {3} dirtyRectWidth: {4} --- X: {5}", zoom, tileZoom, offsetX, dirtyRectX, dirtyRectWidth, offsetX + dirtyRectX + dirtyRectWidth);
             int tileIndex = GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, tileZoom, tileSize);
             return tileIndex;
-            //float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
-            //return (int)(tileIndex * myzoom) + 1;
         }
     }
 }
