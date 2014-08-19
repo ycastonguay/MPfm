@@ -270,7 +270,7 @@ namespace Sessions.GenericControls.Controls.Songs
                         var arg = _workerUpdateAlbumArtPile[a];
 
                         // Check if this album is still visible (cancel if it is out of display).                             
-                        if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + PreloadLinesAlbumCover)
+                        if(IsLineVisible(arg.LineIndex))
                         {
                             indexToDelete = a;
                             break;
@@ -307,7 +307,7 @@ namespace Sessions.GenericControls.Controls.Songs
             result.AudioFile = arg.AudioFile;
 
             // Check if this album is still visible (cancel if it is out of display).     
-            if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + PreloadLinesAlbumCover)
+            if(IsLineVisible(arg.LineIndex))
             {
                 // Set result with empty image
                 e.Result = result;
@@ -348,9 +348,9 @@ namespace Sessions.GenericControls.Controls.Songs
             if (_imageCache.Count > _imageCacheSize)
             {
                 // Check if the image needs to be disposed
-                if (_imageCache[0].Image != null)
+                if (_imageCache [0].Image != null)
                 {
-                    var imageTemp = _imageCache[0].Image;
+                    var imageTemp = _imageCache [0].Image;
                     imageTemp.Image.Dispose();
                     imageTemp = null;
                 }
@@ -362,12 +362,22 @@ namespace Sessions.GenericControls.Controls.Songs
             // Remove song from list
             int indexRemove = -1;
             for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
-                if (_workerUpdateAlbumArtPile[a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
+                if (_workerUpdateAlbumArtPile [a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
                     indexRemove = a;
             if (indexRemove >= 0)
                 _workerUpdateAlbumArtPile.RemoveAt(indexRemove);
 
+                // Update only if album art is visible
+//            if (IsLineVisible(arg.LineIndex))
+//            {
+//            }
+
             InvalidateVisual();
+        }
+
+        private bool IsLineVisible(int lineIndex)
+        {
+            return lineIndex < _startLineNumber || lineIndex > _startLineNumber + _numberOfLinesToDraw + PreloadLinesAlbumCover;
         }
 
         /// <summary>
@@ -1844,7 +1854,7 @@ namespace Sessions.GenericControls.Controls.Songs
         /// <param name="newAudioFileId">New audio file identifier.</param>
         private void InvalidateRow(Guid oldAudioFileId, Guid newAudioFileId)
         {
-            if (Items == null)
+            if (Items == null || Cache == null)
                 return;
 
             int oldIndex = Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == oldAudioFileId);

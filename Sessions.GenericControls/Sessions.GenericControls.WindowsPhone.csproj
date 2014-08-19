@@ -167,5 +167,10 @@
 		<Compile Include="Controls\Items\ListViewCache.cs" />
 	<Compile Include="Controls\Items\GridViewCache.cs" />
 	<Compile Include="Controls\Interfaces\IControl.cs" />
+    <Compile Include="Services\AlbumArtCacheService.cs" />
+    <Compile Include="Services\AlbumArtRequestService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtCacheService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtRequestService.cs" />
+    <Compile Include="Services\Objects\AlbumArtRequest.cs" />	
   </ItemGroup>
 </Project>

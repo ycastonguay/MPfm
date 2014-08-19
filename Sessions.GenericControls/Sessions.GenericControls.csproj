@@ -112,6 +112,11 @@
     <Compile Include="Services\Interfaces\ITileCacheService.cs" />
     <Compile Include="Services\WaveFormRequestService.cs" />
     <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />
+    <Compile Include="Services\AlbumArtCacheService.cs" />
+    <Compile Include="Services\AlbumArtRequestService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtCacheService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtRequestService.cs" />
+    <Compile Include="Services\Objects\AlbumArtRequest.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.csproj">

@@ -283,12 +283,14 @@ namespace Sessions.GenericControls.Controls
             //if (!e.Cancelled)
             //    _waveFormRenderingService.LoadPeakFile(new AudioFile(e.AudioFilePath));
 
+            IsLoading = false;
             InvalidateBitmaps();
         }
 
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
 			//Console.WriteLine("WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
+            IsLoading = false;
             InvalidateBitmaps();
         }
 
@@ -315,7 +317,7 @@ namespace Sessions.GenericControls.Controls
             //for(int a = 0; a < Frame.Width; a = a + WaveFormCacheService.TileSize)
             //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
 
-            IsLoading = false;
+            //IsLoading = false;
             InvalidateVisual();
         }
 
