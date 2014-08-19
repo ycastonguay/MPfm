@@ -22,6 +22,7 @@ namespace Sessions.GenericControls.Services.Objects
 {
     public class WaveFormTile
     {
+        public int TileIndex { get; set; }
         public IBasicImage Image { get; set; }
         public BasicPoint ContentOffset { get; set; }
         public float Zoom { get; set; }

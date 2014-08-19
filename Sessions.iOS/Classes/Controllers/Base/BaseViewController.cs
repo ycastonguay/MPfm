@@ -53,7 +53,9 @@ namespace Sessions.iOS.Classes.Controllers.Base
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
-            OnViewDestroy(this);
+
+            if(OnViewDestroy != null)
+                OnViewDestroy(this);
         }
 
         public override void ViewWillAppear(bool animated)

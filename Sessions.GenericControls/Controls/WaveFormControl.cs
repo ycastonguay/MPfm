@@ -452,7 +452,7 @@ namespace Sessions.GenericControls.Controls
         private void DrawTiles(IGraphicsContext context, int tileSize)
         {
             //Console.WriteLine("-------------- DrawTiles -----------");
-            var tiles = GetTiles(context);
+            var tiles = _waveFormEngineService.GetTiles(ContentOffset.X, Zoom, Frame, context.DirtyRect, _displayType);
 
             //Console.WriteLine("WaveFormControl - GetTiles - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfDirtyTilesToDraw: {4} firstTileX: {5}", request.StartTile, request.StartTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfDirtyTilesToDraw, (request.StartTile * tileSize) - ContentOffset.X);
             foreach (var tile in tiles)
@@ -469,37 +469,6 @@ namespace Sessions.GenericControls.Controls
 //                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
 //                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
-        }
-
-        private List<WaveFormTile> GetTiles(IGraphicsContext context)
-        {
-            var tiles = new List<WaveFormTile>();
-
-            var requestAtCurrentZoom = _waveFormEngineService.GetTilesRequest(ContentOffset.X, Zoom, Frame, context.DirtyRect, _displayType);
-            //Console.WriteLine("====> RequestAtCurrentZoom - startTile: {0} endTile: {1}", requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile);
-
-            // For now, force having 100% zoom level tiles drawn first so we don't have "holes" because of missing tiles.
-            if (Zoom >= 2)
-            {
-                // Create a "dirty" rect that identifies the visible area at a different zoom level
-                var dirtyRect = new BasicRectangle(ContentOffset.X / Zoom, 0, Frame.Width / Zoom, Frame.Height);
-                var requestAt100Percent = _waveFormEngineService.GetTilesRequest(0, 1, Frame, dirtyRect, _displayType);
-                var tilesAt100Percent = _waveFormEngineService.GetTiles(requestAt100Percent);
-                tiles.AddRange(tilesAt100Percent);
-                //Console.WriteLine("=======> RequestAt100Percent - startTile: {0} endTile: {1}", requestAt100Percent.StartTile, requestAt100Percent.EndTile);
-            }
-
-            var tilesAtCurrentZoom = _waveFormEngineService.GetTiles(requestAtCurrentZoom);
-            tiles.AddRange(tilesAtCurrentZoom);
-            return tiles;
-        }
-
-        // TODO: Find an algorithm for this.
-        // Make this generic in a helper. Instead of using tiles, use a list of rects.
-        private bool AreTilesCoveringAllArea(List<WaveFormTile> tiles, BasicRectangle area)
-        {
-            // Ideally this should return a list of missing tiles/rects that we can use as "dirty" rects in further requests at lower zoom levels.
-            return true;
         }
 
         private void DrawScrollBar(IGraphicsContext context, float realScrollBarHeight)

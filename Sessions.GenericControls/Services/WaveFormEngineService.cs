@@ -132,7 +132,7 @@ namespace Sessions.GenericControls.Services
             return request;
         }
 
-        public List<WaveFormTile> GetTiles(WaveFormBitmapRequest request)
+        private List<WaveFormTile> GetTilesInternal(WaveFormBitmapRequest request)
         {
             float zoomThreshold = (float)Math.Floor(request.Zoom);
             var boundsWaveFormAdjusted = new BasicRectangle(0, 0, request.BoundsWaveForm.Width * zoomThreshold, request.BoundsWaveForm.Height);
@@ -154,49 +154,117 @@ namespace Sessions.GenericControls.Services
 
                 //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, request.Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
                 if (tile != null)
-                    if(!tiles.Contains(tile))
+                {
+                    tile.TileIndex = a;
+                    if (!tiles.Contains(tile))
                         tiles.Add(tile);
+                }
             }
+
+            return tiles;
+        }
+
+        public List<WaveFormTile> GetTiles(float contentOffsetX, float zoom, BasicRectangle frame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
+        {
+            Console.WriteLine(">>>>>>>>>>>>>>>>>> GETTILES <<<<<<<<<<<<<<<<");
+            var tiles = new List<WaveFormTile>();
+
+            var requestAtCurrentZoom = GetTilesRequest(contentOffsetX, zoom, frame, dirtyRect, displayType);
+            //Console.WriteLine("====> RequestAtCurrentZoom - startTile: {0} endTile: {1}", requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile);
+
+            var tilesAtCurrentZoom = GetTilesInternal(requestAtCurrentZoom);
+            var missingTiles = GetMissingTilesRecursive(tilesAtCurrentZoom, requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile, contentOffsetX, zoom, frame, dirtyRect, displayType);
+            tiles.AddRange(missingTiles);
+
+//            // For now, force having 100% zoom level tiles drawn first so we don't have "holes" because of missing tiles.
+//            if (zoom >= 2)
+//            {
+//                // Create a "dirty" rect that identifies the visible area at a different zoom level
+//                var dirtyRectAt100Percent = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
+//                var requestAt100Percent = GetTilesRequest(0, 1, frame, dirtyRectAt100Percent, displayType);
+//                var tilesAt100Percent = GetTilesInternal(requestAt100Percent);
+//                tiles.AddRange(tilesAt100Percent);
+//                //Console.WriteLine("=======> RequestAt100Percent - startTile: {0} endTile: {1}", requestAt100Percent.StartTile, requestAt100Percent.EndTile);
+//            }
+
+            tiles.AddRange(tilesAtCurrentZoom);
 
             //var tilesOrdered = tiles.OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
             //return tilesOrdered;
             return tiles;
         }
 
-        public WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom)
+        // Maybe it'd be just faster to get a series of tiles at different zooms, THEN merge the list together.
+        private List<WaveFormTile> GetMissingTilesRecursive(List<WaveFormTile> tileSet, int tileSetStartTile, int tileSetEndTile, float contentOffsetX, float zoom, BasicRectangle frame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
         {
-            //var stopwatch = new Stopwatch();
-            //stopwatch.Start();
-            WaveFormTile tile = null;
-            float zoomThreshold = (float) Math.Floor(zoom);
-            var boundsBitmap = new BasicRectangle(x, 0, TileSize, height);
-            var boundsWaveForm = new BasicRectangle(0, 0, waveFormWidth * zoomThreshold, height);
+            var tiles = new List<WaveFormTile>();
+            float floorZoom = (float)(zoom / Math.Floor(zoom));
+            float tileSize = TileSize * floorZoom;
+            var missingTileIndexes = FindMissingNumbersInSequence(tileSet.Select(x => x.TileIndex), tileSetStartTile, tileSetEndTile).ToList();
+            if (missingTileIndexes.Count == 0)
+                return tiles;
 
-            var tiles = _cacheService.GetTilesForPosition(x, zoom);
-            if (tiles != null && tiles.Count > 0)
-            {
-                // Get the tile with the zoom that is the closest to the current zoom threshold 
-                tile = TileHelper.GetOptimalTileAtZoom(tiles, zoomThreshold);
+            //var missingTileIndexesString = missingTileIndexes.ConvertAll<string>((int i) => i.ToString() + " ");
+            //Console.WriteLine("====> RequestAtCurrentZoom - MISSING TILES: {0}", String.Concat(missingTileIndexesString));
 
-                // If we could not find a tile at this zoom level, we need to generate one 
-                if (tile.Zoom != zoomThreshold)
-                {
-                    //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-                    _requestService.RequestBitmap(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
-                }
+            // To make things faster, try to bundle requests together, when missing tiles are next to each other.
+            // since missing tiles are usually next to each other, this will speed up dramatically.
+            // Or do not even try to bundle them in separate lists, just make one single list with the lowest to highest value.
 
-                return tile;
-            }
-            else
-            {
-                // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
-                //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
-                _requestService.RequestBitmap(boundsBitmap, boundsWaveForm, zoomThreshold, WaveFormDisplayType.Stereo);
-            }
+            int lowestIndex = missingTileIndexes.Min();
+            int highestIndex = missingTileIndexes.Max();
 
-            //stopwatch.Stop();
-            //Console.WriteLine("WaveFormCacheService - GetTile - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);
-            return tile;
-        }            
+            // Find a way to make this recursive.
+            // Create a "dirty" rect that identifies the visible area at a different zoom level
+            //var missingTileDirtyRect = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
+            float offsetX = lowestIndex * tileSize;
+            float width = (highestIndex * tileSize) - offsetX;
+            var missingTileDirtyRect = new BasicRectangle(offsetX / zoom, 0, width / zoom, frame.Height);
+            var requestForMissingTile = GetTilesRequest(0, 1, frame, missingTileDirtyRect, displayType);
+            var missingTiles = GetTilesInternal(requestForMissingTile);
+            tiles.AddRange(missingTiles);
+            Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
+
+
+//            foreach (int missingTileIndex in missingTileIndexes)
+//            {
+//                // Find a way to make this recursive.
+//
+//                // Create a "dirty" rect that identifies the visible area at a different zoom level
+//                //var missingTileDirtyRect = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
+//                float offsetX = missingTileIndex * tileSize;
+//                var missingTileDirtyRect = new BasicRectangle(offsetX / zoom, 0, tileSize / zoom, frame.Height);
+//                var requestForMissingTile = GetTilesRequest(0, 1, frame, missingTileDirtyRect, displayType);
+//                var missingTiles = GetTilesInternal(requestForMissingTile);
+//                tiles.AddRange(missingTiles);
+//                //Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
+//            }
+
+            return tiles;
+        }
+
+        private IEnumerable<int> FindMissingNumbersInSequence(IEnumerable<int> values, int start, int end)
+        {
+            return Enumerable.Range(start, end - start).Except(values);
+        }
+
+        private BasicRectangle GetRectForTileIndex(int index)
+        {
+            return null;
+        }
+
+        // TODO: Find an algorithm for this.
+        // Make this generic in a helper. Instead of using tiles, use a list of rects.
+        private bool AreTilesCoveringAllArea(List<WaveFormTile> tiles, BasicRectangle area)
+        {
+            // Ideally this should return a list of missing tiles/rects that we can use as "dirty" rects in further requests at lower zoom levels.
+
+
+            // In fact, do we need to consider this as rects? We know which tile indexes are missing.
+            // i.e. for each missing tile, find its rect, then ask the lower zoom level to find tiles to fill this space (i.e. dirty rect).
+            // repeat if a tile is missing.
+            return true;
+        }
+
     }
 }
