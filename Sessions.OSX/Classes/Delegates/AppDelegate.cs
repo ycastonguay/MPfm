@@ -55,6 +55,8 @@ namespace Sessions.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IAlbumArtCacheService, AlbumArtCacheService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IAlbumArtRequestService, AlbumArtRequestService>().AsSingleton();   
 
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();

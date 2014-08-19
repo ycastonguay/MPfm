@@ -423,7 +423,7 @@ namespace Sessions.GenericControls.Controls
             context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());            
 			var rectText = context.MeasureText(status, new BasicRectangle(0, 0, Frame.Width, 30), FontFace, FontSize);                
             float x = (context.BoundsWidth - rectText.Width) / 2;
-            float y = context.BoundsHeight / 2;
+            float y = (context.BoundsHeight / 2) - (WaveFormScaleControl.ControlHeight / 2);
             context.DrawText(status, new BasicPoint(x, y), _textColor, FontFace, FontSize);
         }
 
@@ -451,7 +451,9 @@ namespace Sessions.GenericControls.Controls
 
         private void DrawTiles(IGraphicsContext context, int tileSize, float realScrollBarHeight)
         {
+            Console.WriteLine("-------------- DrawTiles -----------");
             var request = _waveFormEngineService.GetTilesRequest(ContentOffset.X, Zoom, Frame, context.DirtyRect, _displayType);
+            Console.WriteLine("====> Request - startTile: {0} endTile: {1}", request.StartTile, request.EndTile);
             var tiles = _waveFormEngineService.GetTiles(request);
 
             //Console.WriteLine("WaveFormControl - GetTiles - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfDirtyTilesToDraw: {4} firstTileX: {5}", request.StartTile, request.StartTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfDirtyTilesToDraw, (request.StartTile * tileSize) - ContentOffset.X);
@@ -463,7 +465,7 @@ namespace Sessions.GenericControls.Controls
                 float x = tile.ContentOffset.X * tileDeltaZoom;
                 float tileWidth = tileSize * tileDeltaZoom;
                 //float tileHeight = (ShowScrollBar && Zoom > 1) ? Frame.Height - realScrollBarHeight : Frame.Height;
-                //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} tileDeltaZoom: {2}", x, tileWidth, tileDeltaZoom);
+                Console.WriteLine("WaveFormControl - Draw - tile x: {0} tileWidth: {1} tileDeltaZoom: {2} tile.Zoom: {3}", x, tileWidth, tileDeltaZoom, tile.Zoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3} tileDeltaZoom: {4}", tile.ContentOffset.X, x, tileWidth, tile.Zoom, tileDeltaZoom);
 
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);

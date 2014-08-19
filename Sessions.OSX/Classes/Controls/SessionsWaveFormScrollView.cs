@@ -271,8 +271,8 @@ namespace Sessions.OSX.Classes.Controls
         private void SetFrame()
         {
             _lblZoom.Frame = new RectangleF((Frame.Width - 42) / 2f, ((Frame.Height - 16 - 22) / 2f) + 22, 42, 20);
-            WaveFormScaleView.Frame = new RectangleF(0, 0, Frame.Width, 22);
-            WaveFormView.Frame = new RectangleF(0, 22, Frame.Width, Frame.Height - 22);
+            WaveFormScaleView.Frame = new RectangleF(0, 0, Frame.Width, WaveFormScaleControl.ControlHeight);
+            WaveFormView.Frame = new RectangleF(0, 22, Frame.Width, Frame.Height - WaveFormScaleControl.ControlHeight);
         }
 
         public void LoadPeakFile(AudioFile audioFile)

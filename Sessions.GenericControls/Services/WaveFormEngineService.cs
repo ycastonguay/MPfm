@@ -115,12 +115,23 @@ namespace Sessions.GenericControls.Services
 
         public WaveFormBitmapRequest GetTilesRequest(float offsetX, float zoom, BasicRectangle controlFrame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
         {
+            // Maybe it would be a better idea to do several requests over zoom levels when trying to find tiles. THEN 
+            // i.e. If the control is at zoom 300%, offset 1/3, we see only 1/3 of the tiles we would see at 100%.
+            //      GetTilesRequest @ 300% covers all the screen.
+            //      GetTilesRequest @ 200% covers only the portion that would be visible (i.e. 2x less)
+            // i.e. GetTilesRequest @ 100%, so 
+
             // This needs to be added in a service or helper, and unit tested
             //float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
-            float myzoom = (float)(zoom / Math.Floor(zoom));
+            //float myzoom = (float)(zoom / Math.Floor(zoom));
+            //float myoffset = (offsetX / zoom) * myzoom;
+            //int startDirtyTile = TileHelper.GetStartDirtyTile(myoffset, dirtyRect.X, myzoom, TileSize);
+            //int endDirtyTile = TileHelper.GetEndDirtyTile(myoffset, dirtyRect.X, dirtyRect.Width, myzoom, TileSize) + 1;
+
+            // Works at 100%
             int startDirtyTile = TileHelper.GetStartDirtyTile(offsetX, dirtyRect.X, zoom, TileSize);
-            //int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize);
-            int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, myzoom, TileSize) + 1;
+            int endDirtyTile = TileHelper.GetEndDirtyTile(offsetX, dirtyRect.X, dirtyRect.Width, zoom, TileSize) + 1;
+
             //Console.WriteLine("GetTilesRequest --> offsetX: {0} zoom: {1} startTile: {2} endTile: {3} dirtyRect: {4}", offsetX, zoom, startDirtyTile, endDirtyTile, dirtyRect);
             var request = new WaveFormBitmapRequest()
             {
@@ -138,6 +149,7 @@ namespace Sessions.GenericControls.Services
         public List<WaveFormTile> GetTiles(WaveFormBitmapRequest request)
         {
             float zoomThreshold = (float)Math.Floor(request.Zoom);
+            //float zoomThreshold = 1;
             var boundsWaveFormAdjusted = new BasicRectangle(0, 0, request.BoundsWaveForm.Width * zoomThreshold, request.BoundsWaveForm.Height);
             var tiles = new List<WaveFormTile>();
             for (int a = request.StartTile; a < request.EndTile; a++)
@@ -152,28 +164,28 @@ namespace Sessions.GenericControls.Services
 
                 if (tile == null)
                 {
-                    // Try to find a tile that's a zoom level lower.
-                    int newZoom = (int)Math.Max(1, zoomThreshold - 1);
-                    while (true)
-                    {
-                        //int newZoom = (int)Math.Max(1, zoomThreshold - 1);
-                        //float daZoom = newZoom/ request.Zoom;
-                        //tile = _cacheService.GetTile(tileX, newZoom, request.IsScrollBar);
-                        //tile = _cacheService.GetTile(tileX * daZoom, newZoom, request.IsScrollBar);
-
-                        // This is buggy
-                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, zoomThreshold, newZoom, TileSize);
-                        //Console.WriteLine("GetTiles ----> Requesting tile from cache at different zoom - tileX: {0} request.Zoom: {1} newZoom: {2}", tileX, request.Zoom, newZoom);
-                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, request.Zoom, newZoom, TileSize);
-                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, newZoom, zoomThreshold, TileSize);
-                        int tileIndex = TileHelper.GetTileIndexAt(tileX, newZoom, newZoom, TileSize);
-                        tile = _cacheService.GetTile(tileIndex * TileSize, newZoom, false);
-
-                        if(tile != null || newZoom == 1)
-                            break;
-
-                        newZoom -= 1;
-                    }
+//                    // Try to find a tile that's a zoom level lower.
+//                    int newZoom = (int)Math.Max(1, zoomThreshold - 1);
+//                    while (true)
+//                    {
+//                        //int newZoom = (int)Math.Max(1, zoomThreshold - 1);
+//                        //float daZoom = newZoom/ request.Zoom;
+//                        //tile = _cacheService.GetTile(tileX, newZoom, request.IsScrollBar);
+//                        //tile = _cacheService.GetTile(tileX * daZoom, newZoom, request.IsScrollBar);
+//
+//                        // This is buggy
+//                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, zoomThreshold, newZoom, TileSize);
+//                        //Console.WriteLine("GetTiles ----> Requesting tile from cache at different zoom - tileX: {0} request.Zoom: {1} newZoom: {2}", tileX, request.Zoom, newZoom);
+//                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, request.Zoom, newZoom, TileSize);
+//                        //int tileIndex = TileHelper.GetTileIndexAt(tileX, newZoom, zoomThreshold, TileSize);
+//                        int tileIndex = TileHelper.GetTileIndexAt(tileX, newZoom, newZoom, TileSize);
+//                        tile = _cacheService.GetTile(tileIndex * TileSize, newZoom, false);
+//
+//                        if(tile != null || newZoom == 1)
+//                            break;
+//
+//                        newZoom -= 1;
+//                    }
 
                     // This is a hot line, and needs to be avoided as much as possible.
                     // the problem is that tiles vary in time in quality. 

@@ -30,6 +30,8 @@ namespace Sessions.GenericControls.Controls
     /// </summary>
     public class WaveFormScaleControl : IControl
     {
+        public const int ControlHeight = 22;
+
         private readonly object _locker = new object();
         private BasicBrush _brushBackground;
         private BasicRectangle _rectText;

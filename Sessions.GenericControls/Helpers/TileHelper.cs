@@ -63,8 +63,13 @@ namespace Sessions.GenericControls.Helpers
             // i.e. 1.5 = 1.5, 2.5 = 1.5, 3.5 = 1.5, etc.
             //float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
             //float myzoom = zoom;
-            float myzoom = zoom / tileZoom;
-            int index = (int)Math.Floor(x / (tileSize * myzoom));
+            //float myzoom = zoom / tileZoom;
+            float myzoom = (float)(zoom / Math.Floor(zoom));
+            float myx = (float)(x / myzoom);
+
+            //int index = (int)Math.Floor(x / (tileSize * myzoom));
+            //int index = (int)Math.Floor(x / tileSize);
+            int index = (int)Math.Floor(myx / tileSize);
 
             //int index = (int)Math.Floor((x / tileZoom) / (tileSize * zoom));
             //int index = (int)Math.Floor(x / (tileSize * (zoom / tileZoom)));
@@ -93,6 +98,7 @@ namespace Sessions.GenericControls.Helpers
         {
             //int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
             //return GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, 1, tileSize) + 1;
+            Console.WriteLine("TileHelper - GetEndDirtyTile - zoom: {0} tileZoom: {1} --- offsetX: {2} dirtyRectX: {3} dirtyRectWidth: {4} --- X: {5}", zoom, tileZoom, offsetX, dirtyRectX, dirtyRectWidth, offsetX + dirtyRectX + dirtyRectWidth);
             int tileIndex = GetTileIndexAt(offsetX + dirtyRectX + dirtyRectWidth, zoom, tileZoom, tileSize);
             return tileIndex;
             //float myzoom = (float)(zoom % Math.Floor(zoom)) + 1;
