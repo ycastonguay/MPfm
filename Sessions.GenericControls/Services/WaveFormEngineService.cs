@@ -166,27 +166,20 @@ namespace Sessions.GenericControls.Services
 
         public List<WaveFormTile> GetTiles(float contentOffsetX, float zoom, BasicRectangle frame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
         {
-            Console.WriteLine(">>>>>>>>>>>>>>>>>> GETTILES <<<<<<<<<<<<<<<<");
+            Console.WriteLine("========>> GetTiles <<========");
             var tiles = new List<WaveFormTile>();
 
             var requestAtCurrentZoom = GetTilesRequest(contentOffsetX, zoom, frame, dirtyRect, displayType);
             //Console.WriteLine("====> RequestAtCurrentZoom - startTile: {0} endTile: {1}", requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile);
 
             var tilesAtCurrentZoom = GetTilesInternal(requestAtCurrentZoom);
-            var missingTiles = GetMissingTilesRecursive(tilesAtCurrentZoom, requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile, contentOffsetX, zoom, frame, dirtyRect, displayType);
+            float previousFloorZoom = (float)Math.Max(1, Math.Floor(zoom - 1));
+            var missingTiles = new List<WaveFormTile>();
+            //var missingTiles = GetMissingTilesRecursive(tilesAtCurrentZoom, requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile, zoom, previousFloorZoom, frame, displayType);
+            missingTiles = GetMissingTilesRecursive(missingTiles, tilesAtCurrentZoom, requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile, contentOffsetX, zoom, previousFloorZoom, frame, displayType);
             tiles.AddRange(missingTiles);
 
-//            // For now, force having 100% zoom level tiles drawn first so we don't have "holes" because of missing tiles.
-//            if (zoom >= 2)
-//            {
-//                // Create a "dirty" rect that identifies the visible area at a different zoom level
-//                var dirtyRectAt100Percent = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
-//                var requestAt100Percent = GetTilesRequest(0, 1, frame, dirtyRectAt100Percent, displayType);
-//                var tilesAt100Percent = GetTilesInternal(requestAt100Percent);
-//                tiles.AddRange(tilesAt100Percent);
-//                //Console.WriteLine("=======> RequestAt100Percent - startTile: {0} endTile: {1}", requestAt100Percent.StartTile, requestAt100Percent.EndTile);
-//            }
-
+            Console.WriteLine("GetTiles - missingTiles.count: {0} tilesAtCurrentZoom.Count: {1}", missingTiles.Count, tilesAtCurrentZoom.Count);
             tiles.AddRange(tilesAtCurrentZoom);
 
             //var tilesOrdered = tiles.OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
@@ -195,17 +188,21 @@ namespace Sessions.GenericControls.Services
         }
 
         // Maybe it'd be just faster to get a series of tiles at different zooms, THEN merge the list together.
-        private List<WaveFormTile> GetMissingTilesRecursive(List<WaveFormTile> tileSet, int tileSetStartTile, int tileSetEndTile, float contentOffsetX, float zoom, BasicRectangle frame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
+        private List<WaveFormTile> GetMissingTilesRecursive(List<WaveFormTile> tileSet, List<WaveFormTile> tilesFromLastZoom, int startTile, int endTile, float contentOffsetX, float zoom, float tileZoom, BasicRectangle frame, WaveFormDisplayType displayType)
         {
-            var tiles = new List<WaveFormTile>();
+            Console.WriteLine("      GetMissingTilesRecursive - tileSet.Count: {0} contentOffsetX: {1} zoom: {2} tileZoom: {3} startTile: {4} endTile: {5}", tileSet.Count, contentOffsetX, zoom, tileZoom, startTile, endTile);
+            //var tiles = new List<WaveFormTile>();
             float floorZoom = (float)(zoom / Math.Floor(zoom));
             float tileSize = TileSize * floorZoom;
-            var missingTileIndexes = FindMissingNumbersInSequence(tileSet.Select(x => x.TileIndex), tileSetStartTile, tileSetEndTile).ToList();
+            var missingTileIndexes = FindMissingNumbersInSequence(tilesFromLastZoom.Select(x => x.TileIndex), startTile, endTile).ToList(); // <=== not adjusted right for tilezoom
             if (missingTileIndexes.Count == 0)
-                return tiles;
+            {
+                Console.WriteLine("           WE HAVE FOUND ALL THE TILES NEEDED!");
+                return tileSet;
+            }
 
-            //var missingTileIndexesString = missingTileIndexes.ConvertAll<string>((int i) => i.ToString() + " ");
-            //Console.WriteLine("====> RequestAtCurrentZoom - MISSING TILES: {0}", String.Concat(missingTileIndexesString));
+            var missingTileIndexesString = missingTileIndexes.ConvertAll<string>((int i) => i.ToString() + " ");
+            Console.WriteLine("           Missing tile indexes: {0}", String.Concat(missingTileIndexesString));
 
             // To make things faster, try to bundle requests together, when missing tiles are next to each other.
             // since missing tiles are usually next to each other, this will speed up dramatically.
@@ -214,57 +211,36 @@ namespace Sessions.GenericControls.Services
             int lowestIndex = missingTileIndexes.Min();
             int highestIndex = missingTileIndexes.Max();
 
-            // Find a way to make this recursive.
             // Create a "dirty" rect that identifies the visible area at a different zoom level
-            //var missingTileDirtyRect = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
             float offsetX = lowestIndex * tileSize;
             float width = (highestIndex * tileSize) - offsetX;
-            var missingTileDirtyRect = new BasicRectangle(offsetX / zoom, 0, width / zoom, frame.Height);
-            var requestForMissingTile = GetTilesRequest(0, 1, frame, missingTileDirtyRect, displayType);
+            var missingTileDirtyRect = new BasicRectangle(offsetX / zoom, 0, width / zoom, frame.Height); // <<<=== the dirty rect is probably messed up too.
+
+            //var missingTileDirtyRect = new BasicRectangle((offsetX / zoom) * tileZoom, 0, (width / zoom) * tileZoom, frame.Height); // <<<=== the dirty rect is probably messed up too.
+
+            float requestOffsetX = (contentOffsetX / zoom) * tileZoom;
+            //var requestForMissingTile = GetTilesRequest(0, tileZoom, frame, missingTileDirtyRect, displayType); // <<<==== BUGGGGG!!!! the offsetx here makes it impossible to find tiles other than 100%
+            var requestForMissingTile = GetTilesRequest(requestOffsetX, tileZoom, frame, frame, displayType); // <<<==== BUGGGGG!!!! the offsetx here makes it impossible to find tiles other than 100%
+
+            //var requestForMissingTile = GetTilesRequest((contentOffsetX / zoom) * tileZoom, tileZoom, frame, missingTileDirtyRect, displayType); // <<<==== BUGGGGG!!!! the offsetx here makes it impossible to find tiles other than 100%
             var missingTiles = GetTilesInternal(requestForMissingTile);
-            tiles.AddRange(missingTiles);
-            Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
+            tileSet.AddRange(missingTiles);
+            Console.WriteLine("           RequestForMissingTile - lowestIndex/highestIndex: {0}/{1} startTile: {2} endTile: {3} dirtyRect: {4} -- missingTile.Count: {5}", lowestIndex, highestIndex, requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect, missingTiles.Count);
 
+            float previousFloorZoom = (float)Math.Floor(tileZoom - 1);
+            if (previousFloorZoom >= 1)
+            {
+                Console.WriteLine("           GetMissingTilesRecursive - Calling recursive method with new tileZoom: {0}", previousFloorZoom);
+                //var moreMissingTiles = GetMissingTilesRecursive(missingTiles, tileSetStartTile, tileSetEndTile, zoom, previousFloorZoom, frame, displayType);
+                GetMissingTilesRecursive(tileSet, missingTiles, requestForMissingTile.StartTile, requestForMissingTile.EndTile, contentOffsetX, zoom, previousFloorZoom, frame, displayType);
+            }
 
-//            foreach (int missingTileIndex in missingTileIndexes)
-//            {
-//                // Find a way to make this recursive.
-//
-//                // Create a "dirty" rect that identifies the visible area at a different zoom level
-//                //var missingTileDirtyRect = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
-//                float offsetX = missingTileIndex * tileSize;
-//                var missingTileDirtyRect = new BasicRectangle(offsetX / zoom, 0, tileSize / zoom, frame.Height);
-//                var requestForMissingTile = GetTilesRequest(0, 1, frame, missingTileDirtyRect, displayType);
-//                var missingTiles = GetTilesInternal(requestForMissingTile);
-//                tiles.AddRange(missingTiles);
-//                //Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
-//            }
-
-            return tiles;
+            return tileSet;
         }
 
         private IEnumerable<int> FindMissingNumbersInSequence(IEnumerable<int> values, int start, int end)
         {
             return Enumerable.Range(start, end - start).Except(values);
         }
-
-        private BasicRectangle GetRectForTileIndex(int index)
-        {
-            return null;
-        }
-
-        // TODO: Find an algorithm for this.
-        // Make this generic in a helper. Instead of using tiles, use a list of rects.
-        private bool AreTilesCoveringAllArea(List<WaveFormTile> tiles, BasicRectangle area)
-        {
-            // Ideally this should return a list of missing tiles/rects that we can use as "dirty" rects in further requests at lower zoom levels.
-
-
-            // In fact, do we need to consider this as rects? We know which tile indexes are missing.
-            // i.e. for each missing tile, find its rect, then ask the lower zoom level to find tiles to fill this space (i.e. dirty rect).
-            // repeat if a tile is missing.
-            return true;
-        }
-
     }
 }
