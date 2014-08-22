@@ -27,6 +27,7 @@ namespace Sessions.GenericControls.Services
 {
     public class AlbumArtCacheService : IAlbumArtCacheService
     {
+        // TODO: Implement max cache size
         private readonly object _lockerCache = new object();
         private Dictionary<string, IBasicImage> _cache;
 
@@ -60,18 +61,22 @@ namespace Sessions.GenericControls.Services
 
         public void AddAlbumArt(IBasicImage image, string artistName, string albumTitle)
         {
+            string cacheKey = GetCacheKey(artistName, albumTitle);
             lock (_lockerCache)
             {
-                _cache.Add(GetCacheKey(artistName, albumTitle), image);
+                if(!_cache.ContainsKey(cacheKey))
+                    _cache.Add(cacheKey, image);
             }
         }
 
         public IBasicImage GetAlbumArt(string artistName, string albumTitle)
         {
-            IBasicImage image;
+            IBasicImage image = null;
+            string cacheKey = GetCacheKey(artistName, albumTitle);
             lock (_lockerCache)
             {
-                image = _cache[GetCacheKey(artistName, albumTitle)];
+                if(_cache.ContainsKey(cacheKey))
+                    image = _cache[cacheKey];
             }
             return image;
         }

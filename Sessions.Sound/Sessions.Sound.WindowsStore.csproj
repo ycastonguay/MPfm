@@ -136,6 +136,8 @@
     <Compile Include="Playlists\PlaylistHelper.cs" />		
 	    <Compile Include="Playlists\EndOfPlaylistException.cs" />
     <Compile Include="Playlists\PlaylistRepeatType.cs" />
+    <Compile Include="Services\AlbumArtExtractionService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.WindowsStore.csproj">

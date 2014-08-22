@@ -153,8 +153,12 @@
     <Compile Include="Playlists\PlaylistHelper.cs" />
     <Compile Include="Playlists\EndOfPlaylistException.cs" />
     <Compile Include="Playlists\PlaylistRepeatType.cs" />
+    <Compile Include="Services\AlbumArtExtractionService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\OSX\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 </Project>

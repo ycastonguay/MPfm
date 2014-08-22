@@ -15,21 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using Sessions.GenericControls.Basics;
-using Sessions.GenericControls.Services.Objects;
+using System.Collections.Generic;
 using Sessions.Sound.AudioFiles;
-using System.Threading.Tasks;
 
-namespace Sessions.GenericControls.Services.Interfaces
+namespace Sessions.Sound.Services.Interfaces
 {
-    public interface IAlbumArtRequestService
+    public interface IAlbumArtExtractionService
     {
-        event AlbumArtRequestService.AlbumArtExtractedDelegate OnAlbumArtExtracted;
-
-        int Count { get; }
-
-        void FlushRequests();
-        void RequestAlbumArt(AlbumArtRequest request);
-        void CancelAlbumArtRequest(string artistName, string albumTitle);
+        byte[] GetAlbumArtFromAudioFileOrFolder(string audioFilePath);
+        void SetAlbumArtForAudioFile(string audioFilePath, byte[] imageData);
     }
 }

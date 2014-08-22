@@ -31,6 +31,8 @@ using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
 using Sessions.Core;
 using Sessions.Sound.AudioFiles;
+using Sessions.GenericControls.Services.Interfaces;
+using Sessions.GenericControls.Services.Objects;
 
 namespace Sessions.GenericControls.Controls.Songs
 {
@@ -42,12 +44,8 @@ namespace Sessions.GenericControls.Controls.Songs
         private const int PreloadLinesAlbumCover = 20;
         private const int MinimumColumnWidth = 30;
 
-        private readonly IDisposableImageFactory _disposableImageFactory;
-        private readonly BackgroundWorker _workerUpdateAlbumArt = null;
-        private readonly List<SongGridViewBackgroundWorkerArgument> _workerUpdateAlbumArtPile = null;
-        private readonly Timer _timerUpdateAlbumArt = null;        
-
-        private List<SongGridViewImageCache> _imageCache = new List<SongGridViewImageCache>();
+        private readonly IAlbumArtRequestService _albumArtRequestService;
+        private readonly IAlbumArtCacheService _albumArtCacheService;
 
         // Private variables used for mouse events
         private int _columnMoveMarkerX = 0;
@@ -132,29 +130,16 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
-        private int _imageCacheSize = 10;
-        /// <summary>
-        /// Defines the size of the album art image cache (10 by default).
-        /// </summary>
-        public int ImageCacheSize
-        {
-            get
-            {
-                return _imageCacheSize;
-            }
-            set
-            {
-                _imageCacheSize = value;
-            }
-        }
-
         /// <summary>
         /// Default constructor for SongGridView.
         /// </summary>
-        public SongGridViewControl(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar, IDisposableImageFactory disposableImageFactory) :
+        public SongGridViewControl(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar, 
+                        IAlbumArtRequestService albumArtRequestService, IAlbumArtCacheService albumArtCacheService) :
             base(horizontalScrollBar, verticalScrollBar)
         {
-            _disposableImageFactory = disposableImageFactory;
+            _albumArtCacheService = albumArtCacheService;
+            _albumArtRequestService = albumArtRequestService;
+            _albumArtRequestService.OnAlbumArtExtracted += HandleOnAlbumArtExtracted;
             _theme = new SongGridViewTheme();
 
             _timerAnimationNowPlaying = new Timer();
@@ -162,17 +147,17 @@ namespace Sessions.GenericControls.Controls.Songs
             _timerAnimationNowPlaying.Elapsed += TimerAnimationNowPlayingOnElapsed;
             _timerAnimationNowPlaying.Enabled = true;
 
-            // Create background worker for updating album art
-            _workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
-            _workerUpdateAlbumArt = new BackgroundWorker();
-            _workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(workerUpdateAlbumArt_DoWork);
-            _workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateAlbumArt_RunWorkerCompleted);
-
-            // Create timer for updating album art
-            _timerUpdateAlbumArt = new Timer();
-            _timerUpdateAlbumArt.Interval = 10;
-            _timerUpdateAlbumArt.Elapsed += TimerUpdateAlbumArtOnElapsed;
-            _timerUpdateAlbumArt.Enabled = true;
+//            // Create background worker for updating album art
+//            _workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
+//            _workerUpdateAlbumArt = new BackgroundWorker();
+//            _workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(workerUpdateAlbumArt_DoWork);
+//            _workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateAlbumArt_RunWorkerCompleted);
+//
+//            // Create timer for updating album art
+//            _timerUpdateAlbumArt = new Timer();
+//            _timerUpdateAlbumArt.Interval = 10;
+//            _timerUpdateAlbumArt.Elapsed += TimerUpdateAlbumArtOnElapsed;
+//            _timerUpdateAlbumArt.Enabled = true;
 
             CreateColumns();
         }
@@ -246,134 +231,125 @@ namespace Sessions.GenericControls.Controls.Songs
             Columns.Add(columnSongYear);
         }
 
-        /// <summary>
-        /// Occurs when the Update Album Art timer expires.
-        /// Checks if there are more album art covers to load and starts the background
-        /// thread if it is not running already.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void TimerUpdateAlbumArtOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        private void HandleOnAlbumArtExtracted(IBasicImage image, AlbumArtRequest request)
         {
-            _timerUpdateAlbumArt.Enabled = false;
+            Console.WriteLine("SongGridViewControl - HandleOnAlbumArtExtracted - artistName: {0} albumTitle: {1}", request.ArtistName, request.AlbumTitle);
 
-            // Check for the next album art to fetch
-            if (_workerUpdateAlbumArtPile.Count > 0 && !_workerUpdateAlbumArt.IsBusy)
-            {
-                // Do some cleanup: clean items that are not visible anymore
-                bool cleanUpDone = false;
-                while (!cleanUpDone)
-                {
-                    int indexToDelete = -1;
-                    for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
-                    {
-                        var arg = _workerUpdateAlbumArtPile[a];
-
-                        // Check if this album is still visible (cancel if it is out of display).                             
-                        if(IsLineVisible(arg.LineIndex))
-                        {
-                            indexToDelete = a;
-                            break;
-                        }
-                    }
-
-                    if (indexToDelete >= 0)
-                        _workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
-                    else
-                        cleanUpDone = true;
-                }
-
-                // Continue executing pile
-                if (_workerUpdateAlbumArtPile.Count > 0)
-                    _workerUpdateAlbumArt.RunWorkerAsync(_workerUpdateAlbumArtPile[0]);
-            }
-
-            _timerUpdateAlbumArt.Enabled = true;
+            // TODO: Do proper partial invalidation
+            if(image != null)
+                InvalidateVisual();
         }
 
-        /// <summary>
-        /// Occurs when the Update Album Art background worker starts its work.
-        /// Fetches the album cover in another thread and returns the image once done.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        public void workerUpdateAlbumArt_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (e.Argument == null)
-                return;
-
-            var arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
-            var result = new SongGridViewBackgroundWorkerResult();
-            result.AudioFile = arg.AudioFile;
-
-            // Check if this album is still visible (cancel if it is out of display).     
-            if(IsLineVisible(arg.LineIndex))
-            {
-                // Set result with empty image
-                e.Result = result;
-                return;
-            }
-
-            // Extract image from file
-            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
-            if (bytes != null && bytes.Length > 0)
-            {
-                var image = _disposableImageFactory.CreateImageFromByteArray(bytes, (int)arg.RectAlbumArt.Width, (int)arg.RectAlbumArt.Height);
-                result.AlbumArt = image;
-            }
-
-            e.Result = result;
-        }
-
-        /// <summary>
-        /// Occurs when the Update Album Art background worker has finished its work.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        public void workerUpdateAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Result == null)
-                return;
-
-            // Create cover art cache (even if the albumart is null, just to make sure the grid doesn't refetch the album art endlessly)
-            var result = (SongGridViewBackgroundWorkerResult)e.Result;
-            var cache = new SongGridViewImageCache();
-            cache.Key = result.AudioFile.ArtistName + "_" + result.AudioFile.AlbumTitle;
-            cache.Image = result.AlbumArt;
-
-            // We found cover art! Add to cache and get out of the loop
-            _imageCache.Add(cache);
-
-            // Check if the cache size has been reached
-            if (_imageCache.Count > _imageCacheSize)
-            {
-                // Check if the image needs to be disposed
-                if (_imageCache [0].Image != null)
-                {
-                    var imageTemp = _imageCache [0].Image;
-                    imageTemp.Image.Dispose();
-                    imageTemp = null;
-                }
-
-                // Remove the oldest item
-                _imageCache.RemoveAt(0);
-            }            
-
-            // Remove song from list
-            int indexRemove = -1;
-            for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
-                if (_workerUpdateAlbumArtPile [a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
-                    indexRemove = a;
-            if (indexRemove >= 0)
-                _workerUpdateAlbumArtPile.RemoveAt(indexRemove);
-
-                // Update only if album art is visible
-//            if (IsLineVisible(arg.LineIndex))
+//        private void TimerUpdateAlbumArtOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+//        {
+//            _timerUpdateAlbumArt.Enabled = false;
+//
+//            // Check for the next album art to fetch
+//            if (_workerUpdateAlbumArtPile.Count > 0 && !_workerUpdateAlbumArt.IsBusy)
 //            {
+//                // Do some cleanup: clean items that are not visible anymore
+//                bool cleanUpDone = false;
+//                while (!cleanUpDone)
+//                {
+//                    int indexToDelete = -1;
+//                    for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
+//                    {
+//                        var arg = _workerUpdateAlbumArtPile[a];
+//
+//                        // Check if this album is still visible (cancel if it is out of display).                             
+//                        if(IsLineVisible(arg.LineIndex))
+//                        {
+//                            indexToDelete = a;
+//                            break;
+//                        }
+//                    }
+//
+//                    if (indexToDelete >= 0)
+//                        _workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
+//                    else
+//                        cleanUpDone = true;
+//                }
+//
+//                // Continue executing pile
+//                if (_workerUpdateAlbumArtPile.Count > 0)
+//                    _workerUpdateAlbumArt.RunWorkerAsync(_workerUpdateAlbumArtPile[0]);
 //            }
-
-            InvalidateVisual();
-        }
+//
+//            _timerUpdateAlbumArt.Enabled = true;
+//        }
+//
+//        public void workerUpdateAlbumArt_DoWork(object sender, DoWorkEventArgs e)
+//        {
+//            if (e.Argument == null)
+//                return;
+//
+//            var arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
+//            var result = new SongGridViewBackgroundWorkerResult();
+//            result.AudioFile = arg.AudioFile;
+//
+//            // Check if this album is still visible (cancel if it is out of display).     
+//            if(IsLineVisible(arg.LineIndex))
+//            {
+//                // Set result with empty image
+//                e.Result = result;
+//                return;
+//            }
+//
+//            // Extract image from file
+//            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
+//            if (bytes != null && bytes.Length > 0)
+//            {
+//                var image = _disposableImageFactory.CreateImageFromByteArray(bytes, (int)arg.RectAlbumArt.Width, (int)arg.RectAlbumArt.Height);
+//                result.AlbumArt = image;
+//            }
+//
+//            e.Result = result;
+//        }
+//
+//        public void workerUpdateAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+//        {
+//            if (e.Result == null)
+//                return;
+//
+//            // Create cover art cache (even if the albumart is null, just to make sure the grid doesn't refetch the album art endlessly)
+//            var result = (SongGridViewBackgroundWorkerResult)e.Result;
+//            var cache = new SongGridViewImageCache();
+//            cache.Key = result.AudioFile.ArtistName + "_" + result.AudioFile.AlbumTitle;
+//            cache.Image = result.AlbumArt;
+//
+//            // We found cover art! Add to cache and get out of the loop
+//            _imageCache.Add(cache);
+//
+//            // Check if the cache size has been reached
+//            if (_imageCache.Count > _imageCacheSize)
+//            {
+//                // Check if the image needs to be disposed
+//                if (_imageCache [0].Image != null)
+//                {
+//                    var imageTemp = _imageCache [0].Image;
+//                    imageTemp.Image.Dispose();
+//                    imageTemp = null;
+//                }
+//
+//                // Remove the oldest item
+//                _imageCache.RemoveAt(0);
+//            }            
+//
+//            // Remove song from list
+//            int indexRemove = -1;
+//            for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
+//                if (_workerUpdateAlbumArtPile [a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
+//                    indexRemove = a;
+//            if (indexRemove >= 0)
+//                _workerUpdateAlbumArtPile.RemoveAt(indexRemove);
+//
+//                // Update only if album art is visible
+////            if (IsLineVisible(arg.LineIndex))
+////            {
+////            }
+//
+//            InvalidateVisual();
+//        }
 
         private bool IsLineVisible(int lineIndex)
         {
@@ -828,49 +804,35 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 // Try to extract image from cache
                 IBasicImage imageAlbumCover = null;
-                SongGridViewImageCache cachedImage = null;
                 try
                 {
-                    cachedImage = _imageCache.FirstOrDefault(x => x.Key == item.AlbumArtKey);
+                    Console.WriteLine("SongGridViewControl - Getting album art from cache - artistName: {0} albumTitle: {1}", audioFile.ArtistName, audioFile.AlbumTitle);
+                    imageAlbumCover = _albumArtCacheService.GetAlbumArt(audioFile.ArtistName, audioFile.AlbumTitle);
                 }
                 catch (Exception ex)
                 {
                     Tracing.Log(ex);
                 }
 
-                if (cachedImage != null)
-                    imageAlbumCover = cachedImage.Image;
-
                 // Album art not found in cache; try to find an album cover in one of the file
-                if (cachedImage == null)
+                // If the album art cannot be extracted, this is called over and over again... we need to be able to add "null" the album art cache...
+                if (imageAlbumCover == null)
                 {
                     try
                     {
-                        // Check if the album cover is already in the pile
-                        bool albumCoverFound = false;
-                        foreach (var arg in _workerUpdateAlbumArtPile)
-                        {
-                            // Match by file path
-                            if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
-                            {
-                                albumCoverFound = true;
-                            }
-                        }
-
-                        // Add to the pile only if the album cover isn't already in it
-                        if (!albumCoverFound)
-                        {
-                            // Add item to update album art worker pile
-                            var arg = new SongGridViewBackgroundWorkerArgument();
-                            arg.AudioFile = audioFile;
-                            arg.LineIndex = row;
-                            arg.RectAlbumArt = new BasicRectangle(0, 0, heightWithPadding, heightWithPadding);
-                            _workerUpdateAlbumArtPile.Add(arg);
-                        }
+                        Console.WriteLine("SongGridViewControl - Requesting new album art - artistName: {0} albumTitle: {1}", audioFile.ArtistName, audioFile.AlbumTitle);
+                        _albumArtRequestService.RequestAlbumArt(new AlbumArtRequest(){
+                            ArtistName = audioFile.ArtistName,
+                            AlbumTitle = audioFile.AlbumTitle,
+                            AudioFilePath = audioFile.FilePath,
+                            Width = heightWithPadding,
+                            Height = heightWithPadding,
+                            UserData = row
+                        });
                     }
                     catch(Exception ex)
                     {
-                        Console.WriteLine("SongGridViewControl - Failed to load cache image: {0}" , ex);
+                        Console.WriteLine("SongGridViewControl - Failed to request image: {0}" , ex);
                     }
                 }
 
@@ -1919,25 +1881,6 @@ namespace Sessions.GenericControls.Controls.Songs
 //
 //            // Invalidate region for now playing
 //            OnInvalidateVisualInRect(_rectNowPlaying);
-        }
-
-        /// <summary>
-        /// Result data structure used for the SongGridView background worker.
-        /// </summary>
-        public class SongGridViewBackgroundWorkerResult
-        {
-            public AudioFile AudioFile { get; set; }
-            public IBasicImage AlbumArt { get; set; }
-        }
-
-        /// <summary>
-        /// Argument data structure used for the SongGridView background worker.
-        /// </summary>
-        public class SongGridViewBackgroundWorkerArgument
-        {
-            public AudioFile AudioFile { get; set; }
-            public int LineIndex { get; set; }
-            public BasicRectangle RectAlbumArt { get; set; }
         }
 
         /// <summary>

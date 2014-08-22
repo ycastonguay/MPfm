@@ -146,6 +146,8 @@
     <Compile Include="BassNetKey.cs" />
     <Compile Include="BassNetWrapper\BassWrapper.cs" />
     <Compile Include="BassNetWrapper\BaseFx.cs" />
+    <Compile Include="Services\AlbumArtExtractionService.cs" />
+    <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">

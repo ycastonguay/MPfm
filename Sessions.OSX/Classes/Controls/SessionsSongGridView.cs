@@ -28,6 +28,7 @@ using Sessions.GenericControls.Graphics;
 using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using Sessions.GenericControls.Services.Interfaces;
 
 namespace Sessions.OSX.Classes.Controls
 {
@@ -81,8 +82,9 @@ namespace Sessions.OSX.Classes.Controls
             _verticalScrollBar = new VerticalScrollBarWrapper();
             AddSubview(_verticalScrollBar);
 
-            var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
-            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);   
+            var albumArtRequestService = Bootstrapper.GetContainer().Resolve<IAlbumArtRequestService>();
+            var albumArtCacheService = Bootstrapper.GetContainer().Resolve<IAlbumArtCacheService>();
+            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, albumArtRequestService, albumArtCacheService);   
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnItemDoubleClick += (index) => DoubleClick(this, new EventArgs());
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));

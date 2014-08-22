@@ -46,9 +46,7 @@ namespace Sessions.GenericControls.Services
         public int Count { get { return _requests.Count; } }
 
         public delegate void AlbumArtExtractedDelegate(IBasicImage image, AlbumArtRequest request);
-        public delegate bool CheckIfAlbumArtShouldBeExtractedDelegate(AlbumArtRequest request);
         public event AlbumArtExtractedDelegate OnAlbumArtExtracted;
-        public event CheckIfAlbumArtShouldBeExtractedDelegate OnCheckIfAlbumArtShouldBeExtracted;
 
         public AlbumArtRequestService(IAlbumArtCacheService cacheService, IDisposableImageFactory disposableImageFactory)
         {
@@ -65,16 +63,6 @@ namespace Sessions.GenericControls.Services
                 OnAlbumArtExtracted(image, request);
         }
 
-        protected bool CheckIfAlbumArtShouldBeExtracted(AlbumArtRequest request)
-        {
-            if (OnCheckIfAlbumArtShouldBeExtracted != null)
-                return OnCheckIfAlbumArtShouldBeExtracted(request);
-
-                // It should be removed using RemoveRequest instead...
-
-            return false;
-        }
-
         public void FlushRequests()
         {
             lock (_lockerRequests)
@@ -83,36 +71,41 @@ namespace Sessions.GenericControls.Services
             }
         }
 
-        public Task RequestAlbumArt(AlbumArtRequest request)
+        public void RequestAlbumArt(AlbumArtRequest request)
         {
-            // Make sure we don't slow down GetTile() by creating a task and running LINQ queries on another thread
-            var task = Task.Factory.StartNew(() =>
+            // Check if a tile already exists
+            var existingAlbumArt = _cacheService.GetAlbumArt(request.ArtistName, request.AlbumTitle);
+            lock (_lockerRequests)
             {
-                // Check if a tile already exists
-                var existingAlbumArt = _cacheService.GetAlbumArt(request.ArtistName, request.AlbumTitle);
-                lock (_lockerRequests)
+                // Check if bitmap has already been requested in queue
+                var existingRequest = _requests.FirstOrDefault(obj =>
+                    obj.ArtistName == request.ArtistName &&
+                    obj.AlbumTitle == request.AlbumTitle);
+
+                // Request a new bitmap only if necessary
+                if (existingRequest == null && existingAlbumArt == null)
                 {
-                    // Check if bitmap has already been requested in queue
-                    var existingRequest = _requests.FirstOrDefault(obj =>
-                        obj.ArtistName == request.ArtistName &&
-                        obj.AlbumTitle == request.AlbumTitle);
+                    //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
+                    _requests.Add(request);
 
-                    // Request a new bitmap only if necessary
-                    if (existingRequest == null && existingAlbumArt == null)
-                    {
-                        //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
-                        _requests.Add(request);
+                    // Remove the oldest request from the list if we hit the maximum 
+                    if(_requests.Count > MaxNumberOfRequests)
+                        _requests.RemoveAt(0);
 
-                        // Remove the oldest request from the list if we hit the maximum 
-                        if(_requests.Count > MaxNumberOfRequests)
-                            _requests.RemoveAt(0);
-
-                        //Console.WriteLine("............. PULSING");
-                        Monitor.Pulse(_lockerRequests);                        
-                    }
+                    Console.WriteLine("AlbumArtRequestService - PULSING!");
+                    Monitor.Pulse(_lockerRequests);                        
                 }
-            });
-            return task;
+            }
+        }
+
+        public void CancelAlbumArtRequest(string artistName, string albumTitle)
+        {
+            lock (_lockerRequests)
+            {
+                var request = _requests.FirstOrDefault(x => x.ArtistName == artistName && x.AlbumTitle == albumTitle);
+                if(request != null)
+                    _requests.Remove(request);
+            }
         }
 
         public void StartRequestProcessLoop()
@@ -121,7 +114,7 @@ namespace Sessions.GenericControls.Services
             {
                 while (true)
                 {
-                    //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Loop - requests.Count: {0} numberOfBitmapTasksRunning: {1}", _requests.Count, _numberOfBitmapTasksRunning);
+                    Console.WriteLine("AlbumArtRequestService - Loop - requests.Count: {0} numberOfTasksRunning: {1}", _requests.Count, _numberOfTasksRunning);
                     var requestsToProcess = new List<AlbumArtRequest>();
                     int requestCount = 0;
                     lock (_lockerRequests)
@@ -140,22 +133,22 @@ namespace Sessions.GenericControls.Services
 
                     foreach (var request in requestsToProcess)
                     {
-                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
+                        Console.WriteLine("AlbumArtRequestService - Loop - Processing request - {0}/{1}", request.ArtistName, request.AlbumTitle);
                         ThreadPool.QueueUserWorkItem(new WaitCallback(ExtractImageInternal), request);
                     }
 
                     if (requestCount > 0)
                     {
-                        //Console.WriteLine(">>>>>>>>> SLEEPING");
+                        Console.WriteLine("AlbumArtRequestService - SLEEPING...");
                         Thread.Sleep(50);
                     }
                     else
                     {
                         lock (_lockerRequests)
                         {
-                            //Console.WriteLine(">>>>>>>>> WAITING");
+                            Console.WriteLine("AlbumArtRequestService - WAITING...");
                             Monitor.Wait(_lockerRequests);
-                            //Console.WriteLine(">>>>>>>>> WOKEN UP!");
+                            Console.WriteLine("AlbumArtRequestService - WOKEN UP!");
                         }
                     }
                 }
@@ -170,14 +163,21 @@ namespace Sessions.GenericControls.Services
             var request = stateInfo as AlbumArtRequest;        
             var image = ExtractImage(request);
 
-            if(image != null)
+            if (image != null)
                 _cacheService.AddAlbumArt(image, request.ArtistName, request.AlbumTitle);
+                
+            AlbumArtExtracted(image, request);
+
+            lock (_lockerRequests)
+            {
+                _numberOfTasksRunning--;
+            }
         }
 
         private IBasicImage ExtractImage(AlbumArtRequest request)
         {
             IBasicImage image = null;
-            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(request.AudioFilePath);
+            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(request.AudioFilePath); // <-- Not unit test friendly
             if (bytes != null && bytes.Length > 0)
                 image = _disposableImageFactory.CreateImageFromByteArray(bytes, request.Width, request.Height);
 

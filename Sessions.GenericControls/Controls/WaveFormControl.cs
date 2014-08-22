@@ -465,9 +465,13 @@ namespace Sessions.GenericControls.Controls
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
 
 //                // Debug overlay
-//                string debugText = string.Format("{0:0.0}", tile.Zoom);
 //                context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255, 50)), _penCursorLine);
-//                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+//
+//                string debugText = string.Format("{0:0.0}", tile.Zoom);
+//                context.DrawText(debugText, new BasicPoint(x - ContentOffset.X + 2, 2), _textColor, "Roboto", 11);
+//
+//                string debugText2 = string.Format("{0:0.0}", tile.ContentOffset.X);
+//                context.DrawText(debugText2, new BasicPoint(x - ContentOffset.X + 2, 16), _textColor, "Roboto", 10);
             }
         }
 

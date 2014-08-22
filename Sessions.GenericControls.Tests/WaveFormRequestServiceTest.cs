@@ -65,25 +65,5 @@ namespace Sessions.GenericControls.Tests
                 Assert.AreEqual(Service.Count, 0);
             }  
         }
-
-        [TestFixture]
-        public class RequestBitmapTest : WaveFormRequestServiceTest
-        {
-            [SetUp]
-            public void PrepareTest()
-            {
-                PrepareTests();
-            }
-
-//            [Test]
-//            public void CountShouldBeZero()
-//            {
-//                Service.RequestBitmap(new BasicRectangle(), new BasicRectangle(), 1, WaveFormDisplayType.Stereo);
-//                Service.Flush();
-//
-//                Assert.AreEqual(Service.Count, 0);
-//            }  
-        }
-
 	}
 }

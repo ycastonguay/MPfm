@@ -166,7 +166,7 @@ namespace Sessions.GenericControls.Services
 
         public List<WaveFormTile> GetTiles(float contentOffsetX, float zoom, BasicRectangle frame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
         {
-            Console.WriteLine(">>>>>>>>>>>>>>>>>> GETTILES <<<<<<<<<<<<<<<<");
+            //Console.WriteLine(">>>>>>>>>>>>>>>>>> GETTILES <<<<<<<<<<<<<<<<");
             var tiles = new List<WaveFormTile>();
 
             var requestAtCurrentZoom = GetTilesRequest(contentOffsetX, zoom, frame, dirtyRect, displayType);
@@ -175,18 +175,6 @@ namespace Sessions.GenericControls.Services
             var tilesAtCurrentZoom = GetTilesInternal(requestAtCurrentZoom);
             var missingTiles = GetMissingTilesRecursive(tilesAtCurrentZoom, requestAtCurrentZoom.StartTile, requestAtCurrentZoom.EndTile, contentOffsetX, zoom, frame, dirtyRect, displayType);
             tiles.AddRange(missingTiles);
-
-//            // For now, force having 100% zoom level tiles drawn first so we don't have "holes" because of missing tiles.
-//            if (zoom >= 2)
-//            {
-//                // Create a "dirty" rect that identifies the visible area at a different zoom level
-//                var dirtyRectAt100Percent = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
-//                var requestAt100Percent = GetTilesRequest(0, 1, frame, dirtyRectAt100Percent, displayType);
-//                var tilesAt100Percent = GetTilesInternal(requestAt100Percent);
-//                tiles.AddRange(tilesAt100Percent);
-//                //Console.WriteLine("=======> RequestAt100Percent - startTile: {0} endTile: {1}", requestAt100Percent.StartTile, requestAt100Percent.EndTile);
-//            }
-
             tiles.AddRange(tilesAtCurrentZoom);
 
             //var tilesOrdered = tiles.OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
@@ -223,22 +211,7 @@ namespace Sessions.GenericControls.Services
             var requestForMissingTile = GetTilesRequest(0, 1, frame, missingTileDirtyRect, displayType);
             var missingTiles = GetTilesInternal(requestForMissingTile);
             tiles.AddRange(missingTiles);
-            Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
-
-
-//            foreach (int missingTileIndex in missingTileIndexes)
-//            {
-//                // Find a way to make this recursive.
-//
-//                // Create a "dirty" rect that identifies the visible area at a different zoom level
-//                //var missingTileDirtyRect = new BasicRectangle(contentOffsetX / zoom, 0, frame.Width / zoom, frame.Height);
-//                float offsetX = missingTileIndex * tileSize;
-//                var missingTileDirtyRect = new BasicRectangle(offsetX / zoom, 0, tileSize / zoom, frame.Height);
-//                var requestForMissingTile = GetTilesRequest(0, 1, frame, missingTileDirtyRect, displayType);
-//                var missingTiles = GetTilesInternal(requestForMissingTile);
-//                tiles.AddRange(missingTiles);
-//                //Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
-//            }
+            //Console.WriteLine("=======> RequestForMissingTile - startTile: {0} endTile: {1} dirtyRect: {2}", requestForMissingTile.StartTile, requestForMissingTile.EndTile, missingTileDirtyRect);            
 
             return tiles;
         }
@@ -247,24 +220,5 @@ namespace Sessions.GenericControls.Services
         {
             return Enumerable.Range(start, end - start).Except(values);
         }
-
-        private BasicRectangle GetRectForTileIndex(int index)
-        {
-            return null;
-        }
-
-        // TODO: Find an algorithm for this.
-        // Make this generic in a helper. Instead of using tiles, use a list of rects.
-        private bool AreTilesCoveringAllArea(List<WaveFormTile> tiles, BasicRectangle area)
-        {
-            // Ideally this should return a list of missing tiles/rects that we can use as "dirty" rects in further requests at lower zoom levels.
-
-
-            // In fact, do we need to consider this as rects? We know which tile indexes are missing.
-            // i.e. for each missing tile, find its rect, then ask the lower zoom level to find tiles to fill this space (i.e. dirty rect).
-            // repeat if a tile is missing.
-            return true;
-        }
-
     }
 }
