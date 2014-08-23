@@ -74,16 +74,20 @@ namespace Sessions.MVP.Config
             if (Root.Library.SyncServicePort < 80 || Root.Library.SyncServicePort > 65535)
                 Root.Library.SyncServicePort = 53551;
             if (Root.General.SongPositionUpdateFrequency < 10 || Root.General.SongPositionUpdateFrequency > 100)
-                Root.General.SongPositionUpdateFrequency = 20;
+                Root.General.SongPositionUpdateFrequency = 80;
             if (Root.General.OutputMeterUpdateFrequency < 10 || Root.General.OutputMeterUpdateFrequency > 100)
-                Root.General.OutputMeterUpdateFrequency = 20;
+                Root.General.OutputMeterUpdateFrequency = 80;
             if (Root.General.MaximumPeakFolderSize < 10 || Root.General.OutputMeterUpdateFrequency > 1000)
-                Root.General.MaximumPeakFolderSize = 100;
+                Root.General.MaximumPeakFolderSize = 100;            
+            if (Root.Audio.SampleRate < 44100 || Root.Audio.SampleRate > 96000)
+                Root.Audio.SampleRate = 44100;
             if (Root.Audio.BufferSize < 100 || Root.Audio.BufferSize > 5000)
                 Root.Audio.BufferSize = 1000;
             if (Root.Audio.UpdatePeriod < 100 || Root.Audio.UpdatePeriod > 1000)
                 Root.Audio.UpdatePeriod = 100;
-       }
+            if (Root.Audio.Volume < 0 || Root.Audio.Volume > 1)
+                Root.Audio.Volume = 1;            
+        }
 
         public void Save()
         {
