@@ -8,18 +8,18 @@
     <CheckBoxPreference
       android:key="sync_service_enabled"
       android:title="Enable Sync Service"
-      android:icon="@android:color/transparent"
+      android:icon="@null"
       android:summary="Allows remote devices to access this library"
       android:defaultValue="true" />
     <EditTextPreference
       android:key="sync_service_http_port"
       android:title="HTTP Port"
-      android:icon="@android:color/transparent"
+      android:icon="@null"
       android:defaultValue="53551" />
     <Preference
       android:key="sync_service_footer"
       android:title=""
-      android:icon="@android:color/transparent"
+      android:icon="@null"
       android:summary="The sync service is only used when Wi-Fi is available."
       android:selectable="false"
       android:enabled="false" />
@@ -45,7 +45,7 @@
     <Preference
       android:key="library_footer"
       android:title=""
-      android:icon="@android:color/transparent"
+      android:icon="@null"
       android:summary="Total library size: 8420 MB"
       android:selectable="false"
       android:enabled="false" />

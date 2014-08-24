@@ -60,6 +60,7 @@ namespace org.sessionsapp.android
         public override void OnResume()
         {
             base.OnResume();
+            Tracing.Log("GeneralPreferencesFragment - OnResume - Registering shared preferences event");
             PreferenceManager.SharedPreferences.RegisterOnSharedPreferenceChangeListener(this);
         }
 
@@ -81,10 +82,18 @@ namespace org.sessionsapp.android
         
         public void GeneralPreferencesError(Exception ex)
         {
+            ShowErrorDialog(ex);
         }
 
         public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
         {
+            Activity.RunOnUiThread(() => 
+            { 
+                var sharedPreferences = PreferenceManager.SharedPreferences;
+                var value = sharedPreferences.GetInt("update_frequency_song_position", -1);
+                var editor = sharedPreferences.Edit();
+                editor.PutInt("update_frequency_song_position", config.SongPositionUpdateFrequency);
+            });
         }
 
         #endregion

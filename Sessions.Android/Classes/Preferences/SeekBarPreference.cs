@@ -40,6 +40,7 @@ namespace org.sessionsapp.android
         private int _maxValue = 100;
         private int _minValue = 10;
         private int _value = 0;
+        private int _defaultValue = 0;
         private string _units = string.Empty;
         private string _title = string.Empty;
 
@@ -91,6 +92,7 @@ namespace org.sessionsapp.android
 
             _lblTitle.Text = _title;
             _seekBar.Max = _maxValue;
+            Console.WriteLine("SeekBarPreference - OnCreateView - Registering SetOnSeekBarChangeListener...");
             _seekBar.SetOnSeekBarChangeListener(this);
 
             var layout = (LinearLayout) view;
@@ -116,19 +118,32 @@ namespace org.sessionsapp.android
 
         protected override Object OnGetDefaultValue(TypedArray a, int index)
         {
-            return base.OnGetDefaultValue(a, index);
+            int defaultValue = a.GetInt(index, 0);
+            return defaultValue;
         }
 
         protected override void OnSetInitialValue(bool restorePersistedValue, Object defaultValue)
         {
-            base.OnSetInitialValue(restorePersistedValue, defaultValue);
+            Console.WriteLine("SeekBarPreference - OnSetInitialValue - restorePersistedValue: {0} defaultValue: {1}", restorePersistedValue, defaultValue);
+            if (restorePersistedValue)
+            {
+                _value = GetPersistedInt(_value);
+            }
+            else
+            {
+                PersistInt(_defaultValue);
+                _value = _defaultValue;
+            }
         }
 
         public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
         {
             if (_lblValue != null)
                 _lblValue.Text = string.Format("{0} {1}", progress, _units);
-        }
+
+            Console.WriteLine("SeekBarPreference - OnProgressChanged - value: {0}", progress);
+            PersistInt(progress);
+        }        
 
         public void OnStartTrackingTouch(SeekBar seekBar)
         {
