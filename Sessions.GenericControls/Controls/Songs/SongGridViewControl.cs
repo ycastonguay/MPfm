@@ -49,8 +49,6 @@ namespace Sessions.GenericControls.Controls.Songs
 
         // Private variables used for mouse events
         private int _columnMoveMarkerX = 0;
-        private int _startLineNumber = 0;
-        private int _numberOfLinesToDraw = 0;
         private int _dragStartX = -1;
         private int _dragOriginalColumnWidth = -1;
         private bool _isMouseOverControl = false;
@@ -147,18 +145,6 @@ namespace Sessions.GenericControls.Controls.Songs
             _timerAnimationNowPlaying.Elapsed += TimerAnimationNowPlayingOnElapsed;
             _timerAnimationNowPlaying.Enabled = true;
 
-//            // Create background worker for updating album art
-//            _workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
-//            _workerUpdateAlbumArt = new BackgroundWorker();
-//            _workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(workerUpdateAlbumArt_DoWork);
-//            _workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateAlbumArt_RunWorkerCompleted);
-//
-//            // Create timer for updating album art
-//            _timerUpdateAlbumArt = new Timer();
-//            _timerUpdateAlbumArt.Interval = 10;
-//            _timerUpdateAlbumArt.Elapsed += TimerUpdateAlbumArtOnElapsed;
-//            _timerUpdateAlbumArt.Enabled = true;
-
             CreateColumns();
         }
 
@@ -233,127 +219,16 @@ namespace Sessions.GenericControls.Controls.Songs
 
         private void HandleOnAlbumArtExtracted(IBasicImage image, AlbumArtRequest request)
         {
-            Console.WriteLine("SongGridViewControl - HandleOnAlbumArtExtracted - artistName: {0} albumTitle: {1}", request.ArtistName, request.AlbumTitle);
+            //Console.WriteLine("SongGridViewControl - HandleOnAlbumArtExtracted - artistName: {0} albumTitle: {1}", request.ArtistName, request.AlbumTitle);
 
             // TODO: Do proper partial invalidation
             if(image != null)
                 InvalidateVisual();
         }
-
-//        private void TimerUpdateAlbumArtOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
-//        {
-//            _timerUpdateAlbumArt.Enabled = false;
-//
-//            // Check for the next album art to fetch
-//            if (_workerUpdateAlbumArtPile.Count > 0 && !_workerUpdateAlbumArt.IsBusy)
-//            {
-//                // Do some cleanup: clean items that are not visible anymore
-//                bool cleanUpDone = false;
-//                while (!cleanUpDone)
-//                {
-//                    int indexToDelete = -1;
-//                    for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
-//                    {
-//                        var arg = _workerUpdateAlbumArtPile[a];
-//
-//                        // Check if this album is still visible (cancel if it is out of display).                             
-//                        if(IsLineVisible(arg.LineIndex))
-//                        {
-//                            indexToDelete = a;
-//                            break;
-//                        }
-//                    }
-//
-//                    if (indexToDelete >= 0)
-//                        _workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
-//                    else
-//                        cleanUpDone = true;
-//                }
-//
-//                // Continue executing pile
-//                if (_workerUpdateAlbumArtPile.Count > 0)
-//                    _workerUpdateAlbumArt.RunWorkerAsync(_workerUpdateAlbumArtPile[0]);
-//            }
-//
-//            _timerUpdateAlbumArt.Enabled = true;
-//        }
-//
-//        public void workerUpdateAlbumArt_DoWork(object sender, DoWorkEventArgs e)
-//        {
-//            if (e.Argument == null)
-//                return;
-//
-//            var arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
-//            var result = new SongGridViewBackgroundWorkerResult();
-//            result.AudioFile = arg.AudioFile;
-//
-//            // Check if this album is still visible (cancel if it is out of display).     
-//            if(IsLineVisible(arg.LineIndex))
-//            {
-//                // Set result with empty image
-//                e.Result = result;
-//                return;
-//            }
-//
-//            // Extract image from file
-//            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
-//            if (bytes != null && bytes.Length > 0)
-//            {
-//                var image = _disposableImageFactory.CreateImageFromByteArray(bytes, (int)arg.RectAlbumArt.Width, (int)arg.RectAlbumArt.Height);
-//                result.AlbumArt = image;
-//            }
-//
-//            e.Result = result;
-//        }
-//
-//        public void workerUpdateAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-//        {
-//            if (e.Result == null)
-//                return;
-//
-//            // Create cover art cache (even if the albumart is null, just to make sure the grid doesn't refetch the album art endlessly)
-//            var result = (SongGridViewBackgroundWorkerResult)e.Result;
-//            var cache = new SongGridViewImageCache();
-//            cache.Key = result.AudioFile.ArtistName + "_" + result.AudioFile.AlbumTitle;
-//            cache.Image = result.AlbumArt;
-//
-//            // We found cover art! Add to cache and get out of the loop
-//            _imageCache.Add(cache);
-//
-//            // Check if the cache size has been reached
-//            if (_imageCache.Count > _imageCacheSize)
-//            {
-//                // Check if the image needs to be disposed
-//                if (_imageCache [0].Image != null)
-//                {
-//                    var imageTemp = _imageCache [0].Image;
-//                    imageTemp.Image.Dispose();
-//                    imageTemp = null;
-//                }
-//
-//                // Remove the oldest item
-//                _imageCache.RemoveAt(0);
-//            }            
-//
-//            // Remove song from list
-//            int indexRemove = -1;
-//            for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
-//                if (_workerUpdateAlbumArtPile [a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
-//                    indexRemove = a;
-//            if (indexRemove >= 0)
-//                _workerUpdateAlbumArtPile.RemoveAt(indexRemove);
-//
-//                // Update only if album art is visible
-////            if (IsLineVisible(arg.LineIndex))
-////            {
-////            }
-//
-//            InvalidateVisual();
-//        }
-
+                
         private bool IsLineVisible(int lineIndex)
         {
-            return lineIndex < _startLineNumber || lineIndex > _startLineNumber + _numberOfLinesToDraw + PreloadLinesAlbumCover;
+            return lineIndex < StartLineNumber || lineIndex > StartLineNumber + NumberOfLinesToDraw + PreloadLinesAlbumCover;
         }
 
         /// <summary>
@@ -400,7 +275,7 @@ namespace Sessions.GenericControls.Controls.Songs
         public void UpdateAudioFileLine(Guid audioFileId)
         {
             // Find the position of the line            
-            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {
                 int offsetY = (a * Cache.LineHeight) - VerticalScrollBar.Value + Cache.LineHeight;
                 if (Items[a].AudioFile.Id == audioFileId)
@@ -501,33 +376,38 @@ namespace Sessions.GenericControls.Controls.Songs
             //Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
         }
 
+        private void DetermineVisibleLineIndexes22()
+        {
+            // Calculate how many lines must be skipped because of the scrollbar position
+            StartLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (Cache.LineHeight)), 0);
+
+            // Check if the total number of lines exceeds the number of icons fitting in height
+            NumberOfLinesToDraw = 0;
+            if (StartLineNumber + Cache.NumberOfLinesFittingInControl > Items.Count)
+            {
+                // There aren't enough lines to fill the screen
+                NumberOfLinesToDraw = Items.Count - StartLineNumber;
+            }
+            else
+            {
+                // Fill up screen 
+                NumberOfLinesToDraw = Cache.NumberOfLinesFittingInControl;
+            }
+
+            // Add one line for overflow; however, make sure we aren't adding a line without content 
+            if (StartLineNumber + NumberOfLinesToDraw + 1 <= Items.Count)
+                NumberOfLinesToDraw++;
+        }
+
         private void DrawRows(IGraphicsContext context)
         {
             var state = new DrawCellState();
             var penTransparent = new BasicPen();    
 
-            // Calculate how many lines must be skipped because of the scrollbar position
-            _startLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (Cache.LineHeight)), 0);
-
-            // Check if the total number of lines exceeds the number of icons fitting in height
-            _numberOfLinesToDraw = 0;
-            if (_startLineNumber + Cache.NumberOfLinesFittingInControl > Items.Count)
-            {
-                // There aren't enough lines to fill the screen
-                _numberOfLinesToDraw = Items.Count - _startLineNumber;
-            }
-            else
-            {
-                // Fill up screen 
-                _numberOfLinesToDraw = Cache.NumberOfLinesFittingInControl;
-            }
-
-            // Add one line for overflow; however, make sure we aren't adding a line without content 
-            if (_startLineNumber + _numberOfLinesToDraw + 1 <= Items.Count)
-                _numberOfLinesToDraw++;
+            DetermineVisibleLineIndexes();
 
             // Loop through lines
-            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {                
                 // Calculate offsets, widths and other variants
                 state.OffsetX = 0;
@@ -774,8 +654,8 @@ namespace Sessions.GenericControls.Controls.Songs
             var audioFile = Items[albumCoverStartIndex].AudioFile;
 
             // Calculate y and height
-            int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
-            int y = ((albumCoverStartIndex - _startLineNumber) * Cache.LineHeight) + Cache.LineHeight + scrollbarOffsetY;
+            int scrollbarOffsetY = (StartLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+            int y = ((albumCoverStartIndex - StartLineNumber) * Cache.LineHeight) + Cache.LineHeight + scrollbarOffsetY;
 
             // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
             int linesToCover = Math.Min(MinimumRowsPerAlbum, (albumCoverEndIndex + 1 - albumCoverStartIndex));
@@ -806,7 +686,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 IBasicImage imageAlbumCover = null;
                 try
                 {
-                    Console.WriteLine("SongGridViewControl - Getting album art from cache - artistName: {0} albumTitle: {1}", audioFile.ArtistName, audioFile.AlbumTitle);
+                    //Console.WriteLine("SongGridViewControl - Getting album art from cache - artistName: {0} albumTitle: {1}", audioFile.ArtistName, audioFile.AlbumTitle);
                     imageAlbumCover = _albumArtCacheService.GetAlbumArt(audioFile.ArtistName, audioFile.AlbumTitle);
                 }
                 catch (Exception ex)
@@ -820,7 +700,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 {
                     try
                     {
-                        Console.WriteLine("SongGridViewControl - Requesting new album art - artistName: {0} albumTitle: {1}", audioFile.ArtistName, audioFile.AlbumTitle);
+                        //Console.WriteLine("SongGridViewControl - Requesting new album art - artistName: {0} albumTitle: {1}", audioFile.ArtistName, audioFile.AlbumTitle);
                         _albumArtRequestService.RequestAlbumArt(new AlbumArtRequest(){
                             ArtistName = audioFile.ArtistName,
                             AlbumTitle = audioFile.AlbumTitle,
@@ -1058,7 +938,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 return;
 
             int selectedIndex = -1;
-            int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (StartLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
             var startEndIndexes = GetStartIndexAndEndIndexOfSelectedRows();
 
             if (specialKeys == SpecialKeys.Enter)
@@ -1143,7 +1023,7 @@ namespace Sessions.GenericControls.Controls.Songs
             Items[selectedIndex].IsSelected = true;
 
             // Check if new selection is out of bounds of visible area
-            float y = ((selectedIndex - _startLineNumber + 1)*Cache.LineHeight) + scrollbarOffsetY;
+            float y = ((selectedIndex - StartLineNumber + 1)*Cache.LineHeight) + scrollbarOffsetY;
             //Console.WriteLine("SongGridViewControl - KeyDown - y: {0} scrollbarOffsetY: {1} VerticalScrollBar.Value: {2}", y, scrollbarOffsetY, VerticalScrollBar.Value);
 
             int newVerticalScrollBarValue = VerticalScrollBar.Value;
@@ -1160,11 +1040,11 @@ namespace Sessions.GenericControls.Controls.Songs
                         newVerticalScrollBarValue = VerticalScrollBar.Value - Cache.LineHeight;
                     break;
                 case SpecialKeys.PageDown:
-                    int heightToScrollDown = ((startEndIndexes.Item1 - _startLineNumber) * Cache.LineHeight) + scrollbarOffsetY;
+                    int heightToScrollDown = ((startEndIndexes.Item1 - StartLineNumber) * Cache.LineHeight) + scrollbarOffsetY;
                     newVerticalScrollBarValue = VerticalScrollBar.Value + heightToScrollDown;
                     break;
                 case SpecialKeys.PageUp:
-                    int heightToScrollUp = ((_startLineNumber + Cache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * Cache.LineHeight) - scrollbarOffsetY;
+                    int heightToScrollUp = ((StartLineNumber + Cache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * Cache.LineHeight) - scrollbarOffsetY;
                     newVerticalScrollBarValue = VerticalScrollBar.Value - heightToScrollUp;
                     break;
                 case SpecialKeys.Home:
@@ -1211,15 +1091,15 @@ namespace Sessions.GenericControls.Controls.Songs
             if (Columns == null || Cache == null)
                 return;
 
-            int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (StartLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
             if (Items.Count > 0)
             {
-                for (int b = _startLineNumber; b < _startLineNumber + _numberOfLinesToDraw; b++)
+                for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
                 {
                     if (Items[b].IsMouseOverItem)
                     {
                         Items[b].IsMouseOverItem = false;
-                        var newPartialRect = new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, Cache.LineHeight);
+                        var newPartialRect = new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, ((b - StartLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, Cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                         break;
@@ -1402,7 +1282,7 @@ namespace Sessions.GenericControls.Controls.Songs
 
             int albumArtCoverWidth = Columns[0].Visible ? Columns[0].Width : 0;
             var columnResizing = Columns.FirstOrDefault(col => col.IsUserResizingColumn == true);
-            int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (StartLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
 
             // Check if the user has clicked on the header (for orderBy)
             if (y >= 0 && y <= Cache.LineHeight &&
@@ -1467,8 +1347,8 @@ namespace Sessions.GenericControls.Controls.Songs
             if (startIndex > -1 && endIndex > -1)
             {
                 // Invalidate the original selected lines
-                int startY = ((startIndex - _startLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY;
-                int endY = ((endIndex - _startLineNumber + 2) * Cache.LineHeight) + scrollbarOffsetY;
+                int startY = ((startIndex - StartLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY;
+                int endY = ((endIndex - StartLineNumber + 2) * Cache.LineHeight) + scrollbarOffsetY;
                 var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, startY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, endY - startY);
                 partialRect.Merge(newPartialRect);
                 controlNeedsToBePartiallyInvalidated = true;
@@ -1485,7 +1365,7 @@ namespace Sessions.GenericControls.Controls.Songs
 
             // Loop through visible lines to update the new selected items
             bool invalidatedNewSelection = false;
-            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
                 if (Items[a].IsMouseOverItem)
@@ -1518,7 +1398,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     {
                         // Invert selection
                         Items[a].IsSelected = !Items[a].IsSelected;
-                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
+                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                     }
@@ -1526,7 +1406,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     {
                         // Set this item as the new selected item
                         Items[a].IsSelected = true;
-                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
+                        var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
                     }
@@ -1565,13 +1445,13 @@ namespace Sessions.GenericControls.Controls.Songs
             var partialRect = new BasicRectangle();
             bool controlNeedsToBePartiallyInvalidated = false;
             int albumArtCoverWidth = Columns[0].Visible ? Columns[0].Width : 0;
-            int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (StartLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
 
             // Keep original songId in case the now playing value is set before invalidating the older value
             Guid originalId = _nowPlayingAudioFileId;
 
             // Loop through visible lines
-            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {
                 if (Items[a].IsMouseOverItem)
                 {
@@ -1579,13 +1459,13 @@ namespace Sessions.GenericControls.Controls.Songs
                     _nowPlayingAudioFileId = Items[a].AudioFile.Id;
 
                     ItemDoubleClick(a);
-                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
                 else if (Items[a].AudioFile != null && Items[a].AudioFile.Id == originalId)
                 {
-                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
+                    var newPartialRect = new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * Cache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight);
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
@@ -1767,7 +1647,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 if (Items.Count > 0)
                 {
                     // Reset mouse over item flags
-                    for (int b = _startLineNumber; b < _startLineNumber + _numberOfLinesToDraw; b++)
+                    for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
                     {
                         //Console.WriteLine("SongGridViewControl - MouseMove - Checking for resetting mouse over flag for line {0}", b);
                         // Check if the mouse was over this item
@@ -1781,7 +1661,7 @@ namespace Sessions.GenericControls.Controls.Songs
                     }
 
                     // Put new mouse over flag
-                    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+                    for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
                     {
                         // Calculate offset
                         offsetY = (a * Cache.LineHeight) - VerticalScrollBar.Value + Cache.LineHeight;
@@ -1821,17 +1701,17 @@ namespace Sessions.GenericControls.Controls.Songs
 
             int oldIndex = Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == oldAudioFileId);
             int newIndex = Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == newAudioFileId);
-            int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+            int scrollbarOffsetY = (StartLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
             int firstIndex = oldIndex < newIndex ? oldIndex : newIndex;
             int secondIndex = newIndex > oldIndex ? newIndex : oldIndex;
 
             int firstY = -1;
-            if (oldIndex >= _startLineNumber && oldIndex <= _startLineNumber + _numberOfLinesToDraw)
-                firstY = ((firstIndex - _startLineNumber) * Cache.LineHeight) + scrollbarOffsetY;
+            if (oldIndex >= StartLineNumber && oldIndex <= StartLineNumber + NumberOfLinesToDraw)
+                firstY = ((firstIndex - StartLineNumber) * Cache.LineHeight) + scrollbarOffsetY;
 
             int secondY = -1;
-            if (newIndex >= _startLineNumber && newIndex <= _startLineNumber + _numberOfLinesToDraw)
-                secondY = ((secondIndex - _startLineNumber) * Cache.LineHeight) + scrollbarOffsetY;
+            if (newIndex >= StartLineNumber && newIndex <= StartLineNumber + NumberOfLinesToDraw)
+                secondY = ((secondIndex - StartLineNumber) * Cache.LineHeight) + scrollbarOffsetY;
 
             int finalY = 0;
             int finalHeight = 0;

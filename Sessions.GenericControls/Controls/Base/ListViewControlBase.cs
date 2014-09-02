@@ -23,6 +23,7 @@ using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.GenericControls.Controls.Base
 {
@@ -32,7 +33,6 @@ namespace Sessions.GenericControls.Controls.Base
     public abstract class ListViewControlBase<T> : ControlBase where T : ListViewItem  //, IControlMouseInteraction, IControlKeyboardInteraction
     {
         // Control wrappers
-        public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }
         public IVerticalScrollBarWrapper VerticalScrollBar { get; private set; }
 
         private List<T> _items;
@@ -70,6 +70,9 @@ namespace Sessions.GenericControls.Controls.Base
 
         public int Padding { get; set; }
 
+        protected int StartLineNumber { get; set; }
+        protected int NumberOfLinesToDraw { get; set; }
+
         public delegate void SelectedIndexChangedDelegate();
         public delegate void ItemDoubleClickDelegate(int index);
         public delegate void ChangeMouseCursorTypeDelegate(MouseCursorType mouseCursorType);
@@ -86,9 +89,6 @@ namespace Sessions.GenericControls.Controls.Base
             CanReorderItems = true;
             VerticalScrollBar = verticalScrollBar;
             VerticalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
-
-            HorizontalScrollBar = horizontalScrollBar;
-            HorizontalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
 
             _items = new List<T>();
         }
@@ -119,7 +119,12 @@ namespace Sessions.GenericControls.Controls.Base
 
         public override void Render(IGraphicsContext context)
         {
-        }
+        }        
+
+        protected virtual void DrawRows(IGraphicsContext context)
+        {
+
+        }       
 
         /// <summary>
         /// Clears the currently selected items.

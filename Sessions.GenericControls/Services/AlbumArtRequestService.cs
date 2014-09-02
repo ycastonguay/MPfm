@@ -92,7 +92,7 @@ namespace Sessions.GenericControls.Services
                     if(_requests.Count > MaxNumberOfRequests)
                         _requests.RemoveAt(0);
 
-                    Console.WriteLine("AlbumArtRequestService - PULSING!");
+                    //Console.WriteLine("AlbumArtRequestService - PULSING!");
                     Monitor.Pulse(_lockerRequests);                        
                 }
             }
@@ -114,7 +114,7 @@ namespace Sessions.GenericControls.Services
             {
                 while (true)
                 {
-                    Console.WriteLine("AlbumArtRequestService - Loop - requests.Count: {0} numberOfTasksRunning: {1}", _requests.Count, _numberOfTasksRunning);
+                    //Console.WriteLine("AlbumArtRequestService - Loop - requests.Count: {0} numberOfTasksRunning: {1}", _requests.Count, _numberOfTasksRunning);
                     var requestsToProcess = new List<AlbumArtRequest>();
                     int requestCount = 0;
                     lock (_lockerRequests)
@@ -133,22 +133,22 @@ namespace Sessions.GenericControls.Services
 
                     foreach (var request in requestsToProcess)
                     {
-                        Console.WriteLine("AlbumArtRequestService - Loop - Processing request - {0}/{1}", request.ArtistName, request.AlbumTitle);
+                        //Console.WriteLine("AlbumArtRequestService - Loop - Processing request - {0}/{1}", request.ArtistName, request.AlbumTitle);
                         ThreadPool.QueueUserWorkItem(new WaitCallback(ExtractImageInternal), request);
                     }
 
                     if (requestCount > 0)
                     {
-                        Console.WriteLine("AlbumArtRequestService - SLEEPING...");
+                        //Console.WriteLine("AlbumArtRequestService - SLEEPING...");
                         Thread.Sleep(50);
                     }
                     else
                     {
                         lock (_lockerRequests)
                         {
-                            Console.WriteLine("AlbumArtRequestService - WAITING...");
+                            //Console.WriteLine("AlbumArtRequestService - WAITING...");
                             Monitor.Wait(_lockerRequests);
-                            Console.WriteLine("AlbumArtRequestService - WOKEN UP!");
+                            //Console.WriteLine("AlbumArtRequestService - WOKEN UP!");
                         }
                     }
                 }

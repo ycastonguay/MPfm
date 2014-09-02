@@ -1506,12 +1506,12 @@ namespace Sessions.Sound.AudioFiles
                 try
                 {
                     string albumArtFilePath = Path.Combine(Path.GetDirectoryName(filePath), "folder.jpg");
-                    Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - Trying to extract album art from FOLDER.JPG - Path: {0}", albumArtFilePath);
+                    //Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - Trying to extract album art from FOLDER.JPG - Path: {0}", albumArtFilePath);
                     if(File.Exists(albumArtFilePath))
                     {
-                        Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - File exists");
+                        //Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - File exists");
                         bytes = File.ReadAllBytes(albumArtFilePath);
-                        Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - Read bytes length: {0}", bytes.Length);
+                        //Console.WriteLine("AudioFile - ExtractImageByteArrayForAudioFile - Read bytes length: {0}", bytes.Length);
                     }
                 }
                 catch
@@ -1548,7 +1548,7 @@ namespace Sessions.Sound.AudioFiles
 
                 // Or place it as folder.jpg in the same folder
                 string albumArtFilePath = Path.Combine(Path.GetDirectoryName(filePath), "folder.jpg");
-                Console.WriteLine("AudioFile - SetAlbumArtForAudioFile - Writing folder.jpg... - Path: {0}", albumArtFilePath);
+                //Console.WriteLine("AudioFile - SetAlbumArtForAudioFile - Writing folder.jpg... - Path: {0}", albumArtFilePath);
                 File.WriteAllBytes(albumArtFilePath, imageData);
             }
         }

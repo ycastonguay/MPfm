@@ -18,10 +18,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
+using System.Collections;
 
 namespace Sessions.GenericControls.Services
 {
@@ -29,16 +31,19 @@ namespace Sessions.GenericControls.Services
     {
         // TODO: Implement max cache size
         private readonly object _lockerCache = new object();
-        private Dictionary<string, IBasicImage> _cache;
+        private List<AlbumArtCacheItem> _cache;
 
         public int Count
         {
             get { return _cache.Count; }
         }
 
+        public int MaximumCacheCount { get; set; }
+
         public AlbumArtCacheService()
         {
-            _cache = new Dictionary<string, IBasicImage>();
+            _cache = new List<AlbumArtCacheItem>();
+            MaximumCacheCount = 10;
         }
 
         private string GetCacheKey(string artistName, string albumTitle)
@@ -51,11 +56,27 @@ namespace Sessions.GenericControls.Services
         {
             lock (_lockerCache)
             {
-                foreach (var item in _cache)
-                    if(item.Value != null && item.Value.Image != null)
-                        item.Value.Image.Dispose();
+                foreach (var cacheItem in _cache)
+                {
+                    var value = cacheItem.Image;
+                    if (value != null && value.Image != null)
+                        value.Image.Dispose();
+                }
 
                 _cache.Clear();
+            }
+        }
+
+        public void FlushItemsExceedingMaximumCacheCount()
+        {
+            lock (_lockerCache)
+            {
+                var orderedItems = _cache.OrderBy(x => x.TimeStamp);
+                var itemsToRemove = orderedItems.Take(Count - MaximumCacheCount);
+                foreach (var itemToRemove in itemsToRemove)
+                {
+                    _cache.Remove(itemToRemove);
+                }
             }
         }
 
@@ -64,8 +85,11 @@ namespace Sessions.GenericControls.Services
             string cacheKey = GetCacheKey(artistName, albumTitle);
             lock (_lockerCache)
             {
-                if(!_cache.ContainsKey(cacheKey))
-                    _cache.Add(cacheKey, image);
+                var cacheItem = _cache.FirstOrDefault(x => string.Compare(x.Key, cacheKey, StringComparison.OrdinalIgnoreCase) == 0);
+                if (cacheItem == null)
+                {
+                    _cache.Add(new AlbumArtCacheItem(cacheKey, image));
+                }
             }
         }
 
@@ -75,10 +99,27 @@ namespace Sessions.GenericControls.Services
             string cacheKey = GetCacheKey(artistName, albumTitle);
             lock (_lockerCache)
             {
-                if(_cache.ContainsKey(cacheKey))
-                    image = _cache[cacheKey];
+                var cacheItem = _cache.FirstOrDefault(x => string.Compare(x.Key, cacheKey, StringComparison.OrdinalIgnoreCase) == 0);
+                if (cacheItem != null)
+                {
+                    return cacheItem.Image;
+                }
             }
             return image;
+        }
+
+        public class AlbumArtCacheItem
+        {
+            public string Key { get; set; }
+            public IBasicImage Image { get; set; }
+            public DateTime TimeStamp { get; set; }
+
+            public AlbumArtCacheItem(string key, IBasicImage image)
+            {
+                Key = key;
+                Image = image;
+                TimeStamp = DateTime.Now;
+            }
         }
     }
 }

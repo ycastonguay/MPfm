@@ -33,6 +33,7 @@ namespace Sessions.GenericControls.Tests
 	{
         protected const string ArtistName = "ArtistName";
         protected const string AlbumTitle = "AlbumTitle";
+        protected const int MaximumCacheCount = 10;
 
         protected IAlbumArtCacheService Service { get; set; }
         protected Mock<IBasicImage> TestImageMock { get; set; }
@@ -59,6 +60,48 @@ namespace Sessions.GenericControls.Tests
                 Service.Flush();
 
                 Assert.AreEqual(0, Service.Count);
+            }  
+        }
+
+        [TestFixture]
+        public class FlushItemsExceedingMaximumCacheCountTest : AlbumArtCacheServiceTest
+        {
+            private const int ExceedingItemCount = 2;
+            private List<Tuple<string, string>> _items;
+
+            [SetUp]
+            public void PrepareTest()
+            {
+                PrepareTests();
+
+                _items = new List<Tuple<string, string>>();
+                for (int a = 0; a < MaximumCacheCount + ExceedingItemCount; a++)
+                {
+                    string artistName = string.Format("Artist{0}", a);
+                    string albumTitle = string.Format("Album{0}", a);
+                    _items.Add(new Tuple<string, string>(artistName, albumTitle));
+                    Service.AddAlbumArt(TestImageMock.Object, artistName, albumTitle);
+                }
+
+                Service.FlushItemsExceedingMaximumCacheCount();
+            }
+            
+            [Test]
+            public void CountShouldBeMaximumCacheCount()
+            {                
+                Assert.AreEqual(MaximumCacheCount, Service.Count);
+            }  
+
+            [Test]
+            public void ShouldHaveFlushedOlderItems()
+            {                
+                var itemsRemoved = _items.GetRange(0, ExceedingItemCount);
+
+                foreach (var itemRemoved in itemsRemoved)
+                {
+                    var image = Service.GetAlbumArt(itemRemoved.Item1, itemRemoved.Item2);
+                    Assert.IsNull(image);
+                }
             }  
         }
 

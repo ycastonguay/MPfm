@@ -1563,18 +1563,21 @@ namespace Sessions.OSX
             if (_currentAlbumArtKey == key)
                 return;
 
+            int imageSize = (int)viewAlbumArt.Frame.Height;
             var task = Task<NSImage>.Factory.StartNew(() => {
                 try
                 {
                     NSImage image = null;
+                    NSImage scaledImage = null;
                     byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
                     using (NSData imageData = NSData.FromArray(bytesImage))
                     {
                         InvokeOnMainThread(() => {
                             image = new NSImage(imageData);
+                            scaledImage = CoreGraphicsHelper.ScaleImageSquare(image, imageSize);
                         });
                     }
-                        return image;
+                    return scaledImage;
                 }
                 catch (Exception ex)
                 {

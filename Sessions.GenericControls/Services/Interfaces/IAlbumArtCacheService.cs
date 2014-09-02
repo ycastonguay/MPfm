@@ -25,8 +25,10 @@ namespace Sessions.GenericControls.Services.Interfaces
     public interface IAlbumArtCacheService
     {
         int Count { get; }
+        int MaximumCacheCount { get; set; }
 
         void Flush();
+        void FlushItemsExceedingMaximumCacheCount();
         void AddAlbumArt(IBasicImage image, string artistName, string albumTitle);
         IBasicImage GetAlbumArt(string artistName, string albumTitle);
     }

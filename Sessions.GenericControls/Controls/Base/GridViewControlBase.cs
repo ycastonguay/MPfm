@@ -30,6 +30,9 @@ namespace Sessions.GenericControls.Controls.Base
     /// </summary>
     public abstract class GridViewControlBase<T, U> : ListViewControlBase<T> where T : ListViewItem where U : GridViewColumn  //, IControlMouseInteraction, IControlKeyboardInteraction
     {
+        // Control wrappers
+        public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }    
+
         private List<U> _columns;
         [Browsable(false)]
         public List<U> Columns
@@ -104,7 +107,7 @@ namespace Sessions.GenericControls.Controls.Base
         /// <summary>
         /// Cache for GridView.
         /// </summary>
-        protected GridViewCache Cache { get; private set; }
+        protected GridViewCache Cache { get; set; }
 
         public delegate void ColumnClickDelegate(int index);
         public event ColumnClickDelegate OnColumnClick;
@@ -118,12 +121,38 @@ namespace Sessions.GenericControls.Controls.Base
             CanMoveColumns = true;
             CanChangeOrderBy = true;
             _columns = new List<U>();
+
+            HorizontalScrollBar = horizontalScrollBar;
+            HorizontalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
         }
 
         protected void ColumnClick(int index)
         {
             if (OnColumnClick != null)
                 OnColumnClick(index);
+        }
+
+        protected virtual void DetermineVisibleLineIndexes()
+        {
+            // Calculate how many lines must be skipped because of the scrollbar position
+            StartLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (Cache.LineHeight)), 0);
+
+            // Check if the total number of lines exceeds the number of icons fitting in height
+            NumberOfLinesToDraw = 0;
+            if (StartLineNumber + Cache.NumberOfLinesFittingInControl > Items.Count)
+            {
+                // There aren't enough lines to fill the screen
+                NumberOfLinesToDraw = Items.Count - StartLineNumber;
+            }
+            else
+            {
+                // Fill up screen 
+                NumberOfLinesToDraw = Cache.NumberOfLinesFittingInControl;
+            }
+
+            // Add one line for overflow; however, make sure we aren't adding a line without content 
+            if (StartLineNumber + NumberOfLinesToDraw + 1 <= Items.Count)
+                NumberOfLinesToDraw++;
         }
 
         /// <summary>
