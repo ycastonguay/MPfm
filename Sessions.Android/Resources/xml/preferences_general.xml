@@ -1,24 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:sessionsapp="http://sessionsapp.org"
   android:title="General Preferences"
-  android:icon="@null">
+  android:icon="@drawable/actionbar_settings">
   <PreferenceCategory
     android:title="Update Frequency"
-    android:summary="Testing testing"
     android:key="update_frequency">
     <org.sessionsapp.android.SeekBarPreference
       android:key="update_frequency_song_position"
       android:title="Song Position"
       android:icon="@null"
-      android:max="1000"
+      android:max="100"
+      android:defaultValue="80"
+      sessionsapp:min="10"
       sessionsapp:units="ms" />
     <org.sessionsapp.android.SeekBarPreference
       android:key="update_frequency_output_meter"
       android:title="Output Meter"
       android:icon="@null"
-      android:max="1000"
-      sessionsapp:units="ms"
-      android:summary="Value here" />
+      android:max="100"
+      android:defaultValue="80"
+      sessionsapp:min="10"
+      sessionsapp:units="ms" />
     <Preference
       android:key="update_frequency_footer"
       android:title=""
@@ -35,8 +37,9 @@
       android:title="Maximum Peak Folder Size"
       android:icon="@null"
       android:max="1000"
-      sessionsapp:units="ms"
-      android:summary="Value here" />      
+      android:defaultValue="100"
+      sessionsapp:min="50"
+      sessionsapp:units="MB" />      
     <Preference
       android:key="peak_files_delete"
       android:icon="@drawable/actionbar_trash"

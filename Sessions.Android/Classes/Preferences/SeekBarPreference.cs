@@ -39,8 +39,8 @@ namespace org.sessionsapp.android
 
         private int _maxValue = 100;
         private int _minValue = 10;
-        private int _value = 0;
         private int _defaultValue = 0;
+        private int _value = 0;
         private string _units = string.Empty;
         private string _title = string.Empty;
 
@@ -79,21 +79,13 @@ namespace org.sessionsapp.android
         {
             _title = attrs.GetAttributeValue(XmlNamespaceAndroid, "title");
             _units = attrs.GetAttributeValue(XmlNamespaceSessions, "units");
+            _minValue = attrs.GetAttributeIntValue(XmlNamespaceSessions, "min", 0);
+            _maxValue = attrs.GetAttributeIntValue(XmlNamespaceAndroid, "max", 0);
         }
 
         protected override View OnCreateView(ViewGroup parent)
         {
             var view = base.OnCreateView(parent);
-            _seekBar = view.FindViewById<SeekBar>(Sessions.Android.Resource.Id.seekBarPreference_seekBar);
-            _lblTitle = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblTitle);
-            _lblMinValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblMinValue);
-            _lblMaxValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblMaxValue);
-            _lblValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblValue);
-
-            _lblTitle.Text = _title;
-            _seekBar.Max = _maxValue;
-            Console.WriteLine("SeekBarPreference - OnCreateView - Registering SetOnSeekBarChangeListener...");
-            _seekBar.SetOnSeekBarChangeListener(this);
 
             var layout = (LinearLayout) view;
             layout.SetPadding(0, 0, 0, 0);
@@ -114,35 +106,58 @@ namespace org.sessionsapp.android
         protected override void OnBindView(View view)
         {
             base.OnBindView(view);
+
+            UpdateView(view);
+        }
+
+        protected void UpdateView(View view)
+        {
+            _lblMinValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblMinValue);
+            _lblMaxValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblMaxValue);
+            _lblTitle = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblTitle);
+            _lblValue = view.FindViewById<TextView>(Sessions.Android.Resource.Id.seekBarPreference_lblValue);
+            _seekBar = view.FindViewById<SeekBar>(Sessions.Android.Resource.Id.seekBarPreference_seekBar);
+
+            _lblMinValue.Text = string.Format("{0} {1}", _minValue, _units);
+            _lblMaxValue.Text = string.Format("{0} {1}", _maxValue, _units);
+            _lblTitle.Text = _title;
+            _lblValue.Text = string.Format("{0} {1}", _value, _units);
+            _seekBar.Max = _maxValue - _minValue;
+            _seekBar.Progress = _value - _minValue;
+            _seekBar.SetOnSeekBarChangeListener(this);
         }
 
         protected override Object OnGetDefaultValue(TypedArray a, int index)
         {
-            int defaultValue = a.GetInt(index, 0);
+            int defaultValue = a.GetInt(index, _maxValue);
             return defaultValue;
         }
 
         protected override void OnSetInitialValue(bool restorePersistedValue, Object defaultValue)
         {
-            Console.WriteLine("SeekBarPreference - OnSetInitialValue - restorePersistedValue: {0} defaultValue: {1}", restorePersistedValue, defaultValue);
+            //Console.WriteLine("SeekBarPreference - OnSetInitialValue - restorePersistedValue: {0} defaultValue: {1}", restorePersistedValue, defaultValue);
             if (restorePersistedValue)
             {
                 _value = GetPersistedInt(_value);
+                //Console.WriteLine("SeekBarPreference - OnSetInitialValue - Restored persisted value: {0}", _value);
             }
             else
             {
+                _defaultValue = (int)defaultValue;
                 PersistInt(_defaultValue);
                 _value = _defaultValue;
+                //Console.WriteLine("SeekBarPreference - OnSetInitialValue - Setting default value: {0}", _value);
             }
         }
 
         public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
         {
+            _value = progress + _minValue;
             if (_lblValue != null)
-                _lblValue.Text = string.Format("{0} {1}", progress, _units);
+                _lblValue.Text = string.Format("{0} {1}", _value, _units);
 
-            Console.WriteLine("SeekBarPreference - OnProgressChanged - value: {0}", progress);
-            PersistInt(progress);
+            //Console.WriteLine("SeekBarPreference - OnProgressChanged - value: {0}", progress);
+            PersistInt(_value);
         }        
 
         public void OnStartTrackingTouch(SeekBar seekBar)

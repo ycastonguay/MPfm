@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3B7ACEA3-D637-4BE4-A09E-8FF9A878600E}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -17,12 +15,9 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <AndroidUseLatestPlatformSdk />
-    <JavaMaximumHeapSize />
-    <JavaOptions />
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -32,11 +27,8 @@
     <DefineConstants>TRACE;DEBUG;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkSkip />
-    <BundleAssemblies>False</BundleAssemblies>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,23 +38,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>None</AndroidLinkMode>
-    <AndroidLinkSkip />
+    <AndroidLinkSkip>
+    </AndroidLinkSkip>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidStoreUncompressedFileExtensions>
+    </AndroidStoreUncompressedFileExtensions>
+    <JavaMaximumHeapSize>
+    </JavaMaximumHeapSize>
+    <JavaOptions>
+    </JavaOptions>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dropbox.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Dropbox.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Support.v13" />
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sessions.Library\Lib\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +61,12 @@
     </Reference>
     <Reference Include="TinyIoC">
       <HintPath>..\Sessions.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
+    <Reference Include="Dropbox.Android">
+      <HintPath>Lib\Dropbox.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Sessions.Library\Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -362,7 +357,7 @@
       <Name>Sessions.Core.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.GenericControls\Sessions.GenericControls.Android.csproj">
-      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
       <Name>Sessions.GenericControls.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Library\Sessions.Library.Android.csproj">

@@ -36,6 +36,7 @@ namespace org.sessionsapp.android
     {        
         private View _view;
         private TextView _lblTitle;
+        private GeneralAppConfig _config;
 
         // Leave an empty constructor or the application will crash at runtime
         public GeneralPreferencesFragment() : base() { }
@@ -73,6 +74,18 @@ namespace org.sessionsapp.android
         public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
             Tracing.Log("GeneralPreferencesFragment - OnSharedPreferenceChanged - key: {0}", key);
+
+            switch (key)
+            {
+                case "update_frequency_song_position":
+                    _config.SongPositionUpdateFrequency = sharedPreferences.GetInt(key, 0);
+                    break;
+                case "update_frequency_output_meter":
+                    _config.OutputMeterUpdateFrequency = sharedPreferences.GetInt(key, 0);
+                    break;
+            }
+
+            OnSetGeneralPreferences(_config);
         }
 
         #region IGeneralPreferencesView implementation
@@ -87,12 +100,14 @@ namespace org.sessionsapp.android
 
         public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
         {
+            _config = config;
             Activity.RunOnUiThread(() => 
             { 
                 var sharedPreferences = PreferenceManager.SharedPreferences;
-                var value = sharedPreferences.GetInt("update_frequency_song_position", -1);
+                //var value = sharedPreferences.GetInt("update_frequency_song_position", -1);
                 var editor = sharedPreferences.Edit();
                 editor.PutInt("update_frequency_song_position", config.SongPositionUpdateFrequency);
+                editor.PutInt("update_frequency_output_meter", config.OutputMeterUpdateFrequency);
             });
         }
 
