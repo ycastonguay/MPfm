@@ -149,7 +149,7 @@ namespace Sessions.MVP.Presenters
                 _marker.PositionBytes = position.PositionBytes;
                 _marker.PositionPercentage = position.PositionPercentage;
                 _marker.PositionSamples = position.PositionSamples;
-                View.RefreshMarkerPosition(position.Position, position.PositionPercentage);
+                View.RefreshMarkerPosition(position.Position, position.PositionPercentage / 100f);
             } 
             catch (Exception ex)
             {
@@ -169,7 +169,7 @@ namespace Sessions.MVP.Presenters
                 _marker = _libraryService.SelectMarker(_markerId);
                 _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-                float positionPercentage = ((float)_marker.PositionBytes / (float)_lengthBytes) * 100;
+                float positionPercentage = ((float)_marker.PositionBytes / (float)_lengthBytes);
                 View.RefreshMarker(_marker, _audioFile);
                 View.RefreshMarkerPosition(_marker.Position, positionPercentage);
             }

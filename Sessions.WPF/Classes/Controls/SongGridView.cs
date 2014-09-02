@@ -23,6 +23,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Sessions.GenericControls.Services.Interfaces;
 using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
@@ -81,8 +82,9 @@ namespace Sessions.WPF.Classes.Controls
             DockPanel.SetDock(_horizontalScrollBar, Dock.Bottom);
             Children.Add(_horizontalScrollBar);
 
-            var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
-            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
+            var albumArtCacheService = Bootstrapper.GetContainer().Resolve<IAlbumArtCacheService>();
+            var albumArtRequestService = Bootstrapper.GetContainer().Resolve<IAlbumArtRequestService>();
+            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, albumArtRequestService, albumArtCacheService);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnItemDoubleClick += (index) => DoubleClick(this, new EventArgs());
             _control.OnDisplayContextMenu += (type, x, y) => 

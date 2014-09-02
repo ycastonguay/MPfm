@@ -712,28 +712,50 @@
                     <Grid Grid.Row="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                         <!-- Song Browser -->
                         <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                          </Grid.ColumnDefinitions>
+                          <Grid Grid.Column="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="25" />
-                                <RowDefinition />
+                              <RowDefinition Height="25" />
+                              <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
+                              <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                              </Grid.ColumnDefinitions>
+                              <Label Grid.Column="0" Content="Song Browser" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                              <Grid Grid.Column="1" Background="White" Margin="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
+                                  <ColumnDefinition />
+                                  <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="Song Browser" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                <Grid Grid.Column="1" Background="White" Margin="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="txtSearchTerms" Grid.Column="0" Width="200" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" TextChanged="txtSearchTerms_TextChanged" />
-                                    <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
-                                </Grid>
+                                <TextBox x:Name="txtSearchTerms" Grid.Column="0" Width="200" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" TextChanged="txtSearchTerms_TextChanged" />
+                                <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
+                              </Grid>
                             </Grid>
                             <controls:SongGridView Grid.Row="1" x:Name="gridViewSongsNew" Background="{DynamicResource BrushBackgroundColor}" />
+                          </Grid>
+                          <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="1" />
+                          <Grid Grid.Column="2">
+                              <Grid.RowDefinitions>
+                                  <RowDefinition Height="25" />
+                                  <RowDefinition />
+                              </Grid.RowDefinitions>
+                              <Grid Grid.Row="0">
+                                  <Grid.ColumnDefinitions>
+                                      <ColumnDefinition />
+                                      <ColumnDefinition Width="Auto" />
+                                  </Grid.ColumnDefinitions>
+                                  <Label Grid.Column="0" Content="Playlist" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                              </Grid>
+                              <StackPanel Grid.Row="1" Background="{DynamicResource BrushBackgroundColor}" />
+                          </Grid>
                         </Grid>
-                    </Grid>
+                      </Grid>
                 </Grid>
             </Grid>
         </Grid>

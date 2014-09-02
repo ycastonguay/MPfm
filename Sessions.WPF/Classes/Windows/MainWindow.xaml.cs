@@ -647,7 +647,7 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ListViewMarkers_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (listViewMarkers.SelectedIndex < 0 || listViewMarkers.SelectedIndex >= _loops.Count)
+            if (listViewMarkers.SelectedIndex < 0 || listViewMarkers.SelectedIndex >= _markers.Count)
                 return;
 
             OnSelectMarker(_markers[listViewMarkers.SelectedIndex]);
@@ -1646,10 +1646,6 @@ namespace Sessions.WPF.Classes.Windows
                     listViewMarkers.Items.Add(marker);                
                 listViewMarkers.SelectedIndex = _selectedMarkerIndex;
                 scrollViewWaveForm.SetMarkers(_markers);
-
-                // Does not open because it cannot find the ListViewItem yet... 
-                // Not needed, setting the selectedindex triggers the event already
-                //ChangeMarkerCellPanelVisibility(_selectedMarkerIndex, true);
             }));
         }
 
@@ -1830,7 +1826,7 @@ namespace Sessions.WPF.Classes.Windows
             {
                 txtMarkerName.Text = marker.Name;
                 lblMarkerPosition.Content = marker.Position;
-                trackMarkerPosition.ValueWithoutEvent = (int)(marker.PositionPercentage * 10);
+                trackMarkerPosition.ValueWithoutEvent = (int)(marker.PositionPercentage * 1000);
                 scrollViewWaveForm.SetActiveMarker(marker.MarkerId);
             }));
         }

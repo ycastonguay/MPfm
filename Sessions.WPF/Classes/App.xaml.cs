@@ -82,6 +82,8 @@ namespace Sessions.WPF.Classes
             Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();
             Bootstrapper.GetContainer().Register<ITileCacheService, TileCacheService>().AsSingleton();
+            Bootstrapper.GetContainer().Register<IAlbumArtCacheService, AlbumArtCacheService>().AsSingleton();
+            Bootstrapper.GetContainer().Register<IAlbumArtRequestService, AlbumArtRequestService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
