@@ -647,8 +647,8 @@ namespace Sessions.GenericControls.Controls
             } 
             else if (_isDraggingSegment)
             {
-                _isDraggingSegment = false;                
-                OnChangedSegmentPosition(_segmentDragging, positionPercentage);
+                _isDraggingSegment = false;
+                SetSegmentPosition(position, positionPercentage, true);
                 _segmentDragging = null;
             }
             else
@@ -711,22 +711,7 @@ namespace Sessions.GenericControls.Controls
                 else if (_isDraggingSegment)
                 {
                     var rect = GetCurrentLoopRect();
-                    var startSegment = _loop.GetStartSegment();
-                    var endSegment = _loop.GetEndSegment();
-
-//                    if (_segmentDragging == startSegment)
-//                        Console.WriteLine("WaveFormControl - MouseMove - startSegment - position: {0} endSegment.positionbytes: {1}", position, endSegment.PositionBytes);
-
-                    // Make sure the loop length doesn't get below 0
-                    if (_segmentDragging == startSegment && position > endSegment.PositionBytes)
-                        position = endSegment.PositionBytes;
-                    else if (_segmentDragging == endSegment && position < startSegment.PositionBytes)
-                        position = startSegment.PositionBytes;
-
-                    //Console.WriteLine("WaveFormControl - MouseMove - position: {0} startSegment.positionbyttes: {1} endSegment.positionbytes: {2}", position, startSegment.PositionBytes, endSegment.PositionBytes);
-
-                    _segmentDragging.PositionBytes = position;
-                    OnChangingSegmentPosition(_segmentDragging, positionPercentage);
+                    SetSegmentPosition(position, positionPercentage, false);
 
                     // Merge with new rect to make a dirty zone to update
                     rect.Merge(GetCurrentLoopRect());
@@ -764,6 +749,32 @@ namespace Sessions.GenericControls.Controls
 
                 ChangeMouseCursor(cursorType);
             }
+        }
+
+        private void SetSegmentPosition(long position, float positionPercentage, bool mouseUp)
+        {
+            var startSegment = _loop.GetStartSegment();
+            var endSegment = _loop.GetEndSegment();
+
+            // Make sure the loop length doesn't get below 0
+            if (_segmentDragging == startSegment && position > endSegment.PositionBytes)
+            {
+                position = endSegment.PositionBytes;
+                positionPercentage = (float) endSegment.PositionBytes/(float) Length;
+            }
+            else if (_segmentDragging == endSegment && position < startSegment.PositionBytes)
+            {
+                position = startSegment.PositionBytes;
+                positionPercentage = (float) startSegment.PositionBytes/(float) Length;
+            }
+
+            //Console.WriteLine("WaveFormControl - MouseMove - position: {0} startSegment.positionbyttes: {1} endSegment.positionbytes: {2}", position, startSegment.PositionBytes, endSegment.PositionBytes);
+            _segmentDragging.PositionBytes = position;
+
+            if(mouseUp)
+                OnChangedSegmentPosition(_segmentDragging, positionPercentage);
+            else
+                OnChangingSegmentPosition(_segmentDragging, positionPercentage);
         }
 
         public void MouseLeave()
