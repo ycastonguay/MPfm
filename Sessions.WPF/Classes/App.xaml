@@ -6,6 +6,7 @@
     <Application.Resources>    
         <!-- Colors -->
         <Color x:Key="BackgroundColor">#FF20282E</Color>
+        <Color x:Key="PopupBackgroundColor">#BB303B42</Color>
         <Color x:Key="HeaderBackgroundColor">#FF455865</Color>
         <Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>
         <Color x:Key="MoreHeaderBackgroundColor">#FF758794</Color>
@@ -22,6 +23,7 @@
         
         <!-- Brushes -->
         <SolidColorBrush x:Key="BrushBackgroundColor" Color="{DynamicResource BackgroundColor}" />
+        <SolidColorBrush x:Key="BrushPopupBackgroundColor" Color="{DynamicResource PopupBackgroundColor}" />
         <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="{DynamicResource HeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushSecondaryHeaderBackgroundColor" Color="{DynamicResource SecondaryHeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushMoreHeaderBackgroundColor" Color="{DynamicResource MoreHeaderBackgroundColor}" />

@@ -17,6 +17,8 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -25,21 +27,26 @@ using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls;
+using Sessions.WPF.Classes.Helpers;
 using Control = System.Windows.Controls.Control;
 
 namespace Sessions.WPF.Classes.Controls
 {
-    public class TrackBar : Control
+    public class TrackBar : Panel
     {
         private TrackBarControl _control;
-        
+        private Popup _popup;
+        private StackPanel _popupStackPanel;
+        private Label _lblPopupTitle;
+        private Label _lblPopupSubtitle;
+
         public TrackBarTheme Theme { get { return _control.Theme; } set { _control.Theme = value; } }
         public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
         public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
         public int Value { get { return _control.Value; } set { _control.Value = value; } }
         public int ValueWithoutEvent { get { return _control.ValueWithoutEvent; } set { _control.ValueWithoutEvent = value; } }
 
-        public event TrackBarControl.TrackBarValueChanged OnTrackBarValueChanged;
+        public event TrackBarControl.TrackBarValueChangedDelegate OnTrackBarValueChanged;
         public TrackBar()
             : base()
         {
@@ -56,6 +63,45 @@ namespace Sessions.WPF.Classes.Controls
                 // TODO: It seems you can't invalidate a specific rect in WPF? What?
                 // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
             }));
+            _control.OnScrubbingSpeedChanged += speed =>
+            {
+                _lblPopupSubtitle.Content = speed.Label;
+            };
+
+            CreatePopup();
+        }
+
+        private void CreatePopup()
+        {
+            _popup = new Popup();
+            _popup.PlacementTarget = this;
+            _popup.Placement = PlacementMode.Bottom;            
+            _popup.VerticalOffset = 4;
+            _popup.AllowsTransparency = true;
+
+            _popupStackPanel = new StackPanel();
+            _popupStackPanel.Orientation = Orientation.Vertical;
+            _popupStackPanel.SetResourceReference(StackPanel.BackgroundProperty, "BrushPopupBackgroundColor");
+
+            _lblPopupTitle = new Label();
+            _lblPopupTitle.Padding = new Thickness(4, 4, 4, 1);
+            _lblPopupTitle.FontFamily = new FontFamily("Roboto");
+            _lblPopupTitle.HorizontalContentAlignment = HorizontalAlignment.Center;
+            _lblPopupTitle.Content = "Drag your mouse down to adjust the scrubbing rate";
+            _lblPopupTitle.Foreground = new SolidColorBrush(Colors.DarkGray);
+
+            _lblPopupSubtitle = new Label();
+            _lblPopupSubtitle.Padding = new Thickness(4, 1, 4, 4);
+            _lblPopupSubtitle.FontFamily = new FontFamily("Roboto");
+            _lblPopupSubtitle.HorizontalContentAlignment = HorizontalAlignment.Center;
+            _lblPopupSubtitle.Content = "High-speed scrubbing";
+            _lblPopupSubtitle.Foreground = new SolidColorBrush(Colors.White);
+
+            _popupStackPanel.Children.Add(_lblPopupTitle);
+            _popupStackPanel.Children.Add(_lblPopupSubtitle);
+            _popup.Child = _popupStackPanel;
+
+            Children.Add(_popup);
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -69,12 +115,19 @@ namespace Sessions.WPF.Classes.Controls
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            _popupStackPanel.Opacity = 0;
+            _popup.IsOpen = true;
+            UIHelper.FadeElement(_popupStackPanel, true, 150, null);
             GenericControlHelper.MouseDown(e, this, _control);
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
+            UIHelper.FadeElement(_popupStackPanel, false, 150, () =>
+            {
+                _popup.IsOpen = false;                
+            });
             GenericControlHelper.MouseUp(e, this, _control);
             base.OnMouseUp(e);
         }

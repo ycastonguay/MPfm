@@ -4,6 +4,7 @@
         xmlns:base="clr-namespace:Sessions.WPF.Classes.Windows.Base"        
         xmlns:converters="clr-namespace:Sessions.WPF.Classes.Converters"        
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
         Title="Sessions" Height="653" Width="900" Icon="/Sessions.WPF;component/Resources/Icon.ico">
     <Window.Resources>

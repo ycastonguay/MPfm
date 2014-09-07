@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Controls.Interfaces;
@@ -33,7 +34,9 @@ namespace Sessions.GenericControls.Controls
         private float _valueRatio = 0;
         private float _valueRelativeToValueRange = 0;
         private float _valueRange = 0;
+        private float _mouseDownY = 0;
         private bool _mouseButtonDown = false;
+        private List<ScrubbingSpeed> _scrubbingSpeeds; 
 
         private BasicBrush _brushBackground;
         private BasicBrush _brushFaderColor2;
@@ -79,9 +82,7 @@ namespace Sessions.GenericControls.Controls
 
                 _value = value;
                 InvalidateVisual();
-
-                if (OnTrackBarValueChanged != null)
-                    OnTrackBarValueChanged();
+                TrackBarValueChanged();
             }
         }
 
@@ -98,8 +99,16 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        public delegate void TrackBarValueChanged();
-        public event TrackBarValueChanged OnTrackBarValueChanged;
+        private ScrubbingSpeed _currentScrubbingSpeed;
+        public ScrubbingSpeed CurrentScrubbingSpeed
+        {
+            get { return _currentScrubbingSpeed; }
+        }
+
+        public delegate void TrackBarValueChangedDelegate();
+        public delegate void ScrubbingSpeedChangedDelegate(ScrubbingSpeed scrubbingSpeed);
+        public event TrackBarValueChangedDelegate OnTrackBarValueChanged;
+        public event ScrubbingSpeedChangedDelegate OnScrubbingSpeedChanged;
 
         public TrackBarControl()
             : base()
@@ -112,6 +121,29 @@ namespace Sessions.GenericControls.Controls
             StepSize = 1;
             WheelStepSize = 1;
             Theme = new TrackBarTheme();
+            CreateScrubbingSpeeds();
+        }
+
+        protected void TrackBarValueChanged()
+        {
+            if (OnTrackBarValueChanged != null)
+                OnTrackBarValueChanged();
+        }
+
+        protected void ScrubbingSpeedChanged(ScrubbingSpeed scrubbingSpeed)
+        {
+            if (OnScrubbingSpeedChanged != null)
+                OnScrubbingSpeedChanged(scrubbingSpeed);
+        }
+
+        private void CreateScrubbingSpeeds()
+        {
+            _scrubbingSpeeds = new List<ScrubbingSpeed>();
+            _scrubbingSpeeds.Add(new ScrubbingSpeed(1, 50, "High-speed scrubbing"));
+            _scrubbingSpeeds.Add(new ScrubbingSpeed(0.5f, 100, "Half-speed scrubbing"));
+            _scrubbingSpeeds.Add(new ScrubbingSpeed(0.25f, 150, "Quarter-speed scrubbing"));
+            _scrubbingSpeeds.Add(new ScrubbingSpeed(0.1f, 200, "Fine scrubbing"));
+            _currentScrubbingSpeed = _scrubbingSpeeds[0];
         }
 
         private void CreateDrawingResources()
@@ -128,7 +160,7 @@ namespace Sessions.GenericControls.Controls
         {
             // Make sure the mouse button pressed was the left mouse button
             _mouseButtonDown = true;
-            //CaptureMouse();
+            _mouseDownY = y;
             if (button == MouseButtonType.Left)
             {
                 // Check if the user clicked in the fader area
@@ -145,7 +177,6 @@ namespace Sessions.GenericControls.Controls
         public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             // Check if the track bar was moving (mouse down)
-            //ReleaseMouseCapture();
             if (!_isTrackBarMoving)
             {
                 // The user clicked without dragging the mouse; we need to add or
@@ -165,9 +196,7 @@ namespace Sessions.GenericControls.Controls
                         Value += StepSize;
                 }
 
-                if (OnTrackBarValueChanged != null)
-                    OnTrackBarValueChanged();
-
+                TrackBarValueChanged();
                 InvalidateVisual();
             }
 
@@ -189,20 +218,27 @@ namespace Sessions.GenericControls.Controls
             bool valueChanged = false;
             if (_isTrackBarMoving && _mouseButtonDown)
             {
-                // Evaluate tick height
+                // Identify scrubbing speed
+                float deltaY = y - _mouseDownY;
+                var scrubbingSpeed = IdentifyScrubbingSpeed(deltaY);
+                if (_currentScrubbingSpeed != scrubbingSpeed)
+                {
+                    _currentScrubbingSpeed = scrubbingSpeed;
+                    ScrubbingSpeedChanged(_currentScrubbingSpeed);
+                }
+
+                // Evaluate tick width
                 double tickWidth = _trackWidth / _valueRange;
+                //tickWidth = tickWidth * (1/scrubbingSpeed.Speed);
                 for (int a = Minimum; a < Maximum + 1; a++)
                 {
                     double startX = (a - Minimum) * tickWidth;
                     double endX = (a - Minimum + 1) * tickWidth;
-
-                    // Adjust cursor position relative to margin
                     double cursorX = x - Margin;
 
                     // Does the cursor exceed min or max?
                     if (cursorX <= 0)
                     {
-                        // Don't change the value if it's already the same!
                         if (Value != Minimum)
                         {
                             Value = Minimum;
@@ -212,7 +248,6 @@ namespace Sessions.GenericControls.Controls
                     }
                     else if (cursorX >= _trackWidth)
                     {
-                        // Don't change the value if it's already the same!
                         if (Value != Maximum)
                         {
                             Value = Maximum;
@@ -223,7 +258,6 @@ namespace Sessions.GenericControls.Controls
                     // Is the cursor in the current value?
                     else if (cursorX >= startX && cursorX <= endX)
                     {
-                        // Don't change the value if it's already the same!
                         if (Value != a)
                         {
                             Value = a;
@@ -236,9 +270,7 @@ namespace Sessions.GenericControls.Controls
                 // If the value has changed, refresh control and raise event
                 if (valueChanged)
                 {
-                    if (OnTrackBarValueChanged != null)
-                        OnTrackBarValueChanged();
-
+                    TrackBarValueChanged();
                     InvalidateVisual();
                 }
             }
@@ -260,6 +292,17 @@ namespace Sessions.GenericControls.Controls
             else if(newValue > Maximum)
                 newValue = Maximum;
             Value = newValue;
+        }
+
+        private ScrubbingSpeed IdentifyScrubbingSpeed(float deltaY)
+        {
+            foreach (var scrubbingSpeed in _scrubbingSpeeds)
+            {
+                if (deltaY < scrubbingSpeed.DeltaRange)
+                    return scrubbingSpeed;
+            }
+
+            return _scrubbingSpeeds[_scrubbingSpeeds.Count - 1];
         }
 
         public override void Render(IGraphicsContext context)
@@ -332,6 +375,20 @@ namespace Sessions.GenericControls.Controls
             //context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor, _faderShadowColor, 90), new BasicPen());
             
             context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), _penShadowColor1);
+        }
+
+        public class ScrubbingSpeed
+        {
+            public float Speed { get; set; }
+            public float DeltaRange { get; set; }
+            public string Label { get; set; }
+
+            public ScrubbingSpeed(float speed, float deltaRange, string label)
+            {
+                Speed = speed;
+                DeltaRange = deltaRange;
+                Label = label;
+            }
         }
     }
 }
