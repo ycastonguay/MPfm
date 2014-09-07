@@ -776,14 +776,30 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnLoopStartPosition_OnClick(object sender, RoutedEventArgs e)
         {
+            ShowLoopStartPositionTab();
+        }
+
+        private void ShowLoopStartPositionTab()
+        {
+            if (panelLoopStartPosition.Visibility == Visibility.Visible)
+                return;
+
             ResetLoopHeaderButtonStyles();
             ResetLoopHeaderPanelVisibility();
             btnLoopStartPosition.Style = System.Windows.Application.Current.Resources["SmallHeaderButtonSelected"] as Style;
-            panelLoopStartPosition.Visibility = Visibility.Visible;            
+            panelLoopStartPosition.Visibility = Visibility.Visible;                        
         }
 
         private void BtnLoopEndPosition_OnClick(object sender, RoutedEventArgs e)
         {
+            ShowLoopEndPositionTab();
+        }
+
+        private void ShowLoopEndPositionTab()
+        {
+            if (panelLoopEndPosition.Visibility == Visibility.Visible)
+                return;
+
             ResetLoopHeaderButtonStyles();
             ResetLoopHeaderPanelVisibility();
             btnLoopEndPosition.Style = System.Windows.Application.Current.Resources["SmallHeaderButtonSelected"] as Style;
@@ -900,6 +916,14 @@ namespace Sessions.WPF.Classes.Windows
             if (gridLoopDetails.Visibility == Visibility.Visible)
             {
                 OnChangingSegmentPosition(segment, positionPercentage);
+
+                // Select the correct segment tab
+                var startSegment = _currentLoop.GetStartSegment();
+                var endSegment = _currentLoop.GetEndSegment();
+                if (startSegment.SegmentId == segment.SegmentId)
+                    ShowLoopStartPositionTab();
+                else if (endSegment.SegmentId == segment.SegmentId)
+                    ShowLoopEndPositionTab();
             }
         }
 
