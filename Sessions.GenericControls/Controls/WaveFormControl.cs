@@ -431,22 +431,22 @@ namespace Sessions.GenericControls.Controls
         {          
             // The scroll bar slowly appears from zoom 100% to 200%. 
             // This enables a smoother effect when zooming, especially with touch input.
-            int realScrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * ScrollBarHeight) : ScrollBarHeight);
+            const int tileSize = WaveFormEngineService.TileSize;
+            int scrollBarHeight = (int)(Zoom <= 2 ? ((Zoom - 1) * ScrollBarHeight) : ScrollBarHeight);
             int heightAvailable = (int)Frame.Height;
-            int tileSize = WaveFormEngineService.TileSize;
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;
             _cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
             float scrollBarCursorX = positionPercentage * Frame.Width;
-            float cursorHeight = heightAvailable - realScrollBarHeight;
+            float cursorHeight = heightAvailable - scrollBarHeight;
 
             DrawTiles(context, tileSize);
-            DrawScrollBar(context, realScrollBarHeight);
             //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent); // for debugging dirty rects
             DrawMarkers(context, cursorHeight);
-            DrawLoops(context, cursorHeight, realScrollBarHeight);
+            DrawLoop(context, cursorHeight);
             DrawCursors(context, heightAvailable, cursorHeight, scrollBarCursorX);
+            DrawScrollBar(context, scrollBarHeight);
         }
 
         private void DrawTiles(IGraphicsContext context, int tileSize)
@@ -512,42 +512,39 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        private void DrawLoops(IGraphicsContext context, float cursorHeight, float realScrollBarHeight)
+        private void DrawLoop(IGraphicsContext context, float cursorHeight)
         {
-            if (_loop != null)
-            {
-                for (int a = 0; a < _loop.Segments.Count; a++)
-                {
-                    var nextSegment = _loop.GetNextSegment(a);
+            if (_loop == null) 
+                return;
 
-                    float segmentPositionPercentage = (float)_loop.Segments[a].PositionBytes / (float)Length;
-                    float startX = (segmentPositionPercentage * ContentSize.Width) - ContentOffset.X;
+            var startSegment = _loop.GetStartSegment();
+            var endSegment = _loop.GetEndSegment();
+            if (startSegment == null || endSegment == null)
+                return;
 
-                    float nextSegmentPositionPercentage = 0;
-                    float endX = 0;
-                    if (nextSegment != null)
-                    {
-                        nextSegmentPositionPercentage = (float)nextSegment.PositionBytes / (float)Length;
-                        endX = (nextSegmentPositionPercentage * ContentSize.Width) - ContentOffset.X;
-                    }
+            // Calculate position
+            float startPositionPercentage = (float)startSegment.PositionBytes / (float)Length;
+            float startX = (startPositionPercentage * ContentSize.Width) - ContentOffset.X;
+            float endPositionPercentage = (float)endSegment.PositionBytes / (float)Length;
+            float endX = (endPositionPercentage * ContentSize.Width) - ContentOffset.X;
 
-                    // Draw loop lines
-                    //var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
-                    context.SetPen(_penLoopLine);
-                    context.StrokeLine(new BasicPoint(startX, 0), new BasicPoint(startX, cursorHeight));
+            // Draw loop lines
+            context.SetPen(_penLoopLine);
+            context.StrokeLine(new BasicPoint(startX, 0), new BasicPoint(startX, cursorHeight));
+            context.StrokeLine(new BasicPoint(endX, 0), new BasicPoint(endX, cursorHeight));
 
-                    // Draw text
-                    var rectText = new BasicRectangle(startX, Frame.Height - 14, endX > startX ? endX - startX : 0, 14);
-                    //var brush = _markers [a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
-                    context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
-                    //context.DrawText((a+1).ToString(), new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
+            // Draw text
+            var rectText = new BasicRectangle(startX, Frame.Height - 14, endX > startX ? endX - startX : 0, 14);
+            context.DrawRectangle(rectText, _brushLoopBackground, _penTransparent);
+            rectText.X += 2;
+            context.DrawText(_loop.Name, rectText, _textColor, LetterFontFace, LetterFontSize);
 
-                    // Draw loop name in the pass of the first segment
-                    if(a == 0)
-                        context.DrawText(_loop.Name, rectText, _textColor, LetterFontFace, LetterFontSize);
-                        //context.DrawText(_loop.Name, new BasicPoint(startX + 2, Frame.Height - realScrollBarHeight - 12), _textColor, LetterFontFace, LetterFontSize);
-                }
-            }
+            // Draw overlay
+            var overlayLeft = new BasicRectangle(0, 0, startX >= 0 ? startX : 0, Frame.Height);
+            var overlayRight = new BasicRectangle(endX, 0, Frame.Width, Frame.Height);
+            var brushOverlay = new BasicBrush(new BasicColor(0, 0, 0, 130));
+            context.DrawRectangle(overlayLeft, brushOverlay, _penTransparent);
+            context.DrawRectangle(overlayRight, brushOverlay, _penTransparent);
         }
 
         private void DrawCursors(IGraphicsContext context, float heightAvailable, float cursorHeight, float scrollBarCursorX)
