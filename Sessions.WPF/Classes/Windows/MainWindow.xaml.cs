@@ -1736,7 +1736,7 @@ namespace Sessions.WPF.Classes.Windows
                 lblReferenceTempo.Content = entity.ReferenceTempo;
                 lblCurrentTempo.Content = entity.CurrentTempo;
                 //sliderTimeShifting.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
-                trackTimeShifting.Value = (int) entity.TimeShiftingValue;
+                trackTimeShifting.ValueWithoutEvent = (int) entity.TimeShiftingValue;
             }));
         }
 
@@ -1767,7 +1767,7 @@ namespace Sessions.WPF.Classes.Windows
                 lblCurrentKey.Content = entity.NewKey.Item2;
                 lblReferenceKey.Content = entity.ReferenceKey.Item2;
                 //    trackPitch.SetValueWithoutTriggeringEvent(entity.IntervalValue);
-                trackPitchShifting.Value = (int)entity.IntervalValue;
+                trackPitchShifting.ValueWithoutEvent = (int)entity.IntervalValue;
             }));
         }
 

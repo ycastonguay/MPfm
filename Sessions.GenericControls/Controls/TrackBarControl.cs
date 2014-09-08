@@ -34,7 +34,9 @@ namespace Sessions.GenericControls.Controls
         private float _valueRatio = 0;
         private float _valueRelativeToValueRange = 0;
         private float _valueRange = 0;
+        private float _mouseDownX = 0;
         private float _mouseDownY = 0;
+        private int _mouseDownValue = 0;
         private bool _mouseButtonDown = false;
         private List<ScrubbingSpeed> _scrubbingSpeeds; 
 
@@ -79,7 +81,7 @@ namespace Sessions.GenericControls.Controls
             {
                 if (_value == value)
                     return;
-
+                
                 _value = value;
                 InvalidateVisual();
                 TrackBarValueChanged();
@@ -160,7 +162,9 @@ namespace Sessions.GenericControls.Controls
         {
             // Make sure the mouse button pressed was the left mouse button
             _mouseButtonDown = true;
+            _mouseDownX = x;
             _mouseDownY = y;
+            _mouseDownValue = Value;
             if (button == MouseButtonType.Left)
             {
                 // Check if the user clicked in the fader area
@@ -179,25 +183,25 @@ namespace Sessions.GenericControls.Controls
             // Check if the track bar was moving (mouse down)
             if (!_isTrackBarMoving)
             {
-                // The user clicked without dragging the mouse; we need to add or
-                // substract a "step" depending on the mouse cursor position.
-                if (x < _rectFader.X)
-                {
-                    if (Value - StepSize < Minimum)
-                        Value = Minimum;
-                    else
-                        Value -= StepSize;
-                }
-                else if (x > _rectFader.X + _rectFader.Width)
-                {
-                    if (Value + StepSize > Maximum)
-                        Value = Maximum;
-                    else
-                        Value += StepSize;
-                }
+                //// The user clicked without dragging the mouse; we need to add or
+                //// substract a "step" depending on the mouse cursor position.
+                //if (x < _rectFader.X)
+                //{
+                //    if (Value - StepSize < Minimum)
+                //        Value = Minimum;
+                //    else
+                //        Value -= StepSize;
+                //}
+                //else if (x > _rectFader.X + _rectFader.Width)
+                //{
+                //    if (Value + StepSize > Maximum)
+                //        Value = Maximum;
+                //    else
+                //        Value += StepSize;
+                //}
 
-                TrackBarValueChanged();
-                InvalidateVisual();
+                //TrackBarValueChanged();
+                //InvalidateVisual();
             }
 
             _mouseButtonDown = false;
@@ -225,51 +229,27 @@ namespace Sessions.GenericControls.Controls
                 {
                     _currentScrubbingSpeed = scrubbingSpeed;
                     ScrubbingSpeedChanged(_currentScrubbingSpeed);
+
+                    // We need to set a new mousedown value here??
+                    //_mouseDownValue = Value;
+                    _mouseDownValue = (int)((float)Value * (1 / _currentScrubbingSpeed.Speed));
+
+                    // B U G: When the scrubbing changes, the value is suddently fully multiplied by the scale
                 }
 
-                // Evaluate tick width
-                double tickWidth = _trackWidth / _valueRange;
-                //tickWidth = tickWidth * (1/scrubbingSpeed.Speed);
-                for (int a = Minimum; a < Maximum + 1; a++)
+                // Calculate new value
+                float valuePerPixel = _valueRange/_trackWidth;
+                float relativeValue = (x - _mouseDownX) * valuePerPixel * _currentScrubbingSpeed.Speed;
+                //float relativeValue = (x - _mouseDownX) * valuePerPixel;
+                float value = relativeValue + (_mouseDownValue * _currentScrubbingSpeed.Speed);
+                //value = value * _currentScrubbingSpeed.Speed;
+                value = Math.Max(value, Minimum);
+                value = Math.Min(value, Maximum);
+                if (value != Value)
                 {
-                    double startX = (a - Minimum) * tickWidth;
-                    double endX = (a - Minimum + 1) * tickWidth;
-                    double cursorX = x - Margin;
-
-                    // Does the cursor exceed min or max?
-                    if (cursorX <= 0)
-                    {
-                        if (Value != Minimum)
-                        {
-                            Value = Minimum;
-                            valueChanged = true;
-                            break;
-                        }
-                    }
-                    else if (cursorX >= _trackWidth)
-                    {
-                        if (Value != Maximum)
-                        {
-                            Value = Maximum;
-                            valueChanged = true;
-                            break;
-                        }
-                    }
-                    // Is the cursor in the current value?
-                    else if (cursorX >= startX && cursorX <= endX)
-                    {
-                        if (Value != a)
-                        {
-                            Value = a;
-                            valueChanged = true;
-                            break;
-                        }
-                    }
-                }
-
-                // If the value has changed, refresh control and raise event
-                if (valueChanged)
-                {
+                    Value = (int) value;
+                    //Console.WriteLine("===>>>> TrackBarControl value: {0}", value);
+                    //Console.WriteLine("===>>>> TrackBarControl - tickWidth: {0} valueRange: {1} valuePerPixel: {2} mouseDownValue: {3} relativeValue: {4} value: {5}", tickWidth, valuePerPixel, _valueRange, _mouseDownValue, relativeValue, value);
                     TrackBarValueChanged();
                     InvalidateVisual();
                 }
@@ -291,7 +271,7 @@ namespace Sessions.GenericControls.Controls
                 newValue = Minimum;
             else if(newValue > Maximum)
                 newValue = Maximum;
-            Value = newValue;
+            //Value = newValue;
         }
 
         private ScrubbingSpeed IdentifyScrubbingSpeed(float deltaY)
