@@ -246,17 +246,20 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                // Calculate new position from 0.0f/1.0f scale
-                long positionBytes = (long)(positionPercentage * _lengthBytes);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, _audioFile.BitsPerSample, _audioFile.AudioChannels);
-                long positionMS = ConvertAudio.ToMS(positionSamples, _audioFile.SampleRate);
-                string positionString = ConvertAudio.ToTimeString(positionMS);
+                var startSegment = _loop.GetStartSegment();
+                var endSegment = _loop.GetEndSegment();
 
-                // Update local segment and update view
-                segment.Position = positionString;
-                segment.PositionBytes = positionBytes;
-                segment.PositionSamples = positionSamples;
-                //float positionPercentage = ((float)segment.PositionBytes / (float)_lengthBytes) * 100;
+                // Make sure the loop length doesn't get below 0
+                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_lengthBytes))
+                {
+                    positionPercentage = (float)endSegment.PositionBytes / (float)_lengthBytes;
+                }
+                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_lengthBytes))
+                {
+                    positionPercentage = (float)startSegment.PositionBytes / (float)_lengthBytes;
+                }
+
+                segment.SetPositionFromPercentage(positionPercentage, _lengthBytes, _audioFile);
 
                 if (updateDatabase)
                 {

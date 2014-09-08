@@ -183,25 +183,25 @@ namespace Sessions.GenericControls.Controls
             // Check if the track bar was moving (mouse down)
             if (!_isTrackBarMoving)
             {
-                //// The user clicked without dragging the mouse; we need to add or
-                //// substract a "step" depending on the mouse cursor position.
-                //if (x < _rectFader.X)
-                //{
-                //    if (Value - StepSize < Minimum)
-                //        Value = Minimum;
-                //    else
-                //        Value -= StepSize;
-                //}
-                //else if (x > _rectFader.X + _rectFader.Width)
-                //{
-                //    if (Value + StepSize > Maximum)
-                //        Value = Maximum;
-                //    else
-                //        Value += StepSize;
-                //}
+                // The user clicked without dragging the mouse; we need to add or
+                // substract a "step" depending on the mouse cursor position.
+                if (x < _rectFader.X)
+                {
+                    if (Value - StepSize < Minimum)
+                        Value = Minimum;
+                    else
+                        Value -= StepSize;
+                }
+                else if (x > _rectFader.X + _rectFader.Width)
+                {
+                    if (Value + StepSize > Maximum)
+                        Value = Maximum;
+                    else
+                        Value += StepSize;
+                }
 
-                //TrackBarValueChanged();
-                //InvalidateVisual();
+                TrackBarValueChanged();
+                InvalidateVisual();
             }
 
             _mouseButtonDown = false;

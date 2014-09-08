@@ -17,6 +17,7 @@
 
 using System;
 using Sessions.Core.Attributes;
+using Sessions.Sound.AudioFiles;
 
 namespace Sessions.Player.Objects
 {
@@ -54,6 +55,18 @@ namespace Sessions.Player.Objects
             LoopId = Guid.Empty;
             MarkerId = Guid.Empty;
             Position = "0:00.000";
+        }
+
+        public void SetPositionFromPercentage(float percentage, long lengthBytes, AudioFile audioFile)
+        {
+            long positionBytes = (long)(percentage * lengthBytes);
+            long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
+            long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
+            string positionString = ConvertAudio.ToTimeString(positionMS);
+
+            Position = positionString;
+            PositionBytes = positionBytes;
+            PositionSamples = positionSamples;
         }
     }
 }

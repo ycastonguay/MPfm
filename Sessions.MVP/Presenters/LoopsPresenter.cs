@@ -131,6 +131,13 @@ namespace Sessions.MVP.Presenters
                 loop.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
                 loop.Name = "New Loop";
                 loop.CreateStartEndSegments();
+
+                var startSegment = loop.GetStartSegment();
+                startSegment.SetPositionFromPercentage(0.1f, _playerService.CurrentPlaylistItem.LengthBytes, _playerService.CurrentPlaylistItem.AudioFile);
+
+                var endSegment = loop.GetEndSegment();
+                endSegment.SetPositionFromPercentage(0.9f, _playerService.CurrentPlaylistItem.LengthBytes, _playerService.CurrentPlaylistItem.AudioFile);
+
                 _libraryService.InsertLoop(loop);
                 _libraryService.InsertSegment(loop.Segments[0]);
                 _libraryService.InsertSegment(loop.Segments[1]);
