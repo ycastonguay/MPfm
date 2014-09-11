@@ -30,9 +30,10 @@ namespace Sessions.GenericControls.Controls.Base
     /// <summary>
     /// Base class for list view style controls. Does not have the concept of columns.
     /// </summary>
-    public abstract class ListViewControlBase<T> : ControlBase where T : ListViewItem  //, IControlMouseInteraction, IControlKeyboardInteraction
+    public abstract class ListViewControlBase<T> : ControlBase, IControlMouseInteraction, IControlKeyboardInteraction where T : ListViewItem 
     {
         // Control wrappers
+        public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }    
         public IVerticalScrollBarWrapper VerticalScrollBar { get; private set; }
 
         private List<T> _items;
@@ -68,10 +69,19 @@ namespace Sessions.GenericControls.Controls.Base
         /// </summary>
         public bool CanReorderItems { get; set; }
 
+        /// <summary>
+        /// Cache for GridView.
+        /// </summary>
+        protected ListViewCache ListCache { get; set; }
+
         public int Padding { get; set; }
 
         protected int StartLineNumber { get; set; }
         protected int NumberOfLinesToDraw { get; set; }
+        protected bool IsMouseOverControl { get; set; }
+        protected bool IsUserHoldingLeftMouseButton { get; set; }
+        protected int DragStartX { get; set; }
+        protected int LastItemIndexClicked { get; set; }
 
         public delegate void SelectedIndexChangedDelegate();
         public delegate void ItemDoubleClickDelegate(int index);
@@ -87,6 +97,9 @@ namespace Sessions.GenericControls.Controls.Base
         {
             Padding = 6;
             CanReorderItems = true;
+
+            HorizontalScrollBar = horizontalScrollBar;
+            HorizontalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
             VerticalScrollBar = verticalScrollBar;
             VerticalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
 
@@ -121,10 +134,17 @@ namespace Sessions.GenericControls.Controls.Base
         {
         }        
 
-        protected virtual void DrawRows(IGraphicsContext context)
+        public virtual void DrawRows(IGraphicsContext context)
         {
+        }
 
-        }       
+        public virtual void DrawHeader(IGraphicsContext context)
+        {
+        }
+
+        public virtual void DrawDebugInformation(IGraphicsContext context)
+        {
+        }
 
         /// <summary>
         /// Clears the currently selected items.
@@ -175,6 +195,483 @@ namespace Sessions.GenericControls.Controls.Base
 
             return new Tuple<int, int>(startIndex, endIndex);
         }
+
+        protected bool IsLineVisible(int lineIndex)
+        {
+            return lineIndex < StartLineNumber || lineIndex > StartLineNumber + NumberOfLinesToDraw;// + PreloadLinesAlbumCover;
+        }
+
+        /// <summary>
+        /// Creates a cache of values used for rendering the grid view.
+        /// Also sets scrollbar position, height, value, maximum, etc.
+        /// </summary>
+        public void InvalidateListViewCache()
+        {
+            if (Items == null)
+                return;
+
+            // Create cache
+            //GridCache = new GridViewCache();
+            ListCache = new ListViewCache();
+
+            // Get active columns and order them
+            //GridCache.ActiveColumns = new List<GridViewColumn>(Columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList());
+
+            //string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
+            //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
+            var rectText = new BasicRectangle(0, 0, 100, 14);
+
+            // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
+            ListCache.LineHeight = (int)rectText.Height + Padding;
+            ListCache.TotalHeight = ListCache.LineHeight * Items.Count;
+
+//            // Check if the total active columns width exceed the width available in the control
+//            GridCache.TotalWidth = 0;
+//            for (int a = 0; a < GridCache.ActiveColumns.Count; a++)
+//                if (GridCache.ActiveColumns[a].Visible)
+//                    GridCache.TotalWidth += GridCache.ActiveColumns[a].Width;
+
+            // Calculate the number of lines visible (count out the header, which is one line height)
+            ListCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(Frame.Height) / (double)(ListCache.LineHeight));
+
+            // Set vertical scrollbar dimensions
+            //VerticalScrollBar.Top = _cache.LineHeight;
+            //VerticalScrollBar.Left = ClientRectangle.Width - VerticalScrollBar.Width;
+            VerticalScrollBar.Minimum = 0;
+
+            // Scrollbar maximum is the number of lines fitting in the screen + the remaining line which might be cut
+            // by the control height because it's not a multiple of line height (i.e. the last line is only partly visible)
+            int lastLineHeight = (int)(Frame.Height - (ListCache.LineHeight * ListCache.NumberOfLinesFittingInControl));
+            int startLineNumber = Math.Max((int)Math.Floor((double)VerticalScrollBar.Value / (double)(ListCache.LineHeight)), 0);
+
+//            // Check width
+//            if (GridCache.TotalWidth > Frame.Width - VerticalScrollBar.Width)
+//            {
+//                // Set scrollbar values
+//                HorizontalScrollBar.Maximum = GridCache.TotalWidth;
+//                HorizontalScrollBar.SmallChange = 5;
+//                HorizontalScrollBar.LargeChange = (int)Frame.Width;
+//                HorizontalScrollBar.Visible = true;
+//            }
+
+//            // Check if the horizontal scrollbar needs to be turned off
+//            if (GridCache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
+//                HorizontalScrollBar.Visible = false;
+
+            // If there are less items than items fitting on screen...            
+            if (((ListCache.NumberOfLinesFittingInControl - 1) * ListCache.LineHeight) - HorizontalScrollBar.Height >= ListCache.TotalHeight)
+            {
+                // Disable the scrollbar
+                VerticalScrollBar.Enabled = false;
+                VerticalScrollBar.Value = 0;
+            }
+            else
+            {
+                VerticalScrollBar.Enabled = true;
+
+                // Calculate the vertical scrollbar maximum
+                int vMax = ListCache.LineHeight * (Items.Count - ListCache.NumberOfLinesFittingInControl + 1) - lastLineHeight;
+
+                // Add the horizontal scrollbar height if visible
+                if (HorizontalScrollBar.Visible)
+                    vMax += HorizontalScrollBar.Height;
+
+                // Compensate for the header, and for the last line which might be truncated by the control height
+                VerticalScrollBar.Maximum = vMax;
+                VerticalScrollBar.SmallChange = ListCache.LineHeight;
+                VerticalScrollBar.LargeChange = 1 + ListCache.LineHeight * 5;
+            }
+
+            // Calculate the scrollbar offset Y
+            ListCache.ScrollBarOffsetY = (startLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
+
+            // If both scrollbars need to be visible, the width and height must be changed
+            if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
+            {
+                // Cut 16 pixels
+                HorizontalScrollBar.Width = (int)(Frame.Width - 16);
+                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - (ListCache.LineHeight * 2) - 16));
+            }
+            else
+            {
+                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - (ListCache.LineHeight * 2)));
+            }
+        }
+
+        #region IControlKeyboardInteraction implementation
+
+        public virtual void KeyDown(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
+        {           
+            if (ListCache == null)
+                return;
+
+            int selectedIndex = -1;
+            int scrollbarOffsetY = (StartLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
+            var startEndIndexes = GetStartIndexAndEndIndexOfSelectedRows();
+
+            if (specialKeys == SpecialKeys.Enter)
+            {
+                ItemDoubleClick(startEndIndexes.Item1);
+                return;
+            }
+
+            switch (specialKeys)
+            {
+                case SpecialKeys.Down:
+                    if (startEndIndexes.Item1 < Items.Count - 1)
+                    {
+                        selectedIndex = startEndIndexes.Item1;
+                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        {
+                            selectedIndex++;
+                            if (!Items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
+                    break;
+                case SpecialKeys.Up:
+                    if (startEndIndexes.Item1 > 0)
+                    {
+                        selectedIndex = startEndIndexes.Item1;
+                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        {
+                            selectedIndex--;
+                            if (!Items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
+                    break;
+                case SpecialKeys.PageDown:
+                    selectedIndex = startEndIndexes.Item1 + ListCache.NumberOfLinesFittingInControl - 2; // 2 is header + scrollbar height
+                    selectedIndex = Math.Min(selectedIndex, Items.Count - 1);
+
+                    if (selectedIndex == Items.Count - 1)
+                    {
+                        // If we are to select the last item, make sure the item we're selecting is NOT an empty row
+                        selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
+                    } 
+                    else
+                    {
+                        // Continue to interate until we find a selectable row
+                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        {
+                            selectedIndex++;
+                            if (!Items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
+                    break;
+                case SpecialKeys.PageUp:
+                    selectedIndex = startEndIndexes.Item1 - ListCache.NumberOfLinesFittingInControl + 2; 
+                    selectedIndex = Math.Max(selectedIndex, 0);
+
+                    if (selectedIndex > 0)
+                    {
+                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        {
+                            selectedIndex--;
+                            if (!Items[selectedIndex].IsEmptyRow)
+                                break;
+                        }
+                    }
+                    break;
+                case SpecialKeys.Home:
+                    selectedIndex = 0; // First item cannot be empty
+                    break;
+                case SpecialKeys.End:
+                    selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
+                    break;
+            }
+
+            if (selectedIndex == -1)
+                return;
+
+            ResetSelection();
+            Items[selectedIndex].IsSelected = true;
+
+            // Check if new selection is out of bounds of visible area
+            float y = ((selectedIndex - StartLineNumber + 1)*ListCache.LineHeight) + scrollbarOffsetY;
+            //Console.WriteLine("SongGridViewControl - KeyDown - y: {0} scrollbarOffsetY: {1} VerticalScrollBar.Value: {2}", y, scrollbarOffsetY, VerticalScrollBar.Value);
+
+            int newVerticalScrollBarValue = VerticalScrollBar.Value;
+            switch (specialKeys)
+            {
+                case SpecialKeys.Down:
+                    // Check for out of bounds
+                    if (y > Frame.Height - HorizontalScrollBar.Height - ListCache.LineHeight)
+                        newVerticalScrollBarValue = VerticalScrollBar.Value + ListCache.LineHeight;
+                    break;
+                case SpecialKeys.Up:
+                    // Check for out of bounds
+                    if (y < ListCache.LineHeight)
+                        newVerticalScrollBarValue = VerticalScrollBar.Value - ListCache.LineHeight;
+                    break;
+                case SpecialKeys.PageDown:
+                    int heightToScrollDown = ((startEndIndexes.Item1 - StartLineNumber) * ListCache.LineHeight) + scrollbarOffsetY;
+                    newVerticalScrollBarValue = VerticalScrollBar.Value + heightToScrollDown;
+                    break;
+                case SpecialKeys.PageUp:
+                    int heightToScrollUp = ((StartLineNumber + ListCache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * ListCache.LineHeight) - scrollbarOffsetY;
+                    newVerticalScrollBarValue = VerticalScrollBar.Value - heightToScrollUp;
+                    break;
+                case SpecialKeys.Home:
+                    newVerticalScrollBarValue = 0;
+                    break;
+                case SpecialKeys.End:
+                    newVerticalScrollBarValue = VerticalScrollBar.Maximum;
+                    break;
+            }
+
+            // Make sure we don't scroll out of bounds
+            if (newVerticalScrollBarValue > VerticalScrollBar.Maximum)
+                newVerticalScrollBarValue = VerticalScrollBar.Maximum;
+            if (newVerticalScrollBarValue < 0)
+                newVerticalScrollBarValue = 0;
+            VerticalScrollBar.Value = newVerticalScrollBarValue;
+
+            // Is this necessary when scrolling the whole area? it will refresh all anyway
+            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, y, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, Cache.LineHeight));
+            InvalidateVisual();
+        }
+
+        public virtual void KeyUp(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
+        {
+        }
+
+        #endregion
+
+        #region IControlMouseInteraction implementation
+
+        public virtual void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {
+            if(button == MouseButtonType.Left)
+                IsUserHoldingLeftMouseButton = true;
+
+            DragStartX = (int)x;                
+        }
+
+        public virtual void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {
+            IsUserHoldingLeftMouseButton = false;       
+            DragStartX = -1;
+        }
+
+        public virtual void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {            
+            bool controlNeedsToBeFullyInvalidated = false;
+            bool controlNeedsToBePartiallyInvalidated = false;
+            var partialRect = new BasicRectangle();
+
+            if (ListCache == null)
+                return;
+
+            // Loop through visible lines to find the original selected items
+            var tuple = GetStartIndexAndEndIndexOfSelectedRows();
+            int startIndex = tuple.Item1;
+            int endIndex = tuple.Item2;
+            int scrollbarOffsetY = (StartLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
+
+            // Make sure the indexes are set
+            if (startIndex > -1 && endIndex > -1)
+            {
+                // Invalidate the original selected lines
+                int startY = ((startIndex - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY;
+                int endY = ((endIndex - StartLineNumber + 2) * ListCache.LineHeight) + scrollbarOffsetY;
+                var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, startY, Frame.Width + HorizontalScrollBar.Value, endY - startY);
+                partialRect.Merge(newPartialRect);
+                controlNeedsToBePartiallyInvalidated = true;
+            }
+
+            // Reset selection (make sure SHIFT or CTRL isn't held down)
+            if (!keysHeld.IsShiftKeyHeld && !keysHeld.IsCtrlKeyHeld)
+            {
+                // Make sure the mouse is over at least one item
+                var mouseOverItem = Items.FirstOrDefault(item => item.IsMouseOverItem == true);
+                if (mouseOverItem != null)
+                    ResetSelection();
+            }
+
+            // Loop through visible lines to update the new selected items
+            bool invalidatedNewSelection = false;
+            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
+            {
+                // Check if mouse is over this item
+                if (Items[a].IsMouseOverItem)
+                {
+                    invalidatedNewSelection = true;
+
+                    // Check if SHIFT is held
+                    if (keysHeld.IsShiftKeyHeld)
+                    {
+                        // Find the start index of the selection
+                        int startIndexSelection = LastItemIndexClicked;
+                        if (a < startIndexSelection)
+                            startIndexSelection = a;
+                        if (startIndexSelection < 0)
+                            startIndexSelection = 0;
+
+                        // Find the end index of the selection
+                        int endIndexSelection = LastItemIndexClicked;
+                        if (a > endIndexSelection)
+                            endIndexSelection = a + 1;
+
+                        // Loop through items to selected
+                        for (int b = startIndexSelection; b < endIndexSelection; b++)
+                            Items [b].IsSelected = true;
+
+                        controlNeedsToBeFullyInvalidated = true;
+                    }                
+                    // Check if CTRL is held
+                    else if(keysHeld.IsCtrlKeyHeld)
+                    {
+                        // Invert selection
+                        Items[a].IsSelected = !Items[a].IsSelected;
+                        var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
+                    }
+                    else
+                    {
+                        // Set this item as the new selected item
+                        Items[a].IsSelected = true;
+                        var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
+                    }
+
+                    // Set the last item clicked index
+                    LastItemIndexClicked = a;
+                    break;
+                }
+            }
+
+            // Raise selected item changed event (if an event is subscribed)
+            if (invalidatedNewSelection)
+            {
+                if(SelectedItems.Count > 0)
+                    SelectedIndexChanged();
+                else
+                    SelectedIndexChanged();
+            }
+
+            if (controlNeedsToBeFullyInvalidated)
+                InvalidateVisual();
+            else if (controlNeedsToBePartiallyInvalidated)
+                InvalidateVisualInRect(partialRect);
+        }
+
+        public virtual void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {
+        }
+
+        public virtual void MouseMove(float x, float y, MouseButtonType button)
+        {
+            //Console.WriteLine("SongGridViewControl - MouseMove - x: {0} y: {1}", x, y);
+            if (ListCache == null)
+                return;
+
+            // Check if the mouse cursor is over a line (loop through lines)                        
+            int offsetY = 0;
+            //int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
+
+            // Check if there's at least one item
+            if (Items.Count > 0)
+            {
+                // Reset mouse over item flags
+                for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
+                {
+                    //Console.WriteLine("SongGridViewControl - MouseMove - Checking for resetting mouse over flag for line {0}", b);
+                    // Check if the mouse was over this item
+                    if (Items[b].IsMouseOverItem)
+                    {
+                        // Reset flag and invalidate region
+                        //Console.WriteLine("SongGridViewControl - MouseMove - Resetting mouse over flag for line {0}", b);
+                        Items[b].IsMouseOverItem = false;
+                        break;
+                    }
+                }
+
+                // Put new mouse over flag
+                for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
+                {
+                    // Calculate offset
+                    offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
+                    //Console.WriteLine("SongGridViewControl - MouseMove - Checking for setting mouse over flag for line {0} - offsetY: {1}", a, offsetY);
+
+                    // Check if the mouse cursor is over this line (and not already mouse over)
+                    if (x >= HorizontalScrollBar.Value &&
+                        y >= offsetY &&
+                        y <= offsetY + ListCache.LineHeight &&
+                        !Items[a].IsEmptyRow &&
+                        !Items[a].IsMouseOverItem)
+                    {
+                        // Set item as mouse over
+                        //Console.WriteLine("SongGridViewControl - MouseMove - Mouse is over item {0} {1}/{2}/{3}", a, Items[a].AudioFile.ArtistName, Items[a].AudioFile.AlbumTitle, Items[a].AudioFile.Title);
+                        Items[a].IsMouseOverItem = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public virtual void MouseLeave()
+        {
+            IsMouseOverControl = false;   
+
+            if (ListCache == null)
+                return;
+
+            bool controlNeedsToBePartiallyInvalidated = false;
+            var partialRect = new BasicRectangle();
+
+            int scrollbarOffsetY = (StartLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
+            if (Items.Count > 0)
+            {
+                for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
+                {
+                    if (Items[b].IsMouseOverItem)
+                    {
+                        Items[b].IsMouseOverItem = false;
+                        var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((b - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
+                        partialRect.Merge(newPartialRect);
+                        controlNeedsToBePartiallyInvalidated = true;
+                        break;
+                    }
+                }
+            }
+
+            if (controlNeedsToBePartiallyInvalidated)
+                InvalidateVisualInRect(partialRect);             
+        }
+
+        public virtual void MouseEnter()
+        {
+            IsMouseOverControl = true;
+        }
+
+        public virtual void MouseWheel(float delta)
+        {
+            if (ListCache == null)
+                return;
+
+            // Make sure the mouse cursor is over the control, and that the vertical scrollbar is enabled
+            if (!IsMouseOverControl || !VerticalScrollBar.Enabled)
+                return;
+
+            // Get relative value
+            //int value = delta / SystemInformation.MouseWheelScrollDelta;
+
+            int newValue = (int) (VerticalScrollBar.Value + (-delta * ListCache.LineHeight));
+            //Console.WriteLine("SongGridViewControl - MouseWheel - delta: {0} VerticalScrollBar.Value: {1} lineHeight: {2} newValue: {3}", delta, VerticalScrollBar.Value, Cache.LineHeight, newValue);
+
+            newValue = Math.Min(newValue, VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange);
+            newValue = Math.Max(newValue, 0);
+            
+            VerticalScrollBar.Value = newValue;
+            InvalidateVisual();
+        }
+
+        #endregion
 
         public enum ContextMenuType
         {

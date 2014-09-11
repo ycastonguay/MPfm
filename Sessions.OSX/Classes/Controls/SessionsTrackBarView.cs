@@ -74,7 +74,7 @@ namespace Sessions.OSX.Classes.Controls
         }
 
         public delegate void TrackBarMouseEvent();
-        public event TrackBarControl.TrackBarValueChanged OnTrackBarValueChanged;
+        public event TrackBarControl.TrackBarValueChangedDelegate OnTrackBarValueChanged;
         public event TrackBarMouseEvent OnTrackBarMouseDown;
         public event TrackBarMouseEvent OnTrackBarMouseUp;
 

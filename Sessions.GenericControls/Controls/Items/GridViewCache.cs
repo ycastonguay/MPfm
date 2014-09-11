@@ -24,7 +24,7 @@ namespace Sessions.GenericControls.Controls.Items
     /// Contains data which doesn't need to be calculated for every
     /// control refresh, such as the line height, scrollbar offset, etc.
     /// </summary>
-    public class GridViewCache : ListViewCache
+    public class GridViewCache<U> where U : GridViewColumn
     {
         /// <summary>
         /// Indicates the total width of all the visible grid view columns,
@@ -35,6 +35,6 @@ namespace Sessions.GenericControls.Controls.Items
         /// <summary>
         /// List of currently active columns.
         /// </summary>
-        public List<GridViewColumn> ActiveColumns { get; set; }
+        public List<U> ActiveColumns { get; set; }
     }
 }
