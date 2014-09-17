@@ -159,5 +159,8 @@
     <Compile Include="Services\Interfaces\IAlbumArtCacheService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtRequestService.cs" />
     <Compile Include="Services\Objects\AlbumArtRequest.cs" />	
+    <Compile Include="Controls\Themes\ListViewTheme.cs" />
+    <Compile Include="Controls\Themes\SongGridViewTheme.cs" />
+    <Compile Include="Controls\Items\SongGridViewItem.cs" />    
   </ItemGroup>
 </Project>

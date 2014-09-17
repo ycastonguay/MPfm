@@ -132,8 +132,6 @@
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />
     <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
-    <Compile Include="Controls\Songs\SongGridViewItem.cs" />
-    <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
     <Compile Include="Controls\TrackBarControl.cs" />
     <Compile Include="Controls\WaveFormControl.cs" />
     <Compile Include="Controls\WaveFormScaleControl.cs" />
@@ -174,5 +172,8 @@
     <Compile Include="Services\Interfaces\IAlbumArtCacheService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtRequestService.cs" />
     <Compile Include="Services\Objects\AlbumArtRequest.cs" />	
+    <Compile Include="Controls\Themes\ListViewTheme.cs" />
+    <Compile Include="Controls\Themes\SongGridViewTheme.cs" />
+    <Compile Include="Controls\Items\SongGridViewItem.cs" />    
   </ItemGroup>
 </Project>

@@ -24,6 +24,8 @@ using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
 using Sessions.GenericControls.Basics;
+using Sessions.GenericControls.Controls.Themes;
+using System.Text;
 
 namespace Sessions.GenericControls.Controls.Base
 {
@@ -74,7 +76,9 @@ namespace Sessions.GenericControls.Controls.Base
         /// </summary>
         protected ListViewCache ListCache { get; set; }
 
+        public ListViewTheme Theme { get; set; }
         public int Padding { get; set; }
+        public bool DisplayDebugInformation { get; set; }
 
         protected int StartLineNumber { get; set; }
         protected int NumberOfLinesToDraw { get; set; }
@@ -93,10 +97,13 @@ namespace Sessions.GenericControls.Controls.Base
         public event ChangeMouseCursorTypeDelegate OnChangeMouseCursorType;
         public event DisplayContextMenuDelegate OnDisplayContextMenu;
 
+        protected abstract string GetCellContent(int row, int col, string fieldName);
+
         protected ListViewControlBase(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar)
         {
             Padding = 6;
             CanReorderItems = true;
+            Theme = new ListViewTheme();
 
             HorizontalScrollBar = horizontalScrollBar;
             HorizontalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
@@ -130,20 +137,188 @@ namespace Sessions.GenericControls.Controls.Base
                 OnDisplayContextMenu(contextMenuType, x, y);
         }
 
+        protected virtual void DetermineVisibleLineIndexes()
+        {
+            // Calculate how many lines must be skipped because of the scrollbar position
+            StartLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (ListCache.LineHeight)), 0);
+
+            // Check if the total number of lines exceeds the number of icons fitting in height
+            NumberOfLinesToDraw = 0;
+            if (StartLineNumber + ListCache.NumberOfLinesFittingInControl > Items.Count)
+            {
+                // There aren't enough lines to fill the screen
+                NumberOfLinesToDraw = Items.Count - StartLineNumber;
+            }
+            else
+            {
+                // Fill up screen 
+                NumberOfLinesToDraw = ListCache.NumberOfLinesFittingInControl;
+            }
+
+            // Add one line for overflow; however, make sure we aren't adding a line without content 
+            if (StartLineNumber + NumberOfLinesToDraw + 1 <= Items.Count)
+                NumberOfLinesToDraw++;
+        }
+
         public override void Render(IGraphicsContext context)
         {
-        }        
+            if (Items == null)
+                return;
 
-        public virtual void DrawRows(IGraphicsContext context)
-        {
+//            //var stopwatch = new Stopwatch();
+//            //stopwatch.Start();
+
+            // If frame doesn't match, refresh frame and song cache
+            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight || ListCache == null)
+            {
+                Frame = new BasicRectangle(context.BoundsWidth, context.BoundsHeight);
+                InvalidateCache();
+            }            
+
+            // Draw background
+            context.DrawRectangle(Frame, new BasicBrush(Theme.BackgroundColor), new BasicPen());
+
+            DrawRows(context);
+            DrawHeader(context);
+            DrawDebugInformation(context);
+
+            if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
+            {
+                // Draw a bit of control color over the 16x16 area in the lower right corner
+                var brush = new BasicBrush(new BasicColor(200, 200, 200));
+                context.DrawRectangle(new BasicRectangle(Frame.Width - 16, Frame.Height - 16, 16, 16), brush, new BasicPen());
+            }
+
+//            //stopwatch.Stop();
+//            //Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
+        }     
+
+        protected virtual BasicColor GetRowBackgroundColor(int row)
+        {   
+            var color = Theme.CellBackgroundColor;
+            if (Items[row].IsSelected)
+            {
+                color = Theme.SelectedBackgroundColor;
+
+//                    // Use darker color
+//                    byte diff = 4;
+//                    colorBackground1 = new BasicColor(255,
+//                        (byte)((colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff),
+//                        (byte)((colorBackground1.G - diff < 0) ? 0 : colorBackground1.G - diff),
+//                        (byte)((colorBackground1.B - diff < 0) ? 0 : colorBackground1.B - diff));
+//                    colorBackground2 = new BasicColor(255,
+//                        (byte)((colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff),
+//                        (byte)((colorBackground2.G - diff < 0) ? 0 : colorBackground2.G - diff),
+//                        (byte)((colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff));
+            }
+
+            //// Check if mouse is over item
+            //if (items[a].IsMouseOverItem)
+            //{
+            //    // Use lighter color
+            //    int diff = 20;
+            //    colorBackground1 = Color.FromArgb(255,
+            //        (colorBackground1.R + diff > 255) ? 255 : colorBackground1.R + diff,
+            //        (colorBackground1.G + diff > 255) ? 255 : colorBackground1.G + diff,
+            //        (colorBackground1.B + diff > 255) ? 255 : colorBackground1.B + diff);
+            //    colorBackground2 = Color.FromArgb(255,
+            //        (colorBackground2.R + diff > 255) ? 255 : colorBackground2.R + diff,
+            //        (colorBackground2.G + diff > 255) ? 255 : colorBackground2.G + diff,
+            //        (colorBackground2.B + diff > 255) ? 255 : colorBackground2.B + diff);
+            //}
+
+            return color;
         }
 
-        public virtual void DrawHeader(IGraphicsContext context)
+        protected virtual void DrawRowBackground(IGraphicsContext context, int row, float offsetY)
         {
+            var penTransparent = new BasicPen();
+
+            //int albumArtColumnWidth = Columns[0].Visible ? Columns[0].Width : 0;
+            //int lineBackgroundWidth = (int)(Frame.Width + HorizontalScrollBar.Value - albumArtColumnWidth);
+            int lineBackgroundWidth = (int)(Frame.Width + HorizontalScrollBar.Value);
+            if (VerticalScrollBar.Visible)
+                lineBackgroundWidth -= VerticalScrollBar.Width;
+
+            // Draw row background
+            //var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, ListCache.LineHeight + 1);
+            var color = GetRowBackgroundColor(row);
+            var rectBackground = new BasicRectangle(HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, ListCache.LineHeight + 1);
+            //var brushGradient = new BasicGradientBrush(color, color, 90);
+            var brush = new BasicBrush(color);
+            context.DrawRectangle(rectBackground, brush, penTransparent);
         }
 
-        public virtual void DrawDebugInformation(IGraphicsContext context)
+        protected virtual void DrawRows(IGraphicsContext context)
         {
+            DetermineVisibleLineIndexes();
+
+            // Loop through lines
+            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
+            {                
+                const float offsetX = 0;
+                float offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight; // compensate for scrollbar position
+
+                DrawRowBackground(context, a, offsetY);
+                DrawCells(context, a, offsetX, offsetY);
+            }
+        }
+
+        protected virtual void DrawCells(IGraphicsContext context, int row, float offsetX, float offsetY)
+        {
+            // Only one cell in a list view
+            DrawCell(context, row, 0, offsetX, offsetY);
+        }
+
+        protected virtual void DrawCell(IGraphicsContext context, int row, int col, float offsetX, float offsetY)
+        {
+            //var rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, offsetY + (Theme.Padding / 2), GridCache.ActiveColumns[col].Width, ListCache.LineHeight - Theme.Padding + 2);
+            var rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, offsetY + (Theme.Padding / 2), Frame.Width, ListCache.LineHeight - Theme.Padding + 2);
+            var value = GetCellContent(row, col, string.Empty);
+            context.DrawText(value, rect, Theme.TextColor, Theme.FontName, Theme.FontSize);
+        }
+            
+        protected virtual void DrawHeader(IGraphicsContext context)
+        {
+            var penTransparent = new BasicPen();
+            var brushGradient = new BasicGradientBrush(Theme.HeaderBackgroundColor, Theme.HeaderBackgroundColor, 90);
+
+            // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
+            var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, ListCache.LineHeight + 1);
+            context.DrawRectangle(rectBackgroundHeader, brushGradient, penTransparent);
+        }
+
+        protected virtual void DrawDebugInformation(IGraphicsContext context)
+        {
+            if (DisplayDebugInformation)
+            {
+                // Build debug string
+                var sbDebug = new StringBuilder();
+                sbDebug.AppendLine("Line Count: " + Items.Count.ToString());
+                sbDebug.AppendLine("Line Height: " + ListCache.LineHeight.ToString());
+                sbDebug.AppendLine("Lines Fit In Height: " + ListCache.NumberOfLinesFittingInControl.ToString());
+                //sbDebug.AppendLine("Total Width: " + GridCache.TotalWidth);
+                sbDebug.AppendLine("Total Height: " + ListCache.TotalHeight);
+                sbDebug.AppendLine("Scrollbar Offset Y: " + ListCache.ScrollBarOffsetY);
+                sbDebug.AppendLine("HScrollbar Maximum: " + HorizontalScrollBar.Maximum.ToString());
+                sbDebug.AppendLine("HScrollbar LargeChange: " + HorizontalScrollBar.LargeChange.ToString());
+                sbDebug.AppendLine("HScrollbar Value: " + HorizontalScrollBar.Value.ToString());
+                sbDebug.AppendLine("VScrollbar Maximum: " + VerticalScrollBar.Maximum.ToString());
+                sbDebug.AppendLine("VScrollbar LargeChange: " + VerticalScrollBar.LargeChange.ToString());
+                sbDebug.AppendLine("VScrollbar Value: " + VerticalScrollBar.Value.ToString());
+
+                // Measure string
+                var sizeDebugText = context.MeasureText(sbDebug.ToString(), new BasicRectangle(0, 0, 200, 40), Theme.FontName, Theme.FontSize);
+                var rect = new BasicRectangle(0, 0, 200, sizeDebugText.Height);
+
+                // Draw background
+                var brush = new BasicBrush(new BasicColor(200, 0, 0));
+                var penTransparent = new BasicPen();
+                context.DrawRectangle(rect, brush, penTransparent);
+
+                // Draw string
+                context.DrawText(sbDebug.ToString(), rect, new BasicColor(255, 255, 255), Theme.FontName, Theme.FontSize);
+            }
         }
 
         /// <summary>
@@ -201,11 +376,12 @@ namespace Sessions.GenericControls.Controls.Base
             return lineIndex < StartLineNumber || lineIndex > StartLineNumber + NumberOfLinesToDraw;// + PreloadLinesAlbumCover;
         }
 
-        /// <summary>
-        /// Creates a cache of values used for rendering the grid view.
-        /// Also sets scrollbar position, height, value, maximum, etc.
-        /// </summary>
-        public void InvalidateListViewCache()
+        public virtual void InvalidateCache()
+        {
+            InvalidateListViewCache();
+        }
+
+        private void InvalidateListViewCache()
         {
             if (Items == null)
                 return;

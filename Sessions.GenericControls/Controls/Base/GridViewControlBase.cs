@@ -23,6 +23,7 @@ using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Wrappers;
 using Sessions.GenericControls.Interaction;
+using Sessions.GenericControls.Graphics;
 
 namespace Sessions.GenericControls.Controls.Base
 {
@@ -132,40 +133,18 @@ namespace Sessions.GenericControls.Controls.Base
                 OnColumnClick(index);
         }
 
-        protected virtual void DetermineVisibleLineIndexes()
+        public override void InvalidateCache()
         {
-            // Calculate how many lines must be skipped because of the scrollbar position
-            StartLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (ListCache.LineHeight)), 0);
+            base.InvalidateCache();
 
-            // Check if the total number of lines exceeds the number of icons fitting in height
-            NumberOfLinesToDraw = 0;
-            if (StartLineNumber + ListCache.NumberOfLinesFittingInControl > Items.Count)
-            {
-                // There aren't enough lines to fill the screen
-                NumberOfLinesToDraw = Items.Count - StartLineNumber;
-            }
-            else
-            {
-                // Fill up screen 
-                NumberOfLinesToDraw = ListCache.NumberOfLinesFittingInControl;
-            }
-
-            // Add one line for overflow; however, make sure we aren't adding a line without content 
-            if (StartLineNumber + NumberOfLinesToDraw + 1 <= Items.Count)
-                NumberOfLinesToDraw++;
+            InvalidateGridViewCache();
         }
 
-        /// <summary>
-        /// Creates a cache of values used for rendering the grid view.
-        /// Also sets scrollbar position, height, value, maximum, etc.
-        /// </summary>
-        public void InvalidateGridViewCache()
+        private void InvalidateGridViewCache()
         {
             // Check if columns have been created
             if (Columns == null || Columns.Count == 0 || Items == null)
                 return;
-
-            InvalidateListViewCache();
 
             // Create cache
             GridCache = new GridViewCache<U>();
@@ -197,6 +176,165 @@ namespace Sessions.GenericControls.Controls.Base
             if (GridCache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
                 HorizontalScrollBar.Visible = false;
         }
+
+        #region Rendering Methods
+
+        protected override void DrawRowBackground(IGraphicsContext context, int row, float offsetY)
+        {
+            base.DrawRowBackground(context, row, offsetY);
+        }
+
+        protected override BasicColor GetRowBackgroundColor(int row)
+        {
+            return base.GetRowBackgroundColor(row);
+        }
+
+        protected override void DrawRows(IGraphicsContext context)
+        {
+            base.DrawRows(context);
+        }
+
+        protected override void DrawCells(IGraphicsContext context, int row, float offsetX, float offsetY)
+        {
+            // Do not call the base method because we are changing the behavior completely
+            for (int b = 0; b < GridCache.ActiveColumns.Count; b++)
+            {
+                var column = GridCache.ActiveColumns[b];
+                if (column.Visible)
+                {
+                    DrawCell(context, row, b, offsetX, offsetY);
+                    offsetX += column.Width;
+                }
+            }
+        }
+
+        protected override void DrawCell(IGraphicsContext context, int row, int col, float offsetX, float offsetY)
+        {
+            // Do not call the base method because we are changing the behavior completely
+            var column = GridCache.ActiveColumns[col];
+            var rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, offsetY + (Theme.Padding / 2), GridCache.ActiveColumns[col].Width, ListCache.LineHeight - Theme.Padding + 2);
+            var value = GetCellContent(row, col, column.FieldName);
+            context.DrawText(value, rect, Theme.TextColor, Theme.FontName, Theme.FontSize);
+        }
+
+        protected override void DrawHeader(IGraphicsContext context)
+        {
+            // Do not call the base method because we are changing the behavior completely
+            var rect = new BasicRectangle();
+            var pen = new BasicPen();
+            var penTransparent = new BasicPen();
+            var brushGradient = new BasicGradientBrush(Theme.HeaderBackgroundColor, Theme.HeaderBackgroundColor, 90);
+
+            // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
+            var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, ListCache.LineHeight + 1);
+            context.DrawRectangle(rectBackgroundHeader, brushGradient, penTransparent);
+
+            // Loop through columns
+            int offsetX = 0;
+            for (int b = 0; b < GridCache.ActiveColumns.Count; b++)
+            {
+                var column = GridCache.ActiveColumns[b];
+                if (column.Visible)
+                {
+                    // The last column always take the remaining width
+                    int columnWidth = column.Width;
+                    if (b == GridCache.ActiveColumns.Count - 1)
+                    {
+                        // Calculate the remaining width
+                        int columnsWidth = 0;
+                        for (int c = 0; c < GridCache.ActiveColumns.Count - 1; c++)
+                            columnsWidth += GridCache.ActiveColumns[c].Width;
+                        columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
+                    }
+
+                    // Check if mouse is over this column header
+                    if (column.IsMouseOverColumnHeader)
+                    {
+                        // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
+                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, ListCache.LineHeight + 1);
+                        brushGradient = new BasicGradientBrush(Theme.MouseOverHeaderBackgroundColor, Theme.MouseOverHeaderBackgroundColor, 90);
+                        context.DrawRectangle(rect, brushGradient, penTransparent);
+                    }
+                    else if (column.IsUserMovingColumn)
+                    {
+                        // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
+                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, ListCache.LineHeight + 1);
+                        brushGradient = new BasicGradientBrush(new BasicColor(0, 0, 255), new BasicColor(0, 255, 0), 90);
+                        context.DrawRectangle(rect, brushGradient, penTransparent);
+                    }
+
+                    // Check if the header title must be displayed
+                    if (GridCache.ActiveColumns[b].IsHeaderTitleVisible)
+                    {
+                        // Display title                
+                        var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, Theme.Padding / 2, column.Width, ListCache.LineHeight - Theme.Padding + 2);
+                        //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+                        context.DrawText(column.Title, rectTitle, Theme.HeaderTextColor, Theme.FontNameBold, Theme.FontSize);
+                    }
+
+                    // Draw column separator line; determine the height of the line
+                    int columnHeight = (int) Frame.Height;
+
+                    // Determine the height of the line; if the items don't fit the control height...
+                    if (Items.Count < ListCache.NumberOfLinesFittingInControl)
+                    {
+                        // Set height as the number of items (plus header)
+                        columnHeight = (Items.Count + 1) * ListCache.LineHeight;
+                    }
+
+                    // Draw column line
+                    //g.DrawLine(Pens.DarkGray, new Point(offsetX + column.Width - HorizontalScrollBar.Value, 0), new Point(offsetX + column.Width - HorizontalScrollBar.Value, columnHeight));
+
+                    // Check if the column is ordered by
+                    if (column.FieldName == OrderByFieldName && !String.IsNullOrEmpty(column.FieldName))
+                    {
+                        // Create triangle points,,,
+                        var ptTriangle = new BasicPoint[3];
+
+                        // ... depending on the order by ascending value
+                        int triangleWidthHeight = 8;
+                        int trianglePadding = (ListCache.LineHeight - triangleWidthHeight) / 2;
+                        if (OrderByAscending)
+                        {
+                            // Create points for ascending
+                            ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, trianglePadding);
+                            ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, ListCache.LineHeight - trianglePadding);
+                            ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, ListCache.LineHeight - trianglePadding);
+                        }
+                        else
+                        {
+                            // Create points for descending
+                            ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, ListCache.LineHeight - trianglePadding);
+                            ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, trianglePadding);
+                            ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, trianglePadding);
+                        }
+
+                        // Draw triangle
+                        pen = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
+                    }
+
+                    // Increment offset by the column width
+                    offsetX += column.Width;
+                }
+            }
+
+            // Display column move marker
+            if (IsColumnMoving)
+            {
+                // Draw marker
+                pen = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
+                context.DrawRectangle(new BasicRectangle(ColumnMoveMarkerX - HorizontalScrollBar.Value, 0, 1, Frame.Height), new BasicBrush(), pen);
+            }
+        }
+
+        protected override void DrawDebugInformation(IGraphicsContext context)
+        {
+            base.DrawDebugInformation(context);
+        }
+
+        #endregion
+
+        #region Interaction Methods
 
         public override void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
@@ -322,7 +460,7 @@ namespace Sessions.GenericControls.Controls.Base
 
             if (controlNeedsToBeFullyInvalidated)
             {
-                InvalidateGridViewCache();
+                InvalidateCache();
                 InvalidateVisual();
             }
         }
@@ -406,7 +544,7 @@ namespace Sessions.GenericControls.Controls.Base
                                 }
 
                                 // Raise column click event and invalidate control
-                                InvalidateGridViewCache();
+                                InvalidateCache();
                                 ColumnClick(a);
                                 InvalidateVisual();
                                 return;
@@ -468,7 +606,7 @@ namespace Sessions.GenericControls.Controls.Base
 
                     // Refresh control (invalidate whole control)
                     controlNeedsToBeFullyInvalidated = true;
-                    InvalidateGridViewCache();
+                    InvalidateCache();
 
                     // Auto adjust horizontal scrollbar value if it exceeds the value range (i.e. do not show empty column)
                     if (HorizontalScrollBar.Value > HorizontalScrollBar.Maximum - HorizontalScrollBar.LargeChange)
@@ -605,5 +743,6 @@ namespace Sessions.GenericControls.Controls.Base
                 InvalidateVisualInRect(partialRect);
         }
 
+        #endregion
     }
 }

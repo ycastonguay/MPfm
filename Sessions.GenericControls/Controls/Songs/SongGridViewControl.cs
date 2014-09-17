@@ -33,6 +33,7 @@ using Sessions.Core;
 using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
+using Sessions.GenericControls.Controls.Themes;
 
 namespace Sessions.GenericControls.Controls.Songs
 {
@@ -50,22 +51,10 @@ namespace Sessions.GenericControls.Controls.Songs
         private int _timerAnimationNowPlayingCount = 0;
         private BasicRectangle _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
         private Timer _timerAnimationNowPlaying = null;
+        private string _currentAlbumArtKey;
+        private bool _nowPlayingSongFound;
         
-        private SongGridViewTheme _theme;
-        /// <summary>
-        /// Defines the current theme used for rendering the control.
-        /// </summary>
-        public SongGridViewTheme Theme
-        {
-            get
-            {
-                return _theme;
-            }
-            set
-            {
-                _theme = value;
-            }
-        }
+        public SongGridViewTheme ExtendedTheme { get; set; }
 
         private int _minimumRowsPerAlbum = 6;
         /// <summary>
@@ -102,23 +91,7 @@ namespace Sessions.GenericControls.Controls.Songs
                 InvalidateRow(oldValue, _nowPlayingAudioFileId);
             }
         }
-
-        private bool _displayDebugInformation = false;
-        /// <summary>
-        /// If true, the debug information will be shown over the first column.
-        /// </summary>
-        public bool DisplayDebugInformation
-        {
-            get
-            {
-                return _displayDebugInformation;
-            }
-            set
-            {
-                _displayDebugInformation = value;
-            }
-        }
-
+            
         /// <summary>
         /// Default constructor for SongGridView.
         /// </summary>
@@ -129,7 +102,7 @@ namespace Sessions.GenericControls.Controls.Songs
             _albumArtCacheService = albumArtCacheService;
             _albumArtRequestService = albumArtRequestService;
             _albumArtRequestService.OnAlbumArtExtracted += HandleOnAlbumArtExtracted;
-            _theme = new SongGridViewTheme();
+            ExtendedTheme = new SongGridViewTheme();
 
             _timerAnimationNowPlaying = new Timer();
             _timerAnimationNowPlaying.Interval = 50;
@@ -217,9 +190,9 @@ namespace Sessions.GenericControls.Controls.Songs
                 InvalidateVisual();
         }
 
-        private void InvalidateCache()
+        public override void InvalidateCache()
         {
-            InvalidateGridViewCache();
+            base.InvalidateCache();
         }
 
         /// <summary>
@@ -307,249 +280,194 @@ namespace Sessions.GenericControls.Controls.Songs
         //    }
         //}
 
-        /// <summary>
-        /// Occurs when the control needs to be painted.
-        /// </summary>
+        #region Rendering Methods
+
         public override void Render(IGraphicsContext context)
         {
             base.Render(context);
-
-            if (Items == null)
-                return;
-
-            //var stopwatch = new Stopwatch();
-            //stopwatch.Start();
-
-            // If frame doesn't match, refresh frame and song cache
-            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight || GridCache == null)
-            {
-                Frame = new BasicRectangle(context.BoundsWidth, context.BoundsHeight);
-                InvalidateCache();
-            }            
-
-            // Draw background
-            context.DrawRectangle(Frame, new BasicBrush(_theme.AlbumCoverBackgroundColor), new BasicPen());
-
-            DrawRows(context);
-            DrawHeader(context);
-            DrawDebugInformation(context);
-
-            if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
-            {
-                // Draw a bit of control color over the 16x16 area in the lower right corner
-                var brush = new BasicBrush(new BasicColor(200, 200, 200));
-                context.DrawRectangle(new BasicRectangle(Frame.Width - 16, Frame.Height - 16, 16, 16), brush, new BasicPen());
-            }
-
-            //stopwatch.Stop();
-            //Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
         }
 
-        public override void DrawRows(IGraphicsContext context)
+        protected override void DrawRows(IGraphicsContext context)
         {
-            var state = new DrawCellState();
-            var penTransparent = new BasicPen();    
-
-            DetermineVisibleLineIndexes();
-
-            // Loop through lines
-            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
-            {                
-                // Calculate offsets, widths and other variants
-                state.OffsetX = 0;
-                state.OffsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight; // compensate for scrollbar position
-                int albumArtColumnWidth = Columns[0].Visible ? Columns[0].Width : 0;
-                int lineBackgroundWidth = (int) (Frame.Width + HorizontalScrollBar.Value - albumArtColumnWidth);
-                if (VerticalScrollBar.Visible)
-                    lineBackgroundWidth -= VerticalScrollBar.Width;
-
-                // Check conditions to determine background color
-                var audioFile = Items[a].AudioFile;
-                var colorBackground1 = _theme.BackgroundColor;
-                var colorBackground2 = _theme.BackgroundColor;
-                if (audioFile != null && audioFile.Id == _nowPlayingAudioFileId)
-                {
-                    colorBackground1 = _theme.NowPlayingBackgroundColor;
-                    colorBackground2 = _theme.NowPlayingBackgroundColor;
-                }
-
-                if (Items[a].IsSelected)
-                {
-                    colorBackground1 = _theme.SelectedBackgroundColor;
-                    colorBackground2 = _theme.SelectedBackgroundColor;
-
-//                    // Use darker color
-//                    byte diff = 4;
-//                    colorBackground1 = new BasicColor(255,
-//                        (byte)((colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff),
-//                        (byte)((colorBackground1.G - diff < 0) ? 0 : colorBackground1.G - diff),
-//                        (byte)((colorBackground1.B - diff < 0) ? 0 : colorBackground1.B - diff));
-//                    colorBackground2 = new BasicColor(255,
-//                        (byte)((colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff),
-//                        (byte)((colorBackground2.G - diff < 0) ? 0 : colorBackground2.G - diff),
-//                        (byte)((colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff));
-                }
-
-                //// Check if mouse is over item
-                //if (items[a].IsMouseOverItem)
-                //{
-                //    // Use lighter color
-                //    int diff = 20;
-                //    colorBackground1 = Color.FromArgb(255,
-                //        (colorBackground1.R + diff > 255) ? 255 : colorBackground1.R + diff,
-                //        (colorBackground1.G + diff > 255) ? 255 : colorBackground1.G + diff,
-                //        (colorBackground1.B + diff > 255) ? 255 : colorBackground1.B + diff);
-                //    colorBackground2 = Color.FromArgb(255,
-                //        (colorBackground2.R + diff > 255) ? 255 : colorBackground2.R + diff,
-                //        (colorBackground2.G + diff > 255) ? 255 : colorBackground2.G + diff,
-                //        (colorBackground2.B + diff > 255) ? 255 : colorBackground2.B + diff);
-                //}
-
-                //// Check conditions to determine background color
-                //if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == _nowPlayingAudioFileId) ||
-                //    (_mode == SongGridViewMode.Playlist && Items[a].PlaylistItemId == _nowPlayingPlaylistItemId))
-                //{
-                //    colorNowPlaying1 = colorBackground1;
-                //    colorNowPlaying2 = colorBackground2;
-                //}
-
-                // Draw row background
-                var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, state.OffsetY, lineBackgroundWidth, ListCache.LineHeight + 1);
-                var brushGradient = new BasicGradientBrush(colorBackground1, colorBackground2, 90);
-                context.DrawRectangle(rectBackground, brushGradient, penTransparent);
-
-                // Loop through columns                
-                for (int b = 0; b < GridCache.ActiveColumns.Count; b++)
-                    DrawCell(context, a, b, audioFile, state);
-            }
+            base.DrawRows(context);
 
             // If no songs are playing, set the current now playing rectangle as "empty"
-            if (!state.NowPlayingSongFound)
+            if (!_nowPlayingSongFound)
                 _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
         }
-
-        private void DrawCell(IGraphicsContext context, int row, int col, AudioFile audioFile, DrawCellState state)
+                
+        protected override void DrawRowBackground(IGraphicsContext context, int row, float offsetY)
         {
-            var rect = new BasicRectangle();
-            var brush = new BasicBrush();
-            var brushGradient = new BasicGradientBrush();
+            // Do not call base as we are changing the behavior of this method.
+            // We need to make sure we don't draw the background over the album art column
+            var penTransparent = new BasicPen();
+
+            int albumArtColumnWidth = Columns[0].Visible ? Columns[0].Width : 0;
+            int lineBackgroundWidth = (int)(Frame.Width + HorizontalScrollBar.Value - albumArtColumnWidth);
+            if (VerticalScrollBar.Visible)
+                lineBackgroundWidth -= VerticalScrollBar.Width;
+
+            // Draw row background
+            var color = GetRowBackgroundColor(row);
+            var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, ListCache.LineHeight + 1);
+            var brush = new BasicBrush(color);
+            context.DrawRectangle(rectBackground, brush, penTransparent);
+        }
+
+        protected override BasicColor GetRowBackgroundColor(int row)
+        {
+            var audioFile = Items[row].AudioFile;
+            if (audioFile != null && audioFile.Id == _nowPlayingAudioFileId)
+            {
+                return ExtendedTheme.NowPlayingBackgroundColor;
+            }
+
+            return base.GetRowBackgroundColor(row);
+        }
+
+        protected override void DrawCells(IGraphicsContext context, int row, float offsetX, float offsetY)
+        {
+            base.DrawCells(context, row, offsetX, offsetY);
+        }
+
+        protected override void DrawCell(IGraphicsContext context, int row, int col, float offsetX, float offsetY)
+        {
             var penTransparent = new BasicPen();
             var column = GridCache.ActiveColumns[col];
-            if (column.Visible)
+            var audioFile = Items[row].AudioFile;
+            if (column.Title == "Now Playing")
             {
-                if (column.Title == "Now Playing")
+                // Draw now playing icon
+                if (audioFile != null && audioFile.Id == _nowPlayingAudioFileId)
                 {
-                    // Draw now playing icon
-                    if (audioFile != null && audioFile.Id == _nowPlayingAudioFileId)
-                    {
-                        // Which size is the minimum? Width or height?                    
-                        int availableWidthHeight = column.Width - 4;
-                        if (ListCache.LineHeight <= column.Width)
-                            availableWidthHeight = ListCache.LineHeight - 4;
-                        else
-                            availableWidthHeight = column.Width - 4;
+                    // Which size is the minimum? Width or height?                    
+                    int availableWidthHeight = column.Width - 4;
+                    if (ListCache.LineHeight <= column.Width)
+                        availableWidthHeight = ListCache.LineHeight - 4;
+                    else
+                        availableWidthHeight = column.Width - 4;
 
-                        // Calculate the icon position                                
-                        float iconNowPlayingX = ((column.Width - availableWidthHeight) / 2) + state.OffsetX - HorizontalScrollBar.Value;
-                        float iconNowPlayingY = state.OffsetY + ((ListCache.LineHeight - availableWidthHeight) / 2);
+                    // Calculate the icon position                                
+                    float iconNowPlayingX = ((column.Width - availableWidthHeight) / 2) + offsetX - HorizontalScrollBar.Value;
+                    float iconNowPlayingY = offsetY + ((ListCache.LineHeight - availableWidthHeight) / 2);
 
-                        // Create NowPlaying rect (MUST be in integer)                    
-                        _rectNowPlaying = new BasicRectangle((int)iconNowPlayingX, (int)iconNowPlayingY, availableWidthHeight, availableWidthHeight);
-                        state.NowPlayingSongFound = true;
+                    // Create NowPlaying rect (MUST be in integer)                    
+                    _rectNowPlaying = new BasicRectangle((int)iconNowPlayingX, (int)iconNowPlayingY, availableWidthHeight, availableWidthHeight);
+                    _nowPlayingSongFound = true;
 
-                        // Draw outer circle
-                        brushGradient = new BasicGradientBrush(_theme.NowPlayingIndicatorBackgroundColor, _theme.NowPlayingIndicatorBackgroundColor, _timerAnimationNowPlayingCount % 360);
-                        context.DrawEllipsis(_rectNowPlaying, brushGradient, penTransparent);
+                    // Draw outer circle
+                    var brushGradient = new BasicGradientBrush(ExtendedTheme.NowPlayingIndicatorBackgroundColor, ExtendedTheme.NowPlayingIndicatorBackgroundColor, _timerAnimationNowPlayingCount % 360);
+                    context.DrawEllipsis(_rectNowPlaying, brushGradient, penTransparent);
 
-                        // Draw inner circle
-                        rect = new BasicRectangle((int)iconNowPlayingX + 4, (int)iconNowPlayingY + 4, availableWidthHeight - 8, availableWidthHeight - 8);
-                        brush = new BasicBrush(_theme.NowPlayingBackgroundColor);
-                        context.DrawEllipsis(rect, brush, penTransparent);
-                    }
+                    // Draw inner circle
+                    var rect = new BasicRectangle((int)iconNowPlayingX + 4, (int)iconNowPlayingY + 4, availableWidthHeight - 8, availableWidthHeight - 8);
+                    var brush = new BasicBrush(ExtendedTheme.NowPlayingBackgroundColor);
+                    context.DrawEllipsis(rect, brush, penTransparent);
                 }
-                else if (column.Title == "Album Cover")
-                {
-                    DrawAlbumCoverZone(context, row, state);
-                }
-                else if (audioFile != null)
-                {
-                    // Print value depending on type
-                    var propertyInfo = audioFile.GetType().GetProperty(column.FieldName);
-                    if (propertyInfo != null)
-                    {
-                        string value = string.Empty;
-                        try
-                        {
-                            if (propertyInfo.PropertyType.FullName == "System.String")
-                            {
-                                value = propertyInfo.GetValue(audioFile, null).ToString();
-                            }
-                            else if (propertyInfo.PropertyType.FullName.Contains("Int64") &&
-                                propertyInfo.PropertyType.FullName.Contains("Nullable"))
-                            {
-                                long? longValue = (long?)propertyInfo.GetValue(audioFile, null);
-                                if (longValue.HasValue)
-                                    value = longValue.Value.ToString();
-                            }
-                            else if (propertyInfo.PropertyType.FullName.Contains("DateTime") &&
-                                propertyInfo.PropertyType.FullName.Contains("Nullable"))
-                            {
-                                DateTime? dateTimeValue = (DateTime?)propertyInfo.GetValue(audioFile, null);
-                                if (dateTimeValue.HasValue)
-                                    value = dateTimeValue.Value.ToShortDateString() + " " + dateTimeValue.Value.ToShortTimeString();
-                            }
-                            else if (propertyInfo.PropertyType.FullName.Contains("System.UInt32"))
-                            {
-                                uint uintValue = (uint)propertyInfo.GetValue(audioFile, null);
-                                value = uintValue.ToString();
-                            }
-                            else if (propertyInfo.PropertyType.FullName.Contains("System.Int32"))
-                            {
-                                int intValue = (int)propertyInfo.GetValue(audioFile, null);
-                                value = intValue.ToString();
-                            }
-                            else if (propertyInfo.PropertyType.FullName.Contains("Sessions.Sound.AudioFileFormat"))
-                            {
-                                var theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
-                                value = theValue.ToString();
-                            }
-                        }
-                        catch
-                        {
-                            // Do nothing
-                        }
+            }
+            else if (column.Title == "Album Cover")
+            {
+                DrawAlbumCoverZone(context, row);
+            }
+            else if (audioFile != null)
+            {
+                string value = GetCellContent(row, col, column.FieldName);
 
-                        //// The last column always take the remaining width
-                        //int columnWidth = column.Width;
-                        //if (b == Cache.ActiveColumns.Count - 1)
-                        //{
-                        //    // Calculate the remaining width
-                        //    int columnsWidth = 0;
-                        //    for (int c = 0; c < Cache.ActiveColumns.Count - 1; c++)
-                        //    {
-                        //        columnsWidth += Cache.ActiveColumns[c].Width;
-                        //    }
-                        //    //columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
-                        //}
+                //// The last column always take the remaining width
+                //int columnWidth = column.Width;
+                //if (b == Cache.ActiveColumns.Count - 1)
+                //{
+                //    // Calculate the remaining width
+                //    int columnsWidth = 0;
+                //    for (int c = 0; c < Cache.ActiveColumns.Count - 1; c++)
+                //    {
+                //        columnsWidth += Cache.ActiveColumns[c].Width;
+                //    }
+                //    //columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
+                //}
 
-                        // Display text
-                        rect = new BasicRectangle(state.OffsetX - HorizontalScrollBar.Value + 2, state.OffsetY + (_theme.Padding / 2), GridCache.ActiveColumns[col].Width, ListCache.LineHeight - _theme.Padding + 2);
-                        //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-                        //stringFormat.Alignment = StringAlignment.Near;
+                // Display text
+                var rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, offsetY + (Theme.Padding / 2), GridCache.ActiveColumns[col].Width, ListCache.LineHeight - Theme.Padding + 2);
+                //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+                //stringFormat.Alignment = StringAlignment.Near;
 
-                        // Use bold for ArtistName and DiscTrackNumber
-                        if (column.FieldName == "ArtistName" || column.FieldName == "DiscTrackNumber")
-                            context.DrawText(value, rect, _theme.TextColor, _theme.FontNameBold, _theme.FontSize);
-                        else
-                            context.DrawText(value, rect, _theme.TextColor, _theme.FontName, _theme.FontSize);
-                    }
-                }
-
-                state.OffsetX += column.Width;
+                // Use bold for ArtistName and DiscTrackNumber
+                if (column.FieldName == "ArtistName" || column.FieldName == "DiscTrackNumber")
+                    context.DrawText(value, rect, Theme.TextColor, Theme.FontNameBold, Theme.FontSize);
+                else
+                    context.DrawText(value, rect, Theme.TextColor, Theme.FontName, Theme.FontSize);
             }
         }
 
-        private void DrawAlbumCoverZone(IGraphicsContext context, int row, DrawCellState state)
+        protected override string GetCellContent(int row, int col, string fieldName)
+        {
+            // Print value depending on type
+            var audioFile = Items[row].AudioFile;
+            if (audioFile != null)
+            {
+                var propertyInfo = audioFile.GetType().GetProperty(fieldName);
+                if (propertyInfo != null)
+                {
+                    string value = string.Empty;
+                    try
+                    {
+                        if (propertyInfo.PropertyType.FullName == "System.String")
+                        {
+                            value = propertyInfo.GetValue(audioFile, null).ToString();
+                        }
+                        else if (propertyInfo.PropertyType.FullName.Contains("Int64") &&
+                             propertyInfo.PropertyType.FullName.Contains("Nullable"))
+                        {
+                            long? longValue = (long?)propertyInfo.GetValue(audioFile, null);
+                            if (longValue.HasValue)
+                                value = longValue.Value.ToString();
+                        }
+                        else if (propertyInfo.PropertyType.FullName.Contains("DateTime") &&
+                             propertyInfo.PropertyType.FullName.Contains("Nullable"))
+                        {
+                            DateTime? dateTimeValue = (DateTime?)propertyInfo.GetValue(audioFile, null);
+                            if (dateTimeValue.HasValue)
+                                value = dateTimeValue.Value.ToShortDateString() + " " + dateTimeValue.Value.ToShortTimeString();
+                        }
+                        else if (propertyInfo.PropertyType.FullName.Contains("System.UInt32"))
+                        {
+                            uint uintValue = (uint)propertyInfo.GetValue(audioFile, null);
+                            value = uintValue.ToString();
+                        }
+                        else if (propertyInfo.PropertyType.FullName.Contains("System.Int32"))
+                        {
+                            int intValue = (int)propertyInfo.GetValue(audioFile, null);
+                            value = intValue.ToString();
+                        }
+                        else if (propertyInfo.PropertyType.FullName.Contains("Sessions.Sound.AudioFileFormat"))
+                        {
+                            var theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
+                            value = theValue.ToString();
+                        }
+                    }
+                    catch
+                    {
+                        // Do nothing
+                    }
+
+                    return value;
+                }
+            }
+
+            return string.Empty;
+        }
+
+        protected override void DrawHeader(IGraphicsContext context)
+        {
+            base.DrawHeader(context);
+        }
+
+        protected override void DrawDebugInformation(IGraphicsContext context)
+        {
+            base.DrawDebugInformation(context);
+        }
+
+        private void DrawAlbumCoverZone(IGraphicsContext context, int row)
         {
             var pen = new BasicPen();
             var penTransparent = new BasicPen();
@@ -558,10 +476,10 @@ namespace Sessions.GenericControls.Controls.Songs
             //string albumTitle = audioFile != null ? audioFile.AlbumTitle : state.CurrentAlbumTitle; // if this is an empty row, keep last album title
 
             // Check for an album title change (or the last item of the grid)
-            if (state.CurrentAlbumArtKey == item.AlbumArtKey)
+            if (_currentAlbumArtKey == item.AlbumArtKey)
                 return;
 
-            state.CurrentAlbumArtKey = item.AlbumArtKey;
+            _currentAlbumArtKey = item.AlbumArtKey;
 
             int albumCoverStartIndex = 0;
             int albumCoverEndIndex = 0;
@@ -606,18 +524,18 @@ namespace Sessions.GenericControls.Controls.Songs
             // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
             int linesToCover = Math.Min(MinimumRowsPerAlbum, (albumCoverEndIndex + 1 - albumCoverStartIndex));
             int albumCoverZoneHeight = linesToCover * ListCache.LineHeight;
-            int heightWithPadding = Math.Min(albumCoverZoneHeight - (_theme.Padding * 2), GridCache.ActiveColumns[0].Width - (_theme.Padding * 2));
+            int heightWithPadding = Math.Min(albumCoverZoneHeight - (Theme.Padding * 2), GridCache.ActiveColumns[0].Width - (Theme.Padding * 2));
 
             // Make sure the height is at least zero (not necessary to draw anything!)
             if (albumCoverZoneHeight > 0)
             {
                 // Draw album cover background
                 var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, GridCache.ActiveColumns[0].Width, albumCoverZoneHeight);
-                brushGradient = new BasicGradientBrush(_theme.AlbumCoverBackgroundColor, _theme.AlbumCoverBackgroundColor, 90);
+                brushGradient = new BasicGradientBrush(ExtendedTheme.AlbumCoverBackgroundColor, ExtendedTheme.AlbumCoverBackgroundColor, 90);
                 context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
 
                 // Measure available width for text
-                int widthAvailableForText = Columns[0].Width - (_theme.Padding * 2);
+                int widthAvailableForText = Columns[0].Width - (Theme.Padding * 2);
 
                 // Display titles depending on if an album art was found
                 var rectAlbumCoverArt = new BasicRectangle();
@@ -670,12 +588,12 @@ namespace Sessions.GenericControls.Controls.Songs
                     //stringFormat.Alignment = StringAlignment.Center;
                     //stringFormat.Trimming = StringTrimming.EllipsisWord;
 
-                    sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameAlbumArtTitle, _theme.FontSize + 2);
-                    sizeAlbumTitle = context.MeasureText(audioFile.AlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameAlbumArtSubtitle, _theme.FontSize);
+                    sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), ExtendedTheme.FontNameAlbumArtTitle, Theme.FontSize + 2);
+                    sizeAlbumTitle = context.MeasureText(audioFile.AlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), ExtendedTheme.FontNameAlbumArtSubtitle, Theme.FontSize);
 
                     // Display the album title at the top of the zome
-                    rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding, widthAvailableForText, heightWithPadding);
-                    rectAlbumTitleText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding + sizeArtistName.Height, widthAvailableForText, heightWithPadding);
+                    rectArtistNameText = new BasicRectangle(Theme.Padding - HorizontalScrollBar.Value, y + Theme.Padding, widthAvailableForText, heightWithPadding);
+                    rectAlbumTitleText = new BasicRectangle(Theme.Padding - HorizontalScrollBar.Value, y + Theme.Padding + sizeArtistName.Height, widthAvailableForText, heightWithPadding);
                     displayArtistNameAndAlbumTitle = true;
                     useAlbumArtOverlay = true;
                 }
@@ -686,19 +604,19 @@ namespace Sessions.GenericControls.Controls.Songs
                     //stringFormat.Alignment = StringAlignment.Near;
                     //stringFormat.Trimming = StringTrimming.EllipsisWord;
 
-                    float widthRemainingForText = Columns[0].Width - (_theme.Padding * 3) - heightWithPadding;
-                    sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontNameAlbumArtTitle, _theme.FontSize + 2);
-                    sizeAlbumTitle = context.MeasureText(audioFile.AlbumTitle, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontNameAlbumArtSubtitle, _theme.FontSize);
+                    float widthRemainingForText = Columns[0].Width - (Theme.Padding * 3) - heightWithPadding;
+                    sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), ExtendedTheme.FontNameAlbumArtTitle, Theme.FontSize + 2);
+                    sizeAlbumTitle = context.MeasureText(audioFile.AlbumTitle, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), ExtendedTheme.FontNameAlbumArtSubtitle, Theme.FontSize);
 
                     // Try to center the cover art + padding + max text width
                     //float maxWidth = Math.Max(sizeArtistName.Width, sizeAlbumTitle.Width);
-                    float albumCoverX = _theme.Padding - 2; // (Columns[0].Width - heightWithPadding - _theme.Padding - _theme.Padding - maxWidth) / 2;
-                    float artistNameY = _theme.Padding + 1; // (albumCoverZoneHeight - sizeArtistName.Height - sizeAlbumTitle.Height) / 2;
+                    float albumCoverX = Theme.Padding - 2; // (Columns[0].Width - heightWithPadding - _theme.Padding - _theme.Padding - maxWidth) / 2;
+                    float artistNameY = Theme.Padding + 1; // (albumCoverZoneHeight - sizeArtistName.Height - sizeAlbumTitle.Height) / 2;
 
                     // Display the album title at the top of the zome
-                    rectArtistNameText = new BasicRectangle(albumCoverX + heightWithPadding + _theme.Padding - HorizontalScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
-                    rectAlbumTitleText = new BasicRectangle(albumCoverX + heightWithPadding + _theme.Padding - HorizontalScrollBar.Value, y + artistNameY + sizeArtistName.Height + (_theme.Padding / 8f), widthRemainingForText, heightWithPadding);
-                    rectAlbumCoverArt = new BasicRectangle(albumCoverX - HorizontalScrollBar.Value, y + _theme.Padding, heightWithPadding, heightWithPadding);
+                    rectArtistNameText = new BasicRectangle(albumCoverX + heightWithPadding + Theme.Padding - HorizontalScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
+                    rectAlbumTitleText = new BasicRectangle(albumCoverX + heightWithPadding + Theme.Padding - HorizontalScrollBar.Value, y + artistNameY + sizeArtistName.Height + (Theme.Padding / 8f), widthRemainingForText, heightWithPadding);
+                    rectAlbumCoverArt = new BasicRectangle(albumCoverX - HorizontalScrollBar.Value, y + Theme.Padding, heightWithPadding, heightWithPadding);
                     displayArtistNameAndAlbumTitle = widthRemainingForText > 20;
                     useAlbumArtOverlay = true;
                 }
@@ -720,8 +638,8 @@ namespace Sessions.GenericControls.Controls.Songs
 
                 if (displayArtistNameAndAlbumTitle)
                 {
-                    context.DrawText(audioFile.ArtistName, rectArtistNameText, _theme.HeaderTextColor, _theme.FontNameAlbumArtTitle, _theme.FontSize + 2);
-                    context.DrawText(audioFile.AlbumTitle, rectAlbumTitleText, _theme.HeaderTextColor, _theme.FontNameAlbumArtSubtitle, _theme.FontSize);
+                    context.DrawText(audioFile.ArtistName, rectArtistNameText, Theme.HeaderTextColor, ExtendedTheme.FontNameAlbumArtTitle, Theme.FontSize + 2);
+                    context.DrawText(audioFile.AlbumTitle, rectAlbumTitleText, Theme.HeaderTextColor, ExtendedTheme.FontNameAlbumArtSubtitle, Theme.FontSize);
                 }
 
                 // Draw horizontal line to distinguish albums
@@ -735,148 +653,9 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
 
-        public override void DrawHeader(IGraphicsContext context)
-        {
-            var rect = new BasicRectangle();
-            var pen = new BasicPen();
-            var penTransparent = new BasicPen();
-            var brushGradient = new BasicGradientBrush(_theme.HeaderBackgroundColor, _theme.HeaderBackgroundColor, 90);
+        #endregion
 
-            // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
-            var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, ListCache.LineHeight + 1);
-            context.DrawRectangle(rectBackgroundHeader, brushGradient, penTransparent);
-
-            // Loop through columns
-            int offsetX = 0;
-            for (int b = 0; b < GridCache.ActiveColumns.Count; b++)
-            {
-                var column = GridCache.ActiveColumns[b];
-                if (column.Visible)
-                {
-                    // The last column always take the remaining width
-                    int columnWidth = column.Width;
-                    if (b == GridCache.ActiveColumns.Count - 1)
-                    {
-                        // Calculate the remaining width
-                        int columnsWidth = 0;
-                        for (int c = 0; c < GridCache.ActiveColumns.Count - 1; c++)
-                            columnsWidth += GridCache.ActiveColumns[c].Width;
-                        columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
-                    }
-
-                    // Check if mouse is over this column header
-                    if (column.IsMouseOverColumnHeader)
-                    {
-                        // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
-                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, ListCache.LineHeight + 1);
-                        brushGradient = new BasicGradientBrush(_theme.MouseOverHeaderBackgroundColor, _theme.MouseOverHeaderBackgroundColor, 90);
-                        context.DrawRectangle(rect, brushGradient, penTransparent);
-                    }
-                    else if (column.IsUserMovingColumn)
-                    {
-                        // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
-                        rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, ListCache.LineHeight + 1);
-                        brushGradient = new BasicGradientBrush(new BasicColor(0, 0, 255), new BasicColor(0, 255, 0), 90);
-                        context.DrawRectangle(rect, brushGradient, penTransparent);
-                    }
-
-                    // Check if the header title must be displayed
-                    if (GridCache.ActiveColumns[b].IsHeaderTitleVisible)
-                    {
-                        // Display title                
-                        var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, _theme.Padding / 2, column.Width, ListCache.LineHeight - _theme.Padding + 2);
-                        //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-                        context.DrawText(column.Title, rectTitle, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
-                    }
-
-                    // Draw column separator line; determine the height of the line
-                    int columnHeight = (int) Frame.Height;
-
-                    // Determine the height of the line; if the items don't fit the control height...
-                    if (Items.Count < ListCache.NumberOfLinesFittingInControl)
-                    {
-                        // Set height as the number of items (plus header)
-                        columnHeight = (Items.Count + 1) * ListCache.LineHeight;
-                    }
-
-                    // Draw column line
-                    //g.DrawLine(Pens.DarkGray, new Point(offsetX + column.Width - HorizontalScrollBar.Value, 0), new Point(offsetX + column.Width - HorizontalScrollBar.Value, columnHeight));
-
-                    // Check if the column is ordered by
-                    if (column.FieldName == OrderByFieldName && !String.IsNullOrEmpty(column.FieldName))
-                    {
-                        // Create triangle points,,,
-                        var ptTriangle = new BasicPoint[3];
-
-                        // ... depending on the order by ascending value
-                        int triangleWidthHeight = 8;
-                        int trianglePadding = (ListCache.LineHeight - triangleWidthHeight) / 2;
-                        if (OrderByAscending)
-                        {
-                            // Create points for ascending
-                            ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, trianglePadding);
-                            ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, ListCache.LineHeight - trianglePadding);
-                            ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, ListCache.LineHeight - trianglePadding);
-                        }
-                        else
-                        {
-                            // Create points for descending
-                            ptTriangle[0] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - HorizontalScrollBar.Value, ListCache.LineHeight - trianglePadding);
-                            ptTriangle[1] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - HorizontalScrollBar.Value, trianglePadding);
-                            ptTriangle[2] = new BasicPoint(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - HorizontalScrollBar.Value, trianglePadding);
-                        }
-
-                        // Draw triangle
-                        pen = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
-                    }
-
-                    // Increment offset by the column width
-                    offsetX += column.Width;
-                }
-            }
-
-            // Display column move marker
-            if (IsColumnMoving)
-            {
-                // Draw marker
-                pen = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
-                context.DrawRectangle(new BasicRectangle(ColumnMoveMarkerX - HorizontalScrollBar.Value, 0, 1, Frame.Height), new BasicBrush(), pen);
-            }
-        }
-
-        public override void DrawDebugInformation(IGraphicsContext context)
-        {
-            // Display debug information if enabled
-            if (_displayDebugInformation)
-            {
-                // Build debug string
-                var sbDebug = new StringBuilder();
-                sbDebug.AppendLine("Line Count: " + Items.Count.ToString());
-                sbDebug.AppendLine("Line Height: " + ListCache.LineHeight.ToString());
-                sbDebug.AppendLine("Lines Fit In Height: " + ListCache.NumberOfLinesFittingInControl.ToString());
-                sbDebug.AppendLine("Total Width: " + GridCache.TotalWidth);
-                sbDebug.AppendLine("Total Height: " + ListCache.TotalHeight);
-                sbDebug.AppendLine("Scrollbar Offset Y: " + ListCache.ScrollBarOffsetY);
-                sbDebug.AppendLine("HScrollbar Maximum: " + HorizontalScrollBar.Maximum.ToString());
-                sbDebug.AppendLine("HScrollbar LargeChange: " + HorizontalScrollBar.LargeChange.ToString());
-                sbDebug.AppendLine("HScrollbar Value: " + HorizontalScrollBar.Value.ToString());
-                sbDebug.AppendLine("VScrollbar Maximum: " + VerticalScrollBar.Maximum.ToString());
-                sbDebug.AppendLine("VScrollbar LargeChange: " + VerticalScrollBar.LargeChange.ToString());
-                sbDebug.AppendLine("VScrollbar Value: " + VerticalScrollBar.Value.ToString());
-
-                // Measure string
-                var sizeDebugText = context.MeasureText(sbDebug.ToString(), new BasicRectangle(0, 0, Columns[0].Width, 40), _theme.FontName, _theme.FontSize);
-                var rect = new BasicRectangle(0, 0, Columns[0].Width - 1, sizeDebugText.Height);
-
-                // Draw background
-                var brush = new BasicBrush(new BasicColor(200, 0, 0));
-                var penTransparent = new BasicPen();
-                context.DrawRectangle(rect, brush, penTransparent);
-
-                // Draw string
-                context.DrawText(sbDebug.ToString(), rect, new BasicColor(255, 255, 255), _theme.FontName, _theme.FontSize);
-            }
-        }
+        #region Interaction Methods
 
         public override void KeyDown(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
         {
@@ -969,6 +748,8 @@ namespace Sessions.GenericControls.Controls.Songs
             base.MouseMove(x, y, button);
         }
 
+        #endregion
+
         /// <summary>
         /// Invalidates a row (useful for updating currently playing song).
         /// </summary>
@@ -1041,18 +822,6 @@ namespace Sessions.GenericControls.Controls.Songs
 //
 //            // Invalidate region for now playing
 //            OnInvalidateVisualInRect(_rectNowPlaying);
-        }
-
-        /// <summary>
-        /// Data structure used for keeping a state while drawing cells.
-        /// This is used to know when to draw the album art column.
-        /// </summary>
-        private class DrawCellState
-        {
-            public int OffsetX { get; set; }
-            public int OffsetY { get; set; }
-            public bool NowPlayingSongFound { get; set; }
-            public string CurrentAlbumArtKey { get; set; }
         }
     }
 }
