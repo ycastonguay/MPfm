@@ -77,6 +77,7 @@ namespace Sessions.WPF.Classes.Windows
         private static NotifyIcon _playerNotifyIcon;
         private Segment _startSegment;
         private Segment _endSegment;
+        private bool _isPlayingLoop;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -694,7 +695,14 @@ namespace Sessions.WPF.Classes.Windows
             EnableLoopButtons(listViewLoops.SelectedIndex >= 0);
 
             if (listViewLoops.SelectedIndex >= 0)
+            {
                 _selectedLoopIndex = listViewLoops.SelectedIndex;
+                scrollViewWaveForm.SetLoop(_loops[_selectedLoopIndex]);
+            }
+            else
+            {
+                scrollViewWaveForm.SetLoop(null);
+            }
         }
 
         private void ListViewLoops_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -728,6 +736,13 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
         {
+            OnPlayLoop(_loops[_selectedLoopIndex]);
+
+            _isPlayingLoop = !_isPlayingLoop;
+            if(_isPlayingLoop)
+                btnPlayLoop.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/stop.png"));
+            else
+                btnPlayLoop.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/play.png"));
         }
 
         private void BtnAddLoop_OnClick(object sender, RoutedEventArgs e)

@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Base;
-using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Controls.Themes;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
@@ -33,7 +32,6 @@ namespace Sessions.GenericControls.Controls
         private float _trackWidth = 0;
         private float _valueRatio = 0;
         private float _valueRelativeToValueRange = 0;
-        private float _valueRange = 0;
         private float _mouseDownX = 0;
         private float _mouseDownY = 0;
         private int _mouseDownValue = 0;
@@ -230,26 +228,21 @@ namespace Sessions.GenericControls.Controls
                     _currentScrubbingSpeed = scrubbingSpeed;
                     ScrubbingSpeedChanged(_currentScrubbingSpeed);
 
-                    // We need to set a new mousedown value here??
-                    //_mouseDownValue = Value;
-                    _mouseDownValue = (int)((float)Value * (1 / _currentScrubbingSpeed.Speed));
-
-                    // B U G: When the scrubbing changes, the value is suddently fully multiplied by the scale
+                    // Set a new reference when changing scrubbing speed
+                    _mouseDownValue = Value;
+                    _mouseDownX = x;
                 }
 
                 // Calculate new value
-                float valuePerPixel = _valueRange/_trackWidth;
-                float relativeValue = (x - _mouseDownX) * valuePerPixel * _currentScrubbingSpeed.Speed;
-                //float relativeValue = (x - _mouseDownX) * valuePerPixel;
-                float value = relativeValue + (_mouseDownValue * _currentScrubbingSpeed.Speed);
-                //value = value * _currentScrubbingSpeed.Speed;
+                float valueRange = (Maximum - Minimum) + 1;
+                float valuePerPixel = (valueRange / _trackWidth) * _currentScrubbingSpeed.Speed;
+                float value = _mouseDownValue + (x - _mouseDownX) * valuePerPixel;
                 value = Math.Max(value, Minimum);
                 value = Math.Min(value, Maximum);
                 if (value != Value)
                 {
                     Value = (int) value;
-                    //Console.WriteLine("===>>>> TrackBarControl value: {0}", value);
-                    //Console.WriteLine("===>>>> TrackBarControl - tickWidth: {0} valueRange: {1} valuePerPixel: {2} mouseDownValue: {3} relativeValue: {4} value: {5}", tickWidth, valuePerPixel, _valueRange, _mouseDownValue, relativeValue, value);
+                    //Console.WriteLine("TrackBarControl - value: {0} valueRange: {1} valuePerPixel: {2} mouseDownValue: {3}", value, valueRange, valuePerPixel, _mouseDownValue);
                     TrackBarValueChanged();
                     InvalidateVisual();
                 }
@@ -291,7 +284,7 @@ namespace Sessions.GenericControls.Controls
 
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
-            _valueRange = (Maximum - Minimum) + 1;
+            var valueRange = (Maximum - Minimum) + 1;
 
             // Get track bar value relative to value range (value - minimum value).
             // Ex: Min = 50, Max = 150, Value = 100. Value relative to value range = 50.            
@@ -301,7 +294,7 @@ namespace Sessions.GenericControls.Controls
             context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
             // Return if value range is zero
-            if (_valueRange == 0)
+            if (valueRange == 0)
                 return;
 
             // Draw fader track
@@ -316,12 +309,12 @@ namespace Sessions.GenericControls.Controls
             _trackWidth = context.BoundsWidth - (Margin * 2);
 
             // Get tick width
-            float tickWidth = _trackWidth / _valueRange;
+            float tickWidth = _trackWidth / valueRange;
 
             // Get the percentage of the value relative to value range (needed to draw the fader).
             // We need to divide the value relative to value range to the value range to get the ratio.
             // Ex: Min = 50, Max = 150, Value = 100. Value relative to value range = 50. Value range = 100. Value ratio = 0.5
-            _valueRatio = (_valueRelativeToValueRange / _valueRange);
+            _valueRatio = (_valueRelativeToValueRange / valueRange);
 
             // Get the value X coordinate by multiplying the value ratio to the track bar width (removed 3 pixels from left
             // and right). Add margin from left.
