@@ -214,13 +214,13 @@ namespace Sessions.Sound.AudioFiles
         #region CUE Properties
 
         [Category("CUE Properties"), Description("Determines if this audio file depends on a CUE file.")]
-        public bool IsCUEFile { get; set; }
+        public bool HasCUEFile { get; set; }
 
         [Category("CUE Properties"), Description("Determines the start position within the audio file (requires a CUE file).")]
-        public string CUEFileStartPosition { get; set; }
+        public string StartPosition { get; set; }
 
         [Category("CUE Properties"), Description("Determines the end position within the audio file (requires a CUE file).")]
-        public string CUEFileEndPosition { get; set; }
+        public string EndPosition { get; set; }
 
         #endregion
 

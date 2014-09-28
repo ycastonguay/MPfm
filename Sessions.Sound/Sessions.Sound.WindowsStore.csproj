@@ -141,7 +141,10 @@
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="AudioFiles\AudioFileLoader.cs" />
     <Compile Include="AudioFiles\AudioFileWriter.cs" />
-    <Compile Include="AudioFiles\CueFileLoader.cs" />      
+    <Compile Include="CueFiles\CueFileLoader.cs" />
+    <Compile Include="CueFiles\CueFile.cs" />
+    <Compile Include="CueFiles\CueMetadata.cs" />
+    <Compile Include="CueFiles\CueTrack.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.WindowsStore.csproj">
