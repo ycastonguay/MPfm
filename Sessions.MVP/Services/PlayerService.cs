@@ -52,6 +52,7 @@ namespace Sessions.MVP.Services
         public bool IsInitialized { get; private set; }
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPlaying { get { return _player.IsPlaying; } }
+        public bool IsPlayingLoop { get { return _player.IsPlayingLoop; } }
         public bool IsPaused { get { return _player.IsPaused; } }
         public bool IsShuffleEnabled { get { return _player.IsShuffleEnabled; } set { _player.IsShuffleEnabled = value; } }
         public bool UseFloatingPoint { get { return _player.UseFloatingPoint; } }

@@ -63,7 +63,6 @@ namespace Sessions.Player
         /// <summary>
         /// Defines the BASS plugin path. Useful for Android where this cannot be determined by Environment.SpecialFolder.
         /// </summary>
-        /// </value>
         public static string PluginDirectoryPath { get; set; }
 
         /// <summary>
@@ -163,81 +162,40 @@ namespace Sessions.Player
 
         #region Properties
 
-        private bool _isPlaying = false;
         /// <summary>
         /// Indicates if the player is currently playing an audio file.
         /// </summary>
-        public bool IsPlaying
-        {
-            get
-            {
-                return _isPlaying;
-            }
-        }
+        public bool IsPlaying { get; private set; }
 
-        private bool _isPaused = false;
+        /// <summary>
+        /// Indicates if the player is currently playing a loop.
+        /// </summary>
+        public bool IsPlayingLoop { get; private set; }
+
         /// <summary>
         /// Indicates if the player is currently paused.
         /// </summary>
-        public bool IsPaused
-        {
-            get
-            {
-                return _isPaused;
-            }
-        }
+        public bool IsPaused { get; private set; }
 
-        private bool _useFloatingPoint;
         /// <summary>
         /// Determines if the device uses floating point.
         /// </summary>
-        public bool UseFloatingPoint
-        {
-            get
-            {
-                return _useFloatingPoint;
-            }
-        }       
-        
-        private bool _isEndlessLoopSegmentEnabled = false;
+        public bool UseFloatingPoint { get; private set; }
+
         /// <summary>
         /// Determines if the player should loop endlessly every loop segment.
         /// </summary>
-        public bool IsEndlessLoopSegmentEnabled
-        {
-            get
-            {
-                return _isEndlessLoopSegmentEnabled;
-            }
-            set
-            {
-                _isEndlessLoopSegmentEnabled = value;
-            }            
-        }
+        public bool IsEndlessLoopSegmentEnabled { get; set; }
 
-        private Device _device = null;
         /// <summary>
         /// Defines the currently used device for playback.
         /// </summary>
-        public Device Device
-        {
-            get
-            {
-                return _device;
-            }
-        }
+        public Device Device { get; private set; }
 
-        private bool _isDeviceInitialized = false;
         /// <summary>
         /// Indicates if the device (as in the Device property) is initialized.
         /// </summary>
-        public bool IsDeviceInitialized
-        {
-            get
-            {
-                return _isDeviceInitialized;
-            }
-        }       
+        public bool IsDeviceInitialized { get; private set; }
 
         private int _currentSegmentIndex = 0;
         public int CurrentSegmentIndex 
@@ -278,13 +236,13 @@ namespace Sessions.Player
                 //Console.WriteLine("Player - RepeatType: {0}", value.ToString());
 
                 // Check if the current song exists
-                if (_playlist != null && _playlist.CurrentItem != null)
+                if (Playlist != null && Playlist.CurrentItem != null)
                 {
                     // If the repeat type is Song, force song looping
                     if (_repeatType == RepeatType.Song)
-                        _playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                        Playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     else
-                        _playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
+                        Playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
                 }
             }
         }
@@ -301,41 +259,31 @@ namespace Sessions.Player
             }
             set
             {
-                // Set value
                 _volume = value;
 
-                // Check if the player is playing
                 if (_mixerChannel != null)
                     _mixerChannel.Volume = value;
 
 #if !IOS && !ANDROID
 
-                // Check driver type
-                if (_device.DriverType == DriverType.ASIO)
+                bool success = false;
+                switch (Device.DriverType)
                 {
-                    // Set ASIO channel volume on left and right channel
-                    bool success = BassAsio.BASS_ASIO_ChannelSetVolume(false, 0, value);
-                    if (!success)
-                    {
-                        // Check for error
-                        Base.CheckForError();
-                    }
-                    success = BassAsio.BASS_ASIO_ChannelSetVolume(false, 1, value);
-                    if (!success)
-                    {
-                        // Check for error
-                        Base.CheckForError();
-                    }
-                }
-                else if (_device.DriverType == DriverType.WASAPI)
-                {
-                    // Set WASAPI volume
-                    bool success = BassWasapi.BASS_WASAPI_SetVolume(BASSWASAPIVolume.BASS_WASAPI_CURVE_LINEAR, value);
-                    if (!success)
-                    {
-                        // Check for error
-                        Base.CheckForError();
-                    }
+                    case DriverType.ASIO:
+                        // Set channel volume on left and right channel
+                        success = BassAsio.BASS_ASIO_ChannelSetVolume(false, 0, value);
+                        if (!success)
+                            Base.CheckForError();
+
+                        success = BassAsio.BASS_ASIO_ChannelSetVolume(false, 1, value);
+                        if (!success)
+                            Base.CheckForError();
+                        break;
+                    case DriverType.WASAPI:
+                        success = BassWasapi.BASS_WASAPI_SetVolume(BASSWASAPIVolume.BASS_WASAPI_CURVE_LINEAR, value);
+                        if (!success)
+                            Base.CheckForError();
+                        break;
                 }
 
 #endif
@@ -386,17 +334,10 @@ namespace Sessions.Player
             }           
         }
 
-        private int _mixerSampleRate = 44100;
         /// <summary>
         /// Defines the sample rate of the mixer.
         /// </summary>
-        public int MixerSampleRate
-        {
-            get
-            {
-                return _mixerSampleRate;
-            }
-        }
+        public int MixerSampleRate { get; private set; }
 
         private int _bufferSize = 1000;
         /// <summary>
@@ -455,70 +396,31 @@ namespace Sessions.Player
             }
         }
 
-        private ShufflePlaylist _playlist = null;
         /// <summary>
         /// Playlist used for playback. Contains the audio file metadata and decode channels for
         /// playback.
         /// </summary>
-        public ShufflePlaylist Playlist
-        {
-            get
-            {
-                return _playlist;
-            }
-        }
+        public ShufflePlaylist Playlist { get; private set; }
 
-        private EQPreset _currentEQPreset = null;
         /// <summary>
         /// Defines the current EQ preset.
         /// </summary>
-        public EQPreset EQPreset
-        {
-            get
-            {
-                return _currentEQPreset;
-            }
-            set
-            {
-                _currentEQPreset = value;
-            }
-        }
+        public EQPreset EQPreset { get; set; }
 
-        private bool _isEQEnabled = false;
         /// <summary>
         /// Indicates if the EQ is enabled.
         /// </summary>
-        public bool IsEQEnabled
-        {
-            get
-            {
-                return _isEQEnabled;
-            }
-        }
+        public bool IsEQEnabled { get; private set; }
 
-        private bool _isEQBypassed = false;
         /// <summary>
         /// Indicates if the EQ is bypassed.
         /// </summary>
-        public bool IsEQBypassed
-        {
-            get
-            {
-                return _isEQBypassed;
-            }
-        }
+        public bool IsEQBypassed { get; private set; }
 
-        private Loop _currentLoop = null;
         /// <summary>
         /// Defines the currently playing loop.
         /// </summary>
-        public Loop Loop
-        {
-            get
-            {
-                return _currentLoop;
-            }
-        }
+        public Loop Loop { get; private set; }
 
         #endregion
 
@@ -530,6 +432,7 @@ namespace Sessions.Player
         /// </summary>
         public Player()
         {
+            MixerSampleRate = 44100;
             Initialize(new Device(), 44100, 1000, 10, true);
         }
 
@@ -544,6 +447,7 @@ namespace Sessions.Player
         /// <param name="initializeDevice">Indicates if the device should be initialized</param>
         public Player(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
+            MixerSampleRate = 44100;
             Initialize(device, mixerSampleRate, bufferSize, updatePeriod, initializeDevice);
         }
 
@@ -560,16 +464,16 @@ namespace Sessions.Player
             OnPlaylistEnded += () => { };
 
             Player.CurrentPlayer = this;            
-            _device = device;
-            _mixerSampleRate = mixerSampleRate;
+            Device = device;
+            MixerSampleRate = mixerSampleRate;
             _bufferSize = bufferSize;
             _updatePeriod = updatePeriod;
             //_decodingService = new DecodingService(100000, UseFloatingPoint);
-            _playlist = new ShufflePlaylist();
+            Playlist = new ShufflePlaylist();
             _syncProcs = new List<PlayerSyncProc>();
 
 #if !ANDROID
-            _useFloatingPoint = true;
+            UseFloatingPoint = true;
 #endif
 
             _timerPlayer = new System.Timers.Timer();
@@ -717,7 +621,7 @@ namespace Sessions.Player
 					
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
-            _currentEQPreset = new EQPreset();
+            EQPreset = new EQPreset();
 
             if (initializeDevice)
             {
@@ -731,7 +635,7 @@ namespace Sessions.Player
         /// </summary>
         public void InitializeDevice()
         {
-            InitializeDevice(new Device(), _mixerSampleRate);
+            InitializeDevice(new Device(), MixerSampleRate);
         }
 
         /// <summary>
@@ -741,8 +645,8 @@ namespace Sessions.Player
         /// <param name="mixerSampleRate">Mixer sample rate (in Hz)</param>
         public void InitializeDevice(Device device, int mixerSampleRate)
         {
-            _device = device;
-            _mixerSampleRate = mixerSampleRate;
+            Device = device;
+            MixerSampleRate = mixerSampleRate;
 
             Tracing.Log("Player -- Initializing device (SampleRate: " + mixerSampleRate.ToString() + " Hz, DriverType: " + device.DriverType.ToString() + ", Id: " + device.Id.ToString() + ", Name: " + device.Name + ", BufferSize: " + _bufferSize.ToString() + ", UpdatePeriod: " + _updatePeriod.ToString() + ")");
 
@@ -801,7 +705,7 @@ namespace Sessions.Player
                 Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, _updatePeriod);					
             }		
 
-            _isDeviceInitialized = true;
+            IsDeviceInitialized = true;
         }
 
         /// <summary>
@@ -809,13 +713,13 @@ namespace Sessions.Player
         /// </summary>
         public void FreeDevice()
         {
-            if (!_isDeviceInitialized)
+            if (!IsDeviceInitialized)
                 return;
 
 #if !IOS && !ANDROID
 
             // Check driver type
-            if (_device.DriverType == DriverType.ASIO)
+            if (Device.DriverType == DriverType.ASIO)
             {
                 // Free ASIO device
                 if (!BassAsio.BASS_ASIO_Free())
@@ -825,7 +729,7 @@ namespace Sessions.Player
                     throw new Exception("Error freeing ASIO device: " + error.ToString());
                 }
             }
-            else if (_device.DriverType == DriverType.WASAPI)
+            else if (Device.DriverType == DriverType.WASAPI)
             {
                 // Free WASAPI device
                 if (!BassWasapi.BASS_WASAPI_Free())
@@ -839,8 +743,8 @@ namespace Sessions.Player
 
             Base.Free();
             _mixerChannel = null;
-            _device = null;
-            _isDeviceInitialized = false;
+            Device = null;
+            IsDeviceInitialized = false;
         }
 
         /// <summary>
@@ -897,11 +801,11 @@ namespace Sessions.Player
                 _timerPlayer.Enabled = false;
 
                 // Check if the next channel needs to be loaded
-                if (_playlist.CurrentItemIndex < _playlist.Items.Count - 1)
+                if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)
                 {
                     // Check if the channel has already been loaded
-                    if (!_playlist.Items[_playlist.CurrentItemIndex + 1].IsLoaded)
-                        _playlist.Items[_playlist.CurrentItemIndex + 1].Load(_useFloatingPoint);
+                    if (!Playlist.Items[Playlist.CurrentItemIndex + 1].IsLoaded)
+                        Playlist.Items[Playlist.CurrentItemIndex + 1].Load(UseFloatingPoint);
                 }
             }
 
@@ -928,9 +832,9 @@ namespace Sessions.Player
         {
             try
             {
-                if (_isPlaying)
+                if (IsPlaying)
                 {
-                    if (_currentLoop != null)
+                    if (Loop != null)
                     {
 						//Tracing.Log("Player.Play -- Stopping current loop...");
                         StopLoop();
@@ -941,7 +845,7 @@ namespace Sessions.Player
                 }
 
                 RemoveSyncCallbacks();
-                _currentLoop = null;
+                Loop = null;
                 _positionOffset = 0;
                 _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
 
@@ -958,7 +862,7 @@ namespace Sessions.Player
 
                 // Load the current channel and the next channel if it exists
                 for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
-                    _playlist.Items[a].Load(_useFloatingPoint);
+                    Playlist.Items[a].Load(UseFloatingPoint);
 
                 // Start decoding first playlist item
                 //_decodingService.StartDecodingFile(_playlist.Items[0].AudioFile.FilePath, _positionOffset);
@@ -974,9 +878,9 @@ namespace Sessions.Player
                     _streamProc = new STREAMPROC(StreamCallback);
 #endif
 
-                    _streamChannel = Channel.CreateStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, _streamProc);
+                    _streamChannel = Channel.CreateStream(Playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, _streamProc);
 					//Tracing.Log("Player.Play -- Creating time shifting channel...");
-                    _fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, true, _useFloatingPoint);
+                    _fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, true, UseFloatingPoint);
                     //_fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, false, _useFloatingPoint);
                     //_fxChannel = _streamChannel;
                 }
@@ -986,18 +890,18 @@ namespace Sessions.Player
                     PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel (" + ex.Message + ").", ex);
                     newEx.Decode = true;
                     newEx.UseFloatingPoint = true;
-                    newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
+                    newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
                     throw newEx;
                 }
 
                 // Check driver type
-                if (_device.DriverType == DriverType.DirectSound)
+                if (Device.DriverType == DriverType.DirectSound)
                 {
                     try
                     {
                         // Create mixer stream
 						Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
-                        _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, false);
+                        _mixerChannel = MixerChannel.CreateMixerStream(Playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, false);
                         _mixerChannel.AddChannel(_fxChannel.Handle);
                         //_mixerChannel = _fxChannel;
                         AddBPMCallbacks();
@@ -1008,18 +912,18 @@ namespace Sessions.Player
                         PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
-                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
                     }
                 }
 #if !IOS && !ANDROID
-                else if (_device.DriverType == DriverType.ASIO)
+                else if (Device.DriverType == DriverType.ASIO)
                 {
                     try
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
-                        _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, true);
+                        _mixerChannel = MixerChannel.CreateMixerStream(Playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, true);
                         _mixerChannel.AddChannel(_fxChannel.Handle);
                     }
                     catch (Exception ex)
@@ -1030,7 +934,7 @@ namespace Sessions.Player
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.Decode = true;
-                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;  
                     }
                     
@@ -1050,15 +954,15 @@ namespace Sessions.Player
 
                         // Set sample rate
                         Tracing.Log("Player.Play -- Set ASIO sample rates...");
-                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, _playlist.CurrentItem.AudioFile.SampleRate);
-                        BassAsio.BASS_ASIO_SetRate(_playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, Playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_SetRate(Playlist.CurrentItem.AudioFile.SampleRate);
                     }
                     catch (Exception ex)
                     {
                         // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
                         PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to enable or join ASIO channels.", ex);
                         newEx.DriverType = DriverType.ASIO;
-                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
                     }
 
@@ -1075,15 +979,15 @@ namespace Sessions.Player
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.Decode = true;
-                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;                        
                     }
                 }
-                else if (_device.DriverType == DriverType.WASAPI)
+                else if (Device.DriverType == DriverType.WASAPI)
                 {
                     // Create mixer stream
                     Tracing.Log("Player.Play -- Creating mixer channel (WASAPI)...");
-                    _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                    _mixerChannel = MixerChannel.CreateMixerStream(Playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
                     _mixerChannel.AddChannel(_fxChannel.Handle);
 
                     // Start playback
@@ -1100,10 +1004,10 @@ namespace Sessions.Player
 
                 // Load 18-band equalizer
 				//Tracing.Log("Player.Play -- Creating equalizer (Preset: " + _currentEQPreset + ")...");
-                AddEQ(_currentEQPreset);
+                AddEQ(EQPreset);
 
                 // Check if EQ is bypassed
-                if (_isEQBypassed)
+                if (IsEQBypassed)
                 {
                     // Reset EQ
 					//Tracing.Log("Player.Play -- Equalizer is bypassed; resetting EQ...");
@@ -1112,14 +1016,14 @@ namespace Sessions.Player
 
                 // Check if the song must be looped
                 if (_repeatType == RepeatType.Song)
-                    _playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+                    Playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
 
-                long length = _playlist.CurrentItem.Channel.GetLength();
+                long length = Playlist.CurrentItem.Channel.GetLength();
                 SetSyncCallback(length);
-                _isPlaying = true;
+                IsPlaying = true;
 
                 // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
-                if (_device.DriverType == DriverType.DirectSound)
+                if (Device.DriverType == DriverType.DirectSound)
                 {
                     // For iOS: This is required to update the AirPlay/remote player status
                     Base.Start();
@@ -1136,7 +1040,7 @@ namespace Sessions.Player
                         Base.Pause();
                     }
 
-                    _isPaused = startPaused;
+                    IsPaused = startPaused;
                 }
 
 //                StartEncode(EncoderType.OGG);
@@ -1153,10 +1057,10 @@ namespace Sessions.Player
                 {
                     PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                     data.IsPlaybackStopped = false;
-                    data.AudioFileStarted = _playlist.CurrentItem.AudioFile;
+                    data.AudioFileStarted = Playlist.CurrentItem.AudioFile;
                     data.PlaylistName = "New playlist 1";
-                    data.PlaylistCount = _playlist.Items.Count;
-                    data.PlaylistIndex = _playlist.CurrentItemIndex; 
+                    data.PlaylistCount = Playlist.Items.Count;
+                    data.PlaylistIndex = Playlist.CurrentItemIndex; 
                     if (Playlist.CurrentItemIndex < Playlist.Items.Count - 2)
                         data.NextAudioFile = Playlist.Items[Playlist.CurrentItemIndex + 1].AudioFile;
                     OnPlaylistIndexChanged(data);
@@ -1205,16 +1109,16 @@ namespace Sessions.Player
                     throw new Exception("The file at " + audioFile.FilePath + " doesn't exist!");
 
             // Stop playback
-            if (_isPlaying)
+            if (IsPlaying)
                 Stop();
 
             // Add audio files to playlist
-            _playlist.Clear();
+            Playlist.Clear();
             foreach (AudioFile audioFile in audioFiles)
-                _playlist.AddItem(new PlaylistItem(audioFile));
+                Playlist.AddItem(new PlaylistItem(audioFile));
 
             // Start playback from first item
-            _playlist.First();
+            Playlist.First();
             Play();
         }
 
@@ -1224,19 +1128,19 @@ namespace Sessions.Player
         public void Pause()
         {
             // Check driver type (the pause mechanism differs by driver)
-            if (_device.DriverType == DriverType.DirectSound)
+            if (Device.DriverType == DriverType.DirectSound)
             {        
-                if (!_isPaused)
+                if (!IsPaused)
                     Base.Pause();
                 else
                     Base.Start();
             }
 
 #if !IOS && !ANDROID
-            else if (_device.DriverType == DriverType.ASIO)
+            else if (Device.DriverType == DriverType.ASIO)
             {
                 // Check if the playback is already paused
-                if (!_isPaused)
+                if (!IsPaused)
                 {
                     // Pause playback on ASIO (cannot pause in a decoding channel)
                     if (!BassAsio.BASS_ASIO_ChannelPause(false, 0))
@@ -1256,10 +1160,10 @@ namespace Sessions.Player
 
                 }
             }
-            else if (_device.DriverType == DriverType.WASAPI)
+            else if (Device.DriverType == DriverType.WASAPI)
             {
                 // Check if the playback is already paused
-                if (!_isPaused)
+                if (!IsPaused)
                 {
                     // Pause playback on WASAPI (cannot pause in a decoding channel)
                     if (!BassWasapi.BASS_WASAPI_Stop(false))
@@ -1281,7 +1185,7 @@ namespace Sessions.Player
             }
 #endif
 
-            _isPaused = !_isPaused;
+            IsPaused = !IsPaused;
         }
 
         /// <summary>
@@ -1296,9 +1200,11 @@ namespace Sessions.Player
             if (_timerPlayer != null && _timerPlayer.Enabled)
                 _timerPlayer.Stop();
 
-            _currentLoop = null;
-            _isPlaying = false;
-            if (_isEQEnabled)
+            Loop = null;
+            IsPlaying = false;
+            IsPlayingLoop = false;
+
+            if (IsEQEnabled)
             {
                 // Remove EQ
                 Tracing.Log("Player.Stop -- Removing equalizer...");
@@ -1309,7 +1215,7 @@ namespace Sessions.Player
             _mixerChannel.Stop();
 
             // Check driver type
-            if (_device.DriverType == DriverType.DirectSound)
+            if (Device.DriverType == DriverType.DirectSound)
             {
                 // Stop main channel
                 //Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
@@ -1319,13 +1225,13 @@ namespace Sessions.Player
                 Base.Stop();
             }
 #if !IOS && !ANDROID
-            else if (_device.DriverType == DriverType.ASIO)
+            else if (Device.DriverType == DriverType.ASIO)
             {
                 // Stop playback
                 Tracing.Log("Player.Stop -- Stopping ASIO playback...");
                 BassAsio.BASS_ASIO_Stop();
             }
-            else if (_device.DriverType == DriverType.WASAPI)
+            else if (Device.DriverType == DriverType.WASAPI)
             {
                 // Stop playback
                 Tracing.Log("Player.Stop -- Stopping WASAPI playback...");
@@ -1341,14 +1247,14 @@ namespace Sessions.Player
             RemoveBPMCallbacks();
             _fxChannel.Free();
 
-            if (_playlist != null && _playlist.CurrentItem != null)
+            if (Playlist != null && Playlist.CurrentItem != null)
             {
                 Tracing.Log("Player.Stop -- Disposing channels...");
-                _playlist.DisposeChannels();
+                Playlist.DisposeChannels();
             }
 
 #if !IOS && !ANDROID
-            if (_device.DriverType == DriverType.WASAPI)
+            if (Device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
             }
@@ -1487,7 +1393,7 @@ namespace Sessions.Player
             }
             //long outputPosition = Playlist.CurrentItem.Channel.GetPosition();
 
-            if(_useFloatingPoint)
+            if(UseFloatingPoint)
                 outputPosition /= 2;
 
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
@@ -1530,7 +1436,7 @@ namespace Sessions.Player
 
 #if !IOS && !ANDROID
             // Check if WASAPI
-            if (_device.DriverType == DriverType.WASAPI)
+            if (Device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
                 BassWasapi.BASS_WASAPI_Start();
@@ -1561,7 +1467,7 @@ namespace Sessions.Player
             _mixerChannel.SetPosition(0);
 
             long bytesPosition = bytes;
-            if (_useFloatingPoint)
+            if (UseFloatingPoint)
                 bytesPosition *= 2;
 
             Playlist.CurrentItem.Channel.SetPosition(bytesPosition);
@@ -1595,6 +1501,9 @@ namespace Sessions.Player
             if (loop.Segments.Count == 0)
                 return;
 
+            if (!IsPlaying)
+                Play();
+
             long positionBytes = loop.Segments[_currentSegmentIndex].PositionBytes;
             long nextPositionBytes = 0;
             var segment = loop.GetNextSegmentForPlayback(_currentSegmentIndex);
@@ -1608,14 +1517,13 @@ namespace Sessions.Player
             }
 
 #if !IOS && !ANDROID
-            if (_device.DriverType == DriverType.WASAPI)
+            if (Device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
                 BassWasapi.BASS_WASAPI_Start();
             }
 #endif
 
-            // Remove any sync callback
             RemoveSyncCallbacks();
 
             // Get file length
@@ -1651,8 +1559,10 @@ namespace Sessions.Player
             // Set offset position (for calulating current position)
             _positionOffset = positionBytes;
             _mixerChannel.Lock(false);
-            _currentLoop = loop;
+            Loop = loop;
+            IsPlayingLoop = true;
         }
+
         /// <summary>
         /// Stops any loop currently playing.
         /// </summary>
@@ -1660,7 +1570,7 @@ namespace Sessions.Player
         {
             try
             {
-                if (_currentLoop == null)
+                if (Loop == null)
                     return;
 
                 Tracing.Log("Player.StopLoop -- Removing sync...");
@@ -1680,7 +1590,8 @@ namespace Sessions.Player
             }
             finally
             {
-                _currentLoop = null;
+                Loop = null;
+                IsPlayingLoop = false;
             }
         }
 
@@ -1697,12 +1608,12 @@ namespace Sessions.Player
             if (_mixerChannel == null)
                 throw new Exception("Error adding EQ: The mixer channel doesn't exist!");
 
-            if (_fxEQHandle != 0 || _isEQEnabled)
+            if (_fxEQHandle != 0 || IsEQEnabled)
                 throw new Exception("Error adding EQ: The equalizer already exists!");
 
             _fxEQHandle = _mixerChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
             ApplyEQPreset(preset);
-            _isEQEnabled = true;
+            IsEQEnabled = true;
         }
 
         /// <summary>
@@ -1713,21 +1624,21 @@ namespace Sessions.Player
         {
             //Console.WriteLine("Player - ApplyEQPreset name: {0}", preset.Name);
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            _currentEQPreset = preset;
-            if (_isEQBypassed)
+            EQPreset = preset;
+            if (IsEQBypassed)
                 return;
 
-            if(!_isPlaying)
+            if(!IsPlaying)
                 return;
 
             //Console.WriteLine("Player - ApplyEQPreset - Removing BPM callbacks...");
             RemoveBPMCallbacks();
 
             //Console.WriteLine("Player - ApplyEQPreset - Looping through bands");
-            for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
+            for (int a = 0; a < EQPreset.Bands.Count; a++)
             {
                 //Console.WriteLine("Player - ApplyEQPreset name: {0} - Applying band {1}", preset.Name, a);
-                EQPresetBand currentBand = _currentEQPreset.Bands[a];
+                EQPresetBand currentBand = EQPreset.Bands[a];
                 eq.lBand = a;
                 eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
                 eq.fCenter = currentBand.Center;
@@ -1751,13 +1662,13 @@ namespace Sessions.Player
             if (_mixerChannel == null)
                 return;
 
-            if (!_isEQEnabled)
+            if (!IsEQEnabled)
                 return;
 
             Tracing.Log("Player.RemoveEQ -- Removing EQ...");
             _mixerChannel.RemoveFX(_fxEQHandle);
             _fxEQHandle = 0;
-            _isEQEnabled = false;
+            IsEQEnabled = false;
         }
 
         /// <summary>
@@ -1781,9 +1692,9 @@ namespace Sessions.Player
         public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
         {
             if (setCurrentEQPresetValue)
-                _currentEQPreset.Bands[band].Gain = gain;
+                EQPreset.Bands[band].Gain = gain;
 
-            if(!_isPlaying)
+            if(!IsPlaying)
                 return;
 
             RemoveBPMCallbacks();
@@ -1809,14 +1720,12 @@ namespace Sessions.Player
             if (_mixerChannel == null)
                 return;
 
-            _isEQBypassed = !_isEQBypassed;
-            if (_isEQBypassed)
+            IsEQBypassed = !IsEQBypassed;
+            if (IsEQBypassed)
                 ResetEQ();
             else
-                ApplyEQPreset(_currentEQPreset);
+                ApplyEQPreset(EQPreset);
         }
-
-
 
         /// <summary>
         /// Resets the gain of every EQ band.
@@ -1826,13 +1735,15 @@ namespace Sessions.Player
             if (_mixerChannel == null)
                 return;
 
-            for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
+            for (int a = 0; a < EQPreset.Bands.Count; a++)
             {
                 UpdateEQBand(a, 0.0f, false);
             }
         }
 
         #endregion
+
+        #region Encoding Methods
 
         public void StartEncode(EncoderType encoderType)
         {
@@ -1890,6 +1801,8 @@ namespace Sessions.Player
         {
             // Not sure how, simply stop encoder?
         }
+
+        #endregion
 
         #region Synchronization Methods
 
@@ -1966,7 +1879,7 @@ namespace Sessions.Player
 
         #endregion
 
-        #region BPM Detection Methods 
+        #region BPM Detection Methods
 
         protected void AddBPMCallbacks()
         {
@@ -2006,19 +1919,19 @@ namespace Sessions.Player
 //            stopwatch.Start();
 
             // If the current sub channel is null, end the stream            
-			if(_playlist == null || _playlist.CurrentItem == null || _playlist.Items.Count < _currentMixPlaylistIndex || _playlist.Items[_currentMixPlaylistIndex] == null ||
-			   _playlist.Items[_currentMixPlaylistIndex].Channel == null)
+			if(Playlist == null || Playlist.CurrentItem == null || Playlist.Items.Count < _currentMixPlaylistIndex || Playlist.Items[_currentMixPlaylistIndex] == null ||
+			   Playlist.Items[_currentMixPlaylistIndex].Channel == null)
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
 
-            BASSActive status = _playlist.Items[_currentMixPlaylistIndex].Channel.IsActive();
+            BASSActive status = Playlist.Items[_currentMixPlaylistIndex].Channel.IsActive();
             if (status == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Check if the next channel needs to be loaded
-                if (_playlist.CurrentItemIndex < _playlist.Items.Count - 1)                    
+                if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)                    
                     _timerPlayer.Start();
 
                 // Get data from the current channel since it is running
-                int data = _playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+                int data = Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
                 //byte[] bufferData = _playlist.Items[_currentMixPlaylistIndex].GetData(length);
                 //byte[] bufferData = _decodingService.DequeueData(length);
                 //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
@@ -2037,8 +1950,8 @@ namespace Sessions.Player
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
                 //Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
-                _currentLoop = null;
-                if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
+                Loop = null;
+                if (Playlist.CurrentItemIndex == Playlist.Items.Count - 1)
                 {
                     // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                     if (RepeatType == RepeatType.Playlist)
@@ -2050,13 +1963,13 @@ namespace Sessions.Player
                         //m_playlist.DisposeChannels();
 
                         // Load first item                        
-                        Playlist.Items[0].Load(_useFloatingPoint);                        
+                        Playlist.Items[0].Load(UseFloatingPoint);                        
                         //_decodingService.AddFileToDecodeQueue(Playlist.Items[0].AudioFile.FilePath);
 
                         // Load second item if it exists
                         if (Playlist.Items.Count > 1)
                         {
-                            Playlist.Items[1].Load(_useFloatingPoint);
+                            Playlist.Items[1].Load(UseFloatingPoint);
                             //_decodingService.AddFileToDecodeQueue(Playlist.Items[1].AudioFile.FilePath);
                         }
 
@@ -2169,6 +2082,8 @@ namespace Sessions.Player
             if (Loop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
                 return;
 
+            Tracing.Log("Player - LoopSyncProc");
+
             // lock needed?
             if (Loop.Segments.Count - 1 > _currentSegmentIndex)
                 _currentSegmentIndex = 0;
@@ -2176,9 +2091,9 @@ namespace Sessions.Player
                 _currentSegmentIndex++;
             
             long bytes = 0;
-            var nextSegment = Loop.GetNextSegment(_currentSegmentIndex);
-            if (nextSegment != null)
-                bytes = nextSegment.PositionBytes;
+            var startSegment = Loop.GetStartSegment();
+            if (startSegment != null)
+                bytes = startSegment.PositionBytes;
 
             _mixerChannel.Lock(true);
 
@@ -2225,7 +2140,7 @@ namespace Sessions.Player
             //int buffered = mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
 
             // Check if this the last song
-            if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
+            if (Playlist.CurrentItemIndex == Playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                 if (RepeatType == RepeatType.Playlist)
@@ -2243,7 +2158,7 @@ namespace Sessions.Player
             else
             {
                 // Set flags
-                nextPlaylistIndex = _playlist.CurrentItemIndex + 1;
+                nextPlaylistIndex = Playlist.CurrentItemIndex + 1;
             }
 
             // Calculate position offset
@@ -2266,7 +2181,7 @@ namespace Sessions.Player
             RemoveSyncCallback(handle);
             
             // Check if this is the last item to play
-            if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
+            if (Playlist.CurrentItemIndex == Playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                 if (RepeatType == RepeatType.Playlist)
@@ -2285,8 +2200,8 @@ namespace Sessions.Player
                 PlayerPlaylistIndexChangedData eventData = new PlayerPlaylistIndexChangedData();
                 eventData.IsPlaybackStopped = playbackStopped;
                 eventData.PlaylistName = "New playlist 1";
-                eventData.PlaylistCount = _playlist.Items.Count;
-                eventData.PlaylistIndex = _playlist.CurrentItemIndex;
+                eventData.PlaylistCount = Playlist.Items.Count;
+                eventData.PlaylistIndex = Playlist.CurrentItemIndex;
 
                 // If the playback hasn't stopped, fill more event data
                 if (playbackStopped)
@@ -2296,12 +2211,12 @@ namespace Sessions.Player
                     eventData.AudioFileEnded = Playlist.CurrentItem.AudioFile;
 
                     // Check if EQ is enabled
-                    if (_isEQEnabled)
+                    if (IsEQEnabled)
                         RemoveEQ();
 
                     // Dispose channels
-                    _playlist.DisposeChannels();
-                    _isPlaying = false;
+                    Playlist.DisposeChannels();
+                    IsPlaying = false;
                 }
                 else
                 {

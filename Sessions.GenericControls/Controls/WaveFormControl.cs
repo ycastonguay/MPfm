@@ -258,6 +258,7 @@ namespace Sessions.GenericControls.Controls
             _waveFormEngineService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
 
             CreateDrawingResources();
+            CreateScrubbingSpeeds();
         }
 
         private void CreateDrawingResources()

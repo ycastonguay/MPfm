@@ -203,7 +203,10 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                _playerService.StartLoop(loop);
+                if(_playerService.IsPlayingLoop)
+                    _playerService.StopLoop();
+                else
+                    _playerService.StartLoop(loop);
             } 
             catch (Exception ex)
             {

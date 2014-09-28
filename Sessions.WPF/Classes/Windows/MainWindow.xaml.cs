@@ -698,6 +698,8 @@ namespace Sessions.WPF.Classes.Windows
             {
                 _selectedLoopIndex = listViewLoops.SelectedIndex;
                 scrollViewWaveForm.SetLoop(_loops[_selectedLoopIndex]);
+                _currentLoop = _loops[_selectedLoopIndex];
+                OnSelectLoop(_currentLoop);
             }
             else
             {
@@ -931,15 +933,19 @@ namespace Sessions.WPF.Classes.Windows
             if (gridLoopDetails.Visibility == Visibility.Visible)
             {
                 OnChangingSegmentPosition(segment, positionPercentage);
-
-                // Select the correct segment tab
-                var startSegment = _currentLoop.GetStartSegment();
-                var endSegment = _currentLoop.GetEndSegment();
-                if (startSegment.SegmentId == segment.SegmentId)
-                    ShowLoopStartPositionTab();
-                else if (endSegment.SegmentId == segment.SegmentId)
-                    ShowLoopEndPositionTab();
             }
+            else
+            {
+                OnChangingLoopSegmentPosition(segment, positionPercentage);
+            }
+
+            // Select the correct segment tab
+            var startSegment = _currentLoop.GetStartSegment();
+            var endSegment = _currentLoop.GetEndSegment();
+            if (startSegment.SegmentId == segment.SegmentId)
+                ShowLoopStartPositionTab();
+            else if (endSegment.SegmentId == segment.SegmentId)
+                ShowLoopEndPositionTab();
         }
 
         private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
@@ -947,6 +953,10 @@ namespace Sessions.WPF.Classes.Windows
             if (gridLoopDetails.Visibility == Visibility.Visible)
             {
                 OnChangedSegmentPosition(segment, positionPercentage);
+            }
+            else
+            {
+                OnChangedLoopSegmentPosition(segment, positionPercentage);
             }
         }
 
@@ -1710,8 +1720,13 @@ namespace Sessions.WPF.Classes.Windows
 
         public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
+        public Action<Loop> OnSelectLoop { get; set; }
         public Action<Loop> OnDeleteLoop { get; set; }
         public Action<Loop> OnPlayLoop { get; set; }
+
+        public Action<Segment> OnPunchInLoopSegment { get; set; }
+        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
+        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -1725,6 +1740,14 @@ namespace Sessions.WPF.Classes.Windows
             {
                 listViewLoops.ItemsSource = _loops;
                 listViewLoops.SelectedIndex = _selectedLoopIndex;
+            }));
+        }
+
+        public void RefreshLoopSegment(Segment segment, long audioFileLength)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                listViewLoops.Items.Refresh();
             }));
         }
 
