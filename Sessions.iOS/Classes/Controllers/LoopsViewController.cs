@@ -58,10 +58,15 @@ namespace Sessions.iOS
 
         #region ILoopsView implementation
 
-        public Action OnAddLoop { get; set; }           
+        public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
-		public Action<Loop> OnDeleteLoop { get; set; }
-		public Action<Loop> OnPlayLoop { get; set; }
+        public Action<Loop> OnSelectLoop { get; set; }
+        public Action<Loop> OnDeleteLoop { get; set; }
+        public Action<Loop> OnPlayLoop { get; set; }
+
+        public Action<Segment> OnPunchInLoopSegment { get; set; }
+        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
+        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -72,6 +77,10 @@ namespace Sessions.iOS
         }
 
         public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        public void RefreshLoopSegment(Segment segment, long audioFileLength)
         {
         }
 

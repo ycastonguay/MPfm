@@ -1937,8 +1937,13 @@ namespace Sessions.OSX
 
         public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
+        public Action<Loop> OnSelectLoop { get; set; }
         public Action<Loop> OnDeleteLoop { get; set; }
         public Action<Loop> OnPlayLoop { get; set; }
+
+        public Action<Segment> OnPunchInLoopSegment { get; set; }
+        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
+        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -1959,6 +1964,14 @@ namespace Sessions.OSX
                     if(newRow >= 0)
                         tableLoops.SelectRow(newRow, false);
                 }
+            });
+        }
+
+        public void RefreshLoopSegment(Segment segment, long audioFileLength)
+        {
+            InvokeOnMainThread(delegate {
+                
+                //tableLoops.ReloadData(NSIndexSet.FromIndex(
             });
         }
 

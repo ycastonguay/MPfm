@@ -25,10 +25,16 @@ namespace Sessions.MVP.Views
 	{
         Action OnAddLoop { get; set; }
         Action<Loop> OnEditLoop { get; set; }
+        Action<Loop> OnSelectLoop { get; set; }
         Action<Loop> OnDeleteLoop { get; set; }
         Action<Loop> OnPlayLoop { get; set; }
+
+        Action<Segment> OnPunchInLoopSegment { get; set; }
+        Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
+        Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
     
         void LoopError(Exception ex);
+        void RefreshLoopSegment(Segment segment, long audioFileLength);
         void RefreshLoops(List<Loop> loops);
 	}
 }

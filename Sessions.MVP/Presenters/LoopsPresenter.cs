@@ -27,6 +27,7 @@ using TinyMessenger;
 using Sessions.MVP.Messages;
 using System.Collections.Generic;
 using System;
+using Sessions.Sound.AudioFiles;
 
 namespace Sessions.MVP.Presenters
 {
@@ -35,14 +36,17 @@ namespace Sessions.MVP.Presenters
 	/// </summary>
 	public class LoopsPresenter : BasePresenter<ILoopsView>, ILoopsPresenter
 	{
-        readonly ITinyMessengerHub _messageHub;
-        readonly ILibraryService _libraryService;
-        readonly IPlayerService _playerService;
-        readonly MobileNavigationManager _mobileNavigationManager;
-        readonly NavigationManager _navigationManager;
-        List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
-        List<Loop> _loops = new List<Loop>();
-        Guid _audioFileId;
+        private readonly ITinyMessengerHub _messageHub;
+        private readonly ILibraryService _libraryService;
+        private readonly IPlayerService _playerService;
+        private readonly MobileNavigationManager _mobileNavigationManager;
+        private readonly NavigationManager _navigationManager;
+        private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
+        private List<Loop> _loops = new List<Loop>();
+        private Loop _loop;
+        private Guid _audioFileId;
+        private AudioFile _audioFile;
+        private long _lengthBytes;
         
         public LoopsPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
@@ -61,8 +65,13 @@ namespace Sessions.MVP.Presenters
         {            
             view.OnAddLoop = AddLoop;
             view.OnEditLoop = EditLoop;
+            view.OnSelectLoop = SelectLoop;
             view.OnDeleteLoop = DeleteLoop;
             view.OnPlayLoop = PlayLoop;
+
+            view.OnPunchInLoopSegment = PunchInLoopSegment;
+            view.OnChangingLoopSegmentPosition = ChangingLoopSegmentPosition;
+            view.OnChangedLoopSegmentPosition = ChangedLoopSegmentPosition;
 
             base.BindView(view);
             
@@ -114,6 +123,8 @@ namespace Sessions.MVP.Presenters
             try
             {
                 _loops = _libraryService.SelectLoopsIncludingSegments(audioFileId);
+                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 RefreshLoopsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
@@ -159,6 +170,13 @@ namespace Sessions.MVP.Presenters
         {
             _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
         }
+
+        private void SelectLoop(Loop loop)
+        {
+            _loop = loop;
+            _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+            _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+        }
         
         private void DeleteLoop(Loop loop)
         {
@@ -192,6 +210,69 @@ namespace Sessions.MVP.Presenters
                 Tracing.Log("An error occured while playing loop: " + ex.Message);
                 View.LoopError(ex);
             }            
+        }
+
+        private void PunchInLoopSegment(Segment segment)
+        {
+            try
+            {
+                var position = _playerService.GetPosition();
+                float positionPercentage = (float)position.PositionBytes / (float)_lengthBytes;
+                ChangeSegmentPosition(segment, positionPercentage, true);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while punching in a segment: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
+
+        private void ChangedLoopSegmentPosition(Segment segment, float positionPercentage)
+        {
+            ChangeSegmentPosition(segment, positionPercentage, true);
+        }
+
+        private void ChangingLoopSegmentPosition(Segment segment, float positionPercentage)
+        {
+            ChangeSegmentPosition(segment, positionPercentage, false);
+        }
+
+        private void ChangeSegmentPosition(Segment segment, float positionPercentage, bool updateDatabase)
+        {
+            try
+            {
+                var startSegment = _loop.GetStartSegment();
+                var endSegment = _loop.GetEndSegment();
+
+                // Make sure the loop length doesn't get below 0
+                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_lengthBytes))
+                {
+                    positionPercentage = (float)endSegment.PositionBytes / (float)_lengthBytes;
+                }
+                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_lengthBytes))
+                {
+                    positionPercentage = (float)startSegment.PositionBytes / (float)_lengthBytes;
+                }
+
+                segment.SetPositionFromPercentage(positionPercentage, _lengthBytes, _audioFile);
+
+                if (updateDatabase)
+                {
+                    _libraryService.UpdateSegment(segment);
+                    _messageHub.PublishAsync(new LoopUpdatedMessage(this)
+                    {
+                        AudioFileId = _audioFile.Id,
+                        LoopId = _loop.LoopId
+                    });
+                }
+
+                View.RefreshLoopSegment(segment, _lengthBytes);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while calculating the segment position: " + ex.Message);
+                View.LoopError(ex);
+            }
         }
     }
 }
