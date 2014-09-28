@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F2A4E954-0439-42CF-B795-82819C9A39CF}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -144,6 +144,7 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.iOS.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
@@ -170,7 +171,7 @@
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Controls\Themes\IControlTheme.cs" />
-    <Compile Include="Controls\Themes\TrackBarTheme.cs" />	
+    <Compile Include="Controls\Themes\TrackBarTheme.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />
     <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
     <Compile Include="Services\Events\GeneratePeakFileEventArgs.cs" />
@@ -206,20 +207,20 @@
     <Compile Include="Basics\BasicPath.cs" />
     <Compile Include="Basics\IBasicPathItem.cs" />
     <Compile Include="Basics\BasicPathLine.cs" />
-        <Compile Include="Controls\CheckBoxControl.cs" />
+    <Compile Include="Controls\CheckBoxControl.cs" />
     <Compile Include="Helpers\TileHelper.cs" />
     <Compile Include="Services\TileCacheService.cs" />
-    <Compile Include="Services\Interfaces\ITileCacheService.cs" />   
+    <Compile Include="Services\Interfaces\ITileCacheService.cs" />
     <Compile Include="Services\WaveFormRequestService.cs" />
-    <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />         
+    <Compile Include="Services\Interfaces\IWaveFormRequestService.cs" />
     <Compile Include="Controls\Base\ControlBase.cs" />
     <Compile Include="Controls\Base\GridViewControlBase.cs" />
     <Compile Include="Controls\Base\ListViewControlBase.cs" />
     <Compile Include="Controls\Items\GridViewColumn.cs" />
-    <Compile Include="Controls\Items\ListViewItem.cs" />	
-	<Compile Include="Controls\Items\ListViewCache.cs" />
-	<Compile Include="Controls\Items\GridViewCache.cs" />
-	<Compile Include="Controls\Interfaces\IControl.cs" />
+    <Compile Include="Controls\Items\ListViewItem.cs" />
+    <Compile Include="Controls\Items\ListViewCache.cs" />
+    <Compile Include="Controls\Items\GridViewCache.cs" />
+    <Compile Include="Controls\Interfaces\IControl.cs" />
     <Compile Include="Services\AlbumArtCacheService.cs" />
     <Compile Include="Services\AlbumArtRequestService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtCacheService.cs" />
@@ -227,6 +228,9 @@
     <Compile Include="Services\Objects\AlbumArtRequest.cs" />
     <Compile Include="Controls\Themes\ListViewTheme.cs" />
     <Compile Include="Controls\Themes\SongGridViewTheme.cs" />
-    <Compile Include="Controls\Items\SongGridViewItem.cs" />    	
+    <Compile Include="Controls\Items\SongGridViewItem.cs" />
+    <Compile Include="Controls\Interfaces\IScrubbingSpeedSupport.cs" />
+    <Compile Include="Controls\Items\ScrubbingSpeed.cs" />
+    <Compile Include="Helpers\ScrubbingSpeedHelper.cs" />
   </ItemGroup>
 </Project>

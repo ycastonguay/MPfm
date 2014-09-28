@@ -93,5 +93,8 @@
        <Compile Include="Controls\Themes\ListViewTheme.cs" />
     <Compile Include="Controls\Themes\SongGridViewTheme.cs" />
     <Compile Include="Controls\Items\SongGridViewItem.cs" /> 
+    <Compile Include="Controls\Interfaces\IScrubbingSpeedSupport.cs" />
+    <Compile Include="Helpers\ScrubbingSpeedHelper.cs" />
+    <Compile Include="Controls\Items\ScrubbingSpeed.cs" />        
   </ItemGroup>
 </Project>

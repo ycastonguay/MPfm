@@ -114,10 +114,13 @@
     <Compile Include="Services\AlbumArtRequestService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtCacheService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtRequestService.cs" />
-    <Compile Include="Services\Objects\AlbumArtRequest.cs" />  
+    <Compile Include="Services\Objects\AlbumArtRequest.cs" />
     <Compile Include="Controls\Themes\ListViewTheme.cs" />
     <Compile Include="Controls\Themes\SongGridViewTheme.cs" />
-    <Compile Include="Controls\Items\SongGridViewItem.cs" />      
+    <Compile Include="Controls\Items\SongGridViewItem.cs" />
+    <Compile Include="Controls\Items\ScrubbingSpeed.cs" />
+    <Compile Include="Helpers\ScrubbingSpeedHelper.cs" />
+    <Compile Include="Controls\Interfaces\IScrubbingSpeedSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.csproj">

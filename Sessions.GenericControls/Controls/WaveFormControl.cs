@@ -31,13 +31,15 @@ using Sessions.MVP.Bootstrap;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Objects;
+using Sessions.GenericControls.Controls.Items;
+using Sessions.GenericControls.Helpers;
 
 namespace Sessions.GenericControls.Controls
 {
     /// <summary>
     /// The WaveFormScale control displays the scale in minutes/seconds on top of the wave form.
     /// </summary>
-    public class WaveFormControl : ControlBase, IControlMouseInteraction
+    public class WaveFormControl : ControlBase, IControlMouseInteraction, IScrubbingSpeedSupport
     {
         private const int ScrollBarHeight = 8;
         private IWaveFormEngineService _waveFormEngineService;
@@ -47,6 +49,9 @@ namespace Sessions.GenericControls.Controls
         private bool _isDraggingSegment;
         private float _thumbMouseDownX;
         private float _mouseDownX;
+        private float _mouseDownY;
+        private float _mouseDownScrubbingX;
+        private float _mouseDownScrubbingValue;
         private float _density;
         private BasicPen _penTransparent;
         private BasicPen _penCursorLine;
@@ -204,6 +209,13 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
+        private List<ScrubbingSpeed> _scrubbingSpeeds;
+        private ScrubbingSpeed _currentScrubbingSpeed;
+        public ScrubbingSpeed CurrentScrubbingSpeed
+        {
+            get { return _currentScrubbingSpeed; }
+        }
+
         public AudioFile AudioFile { get; private set; }
         public bool ShowSecondaryPosition { get; set; }
         public long Length { get; set; }
@@ -218,6 +230,7 @@ namespace Sessions.GenericControls.Controls
         public event ChangeSegmentPosition OnChangedSegmentPosition;
         public event ContentOffsetChanged OnContentOffsetChanged;
         public event ChangeMouseCursorType OnChangeMouseCursorType;
+        public event ScrubbingSpeedChangedDelegate OnScrubbingSpeedChanged;
 
         public WaveFormControl()
         {
@@ -264,6 +277,18 @@ namespace Sessions.GenericControls.Controls
             _brushLoopBackground = new BasicBrush(_loopBackgroundColor);
             _brushMarkerBackground = new BasicBrush(_markerBackgroundColor);
             _brushSelectedMarkerBackground = new BasicBrush(_markerSelectedCursorColor);
+        }
+
+        private void CreateScrubbingSpeeds()
+        {
+            _scrubbingSpeeds = ScrubbingSpeedHelper.GetScrubbingSpeeds();
+            _currentScrubbingSpeed = _scrubbingSpeeds[0];
+        }
+
+        protected void ScrubbingSpeedChanged(ScrubbingSpeed scrubbingSpeed)
+        {
+            if (OnScrubbingSpeedChanged != null)
+                OnScrubbingSpeedChanged(scrubbingSpeed);
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
@@ -597,6 +622,8 @@ namespace Sessions.GenericControls.Controls
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             _isMouseDown = true;
+            _mouseDownX = x;
+            _mouseDownY = y;
             if (AudioFile == null)
                 return;
 
@@ -610,7 +637,6 @@ namespace Sessions.GenericControls.Controls
                 {
                     // User is dragging the thumb
                     _isDraggingThumb = true;
-                    _mouseDownX = x;
                     _thumbMouseDownX = visibleAreaX;
                     //Console.WriteLine("Dragging thumb - _thumbMouseDownX: {0}", _thumbMouseDownX);
                 }
@@ -619,6 +645,7 @@ namespace Sessions.GenericControls.Controls
             {
                 _isDraggingSegment = true;
                 _segmentDragging = _segmentMouseOver;
+                _mouseDownScrubbingX = x;
             }
             else
             {
@@ -710,6 +737,19 @@ namespace Sessions.GenericControls.Controls
                 }
                 else if (_isDraggingSegment)
                 {
+                    // Identify scrubbing speed
+                    float deltaY = y - _mouseDownY;
+                    var scrubbingSpeed = ScrubbingSpeedHelper.IdentifyScrubbingSpeed(deltaY, _scrubbingSpeeds);
+                    if (_currentScrubbingSpeed != scrubbingSpeed)
+                    {
+                        _currentScrubbingSpeed = scrubbingSpeed;
+                        ScrubbingSpeedChanged(_currentScrubbingSpeed);
+
+                        // Set a new reference when changing scrubbing speed
+                        _mouseDownScrubbingValue = positionPercentage;
+                        _mouseDownScrubbingX = x;
+                    }
+
                     var rect = GetCurrentLoopRect();
                     SetSegmentPosition(position, positionPercentage, false);
 

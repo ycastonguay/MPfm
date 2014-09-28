@@ -258,6 +258,7 @@
     <Compile Include="Windows\Controllers\SelectAlbumArtWindowController.cs" />
     <Compile Include="Classes\Controls\SessionsOverlayView.cs" />
     <Compile Include="Classes\Controls\SessionsAlbumArtCollectionViewItem.cs" />
+    <Compile Include="Classes\Controls\SessionsScrubbingPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
