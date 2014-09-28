@@ -112,7 +112,6 @@
     <Compile Include="Playlists\EndOfPlaylistException.cs" />
     <Compile Include="Playlists\PlaylistRepeatType.cs" />
     <Compile Include="Playlists\ShufflePlaylist.cs" />
-    <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />
     <Compile Include="Playlists\PlaylistHelper.cs" />
@@ -147,7 +146,11 @@
     <Compile Include="BassNetWrapper\BassWrapper.cs" />
     <Compile Include="BassNetWrapper\BaseFx.cs" />
     <Compile Include="Services\AlbumArtExtractionService.cs" />
-    <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />    
+    <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />
+    <Compile Include="Tags\APEMetadata.cs" />
+    <Compile Include="AudioFiles\AudioFileLoader.cs" />
+    <Compile Include="AudioFiles\AudioFileWriter.cs" />
+    <Compile Include="AudioFiles\CueFileLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">

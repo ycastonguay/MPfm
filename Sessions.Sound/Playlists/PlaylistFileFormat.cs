@@ -54,7 +54,12 @@ namespace Sessions.Sound.Playlists
         /// ASX playlist file format.
         /// For more information, consult http://en.wikipedia.org/wiki/Advanced_Stream_Redirector.
         /// </summary>
-        ASX = 6
+        ASX = 6,
+        /// <summary>
+        /// CUE playlist file format. 
+        /// For more information, consult http://en.wikipedia.org/wiki/Cue_sheet_(computing).
+        /// </summary>
+        CUE = 7
 	}
 }
 
