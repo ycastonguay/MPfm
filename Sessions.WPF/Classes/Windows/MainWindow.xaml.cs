@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -32,6 +33,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Sessions.Core;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config;
 using Sessions.MVP.Services.Interfaces;
@@ -47,10 +49,12 @@ using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Application = System.Windows.Application;
+using Button = System.Windows.Controls.Button;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListView = System.Windows.Controls.ListView;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.MessageBox;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Sessions.WPF.Classes.Windows
 {
@@ -78,6 +82,7 @@ namespace Sessions.WPF.Classes.Windows
         private Segment _startSegment;
         private Segment _endSegment;
         private bool _isPlayingLoop;
+        private string _previousLoopName;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -715,6 +720,96 @@ namespace Sessions.WPF.Classes.Windows
         private void ListViewLoops_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             UIHelper.ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(listViewLoops, e);
+        }
+
+        private void lblLoopName_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ShowLoopNameTextBox(sender);
+        }
+
+        private void TxtLoopName_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                HideLoopNameTextBoxFromTextBox(sender, true);
+            }
+            else if (e.Key == Key.Escape)
+            {
+                HideLoopNameTextBoxFromTextBox(sender, false);
+            }
+        }
+
+        private void BtnLoopName_OK_OnClick(object sender, RoutedEventArgs e)
+        {
+            HideLoopNameTextBoxFromButton(sender, true);
+        }
+
+        private void BtnLoopName_Cancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            HideLoopNameTextBoxFromButton(sender, false);
+        }
+
+        private void ShowLoopNameTextBox(object sender)
+        {
+            var lblLoopName = sender as TextBlock;
+            var grid = lblLoopName.Parent as Grid;
+            var panelLoopName = UIHelper.FindByName("panelLoopName", grid) as StackPanel;
+            var txtLoopName = UIHelper.FindByName("txtLoopName", panelLoopName) as TextBox;
+            _previousLoopName = lblLoopName.Text;
+            txtLoopName.Text = lblLoopName.Text;
+
+            panelLoopName.Visibility = Visibility.Visible;
+            lblLoopName.Visibility = Visibility.Collapsed;
+        }
+
+        private void HideLoopNameTextBoxFromButton(object sender, bool saveLoopName)
+        {
+            var btnLoopNameOK = sender as Button;
+            var panelLoopName = btnLoopNameOK.Parent as StackPanel;
+            var grid = panelLoopName.Parent as Grid;
+            var lblLoopName = UIHelper.FindByName("lblLoopName", grid) as TextBlock;
+            var loop = btnLoopNameOK.DataContext as Loop;
+            var txtLoopName = UIHelper.FindByName("txtLoopName", panelLoopName) as TextBox;
+
+            panelLoopName.Visibility = Visibility.Collapsed;
+            lblLoopName.Visibility = Visibility.Visible;
+
+            if (saveLoopName)
+            {
+                loop.Name = txtLoopName.Text;
+                lblLoopName.Text = txtLoopName.Text;
+                OnUpdateLoop(loop);
+            }
+            else
+            {
+                lblLoopName.Text = _previousLoopName;
+                loop.Name = _previousLoopName;
+            }
+        }
+
+        private void HideLoopNameTextBoxFromTextBox(object sender, bool saveLoopName)
+        {
+            var txtLoopName = sender as TextBox;
+            var gridLoopNameTextbox = txtLoopName.Parent as Grid;
+            var panelLoopName = gridLoopNameTextbox.Parent as StackPanel;
+            var grid = panelLoopName.Parent as Grid;
+            var lblLoopName = UIHelper.FindByName("lblLoopName", grid) as TextBlock;
+            var loop = txtLoopName.DataContext as Loop;
+
+            panelLoopName.Visibility = Visibility.Collapsed;
+            lblLoopName.Visibility = Visibility.Visible;
+
+            if (saveLoopName)
+            {
+                loop.Name = txtLoopName.Text;
+                lblLoopName.Text = txtLoopName.Text;
+                OnUpdateLoop(loop);
+            }
+            else
+            {
+                lblLoopName.Text = _previousLoopName;
+                loop.Name = _previousLoopName;
+            }
         }
 
         private void BtnBackLoopDetails_OnClick(object sender, RoutedEventArgs e)
@@ -1723,6 +1818,7 @@ namespace Sessions.WPF.Classes.Windows
         public Action<Loop> OnSelectLoop { get; set; }
         public Action<Loop> OnDeleteLoop { get; set; }
         public Action<Loop> OnPlayLoop { get; set; }
+        public Action<Loop> OnUpdateLoop { get; set; }
 
         public Action<Segment> OnPunchInLoopSegment { get; set; }
         public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }

@@ -28,6 +28,7 @@ namespace Sessions.MVP.Views
         Action<Loop> OnSelectLoop { get; set; }
         Action<Loop> OnDeleteLoop { get; set; }
         Action<Loop> OnPlayLoop { get; set; }
+        Action<Loop> OnUpdateLoop { get; set; }
 
         Action<Segment> OnPunchInLoopSegment { get; set; }
         Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }

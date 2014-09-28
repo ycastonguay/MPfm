@@ -457,6 +457,12 @@
     <Resource Include="Resources\Images\Toolbar\shuffle_off.png" />
     <Resource Include="Resources\Images\Toolbar\shuffle_on.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\cancelcircle.png" />
+    <Resource Include="Resources\Images\Buttons\cancelcircle_hr.png" />
+    <Resource Include="Resources\Images\Buttons\okcircle.png" />
+    <Resource Include="Resources\Images\Buttons\okcircle_hr.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -68,6 +68,7 @@ namespace Sessions.MVP.Presenters
             view.OnSelectLoop = SelectLoop;
             view.OnDeleteLoop = DeleteLoop;
             view.OnPlayLoop = PlayLoop;
+            view.OnUpdateLoop = UpdateLoop;
 
             view.OnPunchInLoopSegment = PunchInLoopSegment;
             view.OnChangingLoopSegmentPosition = ChangingLoopSegmentPosition;
@@ -214,6 +215,19 @@ namespace Sessions.MVP.Presenters
                 View.LoopError(ex);
             }            
         }
+
+	    private void UpdateLoop(Loop loop)
+	    {
+            try
+            {
+                _libraryService.UpdateLoop(loop);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while changing loop name: " + ex.Message);
+                View.LoopError(ex);
+            }	        
+	    }
 
         private void PunchInLoopSegment(Segment segment)
         {
