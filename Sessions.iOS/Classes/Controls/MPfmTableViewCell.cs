@@ -46,6 +46,8 @@ namespace Sessions.iOS.Classes.Controls
 		public UILabel AddToPlaylistLabel { get; private set; }
 		public UILabel AddedToPlaylistLabel { get; private set; }
 
+        public UILabel TitleTextLabel { get; private set; }
+        public UILabel SubtitleTextLabel { get; private set; }
         public UILabel IndexTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
         public UIImageView RightImage { get; private set; }
@@ -197,22 +199,23 @@ namespace Sessions.iOS.Classes.Controls
             AlbumCountLabel.HighlightedTextColor = UIColor.White;
 			ContainerView.AddSubview(AlbumCountLabel);
 
-            TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            TextLabel.BackgroundColor = UIColor.Orange;
-            TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
-			TextLabel.TextColor = UIColor.Black;
-			TextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			DetailTextLabel.TextColor = UIColor.Gray;
-			DetailTextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.BackgroundColor = UIColor.Yellow;
-            DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
+            TitleTextLabel = new UILabel();
+            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.BackgroundColor = UIColor.Clear;
+            TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
+            TitleTextLabel.TextColor = UIColor.Black;
+            TitleTextLabel.HighlightedTextColor = UIColor.White;
+            SubtitleTextLabel = new UILabel();
+            SubtitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			SubtitleTextLabel.TextColor = UIColor.Gray;
+			SubtitleTextLabel.HighlightedTextColor = UIColor.White;
+            SubtitleTextLabel.BackgroundColor = UIColor.Clear;
+            SubtitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             ImageView.BackgroundColor = UIColor.Clear;
 
             // Make sure the text label is over all other subviews
-            DetailTextLabel.RemoveFromSuperview();
             ImageView.RemoveFromSuperview();
-			ContainerView.AddSubview(DetailTextLabel);
+			ContainerView.AddSubview(SubtitleTextLabel);
 			ContainerView.AddSubview(ImageView);
 
             IndexTextLabel = new UILabel();
@@ -243,8 +246,9 @@ namespace Sessions.iOS.Classes.Controls
 			ContainerView.AddSubview(RightImage);
 
             // Make sure the text label is over all other subviews
-            TextLabel.RemoveFromSuperview();
-			ContainerView.AddSubview(TextLabel);
+            //TextLabel.RemoveFromSuperview();
+			//ContainerView.AddSubview(TextLabel);
+            ContainerView.AddSubview(TitleTextLabel);
 
 			// Maybe add icons only to iPad where there is enough space
 			PlayButton = new SessionsSecondaryMenuButton();
@@ -324,13 +328,13 @@ namespace Sessions.iOS.Classes.Controls
             }
 
             float titleY = 10 + 4;
-            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
+            if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
                 titleY = 2 + 4;
 
 			//if (_isTextLabelAllowedToChangeFrame)
-                TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
-            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-                DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
+                TitleTextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
+            if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
+                SubtitleTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
 
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
                 RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
@@ -356,11 +360,11 @@ namespace Sessions.iOS.Classes.Controls
         {
             SelectedBackgroundView.Alpha = 1;
             SelectedBackgroundView.Hidden = !highlighted;
-			TextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
-            DetailTextLabel.Highlighted = highlighted;
+			TitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
+            SubtitleTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
 			AlbumCountLabel.Highlighted = highlighted;
-			DetailTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
+			SubtitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
 			IndexTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
 			AlbumCountLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
 
@@ -369,8 +373,8 @@ namespace Sessions.iOS.Classes.Controls
 
         public override void SetSelected(bool selected, bool animated)
         {
-            TextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
-            DetailTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
+            TitleTextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
+            SubtitleTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
 			AlbumCountLabel.TextColor = selected ? UIColor.White : UIColor.Black;
             //IndexTextLabel.TextColor = selected ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
 
@@ -419,10 +423,10 @@ namespace Sessions.iOS.Classes.Controls
             {
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
-                    if(TextLabel.Transform.xx < 0.95f) return;
+                    if(TitleTextLabel.Transform.xx < 0.95f) return;
 
-                    TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
 					AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1, 1);
 					ImageAlbum1.Transform = CGAffineTransform.MakeScale(1, 1);
@@ -433,8 +437,8 @@ namespace Sessions.iOS.Classes.Controls
             else
             {
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-                    TextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
 					AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
 					ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);

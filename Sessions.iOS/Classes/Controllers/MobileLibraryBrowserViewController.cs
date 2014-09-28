@@ -683,8 +683,8 @@ namespace Sessions.iOS.Classes.Controllers
 //						oldCell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
 //						oldCell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
 //						oldCell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
-                        oldCell.TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                        oldCell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                        oldCell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                        oldCell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
 						oldCell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1, 1);
 						oldCell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(1, 1);
@@ -703,8 +703,8 @@ namespace Sessions.iOS.Classes.Controllers
                         oldCell.ImageAlbum3.Alpha = 0.2f;
 
 						oldCell.ContainerBackgroundView.BackgroundColor = UIColor.White;
-						oldCell.TextLabel.TextColor = UIColor.Black;
-						oldCell.DetailTextLabel.TextColor = UIColor.Gray;
+						oldCell.TitleTextLabel.TextColor = UIColor.Black;
+						oldCell.SubtitleTextLabel.TextColor = UIColor.Gray;
 						oldCell.AlbumCountLabel.TextColor = UIColor.Black;
 						oldCell.IndexTextLabel.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
 						oldCell.PlayButton.UpdateLayout();
@@ -742,8 +742,8 @@ namespace Sessions.iOS.Classes.Controllers
 						cell.ImageAlbum2.Alpha = 0.2f;
 						cell.ImageAlbum3.Alpha = 0.075f;
 
-                        cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
-                        cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                        cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                        cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
 						cell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
 						cell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
@@ -754,8 +754,8 @@ namespace Sessions.iOS.Classes.Controllers
 						cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
 
 						cell.ContainerBackgroundView.BackgroundColor = GlobalTheme.BackgroundColor;
-						cell.TextLabel.TextColor = UIColor.White;
-						cell.DetailTextLabel.TextColor = UIColor.White;
+						cell.TitleTextLabel.TextColor = UIColor.White;
+						cell.SubtitleTextLabel.TextColor = UIColor.White;
 						cell.IndexTextLabel.TextColor = UIColor.White;
 						cell.AlbumCountLabel.TextColor = UIColor.White;
 
@@ -873,12 +873,12 @@ namespace Sessions.iOS.Classes.Controllers
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.IsTextAnimationEnabled = true;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
-            cell.TextLabel.Text = item.Title;
-			cell.TextLabel.HighlightedTextColor = UIColor.White;
-            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
-            cell.DetailTextLabel.Text = item.Subtitle;
-			cell.DetailTextLabel.HighlightedTextColor = UIColor.White;
+            cell.TitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
+            cell.TitleTextLabel.Text = item.Title;
+			cell.TitleTextLabel.HighlightedTextColor = UIColor.White;
+            cell.SubtitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
+            cell.SubtitleTextLabel.Text = item.Subtitle;
+			cell.SubtitleTextLabel.HighlightedTextColor = UIColor.White;
 			cell.AlbumCountLabel.HighlightedTextColor = UIColor.White;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
@@ -895,7 +895,7 @@ namespace Sessions.iOS.Classes.Controllers
 
             // Change title font when the item has a subtitle
             if(String.IsNullOrEmpty(item.Subtitle))
-                cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+                cell.TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 
 			//var newContainerViewFrame = cell.ContainerView.Frame;
 			//newContainerViewFrame.X = item.IsQueued ? 12 : 0;
@@ -913,15 +913,15 @@ namespace Sessions.iOS.Classes.Controllers
 			cell.ImageAlbum1.Alpha = isEditing ? 0.5f : 0.75f;
 			cell.ImageAlbum2.Alpha = isEditing ? 0.2f : 0.4f;
 			cell.ImageAlbum3.Alpha = isEditing ? 0.075f : 0.2f;
-			cell.TextLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
-			cell.DetailTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Gray;
+			cell.TitleTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
+			cell.SubtitleTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Gray;
 			cell.IndexTextLabel.TextColor = isEditing ? UIColor.White : UIColor.FromRGB(0.5f, 0.5f, 0.5f);
 			cell.AlbumCountLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
 
 			if (isEditing)
             {
-                cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
-				cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
 				cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
 				cell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
 				cell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
@@ -933,8 +933,8 @@ namespace Sessions.iOS.Classes.Controllers
             }
             else
             {
-                cell.TextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
-                cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+                cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+                cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
                 cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
 				cell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
 				cell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(1f, 1f);
