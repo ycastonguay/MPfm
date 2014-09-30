@@ -82,7 +82,6 @@ namespace Sessions.WPF.Classes.Windows
         private Segment _startSegment;
         private Segment _endSegment;
         private bool _isPlayingLoop;
-        private string _previousLoopName;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -714,7 +713,14 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ListViewLoops_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            EditLoop();
+            // Block double click on the textbox and image buttons. Cannot use these controls as a type
+            if (e.OriginalSource.GetType().Name == "TextBoxView" ||
+                e.OriginalSource.GetType().Name == "Image")
+                return;
+
+            //EditLoop();
+            if(_currentLoop != null && _selectedLoopIndex >= 0)
+                PlayOrStopCurrentLoop();
         }
 
         private void ListViewLoops_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -753,25 +759,25 @@ namespace Sessions.WPF.Classes.Windows
         {
             var lblLoopName = sender as TextBlock;
             var grid = lblLoopName.Parent as Grid;
-            var panelLoopName = UIHelper.FindByName("panelLoopName", grid) as StackPanel;
-            var txtLoopName = UIHelper.FindByName("txtLoopName", panelLoopName) as TextBox;
-            _previousLoopName = lblLoopName.Text;
+            var gridLoopName = UIHelper.FindByName("gridLoopName", grid) as Grid;
+            var txtLoopName = UIHelper.FindByName("txtLoopName", gridLoopName) as TextBox;
+            //_previousLoopName = lblLoopName.Text;
             txtLoopName.Text = lblLoopName.Text;
 
-            panelLoopName.Visibility = Visibility.Visible;
+            gridLoopName.Visibility = Visibility.Visible;
             lblLoopName.Visibility = Visibility.Collapsed;
         }
 
         private void HideLoopNameTextBoxFromButton(object sender, bool saveLoopName)
         {
             var btnLoopNameOK = sender as Button;
-            var panelLoopName = btnLoopNameOK.Parent as StackPanel;
-            var grid = panelLoopName.Parent as Grid;
+            var gridLoopName = btnLoopNameOK.Parent as Grid;
+            var grid = gridLoopName.Parent as Grid;
             var lblLoopName = UIHelper.FindByName("lblLoopName", grid) as TextBlock;
             var loop = btnLoopNameOK.DataContext as Loop;
-            var txtLoopName = UIHelper.FindByName("txtLoopName", panelLoopName) as TextBox;
+            var txtLoopName = UIHelper.FindByName("txtLoopName", gridLoopName) as TextBox;
 
-            panelLoopName.Visibility = Visibility.Collapsed;
+            gridLoopName.Visibility = Visibility.Collapsed;
             lblLoopName.Visibility = Visibility.Visible;
 
             if (saveLoopName)
@@ -782,8 +788,9 @@ namespace Sessions.WPF.Classes.Windows
             }
             else
             {
-                lblLoopName.Text = _previousLoopName;
-                loop.Name = _previousLoopName;
+                loop.Name = lblLoopName.Text;
+                //lblLoopName.Text = _previousLoopName;
+                //loop.Name = _previousLoopName;
             }
         }
 
@@ -791,12 +798,12 @@ namespace Sessions.WPF.Classes.Windows
         {
             var txtLoopName = sender as TextBox;
             var gridLoopNameTextbox = txtLoopName.Parent as Grid;
-            var panelLoopName = gridLoopNameTextbox.Parent as StackPanel;
-            var grid = panelLoopName.Parent as Grid;
+            var gridLoopName = gridLoopNameTextbox.Parent as Grid;
+            var grid = gridLoopName.Parent as Grid;
             var lblLoopName = UIHelper.FindByName("lblLoopName", grid) as TextBlock;
             var loop = txtLoopName.DataContext as Loop;
 
-            panelLoopName.Visibility = Visibility.Collapsed;
+            gridLoopName.Visibility = Visibility.Collapsed;
             lblLoopName.Visibility = Visibility.Visible;
 
             if (saveLoopName)
@@ -807,9 +814,42 @@ namespace Sessions.WPF.Classes.Windows
             }
             else
             {
-                lblLoopName.Text = _previousLoopName;
-                loop.Name = _previousLoopName;
+                loop.Name = lblLoopName.Text;
+                //lblLoopName.Text = _previousLoopName;
+                //loop.Name = _previousLoopName;
             }
+        }
+
+        private void BtnLoopStartPositionPunchIn_OnClick(object sender, RoutedEventArgs e)
+        {
+            var frameworkElement = sender as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                var loop = frameworkElement.DataContext as Loop;
+                OnSelectLoop(loop);
+                if (loop != null) OnPunchInLoopSegment(loop.GetStartSegment());
+            }
+        }
+
+        private void BtnLoopEndPositionPunchIn_OnClick(object sender, RoutedEventArgs e)
+        {
+            var frameworkElement = sender as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                var loop = frameworkElement.DataContext as Loop;
+                OnSelectLoop(loop);
+                if (loop != null) OnPunchInLoopSegment(loop.GetEndSegment());
+            }
+        }
+
+        private void BtnLoopStartPositionPunchIn_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Empty because we want to block the double click action on this button so the loop does not start playing
+        }
+
+        private void BtnLoopEndPositionPunchIn_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Empty because we want to block the double click action on this button so the loop does not start playing
         }
 
         private void BtnBackLoopDetails_OnClick(object sender, RoutedEventArgs e)
@@ -833,21 +873,30 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
         {
-            OnPlayLoop(_loops[_selectedLoopIndex]);
+            PlayOrStopCurrentLoop();
+        }
 
+        private void PlayOrStopCurrentLoop()
+        {
+            OnPlayLoop(_loops[_selectedLoopIndex]);
             _isPlayingLoop = !_isPlayingLoop;
-            if(_isPlayingLoop)
+            SetPlayLoopButtonState(_isPlayingLoop);
+        }
+
+        private void SetPlayLoopButtonState(bool isPlayingLoop)
+        {
+            if (isPlayingLoop)
                 btnPlayLoop.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/stop.png"));
             else
-                btnPlayLoop.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/play.png"));
+                btnPlayLoop.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/play.png"));                       
         }
 
         private void BtnAddLoop_OnClick(object sender, RoutedEventArgs e)
         {
             OnAddLoop();
-            gridLoops.Visibility = Visibility.Hidden;
-            gridLoopDetails.Visibility = Visibility.Visible;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
+            //gridLoops.Visibility = Visibility.Hidden;
+            //gridLoopDetails.Visibility = Visibility.Visible;
+            //gridLoopPlayback.Visibility = Visibility.Hidden;
         }
 
         private void BtnEditLoop_OnClick(object sender, RoutedEventArgs e)
@@ -882,7 +931,7 @@ namespace Sessions.WPF.Classes.Windows
         private void EnableLoopButtons(bool enabled)
         {
             btnPlayLoop.Enabled = enabled;
-            btnEditLoop.Enabled = enabled;
+            //btnEditLoop.Enabled = enabled;
             btnRemoveLoop.Enabled = enabled;
         }
 
@@ -1627,6 +1676,8 @@ namespace Sessions.WPF.Classes.Windows
                         });
                     }
                 }
+
+                SetPlayLoopButtonState(false);
             }));
         }
 
@@ -2023,59 +2074,59 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
         {
-            _currentLoop = loop;
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                txtLoopName.Text = loop.Name;
-                scrollViewWaveForm.SetLoop(loop);
-                //scrollViewWaveForm.FocusZoomOnLoop(_currentLoop);
+            //_currentLoop = loop;
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    txtLoopName.Text = loop.Name;
+            //    scrollViewWaveForm.SetLoop(loop);
+            //    //scrollViewWaveForm.FocusZoomOnLoop(_currentLoop);
 
-                _startSegment = _currentLoop.GetStartSegment();
-                if (_startSegment != null)
-                {
-                    lblLoopStartPosition.Content = _startSegment.Position;
-                    float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
-                    trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
-                }
+            //    _startSegment = _currentLoop.GetStartSegment();
+            //    if (_startSegment != null)
+            //    {
+            //        lblLoopStartPosition.Content = _startSegment.Position;
+            //        float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
+            //        trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+            //    }
 
-                _endSegment = _currentLoop.GetEndSegment();
-                if (_endSegment != null)
-                {
-                    lblLoopEndPosition.Content = _endSegment.Position;
-                    float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
-                    trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
-                }
+            //    _endSegment = _currentLoop.GetEndSegment();
+            //    if (_endSegment != null)
+            //    {
+            //        lblLoopEndPosition.Content = _endSegment.Position;
+            //        float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
+            //        trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+            //    }
 
-                lblLoopLength.Content = _currentLoop.TotalLength;
-            }));
+            //    lblLoopLength.Content = _currentLoop.TotalLength;
+            //}));
         }
 
         public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                var startSegment = _currentLoop.GetStartSegment();
-                var endSegment = _currentLoop.GetEndSegment();
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    var startSegment = _currentLoop.GetStartSegment();
+            //    var endSegment = _currentLoop.GetEndSegment();
 
-                if (startSegment == null || endSegment == null)
-                    return;
+            //    if (startSegment == null || endSegment == null)
+            //        return;
 
-                if (startSegment.SegmentId == segment.SegmentId)
-                {
-                    lblLoopStartPosition.Content = segment.Position;
-                    float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
-                    trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
-                }
-                else if (endSegment.SegmentId == segment.SegmentId)
-                {
-                    lblLoopEndPosition.Content = segment.Position;
-                    float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
-                    trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
-                }
+            //    if (startSegment.SegmentId == segment.SegmentId)
+            //    {
+            //        lblLoopStartPosition.Content = segment.Position;
+            //        float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
+            //        trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+            //    }
+            //    else if (endSegment.SegmentId == segment.SegmentId)
+            //    {
+            //        lblLoopEndPosition.Content = segment.Position;
+            //        float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
+            //        trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+            //    }
 
-                lblLoopLength.Content = _currentLoop.TotalLength;
-                scrollViewWaveForm.SetLoop(_currentLoop);
-            }));        
+            //    lblLoopLength.Content = _currentLoop.TotalLength;
+            //    scrollViewWaveForm.SetLoop(_currentLoop);
+            //}));        
         }
 
         public void RefreshLoopMarkers(IEnumerable<Marker> markers)

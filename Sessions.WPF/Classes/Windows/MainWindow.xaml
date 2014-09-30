@@ -479,10 +479,10 @@
                                             <Label Grid.Column="0" Content="Loops" Padding="4,4,8,0" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnPlayLoop" Title="" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnPlayLoop_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
+                                            <!--<controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />-->
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown">                                            
+                                        <ListView Grid.Row="1" x:Name="listViewLoops" SelectionChanged="ListViewLoops_OnSelectionChanged" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick">
                                             <ListView.View>
                                                 <GridView>
                                                     <controls:FixedWidthColumn Header="" FixedWidth="26">
@@ -497,24 +497,54 @@
                                                         <DataTemplate>
                                                           <Grid>
                                                             <TextBlock x:Name="lblLoopName" Text="{Binding Path=Name}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" PreviewMouseDown="lblLoopName_OnPreviewMouseDown" />
-                                                            <StackPanel x:Name="panelLoopName" Orientation="Horizontal" Visibility="Collapsed">
+                                                            <Grid x:Name="gridLoopName" Visibility="Collapsed">
                                                               <Grid x:Name="gridLoopNameTextbox" Background="White" Height="19" Margin="0,0,2,0">
                                                                 <TextBlock x:Name="lblLoopNameWatermark" Margin="2,2,0,0" Padding="0" Text="New Loop" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtLoopName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
                                                                 <TextBox x:Name="txtLoopName" Background="Transparent" BorderBrush="Transparent" Height="19" Margin="0,0,0,0" Padding="0,2,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" KeyDown="TxtLoopName_OnKeyDown" />
                                                               </Grid>
-                                                              <Button x:Name="btnLoopName_OK" Style="{StaticResource PlayerButton}" Width="16" Height="16" Margin="1" Click="BtnLoopName_OK_OnClick">
-                                                                <Image Source="/Resources/Images/Buttons/okcircle.png" Stretch="None" />
-                                                              </Button>
-                                                              <Button x:Name="btnLoopName_Cancel" Style="{StaticResource PlayerButton}" Width="16" Height="16" Margin="1" Click="BtnLoopName_Cancel_OnClick">
-                                                                <Image Source="/Resources/Images/Buttons/cancelcircle.png" Stretch="None" />
-                                                              </Button>
-                                                            </StackPanel>
+                                                            </Grid>
+                                                            <Button x:Name="btnLoopName_OK" Style="{StaticResource PlayerButton}" Width="16" Height="16" Margin="1" Visibility="Collapsed" Click="BtnLoopName_OK_OnClick">
+                                                              <Image Source="/Resources/Images/Buttons/okcircle.png" Stretch="None" />
+                                                            </Button>
+                                                            <Button x:Name="btnLoopName_Cancel" Style="{StaticResource PlayerButton}" Width="16" Height="16" Margin="1" Visibility="Collapsed" Click="BtnLoopName_Cancel_OnClick">
+                                                              <Image Source="/Resources/Images/Buttons/cancelcircle.png" Stretch="None" />
+                                                            </Button>
                                                           </Grid>
                                                         </DataTemplate>
                                                       </GridViewColumn.CellTemplate>
                                                     </GridViewColumn>
-                                                    <GridViewColumn Header="Start" Width="60" DisplayMemberBinding="{Binding Path=StartPosition}" />
-                                                    <GridViewColumn Header="End" Width="60" DisplayMemberBinding="{Binding Path=EndPosition}" />
+                                                    <GridViewColumn Header="Start" Width="80">
+                                                      <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                          <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                              <ColumnDefinition />
+                                                              <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock x:Name="lblLoopStartPosition" Grid.Column="0" Text="{Binding Path=StartPosition}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                            <Button x:Name="btnLoopStartPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" Click="BtnLoopStartPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopStartPositionPunchIn_OnMouseDoubleClick">
+                                                              <Image Source="/Resources/Images/Buttons/punch_in.png" Stretch="None" />
+                                                            </Button>
+                                                          </Grid>
+                                                        </DataTemplate>
+                                                      </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="End" Width="80">
+                                                      <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                          <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                              <ColumnDefinition />
+                                                              <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock x:Name="lblLoopEndPosition" Grid.Column="0" Text="{Binding Path=EndPosition}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                                            <Button x:Name="btnLoopEndPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" Click="BtnLoopEndPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopEndPositionPunchIn_OnMouseDoubleClick">
+                                                              <Image Source="/Resources/Images/Buttons/punch_in.png" Stretch="None" />
+                                                            </Button>
+                                                          </Grid>
+                                                        </DataTemplate>
+                                                      </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
                                                     <GridViewColumn Header="Length" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
                                                 </GridView>
                                             </ListView.View>
