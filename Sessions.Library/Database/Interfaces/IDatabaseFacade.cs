@@ -55,6 +55,7 @@ namespace Sessions.Library.Database.Interfaces
         void ResetLibrary();
 		
 		IEnumerable<string> SelectFilePaths();
+        IEnumerable<string> SelectFilePathsRelatedToCueFiles();
         AudioFile SelectAudioFile(Guid audioFileId);
         List<AudioFile> SelectAudioFiles();
 		List<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);

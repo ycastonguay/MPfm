@@ -155,7 +155,6 @@
     <Compile Include="Playlists\PlaylistRepeatType.cs" />
     <Compile Include="Services\AlbumArtExtractionService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />
-    <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="AudioFiles\AudioFileLoader.cs" />
     <Compile Include="AudioFiles\AudioFileWriter.cs" />
     <Compile Include="CueFiles\CueFileLoader.cs" />

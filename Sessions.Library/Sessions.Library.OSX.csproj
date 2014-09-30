@@ -137,6 +137,7 @@
     <EmbeddedResource Include="WebApp\images\icon_download.png" />
     <EmbeddedResource Include="WebApp\images\icon_upload.png" />
     <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
+    <EmbeddedResource Include="Scripts\1.07-1.08.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">

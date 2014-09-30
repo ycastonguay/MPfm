@@ -119,6 +119,7 @@
     <EmbeddedResource Include="Scripts\1.02-1.03.sql" />
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />
     <EmbeddedResource Include="Scripts\1.00-1.01.sql" />
+      <EmbeddedResource Include="Scripts\1.07-1.08.sql" />
     <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />

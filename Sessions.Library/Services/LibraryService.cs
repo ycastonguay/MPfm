@@ -67,6 +67,11 @@ namespace Sessions.Library.Services
 		{
 			return _gateway.SelectFilePaths();
 		}
+
+        public IEnumerable<string> SelectFilePathsRelatedToCueFiles()
+        {
+            return _gateway.SelectFilePathsRelatedToCueFiles();
+        }
 		
 		public IEnumerable<AudioFile> SelectAudioFiles()
 		{

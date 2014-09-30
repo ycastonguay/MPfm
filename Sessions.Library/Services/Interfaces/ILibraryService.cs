@@ -30,6 +30,7 @@ namespace Sessions.Library.Services.Interfaces
     public interface ILibraryService
     {
 		IEnumerable<string> SelectFilePaths();
+        IEnumerable<string> SelectFilePathsRelatedToCueFiles();
 		IEnumerable<Folder> SelectFolders();
 		void RemoveAudioFilesWithBrokenFilePaths();
         void ResetLibrary();

@@ -56,7 +56,7 @@ namespace Sessions.MVP.Services
 	    /// <summary>
 	    /// Indicates what database minor version is expected. Useful to update the database structure.
 	    /// </summary>
-	    private int _databaseVersionMinor = 7;
+	    private int _databaseVersionMinor = 8;
 
         public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
         {
@@ -198,10 +198,8 @@ namespace Sessions.MVP.Services
         /// <returns>Database version (ex: "1.04")</returns>
         private string GetDatabaseVersion(string databaseFilePath)
         {
-            // Create gateway
-            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
-
             // Fetch database version
+            var gateway = new DatabaseFacade(databaseFilePath);
             Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
 
             // Check if setting is null
@@ -227,7 +225,7 @@ namespace Sessions.MVP.Services
             int currentMinor = 0;
 
             // Create gateway
-            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
+            var gateway = new DatabaseFacade(databaseFilePath);
 
             // Get setting
             Tracing.Log("InitializationService - Fetching database version...");
@@ -311,9 +309,7 @@ namespace Sessions.MVP.Services
         private void CreateDatabaseFile(string databaseFilePath)
         {
             DatabaseFacade.CreateDatabaseFile(databaseFilePath);
-            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
-
-            // Get SQL
+            var gateway = new DatabaseFacade(databaseFilePath);
             string sql = GetEmbeddedSQLScript("Sessions.Library.Scripts.CreateDatabase.sql");
 
             // Remove the header comments
@@ -348,7 +344,7 @@ namespace Sessions.MVP.Services
             // Fetch SQL from Sessions.Library assembly
             using (Stream stream = assembly.GetManifestResourceStream(fileName))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (var reader = new StreamReader(stream))
                 {
                     sql = reader.ReadToEnd();
                 }

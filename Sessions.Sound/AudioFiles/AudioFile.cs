@@ -45,7 +45,7 @@ namespace Sessions.Sound.AudioFiles
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
-        [Browsable(false), DatabaseField(true, "AudioFileId")]
+        [DatabaseField(true, "AudioFileId"), Browsable(false)]
 	 	public Guid Id { get; set; }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Sessions.Sound.AudioFiles
         /// Supported file formats: MPC (MusePack).
         /// For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification.
         /// </summary>
-        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV7 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification")] 
+        [DatabaseField(false), Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV7 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification")] 
         public SV7Tag SV7Tag { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Sessions.Sound.AudioFiles
         /// Supported file formats: MPC (MusePack).
         /// For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification.
         /// </summary>
-        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV8 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification")]
+        [DatabaseField(false), Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV8 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification")]
         public SV8Tag SV8Tag { get; set; }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Sessions.Sound.AudioFiles
         /// Supported file formats: FLAC, APE, WV, MPC, OFR, TTA.
         /// For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.
         /// </summary>
-        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("APEv1/APEv2 Tag. Supported file formats: FLAC, APE, WV, MPC, OFR, TTA. For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.")]
+        [DatabaseField(false), Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("APEv1/APEv2 Tag. Supported file formats: FLAC, APE, WV, MPC, OFR, TTA. For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.")]
         public APETag APETag { get; set; }
 
 		#region File Information Properties
@@ -95,13 +95,13 @@ namespace Sessions.Sound.AudioFiles
 		/// <summary>
 		/// Position of the first block of data. Useful for reading the Xing header.
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the first block of data.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the first block of data.")]
 		public long FirstBlockPosition { get; set; }
 
 		/// <summary>
 		/// Position of the last block of data.
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the last block of data.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the last block of data.")]
 		public long LastBlockPosition { get; set; }
 
 		#endregion
@@ -111,19 +111,19 @@ namespace Sessions.Sound.AudioFiles
 		/// <summary>
 		/// Audio bitrate. Indicates the average bitrate for VBR MP3 files.
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bitrate.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bitrate.")]
 		public int Bitrate { get; set; }
 
 		/// <summary>
 		/// Audio bits per sample. Usually 16-bit or 24-bit.
 		/// </summary>		
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bits per sample. Usually 16-bit or 24-bit.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bits per sample. Usually 16-bit or 24-bit.")]
 		public int BitsPerSample { get; set; }
 
 		/// <summary>
 		/// Channel mode (only for MP3 files).
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Channel mode (only for MP3 files).")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Channel mode (only for MP3 files).")]
 		public TagLib.Mpeg.ChannelMode ChannelMode { get; set; }
 
 		/// <summary>
@@ -135,19 +135,19 @@ namespace Sessions.Sound.AudioFiles
 		/// <summary>
 		/// Number of audio channels.
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Number of audio channels.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Number of audio channels.")]
 		public int AudioChannels { get; set; }
 
 		/// <summary>
 		/// Frame length.
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Frame length.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Frame length.")]
 		public int FrameLength { get; set; }
 
 		/// <summary>
 		/// Audio layer type.
 		/// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio layer type.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio layer type.")]
 		public int AudioLayer { get; set; }
 
 		/// <summary>
@@ -166,28 +166,28 @@ namespace Sessions.Sound.AudioFiles
         /// The INFO header is found on MP3 files encoded using LAME and CBR settings.
         /// Both headers are in fact the same.
         /// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 header type (XING or INFO).")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 header type (XING or INFO).")]
         public string MP3HeaderType { get; set; }
 
         /// <summary>
         /// MP3 Encoder version.
         /// Ex: LAME3.98
         /// </summary>        
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder version.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder version.")]
         public string MP3EncoderVersion { get; set; }
 
         /// <summary>
         /// MP3 Encoder delay.
         /// Ex: 576
         /// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder delay.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder delay.")]
         public int? MP3EncoderDelay { get; set; }
 
         /// <summary>
         /// MP3 Encoder padding.
         /// Ex: 1800
         /// </summary>
-        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder padding.")]
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder padding.")]
         public int? MP3EncoderPadding { get; set; }
 
         ///// <summary>
@@ -213,8 +213,8 @@ namespace Sessions.Sound.AudioFiles
 
         #region CUE Properties
 
-        [Category("CUE Properties"), Description("Determines if this audio file depends on a CUE file.")]
-        public bool HasCUEFile { get; set; }
+        [Category("CUE Properties"), Description("Determines the CUE file path related to this audio file.")]
+        public string CueFilePath { get; set; }
 
         [Category("CUE Properties"), Description("Determines the start position within the audio file (requires a CUE file).")]
         public string StartPosition { get; set; }

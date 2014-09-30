@@ -27,6 +27,9 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Library.UpdateLibrary;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Sessions.Sound.CueFiles;
+
+
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
@@ -189,8 +192,8 @@ namespace Sessions.Library.Services
 		/// <param name='e'>Event arguments</param>
         protected void workerUpdateLibrary_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<string> filePaths = new List<string>();    
-            UpdateLibraryArgument arg = (UpdateLibraryArgument)e.Argument;
+            var filePaths = new List<string>();
+            var arg = (UpdateLibraryArgument)e.Argument;
             filePaths.AddRange(arg.FilePaths);
 						
 			try
@@ -200,7 +203,8 @@ namespace Sessions.Library.Services
                 if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 				
 				// Get the list of audio files from the database
-				var filePathsDatabase = _libraryService.SelectFilePaths();				
+				var filePathsDatabase = _libraryService.SelectFilePaths();
+                var filePathsRelatedToCueFiles = _libraryService.SelectFilePathsRelatedToCueFiles().ToList();
 				var filePathsToUpdate = filePaths.Except(filePathsDatabase);
 			    var audioFiles = new List<AudioFile>();
 		        for(int a = 0; a < filePathsToUpdate.Count(); a++)
@@ -224,9 +228,21 @@ namespace Sessions.Library.Services
 		                }
 		                else
 		                {
-		                    var audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
-                            //_libraryService.InsertAudioFile(audioFile);
-                            audioFiles.Add(audioFile);
+                            if(filePath.ToUpper().Contains(".CUE"))
+                            {
+                                var cueAudioFiles = CueFileLoader.GetAudioFilesFromCueFile(filePath);
+                                audioFiles.AddRange(cueAudioFiles);
+
+                                // Add the audio file path to this list so we don't actually import the whole audio file by itself
+                                // Well... the audio file could be added BEFORE we hit the cue file...
+                                filePathsRelatedToCueFiles.Add(CueFileLoader.GetAudioFilePathFromCueFile(filePath));
+                            }
+                            else
+                            {
+                                var audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
+                                audioFiles.Add(audioFile);
+                            }
+
 		                    if (audioFiles.Count >= 50)
 		                    {
                                 //Console.WriteLine("UpdateLibraryService - Inserting 20 audio files into database...");
@@ -347,11 +363,11 @@ namespace Sessions.Library.Services
 			
 			// Set supported extensions
 #if MACOSX            
-			extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$";
+			extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(cue)|(m3u)|(m3u8)|(pls)|(xspf))$";
 #elif LINUX
-            extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(m3u)|(m3u8)|(pls)|(xspf))$";
+            extensionsSupported = @"^.+\.((wav)|(mp3)|(flac)|(ogg)|(mpc)|(wv)|(cue)|(m3u)|(m3u8)|(pls)|(xspf))$";
 #elif (!MACOSX && !LINUX)
-			extensionsSupported = @"WAV;MP3;FLAC;OGG;MPC;WV;WMA;APE;M3U;M3U8;PLS;XSPF";
+			extensionsSupported = @"WAV;MP3;FLAC;OGG;MPC;WV;WMA;APE;CUE;M3U;M3U8;PLS;XSPF";
 #endif
 						
 #if (MACOSX || LINUX)

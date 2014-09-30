@@ -315,15 +315,17 @@ namespace Sessions.Library.Database
             return albums;
         }
 		
-		/// <summary>
-		/// Returns the list of file paths in the Song table.
-		/// </summary>
-		/// <returns>List of file paths</returns>
 		public IEnumerable<string> SelectFilePaths()
 		{
             IEnumerable<object> listObjects = _gateway.SelectList("SELECT FilePath FROM AudioFiles");
 			return listObjects.Select(x => x.ToString());
 		}
+
+        public IEnumerable<string> SelectFilePathsRelatedToCueFiles()
+        {
+            IEnumerable<object> listObjects = _gateway.SelectList("SELECT FilePath FROM AudioFiles WHERE CueFilePath IS NOT NULL");
+            return listObjects.Select(x => x.ToString());
+        }
 
         ///// <summary>
         ///// Returns the distinct list of album titles with the path of at least one song of the album from the database, 
