@@ -78,9 +78,7 @@
     <Compile Include="Services\Objects\WaveFormTile.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
-    <Compile Include="Controls\Songs\SongGridViewControl.cs" />
     <Compile Include="Controls\Items\GridViewCache.cs" />
-    <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
     <Compile Include="Controls\TrackBarControl.cs" />
     <Compile Include="Controls\WaveFormControl.cs" />
     <Compile Include="Controls\WaveFormScaleControl.cs">
@@ -121,6 +119,10 @@
     <Compile Include="Controls\Items\ScrubbingSpeed.cs" />
     <Compile Include="Helpers\ScrubbingSpeedHelper.cs" />
     <Compile Include="Controls\Interfaces\IScrubbingSpeedSupport.cs" />
+    <Compile Include="Controls\SongGridViewControl.cs" />
+    <Compile Include="Controls\PlaylistListViewControl.cs" />
+    <Compile Include="Controls\Items\PlaylistListViewItem.cs" />
+    <Compile Include="Controls\Themes\PlaylistListViewTheme.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.csproj">

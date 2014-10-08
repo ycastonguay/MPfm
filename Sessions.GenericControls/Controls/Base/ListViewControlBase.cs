@@ -26,6 +26,7 @@ using Sessions.GenericControls.Wrappers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Themes;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace Sessions.GenericControls.Controls.Base
 {
@@ -37,34 +38,6 @@ namespace Sessions.GenericControls.Controls.Base
         // Control wrappers
         public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }    
         public IVerticalScrollBarWrapper VerticalScrollBar { get; private set; }
-
-        private List<T> _items;
-        /// <summary>
-        /// List of grid view items (representing songs).
-        /// </summary>
-        [Browsable(false)]
-        public List<T> Items
-        {
-            get
-            {
-                return _items;
-            }
-        }
-
-        /// <summary>
-        /// Returns the list of selected items.
-        /// </summary>
-        [Browsable(false)]
-        public List<T> SelectedItems
-        {
-            get
-            {
-                if (_items != null)
-                    return _items.Where(x => x.IsSelected).ToList();
-
-                return null;
-            }
-        }
 
         /// <summary>
         /// Indicates if the user can reorder the items or not.
@@ -80,6 +53,22 @@ namespace Sessions.GenericControls.Controls.Base
         public int Padding { get; set; }
         public bool DisplayDebugInformation { get; set; }
 
+//        public int SelectedIndex
+//        {
+//            get
+//            {
+//                return SelectedIndexes.Count > 0 ? SelectedIndexes[0] : -1;
+//            }
+//            set
+//            {
+//                SelectedIndexes.Clear();
+//                SelectedIndexes.Add(value);
+//            }
+//        }
+
+        public ObservableCollection<int> SelectedIndexes { get; protected set; }
+
+        protected int MouseOverRowIndex { get; set; }
         protected int StartLineNumber { get; set; }
         protected int NumberOfLinesToDraw { get; set; }
         protected bool IsMouseOverControl { get; set; }
@@ -98,19 +87,28 @@ namespace Sessions.GenericControls.Controls.Base
         public event DisplayContextMenuDelegate OnDisplayContextMenu;
 
         protected abstract string GetCellContent(int row, int col, string fieldName);
+        protected abstract int GetRowCount();
+        protected abstract int GetRowHeight();
+        protected abstract bool ShouldDrawHeader();
+        protected abstract bool IsRowSelectable(int row);
+        protected abstract bool IsRowEmpty(int row);
 
         protected ListViewControlBase(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar)
         {
             Padding = 6;
             CanReorderItems = true;
+            MouseOverRowIndex = -1;
             Theme = new ListViewTheme();
+            SelectedIndexes = new ObservableCollection<int>();
+            SelectedIndexes.CollectionChanged += (sender, e) => {
+                InvalidateVisual();
+                SelectedIndexChanged();
+            };
 
             HorizontalScrollBar = horizontalScrollBar;
             HorizontalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
             VerticalScrollBar = verticalScrollBar;
             VerticalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
-
-            _items = new List<T>();
         }
 
         protected void SelectedIndexChanged()
@@ -144,10 +142,10 @@ namespace Sessions.GenericControls.Controls.Base
 
             // Check if the total number of lines exceeds the number of icons fitting in height
             NumberOfLinesToDraw = 0;
-            if (StartLineNumber + ListCache.NumberOfLinesFittingInControl > Items.Count)
+            if (StartLineNumber + ListCache.NumberOfLinesFittingInControl > GetRowCount())
             {
                 // There aren't enough lines to fill the screen
-                NumberOfLinesToDraw = Items.Count - StartLineNumber;
+                NumberOfLinesToDraw = GetRowCount() - StartLineNumber;
             }
             else
             {
@@ -156,15 +154,12 @@ namespace Sessions.GenericControls.Controls.Base
             }
 
             // Add one line for overflow; however, make sure we aren't adding a line without content 
-            if (StartLineNumber + NumberOfLinesToDraw + 1 <= Items.Count)
+            if (StartLineNumber + NumberOfLinesToDraw + 1 <= GetRowCount())
                 NumberOfLinesToDraw++;
         }
 
         public override void Render(IGraphicsContext context)
         {
-            if (Items == null)
-                return;
-
 //            //var stopwatch = new Stopwatch();
 //            //stopwatch.Start();
 
@@ -196,7 +191,7 @@ namespace Sessions.GenericControls.Controls.Base
         protected virtual BasicColor GetRowBackgroundColor(int row)
         {   
             var color = Theme.CellBackgroundColor;
-            if (Items[row].IsSelected)
+            if(SelectedIndexes.Contains(row))
             {
                 color = Theme.SelectedBackgroundColor;
 
@@ -280,6 +275,9 @@ namespace Sessions.GenericControls.Controls.Base
             
         protected virtual void DrawHeader(IGraphicsContext context)
         {
+            if(!ShouldDrawHeader())
+                return;
+
             var penTransparent = new BasicPen();
             var brushGradient = new BasicGradientBrush(Theme.HeaderBackgroundColor, Theme.HeaderBackgroundColor, 90);
 
@@ -294,7 +292,7 @@ namespace Sessions.GenericControls.Controls.Base
             {
                 // Build debug string
                 var sbDebug = new StringBuilder();
-                sbDebug.AppendLine("Line Count: " + Items.Count.ToString());
+                sbDebug.AppendLine("Line Count: " + GetRowCount().ToString());
                 sbDebug.AppendLine("Line Height: " + ListCache.LineHeight.ToString());
                 sbDebug.AppendLine("Lines Fit In Height: " + ListCache.NumberOfLinesFittingInControl.ToString());
                 //sbDebug.AppendLine("Total Width: " + GridCache.TotalWidth);
@@ -321,41 +319,39 @@ namespace Sessions.GenericControls.Controls.Base
             }
         }
 
-        /// <summary>
-        /// Clears the currently selected items.
-        /// </summary>
-        public void ClearSelectedItems()
-        {
-            foreach (var item in Items)
-            {
-                if (item.IsSelected)
-                    item.IsSelected = false;
-            }
-
-            InvalidateVisual();
-        }
+//        /// <summary>
+//        /// Clears the currently selected items.
+//        /// </summary>
+//        public void ClearSelectedItems()
+//        {
+//            foreach (var item in Items)
+//            {
+//                if (item.IsSelected)
+//                    item.IsSelected = false;
+//            }
+//
+//            InvalidateVisual();
+//        }
 
         public void ResetSelection()
         {
-            // Reset selection, unless the CTRL key is held (TODO)
-            var selectedItems = Items.Where(item => item.IsSelected == true).ToList();
-            foreach (var item in selectedItems)
-                item.IsSelected = false;
+//            // Reset selection, unless the CTRL key is held (TODO)
+//            var selectedItems = Items.Where(item => item.IsSelected == true).ToList();
+//            foreach (var item in selectedItems)
+//                item.IsSelected = false;
+            SelectedIndexes.Clear();
         }
 
         public Tuple<int, int> GetStartIndexAndEndIndexOfSelectedRows()
         {
-            if (Items == null)
-                return new Tuple<int, int>(-1, -1);
-
             // Loop through visible lines to find the original selected items
             int startIndex = -1;
             int endIndex = -1;
             //for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-            for (int a = 0; a < _items.Count; a++)
+            for (int a = 0; a < GetRowCount(); a++)
             {
                 // Check if the item is selected
-                if (Items[a].IsSelected)
+                if (SelectedIndexes.Contains(a))
                 {
                     // Check if the start index was set
                     if (startIndex == -1)
@@ -376,6 +372,30 @@ namespace Sessions.GenericControls.Controls.Base
             return lineIndex < StartLineNumber || lineIndex > StartLineNumber + NumberOfLinesToDraw;// + PreloadLinesAlbumCover;
         }
 
+        public virtual void ReloadData()
+        {
+            InvalidateCache();
+            VerticalScrollBar.Value = 0;
+            InvalidateVisual();
+        }
+
+        public virtual void ReloadRow(int row)
+        {
+            int offsetY = (row * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
+            InvalidateVisualInRect(new BasicRectangle(HorizontalScrollBar.Value, offsetY, Frame.Width - HorizontalScrollBar.Value, ListCache.LineHeight));
+
+            // Find the position of the line            
+//            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
+//            {
+//                int offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
+//                if (Items[a].AudioFile.Id == audioFileId)
+//                {
+//                    InvalidateVisualInRect(new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, offsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, ListCache.LineHeight));
+//                    break;
+//                }
+//            }
+        }
+
         public virtual void InvalidateCache()
         {
             InvalidateListViewCache();
@@ -383,9 +403,6 @@ namespace Sessions.GenericControls.Controls.Base
 
         private void InvalidateListViewCache()
         {
-            if (Items == null)
-                return;
-
             // Create cache
             //GridCache = new GridViewCache();
             ListCache = new ListViewCache();
@@ -395,11 +412,11 @@ namespace Sessions.GenericControls.Controls.Base
 
             //string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
             //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
-            var rectText = new BasicRectangle(0, 0, 100, 14);
+            //var rectText = new BasicRectangle(0, 0, 100, 14);
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
-            ListCache.LineHeight = (int)rectText.Height + Padding;
-            ListCache.TotalHeight = ListCache.LineHeight * Items.Count;
+            ListCache.LineHeight = GetRowHeight() + Padding;
+            ListCache.TotalHeight = ListCache.LineHeight * GetRowCount();
 
 //            // Check if the total active columns width exceed the width available in the control
 //            GridCache.TotalWidth = 0;
@@ -446,7 +463,7 @@ namespace Sessions.GenericControls.Controls.Base
                 VerticalScrollBar.Enabled = true;
 
                 // Calculate the vertical scrollbar maximum
-                int vMax = ListCache.LineHeight * (Items.Count - ListCache.NumberOfLinesFittingInControl + 1) - lastLineHeight;
+                int vMax = ListCache.LineHeight * (GetRowCount() - ListCache.NumberOfLinesFittingInControl + 1) - lastLineHeight;
 
                 // Add the horizontal scrollbar height if visible
                 if (HorizontalScrollBar.Visible)
@@ -494,13 +511,13 @@ namespace Sessions.GenericControls.Controls.Base
             switch (specialKeys)
             {
                 case SpecialKeys.Down:
-                    if (startEndIndexes.Item1 < Items.Count - 1)
+                    if (startEndIndexes.Item1 < GetRowCount() - 1)
                     {
                         selectedIndex = startEndIndexes.Item1;
-                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        while (selectedIndex >= 0 && selectedIndex <= GetRowCount() - 1)
                         {
                             selectedIndex++;
-                            if (!Items[selectedIndex].IsEmptyRow)
+                            if (!IsRowEmpty(selectedIndex))
                                 break;
                         }
                     }
@@ -509,30 +526,38 @@ namespace Sessions.GenericControls.Controls.Base
                     if (startEndIndexes.Item1 > 0)
                     {
                         selectedIndex = startEndIndexes.Item1;
-                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        while (selectedIndex >= 0 && selectedIndex <= GetRowCount() - 1)
                         {
                             selectedIndex--;
-                            if (!Items[selectedIndex].IsEmptyRow)
+                            if (!IsRowEmpty(selectedIndex))
                                 break;
                         }
                     }
                     break;
                 case SpecialKeys.PageDown:
                     selectedIndex = startEndIndexes.Item1 + ListCache.NumberOfLinesFittingInControl - 2; // 2 is header + scrollbar height
-                    selectedIndex = Math.Min(selectedIndex, Items.Count - 1);
+                    selectedIndex = Math.Min(selectedIndex, GetRowCount() - 1);
 
-                    if (selectedIndex == Items.Count - 1)
+                    if (selectedIndex == GetRowCount() - 1)
                     {
                         // If we are to select the last item, make sure the item we're selecting is NOT an empty row
-                        selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
+                        //selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
+                        for (int a = selectedIndex; a >= 0; a--)
+                        {
+                            if (!IsRowEmpty(a))
+                            {
+                                selectedIndex = a;
+                                break;
+                            }
+                        }
                     } 
                     else
                     {
                         // Continue to interate until we find a selectable row
-                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        while (selectedIndex >= 0 && selectedIndex <= GetRowCount() - 1)
                         {
                             selectedIndex++;
-                            if (!Items[selectedIndex].IsEmptyRow)
+                            if (!IsRowEmpty(selectedIndex))
                                 break;
                         }
                     }
@@ -543,10 +568,10 @@ namespace Sessions.GenericControls.Controls.Base
 
                     if (selectedIndex > 0)
                     {
-                        while (selectedIndex >= 0 && selectedIndex <= Items.Count - 1)
+                        while (selectedIndex >= 0 && selectedIndex <= GetRowCount() - 1)
                         {
                             selectedIndex--;
-                            if (!Items[selectedIndex].IsEmptyRow)
+                            if (!IsRowEmpty(selectedIndex))
                                 break;
                         }
                     }
@@ -555,15 +580,23 @@ namespace Sessions.GenericControls.Controls.Base
                     selectedIndex = 0; // First item cannot be empty
                     break;
                 case SpecialKeys.End:
-                    selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
+                    //selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
+                    for (int a = GetRowCount() - 1; a >= 0; a--)
+                    {
+                        if (!IsRowEmpty(a))
+                        {
+                            selectedIndex = a;
+                            break;
+                        }
+                    }
                     break;
             }
 
             if (selectedIndex == -1)
                 return;
 
-            ResetSelection();
-            Items[selectedIndex].IsSelected = true;
+            SelectedIndexes.Clear();
+            SelectedIndexes.Add(selectedIndex);
 
             // Check if new selection is out of bounds of visible area
             float y = ((selectedIndex - StartLineNumber + 1)*ListCache.LineHeight) + scrollbarOffsetY;
@@ -662,8 +695,9 @@ namespace Sessions.GenericControls.Controls.Base
             if (!keysHeld.IsShiftKeyHeld && !keysHeld.IsCtrlKeyHeld)
             {
                 // Make sure the mouse is over at least one item
-                var mouseOverItem = Items.FirstOrDefault(item => item.IsMouseOverItem == true);
-                if (mouseOverItem != null)
+                //var mouseOverItem = Items.FirstOrDefault(item => item.IsMouseOverItem == true);
+                //if (mouseOverItem != null)
+                if(MouseOverRowIndex >= 0)
                     ResetSelection();
             }
 
@@ -672,7 +706,8 @@ namespace Sessions.GenericControls.Controls.Base
             for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
-                if (Items[a].IsMouseOverItem)
+                //if (Items[a].IsMouseOverItem)
+                if(MouseOverRowIndex == a)
                 {
                     invalidatedNewSelection = true;
 
@@ -693,7 +728,8 @@ namespace Sessions.GenericControls.Controls.Base
 
                         // Loop through items to selected
                         for (int b = startIndexSelection; b < endIndexSelection; b++)
-                            Items [b].IsSelected = true;
+                            SelectedIndexes.Add(b);
+                            //Items [b].IsSelected = true;
 
                         controlNeedsToBeFullyInvalidated = true;
                     }                
@@ -701,7 +737,8 @@ namespace Sessions.GenericControls.Controls.Base
                     else if(keysHeld.IsCtrlKeyHeld)
                     {
                         // Invert selection
-                        Items[a].IsSelected = !Items[a].IsSelected;
+                        //Items[a].IsSelected = !Items[a].IsSelected;
+                        SelectedIndexes.Remove(a);
                         var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
@@ -709,7 +746,8 @@ namespace Sessions.GenericControls.Controls.Base
                     else
                     {
                         // Set this item as the new selected item
-                        Items[a].IsSelected = true;
+                        //Items[a].IsSelected = true;
+                        SelectedIndexes.Add(a);
                         var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;
@@ -724,7 +762,9 @@ namespace Sessions.GenericControls.Controls.Base
             // Raise selected item changed event (if an event is subscribed)
             if (invalidatedNewSelection)
             {
-                if(SelectedItems.Count > 0)
+                //if(SelectedGetRowCount() > 0)
+                //if(SelectedItems.Count > 0)
+                if(SelectedIndexes.Count > 0)
                     SelectedIndexChanged();
                 else
                     SelectedIndexChanged();
@@ -751,18 +791,20 @@ namespace Sessions.GenericControls.Controls.Base
             //int scrollbarOffsetY = (_startLineNumber * Cache.LineHeight) - VerticalScrollBar.Value;
 
             // Check if there's at least one item
-            if (Items.Count > 0)
+            if (GetRowCount() > 0)
             {
                 // Reset mouse over item flags
                 for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
                 {
                     //Console.WriteLine("SongGridViewControl - MouseMove - Checking for resetting mouse over flag for line {0}", b);
                     // Check if the mouse was over this item
-                    if (Items[b].IsMouseOverItem)
+                    //if (Items[b].IsMouseOverItem)
+                    if(MouseOverRowIndex == b)
                     {
                         // Reset flag and invalidate region
                         //Console.WriteLine("SongGridViewControl - MouseMove - Resetting mouse over flag for line {0}", b);
-                        Items[b].IsMouseOverItem = false;
+                        //Items[b].IsMouseOverItem = false;
+                        MouseOverRowIndex = -1;
                         break;
                     }
                 }
@@ -778,12 +820,15 @@ namespace Sessions.GenericControls.Controls.Base
                     if (x >= HorizontalScrollBar.Value &&
                         y >= offsetY &&
                         y <= offsetY + ListCache.LineHeight &&
-                        !Items[a].IsEmptyRow &&
-                        !Items[a].IsMouseOverItem)
+                        !IsRowEmpty(a) &&
+                        MouseOverRowIndex != a)
+                        //!Items[a].IsEmptyRow &&
+                        //!Items[a].IsMouseOverItem)
                     {
                         // Set item as mouse over
                         //Console.WriteLine("SongGridViewControl - MouseMove - Mouse is over item {0} {1}/{2}/{3}", a, Items[a].AudioFile.ArtistName, Items[a].AudioFile.AlbumTitle, Items[a].AudioFile.Title);
-                        Items[a].IsMouseOverItem = true;
+                        //Items[a].IsMouseOverItem = true;
+                        MouseOverRowIndex = a;
                         break;
                     }
                 }
@@ -801,13 +846,15 @@ namespace Sessions.GenericControls.Controls.Base
             var partialRect = new BasicRectangle();
 
             int scrollbarOffsetY = (StartLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
-            if (Items.Count > 0)
+            if (GetRowCount() > 0)
             {
                 for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
                 {
-                    if (Items[b].IsMouseOverItem)
+                    //if (Items[b].IsMouseOverItem)
+                    if(MouseOverRowIndex == b)
                     {
-                        Items[b].IsMouseOverItem = false;
+                        //Items[b].IsMouseOverItem = false;
+                        MouseOverRowIndex = -1;
                         var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((b - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                         partialRect.Merge(newPartialRect);
                         controlNeedsToBePartiallyInvalidated = true;

@@ -259,6 +259,9 @@
     <Compile Include="Classes\Controls\SessionsOverlayView.cs" />
     <Compile Include="Classes\Controls\SessionsAlbumArtCollectionViewItem.cs" />
     <Compile Include="Classes\Controls\SessionsScrubbingPanel.cs" />
+    <Compile Include="Classes\Controls\SessionsPlaylistListView.cs" />
+    <Compile Include="Classes\Controls\SessionsTextBoxTableViewCell.cs" />
+    <Compile Include="Classes\Controls\SessionsPunchInTableViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />

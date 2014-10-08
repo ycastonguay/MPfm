@@ -38,6 +38,7 @@ using Sessions.Core.Helpers;
 using System.Drawing;
 using Sessions.MVP.Config.Models;
 using MonoMac.CoreGraphics;
+using Sessions.Sound.Playlists;
 
 namespace Sessions.OSX
 {
@@ -455,19 +456,21 @@ namespace Sessions.OSX
 
         private void HandleSongGridViewMenuItemClicked(SessionsSongGridView.MenuItemType menuItemType)
         {
-            if (songGridView.SelectedItems.Count == 0)
+            //if (songGridView.SelectedItems.Count == 0)
+            if (songGridView.SelectedAudioFiles.Count == 0)
                 return;
 
             switch (menuItemType)
             {
                 case SessionsSongGridView.MenuItemType.PlaySongs:
-                    AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
+                    //AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
+                    var audioFile = songGridView.SelectedAudioFiles[0];
                     OnTableRowDoubleClicked(audioFile);
                     break;
                 case SessionsSongGridView.MenuItemType.AddToPlaylist:
                     var audioFiles = new List<AudioFile>();
-                    foreach (var item in songGridView.SelectedItems)
-                        audioFiles.Add(item.AudioFile);
+                    foreach (var item in songGridView.SelectedAudioFiles)
+                        audioFiles.Add(item);
                     OnSongBrowserAddToPlaylist(audioFiles);
                     break;
                 default:
@@ -1402,10 +1405,10 @@ namespace Sessions.OSX
 
         protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
         {
-            if (songGridView.SelectedItems.Count == 0)
+            if (songGridView.SelectedAudioFiles.Count == 0)
                 return;
 
-            AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
+            var audioFile = songGridView.SelectedAudioFiles[0];
             OnTableRowDoubleClicked(audioFile);
         }
 
@@ -1452,6 +1455,11 @@ namespace Sessions.OSX
         public void PlayerError(Exception ex)
         {
             ShowError(ex);
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
+        {
+            InvokeOnMainThread(() => playlistView.SetPlaylist(playlist));
         }
 
         public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
@@ -1653,9 +1661,7 @@ namespace Sessions.OSX
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
-            InvokeOnMainThread(() => {
-                songGridView.ImportAudioFiles(audioFiles.ToList());
-            });
+            InvokeOnMainThread(() => songGridView.SetAudioFiles(audioFiles.ToList()));
 		}
 
 		#endregion
@@ -1939,6 +1945,7 @@ namespace Sessions.OSX
         public Action<Loop> OnEditLoop { get; set; }
         public Action<Loop> OnSelectLoop { get; set; }
         public Action<Loop> OnDeleteLoop { get; set; }
+        public Action<Loop> OnUpdateLoop { get; set; }
         public Action<Loop> OnPlayLoop { get; set; }
 
         public Action<Segment> OnPunchInLoopSegment { get; set; }

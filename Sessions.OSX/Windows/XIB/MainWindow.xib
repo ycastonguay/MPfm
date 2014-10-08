@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <deployment version="1070" identifier="macosx"/>
+        <development version="5100" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6245"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController">
@@ -120,6 +121,7 @@
                 <outlet property="menuRemoveFromLibrary" destination="845" id="7rA-Zu-8gf"/>
                 <outlet property="outlineLibraryBrowser" destination="20" id="498"/>
                 <outlet property="outputMeter" destination="rKj-Mz-2e5" id="GaD-8L-pNS"/>
+                <outlet property="playlistView" destination="1FH-qr-ha0" id="SMT-4a-53w"/>
                 <outlet property="progressBarUpdateLibrary" destination="rNy-sE-Adq" id="NV0-Z9-gpg"/>
                 <outlet property="scrollViewLibraryBrowser" destination="19" id="578"/>
                 <outlet property="searchSongBrowser" destination="189" id="271"/>
@@ -175,7 +177,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Sessions" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" deferred="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="default" id="2" customClass="MainWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
             <rect key="contentRect" x="131" y="74" width="1000" height="768"/>
@@ -248,7 +250,6 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="192" id="20">
-                                                    <rect key="frame" x="0.0" y="0.0" width="199" height="651"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -256,7 +257,7 @@
                                                     <tableColumns>
                                                         <tableColumn identifier="columnText" width="196" minWidth="16" maxWidth="1000" id="192">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                                <font key="font" size="9" name="LucidaGrande"/>
+                                                                <font key="font" metaFont="miniSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                             </tableHeaderCell>
@@ -1245,7 +1246,6 @@
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <tableView identifier="tableSegments" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="15" rowSizeStyle="automatic" headerView="Ehj-Ek-yBF" viewBased="YES" id="GVQ-x8-fob">
-                                                                                                            <rect key="frame" x="0.0" y="0.0" width="411" height="71"/>
                                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1360,7 +1360,6 @@
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                 </scroller>
                                                                                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="80x-xQ-Rd4">
-                                                                                                    <rect key="frame" x="396" y="17" width="15" height="0.0"/>
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                 </scroller>
                                                                                                 <tableHeaderView key="headerView" id="Ehj-Ek-yBF" customClass="SessionsTableHeaderView">
@@ -1489,7 +1488,6 @@
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <tableView identifier="tableLoops" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="292" viewBased="YES" id="290">
-                                                                                                            <rect key="frame" x="0.0" y="0.0" width="434" height="81"/>
                                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1748,7 +1746,6 @@
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <tableView identifier="tableMarkers" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="391" viewBased="YES" id="393">
-                                                                                                            <rect key="frame" x="0.0" y="0.0" width="387" height="96"/>
                                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1946,34 +1943,75 @@
                                                                 <rect key="frame" x="0.0" y="140" width="799" height="302"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <customView id="507" customClass="SessionsView">
-                                                                        <rect key="frame" x="0.0" y="275" width="799" height="27"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                        <subviews>
-                                                                            <textField verticalHuggingPriority="750" id="508">
-                                                                                <rect key="frame" x="4" y="3" width="188" height="22"/>
-                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Song Browser" id="509">
-                                                                                    <font key="font" size="13" name="HelveticaNeue-Bold"/>
-                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                </textFieldCell>
-                                                                            </textField>
-                                                                            <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000006053591" y="3" width="384" height="22"/>
-                                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
-                                                                                <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
-                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                                    <color key="backgroundColor" red="1" green="0.98823535439999999" blue="0.98823535439999999" alpha="1" colorSpace="deviceRGB"/>
-                                                                                </searchFieldCell>
-                                                                            </searchField>
-                                                                        </subviews>
-                                                                    </customView>
-                                                                    <customView id="eee-ms-hVD" customClass="SessionsSongGridView">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="799" height="277"/>
+                                                                    <splitView dividerStyle="thin" vertical="YES" id="4Tc-rr-3tL">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="799" height="302"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                    </customView>
+                                                                        <subviews>
+                                                                            <customView id="Ekt-C5-55l">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="542" height="302"/>
+                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                <subviews>
+                                                                                    <customView id="507" customClass="SessionsView">
+                                                                                        <rect key="frame" x="0.0" y="275" width="542" height="27"/>
+                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                                        <subviews>
+                                                                                            <textField verticalHuggingPriority="750" id="508">
+                                                                                                <rect key="frame" x="4" y="3" width="188" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Song Browser" id="509">
+                                                                                                    <font key="font" size="13" name="HelveticaNeue-Bold"/>
+                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                                </textFieldCell>
+                                                                                            </textField>
+                                                                                            <searchField verticalHuggingPriority="750" id="189">
+                                                                                                <rect key="frame" x="378" y="3" width="164" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                                                                <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
+                                                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                    <color key="backgroundColor" red="1" green="0.98823535439999999" blue="0.98823535439999999" alpha="1" colorSpace="deviceRGB"/>
+                                                                                                </searchFieldCell>
+                                                                                            </searchField>
+                                                                                        </subviews>
+                                                                                    </customView>
+                                                                                    <customView id="eee-ms-hVD" customClass="SessionsSongGridView">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="542" height="277"/>
+                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                    </customView>
+                                                                                </subviews>
+                                                                            </customView>
+                                                                            <customView id="0Xn-26-1Oz">
+                                                                                <rect key="frame" x="543" y="0.0" width="256" height="302"/>
+                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                <subviews>
+                                                                                    <customView id="qjZ-Dv-npl" customClass="SessionsView">
+                                                                                        <rect key="frame" x="0.0" y="275" width="256" height="27"/>
+                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                                        <subviews>
+                                                                                            <textField verticalHuggingPriority="750" id="fak-s4-mlz">
+                                                                                                <rect key="frame" x="4" y="3" width="188" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Playlist" id="d0Y-Un-AiC">
+                                                                                                    <font key="font" size="13" name="HelveticaNeue-Bold"/>
+                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                                </textFieldCell>
+                                                                                            </textField>
+                                                                                        </subviews>
+                                                                                    </customView>
+                                                                                    <customView id="1FH-qr-ha0" customClass="SessionsPlaylistListView">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="277"/>
+                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                    </customView>
+                                                                                </subviews>
+                                                                            </customView>
+                                                                        </subviews>
+                                                                        <holdingPriorities>
+                                                                            <real value="250"/>
+                                                                            <real value="250"/>
+                                                                        </holdingPriorities>
+                                                                    </splitView>
                                                                 </subviews>
                                                             </customView>
                                                         </subviews>

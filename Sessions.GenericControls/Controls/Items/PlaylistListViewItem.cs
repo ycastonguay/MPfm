@@ -22,16 +22,8 @@ using Sessions.Sound.AudioFiles;
 
 namespace Sessions.GenericControls.Controls
 {
-    /// <summary>
-    /// Item for the SongGridView control.
-    /// </summary>
-    public class SongGridViewItem : ListViewItem
+    public class PlaylistListViewItem : ListViewItem
     {
-        /// <summary>
-        /// Defines the associated playlist item identifier.
-        /// </summary>
-        public Guid PlaylistItemId { get; set; }
-
         /// <summary>
         /// Defines the key used for identifying common songs in albums.
         /// </summary>
@@ -42,9 +34,8 @@ namespace Sessions.GenericControls.Controls
         /// </summary>
         public AudioFile AudioFile { get; set; }        
 
-        public SongGridViewItem()
+        public PlaylistListViewItem()
         {
-            PlaylistItemId = Guid.Empty;
             AudioFile = null;
             AlbumArtKey = string.Empty;
         }

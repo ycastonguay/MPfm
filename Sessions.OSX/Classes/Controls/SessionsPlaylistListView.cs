@@ -27,24 +27,22 @@ using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Controls;
-using System.Collections.ObjectModel;
+using Sessions.Sound.Playlists;
 
 namespace Sessions.OSX.Classes.Controls
 {
-    [Register("SessionsSongGridView")]
-    public class SessionsSongGridView : NSView
+    [Register("SessionsPlaylistListView")]
+    public class SessionsPlaylistListView : NSView
     {
-        private SongGridViewControl _control;
+        private PlaylistListViewControl _control;
         private HorizontalScrollBarWrapper _horizontalScrollBar;
         private VerticalScrollBarWrapper _verticalScrollBar;
         private NSMenu _menuItems;
         private NSMenu _menuHeader;
         private NSEvent _rightClickEvent;
 
-        //public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
-        //public ObservableCollection<int> SelectedIndexes { get { return _control.SelectedIndexes; } }
-        public List<AudioFile> SelectedAudioFiles { get { return _control.SelectedAudioFiles; } }
-        public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
+        //public List<PlaylistListViewItem> SelectedItems { get { return _control.SelectedItems; } }
+        //public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
 
         //public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
@@ -55,13 +53,13 @@ namespace Sessions.OSX.Classes.Controls
         public event MenuItemClickedDelegate MenuItemClicked;
 
         [Export("init")]
-        public SessionsSongGridView() : base(NSObjectFlag.Empty)
+        public SessionsPlaylistListView() : base(NSObjectFlag.Empty)
         {
             Initialize();
         }
 
         // Called when created from unmanaged code
-        public SessionsSongGridView(IntPtr handle) : base (handle)
+        public SessionsPlaylistListView(IntPtr handle) : base (handle)
         {
             Initialize();
         }
@@ -85,7 +83,7 @@ namespace Sessions.OSX.Classes.Controls
 
             var albumArtRequestService = Bootstrapper.GetContainer().Resolve<IAlbumArtRequestService>();
             var albumArtCacheService = Bootstrapper.GetContainer().Resolve<IAlbumArtCacheService>();
-            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, albumArtRequestService, albumArtCacheService);   
+            _control = new PlaylistListViewControl(_horizontalScrollBar, _verticalScrollBar, albumArtRequestService, albumArtCacheService);   
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnItemDoubleClick += (index) => DoubleClick(this, new EventArgs());
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
@@ -94,12 +92,12 @@ namespace Sessions.OSX.Classes.Controls
             { 
                 switch (contextMenuType)
                 {
-                    case SongGridViewControl.ContextMenuType.Item:
-                        NSMenu.PopUpContextMenu(_menuItems, _rightClickEvent, this);
-                        break;
-                    case SongGridViewControl.ContextMenuType.Header:
-                        NSMenu.PopUpContextMenu(_menuHeader, _rightClickEvent, this);
-                        break;
+//                    case SongGridViewControl.ContextMenuType.Item:
+//                        NSMenu.PopUpContextMenu(_menuItems, _rightClickEvent, this);
+//                        break;
+//                    case SongGridViewControl.ContextMenuType.Header:
+//                        NSMenu.PopUpContextMenu(_menuHeader, _rightClickEvent, this);
+//                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -122,11 +120,11 @@ namespace Sessions.OSX.Classes.Controls
             _menuItems.AddItem(menuItemAddToPlaylist);
 
             _menuHeader = new NSMenu();
-            foreach (var column in _control.Columns)
-            {
-                var menuItem = new NSMenuItem(column.FieldName);
-                _menuHeader.AddItem(menuItem);
-            }
+//            foreach (var column in _control.Columns)
+//            {
+//                var menuItem = new NSMenuItem(column.FieldName);
+//                _menuHeader.AddItem(menuItem);
+//            }
         }
 
         private void AddToPlaylist(object sender, EventArgs args)
@@ -151,9 +149,9 @@ namespace Sessions.OSX.Classes.Controls
             _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 20, 20, Bounds.Height - 40);
         }
 
-        public void SetAudioFiles(List<AudioFile> audioFiles)
+        public void SetPlaylist(Playlist playlist)
         {
-            _control.SetAudioFiles(audioFiles);
+            _control.SetPlaylist(playlist);
         }
 
         public override void DrawRect(RectangleF dirtyRect)

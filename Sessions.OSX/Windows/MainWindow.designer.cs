@@ -349,6 +349,9 @@ namespace Sessions.OSX
 		Sessions.OSX.Classes.Controls.SessionsOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
+		Sessions.OSX.Classes.Controls.SessionsPlaylistListView playlistView { get; set; }
+
+		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsProgressBarView progressBarUpdateLibrary { get; set; }
 
 		[Outlet]
@@ -674,6 +677,11 @@ namespace Sessions.OSX
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (playlistView != null) {
+				playlistView.Dispose ();
+				playlistView = null;
+			}
+
 			if (btnAddLoop != null) {
 				btnAddLoop.Dispose ();
 				btnAddLoop = null;
@@ -1324,6 +1332,11 @@ namespace Sessions.OSX
 				viewActions = null;
 			}
 
+			if (viewAlbumArt != null) {
+				viewAlbumArt.Dispose ();
+				viewAlbumArt = null;
+			}
+
 			if (viewInformation != null) {
 				viewInformation.Dispose ();
 				viewInformation = null;
@@ -1477,11 +1490,6 @@ namespace Sessions.OSX
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
-			}
-
-			if (viewAlbumArt != null) {
-				viewAlbumArt.Dispose ();
-				viewAlbumArt = null;
 			}
 		}
 	}

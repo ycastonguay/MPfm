@@ -164,6 +164,10 @@
     <Compile Include="Controls\Items\SongGridViewItem.cs" /> 
     <Compile Include="Controls\Interfaces\IScrubbingSpeedSupport.cs" />
     <Compile Include="Helpers\ScrubbingSpeedHelper.cs" />
-    <Compile Include="Controls\Items\ScrubbingSpeed.cs" />           
+    <Compile Include="Controls\Items\ScrubbingSpeed.cs" />
+    <Compile Include="Controls\SongGridViewControl.cs" />
+    <Compile Include="Controls\PlaylistListViewControl.cs" />
+    <Compile Include="Controls\Items\PlaylistListViewItem.cs" />     
+        <Compile Include="Controls\Themes\PlaylistListViewTheme.cs" />           
   </ItemGroup>
 </Project>

@@ -57,7 +57,7 @@ namespace Sessions.GenericControls.Controls.Base
             set
             {
                 _orderByFieldName = value;
-                Items.Clear();
+                //Items.Clear();
                 GridCache = null;
                 InvalidateVisual();
             }
@@ -143,7 +143,7 @@ namespace Sessions.GenericControls.Controls.Base
         private void InvalidateGridViewCache()
         {
             // Check if columns have been created
-            if (Columns == null || Columns.Count == 0 || Items == null)
+            if (Columns == null || Columns.Count == 0)// || Items == null)
                 return;
 
             // Create cache
@@ -276,10 +276,10 @@ namespace Sessions.GenericControls.Controls.Base
                     int columnHeight = (int) Frame.Height;
 
                     // Determine the height of the line; if the items don't fit the control height...
-                    if (Items.Count < ListCache.NumberOfLinesFittingInControl)
+                    if (GetRowCount() < ListCache.NumberOfLinesFittingInControl)
                     {
                         // Set height as the number of items (plus header)
-                        columnHeight = (Items.Count + 1) * ListCache.LineHeight;
+                        columnHeight = (GetRowCount() + 1) * ListCache.LineHeight;
                     }
 
                     // Draw column line

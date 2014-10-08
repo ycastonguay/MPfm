@@ -35,7 +35,7 @@ using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Controls.Themes;
 
-namespace Sessions.GenericControls.Controls.Songs
+namespace Sessions.GenericControls.Controls
 {
     /// <summary>
     /// This custom grid view control displays the Sessions library.
@@ -55,6 +55,7 @@ namespace Sessions.GenericControls.Controls.Songs
         private bool _nowPlayingSongFound;
         
         public SongGridViewTheme ExtendedTheme { get; set; }
+        public List<SongGridViewItem> Items { get; protected set; }
 
         private int _minimumRowsPerAlbum = 6;
         /// <summary>
@@ -92,6 +93,19 @@ namespace Sessions.GenericControls.Controls.Songs
             }
         }
             
+        public List<AudioFile> SelectedAudioFiles
+        {
+            get
+            {
+                var audioFiles = new List<AudioFile>();
+                foreach (int index in SelectedIndexes)
+                {
+                    audioFiles.Add(Items[index].AudioFile);
+                }
+                return audioFiles;
+            }
+        }
+
         /// <summary>
         /// Default constructor for SongGridView.
         /// </summary>
@@ -103,6 +117,7 @@ namespace Sessions.GenericControls.Controls.Songs
             _albumArtRequestService = albumArtRequestService;
             _albumArtRequestService.OnAlbumArtExtracted += HandleOnAlbumArtExtracted;
             ExtendedTheme = new SongGridViewTheme();
+            Items = new List<SongGridViewItem>();
 
             _timerAnimationNowPlaying = new Timer();
             _timerAnimationNowPlaying.Interval = 50;
@@ -195,11 +210,7 @@ namespace Sessions.GenericControls.Controls.Songs
             base.InvalidateCache();
         }
 
-        /// <summary>
-        /// Imports audio files as SongGridViewItems.
-        /// </summary>
-        /// <param name="audioFiles">List of AudioFiles</param>
-        public void ImportAudioFiles(List<AudioFile> audioFiles)
+        public void SetAudioFiles(List<AudioFile> audioFiles)
         {
             Items.Clear();
 
@@ -232,23 +243,48 @@ namespace Sessions.GenericControls.Controls.Songs
             InvalidateVisual();
         }
 
-        /// <summary>
-        /// Update a specific line (if visible) by its audio file unique identifier.
-        /// </summary>
-        /// <param name="audioFileId">Audio file unique identifier</param>
-        public void UpdateAudioFileLine(Guid audioFileId)
+        protected override int GetRowCount()
         {
-            // Find the position of the line            
-            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
-            {
-                int offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
-                if (Items[a].AudioFile.Id == audioFileId)
-                {
-                    InvalidateVisualInRect(new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, offsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, ListCache.LineHeight));
-                    break;
-                }
-            }
+            return Items == null ? 0 : Items.Count;
         }
+
+        protected override bool IsRowEmpty(int row)
+        {
+            return Items[row].IsEmptyRow;
+        }
+
+        protected override bool IsRowSelectable(int row)
+        {
+            return true;
+        }
+
+        protected override int GetRowHeight()
+        {
+            return 14;
+        }
+
+        protected override bool ShouldDrawHeader()
+        {
+            return true;
+        }
+
+//        /// <summary>
+//        /// Update a specific line (if visible) by its audio file unique identifier.
+//        /// </summary>
+//        /// <param name="audioFileId">Audio file unique identifier</param>
+//        public void UpdateAudioFileLine(Guid audioFileId)
+//        {
+//            // Find the position of the line            
+//            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
+//            {
+//                int offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
+//                if (Items[a].AudioFile.Id == audioFileId)
+//                {
+//                    InvalidateVisualInRect(new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, offsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, ListCache.LineHeight));
+//                    break;
+//                }
+//            }
+//        }
 
         ///// <summary>
         ///// Occurs when the user clicks on one of the menu items of the Columns contextual menu.
@@ -418,14 +454,14 @@ namespace Sessions.GenericControls.Controls.Songs
                         else if (propertyInfo.PropertyType.FullName.Contains("Int64") &&
                              propertyInfo.PropertyType.FullName.Contains("Nullable"))
                         {
-                            long? longValue = (long?)propertyInfo.GetValue(audioFile, null);
+                            var longValue = (long?)propertyInfo.GetValue(audioFile, null);
                             if (longValue.HasValue)
                                 value = longValue.Value.ToString();
                         }
                         else if (propertyInfo.PropertyType.FullName.Contains("DateTime") &&
                              propertyInfo.PropertyType.FullName.Contains("Nullable"))
                         {
-                            DateTime? dateTimeValue = (DateTime?)propertyInfo.GetValue(audioFile, null);
+                            var dateTimeValue = (DateTime?)propertyInfo.GetValue(audioFile, null);
                             if (dateTimeValue.HasValue)
                                 value = dateTimeValue.Value.ToShortDateString() + " " + dateTimeValue.Value.ToShortTimeString();
                         }
