@@ -37,6 +37,10 @@ namespace Sessions.Sound.BassNetWrapper
         /// <summary>
         /// Memory channel.
         /// </summary>
-        Memory = 3
+        Memory = 3,
+        /// <summary>
+        /// Push stream channel.
+        /// </summary>
+        Push = 4
     }
 }

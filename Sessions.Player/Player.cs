@@ -73,7 +73,9 @@ namespace Sessions.Player
         private PlayerSyncProc _syncProcLoop = null;
         private IDecodingService _decodingService = null;
         private System.Timers.Timer _timerPlayer = null;
+        private System.Timers.Timer _timerPushStream = null;
         private Channel _streamChannel = null;
+        private Channel _pushStreamChannel = null;
         private Channel _fxChannel = null;
         private Channel _mixerChannel = null;
 
@@ -477,9 +479,14 @@ namespace Sessions.Player
 #endif
 
             _timerPlayer = new System.Timers.Timer();
-            _timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(timerPlayer_Elapsed);
+            _timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(TimerPlayer_Elapsed);
             _timerPlayer.Interval = 1000;
             _timerPlayer.Enabled = false;
+
+            _timerPushStream = new System.Timers.Timer();
+            _timerPushStream.Elapsed += new System.Timers.ElapsedEventHandler(TimerPushStream_Elapsed);
+            _timerPushStream.Interval = 100;
+            _timerPushStream.Enabled = false;
 
             // Initialize BASS library by OS type
             if (OS.Type == OSType.Windows)
@@ -794,7 +801,7 @@ namespace Sessions.Player
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
-        protected void timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        protected void TimerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {            
             if (_timerPlayer != null)
             {
@@ -811,6 +818,17 @@ namespace Sessions.Player
 
             // Set time shifting value
             //m_currentSubChannel.Channel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, TimeShifting);
+        }
+
+        protected void TimerPushStream_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        { 
+            //const int bufferSize = 16000;
+            const int bufferSize = 200000;
+            var buffer = new byte[bufferSize];
+            int readBytes = _streamChannel.GetData(buffer, bufferSize);
+            _pushStreamChannel.PushData(buffer, readBytes);
+
+            Console.WriteLine("Player - TimerPushStream elapsed - readBytes: {0}", readBytes);
         }
 
         #endregion
@@ -879,15 +897,17 @@ namespace Sessions.Player
 #endif
 
                     _streamChannel = Channel.CreateStream(Playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, _streamProc);
+                    //_pushStreamChannel = Channel.CreatePushStream(Playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint);
+
 					//Tracing.Log("Player.Play -- Creating time shifting channel...");
                     _fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, true, UseFloatingPoint);
+                    //_fxChannel = Channel.CreateStreamForTimeShifting(_pushStreamChannel.Handle, true, UseFloatingPoint);
                     //_fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, false, _useFloatingPoint);
                     //_fxChannel = _streamChannel;
                 }
                 catch(Exception ex)
                 {
-                    // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                    PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel (" + ex.Message + ").", ex);
+                    var newEx = new PlayerCreateStreamException("The player has failed to create the stream channel (" + ex.Message + ").", ex);
                     newEx.Decode = true;
                     newEx.UseFloatingPoint = true;
                     newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
@@ -908,8 +928,7 @@ namespace Sessions.Player
                     }
                     catch (Exception ex)
                     {   
-                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
+                        var newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
@@ -928,8 +947,7 @@ namespace Sessions.Player
                     }
                     catch (Exception ex)
                     {
-                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
+                        var newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
                         newEx.DriverType = DriverType.ASIO;
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
@@ -959,8 +977,7 @@ namespace Sessions.Player
                     }
                     catch (Exception ex)
                     {
-                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to enable or join ASIO channels.", ex);
+                        var newEx = new PlayerCreateStreamException("The player has failed to enable or join ASIO channels.", ex);
                         newEx.DriverType = DriverType.ASIO;
                         newEx.SampleRate = Playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
@@ -970,11 +987,8 @@ namespace Sessions.Player
                     Tracing.Log("Player.Play -- Starting ASIO buffering...");
                     if (!BassAsio.BASS_ASIO_Start(0))
                     {
-                        // Get BASS error
                         BASSError error = Bass.BASS_ErrorGetCode();
-
-                        // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
-                        PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the ASIO channel (" + error.ToString() + ").", null);
+                        var newEx = new PlayerCreateStreamException("The player has failed to create the ASIO channel (" + error.ToString() + ").", null);
                         newEx.DriverType = DriverType.ASIO;
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
@@ -1030,6 +1044,7 @@ namespace Sessions.Player
 
                     // Start playback
 					//Tracing.Log("Player.Play -- Starting DirectSound playback...");
+                    //_timerPushStream.Start();
                     _mixerChannel.Play(false);
 
                     if (startPaused)
@@ -1199,6 +1214,9 @@ namespace Sessions.Player
 
             if (_timerPlayer != null && _timerPlayer.Enabled)
                 _timerPlayer.Stop();
+
+            if (_timerPushStream != null && _timerPushStream.Enabled)
+                _timerPushStream.Stop();
 
             Loop = null;
             IsPlaying = false;

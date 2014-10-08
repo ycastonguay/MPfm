@@ -174,19 +174,29 @@ namespace Sessions.Sound.BassNetWrapper
         /// <returns>Channel object</returns>
         public static Channel CreateStream(int frequency, int numberOfChannels, bool useFloatingPoint, STREAMPROC streamProc)
         {
-            // Build flags; add base flags
             BASSFlag flags = BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN;
             if (useFloatingPoint)
                 flags |= BASSFlag.BASS_SAMPLE_FLOAT;
 
-            // Create file stream
             int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
             if (handle == 0)
                 Base.CheckForError();
             
-            // Return new channel instance
             return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { sampleRate = frequency };
-        }    
+        }
+
+        public static Channel CreatePushStream(int frequency, int numberOfChannels, bool useFloatingPoint)
+        {
+            BASSFlag flags = BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN;
+            if (useFloatingPoint)
+                flags |= BASSFlag.BASS_SAMPLE_FLOAT;
+
+            int handle = Bass.BASS_StreamCreatePush(frequency, numberOfChannels, flags, IntPtr.Zero);
+            if (handle == 0)
+                Base.CheckForError();
+
+            return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { sampleRate = frequency };
+        }
 
         /// <summary>
         /// Creates a stream from file for decoding.
@@ -614,6 +624,27 @@ namespace Sessions.Sound.BassNetWrapper
                 Base.CheckForError();
 
             return code;
+        }
+
+        public void PushData(IntPtr buffer, int length)
+        {
+            int code = Bass.BASS_StreamPutData(handle, buffer, length);
+            if(code == -1)
+                Base.CheckForError();
+        }
+
+        public void PushData(byte[] buffer, int length)
+        {
+            int code = Bass.BASS_StreamPutData(handle, buffer, length);
+            if(code == -1)
+                Base.CheckForError();
+        }
+
+        public void PushData(float[] buffer, int length)
+        {
+            int code = Bass.BASS_StreamPutData(handle, buffer, length);
+            if(code == -1)
+                Base.CheckForError();
         }
 
         #endregion
