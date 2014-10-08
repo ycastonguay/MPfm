@@ -534,78 +534,78 @@ namespace Sessions.Sound.AudioFiles
                     break;
             }
         }
-
-        /// <summary>
-        /// Extracts album art from an audio file.
-        /// </summary>
-        /// <param name="filePath">Audio file path</param>
-        /// <returns>Image (album art)</returns>
-        public static Image ExtractImageForAudioFile(string filePath)
-        {
-            Image imageCover = null;
-
-            if (!File.Exists(filePath))
-                return null;
-
-            string extension = Path.GetExtension(filePath).ToUpper();
-            if (extension == ".MP3")
-            {
-                try
-                {
-                    using (var file = new TagLib.Mpeg.AudioFile(filePath))
-                    {
-                        // Can we get the image from the ID3 tags?
-                        if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
-                        {
-                            // Get image from ID3 tags
-                            var ic = new ImageConverter();
-                            imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
-                        }
-                    }
-                }
-                catch
-                {
-                    // Failed to recover album art. Do nothing.
-                }
-            }
-
-            // Check if the image was found using TagLib
-            if (imageCover == null)
-            {
-                string folderPath = Path.GetDirectoryName(filePath);
-				
-#if (!MACOSX && !LINUX)
-
-                var rootDirectoryInfo = new DirectoryInfo(folderPath);
-
-                // Try to find image files 
-                var imageFiles = new List<FileInfo>();
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.JPG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.PNG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.GIF").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.JPG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.PNG").ToList());
-                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.GIF").ToList());
-
-                // Check if at least one image was found
-                if (imageFiles.Count > 0)
-                {
-                    try
-                    {
-                        imageCover = Image.FromFile(imageFiles[0].FullName);
-                    }
-                    catch
-                    {
-                        Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
-                    }
-                }	
-			
-#endif
-				
-			}
-				
-            return imageCover;
-        }
+//
+//        /// <summary>
+//        /// Extracts album art from an audio file.
+//        /// </summary>
+//        /// <param name="filePath">Audio file path</param>
+//        /// <returns>Image (album art)</returns>
+//        public static Image ExtractImageForAudioFile(string filePath)
+//        {
+//            Image imageCover = null;
+//
+//            if (!File.Exists(filePath))
+//                return null;
+//
+//            string extension = Path.GetExtension(filePath).ToUpper();
+//            if (extension == ".MP3")
+//            {
+//                try
+//                {
+//                    using (var file = new TagLib.Mpeg.AudioFile(filePath))
+//                    {
+//                        // Can we get the image from the ID3 tags?
+//                        if (file != null && file.Tag != null && file.Tag.Pictures != null && file.Tag.Pictures.Length > 0)
+//                        {
+//                            // Get image from ID3 tags
+//                            var ic = new ImageConverter();
+//                            imageCover = (Image)ic.ConvertFrom(file.Tag.Pictures[0].Data.Data);
+//                        }
+//                    }
+//                }
+//                catch
+//                {
+//                    // Failed to recover album art. Do nothing.
+//                }
+//            }
+//
+//            // Check if the image was found using TagLib
+//            if (imageCover == null)
+//            {
+//                string folderPath = Path.GetDirectoryName(filePath);
+//				
+//#if (!MACOSX && !LINUX)
+//
+//                var rootDirectoryInfo = new DirectoryInfo(folderPath);
+//
+//                // Try to find image files 
+//                var imageFiles = new List<FileInfo>();
+//                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.JPG").ToList());
+//                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.PNG").ToList());
+//                imageFiles.AddRange(rootDirectoryInfo.GetFiles("folder*.GIF").ToList());
+//                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.JPG").ToList());
+//                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.PNG").ToList());
+//                imageFiles.AddRange(rootDirectoryInfo.GetFiles("cover*.GIF").ToList());
+//
+//                // Check if at least one image was found
+//                if (imageFiles.Count > 0)
+//                {
+//                    try
+//                    {
+//                        imageCover = Image.FromFile(imageFiles[0].FullName);
+//                    }
+//                    catch
+//                    {
+//                        Tracing.Log("Error extracting image from " + imageFiles[0].FullName);
+//                    }
+//                }	
+//			
+//#endif
+//				
+//			}
+//				
+//            return imageCover;
+//        }
                 
         /// <summary>
         /// Extracts the album art from the audio file. Returns a byte array containing the image.

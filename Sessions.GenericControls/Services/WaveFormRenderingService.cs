@@ -165,24 +165,7 @@ namespace Sessions.GenericControls.Services
                 _peakFileService.Cancel();
             }
 
-            // Check if the peak file subfolder exists
-            string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
-            if (!Directory.Exists(peakFileFolder))
-            {
-                try
-                {
-                    //Console.WriteLine("WaveFormRenderingService - Creating folder " + peakFileFolder + "...");
-                    Directory.CreateDirectory(peakFileFolder);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("WaveFormRenderingService - Failed to create folder: " + ex.Message);
-                    return;
-                }
-            }
-
-            // Generate peak file path
-            string peakFilePath = Path.Combine(peakFileFolder, Normalizer.NormalizeStringForUrl(audioFile.ArtistName + "_" + audioFile.AlbumTitle + "_" + audioFile.Title + "_" + audioFile.FileType.ToString()) + ".peak");
+            string peakFilePath = PeakFileService.GetPeakFilePathForAudioFileAndCreatePeakFileDirectory(audioFile);
 
             // Check if peak file exists
             if (File.Exists(peakFilePath))
@@ -238,6 +221,11 @@ namespace Sessions.GenericControls.Services
                 Console.WriteLine("Peak file doesn't exist - Generating " + peakFilePath + "...");
                 _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
             }
+        }
+
+        public void CancelPeakFile()
+        {
+            _peakFileService.Cancel();
         }
 
         /// <summary>

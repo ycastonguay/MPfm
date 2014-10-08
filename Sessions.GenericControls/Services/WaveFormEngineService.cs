@@ -113,6 +113,11 @@ namespace Sessions.GenericControls.Services
             _waveFormRenderingService.LoadPeakFile(audioFile);
         }
 
+        public void CancelPeakFile()
+        {
+            _waveFormRenderingService.CancelPeakFile();
+        }
+
         public WaveFormBitmapRequest GetTilesRequest(float offsetX, float zoom, BasicRectangle controlFrame, BasicRectangle dirtyRect, WaveFormDisplayType displayType)
         {
             int startDirtyTile = TileHelper.GetStartDirtyTile(offsetX, dirtyRect.X, zoom, TileSize);

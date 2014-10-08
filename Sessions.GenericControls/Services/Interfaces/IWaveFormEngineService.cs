@@ -32,6 +32,7 @@ namespace Sessions.GenericControls.Services.Interfaces
 
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
+        void CancelPeakFile();
         List<WaveFormTile> GetTiles(float contentOffsetX, float zoom, BasicRectangle frame, BasicRectangle dirtyRect, WaveFormDisplayType displayType);
         WaveFormBitmapRequest GetTilesRequest(float offsetX, float zoom, BasicRectangle controlFrame, BasicRectangle dirtyRect, WaveFormDisplayType displayType);
     }

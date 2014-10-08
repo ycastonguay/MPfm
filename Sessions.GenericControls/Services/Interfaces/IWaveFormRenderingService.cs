@@ -31,6 +31,7 @@ namespace Sessions.GenericControls.Services.Interfaces
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
+        void CancelPeakFile();
         void RequestBitmap(WaveFormBitmapRequest request);
     }
 }

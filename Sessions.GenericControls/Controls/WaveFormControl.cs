@@ -420,12 +420,23 @@ namespace Sessions.GenericControls.Controls
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-			//Console.WriteLine("WaveFormControl - LoadPeakFile " + audioFile.FilePath);
+			Console.WriteLine("WaveFormControl - LoadPeakFile - filePath: {0}", audioFile.FilePath);
             IsLoading = true;
             IsEmpty = false;
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
             _waveFormEngineService.LoadPeakFile(audioFile);
+        }
+
+        public void CancelPeakFile()
+        {
+            if (IsLoading)
+            {
+                Console.WriteLine("WaveFormControl - Canceling peak file generation...");
+                IsLoading = false;
+                IsEmpty = true;
+                _waveFormEngineService.CancelPeakFile();
+            }
         }
 
         public void Reset()
