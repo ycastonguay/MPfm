@@ -70,6 +70,8 @@ namespace Sessions.iOS.Classes.Controls
         {
             var screenSize = UIKitHelper.GetDeviceSize();
 
+            Accessory = UITableViewCellAccessory.None;
+
             UIView backView = new UIView(Frame);
             backView.BackgroundColor = GlobalTheme.LightColor;
             BackgroundView = backView;

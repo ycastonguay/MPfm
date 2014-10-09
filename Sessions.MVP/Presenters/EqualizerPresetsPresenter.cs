@@ -187,7 +187,7 @@ namespace Sessions.MVP.Presenters
                 if (_mobileNavigationManager != null)
                 {
                     _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, Guid.Empty);
-                    return;
+                    //return;
                 }
 
                 // For desktop devices

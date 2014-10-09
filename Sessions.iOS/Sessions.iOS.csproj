@@ -357,6 +357,9 @@
       <DependentUpon>SelectAlbumArtViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Services\NowPlayingInfoService.cs" />
+    <Compile Include="Classes\Controls\MPfmEqualizerTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -433,6 +436,7 @@
     <InterfaceDefinition Include="XIB\iPhone\SelectAlbumArtViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Lib\" />
     <Folder Include="Classes\" />

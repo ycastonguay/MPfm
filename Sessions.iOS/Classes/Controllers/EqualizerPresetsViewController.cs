@@ -57,7 +57,7 @@ namespace Sessions.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
-            UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
+            var longPress = new UILongPressGestureRecognizer(HandleLongPress);
             longPress.MinimumPressDuration = 0.7f;
             longPress.WeakDelegate = this;
             tableView.AddGestureRecognizer(longPress);
@@ -212,11 +212,12 @@ namespace Sessions.iOS
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             // Request a recycled cell to save memory
-            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+            var cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+                //cell = new UITableViewCell(cellStyle, _cellIdentifier);
+                cell = new SessionsTableViewCell(cellStyle, _cellIdentifier);
             }
 
             cell.Tag = indexPath.Row;
@@ -230,9 +231,9 @@ namespace Sessions.iOS
             if (_presets[indexPath.Row].EQPresetId == _selectedPresetId)
                 cell.Accessory = UITableViewCellAccessory.Checkmark;
             
-            UIView viewBackgroundSelected = new UIView();
-            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-            cell.SelectedBackgroundView = viewBackgroundSelected;
+//            UIView viewBackgroundSelected = new UIView();
+//            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
+//            cell.SelectedBackgroundView = viewBackgroundSelected;
             
             return cell;
         }

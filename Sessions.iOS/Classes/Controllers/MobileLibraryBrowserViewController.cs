@@ -857,7 +857,7 @@ namespace Sessions.iOS.Classes.Controllers
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
 			var item = _items[indexPath.Section].Item2[indexPath.Row];
-			SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+			var cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
 			Console.WriteLine("MLBV - GetCell - dequeue cell==null: {0}", cell == null);
             if (cell == null)
             {

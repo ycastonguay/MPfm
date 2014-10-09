@@ -21,6 +21,7 @@ using Sessions.MVP.Models;
 using Sessions.MVP.Messages;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
 namespace Sessions.MVP.Views
 {
@@ -56,6 +57,7 @@ namespace Sessions.MVP.Views
 	    void PushSubView(IBaseView view);
         void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled);
 		void RefreshPlayerPosition(PlayerPosition entity);
+        void RefreshPlaylist(Playlist playlist);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshActiveMarker(Guid markerId);

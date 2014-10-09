@@ -182,6 +182,7 @@ namespace Sessions.MVP.Presenters
             // If the player is already playing, refresh initial data
             if (_playerService.IsPlaying)
             {
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
                 View.RefreshSongInformation(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylistItem.LengthBytes,
                             _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
 
@@ -380,6 +381,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play();
     			_timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
             }
             catch(Exception ex)
             {
@@ -398,6 +400,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play(audioFiles, string.Empty, 0, false, false);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
             }
             catch(Exception ex)
             {
@@ -416,6 +419,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play(filePaths);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
             }
             catch(Exception ex)
             {
@@ -435,6 +439,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play(audioFiles, startAudioFilePath, 0, false, false);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
             }
             catch(Exception ex)
             {
@@ -545,7 +550,8 @@ namespace Sessions.MVP.Presenters
                 long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
                 long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
                 string positionString = ConvertAudio.ToTimeString(positionMS);
-                PlayerPosition entity = new PlayerPosition();
+
+                var entity = new PlayerPosition();
                 entity.Position = positionString;
                 entity.PositionBytes = positionBytes;
                 entity.PositionSamples = (uint)positionSamples;

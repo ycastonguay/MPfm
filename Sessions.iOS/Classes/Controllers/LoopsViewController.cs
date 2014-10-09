@@ -62,6 +62,7 @@ namespace Sessions.iOS
         public Action<Loop> OnEditLoop { get; set; }
         public Action<Loop> OnSelectLoop { get; set; }
         public Action<Loop> OnDeleteLoop { get; set; }
+        public Action<Loop> OnUpdateLoop { get; set; }
         public Action<Loop> OnPlayLoop { get; set; }
 
         public Action<Segment> OnPunchInLoopSegment { get; set; }

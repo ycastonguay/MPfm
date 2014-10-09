@@ -53,7 +53,8 @@ namespace Sessions.MVP.Presenters
             // Refresh initial data if player is already playing
             if (_playerService.IsPlaying)
             {
-                View.RefreshMetadata(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count);
+                var position = _playerService.GetPosition();
+                View.RefreshMetadata(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count, position.PositionMS, _playerService.CurrentPlaylistItem.LengthMilliseconds);
                 View.RefreshRepeat(_playerService.RepeatType);
                 View.RefreshShuffle(_isShuffle);
             }
@@ -61,7 +62,8 @@ namespace Sessions.MVP.Presenters
 
         private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
         {
-            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count);
+            var position = _playerService.GetPosition();
+            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count, position.PositionMS, _playerService.CurrentPlaylistItem.LengthMilliseconds);
         }
 
         private void OpenPlaylist()

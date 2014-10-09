@@ -31,7 +31,7 @@ namespace Sessions.MVP.Views
         Action OnToggleShuffle { get; set; }
         Action OnToggleRepeat { get; set; }
 
-        void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount);
+        void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount, long currentPositionMS, long lengthMS);
         void RefreshShuffle(bool shuffle);
         void RefreshRepeat(RepeatType repeatType);
 	}
