@@ -76,6 +76,14 @@ namespace Sessions.iOS.Classes.Controls
             }
         }        
 
+        public bool IsEmpty
+        {
+            get
+            {
+                return WaveFormView.IsEmpty;
+            }
+        }
+
         // TODO: Make this entirely private and add methods to set wave forms
         public SessionsWaveFormView WaveFormView { get; private set; }
         public SessionsWaveFormScaleView WaveFormScaleView { get; private set; }
@@ -228,6 +236,7 @@ namespace Sessions.iOS.Classes.Controls
         {
 			//WaveFormScaleView.Hidden = true;
 			//UserInteractionEnabled = false;
+            Console.WriteLine("SessionsWaveFormScrollView - LoadPeakFile");
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
                 WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
@@ -238,9 +247,16 @@ namespace Sessions.iOS.Classes.Controls
                 WaveFormView.Frame = new RectangleF(Bounds.Width / 2, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
                 WaveFormScaleView.Frame = new RectangleF(Bounds.Width / 2, 0, Bounds.Width, _scaleHeight);
             }
+            Console.WriteLine("SessionsWaveFormScrollView - LoadPeakFile (2)");
             WaveFormView.LoadPeakFile(audioFile);
             WaveFormScaleView.AudioFile = audioFile;
 			WaveFormScaleView.SetNeedsDisplay();
+            Console.WriteLine("SessionsWaveFormScrollView - LoadPeakFile (3)");
+        }
+
+        public void CancelPeakFile()
+        {
+            WaveFormView.CancelPeakFile();
         }
 
         public void SetWaveFormLength(long lengthBytes)

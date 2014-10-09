@@ -41,6 +41,7 @@ using Sessions.GenericControls.Graphics;
 using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services;
+using Sessions.MVP.Messages;
 
 namespace Sessions.iOS.Classes.Delegates
 {
@@ -50,6 +51,7 @@ namespace Sessions.iOS.Classes.Delegates
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
+        ITinyMessengerHub _messageHub;
 		SessionsWindow _window;
 		MainViewController _mainViewController;
         SplashViewController _splashViewController;
@@ -108,9 +110,11 @@ namespace Sessions.iOS.Classes.Delegates
         public void RegisterViews()
         {
             // Complete IoC configuration
-            TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            var container = Bootstrapper.GetContainer();
+            _messageHub = container.Resolve<ITinyMessengerHub>();
 			container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
+            container.Register<NowPlayingInfoService>().AsSingleton();
             container.Register<ICloudService, iOSDropboxService>().AsSingleton();
             container.Register<ITileCacheService, TileCacheService>().AsSingleton();
 			container.Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();
@@ -306,6 +310,22 @@ namespace Sessions.iOS.Classes.Delegates
                 cloudService.ContinueLinkApp();
                 return false;
             }
+        }
+
+        public override void OnActivated(UIApplication application)
+        {
+            if(_messageHub == null)
+                return;
+
+            _messageHub.PublishAsync<AppActivatedMessage>(new AppActivatedMessage(this));
+        }
+
+        public override void OnResignActivation(UIApplication application)
+        {
+            if(_messageHub == null)
+                return;
+
+            _messageHub.PublishAsync<AppInactiveMessage>(new AppInactiveMessage(this));
         }
     }
 }

@@ -356,6 +356,7 @@
     <Compile Include="Classes\Controllers\SelectAlbumArtViewController.designer.cs">
       <DependentUpon>SelectAlbumArtViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Services\NowPlayingInfoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

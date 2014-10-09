@@ -42,21 +42,28 @@ using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Delegates;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Services;
+using TinyMessenger;
+using Sessions.Sound.Playlists;
+using Sessions.iOS.Classes.Services;
 
 namespace Sessions.iOS.Classes.Controllers
 {
 	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
-        IDownloadImageService _downloadImageService;
-		Guid _currentAudioFileId;
-        NSTimer _timerHidePlayerMetadata;
-        bool _isPositionChanging = false;
-        string _currentAlbumArtKey = string.Empty;
-        PlayerMetadataViewController _playerMetadataViewController;
-        float _lastSliderPositionValue = 0;
-        UIImage _downloadedAlbumArtImage;
-        byte[] _downloadedAlbumArtData;
-		MPVolumeView _volumeView;
+        private NowPlayingInfoService _nowPlayingInfoService;
+        private ITinyMessengerHub _messageHub;
+        private IDownloadImageService _downloadImageService;
+        private AudioFile _currentAudioFile;
+        private NSTimer _timerHidePlayerMetadata;
+        private bool _isPositionChanging = false;
+        private string _currentAlbumArtKey = string.Empty;
+        private PlayerMetadataViewController _playerMetadataViewController;
+        private float _lastSliderPositionValue = 0;
+        private UIImage _downloadedAlbumArtImage;
+        private byte[] _downloadedAlbumArtData;
+        private bool _isAppInactive;
+        private long _currentPositionMS;
+        private MPVolumeView _volumeView;
 
 		public PlayerViewController()
 			: base (UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
@@ -75,9 +82,14 @@ namespace Sessions.iOS.Classes.Controllers
                 image = null;
             }
         }
-		
+
 		public override void ViewDidLoad()
         {
+            _nowPlayingInfoService = Bootstrapper.GetContainer().Resolve<NowPlayingInfoService>();
+            _messageHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+            _messageHub.Subscribe<AppInactiveMessage>(AppInactiveMessageReceived);
+            _messageHub.Subscribe<AppActivatedMessage>(AppActivatedMessageReceived);
+
             _downloadImageService = new DownloadImageService();
 
 			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
@@ -97,13 +109,78 @@ namespace Sessions.iOS.Classes.Controllers
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
             viewPageControls.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
 
-            sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            ConfigureScrollViews();
+            ConfigurePositionSlider();
 
-            // Reduce the song position slider size for iPhone
-            sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
+            // Only display wave form on iPhone 5+ and iPad
+			bool showWaveForm = DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone3GS &&
+			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4 &&
+			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4S;
+			scrollViewWaveForm.Hidden = !showWaveForm;
+			scrollViewWaveForm.UserInteractionEnabled = showWaveForm;
+			scrollViewWaveForm.MultipleTouchEnabled = showWaveForm;
 
+//            // Create text attributes for navigation bar button
+//            var attr = new UITextAttributes();
+//            attr.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
+//            attr.TextColor = UIColor.White;
+//            attr.TextShadowColor = UIColor.DarkGray;
+//            attr.TextShadowOffset = new UIOffset(0, 0);
+            
+//            // Set back button for navigation bar
+//            _btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
+//            _btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
+//            this.NavigationItem.BackBarButtonItem = _btnBack;
+
+            // Reset temporary text
+            lblLength.Text = string.Empty;
+            lblPosition.Text = string.Empty;
+
+			// Create MPVolumeView (only visible on iPad or maybe in the future on iPhone with a scroll view)
+			var rectVolume = new RectangleF(12, 10, 100, 46);
+			_volumeView = new MPVolumeView(rectVolume);
+			_volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+			_volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+			_volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
+			viewVolume.AddSubview(_volumeView);
+
+			graphView.BackgroundColor = GlobalTheme.BackgroundColor;
+			outputMeter.BackgroundColor = GlobalTheme.BackgroundColor;
+			imageViewVolumeLow.Alpha = 0.125f;
+			imageViewVolumeHigh.Alpha = 0.125f;
+			viewEffects.OnScaleViewClicked += () => OnOpenEffects();
+
+			if (UserInterfaceIdiomIsPhone)
+			{
+				viewVolume.RemoveFromSuperview();
+				viewPlayerButtons.RemoveFromSuperview();
+				viewEffects.RemoveFromSuperview();
+				scrollViewPlayer.AddSubview(viewEffects);
+				scrollViewPlayer.AddSubview(viewPlayerButtons);
+				scrollViewPlayer.AddSubview(viewVolume);
+				scrollViewPlayer.ContentSize = new SizeF(3 * UIScreen.MainScreen.Bounds.Width, 72);
+                scrollViewPlayer.ContentOffset = new PointF(UIScreen.MainScreen.Bounds.Width, 0);
+				viewEffects.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				viewPlayerButtons.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				viewVolume.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width * 2, 0, UIScreen.MainScreen.Bounds.Width, 72);
+
+				imageViewVolumeLow.Image = UIImage.FromBundle("Images/Buttons/volume_low");
+				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/Buttons/volume_high");
+			}
+			else
+			{
+				imageViewVolumeLow.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_low");
+				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_high");
+			}
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPlayerView(MobileNavigationTabType.Playlists, this);
+
+            base.ViewDidLoad();           
+		}
+
+        private void ConfigureScrollViews()
+        {
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
             scrollView.PagingEnabled = true;
@@ -111,20 +188,30 @@ namespace Sessions.iOS.Classes.Controllers
             scrollView.ShowsVerticalScrollIndicator = false;
             scrollView.DelaysContentTouches = false;
             
-			UISwipeGestureRecognizer swipeDown = new UISwipeGestureRecognizer(HandleScrollViewSwipeDown);
+            var swipeDown = new UISwipeGestureRecognizer(HandleScrollViewSwipeDown);
             swipeDown.Direction = UISwipeGestureRecognizerDirection.Down;
             scrollView.AddGestureRecognizer(swipeDown);
             
-			UISwipeGestureRecognizer swipeUp = new UISwipeGestureRecognizer(HandleScrollViewSwipeUp);
+            var swipeUp = new UISwipeGestureRecognizer(HandleScrollViewSwipeUp);
             swipeUp.Direction = UISwipeGestureRecognizerDirection.Up;
             scrollView.AddGestureRecognizer(swipeUp);
 
-			if (scrollViewPlayer != null)
-			{
-				scrollViewPlayer.IndicatorStyle = UIScrollViewIndicatorStyle.White;
-				scrollViewPlayer.PagingEnabled = true;
-				scrollViewPlayer.DelaysContentTouches = false;
-			}
+            if (scrollViewPlayer != null)
+            {
+                scrollViewPlayer.IndicatorStyle = UIScrollViewIndicatorStyle.White;
+                scrollViewPlayer.PagingEnabled = true;
+                scrollViewPlayer.DelaysContentTouches = false;
+            }
+        }
+
+        private void ConfigurePositionSlider()
+        {
+            sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+
+            // Reduce the song position slider size for iPhone
+            sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
 
             // TODO: Block slider when the player is paused.
             sliderPosition.ScrubbingTypeChanged += (sender, e) => {
@@ -182,79 +269,13 @@ namespace Sessions.iOS.Classes.Controllers
                 scrollViewWaveForm.ShowSecondaryPosition(false);
                 _isPositionChanging = false;
             };
-
-            // Only display wave form on iPhone 5+ and iPad
-			bool showWaveForm = DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone3GS &&
-			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4 &&
-			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4S;
-			scrollViewWaveForm.Hidden = !showWaveForm;
-			scrollViewWaveForm.UserInteractionEnabled = showWaveForm;
-			scrollViewWaveForm.MultipleTouchEnabled = showWaveForm;
-
-            // Create text attributes for navigation bar button
-            UITextAttributes attr = new UITextAttributes();
-            attr.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
-            attr.TextColor = UIColor.White;
-            attr.TextShadowColor = UIColor.DarkGray;
-            attr.TextShadowOffset = new UIOffset(0, 0);
-            
-//            // Set back button for navigation bar
-//            _btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
-//            _btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
-//            this.NavigationItem.BackBarButtonItem = _btnBack;
-
-            // Reset temporary text
-            lblLength.Text = string.Empty;
-            lblPosition.Text = string.Empty;
-
-			// Create MPVolumeView (only visible on iPad or maybe in the future on iPhone with a scroll view)
-			RectangleF rectVolume = new RectangleF(12, 10, 100, 46);
-			_volumeView = new MPVolumeView(rectVolume);
-			_volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-			_volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-			_volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
-			viewVolume.AddSubview(_volumeView);
-
-			graphView.BackgroundColor = GlobalTheme.BackgroundColor;
-			outputMeter.BackgroundColor = GlobalTheme.BackgroundColor;
-			imageViewVolumeLow.Alpha = 0.125f;
-			imageViewVolumeHigh.Alpha = 0.125f;
-			viewEffects.OnScaleViewClicked += () => OnOpenEffects();
-
-			if (UserInterfaceIdiomIsPhone)
-			{
-				viewVolume.RemoveFromSuperview();
-				viewPlayerButtons.RemoveFromSuperview();
-				viewEffects.RemoveFromSuperview();
-				scrollViewPlayer.AddSubview(viewEffects);
-				scrollViewPlayer.AddSubview(viewPlayerButtons);
-				scrollViewPlayer.AddSubview(viewVolume);
-				scrollViewPlayer.ContentSize = new SizeF(3 * UIScreen.MainScreen.Bounds.Width, 72);
-                scrollViewPlayer.ContentOffset = new PointF(UIScreen.MainScreen.Bounds.Width, 0);
-				viewEffects.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 72);
-				viewPlayerButtons.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, 72);
-				viewVolume.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width * 2, 0, UIScreen.MainScreen.Bounds.Width, 72);
-
-				imageViewVolumeLow.Image = UIImage.FromBundle("Images/Buttons/volume_low");
-				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/Buttons/volume_high");
-			}
-			else
-			{
-				imageViewVolumeLow.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_low");
-				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_high");
-			}
-
-            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.BindPlayerView(MobileNavigationTabType.Playlists, this);
-
-            base.ViewDidLoad();           
-		}
+        }
             
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
             
-            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
+            var navCtrl = (SessionsNavigationController)this.NavigationController;
 			navCtrl.SetTitle("Now Playing", "Now Playing");
         }
 
@@ -335,6 +356,25 @@ namespace Sessions.iOS.Classes.Controllers
             
         }
 
+        private void AppInactiveMessageReceived(AppInactiveMessage message)
+        {
+            // Cancel peak file loading/generation when the app is put to sleep
+            _isAppInactive = true;
+            scrollViewWaveForm.CancelPeakFile();
+        }
+
+        private void AppActivatedMessageReceived(AppActivatedMessage message)
+        {
+            _isAppInactive = false;
+
+            // If the peak file loading/generation was interrupted, restart the process when the app is once again visible
+            if (scrollViewWaveForm.IsEmpty && _currentAudioFile != null)
+            {
+                Console.WriteLine("PlayerViewController - AppActivatedMessageReceived - Loading peak file...");
+                scrollViewWaveForm.LoadPeakFile(_currentAudioFile);
+            }
+        }
+
         private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)
         {
             if(pageControl.CurrentPage == 0)
@@ -367,7 +407,6 @@ namespace Sessions.iOS.Classes.Controllers
                 viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
                 scrollView.AddSubview(viewController.View);
                 pageControl.Pages = scrollSubviewsLength + 1;
-                //pageControl.Pages = 5;
                 scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollView.Frame.Width, scrollView.Frame.Height);
             }
             else
@@ -384,7 +423,6 @@ namespace Sessions.iOS.Classes.Controllers
                     viewController.View.Frame = new RectangleF(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
 
                 scrollView.AddSubview(viewController.View);
-                //pageControl.Pages = 3;
                 scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
         }
@@ -506,12 +544,12 @@ namespace Sessions.iOS.Classes.Controllers
 
         partial void actionRepeat(NSObject sender)
         {
-
+            OnPlayerRepeat();
         }
 
         partial void actionShuffle(NSObject sender)
         {
-
+            OnPlayerShuffle();
         }
 
         #region IPlayerView implementation
@@ -568,6 +606,7 @@ namespace Sessions.iOS.Classes.Controllers
         public void RefreshPlayerPosition(PlayerPosition entity)
         {
             InvokeOnMainThread(() => {
+                _currentPositionMS = entity.PositionMS;
                 if(!_isPositionChanging)
                 {
                     lblPosition.Text = entity.Position;
@@ -600,15 +639,20 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
+        public void RefreshPlaylist(Playlist playlist)
+        {
+        }
+
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             if (audioFile == null)
                 return;
 
             // Prevent refreshing song twice
-            if (_currentAudioFileId == audioFile.Id)
+            if (_currentAudioFile != null && _currentAudioFile.Id == audioFile.Id)
                 return;
-            _currentAudioFileId = audioFile.Id;
+
+            _currentAudioFile = audioFile;
 
             InvokeOnMainThread(() =>
             {
@@ -624,7 +668,10 @@ namespace Sessions.iOS.Classes.Controllers
                     if (IsOutputMeterEnabled)
                     {
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
-                        scrollViewWaveForm.LoadPeakFile(audioFile);
+
+                        // Do not load/generate peak files when the app is sleeping
+                        if(!_isAppInactive)
+                            scrollViewWaveForm.LoadPeakFile(audioFile);
                     }
                 }
                 catch (Exception ex)
@@ -640,79 +687,85 @@ namespace Sessions.iOS.Classes.Controllers
         {
             // Check if the album art needs to be refreshed
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
-            if (_currentAlbumArtKey != key)
-            {
-                int height = 44;
-                InvokeOnMainThread(() =>
-                {
-                    try
-                    {
-                        height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
-                        UIView.Animate(0.3, () =>
-                        {
-                            imageViewAlbumArt.Alpha = 0;
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image view album art alpha: {0}", ex);
-                    }
-                });
+            if (_currentAlbumArtKey == key)
+                return;
 
-                // Load album art + resize in another thread
-                var task = Task<UIImage>.Factory.StartNew(() =>
+            int height = 44;
+            InvokeOnMainThread(() =>
+            {
+                try
                 {
-                    try
+                    _nowPlayingInfoService.AlbumArtImage = null;
+                    _nowPlayingInfoService.UpdateInfo();
+
+                    height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
+                    UIView.Animate(0.3, () =>
                     {
-                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
-                        using (NSData imageData = NSData.FromArray(bytesImage))
+                        imageViewAlbumArt.Alpha = 0;
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image view album art alpha: {0}", ex);
+                }
+            });
+
+            // Load album art + resize in another thread
+            var task = Task<UIImage>.Factory.StartNew(() =>
+            {
+                try
+                {
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
                         {
-                            using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
+                            if (imageFullSize != null)
                             {
-                                if (imageFullSize != null)
+                                try
                                 {
-                                    try
-                                    {
-                                        _currentAlbumArtKey = key;                                    
-                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
-                                        return imageResized;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
-                                    }
+                                    _currentAlbumArtKey = key;                                    
+                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+                                    return imageResized;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
                                 }
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
-                    }
-                    
-                    return null;
-                });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
+                }
+                
+                return null;
+            });
 
-                UIImage image = await task;                    
-                InvokeOnMainThread(() => {
-                    try
+            UIImage image = await task;                    
+            InvokeOnMainThread(() => {
+                try
+                {
+                    if (image == null)
                     {
-                        if (image == null)
-                        {
-                            Console.WriteLine("PlayerViewController - RefreshSongInformation - Downloading image from the internet...");
-                            DownloadImage(audioFile);
-                        }
-                        else
-                        {
-                            imageViewAlbumArt.Image = image;
-                        }
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Downloading image from the internet...");
+                        DownloadImage(audioFile);
                     }
-                    catch(Exception ex)
+                    else
                     {
-                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                        imageViewAlbumArt.Image = image;
+
+                        _nowPlayingInfoService.AlbumArtImage = image;
+                        _nowPlayingInfoService.UpdateInfo();
                     }
-                });
-            }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                }
+            });
         }
 
         public async void DownloadImage(AudioFile audioFile)
@@ -752,6 +805,10 @@ namespace Sessions.iOS.Classes.Controllers
                     InvokeOnMainThread(() =>  {
                         imageViewAlbumArt.Alpha = 0;
                         imageViewAlbumArt.Image = _downloadedAlbumArtImage;
+
+                        _nowPlayingInfoService.AlbumArtImage = _downloadedAlbumArtImage;
+                        _nowPlayingInfoService.UpdateInfo();
+
                         viewAlbumArt.ShowDownloadedView(() => {
                             UIView.Animate(0.2, () => {
                                 imageViewAlbumArt.Alpha = 1;
@@ -824,6 +881,10 @@ namespace Sessions.iOS.Classes.Controllers
                         break;
                     case PlayerStatusType.Playing:
                         btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
+
+                        // Force update position or iOS will reset position to 0
+                        _nowPlayingInfoService.PositionMS = _currentPositionMS;
+                        _nowPlayingInfoService.UpdateInfo();
                         break;
                 }
             });

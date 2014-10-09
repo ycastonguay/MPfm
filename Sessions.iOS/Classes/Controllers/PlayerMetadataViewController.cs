@@ -27,12 +27,13 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.Player.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using Sessions.iOS.Classes.Services;
 
 namespace Sessions.iOS
 {
     public partial class PlayerMetadataViewController : BaseViewController, IPlayerMetadataView
     {
-        //NSTimer timer;
+        private NowPlayingInfoService _nowPlayingInfoService;
 
         public PlayerMetadataViewController()
             : base (UserInterfaceIdiomIsPhone ? "PlayerMetadataViewController_iPhone" : "PlayerMetadataViewController_iPad", null)
@@ -41,6 +42,8 @@ namespace Sessions.iOS
 
         public override void ViewDidLoad()
         {                
+            _nowPlayingInfoService = Bootstrapper.GetContainer().Resolve<NowPlayingInfoService>();
+
             // Reset temporary text
             lblArtistName.Text = string.Empty;
             lblAlbumTitle.Text = string.Empty;
@@ -92,7 +95,7 @@ namespace Sessions.iOS
         {
         }
 
-        public void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount)
+        public void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount, long currentPositionMS, long lengthMS)
         {
             InvokeOnMainThread(() => {
                 if(audioFile == null)
@@ -101,13 +104,8 @@ namespace Sessions.iOS
                     lblAlbumTitle.Text = string.Empty;
                     lblTitle.Text = string.Empty;
                     lblSongCount.Text = string.Empty;
-                    
-                    // Update AirPlay metadata with generic info
-                    if(MPNowPlayingInfoCenter.DefaultCenter != null)
-                    {
-                        // Reset info
-                        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = null;
-                    }
+
+                    _nowPlayingInfoService.ResetAndUpdateInfo();
                 }
                 else
                 {
@@ -118,21 +116,12 @@ namespace Sessions.iOS
 
                     ShowPanel(true, false);
 
-                    // Update AirPlay metadata with generic info
-                    if(MPNowPlayingInfoCenter.DefaultCenter != null)
-                    {
-                        // TODO: Add a memory cache and stop reloading the image from disk every time
-                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                        NSData imageData = NSData.FromArray(bytesImage);
-                        UIImage image = UIImage.LoadFromData(imageData);
-
-                        MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = new MPNowPlayingInfo() {
-                            Artist = audioFile.ArtistName,
-                            AlbumTitle = audioFile.AlbumTitle,
-                            Title = audioFile.Title,
-                            Artwork = (image != null) ? new MPMediaItemArtwork(image) : null
-                        };
-                    }
+                    _nowPlayingInfoService.AudioFile = audioFile;
+                    _nowPlayingInfoService.LengthMS = lengthMS;
+                    _nowPlayingInfoService.PositionMS = currentPositionMS;
+                    _nowPlayingInfoService.PlaylistIndex = playlistIndex;
+                    _nowPlayingInfoService.PlaylistCount = playlistCount;
+                    _nowPlayingInfoService.UpdateInfo();
                 }
             });
         }

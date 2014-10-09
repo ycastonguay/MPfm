@@ -93,7 +93,7 @@ namespace Sessions.iOS.Classes.Controls
             {
                 _control.Zoom = value;
             }
-        }
+        }           
 
 		public BasicPoint ContentOffset
 		{
@@ -106,6 +106,14 @@ namespace Sessions.iOS.Classes.Controls
 				_control.ContentOffset = value;
 			}
 		}
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return _control.IsEmpty;
+            }
+        }
 
 		public SessionsWaveFormView(IntPtr handle) 
 			: base (handle)
@@ -140,8 +148,14 @@ namespace Sessions.iOS.Classes.Controls
 
 		public void LoadPeakFile(AudioFile audioFile)
 		{
+            Console.WriteLine("SessionsWaveFormView - LoadPeakFile");
 			_control.LoadPeakFile(audioFile);
 		}
+
+        public void CancelPeakFile()
+        {
+            _control.CancelPeakFile();
+        }
 
 		public void SetActiveMarker(Guid markerId)
 		{

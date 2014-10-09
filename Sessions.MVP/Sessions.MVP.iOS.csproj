@@ -139,6 +139,7 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Services\Interfaces\" />
@@ -401,5 +402,7 @@
     <Compile Include="Views\ISelectAlbumArtView.cs" />
     <Compile Include="Presenters\Interfaces\ISelectAlbumArtPresenter.cs" />
     <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />
+    <Compile Include="Messages\AppInactiveMessage.cs" />
+    <Compile Include="Messages\AppActivatedMessage.cs" />
   </ItemGroup>
 </Project>
