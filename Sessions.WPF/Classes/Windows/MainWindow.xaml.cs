@@ -467,19 +467,6 @@ namespace Sessions.WPF.Classes.Windows
             btnActions.Style = res["HeaderButton"] as Style;
         }
 
-        private void ResetLoopHeaderPanelVisibility()
-        {
-            panelLoopStartPosition.Visibility = Visibility.Hidden;
-            panelLoopEndPosition.Visibility = Visibility.Hidden;            
-        }
-
-        private void ResetLoopHeaderButtonStyles()
-        {
-            var res = Application.Current.Resources;
-            btnLoopStartPosition.Style = res["SmallHeaderButton"] as Style;
-            btnLoopEndPosition.Style = res["SmallHeaderButton"] as Style;
-        }
-
         private void BtnUseThisTempo_OnClick(object sender, RoutedEventArgs e)
         {
         }
@@ -851,25 +838,6 @@ namespace Sessions.WPF.Classes.Windows
             // Empty because we want to block the double click action on this button so the loop does not start playing
         }
 
-        private void BtnBackLoopDetails_OnClick(object sender, RoutedEventArgs e)
-        {
-            gridLoops.Visibility = Visibility.Visible;
-            gridLoopDetails.Visibility = Visibility.Hidden;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
-
-            //_currentSegment.MarkerId = Guid.Empty;
-            //if (chkSegmentLinkToMarker.IsChecked.Value && comboSegmentMarker.SelectedIndex >= 0)
-            //    _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.SelectedIndex].MarkerId;
-
-            //OnUpdateSegmentDetails(_currentSegment);
-            //_currentSegment = null;
-
-            _currentLoop.Name = txtLoopName.Text;
-            OnUpdateLoopDetails(_currentLoop);
-            _currentLoop = null;
-            scrollViewWaveForm.SetLoop(null);
-        }
-
         private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
         {
             PlayOrStopCurrentLoop();
@@ -898,11 +866,6 @@ namespace Sessions.WPF.Classes.Windows
             //gridLoopPlayback.Visibility = Visibility.Hidden;
         }
 
-        private void BtnEditLoop_OnClick(object sender, RoutedEventArgs e)
-        {
-            EditLoop();
-        }
-
         private void EditLoop()
         {
             if (listViewLoops.SelectedIndex < 0 || listViewLoops.SelectedIndex >= _loops.Count)
@@ -910,8 +873,7 @@ namespace Sessions.WPF.Classes.Windows
 
             OnEditLoop(_loops[listViewLoops.SelectedIndex]);
             gridLoops.Visibility = Visibility.Hidden;
-            gridLoopDetails.Visibility = Visibility.Visible;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
+
         }
 
         private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
@@ -934,217 +896,14 @@ namespace Sessions.WPF.Classes.Windows
             btnRemoveLoop.Enabled = enabled;
         }
 
-        private void BtnLoopStartPosition_OnClick(object sender, RoutedEventArgs e)
-        {
-            ShowLoopStartPositionTab();
-        }
-
-        private void ShowLoopStartPositionTab()
-        {
-            if (panelLoopStartPosition.Visibility == Visibility.Visible)
-                return;
-
-            ResetLoopHeaderButtonStyles();
-            ResetLoopHeaderPanelVisibility();
-            btnLoopStartPosition.Style = System.Windows.Application.Current.Resources["SmallHeaderButtonSelected"] as Style;
-            panelLoopStartPosition.Visibility = Visibility.Visible;                        
-        }
-
-        private void BtnLoopEndPosition_OnClick(object sender, RoutedEventArgs e)
-        {
-            ShowLoopEndPositionTab();
-        }
-
-        private void ShowLoopEndPositionTab()
-        {
-            if (panelLoopEndPosition.Visibility == Visibility.Visible)
-                return;
-
-            ResetLoopHeaderButtonStyles();
-            ResetLoopHeaderPanelVisibility();
-            btnLoopEndPosition.Style = System.Windows.Application.Current.Resources["SmallHeaderButtonSelected"] as Style;
-            panelLoopEndPosition.Visibility = Visibility.Visible;
-        }
-
-        private void TxtLoopName_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            _currentLoop.Name = txtLoopName.Text;
-            scrollViewWaveForm.SetLoop(_currentLoop);
-        }
-
-        private void TrackStartSegmentPosition_OnTrackBarValueChanged()
-        {
-            ChangeStartSegment(trackStartSegmentPosition.Value / 1000f, false);
-        }
-
-        private void TrackStartSegmentPosition_OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            ChangeStartSegment(trackStartSegmentPosition.Value / 1000f, true);
-        }
-
-        private void TrackEndSegmentPosition_OnTrackBarValueChanged()
-        {
-            ChangeEndSegment(trackEndSegmentPosition.Value / 1000f, false);
-        }
-
-        private void TrackEndSegmentPosition_OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            ChangeEndSegment(trackEndSegmentPosition.Value / 1000f, true);
-        }
-
-        private void ChkStartSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SetStartSegmentLinkedMarker();
-        }
-
-        private void ChkEndSegmentLinkToMarker_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SetEndSegmentLinkedMarker();
-        }
-
-        private void SetStartSegmentLinkedMarker()
-        {
-            if (_loopMarkers.Count == 0)
-            {
-                chkStartSegmentLinkToMarker.Unchecked -= ChkStartSegmentLinkToMarker_OnChecked;
-                chkStartSegmentLinkToMarker.IsChecked = false;
-                chkStartSegmentLinkToMarker.Unchecked += ChkStartSegmentLinkToMarker_OnChecked;
-                MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            comboStartSegmentMarker.Visibility = chkStartSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
-            if (chkStartSegmentLinkToMarker.IsChecked.Value && comboStartSegmentMarker.SelectedIndex >= 0)
-            {
-                var marker = _loopMarkers[comboStartSegmentMarker.SelectedIndex];
-                OnLinkSegmentToMarker(_startSegment, marker.MarkerId);
-            }
-            else
-            {
-                //OnLinkSegmentToMarker(_startSegment, Guid.Empty);
-                comboStartSegmentMarker.SelectedIndex = 0;
-                var marker = _loopMarkers[0];
-                OnLinkSegmentToMarker(_startSegment, marker.MarkerId);
-            }
-        }
-
-        private void SetEndSegmentLinkedMarker()
-        {
-            if (_loopMarkers.Count == 0)
-            {
-                chkEndSegmentLinkToMarker.Unchecked -= ChkEndSegmentLinkToMarker_OnChecked;
-                chkEndSegmentLinkToMarker.IsChecked = false;
-                chkEndSegmentLinkToMarker.Unchecked += ChkEndSegmentLinkToMarker_OnChecked;
-                MessageBox.Show("There are no markers to link to this segment.", "Cannot link to marker", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            comboEndSegmentMarker.Visibility = chkEndSegmentLinkToMarker.IsChecked.Value ? Visibility.Visible : Visibility.Hidden; //.Hidden = !chkSegmentLinkToMarker.Value;
-            if (chkEndSegmentLinkToMarker.IsChecked.Value && comboEndSegmentMarker.SelectedIndex >= 0)
-            {
-                var marker = _loopMarkers[comboEndSegmentMarker.SelectedIndex];
-                OnLinkSegmentToMarker(_endSegment, marker.MarkerId);
-            }
-            else
-            {
-                OnLinkSegmentToMarker(_endSegment, Guid.Empty);
-            }
-        }
-
-        private void BtnPunchInStartSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (_startSegment == null)
-                return;
-
-            chkStartSegmentLinkToMarker.IsChecked = false;
-            comboStartSegmentMarker.Visibility = Visibility.Hidden;
-            OnPunchInSegment(_startSegment);
-        }
-
-        private void BtnPunchInEndSegment_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (_endSegment == null)
-                return;
-
-            chkEndSegmentLinkToMarker.IsChecked = false;
-            comboEndSegmentMarker.Visibility = Visibility.Hidden;
-            OnPunchInSegment(_endSegment);
-        }
-
         private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
         {
-            if (gridLoopDetails.Visibility == Visibility.Visible)
-            {
-                OnChangingSegmentPosition(segment, positionPercentage);
-            }
-            else
-            {
-                OnChangingLoopSegmentPosition(segment, positionPercentage);
-            }
-
-            // Select the correct segment tab
-            var startSegment = _currentLoop.GetStartSegment();
-            var endSegment = _currentLoop.GetEndSegment();
-            if (startSegment.SegmentId == segment.SegmentId)
-                ShowLoopStartPositionTab();
-            else if (endSegment.SegmentId == segment.SegmentId)
-                ShowLoopEndPositionTab();
+            OnChangingLoopSegmentPosition(segment, positionPercentage);
         }
 
         private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
         {
-            if (gridLoopDetails.Visibility == Visibility.Visible)
-            {
-                OnChangedSegmentPosition(segment, positionPercentage);
-            }
-            else
-            {
-                OnChangedLoopSegmentPosition(segment, positionPercentage);
-            }
-        }
-
-        private void ChangeStartSegment(float percentage, bool mouseUp)
-        {
-            chkStartSegmentLinkToMarker.IsChecked = false;
-            comboStartSegmentMarker.Visibility = Visibility.Hidden;
-            //trackSegmentPosition.ValueWithoutEvent = (int) (percentage*1000f);
-
-            if (mouseUp)
-            {
-                if (OnChangedSegmentPosition != null)
-                    OnChangedSegmentPosition(_startSegment, percentage);
-            }
-            else
-            {                
-                if (OnChangingSegmentPosition != null)
-                    OnChangingSegmentPosition(_startSegment, percentage);
-            }
-        }
-
-        private void ChangeEndSegment(float percentage, bool mouseUp)
-        {
-            chkEndSegmentLinkToMarker.IsChecked = false;
-            comboEndSegmentMarker.Visibility = Visibility.Hidden;
-            //trackSegmentPosition.ValueWithoutEvent = (int) (percentage*1000f);
-
-            if (mouseUp)
-            {
-                if (OnChangedSegmentPosition != null)
-                    OnChangedSegmentPosition(_endSegment, percentage);
-            }
-            else
-            {
-                if (OnChangingSegmentPosition != null)
-                    OnChangingSegmentPosition(_endSegment, percentage);                
-            }
-        }
-
-        private void BtnBackLoopPlayback_OnClick(object sender, RoutedEventArgs e)
-        {
-            gridLoops.Visibility = Visibility.Visible;
-            gridLoopDetails.Visibility = Visibility.Hidden;
-            gridLoopPlayback.Visibility = Visibility.Hidden;
-            //gridSegmentDetails.Visibility = Visibility.Hidden;
+            OnChangedLoopSegmentPosition(segment, positionPercentage);
         }
 
         private void SliderMarkerPosition_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -2138,17 +1897,7 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshLoopMarkers(IEnumerable<Marker> markers)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                _loopMarkers = markers.ToList();
-                comboStartSegmentMarker.Items.Clear();
-                comboEndSegmentMarker.Items.Clear();
-                foreach (var marker in markers)
-                {
-                    comboStartSegmentMarker.Items.Add(marker.Name);
-                    comboEndSegmentMarker.Items.Add(marker.Name);
-                }
-            }));
+            _loopMarkers = markers.ToList();
         }
 
         #endregion
