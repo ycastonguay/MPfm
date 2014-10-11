@@ -22,6 +22,7 @@ namespace Sessions.GenericControls.Controls.Themes
     public class PlaylistListViewTheme
     {
         public BasicColor BackgroundColor { get; set; }
+        public BasicColor SelectedBackgroundColor { get; set; }
         public BasicColor NowPlayingBackgroundColor { get; set; }
         public BasicColor NowPlayingIndicatorBackgroundColor { get; set; }
         public BasicColor TextColor { get; set; }
@@ -36,6 +37,7 @@ namespace Sessions.GenericControls.Controls.Themes
         public PlaylistListViewTheme()
         {
             BackgroundColor = new BasicColor(32, 40, 46);
+            SelectedBackgroundColor = new BasicColor(64, 74, 82);
             NowPlayingBackgroundColor = new BasicColor(135, 235, 135);
             NowPlayingIndicatorBackgroundColor = new BasicColor(25, 150, 25);
             TextColor = new BasicColor(255, 255, 255);

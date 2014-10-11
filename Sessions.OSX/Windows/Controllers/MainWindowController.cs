@@ -260,6 +260,8 @@ namespace Sessions.OSX
             viewMarkerDetailsHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewSongBrowserHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewSongBrowserHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewPlaylistHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewPlaylistHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewUpdateLibraryHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewUpdateLibraryHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewQueueHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
@@ -320,6 +322,7 @@ namespace Sessions.OSX
             lblTitleMarkers.Font = titleFont;
             lblTitleMarkerDetails.Font = titleFont;
             lblTitleSongBrowser.Font = titleFont;
+            lblTitlePlaylist.Font = titleFont;
             lblTitleUpdateLibrary.Font = titleFont;
             lblTitleQueue.Font = titleFont;
 
@@ -349,6 +352,7 @@ namespace Sessions.OSX
             lblReferenceKey.Font = valueFont;
             lblInterval.Font = valueFont;
             lblNewKey.Font = valueFont;
+            lblPlaylistIndexCount.Font = valueFont;
 
             var largePositionFont = NSFont.FromFontName("Roboto Light", 15f);
             lblPosition.Font = largePositionFont;
@@ -398,7 +402,6 @@ namespace Sessions.OSX
             btnToolbarNext.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_next");
             btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_off");
             btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle_off");
-            btnToolbarPlaylist.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_playlist");
             btnToolbarEffects.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_equalizer");
             btnToolbarSync.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_devices");
             btnToolbarSettings.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_preferences");
@@ -594,11 +597,6 @@ namespace Sessions.OSX
         {
             OnPlayerShuffle();        
         }
-
-		partial void actionOpenPlaylistWindow(NSObject sender)
-		{
-            OnOpenPlaylistWindow();
-		}
 
 		partial void actionOpenEffectsWindow(NSObject sender)
 		{
@@ -1533,6 +1531,7 @@ namespace Sessions.OSX
                     lblGenre.StringValue = string.Empty;
                     lblPlayCount.StringValue = string.Empty;
                     lblLastPlayed.StringValue = string.Empty;
+                    lblPlaylistIndexCount.StringValue = string.Empty;
                     lblPosition.StringValue = "0:00.000";
                     lblLength.StringValue = "0:00.000";
                     _currentAlbumArtKey = string.Empty;
@@ -1557,6 +1556,7 @@ namespace Sessions.OSX
                     lblGenre.StringValue = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
                     lblPlayCount.StringValue = string.Format("{0} times played", audioFile.PlayCount);
                     lblLastPlayed.StringValue = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
+                    lblPlaylistIndexCount.StringValue = string.Format("{0} / {1}", playlistIndex, playlistCount);
                     songGridView.NowPlayingAudioFileId = audioFile.Id;
                     LoadAlbumArt(audioFile);
                     waveFormScrollView.SetWaveFormLength(lengthBytes);
@@ -1974,12 +1974,16 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshLoopSegment(Segment segment, long audioFileLength)
+        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
         {
             InvokeOnMainThread(delegate {
                 
                 //tableLoops.ReloadData(NSIndexSet.FromIndex(
             });
+        }
+
+        public void RefreshCurrentlyPlayingLoop(Loop loop)
+        {
         }
 
         #endregion

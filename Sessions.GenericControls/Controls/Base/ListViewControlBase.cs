@@ -252,7 +252,9 @@ namespace Sessions.GenericControls.Controls.Base
             for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {                
                 const float offsetX = 0;
-                float offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight; // compensate for scrollbar position
+                float offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value;
+                if(ShouldDrawHeader())
+                    offsetY += ListCache.LineHeight;
 
                 DrawRowBackground(context, a, offsetY);
                 DrawCells(context, a, offsetX, offsetY);
@@ -319,20 +321,6 @@ namespace Sessions.GenericControls.Controls.Base
             }
         }
 
-//        /// <summary>
-//        /// Clears the currently selected items.
-//        /// </summary>
-//        public void ClearSelectedItems()
-//        {
-//            foreach (var item in Items)
-//            {
-//                if (item.IsSelected)
-//                    item.IsSelected = false;
-//            }
-//
-//            InvalidateVisual();
-//        }
-
         public void ResetSelection()
         {
 //            // Reset selection, unless the CTRL key is held (TODO)
@@ -383,17 +371,6 @@ namespace Sessions.GenericControls.Controls.Base
         {
             int offsetY = (row * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
             InvalidateVisualInRect(new BasicRectangle(HorizontalScrollBar.Value, offsetY, Frame.Width - HorizontalScrollBar.Value, ListCache.LineHeight));
-
-            // Find the position of the line            
-//            for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
-//            {
-//                int offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
-//                if (Items[a].AudioFile.Id == audioFileId)
-//                {
-//                    InvalidateVisualInRect(new BasicRectangle(Columns[0].Width - HorizontalScrollBar.Value, offsetY, Frame.Width - Columns[0].Width + HorizontalScrollBar.Value, ListCache.LineHeight));
-//                    break;
-//                }
-//            }
         }
 
         public virtual void InvalidateCache()
@@ -403,26 +380,11 @@ namespace Sessions.GenericControls.Controls.Base
 
         private void InvalidateListViewCache()
         {
-            // Create cache
-            //GridCache = new GridViewCache();
             ListCache = new ListViewCache();
-
-            // Get active columns and order them
-            //GridCache.ActiveColumns = new List<GridViewColumn>(Columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList());
-
-            //string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
-            //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
-            //var rectText = new BasicRectangle(0, 0, 100, 14);
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
             ListCache.LineHeight = GetRowHeight() + Padding;
             ListCache.TotalHeight = ListCache.LineHeight * GetRowCount();
-
-//            // Check if the total active columns width exceed the width available in the control
-//            GridCache.TotalWidth = 0;
-//            for (int a = 0; a < GridCache.ActiveColumns.Count; a++)
-//                if (GridCache.ActiveColumns[a].Visible)
-//                    GridCache.TotalWidth += GridCache.ActiveColumns[a].Width;
 
             // Calculate the number of lines visible (count out the header, which is one line height)
             ListCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(Frame.Height) / (double)(ListCache.LineHeight));
@@ -436,20 +398,6 @@ namespace Sessions.GenericControls.Controls.Base
             // by the control height because it's not a multiple of line height (i.e. the last line is only partly visible)
             int lastLineHeight = (int)(Frame.Height - (ListCache.LineHeight * ListCache.NumberOfLinesFittingInControl));
             int startLineNumber = Math.Max((int)Math.Floor((double)VerticalScrollBar.Value / (double)(ListCache.LineHeight)), 0);
-
-//            // Check width
-//            if (GridCache.TotalWidth > Frame.Width - VerticalScrollBar.Width)
-//            {
-//                // Set scrollbar values
-//                HorizontalScrollBar.Maximum = GridCache.TotalWidth;
-//                HorizontalScrollBar.SmallChange = 5;
-//                HorizontalScrollBar.LargeChange = (int)Frame.Width;
-//                HorizontalScrollBar.Visible = true;
-//            }
-
-//            // Check if the horizontal scrollbar needs to be turned off
-//            if (GridCache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
-//                HorizontalScrollBar.Visible = false;
 
             // If there are less items than items fitting on screen...            
             if (((ListCache.NumberOfLinesFittingInControl - 1) * ListCache.LineHeight) - HorizontalScrollBar.Height >= ListCache.TotalHeight)
@@ -479,15 +427,20 @@ namespace Sessions.GenericControls.Controls.Base
             ListCache.ScrollBarOffsetY = (startLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
 
             // If both scrollbars need to be visible, the width and height must be changed
+            int verticalScrollBarCompensation = ListCache.LineHeight;
+            if(ShouldDrawHeader())
+                verticalScrollBarCompensation -= ListCache.LineHeight;
+                    
             if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
             {
-                // Cut 16 pixels
-                HorizontalScrollBar.Width = (int)(Frame.Width - 16);
-                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - (ListCache.LineHeight * 2) - 16));
+                // Cut 16 pixels (size of scrollbar)
+                const int scrollBarSize = 16;
+                HorizontalScrollBar.Width = (int)(Frame.Width - scrollBarSize);
+                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - verticalScrollBarCompensation - scrollBarSize));
             }
             else
             {
-                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - (ListCache.LineHeight * 2)));
+                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - verticalScrollBarCompensation));
             }
         }
 
@@ -541,7 +494,6 @@ namespace Sessions.GenericControls.Controls.Base
                     if (selectedIndex == GetRowCount() - 1)
                     {
                         // If we are to select the last item, make sure the item we're selecting is NOT an empty row
-                        //selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
                         for (int a = selectedIndex; a >= 0; a--)
                         {
                             if (!IsRowEmpty(a))
@@ -580,7 +532,6 @@ namespace Sessions.GenericControls.Controls.Base
                     selectedIndex = 0; // First item cannot be empty
                     break;
                 case SpecialKeys.End:
-                    //selectedIndex = Items.FindLastIndex(x => !x.IsEmptyRow);
                     for (int a = GetRowCount() - 1; a >= 0; a--)
                     {
                         if (!IsRowEmpty(a))
@@ -695,8 +646,6 @@ namespace Sessions.GenericControls.Controls.Base
             if (!keysHeld.IsShiftKeyHeld && !keysHeld.IsCtrlKeyHeld)
             {
                 // Make sure the mouse is over at least one item
-                //var mouseOverItem = Items.FirstOrDefault(item => item.IsMouseOverItem == true);
-                //if (mouseOverItem != null)
                 if(MouseOverRowIndex >= 0)
                     ResetSelection();
             }
@@ -706,7 +655,6 @@ namespace Sessions.GenericControls.Controls.Base
             for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
-                //if (Items[a].IsMouseOverItem)
                 if(MouseOverRowIndex == a)
                 {
                     invalidatedNewSelection = true;
@@ -729,7 +677,6 @@ namespace Sessions.GenericControls.Controls.Base
                         // Loop through items to selected
                         for (int b = startIndexSelection; b < endIndexSelection; b++)
                             SelectedIndexes.Add(b);
-                            //Items [b].IsSelected = true;
 
                         controlNeedsToBeFullyInvalidated = true;
                     }                
@@ -737,7 +684,6 @@ namespace Sessions.GenericControls.Controls.Base
                     else if(keysHeld.IsCtrlKeyHeld)
                     {
                         // Invert selection
-                        //Items[a].IsSelected = !Items[a].IsSelected;
                         SelectedIndexes.Remove(a);
                         var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                         partialRect.Merge(newPartialRect);
@@ -746,7 +692,6 @@ namespace Sessions.GenericControls.Controls.Base
                     else
                     {
                         // Set this item as the new selected item
-                        //Items[a].IsSelected = true;
                         SelectedIndexes.Add(a);
                         var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                         partialRect.Merge(newPartialRect);
@@ -762,8 +707,6 @@ namespace Sessions.GenericControls.Controls.Base
             // Raise selected item changed event (if an event is subscribed)
             if (invalidatedNewSelection)
             {
-                //if(SelectedGetRowCount() > 0)
-                //if(SelectedItems.Count > 0)
                 if(SelectedIndexes.Count > 0)
                     SelectedIndexChanged();
                 else
@@ -798,12 +741,10 @@ namespace Sessions.GenericControls.Controls.Base
                 {
                     //Console.WriteLine("SongGridViewControl - MouseMove - Checking for resetting mouse over flag for line {0}", b);
                     // Check if the mouse was over this item
-                    //if (Items[b].IsMouseOverItem)
                     if(MouseOverRowIndex == b)
                     {
                         // Reset flag and invalidate region
                         //Console.WriteLine("SongGridViewControl - MouseMove - Resetting mouse over flag for line {0}", b);
-                        //Items[b].IsMouseOverItem = false;
                         MouseOverRowIndex = -1;
                         break;
                     }
@@ -813,7 +754,8 @@ namespace Sessions.GenericControls.Controls.Base
                 for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
                 {
                     // Calculate offset
-                    offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + ListCache.LineHeight;
+                    int headerHeight = ShouldDrawHeader() ? ListCache.LineHeight : 0;
+                    offsetY = (a * ListCache.LineHeight) - VerticalScrollBar.Value + headerHeight;
                     //Console.WriteLine("SongGridViewControl - MouseMove - Checking for setting mouse over flag for line {0} - offsetY: {1}", a, offsetY);
 
                     // Check if the mouse cursor is over this line (and not already mouse over)
@@ -822,12 +764,9 @@ namespace Sessions.GenericControls.Controls.Base
                         y <= offsetY + ListCache.LineHeight &&
                         !IsRowEmpty(a) &&
                         MouseOverRowIndex != a)
-                        //!Items[a].IsEmptyRow &&
-                        //!Items[a].IsMouseOverItem)
                     {
                         // Set item as mouse over
                         //Console.WriteLine("SongGridViewControl - MouseMove - Mouse is over item {0} {1}/{2}/{3}", a, Items[a].AudioFile.ArtistName, Items[a].AudioFile.AlbumTitle, Items[a].AudioFile.Title);
-                        //Items[a].IsMouseOverItem = true;
                         MouseOverRowIndex = a;
                         break;
                     }
@@ -850,10 +789,8 @@ namespace Sessions.GenericControls.Controls.Base
             {
                 for (int b = StartLineNumber; b < StartLineNumber + NumberOfLinesToDraw; b++)
                 {
-                    //if (Items[b].IsMouseOverItem)
                     if(MouseOverRowIndex == b)
                     {
-                        //Items[b].IsMouseOverItem = false;
                         MouseOverRowIndex = -1;
                         var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((b - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                         partialRect.Merge(newPartialRect);

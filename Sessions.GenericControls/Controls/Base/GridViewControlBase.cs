@@ -143,7 +143,7 @@ namespace Sessions.GenericControls.Controls.Base
         private void InvalidateGridViewCache()
         {
             // Check if columns have been created
-            if (Columns == null || Columns.Count == 0)// || Items == null)
+            if (Columns == null || Columns.Count == 0)
                 return;
 
             // Create cache
@@ -151,10 +151,6 @@ namespace Sessions.GenericControls.Controls.Base
 
             // Get active columns and order them
             GridCache.ActiveColumns = new List<U>(Columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList());
-
-            //string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
-            //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
-            var rectText = new BasicRectangle(0, 0, 100, 14);
 
             // Check if the total active columns width exceed the width available in the control
             GridCache.TotalWidth = 0;

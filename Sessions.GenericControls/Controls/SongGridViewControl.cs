@@ -53,6 +53,7 @@ namespace Sessions.GenericControls.Controls
         private Timer _timerAnimationNowPlaying = null;
         private string _currentAlbumArtKey;
         private bool _nowPlayingSongFound;
+        private BasicPen _penTransparent;
         
         public SongGridViewTheme ExtendedTheme { get; set; }
         public List<SongGridViewItem> Items { get; protected set; }
@@ -125,6 +126,12 @@ namespace Sessions.GenericControls.Controls
             _timerAnimationNowPlaying.Enabled = false;
 
             CreateColumns();
+            CreateDrawingResources();
+        }
+
+        private void CreateDrawingResources()
+        {
+            _penTransparent = new BasicPen();
         }
 
         private void CreateColumns()
@@ -336,8 +343,6 @@ namespace Sessions.GenericControls.Controls
         {
             // Do not call base as we are changing the behavior of this method.
             // We need to make sure we don't draw the background over the album art column
-            var penTransparent = new BasicPen();
-
             int albumArtColumnWidth = Columns[0].Visible ? Columns[0].Width : 0;
             int lineBackgroundWidth = (int)(Frame.Width + HorizontalScrollBar.Value - albumArtColumnWidth);
             if (VerticalScrollBar.Visible)
@@ -347,7 +352,7 @@ namespace Sessions.GenericControls.Controls
             var color = GetRowBackgroundColor(row);
             var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, ListCache.LineHeight + 1);
             var brush = new BasicBrush(color);
-            context.DrawRectangle(rectBackground, brush, penTransparent);
+            context.DrawRectangle(rectBackground, brush, _penTransparent);
         }
 
         protected override BasicColor GetRowBackgroundColor(int row)
@@ -368,7 +373,6 @@ namespace Sessions.GenericControls.Controls
 
         protected override void DrawCell(IGraphicsContext context, int row, int col, float offsetX, float offsetY)
         {
-            var penTransparent = new BasicPen();
             var column = GridCache.ActiveColumns[col];
             var audioFile = Items[row].AudioFile;
             if (column.Title == "Now Playing")
@@ -393,12 +397,12 @@ namespace Sessions.GenericControls.Controls
 
                     // Draw outer circle
                     var brushGradient = new BasicGradientBrush(ExtendedTheme.NowPlayingIndicatorBackgroundColor, ExtendedTheme.NowPlayingIndicatorBackgroundColor, _timerAnimationNowPlayingCount % 360);
-                    context.DrawEllipsis(_rectNowPlaying, brushGradient, penTransparent);
+                    context.DrawEllipsis(_rectNowPlaying, brushGradient, _penTransparent);
 
                     // Draw inner circle
                     var rect = new BasicRectangle((int)iconNowPlayingX + 4, (int)iconNowPlayingY + 4, availableWidthHeight - 8, availableWidthHeight - 8);
                     var brush = new BasicBrush(ExtendedTheme.NowPlayingBackgroundColor);
-                    context.DrawEllipsis(rect, brush, penTransparent);
+                    context.DrawEllipsis(rect, brush, _penTransparent);
                 }
             }
             else if (column.Title == "Album Cover")
@@ -506,7 +510,6 @@ namespace Sessions.GenericControls.Controls
         private void DrawAlbumCoverZone(IGraphicsContext context, int row)
         {
             var pen = new BasicPen();
-            var penTransparent = new BasicPen();
             var brushGradient = new BasicGradientBrush();
             var item = Items[row];
             //string albumTitle = audioFile != null ? audioFile.AlbumTitle : state.CurrentAlbumTitle; // if this is an empty row, keep last album title
@@ -568,7 +571,7 @@ namespace Sessions.GenericControls.Controls
                 // Draw album cover background
                 var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, GridCache.ActiveColumns[0].Width, albumCoverZoneHeight);
                 brushGradient = new BasicGradientBrush(ExtendedTheme.AlbumCoverBackgroundColor, ExtendedTheme.AlbumCoverBackgroundColor, 90);
-                context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
+                context.DrawRectangle(rectAlbumCover, brushGradient, _penTransparent);
 
                 // Measure available width for text
                 int widthAvailableForText = Columns[0].Width - (Theme.Padding * 2);

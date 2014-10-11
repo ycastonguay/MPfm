@@ -127,9 +127,6 @@ namespace Sessions.OSX
 		Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarNext { get; set; }
 
 		[Outlet]
-		Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarPlaylist { get; set; }
-
-		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsRoundButton btnToolbarPlayPause { get; set; }
 
 		[Outlet]
@@ -238,6 +235,9 @@ namespace Sessions.OSX
 		MonoMac.AppKit.NSTextField lblPlayCount { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblPlaylistIndexCount { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblPosition { get; set; }
 
 		[Outlet]
@@ -302,6 +302,9 @@ namespace Sessions.OSX
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleMarkers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitlePlaylist { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleQueue { get; set; }
@@ -455,6 +458,9 @@ namespace Sessions.OSX
 
 		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsView viewPitchShifting { get; set; }
+
+		[Outlet]
+		Sessions.OSX.Classes.Controls.SessionsView viewPlaylistHeader { get; set; }
 
 		[Outlet]
 		Sessions.OSX.Classes.Controls.SessionsView viewQueue { get; set; }
@@ -677,11 +683,6 @@ namespace Sessions.OSX
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (playlistView != null) {
-				playlistView.Dispose ();
-				playlistView = null;
-			}
-
 			if (btnAddLoop != null) {
 				btnAddLoop.Dispose ();
 				btnAddLoop = null;
@@ -872,11 +873,6 @@ namespace Sessions.OSX
 				btnToolbarNext = null;
 			}
 
-			if (btnToolbarPlaylist != null) {
-				btnToolbarPlaylist.Dispose ();
-				btnToolbarPlaylist = null;
-			}
-
 			if (btnToolbarPlayPause != null) {
 				btnToolbarPlayPause.Dispose ();
 				btnToolbarPlayPause = null;
@@ -1020,6 +1016,11 @@ namespace Sessions.OSX
 			if (lblLoopPosition != null) {
 				lblLoopPosition.Dispose ();
 				lblLoopPosition = null;
+			}
+
+			if (lblPlaylistIndexCount != null) {
+				lblPlaylistIndexCount.Dispose ();
+				lblPlaylistIndexCount = null;
 			}
 
 			if (lblMarkerName != null) {
@@ -1167,6 +1168,11 @@ namespace Sessions.OSX
 				lblTitleMarkers = null;
 			}
 
+			if (lblTitlePlaylist != null) {
+				lblTitlePlaylist.Dispose ();
+				lblTitlePlaylist = null;
+			}
+
 			if (lblTitleQueue != null) {
 				lblTitleQueue.Dispose ();
 				lblTitleQueue = null;
@@ -1240,6 +1246,11 @@ namespace Sessions.OSX
 			if (outputMeter != null) {
 				outputMeter.Dispose ();
 				outputMeter = null;
+			}
+
+			if (playlistView != null) {
+				playlistView.Dispose ();
+				playlistView = null;
 			}
 
 			if (progressBarUpdateLibrary != null) {
@@ -1415,6 +1426,11 @@ namespace Sessions.OSX
 			if (viewPitchShifting != null) {
 				viewPitchShifting.Dispose ();
 				viewPitchShifting = null;
+			}
+
+			if (viewPlaylistHeader != null) {
+				viewPlaylistHeader.Dispose ();
+				viewPlaylistHeader = null;
 			}
 
 			if (viewQueue != null) {

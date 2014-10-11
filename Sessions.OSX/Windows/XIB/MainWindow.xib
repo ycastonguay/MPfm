@@ -47,7 +47,6 @@
                 <outlet property="btnToolbarEffects" destination="4QR-o9-0Mi" id="mAf-tc-COx"/>
                 <outlet property="btnToolbarNext" destination="A4S-uT-YB4" id="t8K-kF-CaU"/>
                 <outlet property="btnToolbarPlayPause" destination="ah6-cZ-wm6" id="y6Z-4X-u6g"/>
-                <outlet property="btnToolbarPlaylist" destination="X99-cQ-7p7" id="MDi-ic-bBo"/>
                 <outlet property="btnToolbarPrevious" destination="CzV-nl-8Jg" id="czd-W9-gJv"/>
                 <outlet property="btnToolbarRepeat" destination="v8M-O0-24c" id="2yF-hX-hT8"/>
                 <outlet property="btnToolbarSettings" destination="Yrp-AP-eQP" id="Yei-dG-0Rf"/>
@@ -83,6 +82,7 @@
                 <outlet property="lblNewKey" destination="cSi-dV-5Ya" id="nW2-Tk-gjY"/>
                 <outlet property="lblNewKeyValue" destination="M8H-8p-sOW" id="ir0-N8-7vc"/>
                 <outlet property="lblPlayCount" destination="ccG-KM-7Oq" id="1k7-ha-1KY"/>
+                <outlet property="lblPlaylistIndexCount" destination="E2N-V2-q1Y" id="f22-fj-LuF"/>
                 <outlet property="lblPosition" destination="70" id="72"/>
                 <outlet property="lblQueueDetails" destination="cyF-hL-6Hd" id="vX6-4L-sL1"/>
                 <outlet property="lblReferenceKey" destination="eiF-8g-MxG" id="HAe-ab-Ikq"/>
@@ -106,6 +106,7 @@
                 <outlet property="lblTitleLoops" destination="540" id="547"/>
                 <outlet property="lblTitleMarkerDetails" destination="pbE-Se-pEw" id="ri8-vx-og7"/>
                 <outlet property="lblTitleMarkers" destination="543" id="546"/>
+                <outlet property="lblTitlePlaylist" destination="fak-s4-mlz" id="nXc-JH-jgc"/>
                 <outlet property="lblTitleQueue" destination="JWl-mM-NNZ" id="wWW-Ih-u0N"/>
                 <outlet property="lblTitleSegmentDetails" destination="4ST-Hh-CJR" id="8RC-Iv-HOl"/>
                 <outlet property="lblTitleSegments" destination="ATg-zW-Z9T" id="EA2-MO-VlL"/>
@@ -158,6 +159,7 @@
                 <outlet property="viewMarkersHeader" destination="542" id="782"/>
                 <outlet property="viewNowPlaying" destination="481" id="495"/>
                 <outlet property="viewPitchShifting" destination="713" id="743"/>
+                <outlet property="viewPlaylistHeader" destination="qjZ-Dv-npl" id="W9a-YS-aoh"/>
                 <outlet property="viewQueue" destination="MQj-rR-JmL" id="MEi-et-N4d"/>
                 <outlet property="viewQueueHeader" destination="O2F-xK-YL1" id="tWw-3M-sLE"/>
                 <outlet property="viewRight" destination="30" id="480"/>
@@ -1965,7 +1967,7 @@
                                                                                                 </textFieldCell>
                                                                                             </textField>
                                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                                <rect key="frame" x="378" y="3" width="164" height="22"/>
+                                                                                                <rect key="frame" x="376" y="3" width="164" height="22"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -1990,9 +1992,18 @@
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                         <subviews>
                                                                                             <textField verticalHuggingPriority="750" id="fak-s4-mlz">
-                                                                                                <rect key="frame" x="4" y="3" width="188" height="22"/>
+                                                                                                <rect key="frame" x="4" y="3" width="77" height="22"/>
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Playlist" id="d0Y-Un-AiC">
+                                                                                                    <font key="font" size="13" name="HelveticaNeue-Bold"/>
+                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                                </textFieldCell>
+                                                                                            </textField>
+                                                                                            <textField verticalHuggingPriority="750" id="E2N-V2-q1Y">
+                                                                                                <rect key="frame" x="178" y="3" width="75" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="0 / 0" id="CeA-oE-AyT">
                                                                                                     <font key="font" size="13" name="HelveticaNeue-Bold"/>
                                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2075,29 +2086,22 @@
                                     <action selector="actionShuffle:" target="-2" id="7OK-I7-t08"/>
                                 </connections>
                             </customView>
-                            <customView id="X99-cQ-7p7" customClass="SessionsRoundButton">
-                                <rect key="frame" x="255" y="8" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <action selector="actionOpenPlaylistWindow:" target="-2" id="mtj-bH-7Kf"/>
-                                </connections>
-                            </customView>
                             <customView id="4QR-o9-0Mi" customClass="SessionsRoundButton">
-                                <rect key="frame" x="301" y="8" width="44" height="44"/>
+                                <rect key="frame" x="255" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="actionOpenEffectsWindow:" target="-2" id="NGl-Zo-fHu"/>
                                 </connections>
                             </customView>
                             <customView id="yVd-27-e8w" customClass="SessionsRoundButton">
-                                <rect key="frame" x="346" y="8" width="44" height="44"/>
+                                <rect key="frame" x="300" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="actionOpenSyncWindow:" target="-2" id="Zh3-NP-UGq"/>
                                 </connections>
                             </customView>
                             <customView id="Yrp-AP-eQP" customClass="SessionsRoundButton">
-                                <rect key="frame" x="391" y="8" width="44" height="44"/>
+                                <rect key="frame" x="345" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="actionOpenPreferencesWindow:" target="-2" id="myF-cR-xkk"/>

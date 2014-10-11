@@ -16,16 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Timers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls.Base;
-using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Interaction;
 using Sessions.GenericControls.Wrappers;
@@ -46,6 +38,7 @@ namespace Sessions.GenericControls.Controls
         private readonly IAlbumArtRequestService _albumArtRequestService;
         private readonly IAlbumArtCacheService _albumArtCacheService;
         private Playlist _playlist;
+        private BasicPen _penTransparent;
 
         public PlaylistListViewTheme ExtendedTheme { get; set; }
             
@@ -60,6 +53,8 @@ namespace Sessions.GenericControls.Controls
             _albumArtRequestService = albumArtRequestService;
             _albumArtRequestService.OnAlbumArtExtracted += HandleOnAlbumArtExtracted;
             ExtendedTheme = new PlaylistListViewTheme();
+
+            CreateDrawingResources();
         }
 
         private void HandleOnAlbumArtExtracted(IBasicImage image, AlbumArtRequest request)
@@ -69,6 +64,11 @@ namespace Sessions.GenericControls.Controls
             // TODO: Do proper partial invalidation
             if(image != null)
                 InvalidateVisual();
+        }
+
+        private void CreateDrawingResources()
+        {
+            _penTransparent = new BasicPen();        
         }
 
         public override void InvalidateCache()
@@ -126,7 +126,6 @@ namespace Sessions.GenericControls.Controls
         {
             // Do not call base as we are changing the behavior of this method.
             // We need to make sure we don't draw the background over the album art column
-            var penTransparent = new BasicPen();
 
             int lineBackgroundWidth = (int)(Frame.Width + HorizontalScrollBar.Value);
             if (VerticalScrollBar.Visible)
@@ -136,12 +135,15 @@ namespace Sessions.GenericControls.Controls
             var color = GetRowBackgroundColor(row);
             var rectBackground = new BasicRectangle(HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, ListCache.LineHeight + 1);
             var brush = new BasicBrush(color);
-            context.DrawRectangle(rectBackground, brush, penTransparent);
+            context.DrawRectangle(rectBackground, brush, _penTransparent);
         }
 
         protected override BasicColor GetRowBackgroundColor(int row)
         {
-            return _playlist.CurrentItemIndex == row ? ExtendedTheme.NowPlayingBackgroundColor : ExtendedTheme.BackgroundColor;
+            var color = SelectedIndexes.Contains(row) ? ExtendedTheme.SelectedBackgroundColor : ExtendedTheme.BackgroundColor;
+            if(_playlist.CurrentItemIndex == row)
+                color = ExtendedTheme.NowPlayingBackgroundColor;
+            return color;
         }
 
         protected override void DrawCells(IGraphicsContext context, int row, float offsetX, float offsetY)
