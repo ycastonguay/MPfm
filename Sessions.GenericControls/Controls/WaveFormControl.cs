@@ -532,6 +532,9 @@ namespace Sessions.GenericControls.Controls
 
         private void DrawMarkers(IGraphicsContext context, float cursorHeight)
         {
+            if (_markers == null)
+                return;
+
             for (int a = 0; a < _markers.Count; a++)
             {
                 float xPct = (float)_markers[a].PositionBytes / (float)Length;

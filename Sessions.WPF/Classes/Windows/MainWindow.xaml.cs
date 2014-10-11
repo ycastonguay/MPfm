@@ -30,6 +30,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -682,7 +683,7 @@ namespace Sessions.WPF.Classes.Windows
         }
 
         private void ListViewLoops_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        {            
             EnableLoopButtons(listViewLoops.SelectedIndex >= 0);
 
             if (listViewLoops.SelectedIndex >= 0)
@@ -696,6 +697,27 @@ namespace Sessions.WPF.Classes.Windows
             {
                 scrollViewWaveForm.SetLoop(null);
             }
+
+            foreach (Loop removedItem in e.RemovedItems)
+            {
+                ShowLoopPunchInButtons(_loops.IndexOf(removedItem), false);
+            }
+
+            foreach (Loop addedItem in e.AddedItems)
+            {
+                ShowLoopPunchInButtons(_loops.IndexOf(addedItem), true);
+            }
+        }
+
+        private void ShowLoopPunchInButtons(int row, bool show)
+        {
+            if (row == -1)
+                return;
+
+            UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, row, 2, "btnLoopStartPositionPunchIn", 
+                show ? Visibility.Visible : Visibility.Hidden);
+            UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, row, 3, "btnLoopEndPositionPunchIn",
+                show ? Visibility.Visible : Visibility.Hidden);
         }
 
         private void ListViewLoops_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1658,10 +1680,15 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshLoopSegment(Segment segment, long audioFileLength)
+        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
+                //int row = _loops.IndexOf(loop);
+                //var lblLoopStartPosition = UIHelper.GetControlInsideListViewCellTemplate(listViewLoops, row, 1,
+                //    "lblLoopStartPosition");
+                //var lblLoopEndPosition = UIHelper.GetControlInsideListViewCellTemplate(listViewLoops, row, 1,
+                //    "lblLoopEndPosition");
                 listViewLoops.Items.Refresh();
             }));
         }

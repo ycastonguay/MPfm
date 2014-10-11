@@ -516,7 +516,7 @@
                                                             <ColumnDefinition Width="Auto" />
                                                           </Grid.ColumnDefinitions>
                                                           <TextBlock x:Name="lblLoopStartPosition" Grid.Column="0" Text="{Binding Path=StartPosition}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                                          <Button x:Name="btnLoopStartPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" ToolTip="Punches in the current position" Click="BtnLoopStartPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopStartPositionPunchIn_OnMouseDoubleClick">
+                                                          <Button x:Name="btnLoopStartPositionPunchIn" Grid.Column="1" Visibility="Hidden" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" ToolTip="Punches in the current position" Click="BtnLoopStartPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopStartPositionPunchIn_OnMouseDoubleClick">
                                                             <Image Source="/Resources/Images/Buttons/punch_in.png" Stretch="None" />
                                                           </Button>
                                                         </Grid>
@@ -532,7 +532,7 @@
                                                             <ColumnDefinition Width="Auto" />
                                                           </Grid.ColumnDefinitions>
                                                           <TextBlock x:Name="lblLoopEndPosition" Grid.Column="0" Text="{Binding Path=EndPosition}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                                          <Button x:Name="btnLoopEndPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" ToolTip="Punches in the current position" Click="BtnLoopEndPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopEndPositionPunchIn_OnMouseDoubleClick">
+                                                          <Button x:Name="btnLoopEndPositionPunchIn" Grid.Column="1" Visibility="Hidden" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" ToolTip="Punches in the current position" Click="BtnLoopEndPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopEndPositionPunchIn_OnMouseDoubleClick">
                                                             <Image Source="/Resources/Images/Buttons/punch_in.png" Stretch="None" />
                                                           </Button>
                                                         </Grid>

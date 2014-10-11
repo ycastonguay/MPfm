@@ -283,7 +283,7 @@ namespace Sessions.MVP.Presenters
                     });
                 }
 
-                View.RefreshLoopSegment(segment, _lengthBytes);
+                View.RefreshLoopSegment(_loop, segment, _lengthBytes);
             }
             catch (Exception ex)
             {

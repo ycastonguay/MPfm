@@ -50,12 +50,60 @@ namespace Sessions.WPF.Classes.Helpers
             return null;
         }
 
+        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                {
+                    return (T)child;
+                }
+                else
+                {
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
         public static TreeViewItem VisualUpwardSearch(DependencyObject source)
         {
             while (source != null && !(source is TreeViewItem))
                 source = VisualTreeHelper.GetParent(source);
 
             return source as TreeViewItem;
+        }
+
+        public static void ShowControlInsideListViewCellTemplate(ListView listView, int row, int column, string name, Visibility visibility)
+        {
+            var frameworkElement = GetControlInsideListViewCellTemplate(listView, row, column, name);
+            if (frameworkElement != null)
+                frameworkElement.Visibility = visibility;
+        }
+
+        public static FrameworkElement GetControlInsideListViewCellTemplate(ListView listView, int row, int column, string name)
+        {
+            var gridView = listView.View as GridView;
+            var listViewItem = listView.ItemContainerGenerator.ContainerFromIndex(row);
+            if (listViewItem != null)
+            {
+                var rowPresenter = UIHelper.FindVisualChild<GridViewRowPresenter>(listViewItem);
+                if (rowPresenter != null)
+                {
+                    var templatedParent = VisualTreeHelper.GetChild(rowPresenter, column) as ContentPresenter;
+                    var dataTemplate = gridView.Columns[column].CellTemplate;
+                    if (dataTemplate != null && templatedParent != null)
+                    {
+                        var frameworkElement = dataTemplate.FindName(name, templatedParent) as FrameworkElement;
+                        return frameworkElement;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public static void ListView_PreviewMouseDown_RemoveSelectionIfNotClickingOnAListViewItem(ListView listView, MouseButtonEventArgs e)

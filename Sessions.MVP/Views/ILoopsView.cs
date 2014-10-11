@@ -35,7 +35,7 @@ namespace Sessions.MVP.Views
         Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
     
         void LoopError(Exception ex);
-        void RefreshLoopSegment(Segment segment, long audioFileLength);
+        void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength);
         void RefreshLoops(List<Loop> loops);
 	}
 }
