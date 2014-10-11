@@ -421,6 +421,8 @@ namespace Sessions.GenericControls.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
 			Console.WriteLine("WaveFormControl - LoadPeakFile - filePath: {0}", audioFile.FilePath);
+            _loop = null;
+            _markers = null;
             IsLoading = true;
             IsEmpty = false;
             AudioFile = audioFile;

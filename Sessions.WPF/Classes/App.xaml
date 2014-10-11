@@ -1149,5 +1149,22 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="{x:Type Hyperlink}" TargetType="{x:Type Hyperlink}">
+            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="TextDecorations" Value="Underline"/>
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="/Resources/Fonts/#Roboto Regular" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>   
 </Application>

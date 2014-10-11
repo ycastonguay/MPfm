@@ -32,6 +32,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 using Sessions.Core;
 using Sessions.MVP.Bootstrap;
@@ -860,20 +861,19 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnAddLoop_OnClick(object sender, RoutedEventArgs e)
         {
-            OnAddLoop();
-            //gridLoops.Visibility = Visibility.Hidden;
-            //gridLoopDetails.Visibility = Visibility.Visible;
-            //gridLoopPlayback.Visibility = Visibility.Hidden;
+            AddLoop();
         }
 
-        private void EditLoop()
+        private void LinkAddLoop_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            if (listViewLoops.SelectedIndex < 0 || listViewLoops.SelectedIndex >= _loops.Count)
-                return;
+            AddLoop();
+        }
 
-            OnEditLoop(_loops[listViewLoops.SelectedIndex]);
-            gridLoops.Visibility = Visibility.Hidden;
-
+        private void AddLoop()
+        {
+            OnAddLoop();
+            listViewLoops.Visibility = Visibility.Visible;
+            gridNoLoops.Visibility = Visibility.Hidden;
         }
 
         private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
@@ -1653,6 +1653,8 @@ namespace Sessions.WPF.Classes.Windows
             {
                 listViewLoops.ItemsSource = _loops;
                 listViewLoops.SelectedIndex = _selectedLoopIndex;
+                listViewLoops.Visibility = loops.Count > 0 ? Visibility.Visible : Visibility.Hidden;
+                gridNoLoops.Visibility = loops.Count == 0 ? Visibility.Visible : Visibility.Hidden;
             }));
         }
 
