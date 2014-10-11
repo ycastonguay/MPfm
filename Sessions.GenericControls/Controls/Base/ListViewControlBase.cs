@@ -396,6 +396,9 @@ namespace Sessions.GenericControls.Controls.Base
             // Calculate the number of lines visible (count out the header, which is one line height)
             ListCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(Frame.Height) / (double)(ListCache.LineHeight));
 
+            // Make sure the horizontal scroll bar isn't visible on a list view
+            HorizontalScrollBar.Visible = false;
+
             // Set vertical scrollbar dimensions
             //VerticalScrollBar.Top = _cache.LineHeight;
             //VerticalScrollBar.Left = ClientRectangle.Width - VerticalScrollBar.Width;

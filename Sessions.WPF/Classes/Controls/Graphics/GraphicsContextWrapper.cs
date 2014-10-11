@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -99,6 +100,11 @@ namespace Sessions.WPF.Classes.Controls.Graphics
         public void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen)
         {
             _context.DrawLine(GenericControlHelper.ToPen(pen), GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2));
+        }
+
+        public void DrawLine(List<BasicPoint> points, BasicPen pen, bool isRounded, bool closePath, bool isDashed)
+        {
+            throw new NotImplementedException();
         }
 
         public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)

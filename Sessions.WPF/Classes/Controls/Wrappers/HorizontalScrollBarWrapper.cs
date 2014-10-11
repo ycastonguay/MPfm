@@ -28,7 +28,13 @@ namespace Sessions.WPF.Classes.Controls
     public class HorizontalScrollBarWrapper : ScrollBar, IHorizontalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
-        bool IHorizontalScrollBarWrapper.Visible { get; set; }
+
+        bool IHorizontalScrollBarWrapper.Visible
+        {
+            get { return Visibility == Visibility.Visible; }
+            set { Visibility = value ? Visibility.Visible : Visibility.Hidden; }
+        }
+
         bool IHorizontalScrollBarWrapper.Enabled { get { return IsEnabled; } set { IsEnabled = value; } }
         int IHorizontalScrollBarWrapper.Width { get { return (int)Width; } set { Width = value; } }
         int IHorizontalScrollBarWrapper.Height { get { return (int)Height; } set { Height = value; } }

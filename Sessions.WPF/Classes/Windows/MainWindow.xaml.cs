@@ -109,7 +109,7 @@ namespace Sessions.WPF.Classes.Windows
             InitializeComboBoxes();
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
-            RefreshSongInformation(null, 0, 0, 0);
+            RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
             CreatePlayerNotifyIcon(() =>
             {
                 this.Show();
@@ -1403,7 +1403,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount)
         {
             _selectedMarkerIndex = -1;
             _currentAudioFile = audioFile;

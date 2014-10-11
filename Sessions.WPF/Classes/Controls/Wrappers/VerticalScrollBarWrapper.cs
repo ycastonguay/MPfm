@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using Sessions.GenericControls.Wrappers;
 
@@ -24,7 +25,13 @@ namespace Sessions.WPF.Classes.Controls
     public class VerticalScrollBarWrapper : ScrollBar, IVerticalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
-        bool IVerticalScrollBarWrapper.Visible { get; set; }
+
+        bool IVerticalScrollBarWrapper.Visible
+        {
+            get { return this.Visibility == Visibility.Visible; }
+            set { this.Visibility = value ? Visibility.Visible : Visibility.Hidden; }
+        }
+
         bool IVerticalScrollBarWrapper.Enabled { get { return IsEnabled; } set { IsEnabled = value; } }
         int IVerticalScrollBarWrapper.Width { get { return (int) Width; } set { Width = value; } }
         int IVerticalScrollBarWrapper.Height { get { return (int) Height; } set { Height = value; } }
