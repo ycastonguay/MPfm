@@ -41,8 +41,6 @@ namespace Sessions.OSX.Classes.Controls
         private NSMenu _menuHeader;
         private NSEvent _rightClickEvent;
 
-        //public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
-        //public ObservableCollection<int> SelectedIndexes { get { return _control.SelectedIndexes; } }
         public List<AudioFile> SelectedAudioFiles { get { return _control.SelectedAudioFiles; } }
         public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
 

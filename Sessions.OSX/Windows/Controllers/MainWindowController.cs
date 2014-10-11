@@ -97,7 +97,7 @@ namespace Sessions.OSX
             EnableLoopButtons(false);
             EnableMarkerButtons(false);
             EnableSegmentButtons(false);
-            RefreshSongInformation(null, 0, 0, 0);
+            RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
 
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
@@ -212,6 +212,9 @@ namespace Sessions.OSX
         {
             songGridView.DoubleClick += HandleSongBrowserDoubleClick;
             songGridView.MenuItemClicked += HandleSongGridViewMenuItemClicked;
+
+            playlistView.DoubleClick += HandlePlaylistDoubleClick;
+            playlistView.MenuItemClicked += HandlePlaylistMenuItemClicked;
 
             tableMarkers.WeakDelegate = this;
             tableMarkers.WeakDataSource = this;
@@ -459,14 +462,12 @@ namespace Sessions.OSX
 
         private void HandleSongGridViewMenuItemClicked(SessionsSongGridView.MenuItemType menuItemType)
         {
-            //if (songGridView.SelectedItems.Count == 0)
             if (songGridView.SelectedAudioFiles.Count == 0)
                 return;
 
             switch (menuItemType)
             {
                 case SessionsSongGridView.MenuItemType.PlaySongs:
-                    //AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
                     var audioFile = songGridView.SelectedAudioFiles[0];
                     OnTableRowDoubleClicked(audioFile);
                     break;
@@ -479,6 +480,29 @@ namespace Sessions.OSX
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void HandlePlaylistMenuItemClicked(SessionsPlaylistListView.MenuItemType menuItemType)
+        {
+            if (playlistView.SelectedAudioFiles.Count == 0)
+                return;
+
+            switch (menuItemType)
+            {
+                case SessionsPlaylistListView.MenuItemType.RemoveSongs:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void HandlePlaylistDoubleClick(object sender, EventArgs e)
+        {
+            if (playlistView.SelectedAudioFiles.Count == 0)
+                return;
+
+            var audioFile = playlistView.SelectedAudioFiles[0];
+            OnTableRowDoubleClicked(audioFile);
         }
 
         private void LibraryBrowserTreeNodeSelected(LibraryBrowserEntity entity)
@@ -1396,7 +1420,7 @@ namespace Sessions.OSX
             if(outlineLibraryBrowser.SelectedRow == -1)
                 return;
 
-            LibraryBrowserItem item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
+            var item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
             if(OnTreeNodeDoubleClicked != null)
                 OnTreeNodeDoubleClicked.Invoke(item.Entity);
         }
@@ -1512,7 +1536,7 @@ namespace Sessions.OSX
             });
 		}
 		
-        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount)
         {
             InvokeOnMainThread(() => {
                 if (audioFile == null)
@@ -1556,8 +1580,11 @@ namespace Sessions.OSX
                     lblGenre.StringValue = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
                     lblPlayCount.StringValue = string.Format("{0} times played", audioFile.PlayCount);
                     lblLastPlayed.StringValue = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
-                    lblPlaylistIndexCount.StringValue = string.Format("{0} / {1}", playlistIndex, playlistCount);
+                    lblPlaylistIndexCount.StringValue = string.Format("{0} / {1}", playlistIndex+1, playlistCount);
+
                     songGridView.NowPlayingAudioFileId = audioFile.Id;
+                    playlistView.NowPlayingPlaylistItemId = playlistItemId;
+
                     LoadAlbumArt(audioFile);
                     waveFormScrollView.SetWaveFormLength(lengthBytes);
                     waveFormScrollView.LoadPeakFile(audioFile);

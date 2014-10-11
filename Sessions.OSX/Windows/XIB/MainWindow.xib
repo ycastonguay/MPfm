@@ -2002,7 +2002,7 @@
                                                                                             </textField>
                                                                                             <textField verticalHuggingPriority="750" id="E2N-V2-q1Y">
                                                                                                 <rect key="frame" x="178" y="3" width="75" height="22"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="0 / 0" id="CeA-oE-AyT">
                                                                                                     <font key="font" size="13" name="HelveticaNeue-Bold"/>
                                                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

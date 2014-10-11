@@ -112,7 +112,7 @@ namespace Sessions.MVP.Presenters
             //    Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
             //});
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
-                View.RefreshSongInformation(m.Data.AudioFileStarted, _playerService.CurrentPlaylistItem.LengthBytes, 
+                View.RefreshSongInformation(m.Data.AudioFileStarted, _playerService.CurrentPlaylistItem.Id, _playerService.CurrentPlaylistItem.LengthBytes, 
                         _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
 
                 var markers = _libraryService.SelectMarkers(m.Data.AudioFileStarted.Id);
@@ -134,7 +134,7 @@ namespace Sessions.MVP.Presenters
                         break;
                     case PlayerStatusType.Stopped:
                         _timerOutputMeter.Stop();
-                        View.RefreshSongInformation(null, 0, 0, 0);
+                        View.RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
                         View.RefreshPlayerPosition(new PlayerPosition());
                         break;
                 }
@@ -183,7 +183,7 @@ namespace Sessions.MVP.Presenters
             if (_playerService.IsPlaying)
             {
                 View.RefreshPlaylist(_playerService.CurrentPlaylist);
-                View.RefreshSongInformation(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylistItem.LengthBytes,
+                View.RefreshSongInformation(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylistItem.Id, _playerService.CurrentPlaylistItem.LengthBytes,
                             _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
 
                 var markers = _libraryService.SelectMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
@@ -458,7 +458,7 @@ namespace Sessions.MVP.Presenters
                 _timerSavePlayerStatus.Stop();
                 _playerService.Stop();
 
-			    View.RefreshSongInformation(null, 0, 0, 0);
+			    View.RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
                 View.RefreshPlayerPosition(new PlayerPosition());
             }
             catch(Exception ex)

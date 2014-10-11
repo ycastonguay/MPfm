@@ -58,7 +58,7 @@ namespace Sessions.MVP.Views
         void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled);
 		void RefreshPlayerPosition(PlayerPosition entity);
         void RefreshPlaylist(Playlist playlist);
-		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
+		void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshActiveMarker(Guid markerId);
         void RefreshMarkerPosition(Marker marker);

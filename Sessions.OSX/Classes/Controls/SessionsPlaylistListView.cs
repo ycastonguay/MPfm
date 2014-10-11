@@ -21,13 +21,13 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using Sessions.OSX.Classes.Controls.Graphics;
-using Sessions.OSX.Classes.Controls.Helpers;
+using Sessions.GenericControls.Controls;
+using Sessions.GenericControls.Services.Interfaces;
 using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
-using Sessions.GenericControls.Services.Interfaces;
-using Sessions.GenericControls.Controls;
 using Sessions.Sound.Playlists;
+using Sessions.OSX.Classes.Controls.Graphics;
+using Sessions.OSX.Classes.Controls.Helpers;
 
 namespace Sessions.OSX.Classes.Controls
 {
@@ -38,11 +38,10 @@ namespace Sessions.OSX.Classes.Controls
         private HorizontalScrollBarWrapper _horizontalScrollBar;
         private VerticalScrollBarWrapper _verticalScrollBar;
         private NSMenu _menuItems;
-        private NSMenu _menuHeader;
         private NSEvent _rightClickEvent;
 
-        //public List<PlaylistListViewItem> SelectedItems { get { return _control.SelectedItems; } }
-        //public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
+        public List<AudioFile> SelectedAudioFiles { get { return _control.SelectedAudioFiles; } }
+        public Guid NowPlayingPlaylistItemId { get { return _control.NowPlayingPlaylistItemId; } set { _control.NowPlayingPlaylistItemId = value; } }
 
         //public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
@@ -92,12 +91,9 @@ namespace Sessions.OSX.Classes.Controls
             { 
                 switch (contextMenuType)
                 {
-//                    case SongGridViewControl.ContextMenuType.Item:
-//                        NSMenu.PopUpContextMenu(_menuItems, _rightClickEvent, this);
-//                        break;
-//                    case SongGridViewControl.ContextMenuType.Header:
-//                        NSMenu.PopUpContextMenu(_menuHeader, _rightClickEvent, this);
-//                        break;
+                    case PlaylistListViewControl.ContextMenuType.Item:
+                        NSMenu.PopUpContextMenu(_menuItems, _rightClickEvent, this);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -112,29 +108,15 @@ namespace Sessions.OSX.Classes.Controls
 
         private void CreateContextualMenu()
         {
-            _menuItems = new NSMenu("Song Browser");
-            var menuItemPlaySong = new NSMenuItem("Play song(s)", PlaySongs);
-            var menuItemAddToPlaylist = new NSMenuItem("Add to playlist", AddToPlaylist);
+            _menuItems = new NSMenu("Playlist");
+            var menuItemRemoveSongs = new NSMenuItem("Remove song(s)", RemoveSongs);
 
-            _menuItems.AddItem(menuItemPlaySong);
-            _menuItems.AddItem(menuItemAddToPlaylist);
-
-            _menuHeader = new NSMenu();
-//            foreach (var column in _control.Columns)
-//            {
-//                var menuItem = new NSMenuItem(column.FieldName);
-//                _menuHeader.AddItem(menuItem);
-//            }
+            _menuItems.AddItem(menuItemRemoveSongs);
         }
 
-        private void AddToPlaylist(object sender, EventArgs args)
+        private void RemoveSongs(object sender, EventArgs args)
         {
-            MenuItemClicked(MenuItemType.AddToPlaylist);
-        }
-
-        private void PlaySongs(object sender, EventArgs args)
-        {
-            MenuItemClicked(MenuItemType.PlaySongs);
+            MenuItemClicked(MenuItemType.RemoveSongs);
         }
 
         private void FrameDidChangeNotification(NSNotification notification)
@@ -254,8 +236,7 @@ namespace Sessions.OSX.Classes.Controls
 
         public enum MenuItemType
         {
-            PlaySongs = 0,
-            AddToPlaylist = 1
+            RemoveSongs = 0
         }
     }
 }

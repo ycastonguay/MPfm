@@ -27,6 +27,8 @@ using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Controls.Themes;
 using Sessions.Sound.Playlists;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Sessions.GenericControls.Controls
 {
@@ -41,6 +43,34 @@ namespace Sessions.GenericControls.Controls
         private BasicPen _penTransparent;
 
         public PlaylistListViewTheme ExtendedTheme { get; set; }
+
+        private Guid _nowPlayingPlaylistItemId = Guid.Empty;
+        [Browsable(false)]
+        public Guid NowPlayingPlaylistItemId
+        {
+            get
+            {
+                return _nowPlayingPlaylistItemId;
+            }
+            set
+            {
+                var oldValue = _nowPlayingPlaylistItemId;
+                _nowPlayingPlaylistItemId = value;
+                InvalidateRow(oldValue, _nowPlayingPlaylistItemId);
+            }
+        }
+        public List<AudioFile> SelectedAudioFiles
+        {
+            get
+            {
+                var audioFiles = new List<AudioFile>();
+                foreach (int index in SelectedIndexes)
+                {
+                    audioFiles.Add(_playlist.Items[index].AudioFile);
+                }
+                return audioFiles;
+            }
+        }
             
         /// <summary>
         /// Default constructor for SongGridView.
@@ -153,7 +183,7 @@ namespace Sessions.GenericControls.Controls
 
         protected override void DrawCell(IGraphicsContext context, int row, int col, float offsetX, float offsetY)
         {
-            int heightWithPadding = GetRowHeight() - Theme.Padding / 2;
+            int heightWithPadding = GetRowHeight();// - Theme.Padding / 2;
             var audioFile = _playlist.Items[row].AudioFile;
             //Console.WriteLine("PlaylistListView - DrawCell - row: {0}", row);
 
@@ -193,19 +223,19 @@ namespace Sessions.GenericControls.Controls
             }
 
             // Display album cover
-            var rectAlbumCoverArt = new BasicRectangle(Theme.Padding, offsetY + Theme.Padding, heightWithPadding - Theme.Padding * 2, heightWithPadding - Theme.Padding * 2);
+            var rectAlbumCoverArt = new BasicRectangle(Theme.Padding, offsetY + Theme.Padding, heightWithPadding - Theme.Padding, heightWithPadding - Theme.Padding);
             if (imageAlbumCover != null)
             {
                 context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, imageAlbumCover.ImageSize.Width, imageAlbumCover.ImageSize.Height), imageAlbumCover.Image);
             }
 
             float textX = imageAlbumCover != null ? offsetX + Theme.Padding + heightWithPadding : offsetX + Theme.Padding;
-            var rectArtistName = new BasicRectangle(textX, offsetY + (Theme.Padding / 4), Frame.Width, 16);
-            var rectAlbumTitle = new BasicRectangle(textX, rectArtistName.Bottom + (Theme.Padding / 4), Frame.Width, 14);
-            var rectSongTitle = new BasicRectangle(textX, rectAlbumTitle.Bottom + (Theme.Padding / 4), Frame.Width, 12);
-            context.DrawText(audioFile.ArtistName, rectArtistName, ExtendedTheme.TextColor, ExtendedTheme.ArtistNameFontName, ExtendedTheme.ArtistNameFontSize);
-            context.DrawText(audioFile.AlbumTitle, rectAlbumTitle, ExtendedTheme.TextColor, ExtendedTheme.AlbumTitleFontName, ExtendedTheme.AlbumTitleFontSize);
-            context.DrawText(audioFile.Title, rectSongTitle, ExtendedTheme.TextColor, ExtendedTheme.SongTitleFontName, ExtendedTheme.SongTitleFontSize);
+            var rectArtistNameAlbumTitle = new BasicRectangle(textX, offsetY + (Theme.Padding / 3), Frame.Width, 16);
+            var rectSongTitle = new BasicRectangle(textX, rectArtistNameAlbumTitle.Bottom + (Theme.Padding / 4), Frame.Width, 13);
+            var rectLength = new BasicRectangle(textX, rectSongTitle.Bottom + (Theme.Padding / 4), Frame.Width, 11);
+            context.DrawText(string.Format("{0} / {1}", audioFile.ArtistName, audioFile.AlbumTitle), rectArtistNameAlbumTitle, ExtendedTheme.ArtistNameAlbumTitleTextColor, ExtendedTheme.ArtistNameAlbumTitleFontName, ExtendedTheme.ArtistNameAlbumTitleFontSize);
+            context.DrawText(audioFile.Title, rectSongTitle, ExtendedTheme.SongTitleTextColor, ExtendedTheme.SongTitleFontName, ExtendedTheme.SongTitleFontSize);
+            context.DrawText(audioFile.Length, rectLength, ExtendedTheme.LengthTextColor, ExtendedTheme.LengthFontName, ExtendedTheme.LengthFontSize);
         }
 
         protected override string GetCellContent(int row, int col, string fieldName)
@@ -271,6 +301,10 @@ namespace Sessions.GenericControls.Controls
         public override void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             base.MouseClick(x, y, button, keysHeld);
+
+            // Show context menu strip if the button click is right and not the album art column
+            if (button == MouseButtonType.Right)
+                DisplayContextMenu(ContextMenuType.Item, x, y);
         }
 
         public override void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
@@ -298,7 +332,6 @@ namespace Sessions.GenericControls.Controls
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
-                //else if (Items[a].AudioFile != null && Items[a].AudioFile.Id == originalId)
                 else if(_playlist.Items[a].AudioFile != null && _playlist.Items[a].Id == originalId)
                 {
                     var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
@@ -318,18 +351,13 @@ namespace Sessions.GenericControls.Controls
 
         #endregion
 
-        /// <summary>
-        /// Invalidates a row (useful for updating currently playing song).
-        /// </summary>
-        /// <param name="oldAudioFileId">Old audio file identifier.</param>
-        /// <param name="newAudioFileId">New audio file identifier.</param>
-        private void InvalidateRow(Guid oldAudioFileId, Guid newAudioFileId)
+        private void InvalidateRow(Guid oldPlaylistId, Guid newPlaylistId)
         {
             if (ListCache == null)
                 return;
 
-            int oldIndex = _playlist.Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == oldAudioFileId);
-            int newIndex = _playlist.Items.FindIndex(x => x.AudioFile != null && x.AudioFile.Id == newAudioFileId);
+            int oldIndex = _playlist.Items.FindIndex(x => x.Id == oldPlaylistId);
+            int newIndex = _playlist.Items.FindIndex(x => x.Id == newPlaylistId);
             int scrollbarOffsetY = (StartLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
             int firstIndex = oldIndex < newIndex ? oldIndex : newIndex;
             int secondIndex = newIndex > oldIndex ? newIndex : oldIndex;
@@ -362,7 +390,7 @@ namespace Sessions.GenericControls.Controls
 
             if (finalHeight > 0)
             {
-                int headerHeight = ListCache.LineHeight;
+                int headerHeight = ShouldDrawHeader() ? ListCache.LineHeight : 0;
                 var rect = new BasicRectangle(0, finalY + headerHeight, Frame.Width, finalHeight);
                 //Console.WriteLine("SongGridViewControl - InvalidateRow - rect: {0} nowPlayingIndex: {1} startLineNumber: {2} numberOfLinesToDraw: {3} scrollbarOffsetY: {4}", rect, oldIndex, _startLineNumber, _numberOfLinesToDraw, scrollbarOffsetY);
                 InvalidateVisualInRect(rect);

@@ -44,7 +44,7 @@ namespace Sessions.OSX.Classes.Controls.Helpers
 
         public static NSColor ToNSColor(BasicColor color)
         {
-            return NSColor.FromDeviceRgba(color.R, color.G, color.B, color.A);
+            return NSColor.FromDeviceRgba(color.R/255f, color.G/255f, color.B/255f, color.A/255f);
         }
 
         public static CGColor ToCGColor(BasicColor color)
