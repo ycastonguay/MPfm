@@ -92,6 +92,20 @@ namespace Sessions.OSX.Classes.Controls.Graphics
             CoreGraphicsHelper.DrawLine(Context, new List<PointF>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness, true, false);
         }
 
+        public void DrawLine(List<BasicPoint> points, BasicPen pen, bool isRounded, bool closePath, bool isDashed)
+        {
+            var pts = new List<PointF>();
+            foreach (var point in points)
+            {
+                pts.Add(GenericControlHelper.ToPoint(point));
+            }
+
+            if(isRounded)
+                CoreGraphicsHelper.DrawRoundedLine(Context, pts, GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness, closePath, isDashed);
+            else
+                CoreGraphicsHelper.DrawLine(Context, pts, GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness, closePath, isDashed);
+        }
+
         public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)
         {
             // TODO: Add pen

@@ -180,5 +180,6 @@
     <Compile Include="Controls\PlaylistListViewControl.cs" />
     <Compile Include="Controls\Items\PlaylistListViewItem.cs" />     
         <Compile Include="Controls\Themes\PlaylistListViewTheme.cs" /> 
+    <Compile Include="Controls\EqualizerPresetGraphControl.cs" />        
   </ItemGroup>
 </Project>

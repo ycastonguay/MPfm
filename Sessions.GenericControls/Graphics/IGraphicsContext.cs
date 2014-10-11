@@ -17,6 +17,7 @@
 
 using System;
 using Sessions.GenericControls.Basics;
+using System.Collections.Generic;
 
 namespace Sessions.GenericControls.Graphics
 {
@@ -40,6 +41,7 @@ namespace Sessions.GenericControls.Graphics
         void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen);
+        void DrawLine(List<BasicPoint> points, BasicPen pen, bool isRounded, bool closePath, bool isDashed);
         void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen);
         void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize);
         void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize);
