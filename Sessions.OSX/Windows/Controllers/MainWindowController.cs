@@ -47,18 +47,20 @@ namespace Sessions.OSX
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
-        LibraryBrowserEntity _currentLibraryBrowserEntity;
-        string _currentAlbumArtKey;
-        bool _isPlayerPositionChanging = false;
-        bool _isScrollViewWaveFormChangingSecondaryPosition = false;
-        List<Marker> _markers = new List<Marker>();
-        List<Loop> _loops = new List<Loop>();
-        List<Marker> _segmentMarkers = new List<Marker>();
-        Marker _currentMarker;
-        Loop _currentLoop;
-        Segment _currentSegment;
-        LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
-		LibraryBrowserDataSource _libraryBrowserDataSource = null;
+        private LibraryBrowserEntity _currentLibraryBrowserEntity;
+        private string _currentAlbumArtKey;
+        private bool _isPlayerPositionChanging = false;
+        private bool _isScrollViewWaveFormChangingSecondaryPosition = false;
+        private List<Marker> _markers = new List<Marker>();
+        private List<Loop> _loops = new List<Loop>();
+        private List<Marker> _segmentMarkers = new List<Marker>();
+        private Marker _currentMarker;
+        private Loop _currentLoop;
+        private Segment _currentSegment;
+        private PlayerStatusType _playerStatus;
+        private LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
+        private LibraryBrowserDataSource _libraryBrowserDataSource = null;
+        private NSObject _eventMonitor;
 
 		public MainWindowController(IntPtr handle) 
             : base (handle)
@@ -67,14 +69,14 @@ namespace Sessions.OSX
 
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
-            this.Window.AlphaValue = 0;
+            Window.AlphaValue = 0;
             ShowWindowCentered();
 
             // Fade in main window
-            NSMutableDictionary dict = new NSMutableDictionary();
+            var dict = new NSMutableDictionary();
             dict.Add(NSViewAnimation.TargetKey, Window);
             dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
-            NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
+            var anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
             anim.Duration = 0.25f;
             anim.StartAnimation();
         }
@@ -98,6 +100,11 @@ namespace Sessions.OSX
             EnableMarkerButtons(false);
             EnableSegmentButtons(false);
             RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
+            SetupLocalEventMonitorForKeys();
+
+            // Make sure the text field doesn't trigger local event monitor
+            searchSongBrowser.EditingBegan += (sender, e) => RemoveLocalEventMonitorForKeys();
+            searchSongBrowser.EditingEnded += (sender, e) => SetupLocalEventMonitorForKeys();
 
             splitMain.Delegate = new MainSplitViewDelegate();
             splitMain.PostsBoundsChangedNotifications = true;
@@ -115,6 +122,34 @@ namespace Sessions.OSX
 
             OnViewReady(this);
 		}
+
+        private void SetupLocalEventMonitorForKeys()
+        {
+            var localEventHandler = new LocalEventHandler((ev) => {
+                // Make sure this is a key down, and this comes from this window
+                if(ev.Type == NSEventType.KeyDown && ev.Window == this.Window)
+                {
+                    //Console.WriteLine("LocalEventMonitor -- keyDown keycode: {0} locationInWindow: {1}", ev.KeyCode, ev.LocationInWindow);
+
+                    // Check for space bar
+                    if(ev.KeyCode == 49)
+                    {
+                        if(_playerStatus == PlayerStatusType.Stopped)
+                            OnPlayerPlay();
+                        else if(_playerStatus != PlayerStatusType.Initialized)
+                            OnPlayerPause();
+                    } 
+                }
+                return ev; // this processes the event instead of ignoring it
+            });
+
+            _eventMonitor = NSEvent.AddLocalMonitorForEventsMatchingMask(NSEventMask.KeyDown, localEventHandler);
+        }
+
+        private void RemoveLocalEventMonitorForKeys()
+        {
+            NSEvent.RemoveMonitor(_eventMonitor);
+        }
 
         private void HidePanels()
         {
@@ -1487,6 +1522,7 @@ namespace Sessions.OSX
         public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
         {
             Console.WriteLine("RefreshPlayerStatus - Status: {0} - RepeatType: {1} - IsShuffleEnabled: {2}", status, repeatType, isShuffleEnabled);
+            _playerStatus = status;
             InvokeOnMainThread(() => {
                 switch (status)
                 {

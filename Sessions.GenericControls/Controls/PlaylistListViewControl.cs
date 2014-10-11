@@ -57,6 +57,8 @@ namespace Sessions.GenericControls.Controls
                 var oldValue = _nowPlayingPlaylistItemId;
                 _nowPlayingPlaylistItemId = value;
                 InvalidateRow(oldValue, _nowPlayingPlaylistItemId);
+                int index = _playlist.Items.FindIndex(x => x.Id == _nowPlayingPlaylistItemId);
+                ScrollToRow(index);
             }
         }
         public List<AudioFile> SelectedAudioFiles

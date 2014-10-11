@@ -44,7 +44,8 @@ namespace Sessions.GenericControls.Controls.Themes
 
             BackgroundColor = new BasicColor(32, 40, 46);
             SelectedBackgroundColor = new BasicColor(64, 74, 82);
-            NowPlayingBackgroundColor = new BasicColor(135, 235, 135);
+            //NowPlayingBackgroundColor = new BasicColor(135, 235, 135);
+            NowPlayingBackgroundColor = new BasicColor(107, 120, 130);
             NowPlayingIndicatorBackgroundColor = new BasicColor(25, 150, 25);
 
             ArtistNameAlbumTitleFontName = "Roboto Light";

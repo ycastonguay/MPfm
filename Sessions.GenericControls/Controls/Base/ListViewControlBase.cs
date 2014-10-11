@@ -111,6 +111,13 @@ namespace Sessions.GenericControls.Controls.Base
             VerticalScrollBar.OnScrollValueChanged += (sender, args) => InvalidateVisual();
         }
 
+        public void ScrollToRow(int row)
+        {
+            float offsetY = (row * ListCache.LineHeight);
+            Console.WriteLine("ListViewControlBase - ScrollToRow - row: {0} - offsetY: {1}", row, offsetY);
+            VerticalScrollBar.Value = (int)offsetY;
+        }
+
         protected void SelectedIndexChanged()
         {
             if (OnSelectedIndexChanged != null)
