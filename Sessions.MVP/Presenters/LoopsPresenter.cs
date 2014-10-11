@@ -174,6 +174,16 @@ namespace Sessions.MVP.Presenters
 
         private void SelectLoop(Loop loop)
         {
+            // If there is a loop currently playing, stop the current loop
+            if (_loop != null && _loop.LoopId != loop.LoopId)
+            {
+                if (_playerService.IsPlayingLoop && _playerService.Loop.LoopId == _loop.LoopId)
+                {
+                    _playerService.StopLoop();
+                    View.RefreshCurrentlyPlayingLoop(null);
+                }
+            }
+
             _loop = loop;
             _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
             _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
@@ -204,10 +214,16 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if(_playerService.IsPlayingLoop)
+                if (_playerService.IsPlayingLoop)
+                {
                     _playerService.StopLoop();
+                    View.RefreshCurrentlyPlayingLoop(null);
+                }
                 else
+                {
                     _playerService.StartLoop(loop);
+                    View.RefreshCurrentlyPlayingLoop(loop);
+                }
             } 
             catch (Exception ex)
             {

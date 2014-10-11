@@ -329,7 +329,6 @@
     <Resource Include="Resources\Images\Buttons\reset.png" />
     <Resource Include="Resources\Images\Buttons\save.png" />
     <Resource Include="Resources\Images\Buttons\speaker.png" />
-    <Resource Include="Resources\Images\Buttons\stop.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Toolbar\play.png" />
@@ -467,6 +466,18 @@
   <ItemGroup>
     <Resource Include="Resources\Images\Buttons\punch_in_white.png" />
     <Resource Include="Resources\Images\Buttons\punch_in_white_hr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\speaker.png" />
+    <Resource Include="Resources\Images\Icons\speaker_hr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\speakerwithpadding.png" />
+    <Resource Include="Resources\Images\Icons\speakerwithpadding_hr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\stop.png" />
+    <Resource Include="Resources\Images\Buttons\stop_hr.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -709,6 +709,15 @@ namespace Sessions.WPF.Classes.Windows
             }
         }
 
+        private void ListViewLoops_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (_currentLoop != null && _selectedLoopIndex >= 0)
+                    PlayOrStopCurrentLoop();
+            }
+        }
+
         private void ShowLoopPunchInButtons(int row, bool show)
         {
             if (row == -1)
@@ -727,7 +736,6 @@ namespace Sessions.WPF.Classes.Windows
                 e.OriginalSource.GetType().Name == "Image")
                 return;
 
-            //EditLoop();
             if(_currentLoop != null && _selectedLoopIndex >= 0)
                 PlayOrStopCurrentLoop();
         }
@@ -1691,6 +1699,29 @@ namespace Sessions.WPF.Classes.Windows
                 //    "lblLoopEndPosition");
                 listViewLoops.Items.Refresh();
             }));
+        }
+
+        public void RefreshCurrentlyPlayingLoop(Loop loop)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                // Remove state for other loops
+                for (int i = 0; i < _loops.Count; i++)
+                {
+                    UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, i, 0, "imageLoopPlaying",
+                        Visibility.Hidden);
+                }
+
+                // Set currently playing loop
+                if (loop != null)
+                {
+                    int index = _loops.FindIndex(x => x.LoopId == loop.LoopId);
+                    UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, index, 0, "imageLoopPlaying",
+                        Visibility.Visible);
+                }
+
+                SetPlayLoopButtonState(loop != null);
+            }));            
         }
 
         #endregion

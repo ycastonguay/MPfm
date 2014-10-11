@@ -36,6 +36,7 @@ namespace Sessions.MVP.Views
     
         void LoopError(Exception ex);
         void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength);
+	    void RefreshCurrentlyPlayingLoop(Loop loop);
         void RefreshLoops(List<Loop> loops);
 	}
 }

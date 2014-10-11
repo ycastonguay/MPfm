@@ -476,13 +476,13 @@
                                           <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />
                                           <controls:HeaderImageButton Grid.Column="3" x:Name="btnRemoveLoop" Title="" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                       </Grid>
-                                      <ListView Grid.Row="1" x:Name="listViewLoops" Visibility="Hidden" SelectionChanged="ListViewLoops_OnSelectionChanged" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick">
+                                      <ListView Grid.Row="1" x:Name="listViewLoops" Visibility="Hidden" SelectionChanged="ListViewLoops_OnSelectionChanged" PreviewMouseDown="ListViewLoops_OnPreviewMouseDown" MouseDoubleClick="ListViewLoops_OnMouseDoubleClick" KeyDown="ListViewLoops_OnKeyDown">
                                           <ListView.View>
                                               <GridView>
-                                                  <controls:FixedWidthColumn Header="" FixedWidth="26">
+                                                  <controls:FixedWidthColumn Header="" FixedWidth="28">
                                                       <GridViewColumn.CellTemplate>
                                                           <DataTemplate>
-                                                              <TextBlock Text="{Binding Path=Index}" Margin="0" Padding="4,2,4,2" Background="Blue" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                              <Image x:Name="imageLoopPlaying" Source="/Resources/Images/Icons/speakerwithpadding.png" Stretch="None" Width="16" Height="16" Margin="0" Opacity="0.7" Visibility="Hidden" />
                                                           </DataTemplate>
                                                       </GridViewColumn.CellTemplate>
                                                   </controls:FixedWidthColumn>
