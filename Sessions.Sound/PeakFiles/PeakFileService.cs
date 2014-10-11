@@ -26,6 +26,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.Sound.BassNetWrapper;
 using System.Linq;
 using Sessions.Core;
+using Sessions.Core.Helpers;
 
 namespace Sessions.Sound.PeakFiles
 {
@@ -34,11 +35,6 @@ namespace Sessions.Sound.PeakFiles
     /// </summary>
     public class PeakFileService : IPeakFileService
     {
-//#if ANDROID
-//        bool _useFloatingPoint = false;
-//#else
-//        bool _useFloatingPoint = true;
-//#endif
         bool _useFloatingPoint = false;
 
         Task _currentTask;
@@ -91,12 +87,7 @@ namespace Sessions.Sound.PeakFiles
         /// <param name="peakFilePath">Peak file path</param>
         public void GeneratePeakFile(string audioFilePath, string peakFilePath)
         {
-#if ANDROID
             int[] buffer = null;
-#else
-            float[] buffer = null;
-#endif
-
             bool cancelled = false;
             FileStream fileStream = null;
             BinaryWriter binaryWriter = null;
@@ -153,12 +144,7 @@ namespace Sessions.Sound.PeakFiles
 
                     // Create buffer
                     data = Marshal.AllocHGlobal(chunkSize);
-
-#if ANDROID
                     buffer = new int[chunkSize];
-#else
-                    buffer = new float[chunkSize];
-#endif
 
                     // Is an event binded to OnProcessData?
                     if (OnProcessStarted != null)
@@ -210,13 +196,11 @@ namespace Sessions.Sound.PeakFiles
                             }
                             else
                             {
-#if ANDROID
                                 // Get left/right channel values
                                 short leftValue = Base.LowWord(buffer[a]);
                                 short rightValue = Base.HighWord(buffer[a]);
                                 floatLeft[a/2] = (float)leftValue / (float)Int16.MaxValue;
                                 floatRight[a/2] = (float)rightValue / (float)Int16.MaxValue;
-#endif
                             }
                         }
 
@@ -414,7 +398,7 @@ namespace Sessions.Sound.PeakFiles
         public static string GetPeakFilePathForAudioFileAndCreatePeakFileDirectory(AudioFile audioFile)
         {
             // Check if the peak file subfolder exists
-            string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
+            string peakFileFolder = Path.Combine(PathHelper.PeakFileDirectory, "PeakFiles");
             if (!Directory.Exists(peakFileFolder))
             {
                 try
