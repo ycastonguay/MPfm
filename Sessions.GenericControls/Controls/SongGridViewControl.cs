@@ -757,7 +757,7 @@ namespace Sessions.GenericControls.Controls
             // Loop through visible lines
             for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
             {
-                if (Items[a].IsMouseOverItem)
+                if (MouseOverRowIndex == a)
                 {
                     // Set this item as the new now playing
                     _nowPlayingAudioFileId = Items[a].AudioFile.Id;

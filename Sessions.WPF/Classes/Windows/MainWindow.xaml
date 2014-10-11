@@ -50,7 +50,6 @@
                 <MenuItem Header="_Windows">
                     <MenuItem x:Name="miWindows_Sync" Header="Devices" Click="MenuItem_Click" />
                     <MenuItem x:Name="miWindows_Effects" Header="Effects" Click="MenuItem_Click" />
-                    <MenuItem x:Name="miWindows_Playlist" Header="Playlist" Click="MenuItem_Click" />
                     <MenuItem x:Name="miWindows_Preferences" Header="Preferences" Click="MenuItem_Click" />
                     <MenuItem x:Name="miWindows_SyncWebBrowser" Header="Web Interface" Click="MenuItem_Click" />
                 </MenuItem>
@@ -96,19 +95,16 @@
                         <Image x:Name="imageShuffle" Source="/Resources/Images/Toolbar/shuffle_off.png" Stretch="None" />
                     </Button>
                     <StackPanel Grid.Column="5"></StackPanel>
-                    <Button Grid.Column="6" x:Name="btnPlaylist" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Playlist window." Click="BtnToolbar_OnClick">
-                        <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" />
-                    </Button>
-                    <Button Grid.Column="7" x:Name="btnEffects" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Effects window." Click="BtnToolbar_OnClick">
+                    <Button Grid.Column="6" x:Name="btnEffects" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Effects window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" />
                     </Button>
-                    <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
+                    <Button Grid.Column="7" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/devices.png" Stretch="None" />
                     </Button>
-                    <Button Grid.Column="9" x:Name="btnSyncCloud" Visibility="Collapsed" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
+                    <Button Grid.Column="8" x:Name="btnSyncCloud" Visibility="Collapsed" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
                     </Button>
-                    <Button Grid.Column="10" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
+                    <Button Grid.Column="9" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
                         <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" />
                     </Button>
                 </Grid>
@@ -522,7 +518,7 @@
                                                               <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
                                                             <TextBlock x:Name="lblLoopStartPosition" Grid.Column="0" Text="{Binding Path=StartPosition}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                                            <Button x:Name="btnLoopStartPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" Click="BtnLoopStartPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopStartPositionPunchIn_OnMouseDoubleClick">
+                                                            <Button x:Name="btnLoopStartPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" ToolTip="Punches in the current position" Click="BtnLoopStartPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopStartPositionPunchIn_OnMouseDoubleClick">
                                                               <Image Source="/Resources/Images/Buttons/punch_in.png" Stretch="None" />
                                                             </Button>
                                                           </Grid>
@@ -538,7 +534,7 @@
                                                               <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
                                                             <TextBlock x:Name="lblLoopEndPosition" Grid.Column="0" Text="{Binding Path=EndPosition}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                                            <Button x:Name="btnLoopEndPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" Click="BtnLoopEndPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopEndPositionPunchIn_OnMouseDoubleClick">
+                                                            <Button x:Name="btnLoopEndPositionPunchIn" Grid.Column="1" Style="{StaticResource TableViewButton}" Width="16" Height="16" Margin="0" ToolTip="Punches in the current position" Click="BtnLoopEndPositionPunchIn_OnClick" MouseDoubleClick="BtnLoopEndPositionPunchIn_OnMouseDoubleClick">
                                                               <Image Source="/Resources/Images/Buttons/punch_in.png" Stretch="None" />
                                                             </Button>
                                                           </Grid>
@@ -788,7 +784,7 @@
                                 <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
                               </Grid>
                             </Grid>
-                            <controls:SongGridView Grid.Row="1" x:Name="gridViewSongsNew" Background="{DynamicResource BrushBackgroundColor}" />
+                            <controls:SongGridView Grid.Row="1" x:Name="songGridView" Background="{DynamicResource BrushBackgroundColor}" />
                           </Grid>
                           <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="1" />
                           <Grid Grid.Column="2">
@@ -803,7 +799,7 @@
                                   </Grid.ColumnDefinitions>
                                   <Label Grid.Column="0" Content="Playlist" Padding="4,4,0,0" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" />
                               </Grid>
-                              <StackPanel Grid.Row="1" Background="{DynamicResource BrushBackgroundColor}" />
+                              <controls:PlaylistListView Grid.Row="1" x:Name="playlistListView" Background="{DynamicResource BrushBackgroundColor}" />
                           </Grid>
                         </Grid>
                       </Grid>

@@ -26,6 +26,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Sessions.GenericControls.Controls;
 using Sessions.GenericControls.Services.Interfaces;
+using Sessions.Sound.Playlists;
 using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
@@ -35,9 +36,9 @@ using ModifierKeys = Sessions.GenericControls.Interaction.ModifierKeys;
 
 namespace Sessions.WPF.Classes.Controls
 {
-    public class SongGridView : DockPanel
+    public class PlaylistListView : DockPanel
     {
-        private SongGridViewControl _control;
+        private PlaylistListViewControl _control;
         private HorizontalScrollBarWrapper _horizontalScrollBar;
         private VerticalScrollBarWrapper _verticalScrollBar;
 
@@ -48,10 +49,10 @@ namespace Sessions.WPF.Classes.Controls
         public event EventHandler DoubleClick;
         public event MenuItemClickedDelegate MenuItemClicked;
 
-        public List<AudioFile> SelectedAudioFiles { get { return _control.SelectedAudioFiles; } }
-        public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
+        //public List<AudioFile> SelectedAudioFiles { get { return _control.SelectedAudioFiles; } }
+        //public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
 
-        public SongGridView()
+        public PlaylistListView()
             : base()
         {
             DoubleClick += (sender, e) => { };
@@ -84,7 +85,7 @@ namespace Sessions.WPF.Classes.Controls
 
             var albumArtCacheService = Bootstrapper.GetContainer().Resolve<IAlbumArtCacheService>();
             var albumArtRequestService = Bootstrapper.GetContainer().Resolve<IAlbumArtRequestService>();
-            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, albumArtRequestService, albumArtCacheService);
+            _control = new PlaylistListViewControl(_horizontalScrollBar, _verticalScrollBar, albumArtRequestService, albumArtCacheService);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnItemDoubleClick += (index) => DoubleClick(this, new EventArgs());
             _control.OnDisplayContextMenu += (type, x, y) => 
@@ -104,13 +105,13 @@ namespace Sessions.WPF.Classes.Controls
 
                 switch (type)
                 {
-                    case SongGridViewControl.ContextMenuType.Item:
+                    case PlaylistListViewControl.ContextMenuType.Item:
                         _contextMenuItems.Placement = PlacementMode.MousePoint;
                         _contextMenuItems.PlacementTarget = this;
                         _contextMenuItems.Visibility = Visibility.Visible;
                         _contextMenuItems.IsOpen = true;
                         break;
-                    case SongGridViewControl.ContextMenuType.Header:
+                    case PlaylistListViewControl.ContextMenuType.Header:
                         _contextMenuHeader.Placement = PlacementMode.MousePoint;
                         _contextMenuHeader.PlacementTarget = this;
                         _contextMenuHeader.Visibility = Visibility.Visible;
@@ -151,13 +152,13 @@ namespace Sessions.WPF.Classes.Controls
             menuItemAddToPlaylist.Click += MenuItemAddToPlaylistOnClick;
             _contextMenuItems.Items.Add(menuItemAddToPlaylist);
 
-            _contextMenuHeader = new ContextMenu();
-            foreach (var column in _control.Columns)
-            {
-                var menuItem = new MenuItem();
-                menuItem.Header = column.FieldName;
-                _contextMenuHeader.Items.Add(menuItem);
-            }
+            //_contextMenuHeader = new ContextMenu();
+            //foreach (var column in _control.Columns)
+            //{
+            //    var menuItem = new MenuItem();
+            //    menuItem.Header = column.FieldName;
+            //    _contextMenuHeader.Items.Add(menuItem);
+            //}
         }
 
         private void MenuItemPlaySongOnClick(object sender, RoutedEventArgs routedEventArgs)
@@ -170,9 +171,9 @@ namespace Sessions.WPF.Classes.Controls
             MenuItemClicked(MenuItemType.AddToPlaylist);
         }
 
-        public void SetAudioFiles(List<AudioFile> audioFiles)
+        public void SetPlaylist(Playlist playlist)
         {
-            _control.SetAudioFiles(audioFiles);
+            _control.SetPlaylist(playlist);
         }
 
         protected override void OnRender(DrawingContext dc)

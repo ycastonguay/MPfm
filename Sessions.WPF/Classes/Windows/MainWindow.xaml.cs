@@ -37,6 +37,7 @@ using Sessions.Core;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config;
 using Sessions.MVP.Services.Interfaces;
+using Sessions.Sound.Playlists;
 using Sessions.WPF.Classes.Controls;
 using Sessions.WPF.Classes.Helpers;
 using Sessions.WPF.Classes.Windows.Base;
@@ -96,8 +97,8 @@ namespace Sessions.WPF.Classes.Windows
         private void Initialize()
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
-            gridViewSongsNew.DoubleClick += GridViewSongsNewOnDoubleClick;
-            gridViewSongsNew.MenuItemClicked += GridViewSongsNewOnMenuItemClicked;
+            songGridView.DoubleClick += SongGridViewOnDoubleClick;
+            songGridView.MenuItemClicked += SongGridViewOnMenuItemClicked;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
             scrollViewWaveForm.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
@@ -331,29 +332,29 @@ namespace Sessions.WPF.Classes.Windows
             e.Handled = true;
         }
 
-        private void GridViewSongsNewOnDoubleClick(object sender, EventArgs eventArgs)
+        private void SongGridViewOnDoubleClick(object sender, EventArgs eventArgs)
         {
-            if (gridViewSongsNew.SelectedItems.Count == 0)
+            if (songGridView.SelectedAudioFiles.Count == 0)
                 return;
 
-            OnTableRowDoubleClicked(gridViewSongsNew.SelectedItems[0].AudioFile);
+            OnTableRowDoubleClicked(songGridView.SelectedAudioFiles[0]);
         }
 
-        private void GridViewSongsNewOnMenuItemClicked(SongGridView.MenuItemType menuItemType)
+        private void SongGridViewOnMenuItemClicked(SongGridView.MenuItemType menuItemType)
         {
-            if (gridViewSongsNew.SelectedItems.Count == 0)
+            if (songGridView.SelectedAudioFiles.Count == 0)
                 return;
 
             switch (menuItemType)
             {
                 case SongGridView.MenuItemType.PlaySongs:
-                    AudioFile audioFile = gridViewSongsNew.SelectedItems[0].AudioFile;
+                    AudioFile audioFile = songGridView.SelectedAudioFiles[0];
                     OnTableRowDoubleClicked(audioFile);
                     break;
                 case SongGridView.MenuItemType.AddToPlaylist:
                     var audioFiles = new List<AudioFile>();
-                    foreach (var item in gridViewSongsNew.SelectedItems)
-                        audioFiles.Add(item.AudioFile);
+                    foreach (var item in songGridView.SelectedAudioFiles)
+                        audioFiles.Add(item);
                     OnSongBrowserAddToPlaylist(audioFiles);
                     break;
                 default:
@@ -374,8 +375,6 @@ namespace Sessions.WPF.Classes.Windows
                 OnPlayerShuffle();
             else if (sender == btnRepeat)
                 OnPlayerRepeat();
-            else if (sender == btnPlaylist)
-                OnOpenPlaylistWindow();
             else if (sender == btnEffects)
                 OnOpenEffectsWindow();
             else if (sender == btnPreferences)
@@ -1523,7 +1522,7 @@ namespace Sessions.WPF.Classes.Windows
             {
                 //    //string orderBy = viewSongs2.OrderByFieldName;
                 //    //bool orderByAscending = viewSongs2.OrderByAscending;
-                gridViewSongsNew.ImportAudioFiles(audioFiles.ToList());
+                songGridView.SetAudioFiles(audioFiles.ToList());
             }));
         }
 
@@ -1607,6 +1606,14 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
+        public void RefreshPlaylist(Playlist playlist)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                playlistListView.SetPlaylist(playlist);
+            }));
+        }
+
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             _selectedMarkerIndex = -1;
@@ -1658,7 +1665,7 @@ namespace Sessions.WPF.Classes.Windows
             //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
             //        miTraySongTitle.Text = audioFile.Title;
 
-                    gridViewSongsNew.NowPlayingAudioFileId = audioFile.Id;
+                    songGridView.NowPlayingAudioFileId = audioFile.Id;
 
                     scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                     scrollViewWaveForm.LoadPeakFile(audioFile);
