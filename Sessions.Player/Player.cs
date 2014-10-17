@@ -132,6 +132,16 @@ namespace Sessions.Player
         #region Events
 
         /// <summary>
+        /// The OnLoopPlaybackStarted event is triggered when the loop starts its playback.
+        /// </summary>
+        public event LoopPlaybackStarted OnLoopPlaybackStarted;
+
+        /// <summary>
+        /// The OnLoopPlaybackStopped event is triggered when the loop stops its playback.
+        /// </summary>
+        public event LoopPlaybackStopped OnLoopPlaybackStopped;
+
+        /// <summary>
         /// The OnPlaylistIndexChanged event is triggered when the playlist index changes (i.e. when an audio file
         /// starts to play).
         /// </summary>
@@ -1461,10 +1471,21 @@ namespace Sessions.Player
             }
 #endif
 
-            if(IsPaused)
+            if (IsPaused)
             {
                 _positionAfterUnpause = bytes;
                 //return;
+            }
+                
+            if (IsPlayingLoop)
+            {
+                // If the new position is outside the current loop, stop the loop playback
+                var startPosition = Loop.GetStartSegment();
+                var endPosition = Loop.GetEndSegment();
+                if (bytes < startPosition.PositionBytes || bytes >= endPosition.PositionBytes)
+                {
+                    StopLoop();
+                }
             }
 
             // Get as much data available before locking channel
@@ -1534,6 +1555,56 @@ namespace Sessions.Player
                 positionBytes = (long)((float)positionBytes / 1.5f);
             }
 
+            SetLoopSyncPoint(positionBytes, nextPositionBytes, true);
+
+            Loop = loop;
+            IsPlayingLoop = true;
+
+            if(OnLoopPlaybackStarted != null)
+                OnLoopPlaybackStarted();
+        }
+
+        public void UpdateLoop(Loop loop)
+        {
+            var currentPosition = GetPosition();
+            var startPosition = Loop.GetStartSegment();
+            var endPosition = Loop.GetEndSegment();
+            var newStartPosition = loop.GetStartSegment();
+            var newEndPosition = loop.GetEndSegment();
+            bool restartLoop = false;
+
+            // Check if the start position has changed
+            if (startPosition.PositionBytes != newStartPosition.PositionBytes)
+            {
+                // If the current position is before the new start position...
+                if (currentPosition < newStartPosition.PositionBytes)
+                {
+                    // ... then we need to start the loop again from the new start position
+                    Console.WriteLine("---->> Player - currentPosition < newStartPosition -- Restarting loop!");
+                    restartLoop = true;
+                }
+            }
+
+            // Check if the end position has changed
+            if (endPosition.PositionBytes != newEndPosition.PositionBytes)
+            {
+                // If the current position exceeds the new end position...
+                if (currentPosition > newEndPosition.PositionBytes)
+                {
+                    // ... then we need to start the loop again
+                    Console.WriteLine("---->> Player - currentPosition > newEndPosition -- Restarting loop!");
+                    restartLoop = true;
+                }
+            }
+
+            // Set the new loop
+            Loop = loop;
+            SetLoopSyncPoint(newStartPosition.PositionBytes, newEndPosition.PositionBytes, restartLoop);
+        }
+
+        private void SetLoopSyncPoint(long startPosition, long endPosition, bool skipToStartPosition)
+        {
+            
 #if !IOS && !ANDROID
             if (Device.DriverType == DriverType.WASAPI)
             {
@@ -1548,10 +1619,13 @@ namespace Sessions.Player
             long length = Playlist.CurrentItem.Channel.GetLength();
             _mixerChannel.Lock(true);
 
-            // Set position for the decode channel (needs to be in floating point)
-            Playlist.CurrentItem.Channel.SetPosition(positionBytes * 2);
-            _fxChannel.SetPosition(0); // Clear buffer
-            _mixerChannel.SetPosition(0);
+            // Skip to the start position of the loop
+            if (skipToStartPosition)
+            {
+                Playlist.CurrentItem.Channel.SetPosition(startPosition * 2);
+                _fxChannel.SetPosition(0); // Clear buffer
+                _mixerChannel.SetPosition(0);
+            }
 
             // Set sync
             _syncProcLoop = new PlayerSyncProc();
@@ -1561,25 +1635,27 @@ namespace Sessions.Player
             _syncProcLoop.SyncProc = new SYNCPROC(LoopSyncProc);
 #endif
 
+            // Create a new sync call back for the loop end position
+            long syncPosition = (endPosition - startPosition) * 2;
             if (_mixerChannel is MixerChannel)
             {
                 var mixerChannel = _mixerChannel as MixerChannel;
-                _syncProcLoop.Handle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (nextPositionBytes - positionBytes) * 2, _syncProcLoop.SyncProc);
+                _syncProcLoop.Handle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, syncPosition, _syncProcLoop.SyncProc);
             }
             else
             {
-                _syncProcLoop.Handle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (nextPositionBytes - positionBytes) * 2, _syncProcLoop.SyncProc);
+                _syncProcLoop.Handle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, syncPosition, _syncProcLoop.SyncProc);
             }
 
-            // Set new callback (length already in floating point)
-            SetSyncCallback((length - (nextPositionBytes * 2))); // + buffered));
+            // Create a new sync call back for the song end position
+            SetSyncCallback((length - (endPosition * 2))); // + buffered));
 
-            // Set offset position (for calulating current position)
-            _positionOffset = positionBytes;
+            // Set offset position (for calculating current position)
+            if(skipToStartPosition)
+                _positionOffset = startPosition;
+
             _mixerChannel.Lock(false);
-            Loop = loop;
-            IsPlayingLoop = true;
-        }
+        }           
 
         /// <summary>
         /// Stops any loop currently playing.
@@ -1610,6 +1686,9 @@ namespace Sessions.Player
             {
                 Loop = null;
                 IsPlayingLoop = false;
+
+                if(OnLoopPlaybackStopped != null)
+                    OnLoopPlaybackStopped();
             }
         }
 

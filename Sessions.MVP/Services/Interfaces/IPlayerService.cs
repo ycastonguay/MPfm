@@ -23,6 +23,7 @@ using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound.Playlists;
+using Sessions.Player;
 
 namespace Sessions.MVP.Services.Interfaces
 {
@@ -55,6 +56,8 @@ namespace Sessions.MVP.Services.Interfaces
         Playlist CurrentPlaylist { get; }
         Playlist CurrentQueue { get; }
 
+        event LoopPlaybackStarted OnLoopPlaybackStarted;
+        event LoopPlaybackStopped OnLoopPlaybackStopped;
         event PlayerService.BPMDetected OnBPMDetected;
 
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
@@ -85,6 +88,7 @@ namespace Sessions.MVP.Services.Interfaces
 
         void GoToMarker(Marker marker);
         void StartLoop(Loop loop);
+        void UpdateLoop(Loop loop);
         void StopLoop();        
 
         void BypassEQ();

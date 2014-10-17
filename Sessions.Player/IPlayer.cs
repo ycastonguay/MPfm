@@ -28,9 +28,11 @@ using Un4seen.Bass.AddOn.Fx;
 
 namespace Sessions.Player
 {
-    public delegate void PlaylistEnded();
+    public delegate void LoopPlaybackStarted();
+    public delegate void LoopPlaybackStopped();
     public delegate void SegmentIndexChanged(int segmentIndex);
     public delegate void PlaylistIndexChanged(PlayerPlaylistIndexChangedData data);
+    public delegate void PlaylistEnded();
     public delegate void AudioInterrupted(AudioInterruptedData data);
     public delegate void BPMDetected(float bpm);
 
@@ -62,6 +64,8 @@ namespace Sessions.Player
         int UpdateThreads { get; set; }
         float Volume { get; set; }
 
+        event LoopPlaybackStarted OnLoopPlaybackStarted;
+        event LoopPlaybackStopped OnLoopPlaybackStopped;
         event PlaylistEnded OnPlaylistEnded;
         event PlaylistIndexChanged OnPlaylistIndexChanged;
         event AudioInterrupted OnAudioInterrupted;
@@ -105,6 +109,7 @@ namespace Sessions.Player
 
         void GoToMarker(Marker marker);
         void StartLoop(Loop loop);
+        void UpdateLoop(Loop loop);
         void StopLoop();
     }
 }

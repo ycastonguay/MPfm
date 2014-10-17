@@ -91,11 +91,24 @@ namespace Sessions.MVP.Presenters
                 RefreshLoops(_audioFileId);
             }));
 
+            _playerService.OnLoopPlaybackStarted += HandleOnLoopPlaybackStarted;
+            _playerService.OnLoopPlaybackStopped += HandleOnLoopPlaybackStopped;
+
             // Refresh initial data
             if (_playerService.CurrentPlaylistItem != null)
                 RefreshLoops(_playerService.CurrentPlaylistItem.AudioFile.Id);
         }
-        
+
+        private void HandleOnLoopPlaybackStarted()
+        {
+            View.RefreshCurrentlyPlayingLoop(_loop);
+        }
+
+        private void HandleOnLoopPlaybackStopped()
+        {
+            View.RefreshCurrentlyPlayingLoop(null);
+        }
+
         public override void ViewDestroyed()
         {
             foreach (TinyMessageSubscriptionToken token in _tokens)
@@ -180,7 +193,6 @@ namespace Sessions.MVP.Presenters
                 if (_playerService.IsPlayingLoop && _playerService.Loop.LoopId == _loop.LoopId)
                 {
                     _playerService.StopLoop();
-                    View.RefreshCurrentlyPlayingLoop(null);
                 }
             }
 
@@ -217,12 +229,10 @@ namespace Sessions.MVP.Presenters
                 if (_playerService.IsPlayingLoop)
                 {
                     _playerService.StopLoop();
-                    View.RefreshCurrentlyPlayingLoop(null);
                 }
                 else
                 {
                     _playerService.StartLoop(loop);
-                    View.RefreshCurrentlyPlayingLoop(loop);
                 }
             } 
             catch (Exception ex)
@@ -263,6 +273,9 @@ namespace Sessions.MVP.Presenters
         private void ChangedLoopSegmentPosition(Segment segment, float positionPercentage)
         {
             ChangeSegmentPosition(segment, positionPercentage, true);
+
+            if(_playerService.IsPlayingLoop)
+                _playerService.UpdateLoop(_loop);
         }
 
         private void ChangingLoopSegmentPosition(Segment segment, float positionPercentage)

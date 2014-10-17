@@ -76,6 +76,9 @@ namespace Sessions.MVP.Services
         /// </summary>
         public event BPMDetected OnBPMDetected;
 
+        public event LoopPlaybackStarted OnLoopPlaybackStarted;
+        public event LoopPlaybackStopped OnLoopPlaybackStopped;
+
         public PlayerService(ITinyMessengerHub messageHub, ILibraryService libraryService, ICloudLibraryService cloudLibraryService)
 		{
             _messengerHub = messageHub;
@@ -90,6 +93,14 @@ namespace Sessions.MVP.Services
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
+            _player.OnLoopPlaybackStarted += () => {
+                if(OnLoopPlaybackStarted != null)
+                    OnLoopPlaybackStarted();
+            };
+            _player.OnLoopPlaybackStopped += () => {
+                if(OnLoopPlaybackStopped != null)
+                    OnLoopPlaybackStopped();
+            };
             _currentQueue = new Playlist();
 
             if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
@@ -493,6 +504,11 @@ namespace Sessions.MVP.Services
         public void StartLoop(Loop loop)
         {
             _player.StartLoop(loop);
+        }
+
+        public void UpdateLoop(Loop loop)
+        {
+            _player.UpdateLoop(loop);
         }
 
         public void StopLoop()
