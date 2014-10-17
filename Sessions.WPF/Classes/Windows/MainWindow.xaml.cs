@@ -732,7 +732,7 @@ namespace Sessions.WPF.Classes.Windows
         private void ListViewLoops_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // Block double click on the textbox and image buttons. Cannot use these controls as a type
-            if (e.OriginalSource.GetType().Name == "TextBoxView" ||
+            if (//e.OriginalSource.GetType().Name == "TextBoxView" ||
                 e.OriginalSource.GetType().Name == "Image")
                 return;
 

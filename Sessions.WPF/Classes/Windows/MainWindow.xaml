@@ -29,10 +29,22 @@
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem x:Name="miFile_AddFiles" Header="Add Files to Library..." Click="MenuItem_Click" />
-                    <MenuItem x:Name="miFile_AddFolder" Header="Add Folder to Library..." Click="MenuItem_Click" />
+                    <MenuItem x:Name="miFile_AddFiles" Header="Add Files to Library..." Click="MenuItem_Click">
+                      <MenuItem.Icon>
+                        <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                      </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="miFile_AddFolder" Header="Add Folder to Library..." Click="MenuItem_Click">
+                      <MenuItem.Icon>
+                        <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                      </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
-                    <MenuItem x:Name="miFile_OpenAudioFiles" Header="Open Audio Files..." Click="MenuItem_Click" />
+                    <MenuItem x:Name="miFile_OpenAudioFiles" Header="Open Audio Files..." Click="MenuItem_Click">
+                      <MenuItem.Icon>
+                        <Image Source="/Resources/Images/Buttons/open.png" Stretch="None" />
+                      </MenuItem.Icon>
+                    </MenuItem>
                     <Separator />
                     <MenuItem x:Name="miFile_UpdateLibrary" Header="Update Library..." Click="MenuItem_Click" />
                     <Separator />

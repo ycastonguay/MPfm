@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Colors -->
+  <Color x:Key="BackgroundColor">#FF20282E</Color>
+  <Color x:Key="PopupBackgroundColor">#BB303B42</Color>
+  <Color x:Key="HeaderBackgroundColor">#FF455865</Color>
+  <Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>
+  <Color x:Key="MoreHeaderBackgroundColor">#FF758794</Color>
+  <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
+  <Color x:Key="HeaderButtonOverBackgroundColor">#FF5A6B75</Color>
+  <Color x:Key="ButtonBackgroundColor">#FFE74C3C</Color>
+  <Color x:Key="ButtonOverBackgroundColor">#FFF07568</Color>
+  <Color x:Key="ListViewSelectedBackgroundColor">#FFBACCD9</Color>
+
+  <!--<Color x:Key="TabButtonBackgroundColor">#FFF07568</Color>
+        <Color x:Key="TabButtonOverBackgroundColor">#FFF07568</Color>
+        <Color x:Key="TabButtonSelectedBackgroundColor">#FFF07568</Color>
+        <Color x:Key="TabButtonLineColor">#FFF07568</Color>-->
+
+  <!-- Brushes -->
+  <SolidColorBrush x:Key="BrushBackgroundColor" Color="{DynamicResource BackgroundColor}" />
+  <SolidColorBrush x:Key="BrushPopupBackgroundColor" Color="{DynamicResource PopupBackgroundColor}" />
+  <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="{DynamicResource HeaderBackgroundColor}" />
+  <SolidColorBrush x:Key="BrushSecondaryHeaderBackgroundColor" Color="{DynamicResource SecondaryHeaderBackgroundColor}" />
+  <SolidColorBrush x:Key="BrushMoreHeaderBackgroundColor" Color="{DynamicResource MoreHeaderBackgroundColor}" />
+  <SolidColorBrush x:Key="BrushButtonBackgroundColor" Color="{DynamicResource ButtonBackgroundColor}" />
+  <SolidColorBrush x:Key="BrushMenuItemOverBackgroundColor" Color="{DynamicResource MenuItemOverBackgroundColor}" />
+  <SolidColorBrush x:Key="BrushListViewSelectedBackgroundColor" Color="{DynamicResource ListViewSelectedBackgroundColor}" />
+
+  <!-- Converters -->
+  <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+</ResourceDictionary>
