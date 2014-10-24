@@ -210,6 +210,11 @@ namespace Sessions.WPF.Classes.Windows
             base.OnStateChanged(e);
         }
 
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine("WINDOW key down: {0}", e.Key);
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender == miFile_AddFiles)
@@ -774,7 +779,13 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ShowLoopNameTextBox(object sender)
         {
+            // Only display the text box when the row is currently selected
             var lblLoopName = sender as TextBlock;
+            var rowLoop = lblLoopName.DataContext as Loop;
+            int rowIndex = _loops.IndexOf(rowLoop);
+            if (listViewLoops.SelectedIndex != rowIndex)
+                return;
+
             var grid = lblLoopName.Parent as Grid;
             var gridLoopName = UIHelper.FindByName("gridLoopName", grid) as Grid;
             var txtLoopName = UIHelper.FindByName("txtLoopName", gridLoopName) as TextBox;

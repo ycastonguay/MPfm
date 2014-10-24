@@ -6,7 +6,7 @@
         xmlns:controls="clr-namespace:Sessions.WPF.Classes.Controls"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"
-        Title="Sessions" Height="653" Width="900" Icon="/Sessions.WPF;component/Resources/Icon.ico">
+        Title="Sessions" Height="653" Width="900" Icon="/Sessions.WPF;component/Resources/Icon.ico" KeyDown="MainWindow_OnKeyDown">
     <Window.Resources>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFD0DBE2" />
         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
@@ -29,26 +29,26 @@
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem x:Name="miFile_AddFiles" Header="Add Files to Library..." Click="MenuItem_Click">
+                    <MenuItem x:Name="miFile_AddFiles" Header="Add Files to Library..." InputGestureText="Ctrl-A" Click="MenuItem_Click">
                       <MenuItem.Icon>
                         <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                       </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="miFile_AddFolder" Header="Add Folder to Library..." Click="MenuItem_Click">
+                    <MenuItem x:Name="miFile_AddFolder" Header="Add Folder to Library..." InputGestureText="Shift-Ctrl-A" Click="MenuItem_Click">
                       <MenuItem.Icon>
                         <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                       </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem x:Name="miFile_OpenAudioFiles" Header="Open Audio Files..." Click="MenuItem_Click">
+                    <MenuItem x:Name="miFile_OpenAudioFiles" Header="Open Audio Files..." InputGestureText="Ctrl-O" Click="MenuItem_Click">
                       <MenuItem.Icon>
                         <Image Source="/Resources/Images/Buttons/open.png" Stretch="None" />
                       </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem x:Name="miFile_UpdateLibrary" Header="Update Library..." Click="MenuItem_Click" />
+                    <MenuItem x:Name="miFile_UpdateLibrary" Header="Update Library..." InputGestureText="Ctrl-U" Click="MenuItem_Click" />
                     <Separator />
-                    <MenuItem x:Name="miFile_Exit" Header="Exit" Click="MenuItem_Click" />
+                    <MenuItem x:Name="miFile_Exit" Header="Exit" InputGestureText="Alt-F4" Click="MenuItem_Click" />
                     <!--<MenuItem Click="MenuItem_Click">
                         <MenuItem.Header>
                             <DockPanel>
@@ -60,10 +60,10 @@
                     </MenuItem>-->
                 </MenuItem>
                 <MenuItem Header="_Windows">
-                    <MenuItem x:Name="miWindows_Sync" Header="Devices" Click="MenuItem_Click" />
-                    <MenuItem x:Name="miWindows_Effects" Header="Effects" Click="MenuItem_Click" />
-                    <MenuItem x:Name="miWindows_Preferences" Header="Preferences" Click="MenuItem_Click" />
-                    <MenuItem x:Name="miWindows_SyncWebBrowser" Header="Web Interface" Click="MenuItem_Click" />
+                    <MenuItem x:Name="miWindows_Sync" Header="Devices" InputGestureText="F2" Click="MenuItem_Click" />
+                    <MenuItem x:Name="miWindows_Effects" Header="Effects" InputGestureText="F3" Click="MenuItem_Click" />
+                    <MenuItem x:Name="miWindows_Preferences" Header="Preferences" InputGestureText="F4" Click="MenuItem_Click" />
+                    <MenuItem x:Name="miWindows_SyncWebBrowser" Header="Web Interface" InputGestureText="F5" Click="MenuItem_Click" />
                 </MenuItem>
                 <MenuItem Header="_Help">
                     <MenuItem x:Name="miHelp_About" Header="About Sessions..." Click="MenuItem_Click" />

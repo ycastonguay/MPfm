@@ -158,11 +158,13 @@ namespace Sessions.WPF.Classes.Controls
 
             _menuItemZoomIn = new MenuItem();
             _menuItemZoomIn.Header = "Zoom in";
+            _menuItemZoomIn.InputGestureText = "Alt-MouseWheelUp";
             _menuItemZoomIn.Click += MenuItemZoomInOnClick;
             _contextMenuItems.Items.Add(_menuItemZoomIn);
 
             _menuItemZoomOut = new MenuItem();
             _menuItemZoomOut.Header = "Zoom out";
+            _menuItemZoomOut.InputGestureText = "Alt-MouseWheelDown";
             _menuItemZoomOut.Click += MenuItemZoomOutOnClick;
             _contextMenuItems.Items.Add(_menuItemZoomOut);
             _contextMenuItems.Items.Add(new Separator());
