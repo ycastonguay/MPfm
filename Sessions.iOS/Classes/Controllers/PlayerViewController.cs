@@ -643,7 +643,7 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount)
         {
             if (audioFile == null)
                 return;

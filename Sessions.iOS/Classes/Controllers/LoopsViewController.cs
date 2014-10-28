@@ -81,7 +81,11 @@ namespace Sessions.iOS
         {
         }
 
-        public void RefreshLoopSegment(Segment segment, long audioFileLength)
+        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
+        {
+        }
+
+        public void RefreshCurrentlyPlayingLoop(Loop loop)
         {
         }
 

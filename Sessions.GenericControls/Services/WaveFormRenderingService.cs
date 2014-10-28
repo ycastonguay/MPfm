@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +26,6 @@ using Sessions.GenericControls.Services.Events;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
 using System.Threading;
-using Sessions.Core;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.PeakFiles;
 
@@ -44,7 +42,6 @@ namespace Sessions.GenericControls.Services
         private List<WaveDataMinMax> _waveDataCache = new List<WaveDataMinMax>();
 		private BasicColor _colorBackground = new BasicColor(32, 40, 46);        
 		private BasicColor _colorWaveForm = new BasicColor(255, 255, 64);
-        private float _padding = 0;
 
         public delegate void LoadPeakFileEventHandler(object sender, LoadPeakFileEventArgs e);
         public delegate void GeneratePeakFileEventHandler(object sender, GeneratePeakFileEventArgs e);
@@ -261,46 +258,20 @@ namespace Sessions.GenericControls.Services
 			IBasicImage imageCache;
 			try
 			{
-			    float x1 = 0;
-                float x2 = 0;
+			    float x = 0;
                 float leftMin = 0;
                 float leftMax = 0;
                 float rightMin = 0;
                 float rightMax = 0;
                 float mixMin = 0;
                 float mixMax = 0;
-                int historyIndex = 0;
-                int historyCount = _waveDataCache.Count;
-                float lineWidth = 0;
-                int nHistoryItemsPerLine = 0;
-                const float desiredLineWidth = 0.5f;
+                int startHistoryLine = 0;
+                int endHistoryLine = 0;
+                int currentHistoryCount = 0;
+                const float lineWidth = 0.25f;
                 WaveDataMinMax[] subset = null;
 
-                // Find out how many samples are represented by each line of the wave form, depending on its width.
-                // For example, if the history has 45000 items, and the control has a width of 1000px, 45 items will need to be averaged by line.
-                float lineWidthPerHistoryItem = request.BoundsWaveForm.Width / (float)historyCount;
-
-                // Check if the line width is below the desired line width
-                if (lineWidthPerHistoryItem < desiredLineWidth)
-                {
-                    // Try to get a line width around 0.5f so the precision is good enough and no artifacts will be shown.
-                    while (lineWidth < desiredLineWidth)
-                    {
-                        // Increment the number of history items per line
-                        //Console.WriteLine("Determining line width (lineWidth: " + lineWidth.ToString() + " desiredLineWidth: " + desiredLineWidth.ToString() + " nHistoryItemsPerLine: " + nHistoryItemsPerLine.ToString() + " lineWidthPerHistoryItem: " + lineWidthPerHistoryItem.ToString());
-                        nHistoryItemsPerLine++;
-                        lineWidth += lineWidthPerHistoryItem;
-                    }
-                    nHistoryItemsPerLine--;
-                    lineWidth -= lineWidthPerHistoryItem;
-                }
-                else
-                {
-                    // The lines are larger than 0.5 pixels.
-                    lineWidth = lineWidthPerHistoryItem;
-                    nHistoryItemsPerLine = 1;
-                }
-
+                float lineWidthPerHistoryItem = request.BoundsWaveForm.Width / (float)_waveDataCache.Count;
                 float heightToRenderLine = 0;
                 if (request.DisplayType == WaveFormDisplayType.Stereo)
                     heightToRenderLine = (request.BoundsWaveForm.Height / 4);
@@ -314,92 +285,47 @@ namespace Sessions.GenericControls.Services
                 var penWaveForm = new BasicPen(new BasicBrush(_colorWaveForm), lineWidth);
                 context.SetPen(penWaveForm);
 
-                float startLine = ((int)Math.Floor(request.BoundsBitmap.X / lineWidth)) * lineWidth;
-                historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
-
-                //Console.WriteLine("WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
-                //List<float> roundValues = new List<float>();
-                float lastLine = startLine + request.BoundsBitmap.Width;
-                if (request.BoundsWaveForm.Width - request.BoundsBitmap.X < request.BoundsBitmap.Width)
-                    lastLine = request.BoundsWaveForm.Width;
-
-                // Make sure we don't end up in a value with decimals
-                startLine = (float)Math.Ceiling(startLine); // should it be Floor?
-                lastLine = (float)Math.Ceiling(lastLine);
-
-//                context.DrawRectangle(new BasicRectangle(0, 0, request.BoundsBitmap.Width, request.BoundsBitmap.Height), new BasicBrush(new BasicColor(0, 0, 0)), new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 2));
-//                context.DrawText(string.Format("{0:0.0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 22), new BasicColor(255, 255, 255), "Roboto", 11 * context.Density);
-//                context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto", 11 * context.Density);
+                //context.DrawRectangle(new BasicRectangle(0, 0, request.BoundsBitmap.Width, request.BoundsBitmap.Height), new BasicBrush(new BasicColor(0, 0, 0)), new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 2));
+                //context.DrawText(string.Format("{0:0.0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 22), new BasicColor(255, 255, 255), "Roboto", 6 * context.Density);
+                //context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto", 6 * context.Density);
 
                 //context.DrawText(string.Format("{0:0.0}", startLine), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
                 //context.DrawText(string.Format("{0:0.0}", lastLine), new BasicPoint(1, request.BoundsBitmap.Height - 22), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
                 //context.DrawText(string.Format("{0:0.0}", request.BoundsWaveForm.Width), new BasicPoint(1, request.BoundsBitmap.Height - 46), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
                 //context.DrawText(string.Format("{0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
 
-                for (float i = startLine; i < lastLine; i += lineWidth)
+                for (float plotX = request.BoundsBitmap.X; plotX < request.BoundsBitmap.X + request.BoundsBitmap.Width; plotX += lineWidth)
                 {
+                    startHistoryLine = (int)Math.Floor(plotX / lineWidthPerHistoryItem);
+                    endHistoryLine = (int)Math.Ceiling((plotX + lineWidth) / lineWidthPerHistoryItem);
+                    x = plotX - request.BoundsBitmap.X;
+
                     #if MACOSX
                     // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
                     context.SetPen(penWaveForm);
                     #endif
 
-                    // COMMENTED possible solution for varying line widths rendering problem
-                    // Round to 0.5
-                    //i = (float)Math.Round(i * 2) / 2;
-                    //float iRound = (float)Math.Round(i);
-                    //float iRound = (float)Math.Round(i * 2) / 2;
-                    //float iRound = (float)Math.Round(i * 4) / 4;
-
-                    //                        // If this value has already been drawn, skip it (this happens because of the rounding, and this fixes a visual bug)
-                    //                        if(roundValues.Contains(iRound))
-                    //                        {
-                    //                            // Increment the history index; pad the last values if the count is about to exceed
-                    //                            if (historyIndex < historyCount - 1)
-                    //                                historyIndex += nHistoryItemsPerLine;                         
-                    //                            continue;
-                    //                        }
-                    //                        else
-                    //                        {
-                    //                            roundValues.Add(iRound);
-                    //                        }
-
-                    // Determine the maximum height of a line (+/-)
-                    //Console.WriteLine("WaveForm - Rendering " + i.ToString() + " (rnd=" + iRound.ToString() + ") on " + widthAvailable.ToString());
-
-                    // Determine x position
-                    //                        x1 = iRound; //i;
-                    //                        x2 = iRound; //i;
-                    x1 = i - startLine;
-                    x2 = i - startLine;
-                    if (nHistoryItemsPerLine > 1)
+                    currentHistoryCount = endHistoryLine - startHistoryLine;
+                    if(currentHistoryCount > 1)
                     {
-                        if (historyIndex + nHistoryItemsPerLine > historyCount)
-                        {
-                            // Create subset with remaining data
-                            subset = new WaveDataMinMax[historyCount - historyIndex];
-                            _waveDataCache.CopyTo(historyIndex, subset, 0, historyCount - historyIndex);
-                        }
-                        else
-                        {
-                            subset = new WaveDataMinMax[nHistoryItemsPerLine];
-                            _waveDataCache.CopyTo(historyIndex, subset, 0, nHistoryItemsPerLine);
-                        }
+                        subset = new WaveDataMinMax[currentHistoryCount];
+                        _waveDataCache.CopyTo(startHistoryLine, subset, 0, currentHistoryCount);
 
-                        leftMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Left);
-                        leftMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Left);
-                        rightMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Right);
-                        rightMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Right);
-                        mixMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Mix);
-                        mixMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Mix);
+                        leftMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), currentHistoryCount, ChannelType.Left);
+                        leftMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), currentHistoryCount, ChannelType.Left);
+                        rightMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), currentHistoryCount, ChannelType.Right);
+                        rightMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), currentHistoryCount, ChannelType.Right);
+                        mixMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), currentHistoryCount, ChannelType.Mix);
+                        mixMax = AudioTools.GetMaxPeakFromWaveDataMaxHistory(subset.ToList(), currentHistoryCount, ChannelType.Mix);
                     }
                     else
                     {
-                        leftMin = _waveDataCache[historyIndex].leftMin;
-                        leftMax = _waveDataCache[historyIndex].leftMax;
-                        rightMin = _waveDataCache[historyIndex].rightMin;
-                        rightMax = _waveDataCache[historyIndex].rightMax;
-                        mixMin = _waveDataCache[historyIndex].mixMin;
-                        mixMax = _waveDataCache[historyIndex].mixMax;
+                        leftMin = _waveDataCache[startHistoryLine].leftMin;
+                        leftMax = _waveDataCache[startHistoryLine].leftMax;
+                        rightMin = _waveDataCache[startHistoryLine].rightMin;
+                        rightMax = _waveDataCache[startHistoryLine].rightMax;
+                        mixMin = _waveDataCache[startHistoryLine].mixMin;
+                        mixMax = _waveDataCache[startHistoryLine].mixMax;
                     }
 
                     float leftMaxHeight = leftMax * heightToRenderLine;
@@ -436,25 +362,21 @@ namespace Sessions.GenericControls.Services
                         }
 
                         // Positive Max Value - Draw positive value (y: middle to top)                   
-						context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - maxLineHeight));
+						context.StrokeLine(new BasicPoint(x, heightToRenderLine), new BasicPoint(x, heightToRenderLine - maxLineHeight));
                         // Negative Max Value - Draw negative value (y: middle to height)
-						context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-minLineHeight)));
+						context.StrokeLine(new BasicPoint(x, heightToRenderLine), new BasicPoint(x, heightToRenderLine + (-minLineHeight)));
                     }
                     else if (request.DisplayType == WaveFormDisplayType.Stereo)
                     {
                         // LEFT Channel - Positive Max Value - Draw positive value (y: middle to top)
-                        context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - leftMaxHeight));
+                        context.StrokeLine(new BasicPoint(x, heightToRenderLine), new BasicPoint(x, heightToRenderLine - leftMaxHeight));
                         // LEFT Channel - Negative Max Value - Draw negative value (y: middle to height)
-                        context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-leftMinHeight)));
+                        context.StrokeLine(new BasicPoint(x, heightToRenderLine), new BasicPoint(x, heightToRenderLine + (-leftMinHeight)));
                         // RIGHT Channel - Positive Max Value (Multiply by 3 to get the new center line for right channel) - Draw positive value (y: middle to top)
-                        context.StrokeLine(new BasicPoint(x1, (heightToRenderLine * 3)), new BasicPoint(x2, (heightToRenderLine * 3) - rightMaxHeight));
+                        context.StrokeLine(new BasicPoint(x, (heightToRenderLine * 3)), new BasicPoint(x, (heightToRenderLine * 3) - rightMaxHeight));
                         // RIGHT Channel - Negative Max Value - Draw negative value (y: middle to height)
-                        context.StrokeLine(new BasicPoint(x1, (heightToRenderLine * 3)), new BasicPoint(x2, (heightToRenderLine * 3) + (-rightMinHeight)));
+                        context.StrokeLine(new BasicPoint(x, (heightToRenderLine * 3)), new BasicPoint(x, (heightToRenderLine * 3) + (-rightMinHeight)));
                     }
-
-                    // Increment the history index; pad the last values if the count is about to exceed
-                    if (historyIndex < historyCount - 1)
-                        historyIndex += nHistoryItemsPerLine;
                 }
             }
             catch (Exception ex)
@@ -474,7 +396,6 @@ namespace Sessions.GenericControls.Services
             //Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
 			OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 			{
-				//AudioFilePath = audioFile.FilePath,
                 OffsetX = request.BoundsBitmap.X,
 				Zoom = request.Zoom,
                 Width = context.BoundsWidth,
