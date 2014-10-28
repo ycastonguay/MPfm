@@ -114,13 +114,15 @@ namespace Sessions.WPF.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
-            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
+            var typeFace = GetTypefaceForCustomFont(fontFace);
+            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeFace, fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
             _context.DrawText(formattedText, GenericControlHelper.ToPoint(point));
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
+            var typeFace = GetTypefaceForCustomFont(fontFace);
+            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeFace, fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
             if (rectangle.Width > 0)
                 formattedText.MaxTextWidth = rectangle.Width;
             if (rectangle.Height > 0)
@@ -131,13 +133,19 @@ namespace Sessions.WPF.Classes.Controls.Graphics
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
         {
-            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, Brushes.Black);
+            var typeFace = GetTypefaceForCustomFont(fontFace);
+            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeFace, fontSize, Brushes.Black);
             if (rectangle.Width > 0)
                 formattedText.MaxTextWidth = rectangle.Width;
             if (rectangle.Height > 0)
                 formattedText.MaxTextHeight = rectangle.Height;
             formattedText.Trimming = TextTrimming.CharacterEllipsis;
             return new BasicRectangle(0, 0, (float)formattedText.Width, (float)formattedText.Height);
+        }
+
+        private Typeface GetTypefaceForCustomFont(string fontFace)
+        {
+            return new Typeface(new FontFamily(new Uri("pack://application:,,,/"), "/Resources/Fonts/#" + fontFace), FontStyles.Normal, FontWeights.Regular, FontStretches.Normal);
         }
 
         public void Close()

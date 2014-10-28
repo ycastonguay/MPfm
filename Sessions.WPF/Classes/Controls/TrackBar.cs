@@ -73,6 +73,8 @@ namespace Sessions.WPF.Classes.Controls
 
         private void CreatePopup()
         {
+            var typeface = new Typeface(new FontFamily(new Uri("pack://application:,,,/"), "/Resources/Fonts/#Roboto Regular"), FontStyles.Normal, FontWeights.Regular, FontStretches.Normal);
+
             _popup = new Popup();
             _popup.PlacementTarget = this;
             _popup.Placement = PlacementMode.Bottom;            
@@ -85,14 +87,14 @@ namespace Sessions.WPF.Classes.Controls
 
             _lblPopupTitle = new Label();
             _lblPopupTitle.Padding = new Thickness(4, 4, 4, 1);
-            _lblPopupTitle.FontFamily = new FontFamily("Roboto");
+            _lblPopupTitle.FontFamily = typeface.FontFamily;
             _lblPopupTitle.HorizontalContentAlignment = HorizontalAlignment.Center;
             _lblPopupTitle.Content = "Drag your mouse down to adjust the scrubbing rate";
             _lblPopupTitle.Foreground = new SolidColorBrush(Colors.DarkGray);
 
             _lblPopupSubtitle = new Label();
             _lblPopupSubtitle.Padding = new Thickness(4, 1, 4, 4);
-            _lblPopupSubtitle.FontFamily = new FontFamily("Roboto");
+            _lblPopupSubtitle.FontFamily = typeface.FontFamily;
             _lblPopupSubtitle.HorizontalContentAlignment = HorizontalAlignment.Center;
             _lblPopupSubtitle.Content = "High-speed scrubbing";
             _lblPopupSubtitle.Foreground = new SolidColorBrush(Colors.White);

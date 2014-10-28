@@ -705,7 +705,10 @@ namespace Sessions.WPF.Classes.Windows
 
             foreach (Loop removedItem in e.RemovedItems)
             {
-                ShowLoopPunchInButtons(_loops.IndexOf(removedItem), false);
+                int row = _loops.IndexOf(removedItem);
+                ShowLoopPunchInButtons(row, false);
+                ShowLoopTextBox(row, false);
+                ShowLoopLabel(row, true);
             }
 
             foreach (Loop addedItem in e.AddedItems)
@@ -714,12 +717,24 @@ namespace Sessions.WPF.Classes.Windows
             }
         }
 
+        private void GridLoopColumn_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            int row = listViewLoops.SelectedIndex;
+            if (row == -1)
+                return;
+
+            ShowLoopTextBox(row, false);
+            ShowLoopLabel(row, true);
+        }
+
         private void ListViewLoops_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 if (_currentLoop != null && _selectedLoopIndex >= 0)
                     PlayOrStopCurrentLoop();
+
+                e.Handled = true;
             }
         }
 
@@ -731,6 +746,24 @@ namespace Sessions.WPF.Classes.Windows
             UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, row, 2, "btnLoopStartPositionPunchIn", 
                 show ? Visibility.Visible : Visibility.Hidden);
             UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, row, 3, "btnLoopEndPositionPunchIn",
+                show ? Visibility.Visible : Visibility.Hidden);
+        }
+
+        private void ShowLoopTextBox(int row, bool show)
+        {
+            if (row == -1)
+                return;
+
+            UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, row, 1, "gridLoopName",
+                show ? Visibility.Visible : Visibility.Hidden);
+        }
+
+        private void ShowLoopLabel(int row, bool show)
+        {
+            if (row == -1)
+                return;
+
+            UIHelper.ShowControlInsideListViewCellTemplate(listViewLoops, row, 1, "lblLoopName",
                 show ? Visibility.Visible : Visibility.Hidden);
         }
 
@@ -760,10 +793,12 @@ namespace Sessions.WPF.Classes.Windows
             if (e.Key == Key.Return)
             {
                 HideLoopNameTextBoxFromTextBox(sender, true);
+                e.Handled = true;
             }
             else if (e.Key == Key.Escape)
             {
                 HideLoopNameTextBoxFromTextBox(sender, false);
+                e.Handled = true;
             }
         }
 
@@ -2066,5 +2101,9 @@ namespace Sessions.WPF.Classes.Windows
 
         #endregion
 
+        private void TxtLoopName_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

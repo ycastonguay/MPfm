@@ -135,7 +135,7 @@
                 Focusable="false" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
             <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}"
                 ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                Margin="6,6,23,6" TextBlock.FontFamily="Roboto Regular" TextBlock.FontSize="12" TextBlock.Foreground="#FFFFFF"
+                Margin="6,6,23,6" TextBlock.FontFamily="pack://application:,,,/Resources/Fonts/#Roboto Regular" TextBlock.FontSize="11" TextBlock.Foreground="#FFFFFF"
                 VerticalAlignment="Stretch" HorizontalAlignment="Left">
             </ContentPresenter>
             <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -227,7 +227,7 @@
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <ContentPresenter x:Name="ComboContentPresenter" TextBlock.FontFamily="Roboto Regular" TextBlock.FontSize="12" TextBlock.Foreground="#DDDDDD" />
+            <ContentPresenter x:Name="ComboContentPresenter" TextBlock.FontFamily="pack://application:,,,/Resources/Fonts/#Roboto Regular" TextBlock.FontSize="11" TextBlock.Foreground="#DDDDDD" />
           </Border>
         </ControlTemplate>
       </Setter.Value>

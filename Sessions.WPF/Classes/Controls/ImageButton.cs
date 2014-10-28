@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -93,7 +94,8 @@ namespace Sessions.WPF.Classes.Controls
             _lblTitle = new TextBlock();
             _lblTitle.Margin = new Thickness(6, -2, 0, 0);
             _lblTitle.Padding = new Thickness(0, 0, 0, 0);
-            _lblTitle.FontFamily = new FontFamily("Roboto");
+            var typeface = new Typeface(new FontFamily(new Uri("pack://application:,,,/"), "/Resources/Fonts/#Roboto Regular"), FontStyles.Normal, FontWeights.Regular, FontStretches.Normal);
+            _lblTitle.FontFamily = typeface.FontFamily;
             _lblTitle.FontSize = 11;
             _stackPanel.Children.Add(_lblTitle);
 

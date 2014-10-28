@@ -126,6 +126,7 @@ namespace Sessions.WPF.Classes.Controls
 
         public WaveForm()
         {
+            ClipToBounds = true;
             _control = new WaveFormControl();
             _control.OnInvalidateVisual += () =>
             {

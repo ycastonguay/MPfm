@@ -494,19 +494,21 @@
                                                   <controls:FixedWidthColumn Header="" FixedWidth="28">
                                                       <GridViewColumn.CellTemplate>
                                                           <DataTemplate>
+                                                            <Grid x:Name="gridLoopPlayingColumn" PreviewMouseDown="GridLoopColumn_OnPreviewMouseDown">
                                                               <Image x:Name="imageLoopPlaying" Source="/Resources/Images/Icons/speakerwithpadding.png" Stretch="None" Width="16" Height="16" Margin="0" Opacity="0.7" Visibility="Hidden" />
+                                                            </Grid>
                                                           </DataTemplate>
                                                       </GridViewColumn.CellTemplate>
                                                   </controls:FixedWidthColumn>
                                                   <GridViewColumn Header="Name" Width="120">
                                                     <GridViewColumn.CellTemplate>
                                                       <DataTemplate>
-                                                        <Grid>
+                                                        <Grid x:Name="gridLoopNameColumn">
                                                           <TextBlock x:Name="lblLoopName" Text="{Binding Path=Name}" Margin="0" Padding="0,2,4,2" Foreground="Black" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" PreviewMouseDown="lblLoopName_OnPreviewMouseDown" />
                                                           <Grid x:Name="gridLoopName" Visibility="Collapsed">
                                                             <Grid x:Name="gridLoopNameTextbox" Background="White" Height="19" Margin="0,0,2,0">
                                                               <TextBlock x:Name="lblLoopNameWatermark" Margin="2,2,0,0" Padding="0" Text="New Loop" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtLoopName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
-                                                              <TextBox x:Name="txtLoopName" Background="Transparent" BorderBrush="Transparent" Height="19" Margin="0,0,0,0" Padding="0,2,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" KeyDown="TxtLoopName_OnKeyDown" />
+                                                              <TextBox x:Name="txtLoopName" Background="Transparent" BorderBrush="Transparent" Height="19" Margin="0,0,0,0" Padding="0,2,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" KeyDown="TxtLoopName_OnKeyDown" PreviewMouseDoubleClick="TxtLoopName_OnPreviewMouseDoubleClick" />
                                                             </Grid>
                                                           </Grid>
                                                           <Button x:Name="btnLoopName_OK" Style="{StaticResource PlayerButton}" Width="16" Height="16" Margin="1" Visibility="Collapsed" Click="BtnLoopName_OK_OnClick">
@@ -522,7 +524,7 @@
                                                   <GridViewColumn Header="Start" Width="80">
                                                     <GridViewColumn.CellTemplate>
                                                       <DataTemplate>
-                                                        <Grid>
+                                                        <Grid x:Name="gridLoopStartPositionColumn" PreviewMouseDown="GridLoopColumn_OnPreviewMouseDown">
                                                           <Grid.ColumnDefinitions>
                                                             <ColumnDefinition />
                                                             <ColumnDefinition Width="Auto" />
@@ -538,7 +540,7 @@
                                                   <GridViewColumn Header="End" Width="80">
                                                     <GridViewColumn.CellTemplate>
                                                       <DataTemplate>
-                                                        <Grid>
+                                                        <Grid x:Name="gridLoopEndPositionColumn" PreviewMouseDown="GridLoopColumn_OnPreviewMouseDown">
                                                           <Grid.ColumnDefinitions>
                                                             <ColumnDefinition />
                                                             <ColumnDefinition Width="Auto" />
