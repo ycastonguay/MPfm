@@ -107,12 +107,13 @@ namespace Sessions.WPF.Classes.Controls
             WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
 
+            var typeface = new Typeface(new FontFamily(new Uri("pack://application:,,,/"), "/Resources/Fonts/#Roboto Regular"), FontStyles.Normal, FontWeights.Regular, FontStretches.Normal);
             _lblZoom = new Label();
             _lblZoom.Background = new SolidColorBrush(Color.FromArgb(140, 32, 40, 46));
             _lblZoom.Foreground = new SolidColorBrush(Colors.White);
             _lblZoom.Padding = new Thickness(4);
             _lblZoom.Content = "100%";
-            _lblZoom.FontFamily = new FontFamily("Roboto");
+            _lblZoom.FontFamily = typeface.FontFamily;
             _lblZoom.FontSize = 11;
             _lblZoom.Width = Double.NaN;
             _lblZoom.Height = Double.NaN;

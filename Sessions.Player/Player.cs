@@ -1154,11 +1154,18 @@ namespace Sessions.Player
         {
             // Check driver type (the pause mechanism differs by driver)
             if (Device.DriverType == DriverType.DirectSound)
-            {        
+            {
                 if (!IsPaused)
+                {
                     Base.Pause();
+                    IsPaused = true;
+                }
                 else
+                {                    
                     Base.Start();
+                    IsPaused = false;
+                    SetPosition(_positionAfterUnpause);
+                }
             }
 
 #if !IOS && !ANDROID
@@ -1182,8 +1189,9 @@ namespace Sessions.Player
                         // Check for error
                         Base.CheckForError();
                     }
-
                 }
+
+                IsPaused = !IsPaused;
             }
             else if (Device.DriverType == DriverType.WASAPI)
             {
@@ -1207,10 +1215,12 @@ namespace Sessions.Player
                     }
 
                 }
+
+                IsPaused = !IsPaused;
             }
+
 #endif
 
-            IsPaused = !IsPaused;
         }
 
         /// <summary>
@@ -1474,7 +1484,7 @@ namespace Sessions.Player
             if (IsPaused)
             {
                 _positionAfterUnpause = bytes;
-                //return;
+                return;
             }
                 
             if (IsPlayingLoop)
