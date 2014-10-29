@@ -69,7 +69,8 @@ namespace Sessions.WPF.Classes.Controls
             _verticalScrollBar.Height = Double.NaN;
             _verticalScrollBar.Minimum = 1;
             _verticalScrollBar.Maximum = 100;
-            _verticalScrollBar.Margin = new Thickness(0, 20, 0, 20);
+            _verticalScrollBar.Margin = new Thickness(0, 20, 0, 0);
+            _verticalScrollBar.VerticalAlignment = VerticalAlignment.Top;
             DockPanel.SetDock(_verticalScrollBar, Dock.Right);
             Children.Add(_verticalScrollBar);
 

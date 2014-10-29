@@ -52,12 +52,12 @@ namespace Sessions.WPF.Classes.Windows
 
         private void InitializeTrackBars()
         {
-            var backgroundColor = new BasicColor(242, 242, 242);
-            trackBufferSize.Theme.BackgroundColor = backgroundColor;
-            trackMaximumFolderSize.Theme.BackgroundColor = backgroundColor;
-            trackUpdateFrequency_OutputMeter.Theme.BackgroundColor = backgroundColor;
-            trackUpdateFrequency_SongPosition.Theme.BackgroundColor = backgroundColor;
-            trackUpdatePeriod.Theme.BackgroundColor = backgroundColor;
+            //var backgroundColor = new BasicColor(242, 242, 242);
+            //trackBufferSize.Theme.BackgroundColor = backgroundColor;
+            //trackMaximumFolderSize.Theme.BackgroundColor = backgroundColor;
+            //trackUpdateFrequency_OutputMeter.Theme.BackgroundColor = backgroundColor;
+            //trackUpdateFrequency_SongPosition.Theme.BackgroundColor = backgroundColor;
+            //trackUpdatePeriod.Theme.BackgroundColor = backgroundColor;
         }
 
         private void btnTab_OnClick(object sender, RoutedEventArgs e)

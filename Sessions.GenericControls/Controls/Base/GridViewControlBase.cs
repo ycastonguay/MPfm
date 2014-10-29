@@ -171,6 +171,23 @@ namespace Sessions.GenericControls.Controls.Base
             // Check if the horizontal scrollbar needs to be turned off
             if (GridCache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
                 HorizontalScrollBar.Visible = false;
+
+            // If both scrollbars need to be visible, the width and height must be changed
+            int verticalScrollBarCompensation = 0;
+            if (ShouldDrawHeader())
+                verticalScrollBarCompensation = ListCache.LineHeight;
+
+            if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
+            {
+                // Cut 16 pixels (size of scrollbar)
+                const int scrollBarSize = 16;
+                HorizontalScrollBar.Width = (int)(Frame.Width - scrollBarSize);
+                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - verticalScrollBarCompensation - scrollBarSize));
+            }
+            else
+            {
+                VerticalScrollBar.Height = Math.Max(0, (int)(Frame.Height - verticalScrollBarCompensation));
+            }
         }
 
         #region Rendering Methods

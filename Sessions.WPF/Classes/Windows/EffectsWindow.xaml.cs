@@ -134,7 +134,14 @@ namespace Sessions.WPF.Classes.Windows
 
         private void BtnSavePreset_OnClick(object sender, RoutedEventArgs e)
         {
-            OnSavePreset(txtPresetName.Text);
+            _preset.Name = txtPresetName.Text;
+            //OnSavePreset(txtPresetName.Text);
+        }
+
+        private void TxtPresetName_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            _preset.Name = txtPresetName.Text;
+            //OnSavePreset(txtPresetName.Text);
         }
 
         private void BtnNormalize_OnClick(object sender, RoutedEventArgs e)
@@ -300,9 +307,10 @@ namespace Sessions.WPF.Classes.Windows
             _preset = _presets.FirstOrDefault(x => x.EQPresetId == selectedPresetId);
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                listViewPresets.Items.Clear();
-                foreach (var preset in _presets)
-                    listViewPresets.Items.Add(preset);
+                //listViewPresets.Items.Clear();
+                //foreach (var preset in _presets)
+                //    listViewPresets.Items.Add(preset);
+                listViewPresets.ItemsSource = _presets;
 
                 if(isFirstRefresh)
                     RefreshPreset(_preset);

@@ -16,8 +16,6 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -31,7 +29,6 @@ using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.MVP.Bootstrap;
-using Sessions.Sound.AudioFiles;
 using ModifierKeys = Sessions.GenericControls.Interaction.ModifierKeys;
 
 namespace Sessions.WPF.Classes.Controls
@@ -70,7 +67,8 @@ namespace Sessions.WPF.Classes.Controls
             _verticalScrollBar.Height = Double.NaN;
             _verticalScrollBar.Minimum = 1;
             _verticalScrollBar.Maximum = 100;
-            _verticalScrollBar.Margin = new Thickness(0, 20, 0, 20);
+            _verticalScrollBar.Margin = new Thickness(0, 0, 0, 0);
+            _verticalScrollBar.VerticalAlignment = VerticalAlignment.Top;
             DockPanel.SetDock(_verticalScrollBar, Dock.Right);
             Children.Add(_verticalScrollBar);
 

@@ -44,7 +44,8 @@
                 </ListView.ContextMenu>
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource HiddenHeaderStyle}">
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewWidthConverter}}" />
+                        <!--<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView} }, Converter={StaticResource GridViewWidthConverter}}" />-->
+                      <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -60,7 +61,7 @@
                 <Label Grid.Row="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="4,0,4,2" Padding="2" />
                 <Grid Grid.Row="1" Background="White" Height="24" Margin="5,0,5,4">
                     <TextBlock Margin="2,4,0,0" Padding="0" Text="New preset" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtPresetName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
-                    <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                    <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" KeyDown="TxtPresetName_OnKeyDown" />
                 </Grid>
                 <controls:ImageButton Grid.Row="2" x:Name="btnSavePreset" Visibility="Collapsed" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnSavePreset_OnClick" />
                 <controls:ImageButton Grid.Row="3" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnNormalize_OnClick" />
