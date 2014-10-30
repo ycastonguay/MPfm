@@ -128,7 +128,7 @@ namespace Sessions.OSX.Classes.Controls
         private void SetFrame()
         {
             _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
-            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 20, 20, Bounds.Height - 40);
+            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 0, 20, Bounds.Height);
         }
 
         public void SetPlaylist(Playlist playlist)

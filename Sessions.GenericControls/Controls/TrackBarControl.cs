@@ -171,6 +171,8 @@ namespace Sessions.GenericControls.Controls
                 {
                     _isTrackBarMoving = true;
                 }
+
+                OnScrubbingSpeedChanged(_currentScrubbingSpeed);
             }
         }
 
@@ -200,6 +202,7 @@ namespace Sessions.GenericControls.Controls
                 InvalidateVisual();
             }
 
+            _currentScrubbingSpeed = _scrubbingSpeeds[0];
             _mouseButtonDown = false;
             _isTrackBarMoving = false;
         }

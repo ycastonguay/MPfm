@@ -31,7 +31,9 @@ namespace Sessions.OSX.Classes.Controls
     public class SessionsTrackBarView : NSControl
     {
         private TrackBarControl _control;
+        private SessionsScrubbingPanel _scrubbingPanel;
         private bool _isMouseDown;
+        private SizeF _popupSize = new SizeF(300, 36);
 
         public override bool IsOpaque { get { return true; } }
         public override bool IsFlipped { get { return true; } }
@@ -106,8 +108,32 @@ namespace Sessions.OSX.Classes.Controls
             _control.OnTrackBarValueChanged += () => {
                 OnTrackBarValueChanged();
             };
+            _control.OnScrubbingSpeedChanged += (scrubbingSpeed) => {
+                _scrubbingPanel.SetSubtitle(scrubbingSpeed.Label);
+            };
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
+
+            CreatePopup();
+        }
+
+        private void CreatePopup()
+        {
+            _scrubbingPanel = new SessionsScrubbingPanel(new RectangleF(new PointF(0, 0), _popupSize), NSWindowStyle.Borderless, NSBackingStore.Buffered, false);
+        }
+
+        private void ShowPopup()
+        {
+            var viewFrameRelativeToWindow = ConvertRectToView(Bounds, null);
+            float x = Window.Frame.X + viewFrameRelativeToWindow.X - ((_popupSize.Width - Frame.Width) / 2);
+            float y = Window.Frame.Y + viewFrameRelativeToWindow.Y - _popupSize.Height;
+            _scrubbingPanel.SetFrame(new RectangleF(x, y, _popupSize.Width, _popupSize.Height), true);
+            _scrubbingPanel.MakeKeyAndOrderFront(this);
+        }
+
+        private void HidePopup()
+        {
+            _scrubbingPanel.OrderOut(this);
         }
         
         public override void DrawRect(RectangleF dirtyRect)
@@ -131,6 +157,7 @@ namespace Sessions.OSX.Classes.Controls
             base.MouseUp(theEvent);
             GenericControlHelper.MouseUp(this, _control, theEvent);
             OnTrackBarMouseUp();
+            HidePopup();
         }
         
         public override void MouseDown(NSEvent theEvent)
@@ -142,6 +169,7 @@ namespace Sessions.OSX.Classes.Controls
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
             OnTrackBarMouseDown();
+            ShowPopup();
         }
         
         public override void MouseMoved(NSEvent theEvent)
