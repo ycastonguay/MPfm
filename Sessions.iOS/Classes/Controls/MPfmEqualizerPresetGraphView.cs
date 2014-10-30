@@ -23,13 +23,24 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Helpers;
+using Sessions.GenericControls.Controls;
+using Sessions.iOS.Classes.Controls.Helpers;
+using Sessions.iOS.Classes.Controls.Graphics;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.iOS.Classes.Controls
 {
     [Register("SessionsEqualizerPresetGraphView")]
     public class SessionsEqualizerPresetGraphView : UIView
     {
-        public EQPreset Preset { get; set; }
+        private EqualizerPresetGraphControl _control;
+
+        public EQPreset Preset { get { return _control.Preset; } set { _control.Preset = value; } }
+        public BasicColor ColorBackground { get { return _control.ColorBackground; } set { _control.ColorBackground = value; } }
+        public BasicColor ColorForeground { get { return _control.ColorForeground; } set { _control.ColorForeground = value; } }
+        public BasicColor ColorMainLine { get { return _control.ColorMainLine; } set { _control.ColorMainLine = value; } }
+        public BasicColor ColorSecondaryLine { get { return _control.ColorSecondaryLine; } set { _control.ColorSecondaryLine = value; } }
+        public bool ShowText { get { return _control.ShowText; } set { _control.ShowText = value; } }
 
         public SessionsEqualizerPresetGraphView(IntPtr handle) 
             : base (handle)
@@ -46,53 +57,19 @@ namespace Sessions.iOS.Classes.Controls
         private void Initialize()
         {
             this.BackgroundColor = UIColor.Black;
-            Preset = new EQPreset();
+            _control = new EqualizerPresetGraphControl();
+            //_control.FontFace = "HelveticaNeue";
+            //_control.LetterFontFace = "HelveticaNeue";
+            _control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
+            _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
 
         public override void Draw(RectangleF rect)
         {
-            float padding = 6;
-            float heightAvailable = Bounds.Height - (padding * 2); // 14 = height
             var context = UIGraphics.GetCurrentContext();
             context.SaveState();
-
-            // IDEA: Put the equalizer line in the Equalizer Presets screen (in UITableViewCell)
-            // IDEA: Put the value of the band currently changing over the graph (i.e. +3.5dB)
-			CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor.CGColor);
-
-            // Draw center line
-            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                new PointF(padding, (Bounds.Height / 2)),
-                new PointF(Bounds.Width - padding, (Bounds.Height / 2))
-            }, UIColor.DarkGray.CGColor, 2, false, false);
-
-            // Draw 20Hz and 20kHz lines
-            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                new PointF(padding, padding),
-                new PointF(padding, Bounds.Height - padding)
-            }, UIColor.DarkGray.CGColor, 1, false, true);
-            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                new PointF(Bounds.Width - padding, padding),
-                new PointF(Bounds.Width - padding, Bounds.Height - padding)
-            }, UIColor.DarkGray.CGColor, 1, false, true);
-
-            // Draw text
-            SizeF sizeString = CoreGraphicsHelper.MeasureText(context, Preset.Bands[Preset.Bands.Count-1].CenterString, "HelveticaNeue-Bold", 8);
-            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(6 + 4, Bounds.Height - sizeString.Height - (padding / 2)), Preset.Bands[0].CenterString, "HelveticaNeue-Bold", 8, new CGColor(0.3f, 0.3f, 0.3f));
-            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(Bounds.Width - padding - sizeString.Width - 4, Bounds.Height - sizeString.Height - (padding / 2)), Preset.Bands[Preset.Bands.Count-1].CenterString, "HelveticaNeue-Bold", 8, new CGColor(0.3f, 0.3f, 0.3f));
-
-            // Draw equalizer line
-            var points = new List<PointF>();
-            float x = padding;
-            foreach (var band in Preset.Bands)
-            {
-                // Value range is -6 to 6.
-                float ratio = (band.Gain + 6) / (padding * 2);
-                float y = padding + heightAvailable - (ratio * (Bounds.Height - (padding * 2)));
-                points.Add(new PointF(x, y));
-                x += (Bounds.Width - (padding * 2)) / (Preset.Bands.Count - 1);
-            }
-            CoreGraphicsHelper.DrawRoundedLine(context, points, UIColor.Yellow.CGColor, 2, false, false);
+            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(rect));
+            _control.Render(wrapper);
             context.RestoreState();
         }
     }

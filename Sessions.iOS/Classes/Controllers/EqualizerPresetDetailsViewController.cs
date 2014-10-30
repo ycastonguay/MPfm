@@ -138,11 +138,11 @@ namespace Sessions.iOS
 			var screenSize = UIKitHelper.GetDeviceSize();
 			scrollView.ContentSize = new SizeF(screenSize.Width, _faderViews.Count * 44);
 
-			Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - width: {0} faderCount: {1}", screenSize.Width, _faderViews.Count);
+			//Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - width: {0} faderCount: {1}", screenSize.Width, _faderViews.Count);
 			float y = 0;
 			for (int a = 0; a < scrollView.Subviews.Count(); a++)
 			{
-				Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - a: {0} a*44: {1}", a, (a * 44));
+				//Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - a: {0} a*44: {1}", a, (a * 44));
 				var view = scrollView.Subviews[a];
 				if (view is SessionsEqualizerFaderView)
 				{
@@ -200,7 +200,7 @@ namespace Sessions.iOS
 
         private void AddFaderToScrollView(string frequency)
         {
-			Tracing.Log("EqualizerPresetDetailsVC - AddFaderToScrollView - frequency: {0} faderCount: {1}", frequency, _faderViews.Count);
+			//Tracing.Log("EqualizerPresetDetailsVC - AddFaderToScrollView - frequency: {0} faderCount: {1}", frequency, _faderViews.Count);
             SessionsEqualizerFaderView view = new SessionsEqualizerFaderView();
             view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
             view.SetValue(frequency, 0);

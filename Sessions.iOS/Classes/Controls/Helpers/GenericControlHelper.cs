@@ -40,7 +40,7 @@ namespace Sessions.iOS.Classes.Controls.Helpers
 
 		public static UIColor ToColor(BasicColor color)
 		{
-			return UIColor.FromRGBA(color.R, color.G, color.B, color.A);
+            return UIColor.FromRGBA(color.R/255f, color.G/255f, color.B/255f, color.A/255f);
 		}
 
 		// No brushes/pens in iOS, using colors directly with CoreGraphicsHelper class

@@ -212,19 +212,16 @@ namespace Sessions.iOS
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             // Request a recycled cell to save memory
-            var cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            var cell = (SessionsEqualizerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
-                //cell = new UITableViewCell(cellStyle, _cellIdentifier);
-                cell = new SessionsTableViewCell(cellStyle, _cellIdentifier);
+                cell = new SessionsEqualizerTableViewCell(cellStyle, _cellIdentifier);
             }
 
             cell.Tag = indexPath.Row;
-            cell.TextLabel.Text = _presets[indexPath.Row].Name;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-            cell.TextLabel.TextColor = UIColor.Black;
-            cell.TextLabel.HighlightedTextColor = UIColor.White;
+            cell.GraphView.Preset = _presets[indexPath.Row];
+            cell.TitleTextLabel.Text = _presets[indexPath.Row].Name;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
 

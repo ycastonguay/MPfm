@@ -38,10 +38,61 @@ namespace Sessions.GenericControls.Controls
         private BasicPen _penForeground;
         private BasicPen _penTransparent;
 
-        public BasicColor ColorBackground { get; set; }
-        public BasicColor ColorForeground { get; set; }
-        public BasicColor ColorMainLine { get; set; }
-        public BasicColor ColorSecondaryLine { get; set; }
+        private BasicColor _colorBackground;
+        public BasicColor ColorBackground
+        {
+            get
+            {
+                return _colorBackground;
+            }
+            set
+            {
+                _colorBackground = value;
+                CreateDrawingResources();
+            }
+        }
+
+        private BasicColor _colorForeground;
+        public BasicColor ColorForeground
+        {
+            get
+            {
+                return _colorForeground;
+            }
+            set
+            {
+                _colorForeground = value;
+                CreateDrawingResources();
+            }
+        }
+
+        private BasicColor _colorMainLine;
+        public BasicColor ColorMainLine
+        {
+            get
+            {
+                return _colorMainLine;
+            }
+            set
+            {
+                _colorMainLine = value;
+                CreateDrawingResources();
+            }
+        }
+
+        private BasicColor _colorSecondaryLine;
+        public BasicColor ColorSecondaryLine
+        {
+            get
+            {
+                return _colorSecondaryLine;
+            }
+            set
+            {
+                _colorSecondaryLine = value;
+                CreateDrawingResources();
+            }
+        }
 
         private EQPreset _preset;
         public EQPreset Preset
@@ -60,6 +111,8 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
+        public bool ShowText { get; set; }
+
         public EqualizerPresetGraphControl()
         {
 			Initialize();
@@ -67,15 +120,21 @@ namespace Sessions.GenericControls.Controls
 
 		private void Initialize()
 		{
+            ShowText = true;
+            SetDefaultColors();
 		    CreateDrawingResources();
 		}
 
+        private void SetDefaultColors()
+        {
+            _colorBackground = new BasicColor(32, 40, 46);
+            _colorForeground = new BasicColor(230, 237, 242);
+            _colorMainLine = new BasicColor(255, 255, 0);
+            _colorSecondaryLine = new BasicColor(85, 85, 85);
+        }
+
         private void CreateDrawingResources()
         {
-            ColorBackground = new BasicColor(32, 40, 46);
-            ColorForeground = new BasicColor(230, 237, 242);
-            ColorMainLine = new BasicColor(255, 255, 0);
-            ColorSecondaryLine = new BasicColor(85, 85, 85);
             _brushBackground = new BasicBrush(ColorBackground);
             _brushForeground = new BasicBrush(ColorForeground);
             _brushMainLine = new BasicBrush(ColorMainLine);
@@ -92,26 +151,9 @@ namespace Sessions.GenericControls.Controls
         {            
             base.Render(context);
 
-            //var rectBackground = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
-            //context.DrawRectangle(rectBackground, _brushBackground, _penTransparent);
-
-//            const float padding = 2;
-//            const float checkPadding = padding + 4;
-//            var rectForeground = new BasicRectangle(padding, padding, context.BoundsWidth - (padding * 2), context.BoundsHeight - (padding * 2));
-//            context.DrawRectangle(rectForeground, _brushTransparent, _penBorder);
-//
-//            if (_value)
-//            {
-//                context.DrawLine(new BasicPoint(checkPadding, checkPadding), new BasicPoint(context.BoundsWidth - checkPadding, context.BoundsHeight - checkPadding), _penForeground);
-//                context.DrawLine(new BasicPoint(context.BoundsWidth - checkPadding, checkPadding), new BasicPoint(checkPadding, context.BoundsHeight - checkPadding), _penForeground);
-//            }
-
-            // ----
-
             const float padding = 6;
             float heightAvailable = Frame.Height - (padding * 2); // 14 = height
 
-            // IDEA: Put the equalizer line in the Equalizer Presets screen (in UITableViewCell)
             // IDEA: Put the value of the band currently changing over the graph (i.e. +3.5dB)
 
             // Background
@@ -119,23 +161,29 @@ namespace Sessions.GenericControls.Controls
 
             // Draw center line
             context.DrawLine(new BasicPoint(padding, (Frame.Height / 2)), 
-                             new BasicPoint(Frame.Width - padding, (Frame.Height / 2)), _penCenterLine);
+                new BasicPoint(Frame.Width - padding, (Frame.Height / 2)), _penCenterLine);
 
             // Draw 20Hz and 20kHz lines
             context.DrawLine(new BasicPoint(padding, padding),
-                             new BasicPoint(padding, Frame.Height - padding), _penBorderLine);
+                new BasicPoint(padding, Frame.Height - padding), _penBorderLine);
             context.DrawLine(new BasicPoint(Frame.Width - padding, padding),
-                             new BasicPoint(Frame.Width - padding, Frame.Height - padding), _penBorderLine);
+                new BasicPoint(Frame.Width - padding, Frame.Height - padding), _penBorderLine);
 
-            // Draw text
-            string fontFace = "HelveticaNeue-Bold";
-            int fontSize = 8;
-            string leftText = Preset.Bands[0].CenterString;
-            string rightText = Preset.Bands[Preset.Bands.Count-1].CenterString;
-            var sizeLeftText = context.MeasureText(leftText, new BasicRectangle(), fontFace, fontSize);
-            var sizeRightText = context.MeasureText(rightText, new BasicRectangle(), fontFace, fontSize);
-            context.DrawText(leftText, new BasicPoint(6 + 4, Frame.Height - sizeLeftText.Height - (padding / 2)), ColorForeground, fontFace, fontSize);
-            context.DrawText(rightText, new BasicPoint(Frame.Width - padding - sizeRightText.Width - 4, Frame.Height - sizeRightText.Height - (padding / 2)), ColorForeground, fontFace, fontSize);
+            if (Preset == null)
+                return;
+
+            if (ShowText)
+            {
+                // Draw text
+                string fontFace = "HelveticaNeue-Bold";
+                int fontSize = 8;
+                string leftText = Preset.Bands[0].CenterString;
+                string rightText = Preset.Bands[Preset.Bands.Count - 1].CenterString;
+                var sizeLeftText = context.MeasureText(leftText, new BasicRectangle(), fontFace, fontSize);
+                var sizeRightText = context.MeasureText(rightText, new BasicRectangle(), fontFace, fontSize);
+                context.DrawText(leftText, new BasicPoint(6 + 4, Frame.Height - sizeLeftText.Height - (padding / 2)), ColorForeground, fontFace, fontSize);
+                context.DrawText(rightText, new BasicPoint(Frame.Width - padding - sizeRightText.Width - 4, Frame.Height - sizeRightText.Height - (padding / 2)), ColorForeground, fontFace, fontSize);
+            }
 
             // Draw equalizer line
             var points = new List<BasicPoint>();

@@ -27,35 +27,26 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
+using Sessions.iOS.Classes.Controls.Helpers;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.iOS.Classes.Controls
 {
     [Register("SessionsEqualizerTableViewCell")]
     public class SessionsEqualizerTableViewCell : UITableViewCell
     {
+        private const float GraphViewWidth = 60f;
+        private const float GraphViewPadding = 4f;
+
         private bool _isTextLabelAllowedToChangeFrame = true;
 
 		public UIView ContainerView { get; private set; }
 		public UIView ContainerBackgroundView { get; private set; }
 
-		public UIView BehindView { get; private set; }
-		public UIImageView ImageCheckmark { get; private set; }
-		public UIImageView ImageCheckmarkConfirm { get; private set; }
-		public UIImageView ImageAddToPlaylist { get; private set; }
-		public UIImageView ImageAddedToPlaylist { get; private set; }
-		public UILabel AddToPlaylistLabel { get; private set; }
-		public UILabel AddedToPlaylistLabel { get; private set; }
-
         public UILabel TitleTextLabel { get; private set; }
         public UILabel SubtitleTextLabel { get; private set; }
         public UILabel IndexTextLabel { get; private set; }
-        public UIButton RightButton { get; private set; }
-        public UIImageView RightImage { get; private set; }
-        public UIImageView ImageChevron { get; private set; }
-        public UIImageView ImageAlbum1 { get; private set; }
-        public UIImageView ImageAlbum2 { get; private set; }
-        public UIImageView ImageAlbum3 { get; private set; }
-        public UILabel AlbumCountLabel { get; private set; }
+        public SessionsEqualizerPresetGraphView GraphView { get; private set; }
 
 		public SessionsSecondaryMenuButton PlayButton { get; set; }
 		public SessionsSecondaryMenuButton AddButton { get; set; }
@@ -95,63 +86,7 @@ namespace Sessions.iOS.Classes.Controls
         {
             IsTextAnimationEnabled = false;
             SelectionStyle = UITableViewCellSelectionStyle.None;
-            var screenSize = UIKitHelper.GetDeviceSize();
            
-			BehindView = new UIView(Bounds);
-			BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
-			AddSubview(BehindView);
-
-			ImageAddToPlaylist = new UIImageView();
-			ImageAddToPlaylist.Frame = new RectangleF(10, 14, 24, 24);
-			ImageAddToPlaylist.Image = UIImage.FromBundle("Images/ContextualButtons/add");
-			ImageAddToPlaylist.BackgroundColor = UIColor.Clear;
-			ImageAddToPlaylist.Alpha = 0.1f;
-			BehindView.AddSubview(ImageAddToPlaylist);
-
-			ImageAddedToPlaylist = new UIImageView();
-			ImageAddedToPlaylist.Frame = new RectangleF(10, 14, 24, 24);
-			ImageAddedToPlaylist.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark");
-			ImageAddedToPlaylist.BackgroundColor = UIColor.Clear;
-			ImageAddedToPlaylist.Alpha = 0f;
-			//BehindView.AddSubview(ImageAddedToPlaylist);
-
-			ImageCheckmark = new UIImageView();
-			ImageCheckmark.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
-			ImageCheckmark.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark");
-			ImageCheckmark.BackgroundColor = UIColor.Clear;
-			ImageCheckmark.Alpha = 1f;
-			BehindView.AddSubview(ImageCheckmark);
-
-			ImageCheckmarkConfirm = new UIImageView();
-			ImageCheckmarkConfirm.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
-			ImageCheckmarkConfirm.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark_nobg");
-			ImageCheckmarkConfirm.BackgroundColor = UIColor.Clear;
-			ImageCheckmarkConfirm.Alpha = 0f;
-			BehindView.AddSubview(ImageCheckmarkConfirm);
-
-			AddToPlaylistLabel = new UILabel();
-			AddToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 150, 32);
-			AddToPlaylistLabel.Text = "Add to queue";
-			AddToPlaylistLabel.BackgroundColor = UIColor.Clear;
-			AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
-			AddToPlaylistLabel.TextColor = UIColor.White;
-			AddToPlaylistLabel.TextAlignment = UITextAlignment.Left;
-			AddToPlaylistLabel.HighlightedTextColor = UIColor.White;
-			BehindView.AddSubview(AddToPlaylistLabel);
-
-			AddedToPlaylistLabel = new UILabel();
-			AddedToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			AddedToPlaylistLabel.Frame = new RectangleF(12, 62, 150, 32);
-			AddedToPlaylistLabel.Alpha = 0;
-			AddedToPlaylistLabel.Text = "Added to queue!";
-			AddedToPlaylistLabel.BackgroundColor = UIColor.Clear;
-			AddedToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
-			AddedToPlaylistLabel.TextColor = UIColor.White;
-			AddedToPlaylistLabel.TextAlignment = UITextAlignment.Left;
-			AddedToPlaylistLabel.HighlightedTextColor = UIColor.White;
-			BehindView.AddSubview(AddedToPlaylistLabel);
-
 			ContainerView = new UIView(Bounds);
 			ContainerView.BackgroundColor = UIColor.Clear;
 			AddSubview(ContainerView);
@@ -166,43 +101,10 @@ namespace Sessions.iOS.Classes.Controls
             SelectedBackgroundView.Hidden = true;
 			ContainerView.AddSubview(SelectedBackgroundView);
 
-            ImageAlbum1 = new UIImageView();
-            ImageAlbum1.BackgroundColor = UIColor.Clear;
-            ImageAlbum1.Hidden = true;
-            ImageAlbum1.Alpha = 0.75f;
-            ImageAlbum1.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
-			ContainerView.AddSubview(ImageAlbum1);
-
-            ImageAlbum2 = new UIImageView();
-            ImageAlbum2.BackgroundColor = UIColor.Clear;
-            ImageAlbum2.Hidden = true;
-            ImageAlbum2.Alpha = 0.4f;
-            ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
-			ContainerView.AddSubview(ImageAlbum2);
-
-            ImageAlbum3 = new UIImageView();
-            ImageAlbum3.BackgroundColor = UIColor.Clear;
-            ImageAlbum3.Hidden = true;
-            ImageAlbum3.Alpha = 0.2f;
-            ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
-			ContainerView.AddSubview(ImageAlbum3);
-
-            AlbumCountLabel = new UILabel();
-            AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
-            AlbumCountLabel.Alpha = 0.75f;
-            AlbumCountLabel.BackgroundColor = UIColor.Clear;
-            AlbumCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
-            AlbumCountLabel.Hidden = true;
-            AlbumCountLabel.Text = "+98";
-            AlbumCountLabel.TextColor = UIColor.Black;
-            AlbumCountLabel.TextAlignment = UITextAlignment.Center;
-            AlbumCountLabel.HighlightedTextColor = UIColor.White;
-			ContainerView.AddSubview(AlbumCountLabel);
-
             TitleTextLabel = new UILabel();
             TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
             TitleTextLabel.BackgroundColor = UIColor.Clear;
-            TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
+            TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TitleTextLabel.TextColor = UIColor.Black;
             TitleTextLabel.HighlightedTextColor = UIColor.White;
             SubtitleTextLabel = new UILabel();
@@ -226,24 +128,16 @@ namespace Sessions.iOS.Classes.Controls
             IndexTextLabel.HighlightedTextColor = UIColor.White;
 			ContainerView.AddSubview(IndexTextLabel);
 
-            RightButton = new UIButton(UIButtonType.Custom);
-            RightButton.Hidden = true;
-            RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
-            RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
-			ContainerView.AddSubview(RightButton);
+            GraphView = new SessionsEqualizerPresetGraphView(new RectangleF(0, 0, 60, 40));
+            GraphView.ShowText = false;
+            GraphView.BackgroundColor = UIColor.White;
+            GraphView.ColorForeground = new BasicColor(0, 150, 0);
+            GraphView.ColorBackground = new BasicColor(255, 255, 255);
+            //GraphView.ColorMainLine = new BasicColor(150, 255, 0);
+            GraphView.ColorMainLine = new BasicColor(50, 50, 50);
+            GraphView.ColorSecondaryLine = new BasicColor(240, 240, 240);
 
-            ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
-            ImageChevron.BackgroundColor = UIColor.Clear;
-            ImageChevron.Hidden = true;
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
-			ContainerView.AddSubview(ImageChevron);           
-
-            RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
-            RightImage.Alpha = 0.7f;
-            RightImage.BackgroundColor = UIColor.Clear;
-            RightImage.Hidden = true;
-            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
-			ContainerView.AddSubview(RightImage);
+            ContainerView.AddSubview(GraphView);
 
             // Make sure the text label is over all other subviews
             //TextLabel.RemoveFromSuperview();
@@ -287,12 +181,11 @@ namespace Sessions.iOS.Classes.Controls
             base.LayoutSubviews();
 
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
-			BehindView.Frame = Bounds;
 			ContainerView.Frame = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
 			ContainerBackgroundView.Frame = new RectangleF(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+            GraphView.Frame = new RectangleF(Bounds.Width - GraphViewPadding - GraphViewWidth, GraphViewPadding, GraphViewWidth, Bounds.Height - GraphViewPadding * 2);
 
-            var screenSize = UIKitHelper.GetDeviceSize();
             float padding = 8;
 
             // Determine width available for text
@@ -301,14 +194,8 @@ namespace Sessions.iOS.Classes.Controls
                 textWidth -= 44;
             if (ImageView.Image != null && !ImageView.Hidden)
                 textWidth -= 44 + padding;
-            if (RightButton.ImageView.Image != null)
-                textWidth -= 44 + padding;
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
                 textWidth -= 22 + padding + padding;
-            if (ImageChevron.Image != null && !ImageChevron.Hidden)
-                textWidth -= 22;
-            if (RightImage.Image != null && !RightImage.Hidden)
-                textWidth -= 44;
 
             float x = 0;
             if (ImageView.Image != null)
@@ -336,21 +223,6 @@ namespace Sessions.iOS.Classes.Controls
             if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
                 SubtitleTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
 
-            if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
-                RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
-
-            ImageChevron.Frame = new RectangleF(screenSize.Width - 22 - RightOffset, 4, 22, 44);
-
-            if(ImageChevron.Hidden)
-                RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 4, 44, 44);
-            else
-                RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
-
-//			ImageAlbum1.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
-//			ImageAlbum2.Frame = new RectangleF(screenSize.Width - 130, 4, 44, 44);
-//			ImageAlbum3.Frame = new RectangleF(screenSize.Width - 182, 4, 44, 44);
-			//AlbumCountLabel.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
-
 //			PlayButton.Frame = new RectangleF(4, 56, 100, 64);
 //			AddButton.Frame = new RectangleF(108, 56, 100, 64);
 //			DeleteButton.Frame = new RectangleF(212, 56, 100, 64);
@@ -363,10 +235,8 @@ namespace Sessions.iOS.Classes.Controls
 			TitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
             SubtitleTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
-			AlbumCountLabel.Highlighted = highlighted;
 			SubtitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
 			IndexTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
-			AlbumCountLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
 
             base.SetHighlighted(highlighted, animated);
         }
@@ -375,7 +245,6 @@ namespace Sessions.iOS.Classes.Controls
         {
             TitleTextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
             SubtitleTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
-			AlbumCountLabel.TextColor = selected ? UIColor.White : UIColor.Black;
             //IndexTextLabel.TextColor = selected ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
 
             if (!selected)
@@ -428,10 +297,6 @@ namespace Sessions.iOS.Classes.Controls
                     TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-					AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-					ImageAlbum1.Transform = CGAffineTransform.MakeScale(1, 1);
-					ImageAlbum2.Transform = CGAffineTransform.MakeScale(1, 1);
-					ImageAlbum3.Transform = CGAffineTransform.MakeScale(1, 1);
                 }, null);
             }
             else
@@ -440,10 +305,6 @@ namespace Sessions.iOS.Classes.Controls
                     TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-					AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-					ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-					ImageAlbum2.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-					ImageAlbum3.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                 }, null);
             }
         }
