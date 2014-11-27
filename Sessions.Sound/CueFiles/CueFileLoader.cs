@@ -44,29 +44,56 @@ namespace Sessions.Sound.CueFiles
                 var cueFile = ReadCueFile(cueFilePath);
                 for (int i = 0; i < cueFile.Tracks.Count; i++)
                 {
-                    var track = cueFile.Tracks [i];
+                    var track = cueFile.Tracks[i];
                     var audioFile = new AudioFile();
+
+                    // Copy properties from single audio file
+                    audioFile.AudioChannels = wholeAudioFile.AudioChannels;
+                    audioFile.AudioLayer = wholeAudioFile.AudioLayer;
+                    audioFile.Bitrate = wholeAudioFile.Bitrate;
+                    audioFile.BitsPerSample = wholeAudioFile.BitsPerSample;
+                    audioFile.ChannelMode = wholeAudioFile.ChannelMode;
+                    //audioFile.FileSize
+                    audioFile.FileType = wholeAudioFile.FileType;
+                    //audioFile.FrameLength
+                    //audioFile.Genre
+                    audioFile.SampleRate = wholeAudioFile.SampleRate;
+                    //audioFile.Year
+
+                    // Copy properties from cue file
                     audioFile.AlbumTitle = cueFile.Title;
                     audioFile.ArtistName = cueFile.Performer;
                     audioFile.Title = track.Title;
+                    audioFile.TrackCount = (uint)cueFile.Tracks.Count;
+                    audioFile.TrackNumber = (uint)i+1;
                     audioFile.FilePath = audioFilePath;
                     audioFile.CueFilePath = cueFilePath;
-                    audioFile.StartPosition = track.IndexPosition;
-                    // TODO: Calculate length
+                    audioFile.StartPosition = ConvertTimestring(track.IndexPosition);
 
                     // Determine end position
                     if (i == cueFile.Tracks.Count - 1)
                     {
                         // This is the last track, the end position is the audio file length
-                        audioFile.EndPosition = GetPositionFormatForSessions(wholeAudioFile.Length);
+                        audioFile.EndPosition = wholeAudioFile.Length;
                     } 
                     else
                     {
                         // Take the next track start position as the end position for this track
-                        audioFile.EndPosition = GetPositionFormatForSessions(cueFile.Tracks [i + 1].IndexPosition);
+                        string length = cueFile.Tracks[i + 1].IndexPosition;
+                        audioFile.EndPosition = ConvertTimestring(length);
                     }
 
-                    audioFiles.Add(audioFile);
+                    int startPositionMS = ConvertAudio.ToMS(audioFile.StartPosition);
+                    int endPositionMS = ConvertAudio.ToMS(audioFile.EndPosition);
+                    int lengthMS = endPositionMS - startPositionMS;
+                    audioFile.Length = ConvertAudio.ToTimeString(lengthMS);
+
+                    // Do not add files that have zero length, this usually means the audio file doesn't contain multiple songs.
+                    // These songs will be normally detected without the need of a CUE file.
+                    if(lengthMS > 0)
+                    {
+                        audioFiles.Add(audioFile);
+                    }
                 }
             } 
             catch (Exception ex)
@@ -75,6 +102,19 @@ namespace Sessions.Sound.CueFiles
             }
 
             return audioFiles;
+        }
+
+        public static string ConvertTimestring(string timestringFromCue)
+        {
+            // Go from 00:00:00 to 00:00.000
+            return ReplaceLastOccurrence(timestringFromCue, ":", ".") + "0";
+        }
+
+        public static string ReplaceLastOccurrence(string source, string find, string replace)
+        {
+            int place = source.LastIndexOf(find);
+            string result = source.Remove(place, find.Length).Insert(place, replace);
+            return result;
         }
 
         public static string GetAudioFilePathFromCueFile(string cueFilePath)
@@ -250,17 +290,6 @@ namespace Sessions.Sound.CueFiles
 
             Console.WriteLine("====>>> GetvalueForLine **WITHOUT QUOTES**: {0}", value);
             return value;
-        }
-
-        private static string GetPositionFormatForSessions(string cuePosition)
-        {
-            // This takes the 00:00:00 format and makes it into 00:00.000
-            var sb = new StringBuilder(cuePosition);
-            int index = cuePosition.LastIndexOf(':');
-            if(index >= 0)
-                sb[index] = '.';
-
-            return sb.ToString();
         }
     }
 }
