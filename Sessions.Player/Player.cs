@@ -33,6 +33,7 @@ using Sessions.Sound.Playlists;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Fx;
 using Un4seen.Bass.AddOn.Enc;
+using System.Threading.Tasks;
 
 #if !IOS && !ANDROID
 using Un4seen.BassAsio;
@@ -70,9 +71,11 @@ namespace Sessions.Player
         /// </summary>
         public bool IsSettingPosition { get; private set; }
 
+        private readonly object _lockerPlaylist = new object();
+        private readonly object _lockerLoadPlaylistItem = new object();
+        private bool _isLoadingNextPlaylistItemAsynchronously = false;
         private PlayerSyncProc _syncProcLoop = null;
         private IDecodingService _decodingService = null;
-        private System.Timers.Timer _timerPlayer = null;
         private System.Timers.Timer _timerPushStream = null;
         private Channel _streamChannel = null;
         private Channel _pushStreamChannel = null;
@@ -488,11 +491,6 @@ namespace Sessions.Player
             UseFloatingPoint = true;
 #endif
 
-            _timerPlayer = new System.Timers.Timer();
-            _timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(TimerPlayer_Elapsed);
-            _timerPlayer.Interval = 1000;
-            _timerPlayer.Enabled = false;
-
             _timerPushStream = new System.Timers.Timer();
             _timerPushStream.Elapsed += new System.Timers.ElapsedEventHandler(TimerPushStream_Elapsed);
             _timerPushStream.Interval = 100;
@@ -806,30 +804,6 @@ namespace Sessions.Player
 
         #region Timers
         
-        /// <summary>
-        /// Occurs when the timer for loading the next song in advance expires.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        protected void TimerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {            
-            if (_timerPlayer != null)
-            {
-                _timerPlayer.Enabled = false;
-
-                // Check if the next channel needs to be loaded
-                if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)
-                {
-                    // Check if the channel has already been loaded
-                    if (!Playlist.Items[Playlist.CurrentItemIndex + 1].IsLoaded)
-                        Playlist.Items[Playlist.CurrentItemIndex + 1].Load(UseFloatingPoint);
-                }
-            }
-
-            // Set time shifting value
-            //m_currentSubChannel.Channel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, TimeShifting);
-        }
-
         protected void TimerPushStream_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         { 
             //const int bufferSize = 16000;
@@ -1231,9 +1205,6 @@ namespace Sessions.Player
             // Check if the main channel exists, and make sure the player is playing
             if (_mixerChannel == null)// || !m_isPlaying)
                 throw new Exception("Player.Stop error: The main channel is null!");
-
-            if (_timerPlayer != null && _timerPlayer.Enabled)
-                _timerPlayer.Stop();
 
             if (_timerPushStream != null && _timerPushStream.Enabled)
                 _timerPushStream.Stop();
@@ -2026,111 +1997,31 @@ namespace Sessions.Player
 //            stopwatch.Start();
 
             // If the current sub channel is null, end the stream            
-			if(Playlist == null || Playlist.CurrentItem == null || Playlist.Items.Count < _currentMixPlaylistIndex || Playlist.Items[_currentMixPlaylistIndex] == null ||
-			   Playlist.Items[_currentMixPlaylistIndex].Channel == null)
+            if (Playlist == null ||
+                Playlist.CurrentItem == null ||
+                Playlist.Items.Count < _currentMixPlaylistIndex ||
+                Playlist.Items[_currentMixPlaylistIndex] == null ||
+                Playlist.Items[_currentMixPlaylistIndex].Channel == null)
+            {
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
+            }
 
             BASSActive status = Playlist.Items[_currentMixPlaylistIndex].Channel.IsActive();
             if (status == BASSActive.BASS_ACTIVE_PLAYING)
             {
-                // Check if the next channel needs to be loaded
-                if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)                    
-                    _timerPlayer.Start();
-
-                // Get data from the current channel since it is running
-                int data = Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
-                //byte[] bufferData = _playlist.Items[_currentMixPlaylistIndex].GetData(length);
-                //byte[] bufferData = _decodingService.DequeueData(length);
-                //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
-                //return bufferData.Length;
-
-//                stopwatch.Stop();
-//                //if(stopwatch.ElapsedMilliseconds > 0)
-//                var info = Bass.BASS_GetInfo();
-//                float cpu = Bass.BASS_GetCPU();
-//                int dataAvailable = _mixerChannel.GetDataAvailable();
-//                var timeSpan = DateTime.Now - _lastDateTime;
-//                _lastDateTime = DateTime.Now;
-//                Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} dataAvailable: {6} ms elapsed since last call: {7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, dataAvailable, timeSpan.TotalMilliseconds);
-                return data;
+                return GetDataForCurrentPlaylistItem(buffer, length, user);
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
-                //Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
-                Loop = null;
-                if (Playlist.CurrentItemIndex == Playlist.Items.Count - 1)
+                bool continuePlaying = SkipToNextPlaylistItemAndDetermineIfPlaybackMustContinue();
+                if (continuePlaying)
                 {
-                    // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
-                    if (RepeatType == RepeatType.Playlist)
-                    {
-                        // Set next playlist index
-                        _currentMixPlaylistIndex = 0;
-
-                        // Dispose channels
-                        //m_playlist.DisposeChannels();
-
-                        // Load first item                        
-                        Playlist.Items[0].Load(UseFloatingPoint);                        
-                        //_decodingService.AddFileToDecodeQueue(Playlist.Items[0].AudioFile.FilePath);
-
-                        // Load second item if it exists
-                        if (Playlist.Items.Count > 1)
-                        {
-                            Playlist.Items[1].Load(UseFloatingPoint);
-                            //_decodingService.AddFileToDecodeQueue(Playlist.Items[1].AudioFile.FilePath);
-                        }
-
-                        // Return data from the new channel                
-                        return Playlist.CurrentItem.Channel.GetData(buffer, length);
-                    }
-
-					//Tracing.Log("StreamCallback -- Playlist is over!");
-                    return (int)BASSStreamProc.BASS_STREAMPROC_END;
+                    return GetDataForCurrentPlaylistItem(buffer, length, user);
                 }
-                else
-                {
-					//Tracing.Log("StreamCallback -- Setting next playlist index...");
-                    _currentMixPlaylistIndex++;
-                }
-
-				//Tracing.Log("StreamCallback -- Locking channel...");
-                _mixerChannel.Lock(true);
-
-				//Tracing.Log("StreamCallback -- Getting main channel position...");
-                long position = 0;
-                if (_mixerChannel is MixerChannel)
-                {
-                    var mixerChannel = _mixerChannel as MixerChannel;
-                    position = mixerChannel.GetPosition(_fxChannel.Handle);
-                } 
-                else
-                {
-                    position = _mixerChannel.GetPosition();
-                }
-//                if (_useFloatingPoint)
-//                    position /= 2;
-
-                // Get remanining data in buffer
-				//Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
-                int buffered = _mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
-
-				//Tracing.Log("StreamCallback -- Getting current channel length (mix index)...");
-                long audioLength = Playlist.Items[_currentMixPlaylistIndex].Channel.GetLength();
-
-				//Tracing.Log("StreamCallback -- Setting new sync...");
-                long syncPos = position + buffered + audioLength;
-                SetSyncCallback(syncPos);
-
-				//Tracing.Log("StreamCallback -- Unlocking channel...");
-                _mixerChannel.Lock(false);
-
-                // Return data from the new channel
-                var data = Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
-
-                //stopwatch.Stop();
-                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms)", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds);
-                return data;
             }
+
+            //stopwatch.Stop();
+            //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms)", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds);
 
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
         }
@@ -2146,7 +2037,7 @@ namespace Sessions.Player
         /// <returns>Audio data</returns>
         private int AsioCallback(bool input, int channel, IntPtr buffer, int length, IntPtr user)
         {
-            return GetData(buffer, length, user);
+            return GetDataForASIOAndWASAPI(buffer, length, user);
         }
 
         /// <summary>
@@ -2158,7 +2049,7 @@ namespace Sessions.Player
         /// <returns>Audio data</returns>
         private int WASAPICallback(IntPtr buffer, int length, IntPtr user)
         {
-            return GetData(buffer, length, user);
+            return GetDataForASIOAndWASAPI(buffer, length, user);
         }
 
         /// <summary>
@@ -2168,13 +2059,155 @@ namespace Sessions.Player
         /// <param name="length">Buffer length</param>
         /// <param name="user">User data</param>
         /// <returns>Audio data</returns>
-        private int GetData(IntPtr buffer, int length, IntPtr user)
+        private int GetDataForASIOAndWASAPI(IntPtr buffer, int length, IntPtr user)
         {
             // Check if the channel is still playing
             if (Bass.BASS_ChannelIsActive(_mixerChannel.Handle) == BASSActive.BASS_ACTIVE_PLAYING)
                 return Bass.BASS_ChannelGetData(_mixerChannel.Handle, buffer, length);
             else
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
+        }
+
+        private bool SkipToNextPlaylistItemAndDetermineIfPlaybackMustContinue()
+        {
+            //Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
+            Loop = null;
+
+            // Make sure we don't switch playlist index twice
+            lock (_lockerPlaylist)
+            {
+                if (Playlist.CurrentItemIndex == Playlist.Items.Count - 1)
+                {
+                    // This is the end of the playlist. 
+                    // Check the repeat type if the playlist needs to be repeated
+                    if (RepeatType == RepeatType.Playlist)
+                    {
+                        // Reset playlist index
+                        _currentMixPlaylistIndex = 0;
+
+                        // Load first item synchronously                      
+                        Playlist.Items[0].Load(UseFloatingPoint);                        
+                        //_decodingService.AddFileToDecodeQueue(Playlist.Items[0].AudioFile.FilePath);
+
+                        // Load next item asynchronously
+                        TryToLoadNextPlaylistItemAsynchronously();
+
+                        // Continue playing
+                        return true;
+                    }
+
+                    // End of playlist; stop playback
+                    return false;
+                }
+
+                // Increment playlist index
+                _currentMixPlaylistIndex++;
+
+                // Load next item asynchronously 
+                TryToLoadNextPlaylistItemAsynchronously();
+            }
+            //Tracing.Log("StreamCallback -- Setting next playlist index...");
+
+            SetSyncCallbackAfterChangingPlaylistItem();
+
+            // Continue playing
+            return true;
+        }
+
+        private void SetSyncCallbackAfterChangingPlaylistItem()
+        {
+            //Tracing.Log("StreamCallback -- Locking channel...");
+            _mixerChannel.Lock(true);
+
+            //Tracing.Log("StreamCallback -- Getting main channel position...");
+            long position = 0;
+            if (_mixerChannel is MixerChannel)
+            {
+                var mixerChannel = _mixerChannel as MixerChannel;
+                position = mixerChannel.GetPosition(_fxChannel.Handle);
+            }
+            else
+            {
+                position = _mixerChannel.GetPosition();
+            }
+//                if (_useFloatingPoint)
+//                    position /= 2;
+
+            // Get remanining data in buffer
+            //Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
+            int buffered = _mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
+
+            //Tracing.Log("StreamCallback -- Getting current channel length (mix index)...");
+            long audioLength = Playlist.Items[_currentMixPlaylistIndex].Channel.GetLength();
+
+            //Tracing.Log("StreamCallback -- Setting new sync...");
+            long syncPos = position + buffered + audioLength;
+            SetSyncCallback(syncPos);
+
+            //Tracing.Log("StreamCallback -- Unlocking channel...");
+            _mixerChannel.Lock(false);
+        }
+
+        private int GetDataForCurrentPlaylistItem(IntPtr buffer, int length, IntPtr user)
+        {
+//            // Load next item asynchronously 
+//            TryToLoadNextPlaylistItemAsynchronously();
+
+            // Get data from the current channel since it is running
+            int data = Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+            //byte[] bufferData = _playlist.Items[_currentMixPlaylistIndex].GetData(length);
+            //byte[] bufferData = _decodingService.DequeueData(length);
+            //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
+            //return bufferData.Length;
+
+//                stopwatch.Stop();
+//                //if(stopwatch.ElapsedMilliseconds > 0)
+//                var info = Bass.BASS_GetInfo();
+//                float cpu = Bass.BASS_GetCPU();
+//                int dataAvailable = _mixerChannel.GetDataAvailable();
+//                var timeSpan = DateTime.Now - _lastDateTime;
+//                _lastDateTime = DateTime.Now;
+//                Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} dataAvailable: {6} ms elapsed since last call: {7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, dataAvailable, timeSpan.TotalMilliseconds);
+            return data;
+        }
+
+        private void TryToLoadNextPlaylistItemAsynchronously()
+        {
+            // TODO: Can this be problematic if we call this when the playlist has been reloaded and the playlist item isn't finished loading?
+            // Check if the next channel needs to be loaded
+            //if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)
+            int nextMixPlaylistIndex = _currentMixPlaylistIndex + 1;
+            if(_currentMixPlaylistIndex < Playlist.Items.Count - 1)
+            {
+                Task.Factory.StartNew(() => 
+                {
+                    // Check if the channel has already been loaded
+                    // Make sure we don't try to load it several times at the same time
+                    lock(_lockerLoadPlaylistItem)
+                    {            
+                        // Check if the next playlist item has already been loaded, or if it's already being loaded            
+                        //if (Playlist.Items[Playlist.CurrentItemIndex + 1].IsLoaded ||
+                        if (Playlist.Items[nextMixPlaylistIndex].IsLoaded ||
+                            _isLoadingNextPlaylistItemAsynchronously)
+                        {
+                            // Do not reload the same playlist item!
+                            Tracing.Log("Player - TryToLoadNextPlaylistItemAsynchronously - Preventing to reload the same playlist item (index: {0})...", nextMixPlaylistIndex);
+                            return;
+                        }
+
+                        _isLoadingNextPlaylistItemAsynchronously = true;
+                    }
+
+                    Tracing.Log("Player - TryToLoadNextPlaylistItemAsynchronously - Loading next channel (index: {0})...", nextMixPlaylistIndex);
+                    Playlist.Items[nextMixPlaylistIndex].Load(UseFloatingPoint);
+
+                    lock(_lockerLoadPlaylistItem)
+                    {
+                        Tracing.Log("Player - TryToLoadNextPlaylistItemAsynchronously - Finished loading next channel (index: {0})!", nextMixPlaylistIndex);
+                        _isLoadingNextPlaylistItemAsynchronously = false;
+                    }
+                });
+            }
         }
 
         /// <summary>
