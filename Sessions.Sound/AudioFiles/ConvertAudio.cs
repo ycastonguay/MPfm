@@ -131,6 +131,9 @@ namespace Sessions.Sound.AudioFiles
             string strSeconds = String.Empty;
             string strMilliseconds = String.Empty;
 
+            if(string.IsNullOrEmpty(position))
+                return 0;
+
             string[] positionSplit = position.Split(':');
             if (positionSplit.Length == 2)
             {
