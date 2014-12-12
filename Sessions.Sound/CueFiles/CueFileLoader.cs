@@ -27,6 +27,46 @@ namespace Sessions.Sound.CueFiles
 {
     public static class CueFileLoader
     {
+        public static void RefreshAudioFileMetadataFromCueFile(AudioFile audioFile)
+        {
+            var audioFiles = GetAudioFilesFromCueFile(audioFile.CueFilePath);
+
+            // TODO: Maybe find a better way to match files
+            var audioFileFromCue = audioFiles.FirstOrDefault(x => x.TrackNumber == audioFile.TrackNumber);
+            if (audioFileFromCue != null)
+            {
+                audioFile.AlbumTitle = audioFileFromCue.AlbumTitle;
+                audioFile.ArtistName = audioFileFromCue.ArtistName;
+                audioFile.AudioChannels = audioFileFromCue.AudioChannels;
+                audioFile.AudioLayer = audioFileFromCue.AudioLayer;
+                audioFile.Bitrate = audioFileFromCue.Bitrate;
+                audioFile.BitsPerSample = audioFileFromCue.BitsPerSample;
+                audioFile.ChannelMode = audioFileFromCue.ChannelMode;
+                audioFile.DiscNumber = audioFileFromCue.DiscNumber;
+                //audioFile.DiscTrackNumber = audioFileFromCue.DiscTrackNumber;
+                audioFile.EndPosition = audioFileFromCue.EndPosition;
+                audioFile.FileSize = audioFileFromCue.FileSize;
+                audioFile.FileType = audioFileFromCue.FileType;
+                audioFile.FirstBlockPosition = audioFileFromCue.FirstBlockPosition;
+                audioFile.FrameLength = audioFileFromCue.FrameLength;
+                audioFile.Genre = audioFileFromCue.Genre;
+                audioFile.LastBlockPosition = audioFileFromCue.LastBlockPosition;
+                audioFile.Length = audioFileFromCue.Length;
+                audioFile.Lyrics = audioFileFromCue.Lyrics;
+                audioFile.MP3EncoderDelay = audioFileFromCue.MP3EncoderDelay;
+                audioFile.MP3EncoderPadding = audioFileFromCue.MP3EncoderPadding;
+                audioFile.MP3EncoderVersion = audioFileFromCue.MP3EncoderVersion;
+                audioFile.MP3HeaderType = audioFileFromCue.MP3HeaderType;
+                audioFile.SampleRate = audioFileFromCue.SampleRate;
+                audioFile.StartPosition = audioFileFromCue.StartPosition;
+                audioFile.Tempo = audioFileFromCue.Tempo;
+                audioFile.Title = audioFileFromCue.Title;
+                audioFile.TrackCount = audioFileFromCue.TrackCount;
+                audioFile.TrackNumber = audioFileFromCue.TrackNumber;
+                audioFile.Year = audioFileFromCue.Year;
+            }
+        }
+
         public static IEnumerable<AudioFile> GetAudioFilesFromCueFile(string cueFilePath)
         {
             // Load the whole audio file first

@@ -153,15 +153,52 @@ namespace Sessions.Sound.Playlists
             // Load audio file metadata
             _audioFile.RefreshMetadata();
 
-            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-
             // Check if a channel already exists
-            if(_channel != null)
+            if (_channel != null)
                 Dispose();
 
             // Load channel
             _channel = Channel.CreateFileStreamForDecoding(_audioFile.FilePath, useFloatingPoint);
-            _lengthBytes = _channel.GetLength();
+
+            // Check if this file should be started at a specific point (i.e. CUE file)
+            int startPositionMS = -1;
+            int startPositionSamples = -1;
+            long startPositionBytes = -1;
+            if (!string.IsNullOrEmpty(_audioFile.StartPosition))
+            {
+                startPositionMS = ConvertAudio.ToMS(_audioFile.StartPosition);
+                startPositionSamples = ConvertAudio.ToPCM(startPositionMS, _audioFile.SampleRate);
+                startPositionBytes = ConvertAudio.ToPCMBytes(startPositionSamples, _audioFile.BitsPerSample, _audioFile.AudioChannels);
+
+                if(_channel.IsFloatingPoint)
+                    startPositionBytes *= 2;
+            }
+
+            // Check if this file should end at a specific point (i.e. CUE file)
+            int endPositionMS = -1;
+            int endPositionSamples = -1;
+            long endPositionBytes = -1;
+            if (!string.IsNullOrEmpty(_audioFile.EndPosition))
+            {
+                endPositionMS = ConvertAudio.ToMS(_audioFile.EndPosition);
+                endPositionSamples = ConvertAudio.ToPCM(endPositionMS, _audioFile.SampleRate);
+                endPositionBytes = ConvertAudio.ToPCMBytes(endPositionSamples, _audioFile.BitsPerSample, _audioFile.AudioChannels);
+
+                if(_channel.IsFloatingPoint)
+                    endPositionBytes *= 2;
+            }
+
+            // Did we find a range to play?
+            if (startPositionBytes >= 0 && endPositionBytes >= 0)
+            {
+                Console.WriteLine("--> PlaylistItem - Setting channel position to {0} ({1} ms/{2} bytes)", _audioFile.StartPosition, startPositionMS, startPositionBytes);
+                _channel.SetPosition(startPositionBytes);
+                _lengthBytes = endPositionBytes - startPositionBytes;
+            }
+            else
+            {
+                _lengthBytes = _channel.GetLength();
+            }
 
             // Divide length by 2 if using floating point
             if (_channel.IsFloatingPoint)
@@ -171,11 +208,9 @@ namespace Sessions.Sound.Playlists
             if (_audioFile.FileType == AudioFileFormat.FLAC && _audioFile.SampleRate > 44100)
                 _lengthBytes = (long)((float)_lengthBytes * 1.5f);
 
-            _lengthSamples = ConvertAudio.ToPCM(_lengthBytes, _audioFile.BitsPerSample, 2);
+            _lengthSamples = ConvertAudio.ToPCM(_lengthBytes, _audioFile.BitsPerSample, _audioFile.AudioChannels);
             _lengthMilliseconds = ConvertAudio.ToMS(_lengthSamples, _audioFile.SampleRate);
             _lengthString = ConvertAudio.ToTimeString(_lengthMilliseconds);
-
-            #endif
 
             _isLoaded = true;
         }

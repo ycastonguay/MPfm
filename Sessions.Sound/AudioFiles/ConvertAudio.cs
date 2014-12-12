@@ -173,7 +173,7 @@ namespace Sessions.Sound.AudioFiles
         /// <param name="bitRate">Bit rate (ex: 16-bit)</param>
         /// <param name="channelCount">Channel count (mono: 1, stereo: 2)</param>
         /// <returns></returns>
-        public static int ToPCMBytes(int samples, int bitRate, int channelCount)
+        public static long ToPCMBytes(long samples, int bitRate, int channelCount)
         {
             return samples * bitRate * channelCount / 8;
         }

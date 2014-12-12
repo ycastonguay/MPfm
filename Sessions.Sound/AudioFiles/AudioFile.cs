@@ -24,6 +24,9 @@ using System.Runtime.Serialization;
 using Sessions.Sound.Tags;
 using Sessions.Core;
 using Sessions.Core.Attributes;
+using Sessions.Sound.CueFiles;
+
+
 #if !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Drawing;
 #endif
@@ -410,7 +413,14 @@ namespace Sessions.Sound.AudioFiles
 		/// Refreshes the metadata of the audio file.
 		/// </summary>
 		public void RefreshMetadata()
-		{
+        {
+            // If the file is attached to a CUE file, then use the CUE file to refresh the metadata
+            if (!string.IsNullOrEmpty(CueFilePath))
+            {
+                CueFileLoader.RefreshAudioFileMetadataFromCueFile(this);
+                return; // are the next steps necessary?
+            }
+
             var fileInfo = new FileInfo(FilePath);
             FileSize = fileInfo.Length;
 
