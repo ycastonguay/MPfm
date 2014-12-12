@@ -42,7 +42,7 @@ namespace Sessions.iOS
         public override void ViewDidLoad()
         {
             View.BackgroundColor = GlobalTheme.BackgroundColor;
-			btnClose.GlyphImageView.Image = UIImage.FromBundle("Images/Player/down");
+			//btnClose.GlyphImageView.Image = UIImage.FromBundle("Images/Player/down");
 
             base.ViewDidLoad();
 

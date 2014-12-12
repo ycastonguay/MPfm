@@ -18,34 +18,28 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
-using Sessions.Core;
-using Sessions.MVP.Messages;
-using Sessions.MVP.Models;
-using Sessions.MVP.Views;
-using Sessions.Player;
-using Sessions.Player.Objects;
-using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Services;
+using Sessions.MVP.Services.Interfaces;
+using Sessions.MVP.Views;
+using Sessions.Player.Objects;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
+using TinyMessenger;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
-using Sessions.iOS.Classes.Objects;
-using Sessions.iOS.Helpers;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Delegates;
-using Sessions.MVP.Services.Interfaces;
-using Sessions.MVP.Services;
-using TinyMessenger;
-using Sessions.Sound.Playlists;
+using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Classes.Services;
-using Sessions.GenericControls.Controls.Items;
+using Sessions.iOS.Helpers;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -64,6 +58,7 @@ namespace Sessions.iOS.Classes.Controllers
         private byte[] _downloadedAlbumArtData;
         private bool _isAppInactive;
         private long _currentPositionMS;
+        private int _albumArtHeight;
         private MPVolumeView _volumeView;
 
 		public PlayerViewController()
@@ -173,6 +168,9 @@ namespace Sessions.iOS.Classes.Controllers
 				imageViewVolumeLow.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_low");
 				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_high");
 			}
+
+            imageViewAlbumArt.Alpha = 0;
+            _albumArtHeight = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindPlayerView(MobileNavigationTabType.Playlists, this);
@@ -673,9 +671,11 @@ namespace Sessions.iOS.Classes.Controllers
             // Check if the album art needs to be refreshed
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
             if (_currentAlbumArtKey == key)
+            {
+                Console.WriteLine("PlayerViewController - RefreshSongInformation - The current album key matches ({0}); keeping the same album art.", key);
                 return;
+            }
 
-            int height = 44;
             InvokeOnMainThread(() =>
             {
                 try
@@ -683,7 +683,6 @@ namespace Sessions.iOS.Classes.Controllers
                     _nowPlayingInfoService.AlbumArtImage = null;
                     _nowPlayingInfoService.UpdateInfo();
 
-                    height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
                     UIView.Animate(0.3, () =>
                     {
                         imageViewAlbumArt.Alpha = 0;
@@ -700,6 +699,7 @@ namespace Sessions.iOS.Classes.Controllers
             {
                 try
                 {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Extracting album art from audio file...");
                     byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
                     using (NSData imageData = NSData.FromArray(bytesImage))
                     {
@@ -709,8 +709,9 @@ namespace Sessions.iOS.Classes.Controllers
                             {
                                 try
                                 {
-                                    _currentAlbumArtKey = key;                                    
-                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+                                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Scaling album art to {0} (key={1})...", _albumArtHeight, key);
+                                    _currentAlbumArtKey = key;
+                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, _albumArtHeight);
                                     return imageResized;
                                 }
                                 catch (Exception ex)
@@ -740,7 +741,11 @@ namespace Sessions.iOS.Classes.Controllers
                     }
                     else
                     {
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Assigning album art from file...");
                         imageViewAlbumArt.Image = image;
+                        UIView.Animate(0.2, () => {
+                            imageViewAlbumArt.Alpha = 1;
+                        });                            
 
                         _nowPlayingInfoService.AlbumArtImage = image;
                         _nowPlayingInfoService.UpdateInfo();
