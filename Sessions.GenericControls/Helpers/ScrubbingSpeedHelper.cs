@@ -27,11 +27,16 @@ namespace Sessions.GenericControls.Helpers
     {
         public static List<ScrubbingSpeed> GetScrubbingSpeeds()
         {
+            return GetScrubbingSpeeds(1);
+        }
+
+        public static List<ScrubbingSpeed> GetScrubbingSpeeds(float multiplier)
+        {
             var scrubbingSpeeds = new List<ScrubbingSpeed>();
-            scrubbingSpeeds.Add(new ScrubbingSpeed(1, 50, "High-speed scrubbing"));
-            scrubbingSpeeds.Add(new ScrubbingSpeed(0.5f, 100, "Half-speed scrubbing"));
-            scrubbingSpeeds.Add(new ScrubbingSpeed(0.25f, 150, "Quarter-speed scrubbing"));
-            scrubbingSpeeds.Add(new ScrubbingSpeed(0.1f, 200, "Fine scrubbing"));
+            scrubbingSpeeds.Add(new ScrubbingSpeed(1, 50 * multiplier, "High-speed scrubbing"));
+            scrubbingSpeeds.Add(new ScrubbingSpeed(0.5f, 100 * multiplier, "Half-speed scrubbing"));
+            scrubbingSpeeds.Add(new ScrubbingSpeed(0.25f, 150 * multiplier, "Quarter-speed scrubbing"));
+            scrubbingSpeeds.Add(new ScrubbingSpeed(0.1f, 200 * multiplier, "Fine scrubbing"));
             return scrubbingSpeeds;
         }
 

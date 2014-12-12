@@ -18,47 +18,62 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Navigation;
+using Sessions.GenericControls.Controls.Interfaces;
+using Sessions.GenericControls.Controls.Items;
+using Sessions.GenericControls.Helpers;
 
 namespace Sessions.iOS.Classes.Controls
 {
     [Register("SessionsSlider")]
-    public class SessionsSlider : UISlider
+    public class SessionsSlider : UISlider, IScrubbingSpeedSupport
     {
         private bool _isTouchDown = false;
+        private float _touchDownScrubbingValue;
+        private float _touchDownScrubbingX;
+        private float _touchDownY;
         private PointF _beginTrackingPosition;
-        private List<float> _scrubbingSpeedChangePositions = new List<float>() { 0, 50, 100, 150 };
-        private List<float> _scrubbingSpeeds = new List<float>() { 1, 0.5f, 0.25f, 0.1f };
+        private List<ScrubbingSpeed> _scrubbingSpeeds;
 
-        public event EventHandler ScrubbingTypeChanged;
         public event EventHandler TouchesBeganEvent;
         public event EventHandler TouchesMovedEvent;
         public event EventHandler TouchesEndedEvent;
         public event EventHandler BeginTrackingEvent;
         public event EventHandler ContinueTrackingEvent;
         public event EventHandler EndTrackingEvent;
-        public SliderScrubbingType ScrubbingType { get; private set; }
+        public event ScrubbingSpeedChangedDelegate OnScrubbingSpeedChanged;
+
+        private ScrubbingSpeed _currentScrubbingSpeed;
+        public ScrubbingSpeed CurrentScrubbingSpeed
+        {
+            get { return _currentScrubbingSpeed; }
+        }
 
         public SessionsSlider(IntPtr handle) 
             : base (handle)
         {
             this.Continuous = true;
+            CreateScrubbingSpeeds();
         }
 
         public SessionsSlider(RectangleF frame) 
             : base (frame)
         {
             this.Continuous = true;
+            CreateScrubbingSpeeds();
         }
 
-        protected virtual void OnScrubbingTypeChanged(EventArgs e)
+        private void CreateScrubbingSpeeds()
         {
-            if(ScrubbingTypeChanged != null)
-                ScrubbingTypeChanged(this, e);
+            _scrubbingSpeeds = ScrubbingSpeedHelper.GetScrubbingSpeeds(2.85f);
+            _currentScrubbingSpeed = _scrubbingSpeeds[0];
+        }
+
+        protected void ScrubbingSpeedChanged(ScrubbingSpeed scrubbingSpeed)
+        {
+            if (OnScrubbingSpeedChanged != null)
+                OnScrubbingSpeedChanged(scrubbingSpeed);
         }
 
         protected virtual void OnTouchesBeganEvent(EventArgs e)
@@ -106,37 +121,6 @@ namespace Sessions.iOS.Classes.Controls
 
         public override void TouchesMoved(NSSet touches, UIEvent evt)
         {
-//            UITouch touch = touches.AnyObject as UITouch;
-//            PointF pt = touch.LocationInView(this);
-//
-//            Console.WriteLine("Slider - TouchesMoved (" + pt.X.ToString() + ", " + pt.Y.ToString());
-//
-//            // Determine type of scrubbing
-//            var scrubbingType = SliderScrubbingType.HighSpeed;
-//            if(pt.Y - Frame.Y + Frame.Height > 40)
-//            {
-//                scrubbingType = SliderScrubbingType.HalfSpeed;
-//            }
-//            else if(pt.Y - Frame.Y + Frame.Height > 80)
-//            {
-//                scrubbingType = SliderScrubbingType.QuarterSpeed;
-//            }
-//            else if(pt.Y - Frame.Y + Frame.Height > 120)
-//            {
-//                scrubbingType = SliderScrubbingType.Fine;
-//            }
-//
-//            // Check if event needs to be raised
-//            if(scrubbingType != ScrubbingType)
-//            {
-//                ScrubbingType = scrubbingType;
-//            }
-
-            // High-speed scrubbing
-            // Half-speed
-            // Quarter-speed
-            // Fine
-
             OnTouchesMovedEvent(new EventArgs());
             base.TouchesMoved(touches, evt);
         }
@@ -148,148 +132,63 @@ namespace Sessions.iOS.Classes.Controls
             base.TouchesEnded(touches, evt);
         }
 
-        public override void TouchesCancelled(NSSet touches, UIEvent evt)
-        {
-            base.TouchesCancelled(touches, evt);
-        }
-
-        private float scrubbingSpeed;
-        private float realPositionValue;
-        private PointF beganTrackingLocation;
-
         public override bool BeginTracking(UITouch uitouch, UIEvent uievent)
         {
-            bool beginTracking = base.BeginTracking(uitouch, uievent);
-            if(beginTracking)
-            {
-                // Set the beginning tracking location to the centre of the current
-                // position of the thumb. This ensures that the thumb is correctly re-positioned
-                // when the touch position moves back to the track after tracking in one
-                // of the slower tracking zones.
-                RectangleF thumbRect = ThumbRectForBounds(Bounds, TrackRectForBounds(Bounds), Value);
-                beganTrackingLocation = new PointF(thumbRect.X + thumbRect.Size.Width / 2.0f, thumbRect.Y + thumbRect.Size.Height / 2.0f);
-                realPositionValue = Value;
-            }
-
             OnBeginTrackingEvent(new EventArgs());
-            return beginTracking;
+            _beginTrackingPosition = uitouch.LocationInView(this);
 
-            //Console.WriteLine("BeginTracking");
-            //_beginTrackingPosition = uitouch.LocationInView(this);
-            //return true;
+            _touchDownScrubbingX = _beginTrackingPosition.X;
+            _touchDownY = _beginTrackingPosition.Y;
+            _touchDownScrubbingValue = Value;
+
+            //Console.WriteLine("*>  BeginTracking - pt: {0}", _beginTrackingPosition);
+            return true;
         }
 
         public override bool ContinueTracking(UITouch uitouch, UIEvent uievent)
         {
-
-//            PointF previousLocation = uitouch.PreviousLocationInView(this);
-//            PointF currentLocation = uitouch.LocationInView(this);
-//            float trackingOffset = currentLocation.X - previousLocation.X;
-//
-//            // Find the scrubbing speed that corresponds to the touch's vertical offset
-//            float verticalOffset = Math.Abs(currentLocation.Y - beganTrackingLocation.Y);
-//            int scrubbingSpeedChangePosIndex = IndexOfLowerScrubbingSpeed(_scrubbingSpeedChangePositions, verticalOffset);
-//            if(scrubbingSpeedChangePosIndex == -1)
-//                scrubbingSpeedChangePosIndex = _scrubbingSpeeds.Count;
-//            this.scrubbingSpeed = _scrubbingSpeeds[scrubbingSpeedChangePosIndex - 1];
-//
-//            RectangleF trackRect = TrackRectForBounds(Bounds);
-//            this.realPositionValue = this.realPositionValue * (MaxValue - MinValue) * (trackingOffset / trackRect.Size.Width);
-//
-//            float valueAdjustment = this.scrubbingSpeed * (MaxValue - MinValue) * (trackingOffset / trackRect.Size.Width);
-//            float thumbAdjustment = 0;
-//            if(((this.beganTrackingLocation.Y < currentLocation.Y) && (currentLocation.Y < previousLocation.Y)) ||
-//               ((this.beganTrackingLocation.Y > currentLocation.Y) && (currentLocation.Y > previousLocation.Y)))
-//            {
-//                thumbAdjustment = (this.realPositionValue - Value) / (1 + Math.Abs(currentLocation.Y - this.beganTrackingLocation.Y));
-//            }
-//            Value += valueAdjustment + thumbAdjustment;
-//
-//            if(Continuous)
-//                SendActionForControlEvents(UIControlEvent.ValueChanged);
-//
-//            OnContinueTrackingEvent(new EventArgs());
-//            return Tracking;
-
-
-            PointF ptPrev = uitouch.PreviousLocationInView(this);
+            //PointF ptPrev = uitouch.PreviousLocationInView(this);
             PointF pt = uitouch.LocationInView(this);
 
-            //float relativeX = pt.X - Frame.X;
-            //float ratioX = relativeX / Frame.Width;
-            float widthWithFinger = Frame.Width + 44;
-            float normalizedX = (pt.X < 0) ? 0 : pt.X;
-            normalizedX = (pt.X > widthWithFinger) ? widthWithFinger : normalizedX;
-            float ratioX = normalizedX / widthWithFinger;
+            float deltaY = pt.Y - _beginTrackingPosition.Y;
+            var scrubbingSpeed = ScrubbingSpeedHelper.IdentifyScrubbingSpeed(deltaY, _scrubbingSpeeds);
+            if (_currentScrubbingSpeed != scrubbingSpeed)
+            {
+                _currentScrubbingSpeed = scrubbingSpeed;
+                ScrubbingSpeedChanged(_currentScrubbingSpeed);
 
-            // Determine type of scrubbing
-            var scrubbingType = SliderScrubbingType.HighSpeed;
-            if(pt.Y - Frame.Y + Frame.Height > 300)
-            {
-                scrubbingType = SliderScrubbingType.Fine;
-            }
-            else if(pt.Y - Frame.Y + Frame.Height > 200)
-            {
-                scrubbingType = SliderScrubbingType.QuarterSpeed;
-            }
-            else if(pt.Y - Frame.Y + Frame.Height > 100)
-            {
-                scrubbingType = SliderScrubbingType.HalfSpeed;
-            }
-            
-            // Check if event needs to be raised
-            if(scrubbingType != ScrubbingType)
-            {
-                //Console.WriteLine("Slider - Changed scrubbing type to " + scrubbingType.ToString());
-                ScrubbingType = scrubbingType;
-                OnScrubbingTypeChanged(new EventArgs());
+                // Set a new reference when changing scrubbing speed
+                _touchDownScrubbingValue = Value;
+                _touchDownScrubbingX = pt.X;
             }
 
             // Calculate new value
-            float newValueDelta = (ratioX * 10000) - Value;
-            switch(scrubbingType)
+            float valueRange = (MaxValue - MinValue) + 1;
+            float trackWidth = Bounds.Width; // in fact it should include the padding...
+            float valuePerPixel = (valueRange / trackWidth) * _currentScrubbingSpeed.Speed;
+            float value = _touchDownScrubbingValue + (pt.X - _touchDownScrubbingX) * valuePerPixel;
+            value = Math.Max(value, MinValue);
+            value = Math.Min(value, MaxValue);
+            if (value != Value)
             {
-                case SliderScrubbingType.HalfSpeed:
-                    newValueDelta = newValueDelta * 0.5f;
-                    break;
-                case SliderScrubbingType.QuarterSpeed:
-                    newValueDelta = newValueDelta * 0.25f;
-                    break;
-                case SliderScrubbingType.Fine:
-                    newValueDelta = newValueDelta * 0.1f;
-                    break;
+                Value = (int) value;
             }
-//            float newValue = Value + newValueDelta;
-//            if(newValue < MinValue)
-//                newValue = MinValue;
-//            if(newValue > MaxValue)
-//                newValue = MaxValue;
-//
-//            Value = newValue;
-//
-//            //SetValue(newValue, true);
-//            Console.WriteLine("Slider - ContinueTracking - newValue: " + newValue.ToString() + " newValueDelta: " + newValueDelta.ToString() + " (" + ptPrev.X.ToString() + ", " + ptPrev.Y.ToString() + ") (" + pt.X.ToString() + ", " + pt.Y.ToString() + ") normalizedX: " + normalizedX.ToString() + " ratioX: " + ratioX.ToString());
-//            
-//
-//
-//            if(Continuous)
-//                SendActionForControlEvents(UIControlEvent.ValueChanged);
-//
-//            return true;
 
-            return base.ContinueTracking(uitouch, uievent);
+            //Console.WriteLine("*> ContinueTracking - pt: {0} - _beginTrackingPt: {1} - valuePerPixel: {2} value: {3}", pt, _beginTrackingPosition, valuePerPixel, value);
+            return true;
         }
 
         public override void EndTracking(UITouch uitouch, UIEvent uievent)
         {
             if(Tracking)
             {
-                scrubbingSpeed = _scrubbingSpeeds[0];
                 SendActionForControlEvents(UIControlEvent.ValueChanged);
             }
 
             OnEndTrackingEvent(new EventArgs());
-            //base.EndTracking(uitouch, uievent);
+            _currentScrubbingSpeed = _scrubbingSpeeds[0];
+            //PointF pt = uitouch.LocationInView(this);
+            //Console.WriteLine("*> EndTracking - pt: {0}", pt);
         }
 
         public override void CancelTracking(UIEvent uievent)
@@ -328,13 +227,5 @@ namespace Sessions.iOS.Classes.Controls
                 this.Value = position;
         }
 
-    }
-
-    public enum SliderScrubbingType
-    {
-        HighSpeed = 0,
-        HalfSpeed = 1,
-        QuarterSpeed = 2,
-        Fine = 3
     }
 }

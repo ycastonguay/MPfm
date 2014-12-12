@@ -45,6 +45,7 @@ using Sessions.MVP.Services;
 using TinyMessenger;
 using Sessions.Sound.Playlists;
 using Sessions.iOS.Classes.Services;
+using Sessions.GenericControls.Controls.Items;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -214,24 +215,8 @@ namespace Sessions.iOS.Classes.Controllers
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
 
             // TODO: Block slider when the player is paused.
-            sliderPosition.ScrubbingTypeChanged += (sender, e) => {
-                string scrubbingType = "High-speed scrubbing";
-                switch(sliderPosition.ScrubbingType)
-                {
-                    case SliderScrubbingType.Fine:
-                        scrubbingType = "Fine scrubbing";
-                        break;
-                    case SliderScrubbingType.QuarterSpeed:
-                        scrubbingType = "Quarter-speed scrubbing";
-                        break;
-                    case SliderScrubbingType.HalfSpeed:
-                        scrubbingType = "Half-speed scrubbing";
-                        break;
-                    case SliderScrubbingType.HighSpeed:
-                        scrubbingType = "High-speed scrubbing";
-                        break;
-                }
-                lblScrubbingType.Text = scrubbingType;
+            sliderPosition.OnScrubbingSpeedChanged += (scrubbingSpeed) => {
+                lblScrubbingType.Text = sliderPosition.CurrentScrubbingSpeed.Label;
             };
             sliderPosition.TouchesBeganEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
