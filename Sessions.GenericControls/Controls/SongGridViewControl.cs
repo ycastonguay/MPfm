@@ -337,6 +337,9 @@ namespace Sessions.GenericControls.Controls
             // If no songs are playing, set the current now playing rectangle as "empty"
             if (!_nowPlayingSongFound)
                 _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
+
+            // Reset album art key after drawing all rows to make sure it gets drawn in the next pass
+            _currentAlbumArtKey = string.Empty;
         }
                 
         protected override void DrawRowBackground(IGraphicsContext context, int row, float offsetY)
@@ -511,7 +514,7 @@ namespace Sessions.GenericControls.Controls
         {
             var pen = new BasicPen();
             var brushGradient = new BasicGradientBrush();
-            var item = Items[row];
+            var item = Items [row];
             //string albumTitle = audioFile != null ? audioFile.AlbumTitle : state.CurrentAlbumTitle; // if this is an empty row, keep last album title
 
             // Check for an album title change (or the last item of the grid)
@@ -662,8 +665,10 @@ namespace Sessions.GenericControls.Controls
 
                 // Display album cover
                 if (imageAlbumCover != null)
+                {
                     context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, imageAlbumCover.ImageSize.Width, imageAlbumCover.ImageSize.Height), imageAlbumCover.Image);
                     //context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover.Image);
+                }
 
 //                if (useAlbumArtOverlay)
 //                {
