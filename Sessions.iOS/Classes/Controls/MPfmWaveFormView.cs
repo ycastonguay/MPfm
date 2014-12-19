@@ -107,6 +107,14 @@ namespace Sessions.iOS.Classes.Controls
 			}
 		}
 
+        public BasicRectangle ContentSize
+        {
+            get
+            {
+                return _control.ContentSize;
+            }
+        }
+
         public bool IsEmpty
         {
             get

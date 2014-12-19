@@ -108,14 +108,6 @@ namespace Sessions.iOS.Classes.Controllers
             ConfigureScrollViews();
             ConfigurePositionSlider();
 
-            // Only display wave form on iPhone 5+ and iPad
-			bool showWaveForm = DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone3GS &&
-			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4 &&
-			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4S;
-			scrollViewWaveForm.Hidden = !showWaveForm;
-			scrollViewWaveForm.UserInteractionEnabled = showWaveForm;
-			scrollViewWaveForm.MultipleTouchEnabled = showWaveForm;
-
 //            // Create text attributes for navigation bar button
 //            var attr = new UITextAttributes();
 //            attr.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
@@ -201,6 +193,17 @@ namespace Sessions.iOS.Classes.Controllers
                 scrollViewPlayer.PagingEnabled = true;
                 scrollViewPlayer.DelaysContentTouches = false;
             }
+
+            // Only display wave form on iPhone 5+ and iPad
+            bool showWaveForm = DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone3GS &&
+                                DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4 &&
+                                DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4S;
+            scrollViewWaveForm.Hidden = !showWaveForm;
+            scrollViewWaveForm.UserInteractionEnabled = showWaveForm;
+            scrollViewWaveForm.MultipleTouchEnabled = showWaveForm;
+            scrollViewWaveForm.ZoomChanged += (sender, e) => {
+                //sliderPosition.ScrubbingSpeedAdjustmentFactor = 1 / scrollViewWaveForm.Zoom;
+            };
         }
 
         private void ConfigurePositionSlider()
@@ -221,7 +224,6 @@ namespace Sessions.iOS.Classes.Controllers
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height + offset);
                     scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y + offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height * 2);
-                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, (scrollViewWaveForm.WaveFormView.Frame.Height * 2) + 22);
                     viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
                     lblSlideMessage.Alpha = 1;
                     lblScrubbingType.Alpha = 1;
@@ -240,7 +242,6 @@ namespace Sessions.iOS.Classes.Controllers
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
                     scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y - offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height / 2);
-                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, (scrollViewWaveForm.WaveFormView.Frame.Height - 22) / 2);
                     viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;

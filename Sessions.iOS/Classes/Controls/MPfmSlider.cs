@@ -44,6 +44,12 @@ namespace Sessions.iOS.Classes.Controls
         public event EventHandler EndTrackingEvent;
         public event ScrubbingSpeedChangedDelegate OnScrubbingSpeedChanged;
 
+        /// <summary>
+        /// This is used to adjust the scrubbing speed even further.
+        /// This can be useful if the speed must be slow down because of a zoom factor.
+        /// </summary>
+        public float ScrubbingSpeedAdjustmentFactor { get; set; }
+
         private ScrubbingSpeed _currentScrubbingSpeed;
         public ScrubbingSpeed CurrentScrubbingSpeed
         {
@@ -66,6 +72,7 @@ namespace Sessions.iOS.Classes.Controls
 
         private void CreateScrubbingSpeeds()
         {
+            ScrubbingSpeedAdjustmentFactor = 1;
             _scrubbingSpeeds = ScrubbingSpeedHelper.GetScrubbingSpeeds(2.85f);
             _currentScrubbingSpeed = _scrubbingSpeeds[0];
         }
@@ -165,7 +172,7 @@ namespace Sessions.iOS.Classes.Controls
             // Calculate new value
             float valueRange = (MaxValue - MinValue) + 1;
             float trackWidth = Bounds.Width; // in fact it should include the padding...
-            float valuePerPixel = (valueRange / trackWidth) * _currentScrubbingSpeed.Speed;
+            float valuePerPixel = (valueRange / trackWidth) * _currentScrubbingSpeed.Speed * ScrubbingSpeedAdjustmentFactor;
             float value = _touchDownScrubbingValue + (pt.X - _touchDownScrubbingX) * valuePerPixel;
             value = Math.Max(value, MinValue);
             value = Math.Min(value, MaxValue);

@@ -73,6 +73,7 @@ namespace Sessions.iOS.Classes.Controls
                 _zoom = value;
                 WaveFormScaleView.Zoom = _zoom;
                 WaveFormView.Zoom = _zoom;
+                OnZoomChanged(new EventArgs());
             }
         }        
 
@@ -83,6 +84,8 @@ namespace Sessions.iOS.Classes.Controls
                 return WaveFormView.IsEmpty;
             }
         }
+
+        public event EventHandler ZoomChanged;
 
         // TODO: Make this entirely private and add methods to set wave forms
         public SessionsWaveFormView WaveFormView { get; private set; }
@@ -140,6 +143,12 @@ namespace Sessions.iOS.Classes.Controls
             _viewCenterLine.BackgroundColor = GlobalTheme.LightColor;
             _viewCenterLine.Alpha = 0;
             AddSubview(_viewCenterLine);
+        }
+
+        protected void OnZoomChanged(EventArgs e)
+        {
+            if(ZoomChanged != null)
+                ZoomChanged(this, e);
         }
 
 		private void HandleDoubleTapGestureRecognizer(UITapGestureRecognizer sender)
@@ -227,8 +236,7 @@ namespace Sessions.iOS.Classes.Controls
             _lblZoom.Frame = new RectangleF(((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
             _viewCenterLine.Frame = new RectangleF((Bounds.Width / 2), 0, 1, Bounds.Height);
 
-			Console.WriteLine("=========>>>>>>>> WaveFormScrollView - LayoutSubviews - frame: {0} orientation: {1}", Frame, UIDevice.CurrentDevice.Orientation);
-			WaveFormView.InvalidateBitmaps();
+			//Console.WriteLine("=========>>>>>>>> WaveFormScrollView - LayoutSubviews - frame: {0} orientation: {1}", Frame, UIDevice.CurrentDevice.Orientation);
 			WaveFormScaleView.SetNeedsDisplay();
         }
 
@@ -261,7 +269,6 @@ namespace Sessions.iOS.Classes.Controls
 
         public void SetWaveFormLength(long lengthBytes)
         {
-			//Console.WriteLine("WaveFormScrollView - SetWaveFormLength - length: {0}", lengthBytes);
             WaveFormView.Length = lengthBytes;
             WaveFormScaleView.AudioFileLength = lengthBytes;
         }
@@ -279,54 +286,11 @@ namespace Sessions.iOS.Classes.Controls
 		public void SetMarkerPosition(Marker marker)
 		{
 			WaveFormView.SetMarkerPosition(marker);
-			//ProcessAutoScroll(marker.PositionBytes);
 		}
 
         public void SetPosition(long position)
         {
             WaveFormView.Position = position;
-
-//            // Process autoscroll
-//            if (_zoomScale > 1)
-//            {
-//                float positionPercentage = (float)position / (float)WaveFormView.Length;
-//                float cursorX = (positionPercentage * WaveFormView.Bounds.Width);
-//                float scrollStartX = ContentOffset.X;
-//                float scrollCenterX = ContentOffset.X + Bounds.Width / 2;
-//                float scrollEndX = Bounds.Width + ContentOffset.X;
-//                Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
-////                if (cursorX > scrollEndX)
-////                    Console.WriteLine("WaveFormScrollView - Cursor is offscreen to the RIGHT!");
-////                else if (cursorX < scrollStartX)
-////                    Console.WriteLine("WaveFormScrollView - Cursor is offscreen to the LEFT!");
-//
-//                if (cursorX != scrollCenterX)
-//                {
-//                    Console.WriteLine("WaveFormScrollView - Cursor isn't centered!");
-//
-//                    if (cursorX < scrollCenterX)
-//                    {
-//                        Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is left of center X!");
-//                        if (ContentOffset.X > (Bounds.Width / 2f))
-//                        {
-//                            //float newContentOffsetX = scrollCenterX - (Bounds.Width / 2f);
-//                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
-//                            Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the left; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
-//                            ContentOffset = new PointF(newContentOffsetX, 0);
-//                        }
-//                    }
-//                    else if(cursorX > scrollCenterX)
-//                    {
-//                        Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is right of center X!");
-//                        if (ContentOffset.X < WaveFormView.Bounds.Width - Bounds.Width)
-//                        {
-//                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
-//                            Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the right; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
-//                            ContentOffset = new PointF(newContentOffsetX, 0);
-//                        }
-//                    }
-//                }
-//            }
         }
 
         public void ShowSecondaryPosition(bool show)
@@ -336,50 +300,13 @@ namespace Sessions.iOS.Classes.Controls
 
         public void SetSecondaryPosition(long position)
 		{
+            // Setting the position will process the auto scroll
 			WaveFormView.SecondaryPosition = position;
-			//ProcessAutoScroll(position);
+
+            // Sync the content offset of the scale view to the wave form view
+            WaveFormScaleView.ContentOffset = new BasicPoint(WaveFormView.ContentOffset.X, 0);
+            //Console.WriteLine("===>>> SetSecondaryPosition -- position: {0} - WaveFormScaleView.ContentOffset.X: {1} - WaveFormView.ContentOffset.X: {2}", position, WaveFormScaleView.ContentOffset.X, WaveFormView.ContentOffset.X);
 		}
-
-//		private void ProcessAutoScroll(long position)
-//		{
-//            // Process autoscroll
-//            if (_zoomScale > 1)
-//            {
-//                float positionPercentage = (float)position / (float)WaveFormView.Length;
-//                float cursorX = (positionPercentage * WaveFormView.Bounds.Width);
-//				//float scrollStartX = ContentOffset.X;
-//                float scrollCenterX = ContentOffset.X + Bounds.Width / 2;
-//				//float scrollEndX = Bounds.Width + ContentOffset.X;
-//                //Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
-//
-//                if (cursorX != scrollCenterX)
-//                {
-//                    if (cursorX < scrollCenterX)
-//                    {
-//                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is left of center X!");
-//                        if (ContentOffset.X >= 0)
-//                        {
-//                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
-//                            newContentOffsetX = newContentOffsetX < 0 ? 0 : newContentOffsetX;
-//                            //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the left; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
-//                            ContentOffset = new PointF(newContentOffsetX, 0);
-//                        }
-//                    }
-//                    else if(cursorX > scrollCenterX)
-//                    {
-//                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is right of center X!");
-//                        if (ContentOffset.X < WaveFormView.Bounds.Width - Bounds.Width)
-//                        {
-//                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
-//                            newContentOffsetX = newContentOffsetX > WaveFormView.Bounds.Width - Bounds.Width ? WaveFormView.Bounds.Width - Bounds.Width : newContentOffsetX;
-//                            //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the right; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
-//                            ContentOffset = new PointF(newContentOffsetX, 0);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
     }
 
     public enum WaveFormScrollViewMode

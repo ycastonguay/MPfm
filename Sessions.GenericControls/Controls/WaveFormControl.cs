@@ -155,6 +155,9 @@ namespace Sessions.GenericControls.Controls
 
                 // Calling two times = completely draw two times. It'd be a better idea to merge the dirty rects.
                 rectCursor.Merge(rectPreviousCursor);
+
+                // TODO: Check if auto scroll + invalidate is superfluous
+                ProcessAutoScroll(_secondaryPosition);
                 InvalidateVisualInRect(rectCursor);
             }
         }
@@ -173,7 +176,7 @@ namespace Sessions.GenericControls.Controls
             }
         }
         
-        private BasicRectangle ContentSize
+        public BasicRectangle ContentSize
         {
             get
             {
@@ -393,6 +396,7 @@ namespace Sessions.GenericControls.Controls
             localMarker.PositionSamples = marker.PositionSamples;
 
             // TODO: Only refresh the old/new marker positions
+            ProcessAutoScroll(marker.PositionBytes);
             InvalidateVisual();
         }
 
@@ -447,6 +451,45 @@ namespace Sessions.GenericControls.Controls
             IsLoading = false;            
             _waveFormEngineService.FlushCache();
             InvalidateVisual();
+        }
+
+        private void ProcessAutoScroll(long position)
+        {
+            if (Zoom <= 1)
+                return;
+
+            float positionPercentage = (float)position / (float)Length;
+            float cursorX = (positionPercentage * ContentSize.Width);
+          //float scrollStartX = ContentOffset.X;
+            float scrollCenterX = ContentOffset.X + Frame.Width / 2;
+          //float scrollEndX = Bounds.Width + ContentOffset.X;
+            //Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
+
+            if (cursorX != scrollCenterX)
+            {
+                if (cursorX < scrollCenterX)
+                {
+                    //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is left of center X!");
+                    if (ContentOffset.X >= 0)
+                    {
+                        float newContentOffsetX = cursorX - (Frame.Width / 2f);
+                        newContentOffsetX = newContentOffsetX < 0 ? 0 : newContentOffsetX;
+                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the left; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
+                        ContentOffset = new BasicPoint(newContentOffsetX, 0);
+                    }
+                }
+                else if(cursorX > scrollCenterX)
+                {
+                    //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is right of center X!");
+                    if (ContentOffset.X < ContentSize.Width - Frame.Width)
+                    {
+                        float newContentOffsetX = cursorX - (Frame.Width / 2f);
+                        newContentOffsetX = newContentOffsetX > ContentSize.Width - Frame.Width ? ContentSize.Width - Frame.Width : newContentOffsetX;
+                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the right; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
+                        ContentOffset = new BasicPoint(newContentOffsetX, 0);
+                    }
+                }
+            }
         }
 
         private void RefreshStatus(string status)
@@ -668,10 +711,10 @@ namespace Sessions.GenericControls.Controls
             {
                 // Wave form area
                 ShowSecondaryPosition = true;
-                long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
-                float positionPercentage = (float)position / (float)Length;
+                float positionPercentage = (ContentOffset.X + x) / ContentSize.Width;
+                long position = (long)(positionPercentage * Length);
                 //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
-                SecondaryPosition = (long)(positionPercentage * Length);
+                SecondaryPosition = position;
             }
         }
 
@@ -734,8 +777,8 @@ namespace Sessions.GenericControls.Controls
             if (_isMouseDown)
             {
                 // Change position
-                long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
-                float positionPercentage = (float)position / (float)Length;
+                float positionPercentage = (x + ContentOffset.X) / ContentSize.Width;
+                long position = (long)(positionPercentage * Length);
 
                 if (_isDraggingScrollBar)
                 {
@@ -778,7 +821,7 @@ namespace Sessions.GenericControls.Controls
                 {
                     SecondaryPosition = position;
                     OnChangeSecondaryPosition(positionPercentage);
-                    //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
+                    Console.WriteLine("positionPercentage: {0} x: {1} (x / Zoom): {2} ContentOffset.X: {3} ContentSize.Width: {4}", positionPercentage, x, x / Zoom, ContentOffset.X, ContentSize.Width);
                 }
             }
             else
