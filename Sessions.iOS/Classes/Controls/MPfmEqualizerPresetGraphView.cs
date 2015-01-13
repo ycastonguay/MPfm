@@ -41,6 +41,7 @@ namespace Sessions.iOS.Classes.Controls
         public BasicColor ColorMainLine { get { return _control.ColorMainLine; } set { _control.ColorMainLine = value; } }
         public BasicColor ColorSecondaryLine { get { return _control.ColorSecondaryLine; } set { _control.ColorSecondaryLine = value; } }
         public bool ShowText { get { return _control.ShowText; } set { _control.ShowText = value; } }
+        public bool ShowGuideLines { get { return _control.ShowGuideLines; } set { _control.ShowGuideLines = value; } }
 
         public SessionsEqualizerPresetGraphView(IntPtr handle) 
             : base (handle)

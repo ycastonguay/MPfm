@@ -360,6 +360,7 @@
     <Compile Include="Classes\Controls\MPfmEqualizerTableViewCell.cs">
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmRoundImageView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

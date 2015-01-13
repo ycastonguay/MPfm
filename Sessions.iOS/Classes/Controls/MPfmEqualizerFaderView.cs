@@ -28,7 +28,7 @@ namespace Sessions.iOS.Classes.Controls
     [Register("SessionsEqualizerFaderView")]
     public class SessionsEqualizerFaderView : UIView
     {
-        SessionsSlider _slider;
+        UISlider _slider;
         UILabel _lblValue;
         UILabel _lblFrequency;
 
@@ -72,7 +72,7 @@ namespace Sessions.iOS.Classes.Controls
             _lblValue.TextAlignment = UITextAlignment.Right;
             _lblValue.Font = UIFont.FromName("HelveticaNeue-Light", 12.0f);
 
-            _slider = new SessionsSlider(new RectangleF(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
+            _slider = new UISlider(new RectangleF(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
             _slider.MinValue = -6;
             _slider.MaxValue = 6;
             _slider.Value = 0;

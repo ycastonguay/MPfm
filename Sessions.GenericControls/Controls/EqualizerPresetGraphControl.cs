@@ -112,6 +112,7 @@ namespace Sessions.GenericControls.Controls
         }
 
         public bool ShowText { get; set; }
+        public bool ShowGuideLines { get; set; }
 
         public EqualizerPresetGraphControl()
         {
@@ -121,6 +122,7 @@ namespace Sessions.GenericControls.Controls
 		private void Initialize()
 		{
             ShowText = true;
+            ShowGuideLines = true;
             SetDefaultColors();
 		    CreateDrawingResources();
 		}
@@ -156,18 +158,21 @@ namespace Sessions.GenericControls.Controls
 
             // IDEA: Put the value of the band currently changing over the graph (i.e. +3.5dB)
 
-            // Background
-            context.DrawRectangle(Frame, _brushBackground, _penTransparent);
+            if (ShowGuideLines)
+            {
+                // Background
+                context.DrawRectangle(Frame, _brushBackground, _penTransparent);
 
-            // Draw center line
-            context.DrawLine(new BasicPoint(padding, (Frame.Height / 2)), 
-                new BasicPoint(Frame.Width - padding, (Frame.Height / 2)), _penCenterLine);
+                // Draw center line
+                context.DrawLine(new BasicPoint(padding, (Frame.Height / 2)), 
+                    new BasicPoint(Frame.Width - padding, (Frame.Height / 2)), _penCenterLine);
 
-            // Draw 20Hz and 20kHz lines
-            context.DrawLine(new BasicPoint(padding, padding),
-                new BasicPoint(padding, Frame.Height - padding), _penBorderLine);
-            context.DrawLine(new BasicPoint(Frame.Width - padding, padding),
-                new BasicPoint(Frame.Width - padding, Frame.Height - padding), _penBorderLine);
+                // Draw 20Hz and 20kHz lines
+                context.DrawLine(new BasicPoint(padding, padding),
+                    new BasicPoint(padding, Frame.Height - padding), _penBorderLine);
+                context.DrawLine(new BasicPoint(Frame.Width - padding, padding),
+                    new BasicPoint(Frame.Width - padding, Frame.Height - padding), _penBorderLine);
+            }
 
             if (Preset == null)
                 return;

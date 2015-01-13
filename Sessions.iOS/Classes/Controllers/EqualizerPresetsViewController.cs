@@ -32,18 +32,21 @@ using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
+using Sessions.GenericControls.Basics;
 
 namespace Sessions.iOS
 {
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {
-		bool _isViewVisible;
-        MPVolumeView _volumeView;
-        UIBarButtonItem _btnDone;
-        UIBarButtonItem _btnAdd;
-        string _cellIdentifier = "EqualizerPresetCell";
-        List<EQPreset> _presets = new List<EQPreset>();
-        Guid _selectedPresetId;
+        private bool _isViewVisible;
+        private MPVolumeView _volumeView;
+        private UIBarButtonItem _btnDone;
+        private UIBarButtonItem _btnAdd;
+        private string _cellIdentifier = "EqualizerPresetCell";
+        private List<EQPreset> _presets = new List<EQPreset>();
+        private Guid _selectedPresetId;
+        private int _editingRowPosition = -1;
+        private int _editingRowSection = -1;
 
         public EqualizerPresetsViewController()
             : base (UserInterfaceIdiomIsPhone ? "EqualizerPresetsViewController_iPhone" : "EqualizerPresetsViewController_iPad", null)
@@ -52,8 +55,6 @@ namespace Sessions.iOS
 
         public override void ViewDidLoad()
         {
-            var screenSize = UIKitHelper.GetDeviceSize();
-
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
@@ -146,7 +147,7 @@ namespace Sessions.iOS
         {
             base.ViewWillAppear(animated);
             
-            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
+            var navCtrl = (SessionsNavigationController)this.NavigationController;
             navCtrl.SetTitle("Equalizer Presets");
         }
 
@@ -178,13 +179,112 @@ namespace Sessions.iOS
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
                 return;
 
-            PointF pt = gestureRecognizer.LocationInView(tableView);
-            NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
-            if (indexPath != null)
+//            PointF pt = gestureRecognizer.LocationInView(tableView);
+//            NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
+//            if (indexPath != null)
+//            {
+//                //SetCheckmarkCell(indexPath);
+//                //OnEditPreset(_presets[indexPath.Row].EQPresetId);
+//
+//                if (_editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section)
+//                    ResetEditingTableCellRow();
+//                else
+//                    SetEditingTableCellRow(indexPath.Section, indexPath.Row);
+//            }
+        }
+
+        private void ResetEditingTableCellRow()
+        {
+            SetEditingTableCellRow(-1, -1);
+        }
+
+        private void SetEditingTableCellRow(int section, int row)
+        {
+            int oldRow = _editingRowPosition;
+            int oldSection = _editingRowSection;
+            _editingRowPosition = row;
+            _editingRowSection = section;
+
+            if (oldRow >= 0)
             {
-                SetCheckmarkCell(indexPath);
-                OnEditPreset(_presets[indexPath.Row].EQPresetId);
+                var oldCell = (SessionsEqualizerTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
+                if (oldCell != null)
+                {
+                    //oldCell.ContainerBackgroundView.BackgroundColor = UIColor.Blue; //GlobalTheme.SecondaryColor;
+                    oldCell.IsDarkBackground = false;
+                    UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+//                      oldCell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
+//                      oldCell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
+//                      oldCell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
+                        oldCell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                        oldCell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                        oldCell.EditButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+                        oldCell.DuplicateButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+                        oldCell.DeleteButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+
+                        oldCell.GraphView.ColorMainLine = BasicColors.Black;
+                        oldCell.GraphView.SetNeedsDisplay();
+
+                        oldCell.EditButton.Alpha = 0;
+                        oldCell.DuplicateButton.Alpha = 0;
+                        oldCell.DeleteButton.Alpha = 0;
+
+                        oldCell.ContainerBackgroundView.BackgroundColor = UIColor.White;
+                        oldCell.TitleTextLabel.TextColor = UIColor.Black;
+                        oldCell.SubtitleTextLabel.TextColor = UIColor.Gray;
+                        oldCell.EditButton.UpdateLayout();
+                        oldCell.DuplicateButton.UpdateLayout();
+                        oldCell.DeleteButton.UpdateLayout();
+                    }, null);
+                }
             }
+
+            if (row >= 0)
+            {
+                var cell = (SessionsEqualizerTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(row, section));
+                if (cell != null)
+                {
+                    cell.EditButton.Alpha = 0;
+                    cell.DuplicateButton.Alpha = 0;
+                    cell.DeleteButton.Alpha = 0;
+//                  cell.PlayButton.Frame = new RectangleF(4, 25, 100, 44);
+//                  cell.AddButton.Frame = new RectangleF(108, 25, 100, 44);
+//                  cell.DeleteButton.Frame = new RectangleF(212, 25, 100, 44);
+
+                    cell.ContainerBackgroundView.BackgroundColor = GlobalTheme.SecondaryColor;
+                    cell.IsDarkBackground = true;
+                    UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                        cell.EditButton.Alpha = 1;
+                        cell.DuplicateButton.Alpha = 1;
+                        cell.DeleteButton.Alpha = 1;
+
+                        cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                        cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                        cell.EditButton.Transform = CGAffineTransform.MakeScale(1, 1);
+                        cell.DuplicateButton.Transform = CGAffineTransform.MakeScale(1, 1);
+                        cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
+
+                        cell.GraphView.ColorMainLine = BasicColors.White;
+                        cell.GraphView.SetNeedsDisplay();
+
+                        cell.ContainerBackgroundView.BackgroundColor = GlobalTheme.BackgroundColor;
+                        cell.TitleTextLabel.TextColor = UIColor.White;
+                        cell.SubtitleTextLabel.TextColor = UIColor.White;
+
+//                      cell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
+//                      cell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
+//                      cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
+                        cell.EditButton.UpdateLayout();
+                        cell.DuplicateButton.UpdateLayout();
+                        cell.DeleteButton.UpdateLayout();
+
+                    }, null);
+                }
+            }
+
+            // Execute animation for new row height (as simple as that!)
+            tableView.BeginUpdates();
+            tableView.EndUpdates(); 
         }
 
         [Export ("tableView:commitEditingStyle:forRowAtIndexPath:")]
@@ -217,17 +317,53 @@ namespace Sessions.iOS
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
                 cell = new SessionsEqualizerTableViewCell(cellStyle, _cellIdentifier);
+
+                // Register events only once!
+                cell.EditButton.TouchUpInside += HandleTableViewEditTouchUpInside;
+                cell.DuplicateButton.TouchUpInside += HandleTableViewDuplicateTouchUpInside;
+                cell.DeleteButton.TouchUpInside += HandleTableViewDeleteTouchUpInside;
             }
 
             cell.Tag = indexPath.Row;
             cell.GraphView.Preset = _presets[indexPath.Row];
             cell.TitleTextLabel.Text = _presets[indexPath.Row].Name;
             cell.Accessory = UITableViewCellAccessory.None;
-            cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
+            //cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
 
-            if (_presets[indexPath.Row].EQPresetId == _selectedPresetId)
-                cell.Accessory = UITableViewCellAccessory.Checkmark;
+            cell.CheckmarkImageView.Hidden = _presets[indexPath.Row].EQPresetId != _selectedPresetId;
+            //if (_presets[indexPath.Row].EQPresetId == _selectedPresetId)
+//                cell.Accessory = UITableViewCellAccessory.Checkmark;
             
+            bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
+            cell.IsDarkBackground = isEditing;
+            //cell.ContainerBackgroundView.BackgroundColor = isEditing ? UIColor.Green : UIColor.Purple; //GlobalTheme.BackgroundColor;// : UIColor.Green;
+            cell.ContainerBackgroundView.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
+            cell.EditButton.Alpha = isEditing ? 1 : 0;
+            cell.DuplicateButton.Alpha = isEditing ? 1 : 0;
+            cell.DeleteButton.Alpha = isEditing ? 1 : 0;
+            cell.TitleTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
+            cell.SubtitleTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Gray;
+            //cell.IndexTextLabel.TextColor = isEditing ? UIColor.White : UIColor.FromRGB(0.5f, 0.5f, 0.5f);
+
+            if (isEditing)
+            {
+                cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+//                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                cell.EditButton.Transform = CGAffineTransform.MakeScale(1, 1);
+                cell.DuplicateButton.Transform = CGAffineTransform.MakeScale(1, 1);
+                cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
+            }
+            else
+            {
+                cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+                cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+//                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+                cell.EditButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+                cell.DuplicateButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+                cell.DeleteButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+            }
+
 //            UIView viewBackgroundSelected = new UIView();
 //            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
 //            cell.SelectedBackgroundView = viewBackgroundSelected;
@@ -241,26 +377,83 @@ namespace Sessions.iOS
             SetCheckmarkCell(indexPath);
             OnLoadPreset(_presets[indexPath.Row].EQPresetId);
             tableView.DeselectRow(indexPath, true);
+
+            if (_editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section)
+                ResetEditingTableCellRow();
+            else
+                SetEditingTableCellRow(indexPath.Section, indexPath.Row);
+
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 52;
+            bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
+            return isEditing ? SessionsEqualizerTableViewCell.ExpandedCellHeight : SessionsEqualizerTableViewCell.StandardCellHeight;
         }
 
         private void SetCheckmarkCell(NSIndexPath indexPath)
         {
-            _selectedPresetId = _presets[indexPath.Row].EQPresetId;
+            // _selectedPresetId = _presets[indexPath.Row].EQPresetId;
+            var presetId = _presets[indexPath.Row].EQPresetId;
 
             // Reset checkmarks
             foreach (var visibleCell in tableView.VisibleCells)
-                visibleCell.Accessory = UITableViewCellAccessory.None;
+            {
+                //visibleCell.Accessory = UITableViewCellAccessory.None;
+                var cellToRemove = visibleCell as SessionsEqualizerTableViewCell;
+                cellToRemove.IsPresetSelected = false;
+            }
+
+            // If selecting a cell that's already checked, then uncheck this cell
+            if (presetId == _selectedPresetId)
+            {
+                _selectedPresetId = Guid.Empty;
+                return;
+            }
 
             // Set new checkmark (force reload row or the checkmark isn't always visible)
+            _selectedPresetId = presetId;
             var cell = tableView.CellAt(indexPath);
-            if(cell != null)
-                tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
+            if (cell != null)
+            {
+                var cellToAdd = cell as SessionsEqualizerTableViewCell;
+                cellToAdd.IsPresetSelected = true;
+            }
+                //tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
+        }
+
+        private void HandleTableViewEditTouchUpInside(object sender, EventArgs e)
+        {
+            SetCheckmarkCell(NSIndexPath.FromRowSection(_editingRowPosition, _editingRowSection));
+            OnEditPreset(_presets[_editingRowPosition].EQPresetId);
+            ResetEditingTableCellRow();
+        }
+
+        private void HandleTableViewDeleteTouchUpInside(object sender, EventArgs e)
+        {
+            var item = _presets[_editingRowPosition];
+            if (item == null)
+                return;
+
+            var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", item.Name), null, "OK", new string[1] { "Cancel" });
+            alertView.Clicked += (object sender2, UIButtonEventArgs e2) => {
+                switch(e2.ButtonIndex)
+                {
+                    case 0:
+                        OnDeletePreset(item.EQPresetId);
+                        break;
+                }
+                ResetEditingTableCellRow();
+            };
+            alertView.Show();           
+        }
+
+        private void HandleTableViewDuplicateTouchUpInside(object sender, EventArgs e)
+        {
+            //SetCheckmarkCell(_editingRowPosition);
+            //OnEditPreset(_presets[_editingRowPosition].EQPresetId);
+            ResetEditingTableCellRow();
         }
 
         #region IEqualizerPresetsView implementation
@@ -276,10 +469,7 @@ namespace Sessions.iOS
 
         public void EqualizerPresetsError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("Equalizer Presets Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
@@ -287,8 +477,13 @@ namespace Sessions.iOS
             InvokeOnMainThread(() => {
                 _selectedPresetId = selectedPresetId;
                 _presets = presets.ToList();
-                tableView.ReloadData();
                 switchBypass.On = isEQBypassed;
+
+                tableView.ReloadData();
+                int index = _presets.FindIndex(x => x.EQPresetId == _selectedPresetId);
+                if(index >= 0) {
+                    SetCheckmarkCell(NSIndexPath.FromRowSection(index, 0));
+                }
             });
         }
 
