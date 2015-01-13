@@ -34,6 +34,7 @@ namespace Sessions.MVP.Config.Models
         public int OutputMeterUpdateFrequency { get; set; }
 
         public bool DownloadAlbumArtFromTheInternet { get; set; }
+        public bool DownloadAlbumArtOnCellularNetwork { get; set; }
         public bool ShowTooltips { get; set; }
         public bool ShowAppInSystemTray { get; set; }
         public bool MinimizeAppInSystemTray { get; set; }
@@ -45,6 +46,7 @@ namespace Sessions.MVP.Config.Models
             OutputMeterUpdateFrequency = 100;
             ShowTooltips = true;
             DownloadAlbumArtFromTheInternet = true;
+            DownloadAlbumArtOnCellularNetwork = false;
         }        
     }
 }

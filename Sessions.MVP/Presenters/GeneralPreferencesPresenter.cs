@@ -79,6 +79,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
+                Console.WriteLine("--->> GeneralPreferencesPresenter - RefreshPreferences");
                 if(!string.IsNullOrEmpty(_peakFolderSize))
                 {
                     View.RefreshGeneralPreferences(AppConfigManager.Instance.Root.General, _peakFolderSize);

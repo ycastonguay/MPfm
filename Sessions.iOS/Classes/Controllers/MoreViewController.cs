@@ -17,26 +17,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using Sessions.Core;
-using Sessions.Library.Services.Interfaces;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Views;
+using DropBoxSync.iOS;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
-using Sessions.iOS.Classes.Objects;
-using Sessions.iOS.Helpers;
-using DropBoxSync.iOS;
-using Sessions.MVP.Navigation;
-using Sessions.MVP.Models;
 
 namespace Sessions.iOS
 {
@@ -57,6 +48,12 @@ namespace Sessions.iOS
             tableView.WeakDelegate = this;
             tableView.BackgroundColor = UIColor.FromRGB(0.85f, 0.85f, 0.85f);
             tableView.BackgroundView = null;
+
+//            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+//            {
+//                tableView.SeparatorInset = new UIEdgeInsets(400, 100, 100, 100);;
+//                tableView.LayoutMargins = UIEdgeInsets.Zero;
+//            }
 
             base.ViewDidLoad();
 
@@ -86,7 +83,7 @@ namespace Sessions.iOS
             var items = _items.Where(x => x.HeaderTitle == headerTitle).ToList();
             var item = items[indexPath.Row];
 
-            SessionsPreferenceTableViewCell cell = (SessionsPreferenceTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            var cell = (SessionsPreferenceTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
@@ -134,7 +131,7 @@ namespace Sessions.iOS
                     break;   
             }
             
-            cell.TextLabel.Text = item.Title;
+            cell.TitleTextLabel.Text = item.Title;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.IsLargeIcon = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
@@ -260,14 +257,16 @@ namespace Sessions.iOS
             return 52;
         }
 
-        void ListFiles(string path)
+        [Export ("tableView:willDisplayCell:forRowAtIndexPath:")]
+        public void WillDisplay(UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
         {
-            DBError error;
-
-            var contents = DBFilesystem.SharedFilesystem.ListFolder(new DBPath(path), out error);
-            foreach (DBFileInfo info in contents) {
-                Console.WriteLine(info.Path);
-            }   
+//            Console.WriteLine(">>>>>>>>>>>>> WILL DISPLAY CELL");
+//            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+//            {
+//                cell.SeparatorInset = new UIEdgeInsets(100, 100, 100, 100);
+//                cell.LayoutMargins = UIEdgeInsets.Zero;
+//                cell.PreservesSuperviewLayoutMargins = false;
+//            }
         }
 
         #region IMobileOptionsMenuView implementation

@@ -57,7 +57,24 @@ namespace Sessions.iOS.Classes.Controllers.Base
                 NavigationController.InteractivePopGestureRecognizer.Enabled = true;
             }
 
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                TableView.SeparatorInset = UIEdgeInsets.Zero;
+                TableView.LayoutMargins = UIEdgeInsets.Zero;
+            }
+
             base.ViewDidLoad();
+        }
+
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                TableView.SeparatorInset = UIEdgeInsets.Zero;
+                TableView.LayoutMargins = UIEdgeInsets.Zero;
+            }
         }
 
         [Export ("tableView:viewForHeaderInSection:")]
@@ -145,7 +162,7 @@ namespace Sessions.iOS.Classes.Controllers.Base
             var items = Items.Where(x => x.HeaderTitle == headerTitle).ToList();
             var item = items[indexPath.Row];
 
-            SessionsPreferenceTableViewCell cell = (SessionsPreferenceTableViewCell)tableView.DequeueReusableCell(CellIdentifier);
+            var cell = (SessionsPreferenceTableViewCell)tableView.DequeueReusableCell(CellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;

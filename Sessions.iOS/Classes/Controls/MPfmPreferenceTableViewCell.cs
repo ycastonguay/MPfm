@@ -27,7 +27,6 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
-using Sessions.Core;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -38,12 +37,20 @@ namespace Sessions.iOS.Classes.Controls
         public event PreferenceValueChanged OnPreferenceValueChanged;
 
         private PreferenceCellItem _item;
+
         private bool _isTextLabelAllowedToChangeFrame = true;
 
-        public bool IsLargeIcon { get; set; }
+        public UIView ContainerView { get; private set; }
+        public UIView ContainerBackgroundView { get; private set; }
+        public UIView BehindView { get; private set; }
+
+        public UILabel TitleTextLabel { get; private set; }
+        public UILabel SubtitleTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
+        public UIImageView RightImage { get; private set; }
         public UIImageView ImageChevron { get; private set; }
-		public UITextField ValueTextField { get; private set; }
+
+        public UITextField ValueTextField { get; private set; }
         public UILabel ValueTextLabel { get; private set; }
         public UILabel MinValueTextLabel { get; private set; }
         public UILabel MaxValueTextLabel { get; private set; }
@@ -51,7 +58,20 @@ namespace Sessions.iOS.Classes.Controls
         public UISlider Slider { get; private set; }
         public UISwitch Switch { get; private set; }
 
+        public bool IsQueued { get; set; }
+        public bool IsTextAnimationEnabled { get; set; }
+        public bool IsDarkBackground { get; set; }
+        public bool IsLargeIcon { get; set; }
+
+        public float RightOffset { get; set; }
+
         public SessionsPreferenceTableViewCell() : base()
+        {
+            Initialize();
+        }
+
+        // Keep this or cell reuse won't work for the first items
+        public SessionsPreferenceTableViewCell(IntPtr handle) : base(handle)
         {
             Initialize();
         }
@@ -68,82 +88,125 @@ namespace Sessions.iOS.Classes.Controls
 
         public void Initialize()
         {
+            IsTextAnimationEnabled = false;
+            SelectionStyle = UITableViewCellSelectionStyle.None;
             var screenSize = UIKitHelper.GetDeviceSize();
+           
+            BehindView = new UIView(Bounds);
+            BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
+            AddSubview(BehindView);
 
-            Accessory = UITableViewCellAccessory.None;
+            ContainerView = new UIView(Bounds);
+            ContainerView.BackgroundColor = UIColor.Clear;
+            AddSubview(ContainerView);
 
-            UIView backView = new UIView(Frame);
-            backView.BackgroundColor = GlobalTheme.LightColor;
-            BackgroundView = backView;
-            //BackgroundColor = UIColor.White;
-            
+            ContainerBackgroundView = new UIView(Bounds);
+            ContainerBackgroundView.BackgroundColor = UIColor.White;
+            ContainerView.AddSubview(ContainerBackgroundView);
+
             UIView backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-            SelectedBackgroundView = backViewSelected;           
+            SelectedBackgroundView = backViewSelected;     
+            SelectedBackgroundView.Hidden = true;
+            ContainerView.AddSubview(SelectedBackgroundView);
 
-            TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            TextLabel.BackgroundColor = UIColor.Yellow;
-            TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-            TextLabel.TextAlignment = UITextAlignment.Left;
-            TextLabel.TextColor = UIColor.Black;
-            TextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            DetailTextLabel.BackgroundColor = UIColor.Clear;
-            DetailTextLabel.TextColor = UIColor.Gray;
-            DetailTextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
+            TitleTextLabel = new UILabel();
+            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.BackgroundColor = UIColor.Clear;
+            TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            TitleTextLabel.TextColor = UIColor.Black;
+            TitleTextLabel.HighlightedTextColor = UIColor.White;
+            SubtitleTextLabel = new UILabel();
+            SubtitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            SubtitleTextLabel.TextColor = UIColor.Gray;
+            SubtitleTextLabel.HighlightedTextColor = UIColor.White;
+            SubtitleTextLabel.BackgroundColor = UIColor.Clear;
+            SubtitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             ImageView.BackgroundColor = UIColor.Clear;
 
-			ValueTextField = new UITextField();
-			ValueTextField.WeakDelegate = this;
-			ValueTextField.Hidden = true;
-			ValueTextField.UserInteractionEnabled = false;
-			ValueTextField.BackgroundColor = UIColor.Clear;
-			ValueTextField.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-			ValueTextField.TextColor = UIColor.Gray;
-			ValueTextField.TextAlignment = UITextAlignment.Right;
-			ValueTextField.Placeholder = "53551";
-			ValueTextField.KeyboardType = UIKeyboardType.NumberPad;
-			ValueTextField.ReturnKeyType = UIReturnKeyType.Done;
-			AddSubview(ValueTextField);
-
-			ValueTextLabel = new UILabel();
-            ValueTextLabel.BackgroundColor = UIColor.Clear;
-            ValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-            ValueTextLabel.TextColor = UIColor.Gray;
-            ValueTextLabel.TextAlignment = UITextAlignment.Right;
-            ValueTextLabel.HighlightedTextColor = UIColor.White;
-            AddSubview(ValueTextLabel);
-
-            MinValueTextLabel = new UILabel();
-            MinValueTextLabel.BackgroundColor = UIColor.Clear;
-            MinValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
-            MinValueTextLabel.TextColor = UIColor.LightGray;
-            MinValueTextLabel.HighlightedTextColor = UIColor.White;
-            AddSubview(MinValueTextLabel);
-
-            MaxValueTextLabel = new UILabel();
-            MaxValueTextLabel.BackgroundColor = UIColor.Clear;
-            MaxValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
-            MaxValueTextLabel.TextColor = UIColor.LightGray;
-            MaxValueTextLabel.TextAlignment = UITextAlignment.Right;
-            MaxValueTextLabel.HighlightedTextColor = UIColor.White;
-            AddSubview(MaxValueTextLabel);
+            // Make sure the text label is over all other subviews
+            ImageView.RemoveFromSuperview();
+            ContainerView.AddSubview(SubtitleTextLabel);
+            ContainerView.AddSubview(ImageView);
 
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
             RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
-            AddSubview(RightButton);
-
-            ViewSeparator = new UIView();
-            ViewSeparator.BackgroundColor = UIColor.FromRGBA(0.75f, 0.75f, 0.75f, 0.5f);
-            AddSubview(ViewSeparator);
+            //RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
+            ContainerView.AddSubview(RightButton);
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
             ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
-            AddSubview(ImageChevron);   
+            ContainerView.AddSubview(ImageChevron);           
+
+            RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
+            RightImage.Alpha = 0.7f;
+            RightImage.BackgroundColor = UIColor.Clear;
+            RightImage.Hidden = true;
+            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
+            ContainerView.AddSubview(RightImage);
+
+            // Make sure the text label is over all other subviews
+            //TextLabel.RemoveFromSuperview();
+            //ContainerView.AddSubview(TextLabel);
+            ContainerView.AddSubview(TitleTextLabel);
+
+            ValueTextField = new UITextField();
+            ValueTextField.WeakDelegate = this;
+            ValueTextField.Hidden = true;
+            ValueTextField.UserInteractionEnabled = false;
+            ValueTextField.BackgroundColor = UIColor.Clear;
+            ValueTextField.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            ValueTextField.TextColor = UIColor.Gray;
+            ValueTextField.TextAlignment = UITextAlignment.Right;
+            ValueTextField.Placeholder = "53551";
+            ValueTextField.KeyboardType = UIKeyboardType.NumberPad;
+            ValueTextField.ReturnKeyType = UIReturnKeyType.Done;
+            ContainerView.AddSubview(ValueTextField);
+
+            ValueTextLabel = new UILabel();
+            ValueTextLabel.Hidden = true;
+            ValueTextLabel.BackgroundColor = UIColor.Clear;
+            ValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            ValueTextLabel.TextColor = UIColor.Gray;
+            ValueTextLabel.TextAlignment = UITextAlignment.Right;
+            ValueTextLabel.HighlightedTextColor = UIColor.White;
+            ContainerView.AddSubview(ValueTextLabel);
+
+            MinValueTextLabel = new UILabel();
+            MinValueTextLabel.Hidden = true;
+            MinValueTextLabel.BackgroundColor = UIColor.Clear;
+            MinValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+            MinValueTextLabel.TextColor = UIColor.LightGray;
+            MinValueTextLabel.HighlightedTextColor = UIColor.White;
+            ContainerView.AddSubview(MinValueTextLabel);
+
+            MaxValueTextLabel = new UILabel();
+            MaxValueTextLabel.Hidden = true;
+            MaxValueTextLabel.BackgroundColor = UIColor.Clear;
+            MaxValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+            MaxValueTextLabel.TextColor = UIColor.LightGray;
+            MaxValueTextLabel.TextAlignment = UITextAlignment.Right;
+            MaxValueTextLabel.HighlightedTextColor = UIColor.White;
+            ContainerView.AddSubview(MaxValueTextLabel);
+
+//            RightButton = new UIButton(UIButtonType.Custom);
+//            RightButton.Hidden = true;
+//            RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
+//            //ContainerView.AddSubview(RightButton);
+
+            ViewSeparator = new UIView();
+            ViewSeparator.BackgroundColor = UIColor.FromRGBA(0.75f, 0.75f, 0.75f, 0.5f);
+            ViewSeparator.Hidden = true;
+            //AddSubview(ViewSeparator);
+
+//            ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
+//            ImageChevron.BackgroundColor = UIColor.Clear;
+//            ImageChevron.Hidden = true;
+//            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
+////            ContainerView.AddSubview(ImageChevron);   
 
             Slider = new UISlider();
             Slider.Hidden = true;
@@ -151,18 +214,18 @@ namespace Sessions.iOS.Classes.Controls
                 _item.Value = (int)Slider.Value;
                 ValueTextLabel.Text = string.Format("{0} {1}", (int)_item.Value, _item.ScaleName);
             };
-			Slider.TouchUpInside += (sender, e) => {
-				if(OnPreferenceValueChanged != null)
-					OnPreferenceValueChanged(_item);       			
-			};
-			if(!UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-			{
-				Slider.MinimumTrackTintColor = GlobalTheme.SecondaryColor;
-//				Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
-//				Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-//				Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-			}
-			AddSubview(Slider);
+            Slider.TouchUpInside += (sender, e) => {
+                if(OnPreferenceValueChanged != null)
+                    OnPreferenceValueChanged(_item);                
+            };
+            if(!UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+            {
+                Slider.MinimumTrackTintColor = GlobalTheme.SecondaryColor;
+//              Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+//              Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+//              Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            }
+            ContainerView.AddSubview(Slider);
 
             Switch = new UISwitch();
             Switch.Hidden = true;
@@ -171,35 +234,44 @@ namespace Sessions.iOS.Classes.Controls
                 if(OnPreferenceValueChanged != null)
                     OnPreferenceValueChanged(_item);               
             };
-			if(!UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-				Switch.OnTintColor = GlobalTheme.SecondaryColor;
-			else
-				Switch.TintColor = GlobalTheme.SecondaryColor;
-            AddSubview(Switch);
+            if(!UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+                Switch.OnTintColor = GlobalTheme.SecondaryColor;
+            else
+                Switch.TintColor = GlobalTheme.SecondaryColor;
+            ContainerView.AddSubview(Switch);
 
             // Make sure the text label is over all other subviews
-            TextLabel.RemoveFromSuperview();
-            AddSubview(TextLabel);
+//            TextLabel.RemoveFromSuperview();
+//            DetailTextLabel.RemoveFromSuperview();
+//            ImageView.RemoveFromSuperview();
 
-			// Make sure the Done key closes the keyboard
-			ValueTextField.ShouldReturn = (a) => {
-				return ValidateAndSaveValue();
-			};
+//            ContainerView.AddSubview(TitleTextLabel);
+//            ContainerView.AddSubview(SubtitleTextLabel);
+//            ContainerView.AddSubview(ImageView);
+
+            // Make sure the Done key closes the keyboard
+            ValueTextField.ShouldReturn = (a) => {
+                return ValidateAndSaveValue();
+            };
         }
 
         public override void LayoutSubviews()
         {
-            //base.LayoutSubviews();
+            base.LayoutSubviews();
+
+            //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
+            BehindView.Frame = Bounds;
+            ContainerView.Frame = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+            ContainerBackgroundView.Frame = new RectangleF(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
+            SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();
             float padding = 8;
 
-            ViewSeparator.Frame = new RectangleF(0, Frame.Height - 1, Frame.Width, 1);
-
-            if(BackgroundView != null)
-                BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
-            if(SelectedBackgroundView != null)
-                SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+//                        if(BackgroundView != null)
+//                BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+//            if(SelectedBackgroundView != null)
+//                SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             // Determine width available for text
             float textWidth = Bounds.Width;
@@ -232,12 +304,12 @@ namespace Sessions.iOS.Classes.Controls
                 titleY = 2 + 4;
 
             if(_isTextLabelAllowedToChangeFrame)
-                TextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
+                TitleTextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
             ValueTextLabel.Frame = new RectangleF(0, titleY, Bounds.Width - 12, 22);
-			ValueTextField.Frame = new RectangleF(Bounds.Width - 112, titleY, 100, 22);
+          ValueTextField.Frame = new RectangleF(Bounds.Width - 112, titleY, 100, 22);
 
-            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-                DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth - 52, 16);
+            if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
+                SubtitleTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth - 52, 16);
 
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
                 RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
@@ -247,80 +319,83 @@ namespace Sessions.iOS.Classes.Controls
             MaxValueTextLabel.Frame = new RectangleF(Bounds.Width - 60 - 12, 48, 60, 44);
             Slider.Frame = new RectangleF(12 + 60, 48, Bounds.Width - 24 - 120, 44);
 
-			if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-				Switch.Frame = new RectangleF(screenSize.Width - 62, 10, 60, 44);
-			else
-				Switch.Frame = new RectangleF(screenSize.Width - 93, 12, 91, 44);
+          if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+              Switch.Frame = new RectangleF(screenSize.Width - 62, 10, 60, 44);
+          else
+              Switch.Frame = new RectangleF(screenSize.Width - 93, 12, 91, 44);
         }
 
-		public override void SetSelected(bool selected, bool animated)
-		{
-			//Tracing.Log("PreferenceTableViewCell - SetSelected - selected: {0}", selected);
-			base.SetSelected(selected, animated);		
+//        public override void SetHighlighted(bool highlighted, bool animated)
+//        {
+//            SelectedBackgroundView.Alpha = 1;
+//            SelectedBackgroundView.Hidden = !highlighted;
+//            TitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
+//            SubtitleTextLabel.Highlighted = highlighted;
+//            SubtitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
+//
+//            base.SetHighlighted(highlighted, animated);
+//        }
+//
 
-			if (_item == null)
-				return;
-
-			if (selected && _item.CellType == PreferenceCellType.Integer && _item.Enabled)
-			{
-				if (!ValueTextField.IsFirstResponder)
-				{
-					ValueTextField.UserInteractionEnabled = true;
-					ValueTextField.BecomeFirstResponder();
-				}
-				else
-				{
-					ValidateAndSaveValue();
-				}
-			}
-		}
-
-        public void SetItem(PreferenceCellItem item)
+        public override void SetHighlighted(bool highlighted, bool animated)
         {
-            _item = item;
-            BackgroundView.BackgroundColor = item.Enabled ? UIColor.White : UIColor.FromRGB(0.95f, 0.95f, 0.95f);
-            TextLabel.Text = item.Title;
-            TextLabel.TextColor = item.Enabled ? UIColor.Black : UIColor.FromRGB(0.7f, 0.7f, 0.7f);
-            DetailTextLabel.Text = item.Description;
-            DetailTextLabel.TextColor = item.Enabled ? UIColor.Gray : UIColor.FromRGB(0.85f, 0.85f, 0.85f);
-            Switch.Hidden = item.CellType != PreferenceCellType.Boolean;
-            Switch.Enabled = item.Enabled;
-            Slider.Hidden = item.CellType != PreferenceCellType.Slider;
-            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.CellType != PreferenceCellType.Slider && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
-			ValueTextField.Hidden = item.CellType != PreferenceCellType.Integer;
-
-			ValueTextLabel.Text = string.Empty;
-			ValueTextField.Text = string.Empty;
-			ValueTextField.Tag = (int)item.CellType;
-
-            if (item.Value == null)
+            if(_item != null && _item.CellType != PreferenceCellType.Button)
                 return;
 
-            switch (item.CellType)
-            {
-                case PreferenceCellType.Button:
-                    break;
-                case PreferenceCellType.Boolean:
-                    Switch.On = (bool)item.Value;
-                    break;
-                case PreferenceCellType.String:
-                    break;
-                case PreferenceCellType.Integer:
-					ValueTextField.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
-                    break;
-                case PreferenceCellType.Slider:
-                    ValueTextLabel.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
-                    MinValueTextLabel.Text = string.Format("{0} {1}", item.MinValue, item.ScaleName);
-                    MaxValueTextLabel.Text = string.Format("{0} {1}", item.MaxValue, item.ScaleName);
-                    Slider.MinValue = item.MinValue;
-                    Slider.MaxValue = item.MaxValue;
-                    Slider.Value = (int)item.Value;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            SelectedBackgroundView.Alpha = 1;
+            SelectedBackgroundView.Hidden = !highlighted;
+            TitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
+            SubtitleTextLabel.Highlighted = highlighted;
+//            //IndexTextLabel.Highlighted = highlighted;
+//            //AlbumCountLabel.Highlighted = highlighted;
+//            //SubtitleTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
+//            //IndexTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
+//            //AlbumCountLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
+
+            base.SetHighlighted(highlighted, animated);
         }
-        
+
+        public override void SetSelected(bool selected, bool animated)
+        {
+            TitleTextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
+            SubtitleTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
+//
+//            if (!selected)
+//            {
+//                UIView.Animate(0.5, () => {
+//                    SelectedBackgroundView.Alpha = 0;
+//                }, () => {
+//                    SelectedBackgroundView.Hidden = true;
+//                });
+//            }
+//            else
+//            {
+//                SelectedBackgroundView.Hidden = false;
+//                SelectedBackgroundView.Alpha = 1;
+//            }
+//
+//            base.SetSelected(selected, animated);
+
+            //Tracing.Log("PreferenceTableViewCell - SetSelected - selected: {0}", selected);
+            base.SetSelected(selected, animated);       
+
+          if (_item == null)
+              return;
+
+          if (selected && _item.CellType == PreferenceCellType.Integer && _item.Enabled)
+          {
+              if (!ValueTextField.IsFirstResponder)
+              {
+                  ValueTextField.UserInteractionEnabled = true;
+                  ValueTextField.BecomeFirstResponder();
+              }
+              else
+              {
+                  ValidateAndSaveValue();
+              }
+          }
+        }
+
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
             AnimatePress(true);
@@ -341,67 +416,116 @@ namespace Sessions.iOS.Classes.Controls
 
         private void AnimatePress(bool on)
         {
-            _isTextLabelAllowedToChangeFrame = !on;
+//            if (!IsTextAnimationEnabled)
+//                return;
 
+            _isTextLabelAllowedToChangeFrame = !on;
             if (!on)
             {
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
-                    if(TextLabel.Transform.xx < 0.95f) return;
+                    if(TitleTextLabel.Transform.xx < 0.95f) return;
 
-                    TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     ImageView.Transform = CGAffineTransform.MakeScale(1, 1);
                 }, null);
             }
             else
             {
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-                    TextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     ImageView.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
                 }, null);
             }
         }
 
-		[Export("textFieldShouldEndEditing:")]
-		private bool TextFieldShouldEndEditing(UITextField textField)
-		{
-			return ValidateAndSaveValue();
-		}
+        public void SetItem(PreferenceCellItem item)
+        {
+            _item = item;
+            //BackgroundView.BackgroundColor = item.Enabled ? UIColor.White : UIColor.FromRGB(0.95f, 0.95f, 0.95f);
+            TitleTextLabel.Text = item.Title;
+            TitleTextLabel.TextColor = item.Enabled ? UIColor.Black : UIColor.FromRGB(0.7f, 0.7f, 0.7f);
+            SubtitleTextLabel.Text = item.Description;
+            SubtitleTextLabel.TextColor = item.Enabled ? UIColor.Gray : UIColor.FromRGB(0.85f, 0.85f, 0.85f);
+            Switch.Hidden = item.CellType != PreferenceCellType.Boolean;
+            Switch.Enabled = item.Enabled;
+            Slider.Hidden = item.CellType != PreferenceCellType.Slider;
+            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.CellType != PreferenceCellType.Slider && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
+            ValueTextField.Hidden = item.CellType != PreferenceCellType.Integer;
+            MinValueTextLabel.Hidden = item.CellType != PreferenceCellType.Slider;
+            MaxValueTextLabel.Hidden = item.CellType != PreferenceCellType.Slider;
 
-		private bool ValidateAndSaveValue()
-		{
-			bool validated = ValidateValue();
-			if (validated)
-			{
-				int value = 0;
-				int.TryParse(ValueTextField.Text, out value);
-				_item.Value = value;
-				ValueTextField.ResignFirstResponder();
-				ValueTextField.UserInteractionEnabled = false;
+            ValueTextLabel.Text = string.Empty;
+            ValueTextField.Text = string.Empty;
+            ValueTextField.Tag = (int)item.CellType;
 
-				if(OnPreferenceValueChanged != null)
-					OnPreferenceValueChanged(_item);
-			}
+            if (item.Value == null)
+                return;
 
-			return validated;
-		}
+            switch (item.CellType)
+            {
+                case PreferenceCellType.Button:
+                    break;
+                case PreferenceCellType.Boolean:
+                    Switch.On = (bool)item.Value;
+                    break;
+                case PreferenceCellType.String:
+                    break;
+                case PreferenceCellType.Integer:
+                  ValueTextField.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
+                    break;
+                case PreferenceCellType.Slider:
+                    ValueTextLabel.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
+                    MinValueTextLabel.Text = string.Format("{0} {1}", item.MinValue, item.ScaleName);
+                    MaxValueTextLabel.Text = string.Format("{0} {1}", item.MaxValue, item.ScaleName);
+                    Slider.MinValue = item.MinValue;
+                    Slider.MaxValue = item.MaxValue;
+                    Slider.Value = (int)item.Value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
-		private bool ValidateValue()
-		{
-			if (_item.ValidateValueDelegate != null)
-			{
-				bool validated = _item.ValidateValueDelegate(ValueTextField.Text);
-				if (!validated)
-				{
-					var alertView = new UIAlertView("Validation failed", _item.ValidateFailErrorMessage, null, "OK", null);
-					alertView.Show();
-				}
-				return validated;
-			}
-			return true;
-		}
+        [Export("textFieldShouldEndEditing:")]
+        private bool TextFieldShouldEndEditing(UITextField textField)
+        {
+            return ValidateAndSaveValue();
+        }
+
+        private bool ValidateAndSaveValue()
+        {
+            bool validated = ValidateValue();
+            if (validated)
+            {
+                int value = 0;
+                int.TryParse(ValueTextField.Text, out value);
+                _item.Value = value;
+                ValueTextField.ResignFirstResponder();
+                ValueTextField.UserInteractionEnabled = false;
+
+                if(OnPreferenceValueChanged != null)
+                    OnPreferenceValueChanged(_item);
+            }
+
+            return validated;
+        }
+
+        private bool ValidateValue()
+        {
+            if (_item.ValidateValueDelegate != null)
+            {
+                bool validated = _item.ValidateValueDelegate(ValueTextField.Text);
+                if (!validated)
+                {
+                    var alertView = new UIAlertView("Validation failed", _item.ValidateFailErrorMessage, null, "OK", null);
+                    alertView.Show();
+                }
+                return validated;
+            }
+            return true;
+        }
     }
 }
- 

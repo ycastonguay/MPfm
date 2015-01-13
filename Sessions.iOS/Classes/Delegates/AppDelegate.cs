@@ -120,7 +120,8 @@ namespace Sessions.iOS.Classes.Delegates
 			container.Register<IWaveFormEngineService, WaveFormEngineService>().AsSingleton();
 			container.Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
   			container.Register<IWaveFormRequestService, WaveFormRequestService>().AsSingleton();
-            container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
+            //container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
+            container.Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
             container.Register<IMobileMainView, MainViewController>().AsMultiInstance();
             container.Register<ISplashView, SplashViewController>().AsMultiInstance();

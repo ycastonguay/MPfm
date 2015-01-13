@@ -64,7 +64,7 @@ namespace Sessions.iOS
         {
             base.ViewWillAppear(animated);
             
-            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
+            var navCtrl = (SessionsNavigationController)this.NavigationController;
             navCtrl.SetTitle("General Preferences");
         }
 
@@ -72,6 +72,22 @@ namespace Sessions.iOS
         {
             // We assume the items are in order for sections
             _items = new List<PreferenceCellItem>();
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "download_missing_album_art",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Download Album Art",
+                Title = "Download Missing Album Art",
+                Value = _config.DownloadAlbumArtFromTheInternet
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "download_album_art_on_cellular_network",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Download Album Art",
+                Title = "Use Cellular Network (3G/LTE)",
+                Value = _config.DownloadAlbumArtOnCellularNetwork
+            });
             _items.Add(new PreferenceCellItem()
             {
                 Id = "update_frequency_song_position",
@@ -131,7 +147,13 @@ namespace Sessions.iOS
 				_config.OutputMeterUpdateFrequency = (int)item.Value;
 			else if (item.Id == "peak_files_maximum_size")
 				_config.MaximumPeakFolderSize = (int)item.Value;
+            else if (item.Id == "download_missing_album_art")
+                _config.DownloadAlbumArtFromTheInternet = (bool)item.Value;
+            else if (item.Id == "download_album_art_on_cellular_network")
+                _config.DownloadAlbumArtOnCellularNetwork = (bool)item.Value;
 
+
+            Console.WriteLine("===>>> PreferenceValueChanged - config.DownloadAlbumArtFromTheInternet: {0}", _config.DownloadAlbumArtFromTheInternet);
 			OnSetGeneralPreferences(_config);
 		}
 
@@ -168,6 +190,7 @@ namespace Sessions.iOS
 
 		public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
 		{
+            Console.WriteLine("===>>> RefreshGeneralPreferences - config.DownloadAlbumArtFromTheInternet: {0}", config.DownloadAlbumArtFromTheInternet);
 			_config = config;
 			_peakFolderSize = peakFolderSize;
 			InvokeOnMainThread(() => {                
