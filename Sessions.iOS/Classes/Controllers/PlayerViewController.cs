@@ -280,7 +280,7 @@ namespace Sessions.iOS.Classes.Controllers
 				graphView.SetNeedsDisplay();
 
 			if(UserInterfaceIdiomIsPhone)
-				_volumeView.Frame = new RectangleF(48, 25, viewVolume.Frame.Width - 96, 46);
+                _volumeView.Frame = new RectangleF(48, 25, UIScreen.MainScreen.Bounds.Width - 96, 46);
 			else
 				_volumeView.Frame = new RectangleF(16 + 16 + 12, 32, viewVolume.Frame.Width - 88, 46);
 
@@ -388,10 +388,17 @@ namespace Sessions.iOS.Classes.Controllers
 
             if (UserInterfaceIdiomIsPhone)
             {
-                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+//                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+//                scrollView.AddSubview(viewController.View);
+//                pageControl.Pages = scrollSubviewsLength + 1;
+//                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollView.Frame.Width, scrollView.Frame.Height);
+                float scrollViewWidth = UIScreen.MainScreen.Bounds.Width;
+                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth, 0, scrollViewWidth, scrollView.Frame.Height);
                 scrollView.AddSubview(viewController.View);
                 pageControl.Pages = scrollSubviewsLength + 1;
-                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollView.Frame.Width, scrollView.Frame.Height);
+                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollViewWidth, scrollView.Frame.Height);
+
+                //Console.WriteLine("---------->> Scrollview player frame width: {0}", scrollView.Frame.Width);
             }
             else
             {

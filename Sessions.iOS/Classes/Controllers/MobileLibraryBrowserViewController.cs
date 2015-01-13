@@ -160,6 +160,9 @@ namespace Sessions.iOS.Classes.Controllers
         {
             base.ViewDidDisappear(animated);
 
+            if(tableView == null)
+                return;
+
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             FlushImages();
         }
