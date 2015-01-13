@@ -18,6 +18,7 @@
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services;
 using Sessions.MVP.Views;
+using Sessions.MVP.Config;
 
 namespace Sessions.MVP.Presenters
 {
@@ -32,10 +33,17 @@ namespace Sessions.MVP.Presenters
 
         public override void BindView(IFirstRunView view)
         {
+            view.OnCloseView = CloseView;
             base.BindView(view);
 
             // make sure directories exist before initializing configuration (TODO: Remove this and do proper init in InitializationService)
             InitializationService.CreateDirectories(); 
-        }     
+        }
+
+        private void CloseView()
+        {
+            AppConfigManager.Instance.Root.IsFirstRun = false;
+            AppConfigManager.Instance.Save();
+        }
 	}
 }

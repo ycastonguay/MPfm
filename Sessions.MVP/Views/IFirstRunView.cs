@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
+using System;
 
 namespace Sessions.MVP.Views
 {
@@ -21,6 +22,9 @@ namespace Sessions.MVP.Views
     /// First Run view interface.
 	/// </summary>
     public interface IFirstRunView : IBaseView
-	{	    
+	{
+        Action OnCloseView { get; set; }
+
+        void FirstRunError(Exception ex);
 	}
 }

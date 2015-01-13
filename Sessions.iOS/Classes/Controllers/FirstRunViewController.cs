@@ -46,13 +46,26 @@ namespace Sessions.iOS
 
         partial void actionClose(NSObject sender)
         {
-            WillMoveToParentViewController(null);
-            UIView.Animate(0.2f, () => {
-                this.View.Alpha = 0;
-            }, () => {
-                View.RemoveFromSuperview();
-                RemoveFromParentViewController();
-            });
+            OnCloseView();
+            DismissViewController(true, null);
+
+            //WillMoveToParentViewController(null);
+//            UIView.Animate(0.2f, () => {
+//                this.View.Alpha = 0;
+//            }, () => {
+//                View.RemoveFromSuperview();
+//                RemoveFromParentViewController();
+//            });
         }
+
+        #region IFirstRunView implementation
+
+        public Action OnCloseView { get; set; }
+
+        public void FirstRunError(Exception ex)
+        {
+        }
+
+        #endregion
     }
 }

@@ -160,6 +160,13 @@ namespace Sessions.iOS.Classes.Delegates
             container.Register<IFirstRunView, FirstRunViewController>().AsMultiInstance();
         }
 
+        public void ShowFirstRun(FirstRunViewController viewController)
+        {
+            //_window.RootViewController = viewController;
+
+            _window.RootViewController.PresentViewController(viewController, true, null);
+        }
+
         public void ShowMain(MainViewController viewController)
         {
 			_mainViewController = viewController;

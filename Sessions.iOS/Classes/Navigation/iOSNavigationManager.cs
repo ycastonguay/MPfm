@@ -81,6 +81,12 @@ namespace Sessions.iOS.Classes.Navigation
             AppDelegate.ShowSplash((SplashViewController)view);
         }
 
+        public override void CreateFirstRunView()
+        {
+            var view = Bootstrapper.GetContainer().Resolve<IFirstRunView>();
+            AppDelegate.ShowFirstRun((FirstRunViewController)view);
+        }
+
         public override void CreateMobileMainView()
         {
             var view = Bootstrapper.GetContainer().Resolve<IMobileMainView>();

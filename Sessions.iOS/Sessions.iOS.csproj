@@ -434,6 +434,7 @@
     <InterfaceDefinition Include="XIB\iPhone\QueueViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\SelectAlbumArtViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\SelectAlbumArtViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\LauncherScreen.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
