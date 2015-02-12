@@ -1,0 +1,3 @@
+[submodule "libssp_player"]
+	path = libssp_player
+	url = https://github.com/ycastonguay/libssp_player
