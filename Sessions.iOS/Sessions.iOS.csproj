@@ -26,7 +26,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>i386</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -cxx -gcc_flags "-stdlib=libstdc++ -L${ProjectDir}/../libssp_player/output/ -framework Accelerate -framework AudioToolbox -framework CoreMIDI -framework CFNetwork -ObjC -lstdc++ -lssp_player ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
   </PropertyGroup>
@@ -52,16 +52,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <CodesignKey>iPhone Developer: Yanick Castonguay (763X75NJ3E)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -cxx -gcc_flags "-stdlib=libstdc++ -L${ProjectDir}/../libssp_player/output/ -framework Accelerate -framework AudioToolbox -framework CoreMIDI -framework CFNetwork -ObjC -lstdc++ -lssp_player ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
+    <CodesignProvision>c53580d8-6ed4-4fac-878e-22594aa761ec</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -145,6 +146,8 @@
     <None Include="Lib\DropBoxSync.iOS.dll" />
     <None Include="bass_missing_defs.c" />
     <None Include="Lib\bass_missing_defs.o" />
+    <None Include="Lib\libbassmidi.a" />
+    <None Include="Lib\libtags.a" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Controllers\PlayerViewController.designer.cs">
