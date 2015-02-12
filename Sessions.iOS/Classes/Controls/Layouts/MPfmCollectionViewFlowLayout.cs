@@ -32,7 +32,9 @@ namespace Sessions.iOS.Classes.Controls.Layouts
         {
 			// Remove spacing between items on iPhone to stack two album arts in width
 			float spacing = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone ? 0 : 8;
-            ItemSize = new SizeF(160, 160);
+            //ItemSize = new SizeF(160, 160);
+            float width = UIScreen.MainScreen.Bounds.Width / 2;
+            ItemSize = new SizeF(width, width);
 			SectionInset = new UIEdgeInsets(spacing, spacing, spacing, spacing);
 			HeaderReferenceSize = new SizeF(0, 52);
 			MinimumInteritemSpacing = spacing;

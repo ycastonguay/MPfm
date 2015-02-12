@@ -101,7 +101,8 @@ namespace Sessions.iOS.Classes.Controllers
             collectionView.WeakDataSource = this;
             collectionView.WeakDelegate = this;
 			collectionView.CollectionViewLayout = new SessionsCollectionViewFlowLayout();
-            collectionView.ContentSize = new SizeF(160, 160);
+            float cellWidth = UIScreen.MainScreen.Bounds.Width / 2;
+            collectionView.ContentSize = new SizeF(cellWidth, cellWidth);
             collectionView.RegisterClassForCell(typeof(SessionsCollectionAlbumViewCell), _collectionCellIdentifier);
 			collectionView.RegisterClassForSupplementaryView(typeof(SessionsCollectionHeaderView), UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier);
 
