@@ -36,7 +36,6 @@
     <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\Sessions.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -47,7 +46,6 @@
     <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\Sessions.Player.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -138,7 +136,6 @@
       <HintPath>..\Sessions.Sound\Lib\iOS\Bass.Net.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -173,7 +170,7 @@
     <Compile Include="Objects\PlayerPitchShifting.cs" />
     <Compile Include="Objects\PlayerPosition.cs" />
     <Compile Include="Objects\PlayerTimeShifting.cs" />
-    <Compile Include="Objects\PlayerVolume.cs" />		
+    <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
@@ -182,8 +179,20 @@
     <Compile Include="Objects\CastServerMetadata.cs" />
     <Compile Include="Objects\CastServerParams.cs" />
     <Compile Include="Objects\PlayerMetadata.cs" />
-        <Compile Include="Objects\Segment.cs" />
+    <Compile Include="Objects\Segment.cs" />
     <Compile Include="Services\IDecodingService.cs" />
-    <Compile Include="Services\DecodingService.cs" />		
+    <Compile Include="Services\DecodingService.cs" />
+    <Compile Include="..\libssp_player\player-csharp\SSP.cs">
+      <Link>SSP\SSP.cs</Link>
+    </Compile>
+    <Compile Include="SSP\SSPPlayer.cs" />
+    <Compile Include="SSP\ISSPPlayer.cs" />
+    <Compile Include="SSP\SSPPlaylist.cs" />
+    <Compile Include="SSP\AudioFileDictionary.cs" />
+    <Compile Include="SSP\SSPException.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="SSP\" />
   </ItemGroup>
 </Project>

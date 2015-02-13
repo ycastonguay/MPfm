@@ -122,5 +122,13 @@
     <Compile Include="Objects\Segment.cs" />
     <Compile Include="Services\IDecodingService.cs" />
     <Compile Include="Services\DecodingService.cs" />
+    <Compile Include="..\libssp_player\player-csharp\SSP.cs">
+      <Link>SSP\SSP.cs</Link>
+    </Compile>
+    <Compile Include="SSP\SSPPlayer.cs" />
+    <Compile Include="SSP\ISSPPlayer.cs" />
+    <Compile Include="SSP\SSPPlaylist.cs" />
+    <Compile Include="SSP\AudioFileDictionary.cs" />
+    <Compile Include="SSP\SSPException.cs" />    
   </ItemGroup>
 </Project>
