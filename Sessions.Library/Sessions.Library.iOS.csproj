@@ -162,9 +162,8 @@
     <EmbeddedResource Include="WebApp\images\icon_upload.png" />
     <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
     <EmbeddedResource Include="Scripts\1.05-1.06.sql" />
-	<EmbeddedResource Include="Scripts\1.06-1.07.sql" />
+    <EmbeddedResource Include="Scripts\1.06-1.07.sql" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -256,6 +255,7 @@
     <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
     <Compile Include="Services\SyncListenerServiceBase.cs" />
     <Compile Include="Services\SyncDeviceManagerService.cs" />
-    <Compile Include="Services\Interfaces\ISyncDeviceManagerService.cs" />    
+    <Compile Include="Services\Interfaces\ISyncDeviceManagerService.cs" />
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
 </Project>

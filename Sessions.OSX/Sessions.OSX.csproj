@@ -293,24 +293,6 @@
   <ItemGroup>
     <Content Include="Bass.Net.dll.config" />
     <Content Include="Sessions.icns" />
-    <Content Include="libbass.dylib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libbass_mpc.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libbassflac.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libbassmix.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libbasswv.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libbass_fx.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Fonts\Roboto-Bold.ttf" />
     <Content Include="Resources\Fonts\Roboto-Regular.ttf" />
     <Content Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
@@ -321,14 +303,49 @@
     <Content Include="Resources\Splash\splash_logo_full.png" />
     <Content Include="Resources\Splash\splash_logo_clear%402x.png" />
     <Content Include="Resources\Splash\splash_logo_full%402x.png" />
-    <Content Include="libbassenc.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="..\libssp_player\output\libssp_player.dylib">
+      <Link>libssp_player.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="libbass_tta.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="..\libssp_player\bass\osx\libbass.dylib">
+      <Link>libbass.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="libbass_ape.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="..\libssp_player\bass\osx\libbass_ape.dylib">
+      <Link>libbass_ape.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbass_fx.dylib">
+      <Link>libbass_fx.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbass_mpc.dylib">
+      <Link>libbass_mpc.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbass_tta.dylib">
+      <Link>libbass_tta.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbassenc.dylib">
+      <Link>libbassenc.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbassflac.dylib">
+      <Link>libbassflac.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbassmidi.dylib">
+      <Link>libbassmidi.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbassmix.dylib">
+      <Link>libbassmix.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libssp_player\bass\osx\libbasswv.dylib">
+      <Link>libbasswv.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
