@@ -24,7 +24,6 @@ namespace Sessions.Player
 {
     public class SSPPlaylist
     {
-        // This dictionary holds the metadata for each playlist item
         private AudioFileDictionary _audioFiles;
 
         public int Count
@@ -83,22 +82,25 @@ namespace Sessions.Player
         {   
             var item = new SSP_PLAYLISTITEM();
             SSP.SSP_Playlist_GetItemAt(index, ref item);
+            if (string.IsNullOrEmpty(item.filePath))
+                return null;
+
             var audioFile = _audioFiles.RequestItem(item);
             return audioFile;
         }
 
         public AudioFile GetCurrentItem()
         {   
-            var item = new SSP_PLAYLISTITEM();
-            SSP.SSP_Playlist_GetItemAt(Count, ref item);
-            var audioFile = _audioFiles.RequestItem(item);
-            return audioFile;
+            return GetItemAt(CurrentIndex);
         }
 
         public void RemoveItemAt(int index)
         {
             var item = new SSP_PLAYLISTITEM();
             SSP.SSP_Playlist_GetItemAt(index, ref item);
+            if (string.IsNullOrEmpty(item.filePath))
+                return;
+
             _audioFiles.RemoveItem(item.filePath); // is this really what we want?
             SSP.SSP_Playlist_RemoveItemAt(index);
         }

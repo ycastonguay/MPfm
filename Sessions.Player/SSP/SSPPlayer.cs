@@ -38,6 +38,10 @@ namespace Sessions.Player
 
         public SSPPlaylist Playlist { get; private set; }
 
+        private LogDelegate _logDelegate;
+        private PlaylistIndexChangedDelegate _playlistIndexChangedDelegate;
+        private StateChangedDelegate _stateDelegate;
+
         public event LogDelegate Log;
         public event PlaylistIndexChangedDelegate PlaylistIndexChanged;
         public event StateChangedDelegate StateChanged;
@@ -148,8 +152,7 @@ namespace Sessions.Player
         {
             if (error != SSP.SSP_OK)
             {
-                // TODO: Add actual messages (maybe define a method in the library for this?)
-                throw new SSPException(error, "An error occured in libssp_player!");
+                throw new SSPException(error, string.Format("An error occured in libssp_player (error {0})", error));
             }
         }
 
@@ -175,9 +178,9 @@ namespace Sessions.Player
 
         #endif
 
-        internal void HandleLog(IntPtr user, string str)
+        public void HandleLog(IntPtr user, string str)
         {
-            Tracing.Log("  --> libssp_player - {0}", str);
+            Tracing.Log("libssp_player - {0}", str);
 
             if (Log != null)
             {
@@ -185,16 +188,18 @@ namespace Sessions.Player
             }
         }
 
-        internal void HandleStateChanged(IntPtr user, SSPPlayerState state)
+        public void HandleStateChanged(IntPtr user, SSPPlayerState state)
         {
+            Tracing.Log("libssp_player - state changed {0}", state);
             if (StateChanged != null)
             {
                 StateChanged(user, state);
             }
         }
 
-        internal void HandlePlaylistIndexChanged(IntPtr user)
+        public void HandlePlaylistIndexChanged(IntPtr user)
         {
+            Tracing.Log("libssp_player - playlist index changed");
             if (PlaylistIndexChanged != null)
             {
                 PlaylistIndexChanged(user);
@@ -222,19 +227,24 @@ namespace Sessions.Player
 
         public void Init()
         {
-            // TODO: Manage plugin paths per platform here        
+            // TODO: Manage plugin paths per platform here     
             string pluginPath = GetPluginPath();
             CheckForError(SSP.SSP_Init(pluginPath));
 
+            // Note: We must keep a reference to these delegates to make sure they are not garbage collected while they are used in a unmanaged context
             #if IOS
-            SSP.SSP_SetLogCallback(HandleLogIOS, IntPtr.Zero);
-            SSP.SSP_SetStateChangedCallback(HandleStateChangedIOS, IntPtr.Zero);
-            SSP.SSP_SetPlaylistIndexChangedCallback(HandlePlaylistIndexChangedIOS, IntPtr.Zero);
+            _logDelegate = new LogDelegate(HandleLogIOS);
+            _stateDelegate = new StateChangedDelegate(HandleStateChangedIOS);
+            _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChangedIOS);
             #else
-            SSP.SSP_SetLogCallback(HandleLog, IntPtr.Zero);
-            SSP.SSP_SetStateChangedCallback(HandleStateChanged, IntPtr.Zero);
-            SSP.SSP_SetPlaylistIndexChangedCallback(HandlePlaylistIndexChanged, IntPtr.Zero);
+            _logDelegate = new LogDelegate(HandleLog);
+            _stateDelegate = new StateChangedDelegate(HandleStateChanged);
+            _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChanged);
             #endif
+
+            SSP.SSP_SetLogCallback(_logDelegate, IntPtr.Zero);
+            SSP.SSP_SetStateChangedCallback(_stateDelegate, IntPtr.Zero);
+            SSP.SSP_SetPlaylistIndexChangedCallback(_playlistIndexChangedDelegate, IntPtr.Zero);
         }
         
         public void InitDevice(int deviceId, int sampleRate, int bufferSize, int updatePeriod, bool useFloatingPoint) 
@@ -253,7 +263,10 @@ namespace Sessions.Player
         }
 
         public void Dispose()
-        {            
+        {
+            _logDelegate = null;
+            _stateDelegate = null;
+            _playlistIndexChangedDelegate = null;
         }
 
         public void SetBufferSize(int bufferSize)

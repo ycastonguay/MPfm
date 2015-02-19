@@ -16,16 +16,11 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
 using Sessions.Sound.Tags;
-using Sessions.Core;
 using Sessions.Core.Attributes;
 using Sessions.Sound.CueFiles;
-
 
 #if !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Drawing;
@@ -158,6 +153,12 @@ namespace Sessions.Sound.AudioFiles
 		/// </summary>
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio file length (in 00:00.000 format).")]
 		public string Length { get; set; }
+
+        /// <summary>
+        /// Audio file length (in bytes).
+        /// </summary>
+        [DatabaseField(false), Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio file length (in bytes).")]
+        public long LengthBytes { get; set; }
 
         #endregion
 
