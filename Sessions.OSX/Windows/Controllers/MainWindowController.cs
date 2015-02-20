@@ -17,28 +17,27 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+using MonoMac.Foundation;
 using Sessions.Core;
+using Sessions.Core.Helpers;
 using Sessions.Library.Objects;
-using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
 using Sessions.MVP.Presenters;
 using Sessions.MVP.Views;
+using Sessions.Player;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using org.sessionsapp.player;
 using Sessions.OSX.Classes.Controls;
 using Sessions.OSX.Classes.Delegates;
 using Sessions.OSX.Classes.Helpers;
 using Sessions.OSX.Classes.Objects;
-using System.Threading.Tasks;
-using Sessions.Core.Helpers;
-using System.Drawing;
-using Sessions.MVP.Config.Models;
-using MonoMac.CoreGraphics;
-using Sessions.Sound.Playlists;
 
 namespace Sessions.OSX
 {
@@ -57,7 +56,8 @@ namespace Sessions.OSX
         private Marker _currentMarker;
         private Loop _currentLoop;
         private Segment _currentSegment;
-        private PlayerStatusType _playerStatus;
+        private SongInformationEntity _currentSongInfo;
+        private SSPPlayerState _playerStatus;
         private LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
         private LibraryBrowserDataSource _libraryBrowserDataSource = null;
         private NSObject _eventMonitor;
@@ -99,7 +99,7 @@ namespace Sessions.OSX
             EnableLoopButtons(false);
             EnableMarkerButtons(false);
             EnableSegmentButtons(false);
-            RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
+            RefreshSongInformation(new SongInformationEntity());
             SetupLocalEventMonitorForKeys();
 
             // Make sure the text field doesn't trigger local event monitor
@@ -134,9 +134,9 @@ namespace Sessions.OSX
                     // Check for space bar
                     if(ev.KeyCode == 49)
                     {
-                        if(_playerStatus == PlayerStatusType.Stopped)
+                        if(_playerStatus == SSPPlayerState.Stopped)
                             OnPlayerPlay();
-                        else if(_playerStatus != PlayerStatusType.Initialized)
+                        else if(_playerStatus != SSPPlayerState.Initialized)
                             OnPlayerPause();
                     } 
                 }
@@ -1185,7 +1185,7 @@ namespace Sessions.OSX
             _isScrollViewWaveFormChangingSecondaryPosition = true;
             var requestedPosition = OnPlayerRequestPosition(position);
             trackBarPosition.Value = (int)(position * 1000);
-            lblPosition.StringValue = requestedPosition.Position;
+            lblPosition.StringValue = requestedPosition.str;
         }
 
         private void HandleOnTrackBarValueChanged()
@@ -1195,8 +1195,8 @@ namespace Sessions.OSX
 
             var position = OnPlayerRequestPosition((float)trackBarPosition.Value/1000f);
             //Console.WriteLine("HandleOnTrackBarValueChanged - trackBarPosition.Value: {0} position: {1}", trackBarPosition.Value, position.Position);
-            lblPosition.StringValue = position.Position;
-            waveFormScrollView.SetSecondaryPosition(position.PositionBytes);
+            lblPosition.StringValue = position.str;
+            waveFormScrollView.SetSecondaryPosition(position.bytes);
         }
 
         private void HandleOnTrackBarMouseDown()
@@ -1497,7 +1497,7 @@ namespace Sessions.OSX
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetVolume { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
+        public Func<float, SSP_POSITION> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }        
         public Action OnPlayerShuffle { get; set; }
         public Action OnPlayerRepeat { get; set; }
@@ -1514,26 +1514,26 @@ namespace Sessions.OSX
             ShowError(ex);
         }
 
-        public void RefreshPlaylist(Playlist playlist)
+        public void RefreshPlaylist(SSPPlaylist playlist)
         {
-            InvokeOnMainThread(() => playlistView.SetPlaylist(playlist));
+            //InvokeOnMainThread(() => playlistView.SetPlaylist(playlist));
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
+        public void RefreshPlayerState(SSPPlayerState status, SSPRepeatType repeatType, bool isShuffleEnabled)
         {
             Console.WriteLine("RefreshPlayerStatus - Status: {0} - RepeatType: {1} - IsShuffleEnabled: {2}", status, repeatType, isShuffleEnabled);
             _playerStatus = status;
             InvokeOnMainThread(() => {
                 switch (status)
                 {
-                    case PlayerStatusType.Initialized:
-                    case PlayerStatusType.Stopped:
-                    case PlayerStatusType.Paused:
-                    case PlayerStatusType.StartPaused:
-                    case PlayerStatusType.WaitingToStart:
+                    case SSPPlayerState.Initialized:
+                    case SSPPlayerState.Stopped:
+                    case SSPPlayerState.Paused:
+//                    case SSPPlayerState.StartPaused:
+//                    case SSPPlayerState.WaitingToStart:
                         btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
                         break;
-                    case PlayerStatusType.Playing:
+                    case SSPPlayerState.Playing:
                         btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_pause");
                         break;
                     default:
@@ -1542,13 +1542,13 @@ namespace Sessions.OSX
 
                 switch (repeatType)
                 {
-                    case RepeatType.Off:
+                    case SSPRepeatType.Off:
                         btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_off");
                         break;
-                    case RepeatType.Playlist:
+                    case SSPRepeatType.Playlist:
                         btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_on");
                         break;
-                    case RepeatType.Song:
+                    case SSPRepeatType.Song:
                         btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat_single");
                         break;
                     default:
@@ -1560,22 +1560,37 @@ namespace Sessions.OSX
             });
         }
 
-		public void RefreshPlayerPosition(PlayerPosition entity)
+		public void RefreshPlayerPosition(SSP_POSITION position)
         {
             if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
 
+            if(_currentSongInfo == null || _currentSongInfo.AudioFile == null)
+                return;
+
             InvokeOnMainThread(() => {
-                lblPosition.StringValue = entity.Position;
-                trackBarPosition.ValueWithoutEvent = (int)(entity.PositionPercentage * 10);
-                waveFormScrollView.SetPosition(entity.PositionBytes);
+
+                // The wave form scroll view isn't aware of floating point
+                long positionBytes = position.bytes;
+                if(_currentSongInfo.UseFloatingPoint)
+                    positionBytes /= 2;
+
+                lblPosition.StringValue = position.str;
+                waveFormScrollView.SetPosition(positionBytes);
+
+                long length = _currentSongInfo.AudioFile.LengthBytes;
+                if(length > 0)
+                {
+                    trackBarPosition.ValueWithoutEvent = (int)(((float)position.bytes / (float)length) * 1000);
+                }
             });
 		}
 		
-        public void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(SongInformationEntity entity)
         {
+            _currentSongInfo = entity;
             InvokeOnMainThread(() => {
-                if (audioFile == null)
+                if (entity == null || entity.AudioFile == null)
                 {
                     lblArtistName.StringValue = string.Empty;
                     lblAlbumTitle.StringValue = string.Empty;
@@ -1601,6 +1616,7 @@ namespace Sessions.OSX
                 }
                 else
                 {
+                    var audioFile = entity.AudioFile;
                     lblArtistName.StringValue = audioFile.ArtistName;
                     lblAlbumTitle.StringValue = audioFile.AlbumTitle;
                     lblSongTitle.StringValue = audioFile.Title;
@@ -1616,13 +1632,19 @@ namespace Sessions.OSX
                     lblGenre.StringValue = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
                     lblPlayCount.StringValue = string.Format("{0} times played", audioFile.PlayCount);
                     lblLastPlayed.StringValue = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
-                    lblPlaylistIndexCount.StringValue = string.Format("{0} / {1}", playlistIndex+1, playlistCount);
+                    lblPlaylistIndexCount.StringValue = string.Format("{0} / {1}", entity.PlaylistIndex+1, entity.PlaylistCount);
 
                     songGridView.NowPlayingAudioFileId = audioFile.Id;
-                    playlistView.NowPlayingPlaylistItemId = playlistItemId;
+                    //playlistView.NowPlayingPlaylistItemId = playlistItemId;
 
                     LoadAlbumArt(audioFile);
-                    waveFormScrollView.SetWaveFormLength(lengthBytes);
+
+                    // The wave form scroll view isn't aware of floating point
+                    long lengthWaveForm = entity.AudioFile.LengthBytes;
+                    if(entity.UseFloatingPoint)
+                        lengthWaveForm /= 2;
+
+                    waveFormScrollView.SetWaveFormLength(lengthWaveForm);
                     waveFormScrollView.LoadPeakFile(audioFile);
                 }
             });

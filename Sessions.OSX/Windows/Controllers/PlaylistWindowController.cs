@@ -22,18 +22,17 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using Sessions.MVP;
 using Sessions.MVP.Views;
-using Sessions.MVP.Presenters.Interfaces;
 using Sessions.OSX.Classes.Objects;
-using Sessions.Sound.Playlists;
 using Sessions.Sound.AudioFiles;
 using Sessions.OSX.Classes.Helpers;
+using Sessions.Player;
 
 namespace Sessions.OSX
 {
     public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {
         Guid _currentlyPlayingSongId;
-        Playlist _playlist = new Playlist();
+        SSPPlaylist _playlist = new SSPPlaylist();
 
         public PlaylistWindowController(IntPtr handle) 
             : base (handle)
@@ -92,7 +91,7 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshPlaylist(Playlist playlist)
+        public void RefreshPlaylist(SSPPlaylist playlist)
         {
             Console.WriteLine("PlaylistWindowController - RefreshPlaylist");
             _playlist = playlist;
