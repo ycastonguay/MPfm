@@ -16,10 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using org.sessionsapp.player;
 using Sessions.Core;
-using System.IO;
-using System.Reflection;
+using org.sessionsapp.player;
 
 #if IOS
 using MonoTouch;
@@ -41,10 +39,12 @@ namespace Sessions.Player
         private LogDelegate _logDelegate;
         private PlaylistIndexChangedDelegate _playlistIndexChangedDelegate;
         private StateChangedDelegate _stateDelegate;
+        private AudioInterruptedDelegate _audioInterruptedDelegate;
 
         public event LogDelegate Log;
         public event PlaylistIndexChangedDelegate PlaylistIndexChanged;
         public event StateChangedDelegate StateChanged;
+        public event AudioInterruptedDelegate AudioInterrupted;
 
         public int Version
         {
@@ -176,6 +176,12 @@ namespace Sessions.Player
             SSPPlayer.CurrentPlayer.HandlePlaylistIndexChanged(user);
         }
 
+        [MonoPInvokeCallback(typeof(AudioInterruptedDelegate))]
+        private static void HandleAudioInterruptedIOS(IntPtr user, bool ended)
+        {
+            SSPPlayer.CurrentPlayer.HandleAudioInterrupted(user, ended);
+        }
+
         #endif
 
         public void HandleLog(IntPtr user, string str)
@@ -203,6 +209,17 @@ namespace Sessions.Player
             if (PlaylistIndexChanged != null)
             {
                 PlaylistIndexChanged(user);
+            }
+        }
+
+        public void HandleAudioInterrupted(IntPtr user, bool ended)
+        {
+            Tracing.Log("libssp_player - audio interrupted; ended: {0}", ended);
+
+            //Pause(); // not sure if this is even necessary
+            if (AudioInterrupted != null)
+            {
+                AudioInterrupted(user, ended);
             }
         }
 
@@ -236,24 +253,37 @@ namespace Sessions.Player
             _logDelegate = new LogDelegate(HandleLogIOS);
             _stateDelegate = new StateChangedDelegate(HandleStateChangedIOS);
             _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChangedIOS);
+            _audioInterruptedDelegate = new AudioInterruptedDelegate(HandleAudioInterruptedIOS);
             #else
             _logDelegate = new LogDelegate(HandleLog);
             _stateDelegate = new StateChangedDelegate(HandleStateChanged);
             _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChanged);
+            _audioInterruptedDelegate = new AudioInterruptedDelegate(HandleAudioInterrupted);
             #endif
 
             SSP.SSP_SetLogCallback(_logDelegate, IntPtr.Zero);
             SSP.SSP_SetStateChangedCallback(_stateDelegate, IntPtr.Zero);
             SSP.SSP_SetPlaylistIndexChangedCallback(_playlistIndexChangedDelegate, IntPtr.Zero);
+            SSP.SSP_SetAudioInterruptedCallback(_audioInterruptedDelegate, IntPtr.Zero);
         }
         
         public void InitDevice(int deviceId, int sampleRate, int bufferSize, int updatePeriod, bool useFloatingPoint) 
         {
             CheckForError(SSP.SSP_InitDevice(deviceId, sampleRate, bufferSize, updatePeriod, useFloatingPoint));
+
+            #if IOS
+            CheckForError(SSP.SSP_IOS_ConfigureAirPlay(true));
+            CheckForError(SSP.SSP_IOS_ConfigureAudioInterruptionNotification(true));
+            #endif
         }
 
         public void FreeDevice()
         {
+            #if IOS
+            CheckForError(SSP.SSP_IOS_ConfigureAirPlay(false));
+            CheckForError(SSP.SSP_IOS_ConfigureAudioInterruptionNotification(false));
+            #endif
+
             CheckForError(SSP.SSP_FreeDevice());
         }
 
