@@ -194,7 +194,7 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\SyncCloudPresenter.cs" />
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
-    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />    
+    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Views\ICloudConnectView.cs" />
     <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
@@ -252,7 +252,6 @@
     <Compile Include="Presenters\PlaylistPresenter.cs" />
     <Compile Include="Helpers\EQPresetHelper.cs" />
     <Compile Include="Messages\PlayerStatusMessage.cs" />
-    <Compile Include="Messages\PlayerStatusType.cs" />
     <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
     <Compile Include="Messages\SongBrowserItemDoubleClickedMessage.cs" />
     <Compile Include="Messages\LibraryBrowserItemDoubleClickedMessage.cs" />
@@ -300,7 +299,7 @@
     <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
     <Compile Include="Views\ISyncView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
-    <Compile Include="Presenters\SyncPresenter.cs" />    
+    <Compile Include="Presenters\SyncPresenter.cs" />
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
@@ -348,8 +347,9 @@
     <Compile Include="Services\Interfaces\IDownloadImageService.cs" />
     <Compile Include="Views\ISelectAlbumArtView.cs" />
     <Compile Include="Presenters\Interfaces\ISelectAlbumArtPresenter.cs" />
-    <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />    
+    <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />
     <Compile Include="Messages\AppInactiveMessage.cs" />
-    <Compile Include="Messages\AppActivatedMessage.cs" />    
+    <Compile Include="Messages\AppActivatedMessage.cs" />
+    <Compile Include="Models\SongInformationEntity.cs" />
   </ItemGroup>
 </Project>

@@ -29,6 +29,7 @@ using Sessions.Player.Objects;
 using TinyMessenger;
 using Sessions.MVP.Bootstrap;
 using System.IO;
+using org.sessionsapp.player;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
@@ -94,21 +95,19 @@ namespace Sessions.MVP.Presenters
                 RefreshPresets();
             });
             _messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
-                switch(m.Status)
+                switch(m.State)
                 {
-                    case PlayerStatusType.Playing:
+                    case SSPPlayerState.Playing:
                         _timerOutputMeter.Start();
                         break;
-                    case PlayerStatusType.Paused:
-                        _timerOutputMeter.Stop();
-                        break;
-                    case PlayerStatusType.Stopped:
+                    case SSPPlayerState.Paused:
+                    case SSPPlayerState.Stopped:
                         _timerOutputMeter.Stop();
                         break;
                 }
             });
 
-            if (_playerService.IsPlaying)
+            if (_playerService.State == SSPPlayerState.Playing)
                 _timerOutputMeter.Start();
 
             RefreshPresets();
@@ -123,7 +122,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if (_playerService.UseFloatingPoint)
+                if (_playerService.Mixer.useFloatingPoint)
                 {
                     Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
                     View.RefreshOutputMeter(data.Item1, data.Item2);
@@ -157,7 +156,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                _playerService.BypassEQ();            
+                _playerService.EnableEQ(!_playerService.IsEQEnabled);
             }
             catch(Exception ex)
             {
@@ -296,7 +295,7 @@ namespace Sessions.MVP.Presenters
             {
                 var presets = _libraryService.SelectEQPresets().OrderBy(x => x.Name).ToList();
                 Guid selectedPresetId = (_playerService.EQPreset != null) ? _playerService.EQPreset.EQPresetId : Guid.Empty;
-                View.RefreshPresets(presets, selectedPresetId, _playerService.IsEQBypassed);
+                View.RefreshPresets(presets, selectedPresetId, _playerService.IsEQEnabled);
             }
             catch(Exception ex)
             {

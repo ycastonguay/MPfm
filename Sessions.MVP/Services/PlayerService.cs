@@ -18,10 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Sessions.MVP.Config;
-using Sessions.MVP.Models;
 using Sessions.MVP.Messages;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.Core;
@@ -31,8 +29,8 @@ using Sessions.Player.Events;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.BassNetWrapper;
-using Sessions.Sound.Playlists;
 using TinyMessenger;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Services
 {
@@ -44,31 +42,34 @@ namespace Sessions.MVP.Services
         private readonly ITinyMessengerHub _messengerHub;
         private readonly ILibraryService _libraryService;
         private readonly ICloudLibraryService _cloudLibraryService;
-        private IPlayer _player;
+        private ISSPPlayer _sspPlayer;
 
-        private Playlist _currentQueue;
-        public Playlist CurrentQueue { get { return _currentQueue; } }
+//        private Playlist _currentQueue;
+//        public Playlist CurrentQueue { get { return _currentQueue; } }
 
-        public bool IsInitialized { get; private set; }
-        public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
-        public bool IsPlaying { get { return _player.IsPlaying; } }
-        public bool IsPlayingLoop { get { return _player.IsPlayingLoop; } }
-        public bool IsPaused { get { return _player.IsPaused; } }
-        public bool IsShuffleEnabled { get { return _player.IsShuffleEnabled; } set { _player.IsShuffleEnabled = value; } }
-        public bool UseFloatingPoint { get { return _player.UseFloatingPoint; } }
-        public RepeatType RepeatType { get { return _player.RepeatType; } }
-        public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
-        public Playlist CurrentPlaylist { get { return _player.Playlist; } }
-        public EQPreset EQPreset { get { return _player.EQPreset; } }
-        public Loop Loop { get { return _player.Loop; } }
-        public bool IsEQBypassed { get { return _player.IsEQBypassed; } }
-        public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
-        public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
-        public float TimeShifting { get { return _player.TimeShifting; } }
-        public int PitchShifting { get { return _player.PitchShifting; } }
-        public PlayerStatusType Status { get; private set; }
-        public int BufferSize { get { return _player.BufferSize; } set { _player.BufferSize = value; } }
-        public int UpdatePeriod { get { return _player.UpdatePeriod; } set { _player.UpdatePeriod = value; } }
+        public Loop Loop { get; private set; }
+        public EQPreset EQPreset { get; private set; }
+
+        public SSPPlayerState State { get { return _sspPlayer.State; } }
+        public bool IsSettingPosition { get { return _sspPlayer.IsSettingPosition; } }
+        public bool IsPlayingLoop { get { return _sspPlayer.IsPlayingLoop; } }
+        public bool IsShuffleEnabled { get { return _sspPlayer.IsShuffle; } set { _sspPlayer.IsShuffle = value; } }
+        public SSPRepeatType RepeatType { get { return _sspPlayer.RepeatType; } }
+        public SSPPlaylist Playlist { get { return _sspPlayer.Playlist; } }
+        public AudioFile CurrentAudioFile 
+        { 
+            get 
+            {
+                return _sspPlayer.Playlist.GetItemAt(_sspPlayer.Playlist.CurrentIndex);
+            } 
+        }
+
+        public bool IsEQEnabled { get { return _sspPlayer.EQEnabled; } }
+        public float Volume { get { return _sspPlayer.Volume; } set { _sspPlayer.Volume = value; }  }
+        public float TimeShifting { get { return _sspPlayer.TimeShifting; } }
+        public int PitchShifting { get { return _sspPlayer.PitchShifting; } }
+
+        public SSP_MIXER Mixer { get { return _sspPlayer.Mixer; } }
 
         public delegate void BPMDetected(float bpm);
         /// <summary>
@@ -84,58 +85,54 @@ namespace Sessions.MVP.Services
             _messengerHub = messageHub;
             _libraryService = libraryService;
 		    _cloudLibraryService = cloudLibraryService;
-		}
-        
-        public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
+
+            _sspPlayer = new SSPPlayer();
+            _sspPlayer.StateChanged += HandleStateChanged;
+            _sspPlayer.PlaylistIndexChanged += HandlePlaylistIndexChanged;
+            _sspPlayer.Init();
+		}     
+
+        public void Dispose()
         {
-            _player = new Sessions.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
-            _player.OnPlaylistEnded += HandlePlayerOnPlaylistEnded;
-            _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
-            _player.OnAudioInterrupted += HandleOnAudioInterrupted;
-            _player.OnBPMDetected += HandleOnBPMDetected;
-            _player.OnLoopPlaybackStarted += () => {
-                if(OnLoopPlaybackStarted != null)
-                    OnLoopPlaybackStarted();
-            };
-            _player.OnLoopPlaybackStopped += () => {
-                if(OnLoopPlaybackStopped != null)
-                    OnLoopPlaybackStopped();
-            };
-            _currentQueue = new Playlist();
-
-            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
+            if (_sspPlayer != null)
             {
-                var preset = _libraryService.SelectEQPreset(new Guid(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId));
-                if (preset != null)
-                    _player.ApplyEQPreset(preset);
+                _sspPlayer.Dispose();
+                _sspPlayer = null;
             }
-
+        }
+        
+        private void SubscribeToMessages()
+        {
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
             _messengerHub.Subscribe<PlayerSetPositionMessage>(PlayerSetPositionMessageReceived);
-            IsInitialized = true;
+        }      
+
+        private void HandleStateChanged(IntPtr user, SSPPlayerState state)
+        {
+            // TODO: Use events instead
+            _messengerHub.PublishAsync(new PlayerStatusMessage(this){
+                State = state
+            });
         }
 
-        private void HandlePlayerOnPlaylistEnded()
+        private void HandlePlaylistIndexChanged(IntPtr user)
         {
-            if (Status == PlayerStatusType.Stopped)
-                return;
+            Tracing.Log("PlayerService - HandlePlaylistIndexChanged - index: {0}", Playlist.CurrentIndex);
+            var data = new PlayerPlaylistIndexChangedData();
+            data.IsPlaybackStopped = State == SSPPlayerState.Stopped;
+            data.PlaylistIndex = Playlist.CurrentIndex;
+            data.PlaylistCount = Playlist.Count;
+            data.PlaylistName = "New playlist";
+            data.AudioFileStarted = Playlist.GetItemAt(Playlist.CurrentIndex);
+            if (Playlist.CurrentIndex > 0)
+            {
+                data.AudioFileEnded = Playlist.GetItemAt(Playlist.CurrentIndex - 1);
+            }
+            if (Playlist.CurrentIndex + 1 < Playlist.Count)
+            {
+                data.NextAudioFile = Playlist.GetItemAt(Playlist.CurrentIndex + 1);
+            }
 
-            UpdatePlayerStatus(PlayerStatusType.Stopped);
-        }
-
-        void HandleOnBPMDetected(float bpm)
-        {
-            if (OnBPMDetected != null)
-                OnBPMDetected(bpm);
-        }
-
-        void HandleOnAudioInterrupted(AudioInterruptedData data)
-        {
-            UpdatePlayerStatus(PlayerStatusType.Paused);
-        }
-
-        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
-        {
             _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
             Task.Factory.StartNew(() =>
             {
@@ -143,8 +140,8 @@ namespace Sessions.MVP.Services
                 {
                     // Store player status locally for resuming playback later
                     AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = data.AudioFileStarted.Id.ToString();
-                    AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _player.Playlist.PlaylistId.ToString();
-                    AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = _player.EQPreset.EQPresetId.ToString();
+//                    AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _player.Playlist.PlaylistId.ToString();
+//                    AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = _player.EQPreset.EQPresetId.ToString();
                     AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = 0;
                     AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
                     AppConfigManager.Instance.Save();
@@ -160,17 +157,29 @@ namespace Sessions.MVP.Services
             });
         }
 
-        private void UpdatePlayerStatus(PlayerStatusType status)
+        private void HandleOnBPMDetected(float bpm)
         {
-            Status = status;
-            _messengerHub.PublishAsync(new PlayerStatusMessage(this){
-                Status = status
-            });
+            if (OnBPMDetected != null)
+                OnBPMDetected(bpm);
+        }
+
+        public void InitDevice(Device device, int sampleRate, int bufferSize, int updatePeriod)
+        {
+            _sspPlayer.InitDevice(device.Id, sampleRate, bufferSize, updatePeriod, true);
+        
+//            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
+//            {
+//                var preset = _libraryService.SelectEQPreset(new Guid(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId));
+//                if (preset != null)
+//                    _sspPlayer.SetEQPreset(preset);
+//            }
+
+            SubscribeToMessages();
         }
 
         public void PlayerSetPositionMessageReceived(PlayerSetPositionMessage m)
         {
-            _player.SetPosition(m.Position);
+            _sspPlayer.SetPosition(m.Position);
         }
 
         public void PlayerCommandMessageReceived(PlayerCommandMessage m)
@@ -211,12 +220,12 @@ namespace Sessions.MVP.Services
             int maxR = 0;
 
             // length of a 20ms window in bytes
-            int lengthToFetch = (int)_player.Seconds2Bytes(seconds);
+            int lengthToFetch = (int)_sspPlayer.Seconds2Bytes(seconds);
             int l4 = lengthToFetch / 4;
 
             // create a data buffer as needed
             int[] sampleData = new int[l4];
-            int length = _player.GetMixerData(lengthToFetch, sampleData);
+            int length = _sspPlayer.GetMixerData(lengthToFetch, sampleData);
 
             // From BASS.NET API: Note: an int is 32-bit meaning if we expect to receive 16-bit data stereo a single int value will contain 2 x 16-bit, so a full stereo pair of data
             l4 = length / 4;
@@ -264,13 +273,13 @@ namespace Sessions.MVP.Services
             float maxR = 0f;
 
             // length of a 20ms window in bytes
-            int lengthToFetch = (int)_player.Seconds2Bytes(seconds); //0.02);
+            int lengthToFetch = (int)_sspPlayer.Seconds2Bytes(seconds); //0.02);
             // the number of 32-bit floats required (since length is in bytes!)
             int l4 = lengthToFetch / 4; // 32-bit = 4 bytes
 
             // create a data buffer as needed
             float[] sampleData = new float[l4];
-            int length = _player.GetMixerData(lengthToFetch, sampleData);
+            int length = _sspPlayer.GetMixerData(lengthToFetch, sampleData);
 
             // the number of 32-bit floats received
             // as less data might be returned by BASS_ChannelGetData as requested
@@ -317,76 +326,67 @@ namespace Sessions.MVP.Services
 //            });
         }
 
+        public void SetBufferSize(int bufferSize)
+        {
+            _sspPlayer.SetBufferSize(bufferSize);
+        }
+
+        public void SetUpdatePeriod(int updatePeriod)
+        {
+            _sspPlayer.SetUpdatePeriod(updatePeriod);
+        }
+
         public void Play()
         {
-            _player.Play();
-            UpdatePlayerStatus(PlayerStatusType.Playing);
+            _sspPlayer.Play();
             NotifyPlaylistUpdate();
         }
 
         public void Play(IEnumerable<string> filePaths)
         {
-            _player.Playlist.Clear();
-            _player.Playlist.AddItems(filePaths.ToList());
-            _player.Play();
-            UpdatePlayerStatus(PlayerStatusType.Playing);
-            NotifyPlaylistUpdate();
+            Stop();
+            _sspPlayer.Playlist.Clear();
+            _sspPlayer.Playlist.AddItems(filePaths.ToList());
+            Play();
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart)
         {
-            _player.Playlist.Clear();
-            var items = new List<PlaylistItem>();
+            // TODO: Remove waitingToStart parameter
+            Stop();
+            _sspPlayer.Playlist.Clear();
             foreach (var audioFile in audioFiles)
-                items.Add(new PlaylistItem(audioFile));
-            _player.Playlist.AddItems(items);
+                _sspPlayer.Playlist.AddItem(audioFile.FilePath);
 
-            if (!string.IsNullOrEmpty(startAudioFilePath))
-            {
-                var item = _player.Playlist.Items.FirstOrDefault(x => x.AudioFile.FilePath == startAudioFilePath);
-                _player.Playlist.GoTo(item.Id);
-            }
-
-            _player.Play(initialPosition, startPaused);
-
-            if(startPaused)
-                UpdatePlayerStatus(PlayerStatusType.StartPaused);
-            else if(waitingToStart)
-                UpdatePlayerStatus(PlayerStatusType.WaitingToStart);
-            else
-                UpdatePlayerStatus(PlayerStatusType.Playing);
-
+            int startIndex = Math.Max(0, audioFiles.ToList().FindIndex(x => x.FilePath == startAudioFilePath));
+            _sspPlayer.Play(startIndex, 0, startPaused);
             NotifyPlaylistUpdate();
         }
 
         public void PlayQueue()
         {
-            Stop();
-            CurrentPlaylist.Clear();
-            CurrentPlaylist.AddItems(CurrentQueue.Items);
-            CurrentQueue.Clear();
-            Play();
+            // TODO
+//            Stop();
+//            _sspPlayer.Playlist.Clear();
+//            CurrentPlaylist.AddItems(CurrentQueue.Items);
+//            CurrentQueue.Clear();
+//            Play();
         }
 
         public void Stop()
         {
-            if (_player.IsPlaying)
-            {
-                _player.Stop();
-                UpdatePlayerStatus(PlayerStatusType.Stopped);
-            }
+            _sspPlayer.Stop();
         }
 
         public void Pause()
         {
-            _player.Pause();
-            PlayerStatusType statusType = (_player.IsPaused) ? PlayerStatusType.Paused : PlayerStatusType.Playing;
-            UpdatePlayerStatus(statusType);
+            _sspPlayer.Pause();
         }
 
         public void PlayPause()
         {
-            if (_player.IsPlaying)
+            // could move this to library
+            if (_sspPlayer.State == SSPPlayerState.Playing)
                 Pause();
             else
                 Play();
@@ -394,141 +394,110 @@ namespace Sessions.MVP.Services
 
         public void Next()
         {
-            _player.Next();
-            UpdatePlayerStatus(PlayerStatusType.Playing);
+            _sspPlayer.Next();
         }
 
         public void Previous()
         {
-            _player.Previous();
-            UpdatePlayerStatus(PlayerStatusType.Playing);
+            _sspPlayer.Previous();
         }
 
         public void GoTo(int index)
         {
-            _player.GoTo(index);
-            UpdatePlayerStatus(PlayerStatusType.Playing);
+            _sspPlayer.GoTo(index);
         }
 
         public void GoTo(Guid playlistItemId)
         {
-            _player.GoTo(playlistItemId);
-            UpdatePlayerStatus(PlayerStatusType.Playing);
+            // TODO
+            //_sspPlayer.GoTo(playlistItemId);
         }
 
         public void Resume()
         {
-            switch (Status)
-            {
-                case PlayerStatusType.WaitingToStart:
-                    UpdatePlayerStatus(PlayerStatusType.Playing);
-                    break;
-                case PlayerStatusType.StartPaused:
-                    UpdatePlayerStatus(PlayerStatusType.Paused);
-                    break;
-            }
+            // TODO: Is this still necessary?
+//            switch (Status)
+//            {
+//                case PlayerStatusType.WaitingToStart:
+//                    UpdatePlayerStatus(PlayerStatusType.Playing);
+//                    break;
+//                case PlayerStatusType.StartPaused:
+//                    UpdatePlayerStatus(PlayerStatusType.Paused);
+//                    break;
+//            }
         }
 
         public void ToggleRepeatType()
         {
-            if (_player.RepeatType == RepeatType.Off)
-                _player.RepeatType = RepeatType.Playlist;
-            else if (_player.RepeatType == RepeatType.Playlist)
-                _player.RepeatType = RepeatType.Song;
-            else
-                _player.RepeatType = RepeatType.Off;
+            _sspPlayer.ToggleRepeatType();
         }
 
-        public int GetDataAvailable()
+        public long GetDataAvailable()
         {
-            return _player.GetDataAvailable();
+            return _sspPlayer.GetDataAvailable();
         }
 
-        public static PlayerPosition GetPositionEntity(long positionBytes, long lengthBytes, int bitsPerSample, int sampleRate)
+        public SSP_POSITION GetPosition()
         {
-            PlayerPosition entity = new PlayerPosition();
-            entity.PositionBytes = positionBytes;
-            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, bitsPerSample, 2);
-            entity.PositionMS = ConvertAudio.ToMS(entity.PositionSamples, sampleRate);
-            entity.Position = ConvertAudio.ToTimeString(entity.PositionMS);
-            entity.PositionPercentage = ((float)positionBytes / (float)lengthBytes) * 100;
-            return entity;
-        }
-
-        public PlayerPosition GetPosition()
-        {
-            if (CurrentPlaylistItem == null)
-                return new PlayerPosition();
-
-            var entity = new PlayerPosition();
-            try
-            {
-                entity.PositionBytes = _player.GetPosition();
-                entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-                entity.PositionMS = ConvertAudio.ToMS(entity.PositionSamples, CurrentPlaylistItem.AudioFile.SampleRate);
-                entity.Position = ConvertAudio.ToTimeString(entity.PositionMS);
-                entity.PositionPercentage = ((float)entity.PositionBytes / (float)CurrentPlaylistItem.LengthBytes) * 100;
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log(string.Format("PlayerService - HandleTimerRefreshSongPositionElapsed - Failed to get player position: {0}", ex));
-            }
-            return entity;
+            var position = _sspPlayer.GetPosition();
+            return position;
         }
 
         public void SetPosition(double percentage)
         {
-            _player.SetPosition(percentage);
+            _sspPlayer.SetPosition((float)percentage);
         }
 
         public void SetPosition(long bytes)
         {
-            _player.SetPosition(bytes);
+            _sspPlayer.SetPosition(bytes);
         }
 
         public void SetTimeShifting(float timeShifting)
         {
-            _player.TimeShifting = timeShifting;
+            _sspPlayer.TimeShifting = timeShifting;
         }
 
         public void SetPitchShifting(int pitchShifting)
         {
-            _player.PitchShifting = pitchShifting;
+            _sspPlayer.PitchShifting = pitchShifting;
         }
 
         public void GoToMarker(Marker marker)
         {
-            _player.GoToMarker(marker);
+            _sspPlayer.SetPosition(marker.PositionBytes);
         }
         
         public void StartLoop(Loop loop)
         {
-            _player.StartLoop(loop);
+            Loop = loop;
+            _sspPlayer.StartLoop(loop.ToSSPLoop());
         }
 
         public void UpdateLoop(Loop loop)
         {
-            _player.UpdateLoop(loop);
+            Loop = loop;
+            _sspPlayer.UpdateLoop(loop.ToSSPLoop());
         }
 
         public void StopLoop()
         {
-            _player.StopLoop();
+            _sspPlayer.StopLoop();
         }
 
-        public void BypassEQ()
+        public void EnableEQ(bool enabled)
         {
-            _player.BypassEQ();
+            _sspPlayer.EQEnabled = enabled;
         }
 
         public void ResetEQ()
         {
-            _player.ResetEQ();
+            _sspPlayer.ResetEQ();
         }
 
         public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
         {
-            _player.UpdateEQBand(band, gain, setCurrentEQPresetValue);
+            _sspPlayer.SetEQPresetBand(band, gain);
         }
 
         public void ApplyEQPreset(EQPreset preset)
@@ -536,13 +505,7 @@ namespace Sessions.MVP.Services
             AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = preset.EQPresetId.ToString();
             AppConfigManager.Instance.Save();
 
-            _player.ApplyEQPreset(preset);
-        }
-
-        public void Dispose()
-        {
-            if (_player != null)
-                _player.Dispose();
+            //_sspPlayer.SetEQPreset(preset);
         }
     }
 }

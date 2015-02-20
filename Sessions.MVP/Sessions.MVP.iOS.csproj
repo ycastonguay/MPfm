@@ -404,5 +404,6 @@
     <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />
     <Compile Include="Messages\AppInactiveMessage.cs" />
     <Compile Include="Messages\AppActivatedMessage.cs" />
+    <Compile Include="Models\SongInformationEntity.cs" />
   </ItemGroup>
 </Project>

@@ -21,6 +21,7 @@ using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Presenters
 {
@@ -54,8 +55,8 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if (_playerService.IsPlaying &&
-                    _playerService.CurrentPlaylistItem.AudioFile.FilePath == audioFile.FilePath)
+                if (_playerService.State == SSPPlayerState.Playing &&
+                    _playerService.CurrentAudioFile.FilePath == audioFile.FilePath)
                 {
                     // TODO: Stop player and resume when editing the currently playing file
                 }

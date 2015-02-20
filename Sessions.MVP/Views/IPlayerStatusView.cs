@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views
 {
@@ -36,7 +36,7 @@ namespace Sessions.MVP.Views
         Action OnPlayerRepeat { get; set; }
         Action OnOpenPlaylist { get; set; }
 
-	    void RefreshPlayerStatus(PlayerStatusType status);
+	    void RefreshPlayerState(SSPPlayerState state);
 	    void RefreshAudioFile(AudioFile audioFile);
 	    void RefreshPlaylist(Playlist playlist);
 	    void RefreshPlaylists(List<PlaylistEntity> playlists, Guid selectedPlaylistId);

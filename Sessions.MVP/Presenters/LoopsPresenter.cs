@@ -46,7 +46,6 @@ namespace Sessions.MVP.Presenters
         private Loop _loop;
         private Guid _audioFileId;
         private AudioFile _audioFile;
-        private long _lengthBytes;
         
         public LoopsPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
@@ -95,8 +94,8 @@ namespace Sessions.MVP.Presenters
             _playerService.OnLoopPlaybackStopped += HandleOnLoopPlaybackStopped;
 
             // Refresh initial data
-            if (_playerService.CurrentPlaylistItem != null)
-                RefreshLoops(_playerService.CurrentPlaylistItem.AudioFile.Id);
+            if (_playerService.CurrentAudioFile != null)
+                RefreshLoops(_playerService.CurrentAudioFile.Id);
         }
 
         private void HandleOnLoopPlaybackStarted()
@@ -137,8 +136,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 _loops = _libraryService.SelectLoopsIncludingSegments(audioFileId);
-                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                _audioFile = _playerService.CurrentAudioFile;
                 RefreshLoopsViewWithUpdatedIndexes();
             } 
             catch (Exception ex)
@@ -153,15 +151,15 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var loop = new Loop();
-                loop.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
+                loop.AudioFileId = _playerService.CurrentAudioFile.Id;
                 loop.Name = "New Loop";
                 loop.CreateStartEndSegments();
 
                 var startSegment = loop.GetStartSegment();
-                startSegment.SetPositionFromPercentage(0.1f, _playerService.CurrentPlaylistItem.LengthBytes, _playerService.CurrentPlaylistItem.AudioFile);
+                startSegment.SetPositionFromPercentage(0.1f, _playerService.CurrentAudioFile.LengthBytes, _playerService.CurrentAudioFile);
 
                 var endSegment = loop.GetEndSegment();
-                endSegment.SetPositionFromPercentage(0.9f, _playerService.CurrentPlaylistItem.LengthBytes, _playerService.CurrentPlaylistItem.AudioFile);
+                endSegment.SetPositionFromPercentage(0.9f, _playerService.CurrentAudioFile.LengthBytes, _playerService.CurrentAudioFile);
 
                 _libraryService.InsertLoop(loop);
                 _libraryService.InsertSegment(loop.Segments[0]);
@@ -197,8 +195,7 @@ namespace Sessions.MVP.Presenters
             }
 
             _loop = loop;
-            _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-            _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+            _audioFile = _playerService.CurrentAudioFile;
         }
         
         private void DeleteLoop(Loop loop)
@@ -260,7 +257,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var position = _playerService.GetPosition();
-                float positionPercentage = (float)position.PositionBytes / (float)_lengthBytes;
+                float positionPercentage = (float)position.bytes / (float)_audioFile.LengthBytes;
                 ChangeSegmentPosition(segment, positionPercentage, true);
             }
             catch (Exception ex)
@@ -291,16 +288,16 @@ namespace Sessions.MVP.Presenters
                 var endSegment = _loop.GetEndSegment();
 
                 // Make sure the loop length doesn't get below 0
-                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_lengthBytes))
+                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_audioFile.LengthBytes))
                 {
-                    positionPercentage = (float)endSegment.PositionBytes / (float)_lengthBytes;
+                    positionPercentage = (float)endSegment.PositionBytes / (float)_audioFile.LengthBytes;
                 }
-                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_lengthBytes))
+                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_audioFile.LengthBytes))
                 {
-                    positionPercentage = (float)startSegment.PositionBytes / (float)_lengthBytes;
+                    positionPercentage = (float)startSegment.PositionBytes / (float)_audioFile.LengthBytes;
                 }
 
-                segment.SetPositionFromPercentage(positionPercentage, _lengthBytes, _audioFile);
+                segment.SetPositionFromPercentage(positionPercentage, _audioFile.LengthBytes, _audioFile);
 
                 if (updateDatabase)
                 {
@@ -312,7 +309,7 @@ namespace Sessions.MVP.Presenters
                     });
                 }
 
-                View.RefreshLoopSegment(_loop, segment, _lengthBytes);
+                View.RefreshLoopSegment(_loop, segment, _audioFile.LengthBytes);
             }
             catch (Exception ex)
             {

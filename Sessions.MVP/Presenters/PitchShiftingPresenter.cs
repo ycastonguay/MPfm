@@ -22,11 +22,10 @@ using Sessions.Core;
 using Sessions.Player.Objects;
 using TinyMessenger;
 using Sessions.MVP.Messages;
-using Sessions.MVP.Models;
-using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Presenters
 {
@@ -179,7 +178,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if (!_playerService.IsPlaying)
+                if (_playerService.State != SSPPlayerState.Playing)
                     return;
 
                 _interval = interval;                

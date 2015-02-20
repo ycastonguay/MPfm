@@ -201,11 +201,12 @@ namespace Sessions.MVP.Presenters
                 var audioFiles = _audioFileCacheService.SelectAudioFiles(item.Query);
                 foreach(var audioFile in audioFiles) 
                 {
-                    int index = _playerService.CurrentQueue.Items.FindIndex(x => x.AudioFile.Id == audioFile.Id);
-                    if(index == -1)
-                        _playerService.CurrentQueue.AddItem(new PlaylistItem(audioFile));
-                    else
-                        _playerService.CurrentQueue.RemoveItem(index);
+                    // TODO: Find a queue replacement 
+//                    int index = _playerService.CurrentQueue.Items.FindIndex(x => x.AudioFile.Id == audioFile.Id);
+//                    if(index == -1)
+//                        _playerService.CurrentQueue.AddItem(new PlaylistItem(audioFile));
+//                    else
+//                        _playerService.CurrentQueue.RemoveItem(index);
                 }
                 _messengerHub.PublishAsync<QueueUpdatedMessage>(new QueueUpdatedMessage(this));
 
@@ -374,58 +375,65 @@ namespace Sessions.MVP.Presenters
         private void RefreshLibraryBrowser(bool isPopBackstack)
         {
             Task.Factory.StartNew(() => {
-                // Build breadcrumb
-                string breadcrumb = string.Empty;
-                for(int a = 0; a < _queryHistory.Count; a++)
+                try
                 {
-                    var history = _queryHistory[a];
-                    //Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - Breadcrumb - query history {0} - browserType: {1} - query.ArtistName: {2} - query.AlbumTitle {3}", a, history.Item1.ToString(), history.Item2.ArtistName, history.Item2.AlbumTitle);
-                    switch (history.Item1)
+                    // Build breadcrumb
+                    string breadcrumb = string.Empty;
+                    for(int a = 0; a < _queryHistory.Count; a++)
+                    {
+                        var history = _queryHistory[a];
+                        //Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - Breadcrumb - query history {0} - browserType: {1} - query.ArtistName: {2} - query.AlbumTitle {3}", a, history.Item1.ToString(), history.Item2.ArtistName, history.Item2.AlbumTitle);
+                        switch (history.Item1)
+                        {
+                            case MobileLibraryBrowserType.Playlists:
+                                breadcrumb += "Playlists";
+                                break;
+                            case MobileLibraryBrowserType.Artists:
+                                breadcrumb += "Artists";
+                                break;
+                            case MobileLibraryBrowserType.Albums:
+                                if (!string.IsNullOrEmpty(history.Item2.ArtistName))
+                                    breadcrumb += "Albums by " + history.Item2.ArtistName;
+                                else
+                                    breadcrumb += "Albums";
+                                break;
+                            case MobileLibraryBrowserType.Songs:
+                                breadcrumb += "Songs";
+                                //if (string.IsNullOrEmpty(history.Item2.ArtistName) &&
+                                //    string.IsNullOrEmpty(history.Item2.AlbumTitle))
+                                //    breadcrumb += "Songs";
+                                //else
+                                //    breadcrumb += "Songs on " + history.Item2.AlbumTitle;
+                                break;
+                        }
+                        if (a < _queryHistory.Count - 1)
+                            breadcrumb += " > ";
+                    }
+
+                    bool isBackstackEmpty = _queryHistory.Count <= 1;
+                    _items = new List<LibraryBrowserEntity>();
+                    switch (_browserType)
                     {
                         case MobileLibraryBrowserType.Playlists:
-                            breadcrumb += "Playlists";
+                            View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "Playlists", breadcrumb, isPopBackstack, isBackstackEmpty);
                             break;
                         case MobileLibraryBrowserType.Artists:
-                            breadcrumb += "Artists";
+                            _items = GetArtists().ToList();
+                            View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "Artists", breadcrumb, isPopBackstack, isBackstackEmpty);
                             break;
                         case MobileLibraryBrowserType.Albums:
-                            if (!string.IsNullOrEmpty(history.Item2.ArtistName))
-                                breadcrumb += "Albums by " + history.Item2.ArtistName;
-                            else
-                                breadcrumb += "Albums";
+                            _items = GetAlbums(_query.ArtistName).ToList();
+                            View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.ArtistName)) ? "Albums" : _query.ArtistName, breadcrumb, isPopBackstack, isBackstackEmpty);
                             break;
                         case MobileLibraryBrowserType.Songs:
-                            breadcrumb += "Songs";
-                            //if (string.IsNullOrEmpty(history.Item2.ArtistName) &&
-                            //    string.IsNullOrEmpty(history.Item2.AlbumTitle))
-                            //    breadcrumb += "Songs";
-                            //else
-                            //    breadcrumb += "Songs on " + history.Item2.AlbumTitle;
+                            _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();
+                            View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.AlbumTitle)) ? "Songs" : _query.AlbumTitle, breadcrumb, isPopBackstack, isBackstackEmpty);
                             break;
                     }
-                    if (a < _queryHistory.Count - 1)
-                        breadcrumb += " > ";
                 }
-
-                bool isBackstackEmpty = _queryHistory.Count <= 1;
-                _items = new List<LibraryBrowserEntity>();
-                switch (_browserType)
+                catch(Exception ex)
                 {
-                    case MobileLibraryBrowserType.Playlists:
-                        View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "Playlists", breadcrumb, isPopBackstack, isBackstackEmpty);
-                        break;
-                    case MobileLibraryBrowserType.Artists:
-                        _items = GetArtists().ToList();
-                        View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "Artists", breadcrumb, isPopBackstack, isBackstackEmpty);
-                        break;
-                    case MobileLibraryBrowserType.Albums:
-                        _items = GetAlbums(_query.ArtistName).ToList();
-                        View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.ArtistName)) ? "Albums" : _query.ArtistName, breadcrumb, isPopBackstack, isBackstackEmpty);
-                        break;
-                    case MobileLibraryBrowserType.Songs:
-                        _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();
-                        View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.AlbumTitle)) ? "Songs" : _query.AlbumTitle, breadcrumb, isPopBackstack, isBackstackEmpty);
-                        break;
+                    View.MobileLibraryBrowserError(ex);
                 }
             });
         }

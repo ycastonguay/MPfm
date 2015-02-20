@@ -18,10 +18,9 @@
 using System;
 using System.Collections.Generic;
 using Sessions.MVP.Models;
-using Sessions.MVP.Messages;
 using Sessions.Player.Objects;
-using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
+using org.sessionsapp.player;
+using Sessions.Player;
 
 namespace Sessions.MVP.Views
 {
@@ -44,7 +43,7 @@ namespace Sessions.MVP.Views
         Action<float> OnPlayerSetPitchShifting { get; set; }
         Action<float> OnPlayerSetTimeShifting { get; set; }
         Action<float> OnPlayerSetPosition { get; set; }
-        Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
+        Func<float, SSP_POSITION> OnPlayerRequestPosition { get; set; }
         Action OnEditSongMetadata { get; set; }
         Action OnOpenPlaylist { get; set; }
         Action OnOpenEffects { get; set; }
@@ -55,10 +54,10 @@ namespace Sessions.MVP.Views
 
         void PlayerError(Exception ex);
 	    void PushSubView(IBaseView view);
-        void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled);
-		void RefreshPlayerPosition(PlayerPosition entity);
-        void RefreshPlaylist(Playlist playlist);
-		void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount);
+        void RefreshPlayerState(SSPPlayerState state, SSPRepeatType repeatType, bool isShuffleEnabled);
+		void RefreshPlayerPosition(SSP_POSITION position);
+        void RefreshPlaylist(SSPPlaylist playlist);
+        void RefreshSongInformation(SongInformationEntity entity);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshActiveMarker(Guid markerId);
         void RefreshMarkerPosition(Marker marker);

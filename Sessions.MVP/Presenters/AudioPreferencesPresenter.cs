@@ -15,17 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using org.sessionsapp.player;
+using Sessions.Core;
+using Sessions.MVP.Config;
+using Sessions.MVP.Config.Models;
+using Sessions.MVP.Messages;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.MVP.Config.Models;
-using Sessions.MVP.Config;
-using System;
-using Sessions.Core;
 using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
-using Sessions.MVP.Messages;
 
 namespace Sessions.MVP.Presenters
 {
@@ -65,8 +66,8 @@ namespace Sessions.MVP.Presenters
                 AppConfigManager.Instance.Save();
                 RefreshPreferences();
 
-                _playerService.BufferSize = config.BufferSize;
-                _playerService.UpdatePeriod = config.UpdatePeriod;
+                _playerService.SetBufferSize(config.BufferSize);
+                _playerService.SetUpdatePeriod(config.UpdatePeriod);
 
                 _messageHub.PublishAsync<AudioAppConfigChangedMessage>(new AudioAppConfigChangedMessage(this, config));
             }
@@ -84,12 +85,12 @@ namespace Sessions.MVP.Presenters
                 if(_peakFileService.IsLoading || _peakFileService.IsProcessing)
                     _peakFileService.Cancel();
 
-                if(_playerService.IsPlaying)
+                if(_playerService.State == SSPPlayerState.Playing)
                     _playerService.Stop();
 
                 // Keep original settings, or reset to default if this fails?
                 _playerService.Dispose();
-                _playerService.Initialize(device, sampleRate, AppConfigManager.Instance.Root.Audio.BufferSize, AppConfigManager.Instance.Root.Audio.UpdatePeriod);
+                _playerService.InitDevice(device, sampleRate, AppConfigManager.Instance.Root.Audio.BufferSize, AppConfigManager.Instance.Root.Audio.UpdatePeriod);
 
                 // No exception; this audio config should work, save settings
                 AppConfigManager.Instance.Root.Audio.AudioDevice = device;
@@ -124,7 +125,7 @@ namespace Sessions.MVP.Presenters
 
         private bool CheckIfPlayerIsPlaying()
         {
-            return _playerService.IsPlaying;
+            return _playerService.State == SSPPlayerState.Playing;
         }
 
         private void RefreshPreferences()

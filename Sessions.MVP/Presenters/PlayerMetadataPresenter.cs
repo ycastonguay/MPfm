@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using org.sessionsapp.player;
 using Sessions.MVP.Messages;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters.Interfaces;
@@ -51,10 +52,10 @@ namespace Sessions.MVP.Presenters
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
 
             // Refresh initial data if player is already playing
-            if (_playerService.IsPlaying)
+            if (_playerService.State == SSPPlayerState.Playing)
             {
                 var position = _playerService.GetPosition();
-                View.RefreshMetadata(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count, position.PositionMS, _playerService.CurrentPlaylistItem.LengthMilliseconds);
+                View.RefreshMetadata(_playerService.CurrentAudioFile, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.ms, 0); //_playerService.CurrentPlaylistItem.LengthMilliseconds);
                 View.RefreshRepeat(_playerService.RepeatType);
                 View.RefreshShuffle(_isShuffle);
             }
@@ -63,7 +64,7 @@ namespace Sessions.MVP.Presenters
         private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
         {
             var position = _playerService.GetPosition();
-            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count, position.PositionMS, _playerService.CurrentPlaylistItem.LengthMilliseconds);
+            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.ms, 0);// _playerService.CurrentPlaylistItem.LengthMilliseconds);
         }
 
         private void OpenPlaylist()

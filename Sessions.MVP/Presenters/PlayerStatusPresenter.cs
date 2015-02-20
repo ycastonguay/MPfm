@@ -26,6 +26,7 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Library.Services.Interfaces;
 using TinyMessenger;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Presenters
 {
@@ -59,15 +60,15 @@ namespace Sessions.MVP.Presenters
             view.OnPlayerShuffle = PlayerShuffle;
             view.OnOpenPlaylist = OpenPlaylist;
 
-            _messageHub.Subscribe<PlayerStatusMessage>(message => View.RefreshPlayerStatus(message.Status));
+            _messageHub.Subscribe<PlayerStatusMessage>(message => View.RefreshPlayerState(message.State));
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(message => View.RefreshAudioFile(message.Data.AudioFileStarted));
             _messageHub.Subscribe<PlayerPlaylistUpdatedMessage>(message =>
             {
                 // Refresh current song as the first song in the playlist if the player was never started
-                if (_playerService.Status == PlayerStatusType.Initialized && _playerService.CurrentPlaylist.Items.Count > 0)
-                    View.RefreshAudioFile(_playerService.CurrentPlaylist.Items[0].AudioFile);
+                if (_playerService.State == SSPPlayerState.Initialized && _playerService.Playlist.Count > 0)
+                    View.RefreshAudioFile(_playerService.CurrentAudioFile);
 
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+                //View.RefreshPlaylist(_playerService.CurrentPlaylist);
             });
             _messageHub.Subscribe<PlaylistUpdatedMessage>(message =>
             {
@@ -77,17 +78,17 @@ namespace Sessions.MVP.Presenters
             });
             _messageHub.Subscribe<PlaylistListUpdatedMessage>(message => RefreshPlaylists(Guid.Empty));
 
-            if (!_playerService.IsInitialized)
+            if (_playerService.State != SSPPlayerState.Initialized)
                 return;
 
             // Refresh initial data
-            View.RefreshPlayerStatus(_playerService.Status);
-            View.RefreshPlaylist(_playerService.CurrentPlaylist);
+            View.RefreshPlayerState(_playerService.State);
+            //View.RefreshPlaylist(_playerService.CurrentPlaylist);
             RefreshPlaylists(Guid.Empty);
-            if (!_playerService.IsPlaying || _playerService.CurrentPlaylistItem == null)
+            if (_playerService.State != SSPPlayerState.Playing || _playerService.CurrentAudioFile == null)
                 View.RefreshAudioFile(null);
             else                
-                View.RefreshAudioFile(_playerService.CurrentPlaylistItem.AudioFile);            
+                View.RefreshAudioFile(_playerService.CurrentAudioFile);            
         }
 
 	    private void RefreshPlaylists(Guid selectedPlaylistId)
@@ -110,7 +111,7 @@ namespace Sessions.MVP.Presenters
 
 	    private void PlayerPlayPause()
 	    {
-            if(_playerService.Status == PlayerStatusType.Initialized)
+            if(_playerService.State == SSPPlayerState.Initialized)
                 _playerService.Play();
             else
 	            _playerService.Pause();

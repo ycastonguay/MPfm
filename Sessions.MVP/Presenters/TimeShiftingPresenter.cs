@@ -15,16 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Threading;
-using Sessions.MVP.Messages;
-using Sessions.MVP.Navigation;
-using Sessions.MVP.Presenters.Interfaces;
-using Sessions.MVP.Views;
-using Sessions.MVP.Services.Interfaces;
-using Sessions.MVP.Models;
 using System;
+using System.Collections.Generic;
+using org.sessionsapp.player;
 using Sessions.Core;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Presenters.Interfaces;
+using Sessions.MVP.Services.Interfaces;
+using Sessions.MVP.Views;
 using Sessions.Player.Objects;
 using TinyMessenger;
 
@@ -187,7 +185,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if (!_playerService.IsPlaying)
+                if (_playerService.State != SSPPlayerState.Playing)
                     return;
 
                 // Convert scale from +50/+150 to -100/+100

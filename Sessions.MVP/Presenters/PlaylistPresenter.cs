@@ -23,6 +23,7 @@ using TinyMessenger;
 using Sessions.MVP.Messages;
 using System;
 using Sessions.MVP.Services.Interfaces;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Presenters
 {
@@ -61,20 +62,20 @@ namespace Sessions.MVP.Presenters
         {
             RefreshItems();
 
-            if(_playerService.IsPlaying)
-                View.RefreshCurrentlyPlayingSong(_playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.CurrentItem.AudioFile);
+            if(_playerService.State == SSPPlayerState.Playing)
+                View.RefreshCurrentlyPlayingSong(_playerService.Playlist.CurrentIndex, _playerService.CurrentAudioFile);
         }
 
         private void PlayerPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
         {
-            View.RefreshCurrentlyPlayingSong(_playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.CurrentItem.AudioFile);
+            View.RefreshCurrentlyPlayingSong(_playerService.Playlist.CurrentIndex, _playerService.CurrentAudioFile);
         }
 
         private void RefreshItems()
         {
             try
             {
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+                View.RefreshPlaylist(_playerService.Playlist);
             }
             catch(Exception ex)
             {
@@ -87,10 +88,10 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if(_playerService.IsPlaying)
+                if(_playerService.State == SSPPlayerState.Playing)
                     _playerService.Stop();
 
-                _playerService.CurrentPlaylist.Clear();
+                _playerService.Playlist.Clear();
             }
             catch(Exception ex)
             {
@@ -132,8 +133,9 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                _playerService.CurrentPlaylist.RemoveItems(playlistItemIds);
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+            // TODO
+//                _playerService.Playlist.RemoveItems(playlistItemIds);
+//                View.RefreshPlaylist(_playerService.Playlist);
             }
             catch (Exception ex)
             {

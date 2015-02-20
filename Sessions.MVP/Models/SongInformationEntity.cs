@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -15,23 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using Sessions.Sound.AudioFiles;
-using org.sessionsapp.player;
 
-namespace Sessions.MVP.Views
+namespace Sessions.MVP.Models
 {
-	/// <summary>
-	/// Player metadata view interface.
-	/// </summary>
-	public interface IPlayerMetadataView : IBaseView
-	{
-        Action OnOpenPlaylist { get; set; }
-        Action OnToggleShuffle { get; set; }
-        Action OnToggleRepeat { get; set; }
-
-        void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount, long currentPositionMS, long lengthMS);
-        void RefreshShuffle(bool shuffle);
-        void RefreshRepeat(SSPRepeatType repeatType);
-	}
+    public class SongInformationEntity
+    {
+        public AudioFile AudioFile { get; set; }
+        public bool UseFloatingPoint { get; set; }
+        public int PlaylistIndex { get; set; }
+        public int PlaylistCount { get; set; }
+    }
 }

@@ -17,13 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using Sessions.MVP.Messages;
-using Sessions.MVP.Models;
+using org.sessionsapp.player;
+using Sessions.Player;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.BassNetWrapper;
-using Sessions.Sound.Playlists;
-using Sessions.Player;
 
 namespace Sessions.MVP.Services.Interfaces
 {
@@ -32,36 +30,34 @@ namespace Sessions.MVP.Services.Interfaces
     /// </summary>
     public interface IPlayerService
     {
-        bool IsInitialized { get; }
+        SSPPlayerState State { get; }
         bool IsSettingPosition { get; }
-        bool IsPlaying { get; }
         bool IsPlayingLoop { get; }
-        bool IsPaused { get; }
         bool IsShuffleEnabled { get; set; }
-        bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
-        bool UseFloatingPoint { get; }
 
-        PlayerStatusType Status { get; }
+        SSP_MIXER Mixer { get; }
         EQPreset EQPreset { get; }
         Loop Loop { get; }
-        RepeatType RepeatType { get; }
+        SSPRepeatType RepeatType { get; }
         float TimeShifting { get; }
         int PitchShifting { get; }
         float Volume { get; set; }
-        int BufferSize { get; set; }
-        int UpdatePeriod { get; set; }
 
-        PlaylistItem CurrentPlaylistItem { get; }
-        Playlist CurrentPlaylist { get; }
-        Playlist CurrentQueue { get; }
+        //PlaylistItem CurrentPlaylistItem { get; }
+        AudioFile CurrentAudioFile { get; }
+        SSPPlaylist Playlist { get; }
+        //SSPPlaylist CurrentQueue { get; }
 
         event LoopPlaybackStarted OnLoopPlaybackStarted;
         event LoopPlaybackStopped OnLoopPlaybackStopped;
         event PlayerService.BPMDetected OnBPMDetected;
 
-        void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
+        void InitDevice(Device device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
+
+        void SetBufferSize(int bufferSize);
+        void SetUpdatePeriod(int updatePeriod);
 
         void Play();        
         void Play(IEnumerable<string> filePaths);
@@ -76,10 +72,10 @@ namespace Sessions.MVP.Services.Interfaces
         void GoTo(Guid playlistItemId);
         void ToggleRepeatType();
 
-        int GetDataAvailable();
+        long GetDataAvailable();
         Tuple<short[], short[]> GetMixerData(double seconds);
         Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
-        PlayerPosition GetPosition();
+        SSP_POSITION GetPosition();
 
         void SetPosition(double percentage);
         void SetPosition(long bytes);
@@ -91,7 +87,7 @@ namespace Sessions.MVP.Services.Interfaces
         void UpdateLoop(Loop loop);
         void StopLoop();        
 
-        void BypassEQ();
+        void EnableEQ(bool enabled);
         void ResetEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
         void ApplyEQPreset(EQPreset preset);

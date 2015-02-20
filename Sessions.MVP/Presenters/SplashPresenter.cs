@@ -21,17 +21,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using org.sessionsapp.player;
+using Sessions.Core;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Config;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Core;
-using Sessions.Library.Objects;
-using Sessions.Library.Services.Interfaces;
 using Sessions.Sound;
 using Sessions.Sound.BassNetWrapper;
 using Timer = System.Timers.Timer;
-using Sessions.MVP.Config;
 
 namespace Sessions.MVP.Presenters
 {
@@ -69,18 +70,15 @@ namespace Sessions.MVP.Presenters
 	    public void Initialize(Action onInitDone)
 	    {
 	        _onInitDone = onInitDone;
-            if (_playerService.IsInitialized)
+            if (_playerService.State != SSPPlayerState.Uninitialized)
             {
                 onInitDone();
                 return;
             }
 
             View.RefreshStatus("Initializing player...");
-            // TODO: Some refactoring here. Should not be a static method in InitializationService!
-	        InitializationService.CreateDirectories(); // make sure directories exist before initializing configuration
+	        InitializationService.CreateDirectories();
             AppConfigManager.Instance.Load();
-
-            // Register BASS.NET
             Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
 
 	        try
@@ -141,7 +139,7 @@ namespace Sessions.MVP.Presenters
                         device = foundConfiguredDevice;
                 }
 
-                _playerService.Initialize(device, sampleRate, bufferSize, updatePeriod);
+                _playerService.InitDevice(device, sampleRate, bufferSize, updatePeriod);
             }
             catch (Exception ex)
             {

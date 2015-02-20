@@ -86,8 +86,8 @@ namespace Sessions.MVP.Presenters
             }));
 
             // Refresh initial data
-            if (_playerService.CurrentPlaylistItem != null)
-                RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+            if (_playerService.CurrentAudioFile != null)
+                RefreshMarkers(_playerService.CurrentAudioFile.Id);
         }
 
 	    public override void ViewDestroyed()
@@ -140,12 +140,12 @@ namespace Sessions.MVP.Presenters
                     // Create marker and add to database
                     Marker marker = new Marker();
                     marker.Name = markerName;
-                    marker.PositionBytes = _playerService.GetPosition().PositionBytes;
-                    marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-                    long ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentPlaylistItem.AudioFile.SampleRate);
+                    marker.PositionBytes = _playerService.GetPosition().bytes;
+                    marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentAudioFile.BitsPerSample, 2);
+                    long ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentAudioFile.SampleRate);
                     marker.Position = ConvertAudio.ToTimeString(ms);
-                    marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
-                    marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
+                    marker.AudioFileId = _playerService.CurrentAudioFile.Id;
+                    marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
                     _libraryService.InsertMarker(marker);
 
                     _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
@@ -212,7 +212,7 @@ namespace Sessions.MVP.Presenters
                     _markers = _libraryService.SelectMarkers(audioFileId);
 
                     foreach (var marker in _markers)
-                        marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
+                        marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
 
                     RefreshMarkersViewWithUpdatedIndexes();
                 } 
@@ -249,7 +249,7 @@ namespace Sessions.MVP.Presenters
 
         private void ChangeMarkerPosition(Guid markerId, float newPositionPercentage)
         {
-            var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+            var lengthBytes = _playerService.CurrentAudioFile.LengthBytes;
             long positionBytes = (long)(newPositionPercentage * lengthBytes);
             ChangeMarkerPosition(markerId, positionBytes);
         }
@@ -275,14 +275,13 @@ namespace Sessions.MVP.Presenters
                     if(marker == null)
                         return;
 
-                    var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-                    var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                    var audioFile = _playerService.CurrentAudioFile;
 
                     // Calculate new position from 0.0f/1.0f scale
                     long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
                     long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
                     string positionString = ConvertAudio.ToTimeString(positionMS);
-                    float positionPercentage = (float)marker.PositionBytes / (float)lengthBytes;
+                    float positionPercentage = (float)marker.PositionBytes / (float)audioFile.LengthBytes;
 
                     // Update marker and update view
                     marker.Position = positionString;
@@ -347,7 +346,7 @@ namespace Sessions.MVP.Presenters
                 {
                 //Tracing.Log("MarkersPresenter - PunchInMarker - markerId: {0}", markerId);
                     var position = _playerService.GetPosition();
-                    ChangeMarkerPosition(markerId, position.PositionBytes);
+                    ChangeMarkerPosition(markerId, position.bytes);
                     var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
                     UpdateMarker(marker);
                 } 

@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
+using Sessions.Player;
 
 namespace Sessions.MVP.Views
 {
@@ -37,7 +37,7 @@ namespace Sessions.MVP.Views
         Action OnShufflePlaylist { get; set; }
 
         void PlaylistError(Exception ex);
-        void RefreshPlaylist(Playlist playlist);
+        void RefreshPlaylist(SSPPlaylist playlist);
         void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
 	}
 }

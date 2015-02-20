@@ -254,7 +254,6 @@
     <Compile Include="Presenters\PlaylistPresenter.cs" />
     <Compile Include="Helpers\EQPresetHelper.cs" />
     <Compile Include="Messages\PlayerStatusMessage.cs" />
-    <Compile Include="Messages\PlayerStatusType.cs" />
     <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
     <Compile Include="Messages\SongBrowserItemDoubleClickedMessage.cs" />
     <Compile Include="Messages\LibraryBrowserItemDoubleClickedMessage.cs" />
@@ -352,5 +351,6 @@
     <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />
     <Compile Include="Messages\AppInactiveMessage.cs" />
     <Compile Include="Messages\AppActivatedMessage.cs" />    
+    <Compile Include="Models\SongInformationEntity.cs" />    
   </ItemGroup>
 </Project>

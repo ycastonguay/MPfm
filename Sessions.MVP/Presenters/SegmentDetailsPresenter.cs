@@ -112,10 +112,10 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var position = _playerService.GetPosition();
-                _segment.Position = position.Position;
-                _segment.PositionBytes = position.PositionBytes;
-                _segment.PositionSamples = position.PositionSamples;
-                View.RefreshSegmentPosition(position.Position, position.PositionPercentage);
+                _segment.Position = position.str;
+                _segment.PositionBytes = position.bytes;
+                _segment.PositionSamples = position.samples;
+                View.RefreshSegmentPosition(position.str, 0);
             } 
             catch (Exception ex)
             {
@@ -173,8 +173,8 @@ namespace Sessions.MVP.Presenters
             {
                 // Make a local copy of data in case the song changes
                 _segment = _libraryService.SelectSegment(_segmentId);
-                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                _lengthBytes = _playerService.CurrentAudioFile.LengthBytes;
+                _audioFile = _playerService.CurrentAudioFile;
 
                 float positionPercentage = ((float)_segment.PositionBytes / (float)_lengthBytes) * 100;
                 RefreshMarkers();

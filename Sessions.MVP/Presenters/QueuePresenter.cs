@@ -23,7 +23,6 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
@@ -62,32 +61,32 @@ namespace Sessions.MVP.Presenters
 
         private void RefreshQueue()
         {
-            long ms = 0;
-            var lengths = _playerService.CurrentQueue.Items.Select(x => x.AudioFile.Length);
-            foreach (string length in lengths)
-                ms += ConvertAudio.ToMS(length);
-            string totalLength = ConvertAudio.ToTimeString(ms);
-            string shortTotalLength = totalLength.Substring(0, totalLength.IndexOf(".", StringComparison.Ordinal));
-            View.RefreshQueue(_playerService.CurrentQueue.Items.Count, shortTotalLength);
+//            long ms = 0;
+//            var lengths = _playerService.CurrentQueue.Items.Select(x => x.AudioFile.Length);
+//            foreach (string length in lengths)
+//                ms += ConvertAudio.ToMS(length);
+//            string totalLength = ConvertAudio.ToTimeString(ms);
+//            string shortTotalLength = totalLength.Substring(0, totalLength.IndexOf(".", StringComparison.Ordinal));
+//            View.RefreshQueue(_playerService.CurrentQueue.Items.Count, shortTotalLength);
         }
 
         private void StartPlayback()
         {
-            try
-            {
-                _playerService.PlayQueue();
-                _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.Artists); // TODO: Damn tab type, must get rid of this
-            }
-            catch(Exception ex)
-            {
-                View.QueueError(ex);
-            }
+//            try
+//            {
+//                _playerService.PlayQueue();
+//                _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.Artists); // TODO: Damn tab type, must get rid of this
+//            }
+//            catch(Exception ex)
+//            {
+//                View.QueueError(ex);
+//            }
         }
 
         private void RemoveAll()
         {
-            _playerService.CurrentQueue.Clear();
-            _messageHub.PublishAsync<QueueUpdatedMessage>(new QueueUpdatedMessage(this));
+//            _playerService.CurrentQueue.Clear();
+//            _messageHub.PublishAsync<QueueUpdatedMessage>(new QueueUpdatedMessage(this));
         }
 	}
 }

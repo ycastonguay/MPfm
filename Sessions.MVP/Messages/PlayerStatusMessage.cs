@@ -16,15 +16,16 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using TinyMessenger;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Messages
 {
     /// <summary>
-    /// Message indicating player status.
+    /// Message indicating player status change.
     /// </summary>
     public class PlayerStatusMessage : TinyMessageBase
     {
-        public PlayerStatusType Status { get; set; }
+        public SSPPlayerState State { get; set; }
 
         public PlayerStatusMessage(object sender) 
             : base(sender)

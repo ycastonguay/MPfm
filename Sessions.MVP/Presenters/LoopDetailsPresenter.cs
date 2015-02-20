@@ -38,7 +38,6 @@ namespace Sessions.MVP.Presenters
         private Guid _loopId;
         private Loop _loop;
         private AudioFile _audioFile;
-        private long _lengthBytes;
         private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
         private readonly ITinyMessengerHub _messageHub;
         private readonly ILibraryService _libraryService;
@@ -122,7 +121,7 @@ namespace Sessions.MVP.Presenters
         {
             SetSegmentIndexes();
             SetSegmentMarkers();
-            View.RefreshLoopDetails(_loop, _audioFile, _lengthBytes);
+            View.RefreshLoopDetails(_loop, _audioFile, _audioFile.LengthBytes);
         }
 
         private void AddSegment()
@@ -250,16 +249,16 @@ namespace Sessions.MVP.Presenters
                 var endSegment = _loop.GetEndSegment();
 
                 // Make sure the loop length doesn't get below 0
-                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_lengthBytes))
+                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_audioFile.LengthBytes))
                 {
-                    positionPercentage = (float)endSegment.PositionBytes / (float)_lengthBytes;
+                    positionPercentage = (float)endSegment.PositionBytes / (float)_audioFile.LengthBytes;
                 }
-                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_lengthBytes))
+                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_audioFile.LengthBytes))
                 {
-                    positionPercentage = (float)startSegment.PositionBytes / (float)_lengthBytes;
+                    positionPercentage = (float)startSegment.PositionBytes / (float)_audioFile.LengthBytes;
                 }
 
-                segment.SetPositionFromPercentage(positionPercentage, _lengthBytes, _audioFile);
+                segment.SetPositionFromPercentage(positionPercentage, _audioFile.LengthBytes, _audioFile);
 
                 if (updateDatabase)
                 {
@@ -271,7 +270,7 @@ namespace Sessions.MVP.Presenters
                     });
                 }
 
-                View.RefreshLoopDetailsSegment(segment, _lengthBytes);
+                View.RefreshLoopDetailsSegment(segment, _audioFile.LengthBytes);
             }
             catch (Exception ex)
             {
@@ -294,7 +293,7 @@ namespace Sessions.MVP.Presenters
                     segment.PositionSamples = marker.PositionSamples;
                 }
                 _libraryService.UpdateSegment(segment);
-                View.RefreshLoopDetailsSegment(segment, _lengthBytes);
+                View.RefreshLoopDetailsSegment(segment, _audioFile.LengthBytes);
             }
             catch(Exception ex)
             {
@@ -308,7 +307,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var position = _playerService.GetPosition();
-                float positionPercentage = (float)position.PositionBytes / (float)_lengthBytes;
+                float positionPercentage = (float)position.bytes / (float)_audioFile.LengthBytes;
                 ChangeSegmentPosition(segment, positionPercentage, true);
             }
             catch (Exception ex)
@@ -368,8 +367,7 @@ namespace Sessions.MVP.Presenters
 
                 // Make a local copy of data in case the song changes
                 _loop = _libraryService.SelectLoopIncludingSegments(_loopId);
-                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                _audioFile = _playerService.CurrentAudioFile;
                 //float positionPercentage = ((float)_rker.PositionBytes / (float)_lengthBytes) * 100;
                 RefreshLoopDetailsViewWithUpdatedMetadata();
                 RefreshMarkers();

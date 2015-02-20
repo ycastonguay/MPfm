@@ -59,18 +59,19 @@ namespace Sessions.MVP.Presenters
             try
             {
                 // Create marker name from template type (check for markers sharing the same name)
-                var markers = _libraryService.SelectMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+                var audioFile = _playerService.CurrentAudioFile;
+                var markers = _libraryService.SelectMarkers(audioFile.Id);
                 List<string> similarMarkers = markers.Select(x => x.Name).Where(x => x.ToUpper().StartsWith(template.ToString().ToUpper())).ToList();
                 string markerName = template.ToString() + " " + (similarMarkers.Count + 1).ToString();
 
                 // Create marker and add to database
                 Marker marker = new Marker();
                 marker.Name = markerName;
-                marker.PositionBytes = _playerService.GetPosition().PositionBytes;
-                marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-                var ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentPlaylistItem.AudioFile.SampleRate);
+                marker.PositionBytes = _playerService.GetPosition().bytes;
+                marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, audioFile.BitsPerSample, 2);
+                var ms = ConvertAudio.ToMS(marker.PositionSamples, audioFile.SampleRate);
                 marker.Position = ConvertAudio.ToTimeString(ms);
-                marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
+                marker.AudioFileId = audioFile.Id;
                 _libraryService.InsertMarker(marker);
 
                 _messengerHub.PublishAsync(new MarkerUpdatedMessage(this)

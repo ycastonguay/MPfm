@@ -18,21 +18,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using org.sessionsapp.player;
+using Sessions.Core;
+using Sessions.Library.Objects;
+using Sessions.Library.Services.Interfaces;
 using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config;
 using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Core;
-using Sessions.Library.Services.Interfaces;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
-using System.Threading.Tasks;
-using Sessions.MVP.Config;
-using Sessions.Library.Objects;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
@@ -106,36 +107,46 @@ namespace Sessions.MVP.Presenters
             });
             _messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
                 string filePath = m != null ? m.Item.FilePath : null;
+
+                Task.Factory.StartNew(() => {
                 Play(_audioFileCacheService.SelectAudioFiles(m.Query), filePath);
+                });
             });
             //messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) => {
             //    Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
             //});
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
-                View.RefreshSongInformation(m.Data.AudioFileStarted, _playerService.CurrentPlaylistItem.Id, _playerService.CurrentPlaylistItem.LengthBytes, 
-                        _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
+                var item = _playerService.Playlist.GetCurrentItem();
+                View.RefreshSongInformation(new SongInformationEntity() {
+                    AudioFile = m.Data.AudioFileStarted,
+                    UseFloatingPoint = _playerService.Mixer.useFloatingPoint,
+                    PlaylistIndex = _playerService.Playlist.CurrentIndex,
+                    PlaylistCount = _playerService.Playlist.Count
+                });
 
                 var markers = _libraryService.SelectMarkers(m.Data.AudioFileStarted.Id);
                 View.RefreshMarkers(markers);
             });
             _messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
-                View.RefreshPlayerStatus(m.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
+                View.RefreshPlayerState(m.State, _playerService.RepeatType, _playerService.IsShuffleEnabled);
 
                 if(!View.IsOutputMeterEnabled)
                     return;
 
-                switch(m.Status)
+                switch(m.State)
                 {
-                    case PlayerStatusType.Playing:
+                    case SSPPlayerState.Playing:
+                        Console.WriteLine(">>>>>>>>>>>> PLAYERPRES -- STATUS MESSAGE PLAYINGS");
                         _timerOutputMeter.Start();
                         break;
-                    case PlayerStatusType.Paused:
+                    case SSPPlayerState.Paused:
                         _timerOutputMeter.Stop();
                         break;
-                    case PlayerStatusType.Stopped:
+                    case SSPPlayerState.Stopped:
+                        Console.WriteLine(">>>>>>>>>>>> PLAYERPRES -- STATUS MESSAGE STOPPED");
                         _timerOutputMeter.Stop();
-                        View.RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
-                        View.RefreshPlayerPosition(new PlayerPosition());
+                        View.RefreshSongInformation(new SongInformationEntity());
+                        View.RefreshPlayerPosition(SSP.EmptyPosition);
                         break;
                 }
             });
@@ -180,33 +191,37 @@ namespace Sessions.MVP.Presenters
             view.OnApplyAlbumArtToAlbum = ApplyAlbumArtToAlbum;
 
             // If the player is already playing, refresh initial data
-            if (_playerService.IsPlaying)
+            if (_playerService.State == SSPPlayerState.Playing)
             {
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
-                View.RefreshSongInformation(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylistItem.Id, _playerService.CurrentPlaylistItem.LengthBytes,
-                            _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
+                View.RefreshPlaylist(_playerService.Playlist);
+                View.RefreshSongInformation(new SongInformationEntity() {
+                    AudioFile = _playerService.CurrentAudioFile,
+                    UseFloatingPoint = _playerService.Mixer.useFloatingPoint,
+                    PlaylistIndex = _playerService.Playlist.CurrentIndex,
+                    PlaylistCount = _playerService.Playlist.Count
+                });
 
-                var markers = _libraryService.SelectMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+                var markers = _libraryService.SelectMarkers(_playerService.CurrentAudioFile.Id);
                 View.RefreshMarkers(markers);
             }
 
-            #if !IOS
-            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
-                _playerService.Status == PlayerStatusType.StartPaused)
-            {
-                _playerService.Resume();
-                _timerRefreshSongPosition.Start();
-                _timerSavePlayerStatus.Start();
-            }
-            #endif
+//            #if !IOS
+//            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
+//                _playerService.Status == PlayerStatusType.StartPaused)
+//            {
+//                _playerService.Resume();
+//                _timerRefreshSongPosition.Start();
+//                _timerSavePlayerStatus.Start();
+//            }
+//            #endif
 
             View.RefreshPlayerVolume(new PlayerVolume() {
                 Volume = 100,
                 VolumeString = "100%"
             });
-            View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
+            View.RefreshPlayerState(_playerService.State, _playerService.RepeatType, _playerService.IsShuffleEnabled);
 
-            if (_playerService.IsPlaying && View.IsOutputMeterEnabled)
+            if (_playerService.State == SSPPlayerState.Playing && View.IsOutputMeterEnabled)
                 _timerOutputMeter.Start();
         }
 
@@ -251,22 +266,8 @@ namespace Sessions.MVP.Presenters
         private void HandleTimerRefreshSongPositionElapsed(object sender, object eventArgs)
         #endif
 		{
-            //int available = playerService.GetDataAvailable();
-			PlayerPosition entity = new PlayerPosition();
-		    try
-		    {
-                // This might throw an exception when the application is closing
-                if (_playerService.IsSettingPosition || _playerService.Status != PlayerStatusType.Playing)
-                    return;
-
-		        entity = _playerService.GetPosition();
-		    }
-		    catch (Exception ex)
-		    {
-		        Tracing.Log(string.Format("PlayerPresenter - HandleTimerRefreshSongPositionElapsed - Failed to get player position: {0}", ex));
-		    }
-
-			View.RefreshPlayerPosition(entity);
+            var position = _playerService.GetPosition();
+			View.RefreshPlayerPosition(position);
 		}
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
@@ -275,35 +276,34 @@ namespace Sessions.MVP.Presenters
         private void HandleTimerSavePlayerStatusElapsed(object sender, object eventArgs)
         #endif
         {
-            if(_playerService.IsSettingPosition || !_playerService.IsPlaying)
-                return;
-
-            PlayerPosition entity = new PlayerPosition();
-            try
-            {
-                entity = _playerService.GetPosition();
-                Task.Factory.StartNew(() => {
-                    try
-                    {
-                        // Store player status locally for resuming playback later
-                        AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id.ToString();
-                        AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _playerService.CurrentPlaylist.PlaylistId.ToString();
-                        AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = (float)entity.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
-                        AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
-                        AppConfigManager.Instance.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        Tracing.Log("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to save local resume playback info: {0}", ex);
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log(string.Format("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to get player position: {0}", ex));
-            }
+//            if(_playerService.IsSettingPosition || _playerService.State != SSPPlayerState.Playing)
+//                return;
+//
+//            var position = new SSP_POSITION();
+//            try
+//            {
+//                position = _playerService.GetPosition();
+//                Task.Factory.StartNew(() => {
+//                    try
+//                    {
+//                        // Store player status locally for resuming playback later
+//                        AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = _playerService.CurrentAudioFile.Id.ToString();
+//                        //AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _playerService.CurrentPlaylist.PlaylistId.ToString();
+//                        //AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = (float)position.bytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
+//                        AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
+//                        AppConfigManager.Instance.Save();
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        Tracing.Log("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to save local resume playback info: {0}", ex);
+//                    }
+//                });
+//            }
+//            catch (Exception ex)
+//            {
+//                Tracing.Log(string.Format("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to get player position: {0}", ex));
+//            }
         }
-
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         private void HandleOutputMeterTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -311,36 +311,36 @@ namespace Sessions.MVP.Presenters
         private void HandleOutputMeterTimerElapsed(object sender, object eventArgs)
         #endif
         {
-            try
-            {
-                if (_playerService.UseFloatingPoint)
-                {
-                    Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
-                    View.RefreshOutputMeter(data.Item1, data.Item2);
-                }
-                else
-                {
-                    Tuple<short[], short[]> data = _playerService.GetMixerData(0.02);
-
-                    // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
-                    float[] left = new float[data.Item1.Length];
-                    float[] right = new float[data.Item1.Length];
-                    for (int a = 0; a < data.Item1.Length; a++)
-                    {
-                        // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
-                        left[a] = (float)data.Item1[a] / (float)Int16.MaxValue;
-                        right[a] = (float)data.Item2[a] / (float)Int16.MaxValue;
-                        //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
-                    }
-
-                    View.RefreshOutputMeter(left, right);
-                }
-            }
-            catch(Exception ex)
-            {
-                // Log a soft error
-                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
-            }
+//            try
+//            {
+//                if (_playerService.Mixer.useFloatingPoint)
+//                {
+//                    Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
+//                    View.RefreshOutputMeter(data.Item1, data.Item2);
+//                }
+//                else
+//                {
+//                    Tuple<short[], short[]> data = _playerService.GetMixerData(0.02);
+//
+//                    // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
+//                    float[] left = new float[data.Item1.Length];
+//                    float[] right = new float[data.Item1.Length];
+//                    for (int a = 0; a < data.Item1.Length; a++)
+//                    {
+//                        // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
+//                        left[a] = (float)data.Item1[a] / (float)Int16.MaxValue;
+//                        right[a] = (float)data.Item2[a] / (float)Int16.MaxValue;
+//                        //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
+//                    }
+//
+//                    View.RefreshOutputMeter(left, right);
+//                }
+//            }
+//            catch(Exception ex)
+//            {
+//                // Log a soft error
+//                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
+//            }
         }
 
 	    public void EditSongMetadata()
@@ -348,8 +348,8 @@ namespace Sessions.MVP.Presenters
 #if IOS || ANDROID
             // Not available yet on mobile devices
 #else
-            if(_playerService.CurrentPlaylistItem != null)
-	            _navigationManager.CreateEditSongMetadataView(_playerService.CurrentPlaylistItem.AudioFile);
+            if(_playerService.CurrentAudioFile != null)
+	            _navigationManager.CreateEditSongMetadataView(_playerService.CurrentAudioFile);
 #endif
 	    }
 
@@ -381,7 +381,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play();
     			_timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+                View.RefreshPlaylist(_playerService.Playlist);
             }
             catch(Exception ex)
             {
@@ -400,7 +400,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play(audioFiles, string.Empty, 0, false, false);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+                View.RefreshPlaylist(_playerService.Playlist);
             }
             catch(Exception ex)
             {
@@ -419,7 +419,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play(filePaths);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+                View.RefreshPlaylist(_playerService.Playlist);
             }
             catch(Exception ex)
             {
@@ -439,7 +439,7 @@ namespace Sessions.MVP.Presenters
                 _playerService.Play(audioFiles, startAudioFilePath, 0, false, false);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
-                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+                View.RefreshPlaylist(_playerService.Playlist);
             }
             catch(Exception ex)
             {
@@ -458,8 +458,8 @@ namespace Sessions.MVP.Presenters
                 _timerSavePlayerStatus.Stop();
                 _playerService.Stop();
 
-			    View.RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
-                View.RefreshPlayerPosition(new PlayerPosition());
+//			    View.RefreshSongInformation(null, 0, 0);
+//                View.RefreshPlayerPosition(SSP.EmptyPosition);
             }
             catch(Exception ex)
             {
@@ -517,52 +517,49 @@ namespace Sessions.MVP.Presenters
         private void Shuffle()
         {
             _playerService.IsShuffleEnabled = !_playerService.IsShuffleEnabled;
-            View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
+            View.RefreshPlayerState(_playerService.State, _playerService.RepeatType, _playerService.IsShuffleEnabled);
         }
 
         private void Repeat()
         {
             _playerService.ToggleRepeatType();
-            View.RefreshPlayerStatus(_playerService.Status, _playerService.RepeatType, _playerService.IsShuffleEnabled);
+            View.RefreshPlayerState(_playerService.State, _playerService.RepeatType, _playerService.IsShuffleEnabled);
         }
 
         private void PlayerViewAppeared()
         {
-            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
-                _playerService.Status == PlayerStatusType.StartPaused)
-            {
-                _playerService.Resume();
+            // TODO: Is this still necessary?
+//            if (_playerService.State == PlayerStatusType.WaitingToStart || 
+//                _playerService.State == PlayerStatusType.StartPaused)
+//            {
+//                _playerService.Resume();
+//                _timerRefreshSongPosition.Start();
+//                _timerSavePlayerStatus.Start();
+//            }
+
+            Console.WriteLine("PlayerPresenter - PlayerViewAppeared");
+            if(!_timerRefreshSongPosition.Enabled)
                 _timerRefreshSongPosition.Start();
+
+            if(!_timerSavePlayerStatus.Enabled)
                 _timerSavePlayerStatus.Start();
-            }
         }
 
-        private PlayerPosition RequestPosition(float positionPercentage)
+        private SSP_POSITION RequestPosition(float positionPercentage)
         {
             try
             {
                 //Tracing.Log("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
-                // Calculate new position from 0.0f/1.0f scale
-                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-                long positionBytes = (long)(positionPercentage * lengthBytes);
-                //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
-                long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
-                string positionString = ConvertAudio.ToTimeString(positionMS);
-
-                var entity = new PlayerPosition();
-                entity.Position = positionString;
-                entity.PositionBytes = positionBytes;
-                entity.PositionSamples = (uint)positionSamples;
-                return entity;
+                var position = new SSP_POSITION();
+                SSP.SSP_GetPositionFromPercentage(positionPercentage, ref position);
+                return position;
             }
             catch(Exception ex)
             {
                 Tracing.Log("An error occured while calculating the player position: " + ex.Message);
                 View.PlayerError(ex);
             }
-            return new PlayerPosition();
+            return SSP.EmptyPosition;
         }
         
         private void SetPosition(float percentage)
@@ -608,7 +605,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                var audioFile = _playerService.CurrentAudioFile;
                 AudioFile.SetAlbumArtForAudioFile(audioFile.FilePath, imageData);
             }
             catch(Exception ex)
@@ -621,7 +618,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                var currentAudioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                var currentAudioFile = _playerService.CurrentAudioFile;
                 var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){
                     ArtistName = currentAudioFile.ArtistName,
                     AlbumTitle = currentAudioFile.AlbumTitle

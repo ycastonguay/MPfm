@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using Sessions.Core.Attributes;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.Player.Objects
 {
@@ -134,6 +135,7 @@ namespace Sessions.Player.Objects
         {
             long positionBytes = Segments[index].PositionBytes;
             int segmentIndex = index;
+
             while (true)
             {
                 if (segmentIndex < Segments.Count - 1)
@@ -148,6 +150,14 @@ namespace Sessions.Player.Objects
             }
 
             return Segments[segmentIndex];
+        }
+
+        public SSP_LOOP ToSSPLoop()
+        {
+            var loop = new SSP_LOOP();
+            loop.startPosition = GetStartSegment().PositionBytes;
+            loop.endPosition = GetEndSegment().PositionBytes;
+            return loop;
         }
     }
 }
