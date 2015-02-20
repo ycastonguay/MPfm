@@ -16,6 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
+using System.Reflection;
 using Sessions.Core;
 using org.sessionsapp.player;
 
