@@ -17,17 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -55,7 +52,7 @@ namespace Sessions.iOS
 		public Action OnPlayerRepeat { get; set; }
 		public Action OnOpenPlaylist { get; set; }
 
-		public void RefreshPlayerStatus(PlayerStatusType status)
+		public void RefreshPlayerState(SSPPlayerState state)
 		{
 		}
 

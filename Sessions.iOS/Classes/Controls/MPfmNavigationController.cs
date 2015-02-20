@@ -17,16 +17,17 @@
 
 using System;
 using System.Drawing;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Messages;
-using Sessions.MVP.Navigation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using TinyMessenger;
+using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controllers;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Helpers;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Navigation;
+using TinyMessenger;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -42,7 +43,6 @@ namespace Sessions.iOS.Classes.Controls
         UIImageView _imageViewIcon;
         SessionsFlatButton _btnBack;
         SessionsFlatButton _btnPlaylist;
-		//SessionsFlatButton _btnPlaylist;
         SessionsFlatButton _btnNowPlaying;
         ITinyMessengerHub _messengerHub;
 
@@ -65,8 +65,8 @@ namespace Sessions.iOS.Classes.Controls
             });
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
                 //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - PlayerStatusMessage - Status=" + message.Status.ToString());
-                if(message.Status == PlayerStatusType.Playing ||
-                   message.Status == PlayerStatusType.Paused)
+                if(message.State == SSPPlayerState.Playing ||
+                   message.State == SSPPlayerState.Paused)
                     _isPlayerPlaying = true;
                 else
                     _isPlayerPlaying = false;

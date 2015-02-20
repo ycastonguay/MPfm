@@ -24,22 +24,24 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Messages;
-using Sessions.MVP.Navigation;
-using Sessions.MVP.Services;
-using Sessions.MVP.Services.Interfaces;
-using Sessions.MVP.Views;
-using Sessions.Player.Objects;
-using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
-using TinyMessenger;
+using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Classes.Services;
 using Sessions.iOS.Helpers;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Messages;
+using Sessions.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Services;
+using Sessions.MVP.Services.Interfaces;
+using Sessions.MVP.Views;
+using Sessions.Player;
+using Sessions.Player.Objects;
+using Sessions.Sound.AudioFiles;
+using TinyMessenger;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -48,7 +50,7 @@ namespace Sessions.iOS.Classes.Controllers
         private NowPlayingInfoService _nowPlayingInfoService;
         private ITinyMessengerHub _messageHub;
         private IDownloadImageService _downloadImageService;
-        private AudioFile _currentAudioFile;
+        private SongInformationEntity _currentSongInfo;
         private NSTimer _timerHidePlayerMetadata;
         private bool _isPositionChanging = false;
         private string _currentAlbumArtKey = string.Empty;
@@ -234,8 +236,8 @@ namespace Sessions.iOS.Classes.Controllers
                 _isPositionChanging = true;
                 _lastSliderPositionValue = sliderPosition.Value / 100;
                 var entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
-                lblPosition.Text = entity.Position;
-                scrollViewWaveForm.SetSecondaryPosition(entity.PositionBytes);
+                lblPosition.Text = entity.str;
+                scrollViewWaveForm.SetSecondaryPosition(entity.bytes);
             };
             sliderPosition.TouchesEndedEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
@@ -352,10 +354,10 @@ namespace Sessions.iOS.Classes.Controllers
             _isAppInactive = false;
 
             // If the peak file loading/generation was interrupted, restart the process when the app is once again visible
-            if (scrollViewWaveForm.IsEmpty && _currentAudioFile != null)
+            if (scrollViewWaveForm.IsEmpty && _currentSongInfo != null)
             {
                 Console.WriteLine("PlayerViewController - AppActivatedMessageReceived - Loading peak file...");
-                scrollViewWaveForm.LoadPeakFile(_currentAudioFile);
+                scrollViewWaveForm.LoadPeakFile(_currentSongInfo.AudioFile);
             }
         }
 
@@ -392,13 +394,17 @@ namespace Sessions.iOS.Classes.Controllers
 //                scrollView.AddSubview(viewController.View);
 //                pageControl.Pages = scrollSubviewsLength + 1;
 //                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollView.Frame.Width, scrollView.Frame.Height);
-                float scrollViewWidth = UIScreen.MainScreen.Bounds.Width;
-                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth, 0, scrollViewWidth, scrollView.Frame.Height);
+
+                //float scrollViewWidth = UIScreen.MainScreen.Bounds.Width;
+                float scrollViewWidth = View.Frame.Width;
+                float scrollViewWidth2 = UIScreen.MainScreen.Bounds.Width;
+                //viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth, 0, scrollViewWidth, scrollView.Frame.Height);
+                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth2, 0, scrollViewWidth, scrollView.Frame.Height);
                 scrollView.AddSubview(viewController.View);
                 pageControl.Pages = scrollSubviewsLength + 1;
                 scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollViewWidth, scrollView.Frame.Height);
 
-                //Console.WriteLine("---------->> Scrollview player frame width: {0}", scrollView.Frame.Width);
+                Console.WriteLine("---------->> Scrollview.Frame.Width: {0} -- scrollViewWidth: {1} -- scrollView.ContentSize: {2} -- View.Frame.Width: {3} -- View.Bounds.Width: {4} -- UIScreen.Bounds.Width: {5}", scrollView.Frame.Width, scrollViewWidth, scrollView.ContentSize, View.Frame.Width, View.Bounds.Width, UIScreen.MainScreen.Bounds.Width);
             }
             else
             {
@@ -577,7 +583,7 @@ namespace Sessions.iOS.Classes.Controllers
 		public Action OnOpenEffects { get; set; }
         public Action OnOpenSelectAlbumArt { get; set; }
         public Action OnPlayerViewAppeared { get; set; }
-        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
+        public Func<float, SSP_POSITION> OnPlayerRequestPosition { get; set; }
         public Action<byte[]> OnApplyAlbumArtToSong { get; set; }
         public Action<byte[]> OnApplyAlbumArtToAlbum { get; set; }
 
@@ -594,17 +600,17 @@ namespace Sessions.iOS.Classes.Controllers
             AddScrollView((UIViewController)view);
         }
 
-        public void RefreshPlayerPosition(PlayerPosition entity)
+        public void RefreshPlayerPosition(SSP_POSITION position)
         {
             InvokeOnMainThread(() => {
-                _currentPositionMS = entity.PositionMS;
+                _currentPositionMS = position.ms;
                 if(!_isPositionChanging)
                 {
-                    lblPosition.Text = entity.Position;
-                    sliderPosition.SetPosition(entity.PositionPercentage * 100);
+                    lblPosition.Text = position.str;
+                    sliderPosition.SetPosition(((float)position.bytes / (float)_currentSongInfo.AudioFile.LengthBytes) * 10000f);
                 }
 
-                scrollViewWaveForm.SetPosition(entity.PositionBytes);
+                scrollViewWaveForm.SetPosition(position.bytes);
             });
         }
 
@@ -630,21 +636,20 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
-        public void RefreshPlaylist(Playlist playlist)
+        public void RefreshPlaylist(SSPPlaylist playlist)
         {
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(SongInformationEntity entity)
         {
-            if (audioFile == null)
+            if (entity == null)
                 return;
 
             // Prevent refreshing song twice
-            if (_currentAudioFile != null && _currentAudioFile.Id == audioFile.Id)
+            if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
                 return;
 
-            _currentAudioFile = audioFile;
-
+            _currentSongInfo = entity;
             InvokeOnMainThread(() =>
             {
                 try
@@ -654,15 +659,20 @@ namespace Sessions.iOS.Classes.Controllers
                     //navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
                     ShowPlayerMetadata(true, false);
-                    lblLength.Text = audioFile.Length;
+                    lblLength.Text = entity.AudioFile.Length;
 
                     if (IsOutputMeterEnabled)
                     {
-                        scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+                        // The wave form scroll view isn't aware of floating point
+                        long lengthWaveForm = entity.AudioFile.LengthBytes;
+                        if(entity.UseFloatingPoint)
+                            lengthWaveForm /= 2;
+
+                        scrollViewWaveForm.SetWaveFormLength(lengthWaveForm);
 
                         // Do not load/generate peak files when the app is sleeping
                         if(!_isAppInactive)
-                            scrollViewWaveForm.LoadPeakFile(audioFile);
+                            scrollViewWaveForm.LoadPeakFile(entity.AudioFile);
                     }
                 }
                 catch (Exception ex)
@@ -671,7 +681,7 @@ namespace Sessions.iOS.Classes.Controllers
                 }
             });
 
-            LoadAlbumArt(audioFile);
+            LoadAlbumArt(entity.AudioFile);
         }
 
         public async void LoadAlbumArt(AudioFile audioFile)
@@ -869,15 +879,15 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
-		public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
+		public void RefreshPlayerState(SSPPlayerState state, SSPRepeatType repeatType, bool isShuffleEnabled)
         {
             InvokeOnMainThread(() => {
-                switch (status)
+                switch (state)
                 {
-                    case PlayerStatusType.Paused:
+                    case SSPPlayerState.Paused:
                         btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/play");
                         break;
-                    case PlayerStatusType.Playing:
+                    case SSPPlayerState.Playing:
                         btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
 
                         // Force update position or iOS will reset position to 0

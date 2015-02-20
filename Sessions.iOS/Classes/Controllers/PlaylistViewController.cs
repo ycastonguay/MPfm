@@ -21,13 +21,12 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
-using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Classes.Controls;
-using Sessions.Sound.Playlists;
 using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using Sessions.Player;
 
 namespace Sessions.iOS
 {
@@ -36,7 +35,7 @@ namespace Sessions.iOS
         string _cellIdentifier = "PlaylistItemCell";
         bool _isEditingTableView = false;
         Guid _currentlyPlayingSongId;
-        Playlist _playlist;
+        SSPPlaylist _playlist;
         UIBarButtonItem _btnDone;
         UIBarButtonItem _btnEdit;
         SessionsFlatButton _btnFlatEdit;
@@ -107,28 +106,29 @@ namespace Sessions.iOS
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
         {
-            return _playlist.Items.Count;
+            return _playlist.Count;
         }
 
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            var cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
                 cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
+            var item = _playlist.GetItemAt(indexPath.Row);
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
-            cell.TextLabel.Text = _playlist.Items[indexPath.Row].AudioFile.Title;
+            cell.TextLabel.Text = item.Title;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
-            cell.DetailTextLabel.Text = _playlist.Items[indexPath.Row].AudioFile.ArtistName;
+            cell.DetailTextLabel.Text = item.ArtistName;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
             cell.ImageChevron.Hidden = true;
             cell.IndexTextLabel.Text = (indexPath.Row+1).ToString();
 
-            if (_currentlyPlayingSongId == _playlist.Items[indexPath.Row].AudioFile.Id)
+            if (_currentlyPlayingSongId == item.Id)
                 cell.RightImage.Hidden = false;
             else
                 cell.RightImage.Hidden = true;
@@ -139,7 +139,8 @@ namespace Sessions.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            OnSelectPlaylistItem(_playlist.Items[indexPath.Row].Id);
+            var item = _playlist.GetItemAt(indexPath.Row);
+            OnSelectPlaylistItem(item.Id);
             tableView.DeselectRow(indexPath, true);
         }
 
@@ -218,7 +219,7 @@ namespace Sessions.iOS
             });
         }
 
-        public void RefreshPlaylist(Playlist playlist)
+        public void RefreshPlaylist(SSPPlaylist playlist)
         {
             InvokeOnMainThread(() => {
                 _playlist = playlist;
@@ -238,11 +239,11 @@ namespace Sessions.iOS
             InvokeOnMainThread(() => {
                 foreach(var cell in tableView.VisibleCells)
                 {
-                    if(_playlist.Items[cell.Tag].AudioFile != null)
+                    var item = _playlist.GetItemAt(cell.Tag);
+                    if(item != null)
                     {
-                        var id = _playlist.Items[cell.Tag].AudioFile.Id;
                         var customCell = (SessionsTableViewCell)cell;
-                        if(id == audioFile.Id)
+                        if(item.Id == audioFile.Id)
                             customCell.RightImage.Hidden = false;
                         else
                             customCell.RightImage.Hidden = true;

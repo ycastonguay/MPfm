@@ -305,7 +305,6 @@
     <Compile Include="Presenters\PlaylistPresenter.cs" />
     <Compile Include="Helpers\EQPresetHelper.cs" />
     <Compile Include="Messages\PlayerStatusMessage.cs" />
-    <Compile Include="Messages\PlayerStatusType.cs" />
     <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
     <Compile Include="Messages\SongBrowserItemDoubleClickedMessage.cs" />
     <Compile Include="Messages\LibraryBrowserItemDoubleClickedMessage.cs" />

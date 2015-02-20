@@ -19,15 +19,13 @@ using System;
 using System.Drawing;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
-using MonoTouch.Foundation;
-using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Objects;
-using Sessions.Player.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Services;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -91,7 +89,7 @@ namespace Sessions.iOS
         {
         }
 
-        public void RefreshRepeat(RepeatType repeatType)
+        public void RefreshRepeat(SSPRepeatType repeatType)
         {
         }
 

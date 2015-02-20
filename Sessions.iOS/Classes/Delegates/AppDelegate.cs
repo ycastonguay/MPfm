@@ -18,30 +18,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sessions.Library;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Config.Providers;
-using Sessions.MVP.Navigation;
-using Sessions.MVP.Views;
-using MonoTouch.CoreAnimation;
+using DropBoxSync.iOS;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using TinyMessenger;
+using Sessions.GenericControls.Graphics;
+using Sessions.GenericControls.Services;
+using Sessions.GenericControls.Services.Interfaces;
 using Sessions.iOS.Classes.Controllers;
 using Sessions.iOS.Classes.Controls;
+using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.iOS.Classes.Navigation;
 using Sessions.iOS.Classes.Objects;
-using Sessions.iOS.Classes.Providers;
-using Sessions.iOS.Helpers;
-using DropBoxSync.iOS;
 using Sessions.iOS.Classes.Services;
+using Sessions.iOS.Helpers;
+using Sessions.Library;
 using Sessions.Library.Services.Interfaces;
-using System.Drawing;
-using Sessions.GenericControls.Graphics;
-using Sessions.iOS.Classes.Controls.Graphics;
-using Sessions.GenericControls.Services.Interfaces;
-using Sessions.GenericControls.Services;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Config.Providers;
 using Sessions.MVP.Messages;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
+using TinyMessenger;
 
 namespace Sessions.iOS.Classes.Delegates
 {
@@ -102,9 +99,7 @@ namespace Sessions.iOS.Classes.Delegates
 
         public override void WillTerminate(UIApplication application)
         {
-			if (Sessions.Player.Player.CurrentPlayer.IsPlaying)
-				Sessions.Player.Player.CurrentPlayer.Stop();
-			Sessions.Player.Player.CurrentPlayer.Dispose();
+            Sessions.Player.SSPPlayer.CurrentPlayer.Dispose();
         }
 
         public void RegisterViews()

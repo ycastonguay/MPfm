@@ -15,24 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection;
-using DropBoxSync.iOS;
-using Sessions.Core;
-using Sessions.Library;
-using Sessions.Library.Objects;
-using Sessions.Library.Services.Exceptions;
-using Sessions.Library.Services.Interfaces;
-using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
-using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using Newtonsoft.Json;
-using System.Linq;
-using System.Threading.Tasks;
 using MonoTouch.MediaPlayer;
 
 namespace Sessions.iOS.Classes.Services
@@ -68,6 +52,12 @@ namespace Sessions.iOS.Classes.Services
         {
             if (MPNowPlayingInfoCenter.DefaultCenter == null)
                 return;
+
+            if (AudioFile == null)
+            {
+                ResetAndUpdateInfo();
+                return;
+            }
 
             MPNowPlayingInfoCenter.DefaultCenter.NowPlaying = new MPNowPlayingInfo() {
                 Artist = AudioFile.ArtistName,
