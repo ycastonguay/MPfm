@@ -144,11 +144,11 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var position = _playerService.GetPosition();
-                _marker.Position = position.str;
-                _marker.PositionBytes = position.bytes;
-                _marker.PositionPercentage = (float)position.bytes / (float)_audioFile.LengthBytes;
-                _marker.PositionSamples = position.samples;
-                View.RefreshMarkerPosition(position.str, _marker.PositionPercentage / 100f);
+                _marker.Position = position.Str;
+                _marker.PositionBytes = position.Bytes;
+                _marker.PositionPercentage = (float)position.Bytes / (float)_audioFile.LengthBytes;
+                _marker.PositionSamples = position.Samples;
+                View.RefreshMarkerPosition(position.Str, _marker.PositionPercentage / 100f);
             } 
             catch (Exception ex)
             {

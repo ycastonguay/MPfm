@@ -85,7 +85,6 @@ namespace Sessions.MVP.Bootstrap
             container.Register<IPlaylistPresenter, PlaylistPresenter>().AsMultiInstance();
             container.Register<ILoopsPresenter, LoopsPresenter>().AsMultiInstance();
             container.Register<ILoopDetailsPresenter, LoopDetailsPresenter>().AsMultiInstance();
-            container.Register<ISegmentDetailsPresenter, SegmentDetailsPresenter>().AsMultiInstance();
             container.Register<IMarkersPresenter, MarkersPresenter>().AsMultiInstance();
             container.Register<IMarkerDetailsPresenter, MarkerDetailsPresenter>().AsMultiInstance();
             container.Register<ITimeShiftingPresenter, TimeShiftingPresenter>().AsMultiInstance();

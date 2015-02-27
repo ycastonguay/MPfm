@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Helpers
 {
@@ -32,28 +33,28 @@ namespace Sessions.MVP.Helpers
         /// </summary>
         /// <param name="filePath">EQ preset file path</param>
         /// <returns>EQPreset object</returns>
-        public static EQPreset Load(string filePath)
+        public static SSPEQPreset Load(string filePath)
         {
 #if WINDOWSSTORE
             return new EQPreset();
 #else
-            XmlSerializer deserializer = new XmlSerializer(typeof(EQPreset));
+            var deserializer = new XmlSerializer(typeof(SSPEQPreset));
             TextReader textReader = new StreamReader(filePath);
             Object obj = deserializer.Deserialize(textReader);
-            EQPreset theme = (EQPreset)obj;
+            var theme = (SSPEQPreset)obj;
             return theme;
 #endif
         }
-        
+
         /// <summary>
         /// Saves EQPreset to file.
         /// </summary>
         /// <param name="filePath">EQ preset file path</param>
         /// <param name="eqPreset">EQPreset object</param>
-        public static void Save(string filePath, EQPreset eqPreset)
+        public static void Save(string filePath, SSPEQPreset eqPreset)
         {
 #if !WINDOWSSTORE
-            XmlSerializer serializer = new XmlSerializer(typeof(EQPreset));
+            var serializer = new XmlSerializer(typeof(SSPEQPreset));
             TextWriter textWriter = new StreamWriter(filePath);
             serializer.Serialize(textWriter, eqPreset);
             textWriter.Dispose();

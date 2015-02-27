@@ -140,7 +140,7 @@ namespace Sessions.MVP.Presenters
                     // Create marker and add to database
                     Marker marker = new Marker();
                     marker.Name = markerName;
-                    marker.PositionBytes = _playerService.GetPosition().bytes;
+                    marker.PositionBytes = _playerService.GetPosition().Bytes;
                     marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentAudioFile.BitsPerSample, 2);
                     long ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentAudioFile.SampleRate);
                     marker.Position = ConvertAudio.ToTimeString(ms);
@@ -346,7 +346,7 @@ namespace Sessions.MVP.Presenters
                 {
                 //Tracing.Log("MarkersPresenter - PunchInMarker - markerId: {0}", markerId);
                     var position = _playerService.GetPosition();
-                    ChangeMarkerPosition(markerId, position.bytes);
+                    ChangeMarkerPosition(markerId, position.Bytes);
                     var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
                     UpdateMarker(marker);
                 } 

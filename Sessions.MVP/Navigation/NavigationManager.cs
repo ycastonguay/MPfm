@@ -59,8 +59,6 @@ namespace Sessions.MVP.Navigation
         IMarkerDetailsPresenter _markerDetailsPresenter;
         ILoopDetailsView _loopDetailsView;
         ILoopDetailsPresenter _loopDetailsPresenter;
-        ISegmentDetailsView _segmentDetailsView;
-        ISegmentDetailsPresenter _segmentDetailsPresenter;
 
         ISelectAlbumArtView _selectAlbumArtView;
         ISelectAlbumArtPresenter _selectAlbumArtPresenter;
@@ -158,8 +156,6 @@ namespace Sessions.MVP.Navigation
                 _loopsPresenter.BindView((ILoopsView)view);
                 _loopDetailsPresenter = Bootstrapper.GetContainer().Resolve<ILoopDetailsPresenter>(new NamedParameterOverloads() { { "loopId", Guid.Empty } });
                 _loopDetailsPresenter.BindView((ILoopDetailsView)view);
-                _segmentDetailsPresenter = Bootstrapper.GetContainer().Resolve<ISegmentDetailsPresenter>(new NamedParameterOverloads() { { "segmentId", Guid.Empty } });
-                _segmentDetailsPresenter.BindView((ISegmentDetailsView)view);
                 _timeShiftingPresenter = Bootstrapper.GetContainer().Resolve<ITimeShiftingPresenter>();
                 _timeShiftingPresenter.BindView((ITimeShiftingView)view);
                 _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
@@ -186,8 +182,6 @@ namespace Sessions.MVP.Navigation
                 _loopsPresenter = null;
                 _loopDetailsPresenter.ViewDestroyed();
                 _loopDetailsPresenter = null;
-                _segmentDetailsPresenter.ViewDestroyed();
-                _segmentDetailsPresenter = null;
                 _timeShiftingPresenter.ViewDestroyed();
                 _timeShiftingPresenter = null;
                 _pitchShiftingPresenter.ViewDestroyed();

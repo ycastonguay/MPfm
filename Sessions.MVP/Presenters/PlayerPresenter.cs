@@ -119,7 +119,7 @@ namespace Sessions.MVP.Presenters
                 var item = _playerService.Playlist.GetCurrentItem();
                 View.RefreshSongInformation(new SongInformationEntity() {
                     AudioFile = m.Data.AudioFileStarted,
-                    UseFloatingPoint = _playerService.Mixer.useFloatingPoint,
+                    UseFloatingPoint = _playerService.Mixer.UseFloatingPoint,
                     PlaylistIndex = _playerService.Playlist.CurrentIndex,
                     PlaylistCount = _playerService.Playlist.Count
                 });
@@ -146,7 +146,7 @@ namespace Sessions.MVP.Presenters
                         Console.WriteLine(">>>>>>>>>>>> PLAYERPRES -- STATUS MESSAGE STOPPED");
                         _timerOutputMeter.Stop();
                         View.RefreshSongInformation(new SongInformationEntity());
-                        View.RefreshPlayerPosition(SSP.EmptyPosition);
+                        View.RefreshPlayerPosition(SSPPosition.Empty);
                         break;
                 }
             });
@@ -196,7 +196,7 @@ namespace Sessions.MVP.Presenters
                 View.RefreshPlaylist(_playerService.Playlist);
                 View.RefreshSongInformation(new SongInformationEntity() {
                     AudioFile = _playerService.CurrentAudioFile,
-                    UseFloatingPoint = _playerService.Mixer.useFloatingPoint,
+                    UseFloatingPoint = _playerService.Mixer.UseFloatingPoint,
                     PlaylistIndex = _playerService.Playlist.CurrentIndex,
                     PlaylistCount = _playerService.Playlist.Count
                 });
@@ -545,13 +545,14 @@ namespace Sessions.MVP.Presenters
                 _timerSavePlayerStatus.Start();
         }
 
-        private SSP_POSITION RequestPosition(float positionPercentage)
+        private SSPPosition RequestPosition(float positionPercentage)
         {
             try
             {
                 //Tracing.Log("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
-                var position = new SSP_POSITION();
-                SSP.SSP_GetPositionFromPercentage(positionPercentage, ref position);
+                //var position = new SSPPosition();
+                //SSP.SSP_GetPositionFromPercentage(positionPercentage, ref position.Struct);
+                var position = _playerService.GetPosition();
                 return position;
             }
             catch(Exception ex)
@@ -559,7 +560,7 @@ namespace Sessions.MVP.Presenters
                 Tracing.Log("An error occured while calculating the player position: " + ex.Message);
                 View.PlayerError(ex);
             }
-            return SSP.EmptyPosition;
+            return SSPPosition.Empty;
         }
         
         private void SetPosition(float percentage)

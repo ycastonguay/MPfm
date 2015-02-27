@@ -33,6 +33,7 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
 using Sessions.GenericControls.Basics;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -43,7 +44,7 @@ namespace Sessions.iOS
         private UIBarButtonItem _btnDone;
         private UIBarButtonItem _btnAdd;
         private string _cellIdentifier = "EqualizerPresetCell";
-        private List<EQPreset> _presets = new List<EQPreset>();
+        private List<SSPEQPreset> _presets = new List<SSPEQPreset>();
         private Guid _selectedPresetId;
         private int _editingRowPosition = -1;
         private int _editingRowSection = -1;
@@ -472,7 +473,7 @@ namespace Sessions.iOS
             ShowErrorDialog(ex);
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
             InvokeOnMainThread(() => {
                 _selectedPresetId = selectedPresetId;

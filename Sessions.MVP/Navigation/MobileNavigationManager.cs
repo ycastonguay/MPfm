@@ -138,20 +138,22 @@ namespace Sessions.MVP.Navigation
             CreateMobileMainView();
             #endif
 
-            //Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2} resumePlayback.positionPercentage: {3}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId, AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage);
+            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2} resumePlayback.positionPercentage: {3}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId, AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage);
             bool didCreateView = false;
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
-                //Tracing.Log("MobileNavigationManager - ContinueAfterSplash - First run of the application; launching FirstRun activity...");
+                Tracing.Log("MobileNavigationManager - ContinueAfterSplash - First run of the application; launching FirstRun activity...");
                 CreateFirstRunView();
                 didCreateView = true;
             }
             else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
             {
+                Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Found audio file to resume from (from local config file)...");
                 var resumePlaybackService = Bootstrapper.GetContainer().Resolve<IResumePlaybackService>();
                 _resumeCloudDeviceInfo = resumePlaybackService.GetResumePlaybackInfo();
                 if (_resumeCloudDeviceInfo != null)
                 {
+                    Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Found info from resume cloud device!");
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                     didCreateView = true;
                 }

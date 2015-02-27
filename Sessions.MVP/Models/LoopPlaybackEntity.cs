@@ -18,13 +18,13 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Models
 {
     public class LoopPlaybackEntity
 	{
-        public Loop CurrentLoop { get; set; }
-        public Segment CurrentSegment { get; set; }
+        public SSPLoop CurrentLoop { get; set; }
         public string LoopPosition { get; set; }
         public string SegmentPosition { get; set; }
 

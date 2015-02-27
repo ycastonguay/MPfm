@@ -33,6 +33,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Helpers;
+using org.sessionsapp.player;
 
 namespace Sessions.GenericControls.Controls
 {
@@ -63,14 +64,14 @@ namespace Sessions.GenericControls.Controls
         private BasicBrush _brushMarkerBackground;
         private BasicBrush _brushSelectedMarkerBackground;
         private Guid _activeMarkerId = Guid.Empty;
-        private Loop _loop;
+        private SSPLoop _loop;
         private List<Marker> _markers = new List<Marker>();
         private string _status = "";
         private float _cursorX;
         private float _secondaryCursorX;
         private MouseCursorType _cursorType;
-        private Segment _segmentMouseOver;
-        private Segment _segmentDragging;
+//        private Segment _segmentMouseOver;
+//        private Segment _segmentDragging;
         private BasicColor _backgroundColor = new BasicColor(32, 40, 46);        
         private BasicColor _cursorColor = new BasicColor(0, 128, 255);
         private BasicColor _secondaryCursorColor = new BasicColor(255, 255, 255);
@@ -224,13 +225,13 @@ namespace Sessions.GenericControls.Controls
         public long Length { get; set; }
 
         public delegate void ChangePosition(float positionPercentage);
-        public delegate void ChangeSegmentPosition(Segment segment, float positionPercentage);
+        //public delegate void ChangeSegmentPosition(Segment segment, float positionPercentage);
         public delegate void ContentOffsetChanged(BasicPoint offset);
         public delegate void ChangeMouseCursorType(MouseCursorType mouseCursorType);
         public event ChangePosition OnChangePosition;
         public event ChangePosition OnChangeSecondaryPosition;
-        public event ChangeSegmentPosition OnChangingSegmentPosition;
-        public event ChangeSegmentPosition OnChangedSegmentPosition;
+//        public event ChangeSegmentPosition OnChangingSegmentPosition;
+//        public event ChangeSegmentPosition OnChangedSegmentPosition;
         public event ContentOffsetChanged OnContentOffsetChanged;
         public event ChangeMouseCursorType OnChangeMouseCursorType;
         public event ScrubbingSpeedChangedDelegate OnScrubbingSpeedChanged;
@@ -244,8 +245,8 @@ namespace Sessions.GenericControls.Controls
         {
             OnChangePosition += (position) => { };
             OnChangeSecondaryPosition += position => { };
-            OnChangingSegmentPosition += (segment, position) => { };
-            OnChangedSegmentPosition += (segment, position) => { };
+//            OnChangingSegmentPosition += (segment, position) => { };
+//            OnChangedSegmentPosition += (segment, position) => { };
             OnContentOffsetChanged += (offset) => { };
             OnChangeMouseCursorType += type => { };
             
@@ -400,27 +401,27 @@ namespace Sessions.GenericControls.Controls
             InvalidateVisual();
         }
 
-        public void SetLoop(Loop loop)
+        public void SetLoop(SSPLoop loop)
         {
             _loop = loop;
             InvalidateVisual();
         }
 
-        public void SetSegment(Segment segment)
-        {
-            if (_loop == null)
-                return;
-
-            var localSegment = _loop.Segments.FirstOrDefault(x => x.SegmentId == segment.SegmentId);
-            if (localSegment == null)
-                return;
-
-            localSegment.Position = segment.Position;
-            localSegment.PositionBytes = segment.PositionBytes;
-            localSegment.PositionSamples = segment.PositionSamples;
-
-            InvalidateVisual();
-        }
+//        public void SetSegment(Segment segment)
+//        {
+//            if (_loop == null)
+//                return;
+//
+//            var localSegment = _loop.Segments.FirstOrDefault(x => x.SegmentId == segment.SegmentId);
+//            if (localSegment == null)
+//                return;
+//
+//            localSegment.Position = segment.Position;
+//            localSegment.PositionBytes = segment.PositionBytes;
+//            localSegment.PositionSamples = segment.PositionSamples;
+//
+//            InvalidateVisual();
+//        }
 
         public void LoadPeakFile(AudioFile audioFile)
         {
@@ -602,15 +603,10 @@ namespace Sessions.GenericControls.Controls
             if (_loop == null) 
                 return;
 
-            var startSegment = _loop.GetStartSegment();
-            var endSegment = _loop.GetEndSegment();
-            if (startSegment == null || endSegment == null)
-                return;
-
             // Calculate position
-            float startPositionPercentage = (float)startSegment.PositionBytes / (float)Length;
+            float startPositionPercentage = (float)_loop.StartPosition / (float)Length;
             float startX = (startPositionPercentage * ContentSize.Width) - ContentOffset.X;
-            float endPositionPercentage = (float)endSegment.PositionBytes / (float)Length;
+            float endPositionPercentage = (float)_loop.EndPosition / (float)Length;
             float endX = (endPositionPercentage * ContentSize.Width) - ContentOffset.X;
 
             // Draw loop lines
@@ -701,12 +697,12 @@ namespace Sessions.GenericControls.Controls
                     //Console.WriteLine("Dragging thumb - _thumbMouseDownX: {0}", _thumbMouseDownX);
                 }
             }
-            else if (_segmentMouseOver != null)
-            {
-                _isDraggingSegment = true;
-                _segmentDragging = _segmentMouseOver;
-                _mouseDownScrubbingX = x;
-            }
+//            else if (_segmentMouseOver != null)
+//            {
+//                _isDraggingSegment = true;
+//                _segmentDragging = _segmentMouseOver;
+//                _mouseDownScrubbingX = x;
+//            }
             else
             {
                 // Wave form area
@@ -732,12 +728,12 @@ namespace Sessions.GenericControls.Controls
                 _isDraggingThumb = false;
                 _isDraggingScrollBar = false;
             } 
-            else if (_isDraggingSegment)
-            {
-                _isDraggingSegment = false;
-                SetSegmentPosition(position, positionPercentage, true);
-                _segmentDragging = null;
-            }
+//            else if (_isDraggingSegment)
+//            {
+//                _isDraggingSegment = false;
+//                SetSegmentPosition(position, positionPercentage, true);
+//                _segmentDragging = null;
+//            }
             else
             {
                 ShowSecondaryPosition = false;
@@ -830,22 +826,22 @@ namespace Sessions.GenericControls.Controls
                 int mouseX = (int) Math.Floor(x);
                 if (_loop != null)
                 {
-                    for (int a = 0; a < _loop.Segments.Count; a++)
-                    {
-                        float segmentPositionPercentage = (float)_loop.Segments[a].PositionBytes / (float)Length;
-                        int segmentX = (int)Math.Floor((segmentPositionPercentage * ContentSize.Width) - ContentOffset.X);
-
-                        // Three pixels wide selection range to make it easier
-                        if (segmentX >= mouseX - 1 && segmentX <= mouseX + 1)
-                        {
-                            _segmentMouseOver = _loop.Segments[a];
-                            cursorType = MouseCursorType.VSplit;
-                        }
-                    }
+//                    for (int a = 0; a < _loop.Segments.Count; a++)
+//                    {
+//                        float segmentPositionPercentage = (float)_loop.Segments[a].PositionBytes / (float)Length;
+//                        int segmentX = (int)Math.Floor((segmentPositionPercentage * ContentSize.Width) - ContentOffset.X);
+//
+//                        // Three pixels wide selection range to make it easier
+//                        if (segmentX >= mouseX - 1 && segmentX <= mouseX + 1)
+//                        {
+//                            _segmentMouseOver = _loop.Segments[a];
+//                            cursorType = MouseCursorType.VSplit;
+//                        }
+//                    }
                 }
 
-                if (cursorType == MouseCursorType.Default)
-                    _segmentMouseOver = null;
+//                if (cursorType == MouseCursorType.Default)
+//                    _segmentMouseOver = null;
 
                 ChangeMouseCursor(cursorType);
             }
@@ -853,28 +849,28 @@ namespace Sessions.GenericControls.Controls
 
         private void SetSegmentPosition(long position, float positionPercentage, bool mouseUp)
         {
-            var startSegment = _loop.GetStartSegment();
-            var endSegment = _loop.GetEndSegment();
-
-            // Make sure the loop length doesn't get below 0
-            if (_segmentDragging == startSegment && position > endSegment.PositionBytes)
-            {
-                position = endSegment.PositionBytes;
-                positionPercentage = (float) endSegment.PositionBytes/(float) Length;
-            }
-            else if (_segmentDragging == endSegment && position < startSegment.PositionBytes)
-            {
-                position = startSegment.PositionBytes;
-                positionPercentage = (float) startSegment.PositionBytes/(float) Length;
-            }
-
-            //Console.WriteLine("WaveFormControl - MouseMove - position: {0} startSegment.positionbyttes: {1} endSegment.positionbytes: {2}", position, startSegment.PositionBytes, endSegment.PositionBytes);
-            _segmentDragging.PositionBytes = position;
-
-            if(mouseUp)
-                OnChangedSegmentPosition(_segmentDragging, positionPercentage);
-            else
-                OnChangingSegmentPosition(_segmentDragging, positionPercentage);
+//            var startSegment = _loop.GetStartSegment();
+//            var endSegment = _loop.GetEndSegment();
+//
+//            // Make sure the loop length doesn't get below 0
+//            if (_segmentDragging == startSegment && position > endSegment.PositionBytes)
+//            {
+//                position = endSegment.PositionBytes;
+//                positionPercentage = (float) endSegment.PositionBytes/(float) Length;
+//            }
+//            else if (_segmentDragging == endSegment && position < startSegment.PositionBytes)
+//            {
+//                position = startSegment.PositionBytes;
+//                positionPercentage = (float) startSegment.PositionBytes/(float) Length;
+//            }
+//
+//            //Console.WriteLine("WaveFormControl - MouseMove - position: {0} startSegment.positionbyttes: {1} endSegment.positionbytes: {2}", position, startSegment.PositionBytes, endSegment.PositionBytes);
+//            _segmentDragging.PositionBytes = position;
+//
+//            if(mouseUp)
+//                OnChangedSegmentPosition(_segmentDragging, positionPercentage);
+//            else
+//                OnChangingSegmentPosition(_segmentDragging, positionPercentage);
         }
 
         public void MouseLeave()
@@ -902,15 +898,10 @@ namespace Sessions.GenericControls.Controls
         private BasicRectangle GetCurrentLoopRect()
         {
             var rect = new BasicRectangle();
-            var startSegment = _loop.GetStartSegment();
-            var endSegment = _loop.GetEndSegment();
-
-            if(startSegment == null || endSegment == null)
-                return rect;
 
             // Zoom...
-            float startPct = startSegment.PositionBytes/(float) Length;
-            float endPct = endSegment.PositionBytes/(float) Length;
+            float startPct = _loop.StartPosition/(float) Length;
+            float endPct = _loop.EndPosition/(float) Length;
             float x = (startPct * Frame.Width * Zoom) - ContentOffset.X;
             float width = endPct * Frame.Width * Zoom;
             return new BasicRectangle(x, 0, width, Frame.Height);

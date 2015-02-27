@@ -20,15 +20,16 @@ using System.Collections.Generic;
 using Sessions.Library.Objects;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.Library.Services.Interfaces
 {
     public delegate void ReceivedIndex(Exception ex);
     public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
     public delegate void DownloadAudioFileStatus(SyncClientDownloadAudioFileProgressEntity entity);
-    public delegate void GetEQPresetsCompleted(List<EQPreset> presets);
+    public delegate void GetEQPresetsCompleted(List<SSPEQPreset> presets);
     public delegate void GetMarkersCompleted(List<Marker> markers, Guid audioFileId);
-    public delegate void GetLoopsCompleted(List<Loop> loops, Guid audioFileId);
+    public delegate void GetLoopsCompleted(List<SSPLoop> loops, Guid audioFileId);
 
     /// <summary>
     /// Interface for the SyncClientService class.

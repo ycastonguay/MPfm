@@ -67,7 +67,7 @@ namespace Sessions.MVP.Presenters
                 // Create marker and add to database
                 Marker marker = new Marker();
                 marker.Name = markerName;
-                marker.PositionBytes = _playerService.GetPosition().bytes;
+                marker.PositionBytes = _playerService.GetPosition().Bytes;
                 marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, audioFile.BitsPerSample, 2);
                 var ms = ConvertAudio.ToMS(marker.PositionSamples, audioFile.SampleRate);
                 marker.Position = ConvertAudio.ToTimeString(ms);

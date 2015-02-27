@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views
 {
@@ -33,7 +34,7 @@ namespace Sessions.MVP.Views
         Action<Guid, string> OnExportPreset { get; set; }
 
         void EqualizerPresetsError(Exception ex);
-        void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed);
+        void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed);
         void RefreshOutputMeter(float[] dataLeft, float[] dataRight);
         void RefreshVolume(float volume);
 	}

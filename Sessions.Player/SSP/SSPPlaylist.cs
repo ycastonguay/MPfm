@@ -80,9 +80,9 @@ namespace Sessions.Player
 
         public AudioFile GetItemAt(int index)
         {   
-            var item = new SSP_PLAYLISTITEM();
-            SSP.SSP_Playlist_GetItemAt(index, ref item);
-            if (string.IsNullOrEmpty(item.filePath))
+            var item = new SSPPlaylistItem();
+            SSP.SSP_Playlist_GetItemAt(index, ref item.Struct);
+            if (string.IsNullOrEmpty(item.FilePath))
                 return null;
 
             var audioFile = _audioFiles.RequestItem(item);
@@ -96,12 +96,12 @@ namespace Sessions.Player
 
         public void RemoveItemAt(int index)
         {
-            var item = new SSP_PLAYLISTITEM();
-            SSP.SSP_Playlist_GetItemAt(index, ref item);
-            if (string.IsNullOrEmpty(item.filePath))
+            var item = new SSPPlaylistItem();
+            SSP.SSP_Playlist_GetItemAt(index, ref item.Struct);
+            if (string.IsNullOrEmpty(item.FilePath))
                 return;
 
-            _audioFiles.RemoveItem(item.filePath); // is this really what we want?
+            _audioFiles.RemoveItem(item.FilePath); // is this really what we want?
             SSP.SSP_Playlist_RemoveItemAt(index);
         }
 

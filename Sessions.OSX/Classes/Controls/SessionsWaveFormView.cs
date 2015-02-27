@@ -30,6 +30,7 @@ using Sessions.OSX.Classes.Helpers;
 using Sessions.GenericControls.Basics;
 using System.Diagnostics;
 using Sessions.GenericControls.Services;
+using org.sessionsapp.player;
 
 namespace Sessions.OSX.Classes.Controls
 {
@@ -129,8 +130,8 @@ namespace Sessions.OSX.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
-        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
-        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
+//        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+//        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
         public event WaveFormControl.ContentOffsetChanged OnContentOffsetChanged;
 
         [Export("init")]
@@ -152,8 +153,8 @@ namespace Sessions.OSX.Classes.Controls
             _control = new WaveFormControl();    
             _control.OnChangePosition += (positionPercentage) => OnChangePosition(positionPercentage);
             _control.OnChangeSecondaryPosition += (positionPercentage) => OnChangeSecondaryPosition(positionPercentage);
-            _control.OnChangingSegmentPosition += (segment, positionPercentage) => OnChangingSegmentPosition(segment, positionPercentage);
-            _control.OnChangedSegmentPosition += (segment, positionPercentage) => OnChangedSegmentPosition(segment, positionPercentage);
+//            _control.OnChangingSegmentPosition += (segment, positionPercentage) => OnChangingSegmentPosition(segment, positionPercentage);
+//            _control.OnChangedSegmentPosition += (segment, positionPercentage) => OnChangedSegmentPosition(segment, positionPercentage);
             _control.OnContentOffsetChanged += (offset) => OnContentOffsetChanged(offset);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
@@ -243,15 +244,15 @@ namespace Sessions.OSX.Classes.Controls
             _control.SetMarkerPosition(marker);
         }
 
-        public void SetLoop(Loop loop)
+        public void SetLoop(SSPLoop loop)
         {
             _control.SetLoop(loop);
         }
 
-        public void SetSegment(Segment segment)
-        {
-            _control.SetSegment(segment);
-        }
+//        public void SetSegment(Segment segment)
+//        {
+//            _control.SetSegment(segment);
+//        }
 
         public void SetWaveFormLength(long lengthBytes)
         {

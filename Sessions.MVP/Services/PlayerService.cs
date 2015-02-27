@@ -47,8 +47,8 @@ namespace Sessions.MVP.Services
 //        private Playlist _currentQueue;
 //        public Playlist CurrentQueue { get { return _currentQueue; } }
 
-        public Loop Loop { get; private set; }
-        public EQPreset EQPreset { get; private set; }
+        public SSPLoop Loop { get; private set; }
+        public SSPEQPreset EQPreset { get; private set; }
 
         public SSPPlayerState State { get { return _sspPlayer.State; } }
         public bool IsSettingPosition { get { return _sspPlayer.IsSettingPosition; } }
@@ -69,16 +69,11 @@ namespace Sessions.MVP.Services
         public float TimeShifting { get { return _sspPlayer.TimeShifting; } }
         public int PitchShifting { get { return _sspPlayer.PitchShifting; } }
 
-        public SSP_MIXER Mixer { get { return _sspPlayer.Mixer; } }
+        public SSPMixer Mixer { get { return _sspPlayer.Mixer; } }
 
-        public delegate void BPMDetected(float bpm);
-        /// <summary>
-        /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
-        /// </summary>
-        public event BPMDetected OnBPMDetected;
-
-        public event LoopPlaybackStarted OnLoopPlaybackStarted;
-        public event LoopPlaybackStopped OnLoopPlaybackStopped;
+        public event BPMDetectedDelegate OnBPMDetected;
+        public event LoopPlaybackStartedDelegate OnLoopPlaybackStarted;
+        public event LoopPlaybackStoppedDelegate OnLoopPlaybackStopped;
 
         public PlayerService(ITinyMessengerHub messageHub, ILibraryService libraryService, ICloudLibraryService cloudLibraryService)
 		{
@@ -160,7 +155,7 @@ namespace Sessions.MVP.Services
         private void HandleOnBPMDetected(float bpm)
         {
             if (OnBPMDetected != null)
-                OnBPMDetected(bpm);
+                OnBPMDetected(IntPtr.Zero, bpm);
         }
 
         public void InitDevice(Device device, int sampleRate, int bufferSize, int updatePeriod)
@@ -437,7 +432,7 @@ namespace Sessions.MVP.Services
             return _sspPlayer.GetDataAvailable();
         }
 
-        public SSP_POSITION GetPosition()
+        public SSPPosition GetPosition()
         {
             var position = _sspPlayer.GetPosition();
             return position;
@@ -468,16 +463,16 @@ namespace Sessions.MVP.Services
             _sspPlayer.SetPosition(marker.PositionBytes);
         }
         
-        public void StartLoop(Loop loop)
+        public void StartLoop(SSPLoop loop)
         {
             Loop = loop;
-            _sspPlayer.StartLoop(loop.ToSSPLoop());
+            _sspPlayer.StartLoop(loop);
         }
 
-        public void UpdateLoop(Loop loop)
+        public void UpdateLoop(SSPLoop loop)
         {
             Loop = loop;
-            _sspPlayer.UpdateLoop(loop.ToSSPLoop());
+            _sspPlayer.UpdateLoop(loop);
         }
 
         public void StopLoop()
@@ -500,12 +495,12 @@ namespace Sessions.MVP.Services
             _sspPlayer.SetEQPresetBand(band, gain);
         }
 
-        public void ApplyEQPreset(EQPreset preset)
+        public void ApplyEQPreset(SSPEQPreset preset)
         {
             AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = preset.EQPresetId.ToString();
             AppConfigManager.Instance.Save();
 
-            //_sspPlayer.SetEQPreset(preset);
+            _sspPlayer.SetEQPreset(preset);
         }
     }
 }

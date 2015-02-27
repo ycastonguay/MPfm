@@ -27,6 +27,7 @@ using Sessions.GenericControls.Controls;
 using Sessions.iOS.Classes.Controls.Helpers;
 using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.GenericControls.Basics;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -35,7 +36,7 @@ namespace Sessions.iOS.Classes.Controls
     {
         private EqualizerPresetGraphControl _control;
 
-        public EQPreset Preset { get { return _control.Preset; } set { _control.Preset = value; } }
+        public SSPEQPreset Preset { get { return _control.Preset; } set { _control.Preset = value; } }
         public BasicColor ColorBackground { get { return _control.ColorBackground; } set { _control.ColorBackground = value; } }
         public BasicColor ColorForeground { get { return _control.ColorForeground; } set { _control.ColorForeground = value; } }
         public BasicColor ColorMainLine { get { return _control.ColorMainLine; } set { _control.ColorMainLine = value; } }

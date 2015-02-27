@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views
 {
@@ -32,6 +33,6 @@ namespace Sessions.MVP.Views
 
         void EqualizerPresetDetailsError(Exception ex);
         void ShowMessage(string title, string message);
-        void RefreshPreset(EQPreset preset);
+        void RefreshPreset(SSPEQPreset preset);
 	}
 }

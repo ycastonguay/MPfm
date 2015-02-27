@@ -19,27 +19,17 @@ using System;
 using System.Collections.Generic;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views
 {
 	public interface ILoopDetailsView : IBaseView
 	{
         Action OnAddSegment { get; set; }
-        Action<Loop> OnUpdateLoopDetails { get; set; }
-        Action<Segment> OnPunchInSegment { get; set; }
-        Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
-        Action<Segment, float> OnChangingSegmentPosition { get; set; }
-        Action<Segment, float> OnChangedSegmentPosition { get; set; }
-
-        // Legacy
-        Action<Guid, int> OnAddSegmentFromMarker { get; set; }
-        Action<Segment> OnEditSegment { get; set; }
-        Action<Segment> OnDeleteSegment { get; set; }
-        Action<Segment, int> OnChangeSegmentOrder { get; set; }
+        Action<SSPLoop> OnUpdateLoopDetails { get; set; }
 
         void LoopDetailsError(Exception ex);
-        void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength);
-	    void RefreshLoopDetailsSegment(Segment segment, long audioFileLength);
+        void RefreshLoopDetails(SSPLoop loop, AudioFile audioFile, long audioFileLength);
         void RefreshLoopMarkers(IEnumerable<Marker> markers);
 	}
 }

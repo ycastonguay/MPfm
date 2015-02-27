@@ -18,25 +18,21 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views
 {
 	public interface ILoopsView : IBaseView
 	{
         Action OnAddLoop { get; set; }
-        Action<Loop> OnEditLoop { get; set; }
-        Action<Loop> OnSelectLoop { get; set; }
-        Action<Loop> OnDeleteLoop { get; set; }
-        Action<Loop> OnPlayLoop { get; set; }
-        Action<Loop> OnUpdateLoop { get; set; }
+        Action<SSPLoop> OnEditLoop { get; set; }
+        Action<SSPLoop> OnSelectLoop { get; set; }
+        Action<SSPLoop> OnDeleteLoop { get; set; }
+        Action<SSPLoop> OnPlayLoop { get; set; }
+        Action<SSPLoop> OnUpdateLoop { get; set; }
 
-        Action<Segment> OnPunchInLoopSegment { get; set; }
-        Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
-        Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
-    
         void LoopError(Exception ex);
-        void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength);
-	    void RefreshCurrentlyPlayingLoop(Loop loop);
-        void RefreshLoops(List<Loop> loops);
+        void RefreshCurrentlyPlayingLoop(SSPLoop loop);
+        void RefreshLoops(List<SSPLoop> loops);
 	}
 }

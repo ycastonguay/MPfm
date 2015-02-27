@@ -25,6 +25,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -56,26 +57,26 @@ namespace Sessions.iOS
 
 		public Action OnAddSegment { get; set; }
 		public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
-		public Action<Segment> OnEditSegment { get; set; }
-		public Action<Segment> OnDeleteSegment { get; set; }
-		public Action<Loop> OnUpdateLoopDetails { get; set; }
-		public Action<Segment, int> OnChangeSegmentOrder { get; set; }
-		public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
-		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
-        public Action<Segment> OnPunchInSegment { get; set; }
-        public Action<Segment, float> OnChangedSegmentPosition { get; set; }		
+//		public Action<Segment> OnEditSegment { get; set; }
+//		public Action<Segment> OnDeleteSegment { get; set; }
+		public Action<SSPLoop> OnUpdateLoopDetails { get; set; }
+//		public Action<Segment, int> OnChangeSegmentOrder { get; set; }
+//		public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
+//		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
+//        public Action<Segment> OnPunchInSegment { get; set; }
+//        public Action<Segment, float> OnChangedSegmentPosition { get; set; }		
 
 		public void LoopDetailsError(Exception ex)
 		{
 		}
 
-        public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
+        public void RefreshLoopDetails(SSPLoop loop, AudioFile audioFile, long audioFileLength)
 		{
 		}
 		
-        public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
-        {
-        }		
+//        public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
+//        {
+//        }		
 
         public void RefreshLoopMarkers(System.Collections.Generic.IEnumerable<Marker> markers)
         {

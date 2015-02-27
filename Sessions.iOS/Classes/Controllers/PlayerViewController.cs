@@ -236,8 +236,8 @@ namespace Sessions.iOS.Classes.Controllers
                 _isPositionChanging = true;
                 _lastSliderPositionValue = sliderPosition.Value / 100;
                 var entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
-                lblPosition.Text = entity.str;
-                scrollViewWaveForm.SetSecondaryPosition(entity.bytes);
+                lblPosition.Text = entity.Str;
+                scrollViewWaveForm.SetSecondaryPosition(entity.Bytes);
             };
             sliderPosition.TouchesEndedEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
@@ -583,7 +583,7 @@ namespace Sessions.iOS.Classes.Controllers
 		public Action OnOpenEffects { get; set; }
         public Action OnOpenSelectAlbumArt { get; set; }
         public Action OnPlayerViewAppeared { get; set; }
-        public Func<float, SSP_POSITION> OnPlayerRequestPosition { get; set; }
+        public Func<float, SSPPosition> OnPlayerRequestPosition { get; set; }
         public Action<byte[]> OnApplyAlbumArtToSong { get; set; }
         public Action<byte[]> OnApplyAlbumArtToAlbum { get; set; }
 
@@ -600,17 +600,17 @@ namespace Sessions.iOS.Classes.Controllers
             AddScrollView((UIViewController)view);
         }
 
-        public void RefreshPlayerPosition(SSP_POSITION position)
+        public void RefreshPlayerPosition(SSPPosition position)
         {
             InvokeOnMainThread(() => {
-                _currentPositionMS = position.ms;
+                _currentPositionMS = position.MS;
                 if(!_isPositionChanging)
                 {
-                    lblPosition.Text = position.str;
-                    sliderPosition.SetPosition(((float)position.bytes / (float)_currentSongInfo.AudioFile.LengthBytes) * 10000f);
+                    lblPosition.Text = position.Str;
+                    sliderPosition.SetPosition(((float)position.Bytes / (float)_currentSongInfo.AudioFile.LengthBytes) * 10000f);
                 }
 
-                scrollViewWaveForm.SetPosition(position.bytes);
+                scrollViewWaveForm.SetPosition(position.Bytes);
             });
         }
 
@@ -632,7 +632,7 @@ namespace Sessions.iOS.Classes.Controllers
 			InvokeOnMainThread(() => scrollViewWaveForm.SetActiveMarker(markerId));
 		}
 
-        public void RefreshLoops(IEnumerable<Loop> loops)
+        public void RefreshLoops(IEnumerable<SSPLoop> loops)
         {
         }
 

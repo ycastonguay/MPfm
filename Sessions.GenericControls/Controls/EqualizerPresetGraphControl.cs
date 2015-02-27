@@ -22,6 +22,7 @@ using Sessions.GenericControls.Controls.Base;
 using Sessions.GenericControls.Graphics;
 using Sessions.Player.Objects;
 using System.Collections.Generic;
+using org.sessionsapp.player;
 
 namespace Sessions.GenericControls.Controls
 {
@@ -94,8 +95,8 @@ namespace Sessions.GenericControls.Controls
             }
         }
 
-        private EQPreset _preset;
-        public EQPreset Preset
+        private SSPEQPreset _preset;
+        public SSPEQPreset Preset
         {
             get
             {
@@ -182,8 +183,8 @@ namespace Sessions.GenericControls.Controls
                 // Draw text
                 string fontFace = "HelveticaNeue-Bold";
                 int fontSize = 8;
-                string leftText = Preset.Bands[0].CenterString;
-                string rightText = Preset.Bands[Preset.Bands.Count - 1].CenterString;
+                string leftText = Preset.Bands[0].Label;
+                string rightText = Preset.Bands[Preset.Bands.Length - 1].Label;
                 var sizeLeftText = context.MeasureText(leftText, new BasicRectangle(), fontFace, fontSize);
                 var sizeRightText = context.MeasureText(rightText, new BasicRectangle(), fontFace, fontSize);
                 context.DrawText(leftText, new BasicPoint(6 + 4, Frame.Height - sizeLeftText.Height - (padding / 2)), ColorForeground, fontFace, fontSize);
@@ -199,7 +200,7 @@ namespace Sessions.GenericControls.Controls
                 float ratio = (band.Gain + 6) / (padding * 2);
                 float y = padding + heightAvailable - (ratio * (Frame.Height - (padding * 2)));
                 points.Add(new BasicPoint(x, y));
-                x += (Frame.Width - (padding * 2)) / (Preset.Bands.Count - 1);
+                x += (Frame.Width - (padding * 2)) / (Preset.Bands.Length - 1);
             }
             context.DrawLine(points, _penMainLine, true, false, false);
         }

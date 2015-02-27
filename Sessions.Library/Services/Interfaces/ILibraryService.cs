@@ -21,6 +21,7 @@ using Sessions.Library.Objects;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using org.sessionsapp.player;
 
 namespace Sessions.Library.Services.Interfaces
 {
@@ -69,24 +70,16 @@ namespace Sessions.Library.Services.Interfaces
         void UpdateMarker(Marker marker);
         void DeleteMarker(Guid markerId);
 
-        Loop SelectLoop(Guid LoopId);
-        Loop SelectLoopIncludingSegments(Guid loopId);
-        List<Loop> SelectLoops(Guid audioFileId);
-        List<Loop> SelectLoopsIncludingSegments(Guid audioFileId);
-        void InsertLoop(Loop Loop);
-        void UpdateLoop(Loop Loop);
+        SSPLoop SelectLoop(Guid LoopId);
+        List<SSPLoop> SelectLoops(Guid audioFileId);
+        void InsertLoop(SSPLoop Loop);
+        void UpdateLoop(SSPLoop Loop);
         void DeleteLoop(Guid LoopId);
 
-        Segment SelectSegment(Guid segmentId);
-        List<Segment> SelectSegments(Guid loopId);
-        void InsertSegment(Segment segment);
-        void UpdateSegment(Segment segment);
-        void DeleteSegment(Guid segmentId);
-
-        EQPreset SelectEQPreset(Guid presetId);
-        IEnumerable<EQPreset> SelectEQPresets();
-        void InsertEQPreset(EQPreset preset);
-        void UpdateEQPreset(EQPreset preset);
+        SSPEQPreset SelectEQPreset(Guid presetId);
+        IEnumerable<SSPEQPreset> SelectEQPresets();
+        void InsertEQPreset(SSPEQPreset preset);
+        void UpdateEQPreset(SSPEQPreset preset);
         void DeleteEQPreset(Guid presetId);
     }
 }

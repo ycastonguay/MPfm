@@ -51,11 +51,11 @@ namespace Sessions.OSX
         private bool _isPlayerPositionChanging = false;
         private bool _isScrollViewWaveFormChangingSecondaryPosition = false;
         private List<Marker> _markers = new List<Marker>();
-        private List<Loop> _loops = new List<Loop>();
+        private List<SSPLoop> _loops = new List<SSPLoop>();
         private List<Marker> _segmentMarkers = new List<Marker>();
         private Marker _currentMarker;
-        private Loop _currentLoop;
-        private Segment _currentSegment;
+        private SSPLoop _currentLoop;
+        //private Segment _currentSegment;
         private SongInformationEntity _currentSongInfo;
         private SSPPlayerState _playerStatus;
         private LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
@@ -114,8 +114,8 @@ namespace Sessions.OSX
             viewUpdateLibrary.Hidden = true;
             waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
-            waveFormScrollView.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
-            waveFormScrollView.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
+//            waveFormScrollView.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
+//            waveFormScrollView.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
 
             viewAlbumArt.OnButtonSelected += HandleOnSelectAlbumArtButtonSelected;
@@ -713,8 +713,8 @@ namespace Sessions.OSX
         {
             chkSegmentLinkToMarker.Value = false;
             comboSegmentMarker.Hidden = true;
-            if (OnChangePositionSegmentDetails != null)
-                OnChangePositionSegmentDetails(percentage);
+//            if (OnChangePositionSegmentDetails != null)
+//                OnChangePositionSegmentDetails(percentage);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -810,61 +810,61 @@ namespace Sessions.OSX
 
         private void EditSegment()
         {
-            if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
-                return;
-
-            OnEditSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
-            viewLoopDetails.Hidden = true;
-            viewLoops.Hidden = true;
-            ShowSegmentDetails(true);
+//            if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
+//                return;
+//
+//            OnEditSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
+//            viewLoopDetails.Hidden = true;
+//            viewLoops.Hidden = true;
+//            ShowSegmentDetails(true);
         }
 
         partial void actionRemoveSegment(NSObject sender)
         {
-            if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
-                return;
-
-            using(var alert = new NSAlert())
-            {
-                alert.MessageText = "Segment will be removed";
-                alert.InformativeText = "Are you sure you wish to remove this segment?";
-                alert.AlertStyle = NSAlertStyle.Warning;
-                var btnOK = alert.AddButton("OK");
-                btnOK.Activated += (sender2, e2) => {
-                    NSApplication.SharedApplication.StopModal();
-                    OnDeleteSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
-                    EnableSegmentButtons(false);
-                };
-                var btnCancel = alert.AddButton("Cancel");
-                btnCancel.Activated += (sender3, e3) => {
-                    NSApplication.SharedApplication.StopModal();
-                };
-                alert.RunModal();
-            }
+//            if(tableSegments.SelectedRow < 0 || tableSegments.SelectedRow >= _currentLoop.Segments.Count)
+//                return;
+//
+//            using(var alert = new NSAlert())
+//            {
+//                alert.MessageText = "Segment will be removed";
+//                alert.InformativeText = "Are you sure you wish to remove this segment?";
+//                alert.AlertStyle = NSAlertStyle.Warning;
+//                var btnOK = alert.AddButton("OK");
+//                btnOK.Activated += (sender2, e2) => {
+//                    NSApplication.SharedApplication.StopModal();
+//                    OnDeleteSegment(_currentLoop.Segments[tableSegments.SelectedRow]);
+//                    EnableSegmentButtons(false);
+//                };
+//                var btnCancel = alert.AddButton("Cancel");
+//                btnCancel.Activated += (sender3, e3) => {
+//                    NSApplication.SharedApplication.StopModal();
+//                };
+//                alert.RunModal();
+//            }
         }
 
         partial void actionBackSegmentDetails(NSObject sender)
         {
-            viewLoopDetails.Hidden = false;
-            ShowSegmentDetails(false);
-            viewLoops.Hidden = true;
-
-            _currentSegment.MarkerId = Guid.Empty;
-            if(chkSegmentLinkToMarker.Value && comboSegmentMarker.IndexOfSelectedItem >= 0)
-                _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
-
-            OnUpdateSegmentDetails(_currentSegment);
-            _currentSegment = null;
+//            viewLoopDetails.Hidden = false;
+//            ShowSegmentDetails(false);
+//            viewLoops.Hidden = true;
+//
+//            _currentSegment.MarkerId = Guid.Empty;
+//            if(chkSegmentLinkToMarker.Value && comboSegmentMarker.IndexOfSelectedItem >= 0)
+//                _currentSegment.MarkerId = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem].MarkerId;
+//
+//            OnUpdateSegmentDetails(_currentSegment);
+//            _currentSegment = null;
         }
 
         partial void actionPunchInSegment(NSObject sender)
         {
-            if(_currentSegment == null)
-                return;
-
-            chkSegmentLinkToMarker.Value = false;
-            comboSegmentMarker.Hidden = true;
-            OnPunchInPositionSegmentDetails();
+//            if(_currentSegment == null)
+//                return;
+//
+//            chkSegmentLinkToMarker.Value = false;
+//            comboSegmentMarker.Hidden = true;
+//            OnPunchInPositionSegmentDetails();
         }
 
         partial void actionSegmentMarker(NSObject sender)
@@ -879,50 +879,50 @@ namespace Sessions.OSX
 
         private void SetSegmentLinkedMarker()
         {
-            if (_segmentMarkers.Count == 0)
-            {
-                chkSegmentLinkToMarker.Value = false;
-                CocoaHelper.ShowAlert("Cannot link to marker", "There are no markers to link to this segment.", NSAlertStyle.Critical);
-                return;
-            }
-
-            comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
-            if (chkSegmentLinkToMarker.Value)
-            {
-                var marker = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem];
-                OnLinkToMarkerSegmentDetails(marker.MarkerId);
-            }
-            else
-            {
-                OnLinkToMarkerSegmentDetails(Guid.Empty);
-            }
+//            if (_segmentMarkers.Count == 0)
+//            {
+//                chkSegmentLinkToMarker.Value = false;
+//                CocoaHelper.ShowAlert("Cannot link to marker", "There are no markers to link to this segment.", NSAlertStyle.Critical);
+//                return;
+//            }
+//
+//            comboSegmentMarker.Hidden = !chkSegmentLinkToMarker.Value;
+//            if (chkSegmentLinkToMarker.Value)
+//            {
+//                var marker = _segmentMarkers[comboSegmentMarker.IndexOfSelectedItem];
+//                OnLinkToMarkerSegmentDetails(marker.MarkerId);
+//            }
+//            else
+//            {
+//                OnLinkToMarkerSegmentDetails(Guid.Empty);
+//            }
         }
 
-        private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
-        {
-            if (!viewLoopDetails.Hidden)
-            {
-                OnChangingSegmentPosition(segment, positionPercentage);
-            }
-            else if (!viewSegmentDetails.Hidden)
-            {
-                if (segment.SegmentId == _currentSegment.SegmentId)
-                    ChangePositionSegmentDetails(positionPercentage);
-            }
-        }
-
-        private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
-        {
-            if (!viewLoopDetails.Hidden)
-            {
-                OnChangedSegmentPosition(segment, positionPercentage);
-            }
-            else if (!viewSegmentDetails.Hidden)
-            {
-                if(segment.SegmentId == _currentSegment.SegmentId)
-                    ChangePositionSegmentDetails(positionPercentage);
-            }
-        }
+//        private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
+//        {
+//            if (!viewLoopDetails.Hidden)
+//            {
+//                OnChangingSegmentPosition(segment, positionPercentage);
+//            }
+//            else if (!viewSegmentDetails.Hidden)
+//            {
+//                if (segment.SegmentId == _currentSegment.SegmentId)
+//                    ChangePositionSegmentDetails(positionPercentage);
+//            }
+//        }
+//
+//        private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
+//        {
+//            if (!viewLoopDetails.Hidden)
+//            {
+//                OnChangedSegmentPosition(segment, positionPercentage);
+//            }
+//            else if (!viewSegmentDetails.Hidden)
+//            {
+//                if(segment.SegmentId == _currentSegment.SegmentId)
+//                    ChangePositionSegmentDetails(positionPercentage);
+//            }
+//        }
 
         partial void actionGoToMarker(NSObject sender)
         {
@@ -1185,7 +1185,7 @@ namespace Sessions.OSX
             _isScrollViewWaveFormChangingSecondaryPosition = true;
             var requestedPosition = OnPlayerRequestPosition(position);
             trackBarPosition.Value = (int)(position * 1000);
-            lblPosition.StringValue = requestedPosition.str;
+            lblPosition.StringValue = requestedPosition.Str;
         }
 
         private void HandleOnTrackBarValueChanged()
@@ -1195,8 +1195,8 @@ namespace Sessions.OSX
 
             var position = OnPlayerRequestPosition((float)trackBarPosition.Value/1000f);
             //Console.WriteLine("HandleOnTrackBarValueChanged - trackBarPosition.Value: {0} position: {1}", trackBarPosition.Value, position.Position);
-            lblPosition.StringValue = position.str;
-            waveFormScrollView.SetSecondaryPosition(position.bytes);
+            lblPosition.StringValue = position.Str;
+            waveFormScrollView.SetSecondaryPosition(position.Bytes);
         }
 
         private void HandleOnTrackBarMouseDown()
@@ -1230,8 +1230,8 @@ namespace Sessions.OSX
                 return _markers == null ? 0 : _markers.Count;
             else if(tableView.Identifier == "tableLoops")
                 return _loops == null ? 0 : _loops.Count;
-            else if(tableView.Identifier == "tableSegments")
-                return _currentLoop == null ? 0 : _currentLoop.Segments.Count;
+//            else if(tableView.Identifier == "tableSegments")
+//                return _currentLoop == null ? 0 : _currentLoop.Segments.Count;
 
             return 0;
         }
@@ -1279,8 +1279,8 @@ namespace Sessions.OSX
                 }
                 else if (tableColumn.Identifier.ToString() == "columnLoopName")
                     view.TextField.StringValue = _loops[row].Name;
-                else if (tableColumn.Identifier.ToString() == "columnLoopSegments")
-                    view.TextField.StringValue = _loops[row].Segments.Count.ToString();
+//                else if (tableColumn.Identifier.ToString() == "columnLoopSegments")
+//                    view.TextField.StringValue = _loops[row].Segments.Count.ToString();
                 else if (tableColumn.Identifier.ToString() == "columnLoopTotalLength")
                     view.TextField.StringValue = "0:00";
                 else
@@ -1298,19 +1298,19 @@ namespace Sessions.OSX
                 }
                 else if (tableColumn.Identifier.ToString() == "columnSegmentMarker")
                 {
-                    string markerName = string.Empty;
-                    if (_currentLoop.Segments[row].MarkerId != Guid.Empty)
-                    {
-                        var marker = _markers.FirstOrDefault(x => x.MarkerId == _currentLoop.Segments[row].MarkerId);
-                        if (marker != null)
-                            markerName = marker.Name;
-                    }
-                    view.TextField.StringValue = markerName;
+//                    string markerName = string.Empty;
+//                    if (_currentLoop.Segments[row].MarkerId != Guid.Empty)
+//                    {
+//                        var marker = _markers.FirstOrDefault(x => x.MarkerId == _currentLoop.Segments[row].MarkerId);
+//                        if (marker != null)
+//                            markerName = marker.Name;
+//                    }
+//                    view.TextField.StringValue = markerName;
                 }
-                else if (tableColumn.Identifier.ToString() == "columnSegmentPosition")
-                    view.TextField.StringValue = _currentLoop.Segments[row].Position;
-                else
-                    view.TextField.StringValue = string.Empty;
+//                else if (tableColumn.Identifier.ToString() == "columnSegmentPosition")
+//                    view.TextField.StringValue = _currentLoop.Segments[row].Position;
+//                else
+//                    view.TextField.StringValue = string.Empty;
             }
 
             view.TextField.Frame = new RectangleF(adjustXPadding ? -2 : 0, -2, view.Frame.Width, view.Frame.Height);
@@ -1357,15 +1357,15 @@ namespace Sessions.OSX
             Console.WriteLine(">>> AcceptDropForRow - originRow: {0} newRow: {1}", originRow, row);
             if (operation == NSTableViewDropOperation.Above)
             {
-                if (info.DraggingSource == tableSegments)
-                    OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
-                else if (info.DraggingSource == tableMarkers)
-                    OnAddSegmentFromMarker(_markers[originRow].MarkerId, row);
+//                if (info.DraggingSource == tableSegments)
+//                    OnChangeSegmentOrder(_currentLoop.Segments[originRow], row);
+//                else if (info.DraggingSource == tableMarkers)
+//                    OnAddSegmentFromMarker(_markers[originRow].MarkerId, row);
             }
             else if (operation == NSTableViewDropOperation.On)
             {
-                if (info.DraggingSource == tableMarkers)
-                    OnLinkSegmentToMarker(_currentLoop.Segments[row], _markers[originRow].MarkerId);
+//                if (info.DraggingSource == tableMarkers)
+//                    OnLinkSegmentToMarker(_currentLoop.Segments[row], _markers[originRow].MarkerId);
             }
 
             return true;
@@ -1497,7 +1497,7 @@ namespace Sessions.OSX
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetVolume { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, SSP_POSITION> OnPlayerRequestPosition { get; set; }
+        public Func<float, SSPPosition> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }        
         public Action OnPlayerShuffle { get; set; }
         public Action OnPlayerRepeat { get; set; }
@@ -1560,7 +1560,7 @@ namespace Sessions.OSX
             });
         }
 
-		public void RefreshPlayerPosition(SSP_POSITION position)
+		public void RefreshPlayerPosition(SSPPosition position)
         {
             if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
@@ -1571,17 +1571,17 @@ namespace Sessions.OSX
             InvokeOnMainThread(() => {
 
                 // The wave form scroll view isn't aware of floating point
-                long positionBytes = position.bytes;
+                long positionBytes = position.Bytes;
                 if(_currentSongInfo.UseFloatingPoint)
                     positionBytes /= 2;
 
-                lblPosition.StringValue = position.str;
+                lblPosition.StringValue = position.Str;
                 waveFormScrollView.SetPosition(positionBytes);
 
                 long length = _currentSongInfo.AudioFile.LengthBytes;
                 if(length > 0)
                 {
-                    trackBarPosition.ValueWithoutEvent = (int)(((float)position.bytes / (float)length) * 1000);
+                    trackBarPosition.ValueWithoutEvent = (int)(((float)position.Bytes / (float)length) * 1000);
                 }
             });
 		}
@@ -1701,7 +1701,7 @@ namespace Sessions.OSX
         {
         }
 
-        public void RefreshLoops(IEnumerable<Loop> loops)
+        public void RefreshLoops(IEnumerable<SSPLoop> loops)
         {
         }
 
@@ -2027,22 +2027,22 @@ namespace Sessions.OSX
         #region ILoopsView implementation
 
         public Action OnAddLoop { get; set; }
-        public Action<Loop> OnEditLoop { get; set; }
-        public Action<Loop> OnSelectLoop { get; set; }
-        public Action<Loop> OnDeleteLoop { get; set; }
-        public Action<Loop> OnUpdateLoop { get; set; }
-        public Action<Loop> OnPlayLoop { get; set; }
+        public Action<SSPLoop> OnEditLoop { get; set; }
+        public Action<SSPLoop> OnSelectLoop { get; set; }
+        public Action<SSPLoop> OnDeleteLoop { get; set; }
+        public Action<SSPLoop> OnUpdateLoop { get; set; }
+        public Action<SSPLoop> OnPlayLoop { get; set; }
 
-        public Action<Segment> OnPunchInLoopSegment { get; set; }
-        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
-        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
-
+//        public Action<Segment> OnPunchInLoopSegment { get; set; }
+//        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
+//        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
+//
         public void LoopError(Exception ex)
         {
             ShowError(ex);
         }
 
-        public void RefreshLoops(List<Loop> loops)
+        public void RefreshLoops(List<SSPLoop> loops)
         {
             InvokeOnMainThread(delegate {
                 _loops = loops.ToList();
@@ -2059,15 +2059,15 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
-        {
-            InvokeOnMainThread(delegate {
-                
-                //tableLoops.ReloadData(NSIndexSet.FromIndex(
-            });
-        }
+//        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
+//        {
+//            InvokeOnMainThread(delegate {
+//                
+//                //tableLoops.ReloadData(NSIndexSet.FromIndex(
+//            });
+//        }
 
-        public void RefreshCurrentlyPlayingLoop(Loop loop)
+        public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
         {
         }
 
@@ -2077,43 +2077,43 @@ namespace Sessions.OSX
 
         public Action OnAddSegment { get; set; }
         public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
-        public Action<Segment> OnEditSegment { get; set; }
-        public Action<Segment> OnDeleteSegment { get; set; }
-        public Action<Loop> OnUpdateLoopDetails { get; set; }
-        public Action<Segment, int> OnChangeSegmentOrder { get; set; }
-        public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
-		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
-        public Action<Segment, float> OnChangedSegmentPosition { get; set; }
-		public Action<Segment> OnPunchInSegment { get; set; }
+//        public Action<Segment> OnEditSegment { get; set; }
+//        public Action<Segment> OnDeleteSegment { get; set; }
+        public Action<SSPLoop> OnUpdateLoopDetails { get; set; }
+//        public Action<Segment, int> OnChangeSegmentOrder { get; set; }
+//        public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
+//		public Action<Segment, float> OnChangingSegmentPosition { get; set; }
+//        public Action<Segment, float> OnChangedSegmentPosition { get; set; }
+//		public Action<Segment> OnPunchInSegment { get; set; }
         
         public void LoopDetailsError(Exception ex)
         {
             ShowError(ex);
         }
         
-        public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
+        public void RefreshLoopDetails(SSPLoop loop, AudioFile audioFile, long audioFileLength)
         {
-            InvokeOnMainThread(delegate {
-                _currentLoop = loop;
-                txtLoopName.StringValue = loop.Name;
-                waveFormScrollView.SetLoop(loop);
-                waveFormScrollView.FocusZoomOnLoop(_currentLoop);
-
-                int row = tableSegments.SelectedRow;
-                var selectedSegment = row >= 0 && row <= _currentLoop.Segments.Count - 1 ? _currentLoop.Segments[row] : null;
-                tableSegments.ReloadData();
-                if(selectedSegment != null)
-                {
-                    int newRow = _currentLoop.Segments.IndexOf(selectedSegment);
-                    if(newRow >= 0)
-                        tableSegments.SelectRow(newRow, false);
-                }
-            });
+//            InvokeOnMainThread(delegate {
+//                _currentLoop = loop;
+//                txtLoopName.StringValue = loop.Name;
+//                waveFormScrollView.SetLoop(loop);
+//                waveFormScrollView.FocusZoomOnLoop(_currentLoop);
+//
+//                int row = tableSegments.SelectedRow;
+//                var selectedSegment = row >= 0 && row <= _currentLoop.Segments.Count - 1 ? _currentLoop.Segments[row] : null;
+//                tableSegments.ReloadData();
+//                if(selectedSegment != null)
+//                {
+//                    int newRow = _currentLoop.Segments.IndexOf(selectedSegment);
+//                    if(newRow >= 0)
+//                        tableSegments.SelectRow(newRow, false);
+//                }
+//            });
         }
 		
-		public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
-        {
-        }
+//		public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
+//        {
+//        }
 		
 		public void RefreshLoopMarkers(IEnumerable<Marker> markers)
 		{
@@ -2136,65 +2136,6 @@ namespace Sessions.OSX
         public void RefreshLoopPlayback(LoopPlaybackEntity entity)
         {
             InvokeOnMainThread(delegate {
-            });
-        }
-
-        #endregion
-
-        #region ISegmentDetailsView implementation
-
-        public Action<float> OnChangePositionSegmentDetails { get; set; }
-        public Action OnPunchInPositionSegmentDetails { get; set; }
-        public Action<Segment> OnUpdateSegmentDetails { get; set; }
-        public Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
-
-        public void SegmentDetailsError(Exception ex)
-        {
-            ShowError(ex);
-        }
-        
-        public void RefreshSegmentDetails(Segment segment, long audioFileLength)
-        {
-            //Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
-            _currentSegment = segment;
-            InvokeOnMainThread(delegate {
-                waveFormScrollView.SetSegment(segment);
-
-                chkSegmentLinkToMarker.Value = segment.MarkerId != Guid.Empty;
-                comboSegmentMarker.Hidden = segment.MarkerId == Guid.Empty;
-                int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
-                if(index >= 0)
-                    comboSegmentMarker.SelectItem(index);
-
-                float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
-                trackBarSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-
-                lblSegmentPositionValue.StringValue = segment.Position;
-            });
-        }
-
-        public void RefreshSegmentPosition(string position, float positionPercentage)
-        {
-            //Console.WriteLine("RefreshSegmentPosition - position: {0} positionPercentage: {1}", position, positionPercentage);
-            InvokeOnMainThread(delegate {
-                lblSegmentPositionValue.StringValue = position;
-                trackBarSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-
-                if(_currentSegment != null)
-                {
-                    _currentSegment.Position = position;
-                    waveFormScrollView.SetSegment(_currentSegment);
-                }
-            });
-        }
-
-        public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
-        {
-            InvokeOnMainThread(delegate {
-                _segmentMarkers = markers.ToList();
-                comboSegmentMarker.RemoveAllItems();
-                foreach(var marker in markers)
-                    comboSegmentMarker.AddItem(marker.Name);
             });
         }
 

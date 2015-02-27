@@ -26,6 +26,7 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Core;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.Library.Services
 {
@@ -217,7 +218,7 @@ namespace Sessions.Library.Services
         {
             try
             {
-                var player = Sessions.Player.Player.CurrentPlayer;
+                var player = Sessions.Player.SSPPlayer.CurrentPlayer;
                 if (player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not process remote command; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);
@@ -228,7 +229,7 @@ namespace Sessions.Library.Services
                 switch (remoteCommand.ToUpper())
                 {
                     case "PLAY":
-                        if (player.IsPaused)
+                        if (player.State == SSPPlayerState.Paused)
                             player.Pause();
                         else
                             player.Play();
@@ -248,7 +249,7 @@ namespace Sessions.Library.Services
                     case "GOTO":
                         int gotoIndex = -1;
                         int.TryParse(split[3], out gotoIndex);
-                        if (gotoIndex == -1 || gotoIndex > player.Playlist.Items.Count - 1)
+                        if (gotoIndex == -1 || gotoIndex > player.Playlist.Count - 1)
                         {
                             WriteHTMLResponse(httpContext, "<h2>Playlist item index is out of bounds.</h2>", HttpStatusCode.BadRequest);
                             return;
@@ -272,7 +273,7 @@ namespace Sessions.Library.Services
         {
             try
             {
-                var player = Sessions.Player.Player.CurrentPlayer;
+                var player = Sessions.Player.SSPPlayer.CurrentPlayer;
                 if (player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not fetch player metadata; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);
@@ -291,28 +292,28 @@ namespace Sessions.Library.Services
         {
             try
             {
-                var player = Sessions.Player.Player.CurrentPlayer;
-                if(player == null)
-                {
-                    WriteHTMLResponse(httpContext, "<h2>Could not fetch player metadata; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);
-                    return;
-                }
-
-                var metadata = new PlayerMetadata();
-                metadata.CurrentAudioFile = player.Playlist.CurrentItem.AudioFile;
-                metadata.Status = player.IsPlaying ? player.IsPaused ? PlayerMetadata.PlayerStatus.Paused : PlayerMetadata.PlayerStatus.Playing : PlayerMetadata.PlayerStatus.Stopped;
-                metadata.Length = player.Playlist.CurrentItem.LengthString;
-                metadata.PlaylistCount = player.Playlist.Items.Count;
-                metadata.PlaylistIndex = player.Playlist.CurrentItemIndex;
-
-                long bytes = player.GetPosition();
-                long samples = ConvertAudio.ToPCM(bytes, player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-                long ms = ConvertAudio.ToMS(samples, player.Playlist.CurrentItem.AudioFile.SampleRate);
-                string position = ConvertAudio.ToTimeString(ms);
-                metadata.Position = position;
-
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(metadata);
-                WriteJSONResponse(httpContext, json);
+//                var player = Sessions.Player.SSPPlayer.CurrentPlayer;
+//                if(player == null)
+//                {
+//                    WriteHTMLResponse(httpContext, "<h2>Could not fetch player metadata; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);
+//                    return;
+//                }
+//
+//                var metadata = new PlayerMetadata();
+//                metadata.CurrentAudioFile = player.Playlist.CurrentAudioFile;
+//                metadata.Status = player.State == SSPPlayerState.Playing ? player.State == SSPPlayerState.Paused ? PlayerMetadata.PlayerStatus.Paused : PlayerMetadata.PlayerStatus.Playing : PlayerMetadata.PlayerStatus.Stopped;
+//                metadata.Length = player.Playlist.CurrentItem.LengthString;
+//                metadata.PlaylistCount = player.Playlist.Count;
+//                metadata.PlaylistIndex = player.Playlist.CurrentIndex;
+//
+//                long bytes = player.GetPosition();
+//                long samples = ConvertAudio.ToPCM(bytes, player.Playlist.CurrentAudioFile.BitsPerSample, 2);
+//                long ms = ConvertAudio.ToMS(samples, player.Playlist.CurrentAudioFile.SampleRate);
+//                string position = ConvertAudio.ToTimeString(ms);
+//                metadata.Position = position;
+//
+//                string json = Newtonsoft.Json.JsonConvert.SerializeObject(metadata);
+//                WriteJSONResponse(httpContext, json);
             }
             catch(Exception ex)
             {

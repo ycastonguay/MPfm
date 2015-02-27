@@ -32,6 +32,7 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.iOS.Helpers;
 using Sessions.Core;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -39,7 +40,7 @@ namespace Sessions.iOS
     {
         Guid _presetId;
         bool _isPresetModified;
-        EQPreset _preset;
+        SSPEQPreset _preset;
         UIBarButtonItem _btnBack;
         UIBarButtonItem _btnSave;       
         UIBarButtonItem _btnReset;
@@ -214,7 +215,7 @@ namespace Sessions.iOS
         {
             SessionsEqualizerFaderView view = (SessionsEqualizerFaderView)sender;
 
-            var band = _preset.Bands.FirstOrDefault(x => x.CenterString == view.Frequency);
+            var band = _preset.Bands.FirstOrDefault(x => x.Label == view.Frequency);
             band.Gain = e.Value;
 
             _isPresetModified = true;
@@ -249,14 +250,14 @@ namespace Sessions.iOS
             });
         }
 
-        public void RefreshPreset(EQPreset preset)
+        public void RefreshPreset(SSPEQPreset preset)
         {
             InvokeOnMainThread(() => {
                 _isPresetModified = false;
                 _preset = preset;
                 txtPresetName.Text = preset.Name;
-                for(int a = 0; a < preset.Bands.Count; a++)
-                    _faderViews[a].SetValue(preset.Bands[a].CenterString, preset.Bands[a].Gain);
+                for(int a = 0; a < preset.Bands.Length; a++)
+                    _faderViews[a].SetValue(preset.Bands[a].Label, preset.Bands[a].Gain);
 
                 presetGraph.Preset = _preset;
                 presetGraph.SetNeedsDisplay();

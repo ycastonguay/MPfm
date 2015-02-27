@@ -72,7 +72,6 @@ namespace Sessions.OSX.Classes.Delegates
             Bootstrapper.GetContainer().Register<IEditSongMetadataView, EditSongMetadataWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ILoopsView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ILoopDetailsView, MainWindowController>().AsMultiInstance();
-            Bootstrapper.GetContainer().Register<ISegmentDetailsView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMarkersView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMarkerDetailsView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();

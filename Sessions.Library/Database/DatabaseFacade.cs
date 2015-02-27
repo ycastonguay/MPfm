@@ -24,6 +24,7 @@ using Sessions.Library.Objects;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using org.sessionsapp.player;
 
 namespace Sessions.Library.Database
 {
@@ -448,32 +449,32 @@ namespace Sessions.Library.Database
 
         #region Equalizers
 
-        public List<EQPreset> SelectEQPresets()
+        public List<SSPEQPreset> SelectEQPresets()
         {
-            List<EQPreset> eqs = _gateway.Select<EQPreset>("SELECT * FROM EQPresets");
+            var eqs = _gateway.Select<SSPEQPreset>("SELECT * FROM EQPresets");
             return eqs;
         }
 
-        public EQPreset SelectEQPreset(Guid presetId)
+        public SSPEQPreset SelectEQPreset(Guid presetId)
         {
-            EQPreset preset = _gateway.SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE EQPresetId = '" + FormatSQLValue(presetId.ToString()) + "'");
+            var preset = _gateway.SelectOne<SSPEQPreset>("SELECT * FROM EQPresets WHERE EQPresetId = '" + FormatSQLValue(presetId.ToString()) + "'");
             return preset;
         }
 
-        public EQPreset SelectEQPreset(string name)
+        public SSPEQPreset SelectEQPreset(string name)
         {
-            EQPreset preset = _gateway.SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE Name = '" + FormatSQLValue(name) + "'");
+            var preset = _gateway.SelectOne<SSPEQPreset>("SELECT * FROM EQPresets WHERE Name = '" + FormatSQLValue(name) + "'");
             return preset;
         }
 
-        public void InsertEQPreset(EQPreset eq)
+        public void InsertEQPreset(SSPEQPreset eq)
         {
-            _gateway.Insert<EQPreset>(eq, "EQPresets");
+            _gateway.Insert<SSPEQPreset>(eq, "EQPresets");
         }
 
-        public void UpdateEQPreset(EQPreset eq)
+        public void UpdateEQPreset(SSPEQPreset eq)
         {
-            _gateway.Update<EQPreset>(eq, "EQPresets", "EQPresetId", eq.EQPresetId);            
+            _gateway.Update<SSPEQPreset>(eq, "EQPresets", "EQPresetId", eq.EQPresetId);            
         }
 
         public void DeleteEQPreset(Guid eqPresetId)
@@ -554,9 +555,9 @@ namespace Sessions.Library.Database
         /// Selects all loops from the database.
         /// </summary>
         /// <returns>List of Loops</returns>
-        public List<Loop> SelectLoops()
+        public List<SSPLoop> SelectLoops()
         {
-            List<Loop> loops = _gateway.Select<Loop>("SELECT * FROM Loops");
+            var loops = _gateway.Select<SSPLoop>("SELECT * FROM Loops");
             return loops;
         }
 
@@ -565,9 +566,9 @@ namespace Sessions.Library.Database
         /// </summary>
         /// <param name="audioFileId">AudioFile identifier</param>
         /// <returns>List of Loops</returns>
-        public List<Loop> SelectLoops(Guid audioFileId)
+        public List<SSPLoop> SelectLoops(Guid audioFileId)
         {
-            List<Loop> loops = _gateway.Select<Loop>("SELECT * FROM Loops WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
+            var loops = _gateway.Select<SSPLoop>("SELECT * FROM Loops WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
             return loops;
         }
 
@@ -576,9 +577,9 @@ namespace Sessions.Library.Database
         /// </summary>
         /// <param name="loopId">Loop identifier</param>
         /// <returns>Loop</returns>
-        public Loop SelectLoop(Guid loopId)
+        public SSPLoop SelectLoop(Guid loopId)
         {
-            Loop loop = _gateway.SelectOne<Loop>("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
+            var loop = _gateway.SelectOne<SSPLoop>("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
             return loop;
         }
 
@@ -586,18 +587,18 @@ namespace Sessions.Library.Database
         /// Inserts a new loop into the database.
         /// </summary>
         /// <param name="dto">Loop to insert</param>
-        public void InsertLoop(Loop dto)
+        public void InsertLoop(SSPLoop dto)
         {
-            _gateway.Insert<Loop>(dto, "Loops");
+            _gateway.Insert<SSPLoop>(dto, "Loops");
         }
 
         /// <summary>
         /// Updates an existing loop from the database.
         /// </summary>
         /// <param name="dto">Loop to update</param>
-        public void UpdateLoop(Loop dto)
+        public void UpdateLoop(SSPLoop dto)
         {
-            _gateway.Update<Loop>(dto, "Loops", "LoopId", dto.LoopId.ToString());
+            _gateway.Update<SSPLoop>(dto, "Loops", "LoopId", dto.LoopId.ToString());
         }
 
         /// <summary>
@@ -607,43 +608,6 @@ namespace Sessions.Library.Database
         public void DeleteLoop(Guid loopId)
         {            
             _gateway.Delete("Loops", "LoopId", loopId);
-        }
-
-        #endregion
-
-        #region Segments
-
-        public List<Segment> SelectSegments()
-        {
-            var segments = _gateway.Select<Segment>("SELECT * FROM Segments");
-            return segments;
-        }
-
-        public List<Segment> SelectSegments(Guid loopId)
-        {
-            var segments = _gateway.Select<Segment>("SELECT * FROM Segments WHERE LoopId = '" + loopId.ToString() + "' ORDER BY SegmentIndex");
-            return segments;
-        }
-
-        public Segment SelectSegment(Guid loopId)
-        {
-            var loop = _gateway.SelectOne<Segment>("SELECT * FROM Segments WHERE SegmentId = '" + loopId.ToString() + "'");
-            return loop;
-        }
-
-        public void InsertSegment(Segment dto)
-        {
-            _gateway.Insert<Segment>(dto, "Segments");
-        }
-
-        public void UpdateSegment(Segment dto)
-        {
-            _gateway.Update<Segment>(dto, "Segments", "SegmentId", dto.SegmentId.ToString());
-        }
-
-        public void DeleteSegment(Guid segmentId)
-        {
-            _gateway.Delete("Segments", "SegmentId", segmentId);
         }
 
         #endregion

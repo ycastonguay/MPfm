@@ -43,7 +43,7 @@ namespace Sessions.MVP.Views
         Action<float> OnPlayerSetPitchShifting { get; set; }
         Action<float> OnPlayerSetTimeShifting { get; set; }
         Action<float> OnPlayerSetPosition { get; set; }
-        Func<float, SSP_POSITION> OnPlayerRequestPosition { get; set; }
+        Func<float, SSPPosition> OnPlayerRequestPosition { get; set; }
         Action OnEditSongMetadata { get; set; }
         Action OnOpenPlaylist { get; set; }
         Action OnOpenEffects { get; set; }
@@ -55,13 +55,13 @@ namespace Sessions.MVP.Views
         void PlayerError(Exception ex);
 	    void PushSubView(IBaseView view);
         void RefreshPlayerState(SSPPlayerState state, SSPRepeatType repeatType, bool isShuffleEnabled);
-		void RefreshPlayerPosition(SSP_POSITION position);
+		void RefreshPlayerPosition(SSPPosition position);
         void RefreshPlaylist(SSPPlaylist playlist);
         void RefreshSongInformation(SongInformationEntity entity);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshActiveMarker(Guid markerId);
         void RefreshMarkerPosition(Marker marker);
-        void RefreshLoops(IEnumerable<Loop> loops);
+        void RefreshLoops(IEnumerable<SSPLoop> loops);
         void RefreshPlayerVolume(PlayerVolume entity);
         void RefreshPlayerTimeShifting(PlayerTimeShifting entity);
         void RefreshOutputMeter(float[] dataLeft, float[] dataRight);

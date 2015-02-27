@@ -44,10 +44,10 @@ namespace Sessions.Player
 
         int Version { get; }
         SSPPlayerState State { get; }
-        SSP_DEVICE Device { get; }
-        SSP_MIXER Mixer { get; }
-        SSP_EQPRESET EQPreset { get; }
-        SSP_LOOP Loop { get; }
+        SSPDevice Device { get; }
+        SSPMixer Mixer { get; }
+        SSPEQPreset EQPreset { get; }
+        SSPLoop Loop { get; }
         bool EQEnabled { get; set; }
 
         // Playhead
@@ -63,14 +63,14 @@ namespace Sessions.Player
         void ToggleRepeatType();
 
         // EQ
-        void SetEQPreset(SSP_EQPRESET preset);
+        void SetEQPreset(SSPEQPreset preset);
         void SetEQPresetBand(int band, float gain);
         void ResetEQ();
         void NormalizeEQ();
 
         // Loops
-        void StartLoop(SSP_LOOP loop);
-        void UpdateLoop(SSP_LOOP loop);
+        void StartLoop(SSPLoop loop);
+        void UpdateLoop(SSPLoop loop);
         void StopLoop();
 
         // Playback
@@ -83,7 +83,7 @@ namespace Sessions.Player
         void GoTo(int index);
 
         // Position
-        SSP_POSITION GetPosition();
+        SSPPosition GetPosition();
         void SetPosition(long position);
         void SetPosition(float position);
 
@@ -96,7 +96,7 @@ namespace Sessions.Player
         // Encoder
         void StartEncode(SSPEncoderType encoder);
         void StopEncode();
-        void StartCast(SSP_CAST_SERVER server);
+        void StartCast(SSPCastServer server);
         void StopCast();
     }
 }

@@ -117,7 +117,7 @@ namespace Sessions.MVP.Presenters
             return tempoRatio * 100;
         }
 
-        private void HandleOnBPMDetected(float bpm)
+        private void HandleOnBPMDetected(IntPtr user, float bpm)
         {
             try
             {

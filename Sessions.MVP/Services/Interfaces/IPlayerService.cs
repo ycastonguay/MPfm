@@ -36,9 +36,9 @@ namespace Sessions.MVP.Services.Interfaces
         bool IsShuffleEnabled { get; set; }
         bool IsEQEnabled { get; }
 
-        SSP_MIXER Mixer { get; }
-        EQPreset EQPreset { get; }
-        Loop Loop { get; }
+        SSPMixer Mixer { get; }
+        SSPEQPreset EQPreset { get; }
+        SSPLoop Loop { get; }
         SSPRepeatType RepeatType { get; }
         float TimeShifting { get; }
         int PitchShifting { get; }
@@ -49,9 +49,9 @@ namespace Sessions.MVP.Services.Interfaces
         SSPPlaylist Playlist { get; }
         //SSPPlaylist CurrentQueue { get; }
 
-        event LoopPlaybackStarted OnLoopPlaybackStarted;
-        event LoopPlaybackStopped OnLoopPlaybackStopped;
-        event PlayerService.BPMDetected OnBPMDetected;
+        event LoopPlaybackStartedDelegate OnLoopPlaybackStarted;
+        event LoopPlaybackStoppedDelegate OnLoopPlaybackStopped;
+        event BPMDetectedDelegate OnBPMDetected;
 
         void InitDevice(Device device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
@@ -75,7 +75,7 @@ namespace Sessions.MVP.Services.Interfaces
         long GetDataAvailable();
         Tuple<short[], short[]> GetMixerData(double seconds);
         Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
-        SSP_POSITION GetPosition();
+        SSPPosition GetPosition();
 
         void SetPosition(double percentage);
         void SetPosition(long bytes);
@@ -83,13 +83,13 @@ namespace Sessions.MVP.Services.Interfaces
         void SetPitchShifting(int pitchShifting);
 
         void GoToMarker(Marker marker);
-        void StartLoop(Loop loop);
-        void UpdateLoop(Loop loop);
+        void StartLoop(SSPLoop loop);
+        void UpdateLoop(SSPLoop loop);
         void StopLoop();        
 
         void EnableEQ(bool enabled);
         void ResetEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
-        void ApplyEQPreset(EQPreset preset);
+        void ApplyEQPreset(SSPEQPreset preset);
     }
 }

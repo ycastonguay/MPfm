@@ -32,10 +32,10 @@ namespace Sessions.Player
             _dict = new Dictionary<string, AudioFile>();
         }
 
-        public AudioFile RequestItem(SSP_PLAYLISTITEM item)
+        public AudioFile RequestItem(SSPPlaylistItem item)
         {
-            var audioFile = RequestItem(item.filePath);
-            audioFile.LengthBytes = item.length;
+            var audioFile = RequestItem(item.FilePath);
+            audioFile.LengthBytes = item.Length;
             return audioFile;
         }
 

@@ -26,6 +26,7 @@ using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -59,15 +60,11 @@ namespace Sessions.iOS
         #region ILoopsView implementation
 
         public Action OnAddLoop { get; set; }
-        public Action<Loop> OnEditLoop { get; set; }
-        public Action<Loop> OnSelectLoop { get; set; }
-        public Action<Loop> OnDeleteLoop { get; set; }
-        public Action<Loop> OnUpdateLoop { get; set; }
-        public Action<Loop> OnPlayLoop { get; set; }
-
-        public Action<Segment> OnPunchInLoopSegment { get; set; }
-        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
-        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
+        public Action<SSPLoop> OnEditLoop { get; set; }
+        public Action<SSPLoop> OnSelectLoop { get; set; }
+        public Action<SSPLoop> OnDeleteLoop { get; set; }
+        public Action<SSPLoop> OnUpdateLoop { get; set; }
+        public Action<SSPLoop> OnPlayLoop { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -77,15 +74,11 @@ namespace Sessions.iOS
             });
         }
 
-        public void RefreshLoops(List<Loop> loops)
+        public void RefreshLoops(List<SSPLoop> loops)
         {
         }
 
-        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
-        {
-        }
-
-        public void RefreshCurrentlyPlayingLoop(Loop loop)
+        public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
         {
         }
 

@@ -24,13 +24,14 @@ using TinyMessenger;
 using System;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Models;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Presenters
 {
     public class LoopPlaybackPresenter : BasePresenter<ILoopPlaybackView>, ILoopPlaybackPresenter
 	{
         Guid _loopId;
-        Loop _loop;
+        SSPLoop _loop;
         AudioFile _audioFile;
         long _lengthBytes;
         readonly ITinyMessengerHub _messageHub;

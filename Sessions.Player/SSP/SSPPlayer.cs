@@ -58,42 +58,42 @@ namespace Sessions.Player
             get { return SSP.SSP_GetState(); }
         }
 
-        public SSP_DEVICE Device
+        public SSPDevice Device
         {
             get
             {
-                var device = new SSP_DEVICE();
-                SSP.SSP_GetDevice(ref device);
+                var device = new SSPDevice();
+                SSP.SSP_GetDevice(ref device.Struct);
                 return device;
             }
         }
 
-        public SSP_MIXER Mixer
+        public SSPMixer Mixer
         {
             get
             {
-                var mixer = new SSP_MIXER();
-                SSP.SSP_GetMixer(ref mixer);
+                var mixer = new SSPMixer();
+                SSP.SSP_GetMixer(ref mixer.Struct);
                 return mixer;
             }
         }
 
-        public SSP_EQPRESET EQPreset
+        public SSPEQPreset EQPreset
         {
             get
             {
-                var preset = new SSP_EQPRESET();
-                SSP.SSP_GetEQPreset(ref preset);
+                var preset = new SSPEQPreset();
+                SSP.SSP_GetEQPreset(ref preset.Struct);
                 return preset;
             }
         }
 
-        public SSP_LOOP Loop
+        public SSPLoop Loop
         {
             get
             {
-                var loop = new SSP_LOOP();
-                SSP.SSP_GetLoop(ref loop);
+                var loop = new SSPLoop();
+                SSP.SSP_GetLoop(ref loop.Struct);
                 return loop;
             }
         }
@@ -296,6 +296,9 @@ namespace Sessions.Player
 
         public void Dispose()
         {
+            //          if (Sessions.Player.Player.CurrentPlayer.IsPlaying)
+//              Sessions.Player.Player.CurrentPlayer.Stop();
+
             _logDelegate = null;
             _stateDelegate = null;
             _playlistIndexChangedDelegate = null;
@@ -311,9 +314,9 @@ namespace Sessions.Player
             CheckForError(SSP.SSP_SetUpdatePeriod(updatePeriod));
         }
 
-        public void SetEQPreset(SSP_EQPRESET preset)
+        public void SetEQPreset(SSPEQPreset preset)
         {
-            CheckForError(SSP.SSP_SetEQPreset(preset));
+            CheckForError(SSP.SSP_SetEQPreset(preset.Struct));
         }
 
         public void SetEQPresetBand(int band, float gain)
@@ -331,14 +334,14 @@ namespace Sessions.Player
             CheckForError(SSP.SSP_NormalizeEQ());
         }
 
-        public void StartLoop(SSP_LOOP loop)
+        public void StartLoop(SSPLoop loop)
         {
-            CheckForError(SSP.SSP_StartLoop(loop));
+            CheckForError(SSP.SSP_StartLoop(loop.Struct));
         }
 
-        public void UpdateLoop(SSP_LOOP loop)
+        public void UpdateLoop(SSPLoop loop)
         {
-            CheckForError(SSP.SSP_UpdateLoop(loop));
+            CheckForError(SSP.SSP_UpdateLoop(loop.Struct));
         }
 
         public void StopLoop()
@@ -386,10 +389,10 @@ namespace Sessions.Player
             CheckForError(SSP.SSP_ToggleRepeatType());
         }
 
-        public SSP_POSITION GetPosition()
+        public SSPPosition GetPosition()
         {
-            var position = new SSP_POSITION();
-            CheckForError(SSP.SSP_GetPosition(ref position));
+            var position = new SSPPosition();
+            CheckForError(SSP.SSP_GetPosition(ref position.Struct));
             return position;
         }
 
@@ -439,9 +442,9 @@ namespace Sessions.Player
             CheckForError(SSP.SSP_StopEncode());
         }
 
-        public void StartCast(SSP_CAST_SERVER server)
+        public void StartCast(SSPCastServer server)
         {
-            CheckForError(SSP.SSP_StartCast(server));
+            CheckForError(SSP.SSP_StartCast(server.Struct));
         }
 
         public void StopCast()

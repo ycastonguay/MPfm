@@ -29,13 +29,14 @@ using Sessions.OSX.Classes.Objects;
 using Sessions.OSX.Classes.Helpers;
 using Sessions.OSX.Classes.Controls;
 using System.Reflection;
+using org.sessionsapp.player;
 
 namespace Sessions.OSX
 {
     public partial class EffectsWindowController : BaseWindowController, IDesktopEffectsView
     {
-        private List<EQPreset> _presets = new List<EQPreset>();
-        private EQPreset _preset;
+        private List<SSPEQPreset> _presets = new List<SSPEQPreset>();
+        private SSPEQPreset _preset;
         private bool _hasPresetChanged;
 
         public EffectsWindowController(IntPtr handle) 
@@ -410,7 +411,7 @@ namespace Sessions.OSX
             {
                 float value = fader.Value / 10f;
                 label.StringValue = FormatEQValue(value);
-                OnSetFaderGain(_preset.Bands[pos].CenterString, value);
+                OnSetFaderGain(_preset.Bands[pos].Label, value);
             }
 
             _hasPresetChanged = true;
@@ -518,7 +519,7 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
             InvokeOnMainThread(delegate 
             {
@@ -573,7 +574,7 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshPreset(EQPreset preset)
+        public void RefreshPreset(SSPEQPreset preset)
         {
             _hasPresetChanged = false;
             _preset = preset;

@@ -21,6 +21,8 @@ using System.IO;
 using Sessions.Library.Database.Interfaces;
 using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
+using org.sessionsapp.player;
+
 #if WINDOWSSTORE
 using Windows.Storage;
 using Sessions.Core.WinRT;
@@ -272,41 +274,22 @@ namespace Sessions.Library.Services
 
         #region Loops
         
-        public void InsertLoop(Loop loop)
+        public void InsertLoop(SSPLoop loop)
         {
             _gateway.InsertLoop(loop);
         }
         
-        public Loop SelectLoop(Guid loopId)
+        public SSPLoop SelectLoop(Guid loopId)
         {
             return _gateway.SelectLoop(loopId);
         }
 
-        public Loop SelectLoopIncludingSegments(Guid loopId)
-        {
-            var loop = _gateway.SelectLoop(loopId);
-            var segments = _gateway.SelectSegments(loopId);
-            loop.Segments.AddRange(segments);
-            return loop;
-        }
-                
-        public List<Loop> SelectLoops(Guid audioFileId)
+        public List<SSPLoop> SelectLoops(Guid audioFileId)
         {
             return _gateway.SelectLoops(audioFileId);
         }
 
-        public List<Loop> SelectLoopsIncludingSegments(Guid audioFileId)
-        {
-            var loops = _gateway.SelectLoops(audioFileId);
-            foreach (var loop in loops)
-            {
-                var segments = _gateway.SelectSegments(loop.LoopId);
-                loop.Segments.AddRange(segments);
-            }
-            return loops;
-        }
-                
-        public void UpdateLoop(Loop loop)
+        public void UpdateLoop(SSPLoop loop)
         {
             _gateway.UpdateLoop(loop);
         }
@@ -318,53 +301,24 @@ namespace Sessions.Library.Services
         
         #endregion
 
-        #region Segments
-
-        public Segment SelectSegment(Guid segmentId)
-        {
-            return _gateway.SelectSegment(segmentId);
-        }
-
-        public List<Segment> SelectSegments(Guid loopId)
-        {
-            return _gateway.SelectSegments(loopId);
-        }
-
-        public void InsertSegment(Segment segment)
-        {
-            _gateway.InsertSegment(segment);
-        }
-
-        public void UpdateSegment(Segment segment)
-        {
-            _gateway.UpdateSegment(segment);
-        }
-
-        public void DeleteSegment(Guid segmentId)
-        {
-            _gateway.DeleteSegment(segmentId);
-        }
-
-        #endregion
-
         #region Equalizer Presets
 
-        public void InsertEQPreset(EQPreset preset)
+        public void InsertEQPreset(SSPEQPreset preset)
         {
             _gateway.InsertEQPreset(preset);
         }
 
-        public EQPreset SelectEQPreset(Guid presetId)
+        public SSPEQPreset SelectEQPreset(Guid presetId)
         {
             return _gateway.SelectEQPreset(presetId);
         }
 
-        public IEnumerable<EQPreset> SelectEQPresets()
+        public IEnumerable<SSPEQPreset> SelectEQPresets()
         {
             return _gateway.SelectEQPresets();
         }
 
-        public void UpdateEQPreset(EQPreset preset)
+        public void UpdateEQPreset(SSPEQPreset preset)
         {
             _gateway.UpdateEQPreset(preset);
         }

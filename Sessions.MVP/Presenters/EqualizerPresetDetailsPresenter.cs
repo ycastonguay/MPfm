@@ -26,6 +26,7 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Player.Objects;
 using TinyMessenger;
 using Sessions.MVP.Messages;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Presenters
 {
@@ -34,9 +35,9 @@ namespace Sessions.MVP.Presenters
         private readonly IPlayerService _playerService;
         private readonly ILibraryService _libraryService;
         private readonly ITinyMessengerHub _messageHub;
-        private EQPreset _preset;
+        private SSPEQPreset _preset;
         private Guid _presetId;
-        private List<EQPresetBand> _originalPresetBands;
+        private List<SSPEQPresetBand> _originalPresetBands;
 
         public EqualizerPresetDetailsPresenter(Guid presetId, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
         {
@@ -91,17 +92,17 @@ namespace Sessions.MVP.Presenters
             View.RefreshPreset(preset);
         }
 
-        public void ChangePreset(EQPreset preset)
+        public void ChangePreset(SSPEQPreset preset)
         {
             _preset = preset;
 
             // Clone band values to make sure we're not dealing with the same instance
-            _originalPresetBands = new List<EQPresetBand>();
+            _originalPresetBands = new List<SSPEQPresetBand>();
             foreach (var band in preset.Bands)
-                _originalPresetBands.Add(new EQPresetBand(){
+                _originalPresetBands.Add(new SSPEQPresetBand(){
                     Bandwidth = band.Bandwidth,
                     Center = band.Center,
-                    CenterString = band.CenterString,
+                    Label = band.Label,
                     //FXChannel = band.FXChannel,
                     Gain = band.Gain,
                     Q = band.Q
@@ -112,11 +113,11 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                for(int a = 0; a < _preset.Bands.Count; a++)
+                for(int a = 0; a < _preset.Bands.Length; a++)
                 {
                     _preset.Bands[a].Bandwidth = _originalPresetBands[a].Bandwidth;
                     _preset.Bands[a].Center = _originalPresetBands[a].Center;
-                    _preset.Bands[a].CenterString = _originalPresetBands[a].CenterString;
+                    _preset.Bands[a].Label = _originalPresetBands[a].Label;
                     //_preset.Bands[a].FXChannel = _originalPresetBands[a].FXChannel;
                     _preset.Bands[a].Gain = _originalPresetBands[a].Gain;
                     _preset.Bands[a].Q = _originalPresetBands[a].Q;
@@ -139,7 +140,7 @@ namespace Sessions.MVP.Presenters
                 float value = 0;
 
                 // Try to find the highest value in all bands
-                for (int a = 0; a < _preset.Bands.Count; a++)
+                for (int a = 0; a < _preset.Bands.Length; a++)
                 {
                     var band = _preset.Bands[a];
                     value = _preset.Bands[a].Gain;
@@ -211,9 +212,9 @@ namespace Sessions.MVP.Presenters
             try
             {
                 //Tracing.Log("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
-                var band = _preset.Bands.FirstOrDefault(x => x.CenterString == frequency);
+                var band = _preset.Bands.FirstOrDefault(x => x.Label == frequency);
                 band.Gain = gain;
-                int index = _preset.Bands.IndexOf(band);
+                int index = Array.IndexOf(_preset.Bands, band);
                 _playerService.UpdateEQBand(index, gain, true);
             }
             catch(Exception ex)

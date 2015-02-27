@@ -122,7 +122,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                if (_playerService.Mixer.useFloatingPoint)
+                if (_playerService.Mixer.UseFloatingPoint)
                 {
                     Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
                     View.RefreshOutputMeter(data.Item1, data.Item2);
@@ -190,7 +190,7 @@ namespace Sessions.MVP.Presenters
                 }
 
                 // For desktop devices
-                var newPreset = new EQPreset();
+                var newPreset = new SSPEQPreset();
                 _libraryService.InsertEQPreset(newPreset);
                 _playerService.ApplyEQPreset(newPreset);
                 RefreshPresets();
@@ -207,7 +207,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                EQPreset preset = _libraryService.SelectEQPreset(presetId);
+                var preset = _libraryService.SelectEQPreset(presetId);
                 if(preset != null)
                     _playerService.ApplyEQPreset(preset);
             }

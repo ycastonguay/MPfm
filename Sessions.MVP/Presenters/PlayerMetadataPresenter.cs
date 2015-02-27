@@ -55,7 +55,7 @@ namespace Sessions.MVP.Presenters
             if (_playerService.State == SSPPlayerState.Playing)
             {
                 var position = _playerService.GetPosition();
-                View.RefreshMetadata(_playerService.CurrentAudioFile, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.ms, 0); //_playerService.CurrentPlaylistItem.LengthMilliseconds);
+                View.RefreshMetadata(_playerService.CurrentAudioFile, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.MS, 0); //_playerService.CurrentPlaylistItem.LengthMilliseconds);
                 View.RefreshRepeat(_playerService.RepeatType);
                 View.RefreshShuffle(_isShuffle);
             }
@@ -64,7 +64,7 @@ namespace Sessions.MVP.Presenters
         private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
         {
             var position = _playerService.GetPosition();
-            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.ms, 0);// _playerService.CurrentPlaylistItem.LengthMilliseconds);
+            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.MS, 0);// _playerService.CurrentPlaylistItem.LengthMilliseconds);
         }
 
         private void OpenPlaylist()

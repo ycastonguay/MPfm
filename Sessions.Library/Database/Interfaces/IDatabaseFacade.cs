@@ -21,6 +21,7 @@ using Sessions.Library.Objects;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using org.sessionsapp.player;
 
 namespace Sessions.Library.Database.Interfaces
 {
@@ -34,7 +35,6 @@ namespace Sessions.Library.Database.Interfaces
         void DeleteFolders();
         void DeleteLoop(Guid loopId);
         void DeleteMarker(Guid markerId);
-        void DeleteSegment(Guid segmentId);
         void DeletePlaylistFile(string filePath);
         void DeleteSetting(Guid settingId);
         void ExecuteSQL(string sql);
@@ -42,13 +42,12 @@ namespace Sessions.Library.Database.Interfaces
         int GetAudioFilePlayCountFromHistory(Guid audioFileId);
         void InsertAudioFile(AudioFile audioFile);
         void InsertAudioFiles(IEnumerable<AudioFile> audioFiles);
-        void InsertEQPreset(EQPreset eq);
+        void InsertEQPreset(SSPEQPreset eq);
         void InsertFolder(string folderPath, bool recursive);
         void InsertHistory(Guid audioFileId);
         void InsertHistory(Guid audioFileId, DateTime eventDateTime);
-        void InsertLoop(Loop dto);
+        void InsertLoop(SSPLoop dto);
         void InsertMarker(Marker dto);
-        void InsertSegment(Segment dto);
         void InsertPlaylistFile(PlaylistFile dto);
         void InsertSetting(Setting dto);
         void InsertSetting(string name, string value);
@@ -64,28 +63,24 @@ namespace Sessions.Library.Database.Interfaces
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat, string artistName);
         List<string> SelectDistinctArtistNames();
         List<string> SelectDistinctArtistNames(AudioFileFormat audioFileFormat);
-        EQPreset SelectEQPreset(string name);
-        EQPreset SelectEQPreset(Guid presetId);
-        List<EQPreset> SelectEQPresets();
+        SSPEQPreset SelectEQPreset(string name);
+        SSPEQPreset SelectEQPreset(Guid presetId);
+        List<SSPEQPreset> SelectEQPresets();
         Folder SelectFolderByPath(string path);
         List<Folder> SelectFolders();
-        Loop SelectLoop(Guid loopId);
-        List<Loop> SelectLoops();
-        List<Loop> SelectLoops(Guid audioFileId);
+        SSPLoop SelectLoop(Guid loopId);
+        List<SSPLoop> SelectLoops();
+        List<SSPLoop> SelectLoops(Guid audioFileId);
         Marker SelectMarker(Guid markerId);
         List<Marker> SelectMarkers();
         List<Marker> SelectMarkers(Guid audioFileId);
-        Segment SelectSegment(Guid segmentId);
-        List<Segment> SelectSegments();
-        List<Segment> SelectSegments(Guid loopId);
         List<PlaylistFile> SelectPlaylistFiles();
         Setting SelectSetting(string name);
         List<Setting> SelectSettings();
         void UpdateAudioFile(AudioFile audioFile);
-        void UpdateEQPreset(EQPreset eq);
-        void UpdateLoop(Loop dto);
+        void UpdateEQPreset(SSPEQPreset eq);
+        void UpdateLoop(SSPLoop dto);
         void UpdateMarker(Marker dto);
-        void UpdateSegment(Segment dto);
         void UpdatePlayCount(Guid audioFileId);
         void UpdateSetting(Setting dto);
 
