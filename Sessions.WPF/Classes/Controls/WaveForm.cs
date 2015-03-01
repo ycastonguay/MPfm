@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using org.sessionsapp.player;
 using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
@@ -121,8 +122,8 @@ namespace Sessions.WPF.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
-        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
-        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
+        //public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        //public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
 
         public WaveForm()
         {
@@ -140,8 +141,8 @@ namespace Sessions.WPF.Classes.Controls
             }));
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
-            _control.OnChangingSegmentPosition += (segment, bytes) => OnChangingSegmentPosition(segment, bytes);
-            _control.OnChangedSegmentPosition += (segment, bytes) => OnChangedSegmentPosition(segment, bytes);
+            //_control.OnChangingSegmentPosition += (segment, bytes) => OnChangingSegmentPosition(segment, bytes);
+            //_control.OnChangedSegmentPosition += (segment, bytes) => OnChangedSegmentPosition(segment, bytes);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
         }
 
@@ -165,15 +166,15 @@ namespace Sessions.WPF.Classes.Controls
             _control.Length = lengthBytes;
         }
 
-        public void SetLoop(Loop loop)
+        public void SetLoop(SSPLoop loop)
         {
             _control.SetLoop(loop);
         }
 
-        public void SetSegment(Segment segment)
-        {
-            _control.SetSegment(segment);
-        }
+        //public void SetSegment(Segment segment)
+        //{
+        //    _control.SetSegment(segment);
+        //}
 
         public void LoadPeakFile(AudioFile audioFile)
         {

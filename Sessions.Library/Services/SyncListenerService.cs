@@ -24,6 +24,7 @@ using System.Reflection;
 using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
 using Sessions.Core;
+using Sessions.Player;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using org.sessionsapp.player;
@@ -218,7 +219,7 @@ namespace Sessions.Library.Services
         {
             try
             {
-                var player = Sessions.Player.SSPPlayer.CurrentPlayer;
+                var player = SSPPlayer.CurrentPlayer;
                 if (player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not process remote command; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);

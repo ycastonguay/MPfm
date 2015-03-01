@@ -112,14 +112,10 @@
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\RepeatType.cs" />
-    <Compile Include="Objects\EQPreset.cs" />
-    <Compile Include="Objects\EQPresetBand.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
-    <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Events\AudioInterruptedData.cs" />
-    <Compile Include="Objects\Segment.cs" />
     <Compile Include="Services\IDecodingService.cs" />
     <Compile Include="Services\DecodingService.cs" />
     <Compile Include="..\libssp_player\player-csharp\SSP.cs">
@@ -148,6 +144,11 @@
     </Compile>
     <Compile Include="..\libssp_player\player-csharp\SSPPosition.cs">
       <Link>SSP\player-csharp\SSPPosition.cs</Link>
-    </Compile>    
+    </Compile>
+    <Compile Include="SSP\AudioFileDictionary.cs" />
+    <Compile Include="SSP\ISSPPlayer.cs" />
+    <Compile Include="SSP\SSPException.cs" />
+    <Compile Include="SSP\SSPPlayer.cs" />
+    <Compile Include="SSP\SSPPlaylist.cs" />
   </ItemGroup>
 </Project>

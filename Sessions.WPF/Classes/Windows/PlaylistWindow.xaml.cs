@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Sessions.Player;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
@@ -30,15 +31,13 @@ namespace Sessions.WPF.Classes.Windows
 {
     public partial class PlaylistWindow : BaseWindow, IPlaylistView
     {
-        private Playlist _playlist;
+        private SSPPlaylist _playlist;
 
         public PlaylistWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
-
-            
         }
 
         #region IPlaylistView implementation
@@ -59,7 +58,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPlaylist(Playlist playlist)
+        public void RefreshPlaylist(SSPPlaylist playlist)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -68,29 +67,29 @@ namespace Sessions.WPF.Classes.Windows
                 listViewPlaylistAlbumArt.Items.Clear();
                 string currentAlbum = string.Empty;
                 int songCount = 0;
-                foreach (var item in _playlist.Items)
-                {
-                    // Add only one row per album (to do: expose row height in viewmodel)
-                    songCount++;                                            
-                    string album = string.Format("{0}_{1}", item.AudioFile.ArtistName, item.AudioFile.AlbumTitle).ToUpper();
-                    if (string.IsNullOrEmpty(currentAlbum))
-                    {
-                        currentAlbum = album;
-                    }
-                    else if (album != currentAlbum)
-                    {
-                        //Console.WriteLine("PlaylistWindow - RefreshPlaylists - Album: {0} SongCount: {1}", album, songCount);
-                        var listViewItem = new ListViewItem();
-                        listViewItem.Background = new LinearGradientBrush(Colors.HotPink, Colors.Yellow, 90);
-                        listViewItem.Height = (songCount - 1) * 24;
-                        listViewItem.Content = string.Format("{0}/{1}", (songCount - 1), currentAlbum);
-                        listViewPlaylistAlbumArt.Items.Add(listViewItem);
-                        currentAlbum = album;
-                        songCount = 1;
-                    }
+                //foreach (var item in _playlist.Items)
+                //{
+                //    // Add only one row per album (to do: expose row height in viewmodel)
+                //    songCount++;                                            
+                //    string album = string.Format("{0}_{1}", item.AudioFile.ArtistName, item.AudioFile.AlbumTitle).ToUpper();
+                //    if (string.IsNullOrEmpty(currentAlbum))
+                //    {
+                //        currentAlbum = album;
+                //    }
+                //    else if (album != currentAlbum)
+                //    {
+                //        //Console.WriteLine("PlaylistWindow - RefreshPlaylists - Album: {0} SongCount: {1}", album, songCount);
+                //        var listViewItem = new ListViewItem();
+                //        listViewItem.Background = new LinearGradientBrush(Colors.HotPink, Colors.Yellow, 90);
+                //        listViewItem.Height = (songCount - 1) * 24;
+                //        listViewItem.Content = string.Format("{0}/{1}", (songCount - 1), currentAlbum);
+                //        listViewPlaylistAlbumArt.Items.Add(listViewItem);
+                //        currentAlbum = album;
+                //        songCount = 1;
+                //    }
 
-                    listViewPlaylist.Items.Add(item);
-                }
+                //    listViewPlaylist.Items.Add(item);
+                //}
             }));
         }
 

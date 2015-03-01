@@ -266,8 +266,11 @@ namespace Sessions.MVP.Presenters
         private void HandleTimerRefreshSongPositionElapsed(object sender, object eventArgs)
         #endif
 		{
-            var position = _playerService.GetPosition();
-			View.RefreshPlayerPosition(position);
+            if (_playerService.State == SSPPlayerState.Playing)
+            {
+                var position = _playerService.GetPosition();
+                View.RefreshPlayerPosition(position);
+            }
 		}
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE

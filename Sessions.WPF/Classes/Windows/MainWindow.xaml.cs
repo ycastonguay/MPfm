@@ -35,10 +35,12 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using org.sessionsapp.player;
 using Sessions.Core;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config;
 using Sessions.MVP.Services.Interfaces;
+using Sessions.Player;
 using Sessions.Sound.Playlists;
 using Sessions.WPF.Classes.Controls;
 using Sessions.WPF.Classes.Helpers;
@@ -69,10 +71,10 @@ namespace Sessions.WPF.Classes.Windows
         private readonly IDownloadImageService _downloadImageService;
         private List<Marker> _markers;
         private List<Marker> _loopMarkers;
-        private List<Loop> _loops;
+        private List<SSPLoop> _loops;
         private Marker _currentMarker;
-        private Loop _currentLoop;
-        private Segment _currentSegment;
+        private SSPLoop _currentLoop;
+        //private Segment _currentSegment;
         private bool _isPlayerPositionChanging;
         private bool _isScrollViewWaveFormChangingSecondaryPosition;
         private int _selectedMarkerIndex = -1;
@@ -82,8 +84,8 @@ namespace Sessions.WPF.Classes.Windows
         private string _currentAlbumArtKey;
         private LibraryBrowserEntity _selectedLibraryNode;
         private static NotifyIcon _playerNotifyIcon;
-        private Segment _startSegment;
-        private Segment _endSegment;
+        //private Segment _startSegment;
+        //private Segment _endSegment;
         private bool _isPlayingLoop;
 
         public MainWindow(Action<IBaseView> onViewReady) 
@@ -103,13 +105,13 @@ namespace Sessions.WPF.Classes.Windows
             songGridView.MenuItemClicked += SongGridViewOnMenuItemClicked;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
-            scrollViewWaveForm.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
-            scrollViewWaveForm.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
+            //scrollViewWaveForm.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
+            //scrollViewWaveForm.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
 
             InitializeComboBoxes();
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
-            RefreshSongInformation(null, Guid.Empty, 0, 0, 0);
+            RefreshSongInformation(new SongInformationEntity());
             CreatePlayerNotifyIcon(() =>
             {
                 this.Show();
@@ -165,9 +167,9 @@ namespace Sessions.WPF.Classes.Windows
             comboSoundFormat.SelectedIndex = 0;
         }
 
-        private void EnableUIForPlayerStatus(PlayerStatusType status)
+        private void EnableUIForPlayerStatus(SSPPlayerState state)
         {
-            bool enabled = status != PlayerStatusType.Stopped && status != PlayerStatusType.Initialized;
+            bool enabled = state != SSPPlayerState.Stopped && state != SSPPlayerState.Initialized;
             trackPosition.IsEnabled = enabled;
             trackTimeShifting.IsEnabled = enabled;
             trackPitchShifting.IsEnabled = enabled;
@@ -416,8 +418,8 @@ namespace Sessions.WPF.Classes.Windows
                 return;
 
             var position = OnPlayerRequestPosition((float) trackPosition.Value/1000f);
-            lblPosition.Content = position.Position;
-            scrollViewWaveForm.SetSecondaryPosition(position.PositionBytes);
+            lblPosition.Content = position.Str;
+            scrollViewWaveForm.SetSecondaryPosition(position.Bytes);
         }
 
         private void FaderVolume_OnFaderValueChanged(object sender, EventArgs e)
@@ -703,7 +705,7 @@ namespace Sessions.WPF.Classes.Windows
                 scrollViewWaveForm.SetLoop(null);
             }
 
-            foreach (Loop removedItem in e.RemovedItems)
+            foreach (SSPLoop removedItem in e.RemovedItems)
             {
                 int row = _loops.IndexOf(removedItem);
                 ShowLoopPunchInButtons(row, false);
@@ -711,7 +713,7 @@ namespace Sessions.WPF.Classes.Windows
                 ShowLoopLabel(row, true);
             }
 
-            foreach (Loop addedItem in e.AddedItems)
+            foreach (SSPLoop addedItem in e.AddedItems)
             {
                 ShowLoopPunchInButtons(_loops.IndexOf(addedItem), true);
             }
@@ -816,7 +818,7 @@ namespace Sessions.WPF.Classes.Windows
         {
             // Only display the text box when the row is currently selected
             var lblLoopName = sender as TextBlock;
-            var rowLoop = lblLoopName.DataContext as Loop;
+            var rowLoop = lblLoopName.DataContext as SSPLoop;
             int rowIndex = _loops.IndexOf(rowLoop);
             if (listViewLoops.SelectedIndex != rowIndex)
                 return;
@@ -837,7 +839,7 @@ namespace Sessions.WPF.Classes.Windows
             var gridLoopName = btnLoopNameOK.Parent as Grid;
             var grid = gridLoopName.Parent as Grid;
             var lblLoopName = UIHelper.FindByName("lblLoopName", grid) as TextBlock;
-            var loop = btnLoopNameOK.DataContext as Loop;
+            var loop = btnLoopNameOK.DataContext as SSPLoop;
             var txtLoopName = UIHelper.FindByName("txtLoopName", gridLoopName) as TextBox;
 
             gridLoopName.Visibility = Visibility.Collapsed;
@@ -864,7 +866,7 @@ namespace Sessions.WPF.Classes.Windows
             var gridLoopName = gridLoopNameTextbox.Parent as Grid;
             var grid = gridLoopName.Parent as Grid;
             var lblLoopName = UIHelper.FindByName("lblLoopName", grid) as TextBlock;
-            var loop = txtLoopName.DataContext as Loop;
+            var loop = txtLoopName.DataContext as SSPLoop;
 
             gridLoopName.Visibility = Visibility.Collapsed;
             lblLoopName.Visibility = Visibility.Visible;
@@ -888,9 +890,9 @@ namespace Sessions.WPF.Classes.Windows
             var frameworkElement = sender as FrameworkElement;
             if (frameworkElement != null)
             {
-                var loop = frameworkElement.DataContext as Loop;
+                var loop = frameworkElement.DataContext as SSPLoop;
                 OnSelectLoop(loop);
-                if (loop != null) OnPunchInLoopSegment(loop.GetStartSegment());
+                //if (loop != null) OnPunchInLoopSegment(loop.GetStartSegment());
             }
         }
 
@@ -899,9 +901,9 @@ namespace Sessions.WPF.Classes.Windows
             var frameworkElement = sender as FrameworkElement;
             if (frameworkElement != null)
             {
-                var loop = frameworkElement.DataContext as Loop;
+                var loop = frameworkElement.DataContext as SSPLoop;
                 OnSelectLoop(loop);
-                if (loop != null) OnPunchInLoopSegment(loop.GetEndSegment());
+                //if (loop != null) OnPunchInLoopSegment(loop.GetEndSegment());
             }
         }
 
@@ -972,15 +974,15 @@ namespace Sessions.WPF.Classes.Windows
             btnRemoveLoop.Enabled = enabled;
         }
 
-        private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
-        {
-            OnChangingLoopSegmentPosition(segment, positionPercentage);
-        }
+        //private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
+        //{
+        //    OnChangingLoopSegmentPosition(segment, positionPercentage);
+        //}
 
-        private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
-        {
-            OnChangedLoopSegmentPosition(segment, positionPercentage);
-        }
+        //private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
+        //{
+        //    OnChangedLoopSegmentPosition(segment, positionPercentage);
+        //}
 
         private void SliderMarkerPosition_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -1084,7 +1086,7 @@ namespace Sessions.WPF.Classes.Windows
             _isScrollViewWaveFormChangingSecondaryPosition = true;
             var requestedPosition = OnPlayerRequestPosition(position);
             trackPosition.Value = (int)(position * 1000);
-            lblPosition.Content = requestedPosition.Position;
+            lblPosition.Content = requestedPosition.Str;
         }
 
         private void ScrollViewWaveForm_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -1378,7 +1380,7 @@ namespace Sessions.WPF.Classes.Windows
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
+        public Func<float, SSPPosition> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
@@ -1396,24 +1398,24 @@ namespace Sessions.WPF.Classes.Windows
         {
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
+        public void RefreshPlayerState(SSPPlayerState state, SSPRepeatType repeatType, bool isShuffleEnabled)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                if (status == PlayerStatusType.Playing)
+                if (state == SSPPlayerState.Playing)
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/pause.png"));
                 else
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/play.png"));
 
                 switch (repeatType)
                 {
-                    case RepeatType.Off:
+                    case SSPRepeatType.Off:
                         imageRepeat.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/repeat_off.png"));
                         break;
-                    case RepeatType.Playlist:
+                    case SSPRepeatType.Playlist:
                         imageRepeat.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/repeat_on.png"));
                         break;
-                    case RepeatType.Song:
+                    case SSPRepeatType.Song:
                         imageRepeat.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/repeat_single.png"));
                         break;
                     default:
@@ -1423,34 +1425,38 @@ namespace Sessions.WPF.Classes.Windows
                 string imageName = isShuffleEnabled ? "shuffle_on" : "shuffle_off";
                 imageShuffle.Source = new BitmapImage(new Uri(string.Format("pack://application:,,,/Resources/Images/Toolbar/{0}.png", imageName)));
 
-                EnableUIForPlayerStatus(status);
+                EnableUIForPlayerStatus(state);
             }));
         }
 
-        public void RefreshPlayerPosition(PlayerPosition entity)
+        public void RefreshPlayerPosition(SSPPosition position)
         {
             if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
 
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                lblPosition.Content = entity.Position;
-                trackPosition.Value = (int)(entity.PositionPercentage * 10);
-                scrollViewWaveForm.SetPosition(entity.PositionBytes);
+                if (_currentAudioFile == null)
+                    return;
+
+                lblPosition.Content = position.Str;
+                trackPosition.Value = (int)(((float)position.Bytes / (float)_currentAudioFile.LengthBytes) * 1000f);
+                scrollViewWaveForm.SetPosition(position.Bytes);
                 //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
             }));
         }
 
-        public void RefreshPlaylist(Playlist playlist)
+        public void RefreshPlaylist(SSPPlaylist playlist)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                playlistListView.SetPlaylist(playlist);
-            }));
+            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    playlistListView.SetPlaylist(playlist);
+            //}));
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, Guid playlistItemId, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(SongInformationEntity entity)
         {
+            var audioFile = entity.AudioFile;
             _selectedMarkerIndex = -1;
             _currentAudioFile = audioFile;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -1502,7 +1508,12 @@ namespace Sessions.WPF.Classes.Windows
 
                     songGridView.NowPlayingAudioFileId = audioFile.Id;
 
-                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+                    // The wave form scroll view isn't aware of floating point
+                    long lengthWaveForm = entity.AudioFile.LengthBytes;
+                    if (entity.UseFloatingPoint)
+                        lengthWaveForm /= 2;
+
+                    scrollViewWaveForm.SetWaveFormLength(lengthWaveForm);
                     scrollViewWaveForm.LoadPeakFile(audioFile);
 
                     string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
@@ -1624,7 +1635,7 @@ namespace Sessions.WPF.Classes.Windows
         {
         }
 
-        public void RefreshLoops(IEnumerable<Loop> loops)
+        public void RefreshLoops(IEnumerable<SSPLoop> loops)
         {
         }
 
@@ -1707,22 +1718,22 @@ namespace Sessions.WPF.Classes.Windows
         #region ILoopsView implementation
 
         public Action OnAddLoop { get; set; }
-        public Action<Loop> OnEditLoop { get; set; }
-        public Action<Loop> OnSelectLoop { get; set; }
-        public Action<Loop> OnDeleteLoop { get; set; }
-        public Action<Loop> OnPlayLoop { get; set; }
-        public Action<Loop> OnUpdateLoop { get; set; }
+        public Action<SSPLoop> OnEditLoop { get; set; }
+        public Action<SSPLoop> OnSelectLoop { get; set; }
+        public Action<SSPLoop> OnDeleteLoop { get; set; }
+        public Action<SSPLoop> OnPlayLoop { get; set; }
+        public Action<SSPLoop> OnUpdateLoop { get; set; }
 
-        public Action<Segment> OnPunchInLoopSegment { get; set; }
-        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
-        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
+        //public Action<Segment> OnPunchInLoopSegment { get; set; }
+        //public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
+        //public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
 
         public void LoopError(Exception ex)
         {
             ShowErrorDialog(ex);
         }
 
-        public void RefreshLoops(List<Loop> loops)
+        public void RefreshLoops(List<SSPLoop> loops)
         {
             _loops = loops.ToList();
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -1734,20 +1745,20 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                //int row = _loops.IndexOf(loop);
-                //var lblLoopStartPosition = UIHelper.GetControlInsideListViewCellTemplate(listViewLoops, row, 1,
-                //    "lblLoopStartPosition");
-                //var lblLoopEndPosition = UIHelper.GetControlInsideListViewCellTemplate(listViewLoops, row, 1,
-                //    "lblLoopEndPosition");
-                listViewLoops.Items.Refresh();
-            }));
-        }
+        //public void RefreshLoopSegment(SSPLoop loop, Segment segment, long audioFileLength)
+        //{
+        //    Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        //    {
+        //        //int row = _loops.IndexOf(loop);
+        //        //var lblLoopStartPosition = UIHelper.GetControlInsideListViewCellTemplate(listViewLoops, row, 1,
+        //        //    "lblLoopStartPosition");
+        //        //var lblLoopEndPosition = UIHelper.GetControlInsideListViewCellTemplate(listViewLoops, row, 1,
+        //        //    "lblLoopEndPosition");
+        //        listViewLoops.Items.Refresh();
+        //    }));
+        //}
 
-        public void RefreshCurrentlyPlayingLoop(Loop loop)
+        public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
@@ -1930,21 +1941,21 @@ namespace Sessions.WPF.Classes.Windows
 
         public Action OnAddSegment { get; set; }
         public Action<Guid, int> OnAddSegmentFromMarker { get; set; }
-        public Action<Segment> OnEditSegment { get; set; }
-        public Action<Segment> OnDeleteSegment { get; set; }
-        public Action<Loop> OnUpdateLoopDetails { get; set; }
-        public Action<Segment> OnPunchInSegment { get; set; }
-        public Action<Segment, int> OnChangeSegmentOrder { get; set; }
-        public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
-        public Action<Segment, float> OnChangingSegmentPosition { get; set; }
-        public Action<Segment, float> OnChangedSegmentPosition { get; set; }
+        //public Action<Segment> OnEditSegment { get; set; }
+        //public Action<Segment> OnDeleteSegment { get; set; }
+        public Action<SSPLoop> OnUpdateLoopDetails { get; set; }
+        //public Action<Segment> OnPunchInSegment { get; set; }
+        //public Action<Segment, int> OnChangeSegmentOrder { get; set; }
+        //public Action<Segment, Guid> OnLinkSegmentToMarker { get; set; }
+        //public Action<Segment, float> OnChangingSegmentPosition { get; set; }
+        //public Action<Segment, float> OnChangedSegmentPosition { get; set; }
 
         public void LoopDetailsError(Exception ex)
         {
             ShowErrorDialog(ex);
         }
 
-        public void RefreshLoopDetails(Loop loop, AudioFile audioFile, long audioFileLength)
+        public void RefreshLoopDetails(SSPLoop loop, AudioFile audioFile, long audioFileLength)
         {
             //_currentLoop = loop;
             //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -1973,33 +1984,33 @@ namespace Sessions.WPF.Classes.Windows
             //}));
         }
 
-        public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
-        {
-            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            //{
-            //    var startSegment = _currentLoop.GetStartSegment();
-            //    var endSegment = _currentLoop.GetEndSegment();
+        //public void RefreshLoopDetailsSegment(Segment segment, long audioFileLength)
+        //{
+        //    //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        //    //{
+        //    //    var startSegment = _currentLoop.GetStartSegment();
+        //    //    var endSegment = _currentLoop.GetEndSegment();
 
-            //    if (startSegment == null || endSegment == null)
-            //        return;
+        //    //    if (startSegment == null || endSegment == null)
+        //    //        return;
 
-            //    if (startSegment.SegmentId == segment.SegmentId)
-            //    {
-            //        lblLoopStartPosition.Content = segment.Position;
-            //        float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
-            //        trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
-            //    }
-            //    else if (endSegment.SegmentId == segment.SegmentId)
-            //    {
-            //        lblLoopEndPosition.Content = segment.Position;
-            //        float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
-            //        trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
-            //    }
+        //    //    if (startSegment.SegmentId == segment.SegmentId)
+        //    //    {
+        //    //        lblLoopStartPosition.Content = segment.Position;
+        //    //        float positionPercentage = (float)_startSegment.PositionBytes / (float)audioFileLength;
+        //    //        trackStartSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+        //    //    }
+        //    //    else if (endSegment.SegmentId == segment.SegmentId)
+        //    //    {
+        //    //        lblLoopEndPosition.Content = segment.Position;
+        //    //        float positionPercentage = (float)_endSegment.PositionBytes / (float)audioFileLength;
+        //    //        trackEndSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 1000);
+        //    //    }
 
-            //    lblLoopLength.Content = _currentLoop.TotalLength;
-            //    scrollViewWaveForm.SetLoop(_currentLoop);
-            //}));        
-        }
+        //    //    lblLoopLength.Content = _currentLoop.TotalLength;
+        //    //    scrollViewWaveForm.SetLoop(_currentLoop);
+        //    //}));        
+        //}
 
         public void RefreshLoopMarkers(IEnumerable<Marker> markers)
         {
@@ -2026,64 +2037,64 @@ namespace Sessions.WPF.Classes.Windows
 
         #endregion
 
-        #region ISegmentDetailsView implementation
+        //#region ISegmentDetailsView implementation
         
-        public Action<float> OnChangePositionSegmentDetails { get; set; }
-        public Action OnPunchInPositionSegmentDetails { get; set; }
-        public Action<Segment> OnUpdateSegmentDetails { get; set; }
-        public Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
+        //public Action<float> OnChangePositionSegmentDetails { get; set; }
+        //public Action OnPunchInPositionSegmentDetails { get; set; }
+        //public Action<Segment> OnUpdateSegmentDetails { get; set; }
+        //public Action<Guid> OnLinkToMarkerSegmentDetails { get; set; }
 
-        public void SegmentDetailsError(Exception ex)
-        {
-            ShowErrorDialog(ex);
-        }
+        //public void SegmentDetailsError(Exception ex)
+        //{
+        //    ShowErrorDialog(ex);
+        //}
 
-        public void RefreshSegmentDetails(Segment segment, long audioFileLength)
-        {
-            ////Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
-            //_currentSegment = segment;
-            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            //{
-            //    //waveFormScrollView.SetSegment(segment);
-            //    chkSegmentLinkToMarker.IsChecked = segment.MarkerId != Guid.Empty;
-            //    comboSegmentMarker.Visibility = segment.MarkerId == Guid.Empty ? Visibility.Hidden : Visibility.Visible;
-            //    int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
-            //    if (index >= 0)
-            //        comboSegmentMarker.SelectedIndex = index;
+        //public void RefreshSegmentDetails(Segment segment, long audioFileLength)
+        //{
+        //    ////Console.WriteLine("RefreshSegmentDetails - position: {0}", segment.Position);
+        //    //_currentSegment = segment;
+        //    //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        //    //{
+        //    //    //waveFormScrollView.SetSegment(segment);
+        //    //    chkSegmentLinkToMarker.IsChecked = segment.MarkerId != Guid.Empty;
+        //    //    comboSegmentMarker.Visibility = segment.MarkerId == Guid.Empty ? Visibility.Hidden : Visibility.Visible;
+        //    //    int index = _segmentMarkers.FindIndex(x => x.MarkerId == segment.MarkerId);
+        //    //    if (index >= 0)
+        //    //        comboSegmentMarker.SelectedIndex = index;
 
-            //    float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
-            //    trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
-            //    lblSegmentPosition.Content = segment.Position;
-            //}));
-        }
+        //    //    float positionPercentage = (float)segment.PositionBytes / (float)audioFileLength;
+        //    //    trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+        //    //    lblSegmentPosition.Content = segment.Position;
+        //    //}));
+        //}
 
-        public void RefreshSegmentPosition(string position, float positionPercentage)
-        {
-            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            //{
-            //    lblSegmentPosition.Content = position;
-            //    trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
+        //public void RefreshSegmentPosition(string position, float positionPercentage)
+        //{
+        //    //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        //    //{
+        //    //    lblSegmentPosition.Content = position;
+        //    //    trackSegmentPosition.ValueWithoutEvent = (int)(positionPercentage * 10);
 
-            //    if (_currentSegment != null)
-            //    {
-            //        _currentSegment.Position = position;
-            //        scrollViewWaveForm.SetSegment(_currentSegment);
-            //    }
-            //}));
-        }
+        //    //    if (_currentSegment != null)
+        //    //    {
+        //    //        _currentSegment.Position = position;
+        //    //        scrollViewWaveForm.SetSegment(_currentSegment);
+        //    //    }
+        //    //}));
+        //}
 
-        public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
-        {
-            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            //{
-            //    _segmentMarkers = markers.ToList();
-            //    comboSegmentMarker.Items.Clear();
-            //    foreach (var marker in markers)
-            //        comboSegmentMarker.Items.Add(marker.Name);
-            //}));
-        }
+        //public void RefreshSegmentMarkers(IEnumerable<Marker> markers)
+        //{
+        //    //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        //    //{
+        //    //    _segmentMarkers = markers.ToList();
+        //    //    comboSegmentMarker.Items.Clear();
+        //    //    foreach (var marker in markers)
+        //    //        comboSegmentMarker.Items.Add(marker.Name);
+        //    //}));
+        //}
 
-        #endregion
+        //#endregion
 
         #region IQueueView implementation
 

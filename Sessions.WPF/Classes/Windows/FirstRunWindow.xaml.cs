@@ -43,5 +43,16 @@ namespace Sessions.WPF.Classes.Windows
             navigationManager.CreateSplashView();
             Close();
         }
+
+        #region IFirstRunView implementation
+
+        public Action OnCloseView { get; set; }
+
+        public void FirstRunError(Exception ex)
+        {
+            base.ShowErrorDialog(ex);
+        }
+
+        #endregion
     }
 }

@@ -23,18 +23,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using org.sessionsapp.player;
 using Sessions.WPF.Classes.Controls;
 using Sessions.WPF.Classes.Helpers;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 
 namespace Sessions.WPF.Classes.Windows
 {
     public partial class EffectsWindow : BaseWindow, IDesktopEffectsView
     {
-        private EQPreset _preset;
-        private List<EQPreset> _presets;
+        private SSPEQPreset _preset;
+        private List<SSPEQPreset> _presets;
         private bool _hasPresetChanged = false;
 
         public EffectsWindow(Action<IBaseView> onViewReady) 
@@ -260,7 +260,7 @@ namespace Sessions.WPF.Classes.Windows
             if (label != null)
             {
                 label.Content = FormatEQValue(value);
-                OnSetFaderGain(band.CenterString, value);
+                OnSetFaderGain(band.Label, value);
             }
 
             _hasPresetChanged = true;
@@ -300,7 +300,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
             bool isFirstRefresh = _presets == null;
             _presets = presets.ToList();
@@ -354,7 +354,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPreset(EQPreset preset)
+        public void RefreshPreset(SSPEQPreset preset)
         {
             if (preset == null)
                 return;
