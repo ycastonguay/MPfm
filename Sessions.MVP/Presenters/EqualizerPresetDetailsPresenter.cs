@@ -36,8 +36,8 @@ namespace Sessions.MVP.Presenters
         private readonly ILibraryService _libraryService;
         private readonly ITinyMessengerHub _messageHub;
         private SSPEQPreset _preset;
+        private SSPEQPreset _originalPreset;
         private Guid _presetId;
-        private List<SSPEQPresetBand> _originalPresetBands;
 
         public EqualizerPresetDetailsPresenter(Guid presetId, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
         {
@@ -60,11 +60,11 @@ namespace Sessions.MVP.Presenters
 
             LoadInitialPreset();
 
-            //if(_preset != null)
-            //{
-            //    _playerService.ApplyEQPreset(_preset);
-            //    View.RefreshPreset(_preset);
-            //}
+            if(_preset != null)
+            {
+                _playerService.ApplyEQPreset(_preset);
+                View.RefreshPreset(_preset);
+            }
 
             _messageHub.Subscribe<EqualizerPresetSelectedMessage>((m) =>
             {
@@ -95,33 +95,15 @@ namespace Sessions.MVP.Presenters
         public void ChangePreset(SSPEQPreset preset)
         {
             _preset = preset;
-
-            // Clone band values to make sure we're not dealing with the same instance
-            _originalPresetBands = new List<SSPEQPresetBand>();
-            foreach (var band in preset.Bands)
-                _originalPresetBands.Add(new SSPEQPresetBand(){
-                    Bandwidth = band.Bandwidth,
-                    Center = band.Center,
-                    Label = band.Label,
-                    //FXChannel = band.FXChannel,
-                    Gain = band.Gain,
-                    Q = band.Q
-                });
+            _originalPreset = preset;
         }
 
         public void RevertPreset()
         {
             try
             {
-                for(int a = 0; a < _preset.Bands.Length; a++)
-                {
-                    _preset.Bands[a].Bandwidth = _originalPresetBands[a].Bandwidth;
-                    _preset.Bands[a].Center = _originalPresetBands[a].Center;
-                    _preset.Bands[a].Label = _originalPresetBands[a].Label;
-                    //_preset.Bands[a].FXChannel = _originalPresetBands[a].FXChannel;
-                    _preset.Bands[a].Gain = _originalPresetBands[a].Gain;
-                    _preset.Bands[a].Q = _originalPresetBands[a].Q;
-                }
+                // TODO: Test me
+                _preset = _originalPreset;
                 _playerService.ApplyEQPreset(_preset);
                 View.RefreshPreset(_preset);
             }
@@ -214,8 +196,11 @@ namespace Sessions.MVP.Presenters
                 //Tracing.Log("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
                 var band = _preset.Bands.FirstOrDefault(x => x.Label == frequency);
                 band.Gain = gain;
-                int index = Array.IndexOf(_preset.Bands, band);
-                _playerService.UpdateEQBand(index, gain, true);
+                //int index = Array.IndexOf(_preset.Bands, band);
+                int index = _preset.Bands.ToList().FindIndex(x => x.Label == frequency);
+
+                if(index >= 0) 
+                    _playerService.UpdateEQBand(index, gain, true);
             }
             catch(Exception ex)
             {

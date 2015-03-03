@@ -191,7 +191,7 @@ namespace Sessions.iOS
 
         private void HandleButtonNormalizeTouchUpInside(object sender, EventArgs e)
         {
-            UIAlertView alertView = new UIAlertView("Equalizer preset will be normalized", "Are you sure you wish to normalize this equalizer preset?", null, "OK", new string[1] {"Cancel"});
+            var alertView = new UIAlertView("Equalizer preset will be normalized", "Are you sure you wish to normalize this equalizer preset?", null, "OK", new string[1] {"Cancel"});
             alertView.Dismissed += (sender2, e2) => {
                 if(e2.ButtonIndex == 0)
                     OnNormalizePreset();
@@ -202,7 +202,7 @@ namespace Sessions.iOS
         private void AddFaderToScrollView(string frequency)
         {
 			//Tracing.Log("EqualizerPresetDetailsVC - AddFaderToScrollView - frequency: {0} faderCount: {1}", frequency, _faderViews.Count);
-            SessionsEqualizerFaderView view = new SessionsEqualizerFaderView();
+            var view = new SessionsEqualizerFaderView();
             view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
             view.SetValue(frequency, 0);
             view.ValueChanged += HandleFaderValueChanged;
@@ -213,8 +213,7 @@ namespace Sessions.iOS
 
         private void HandleFaderValueChanged(object sender, SessionsEqualizerFaderValueChangedEventArgs e)
         {
-            SessionsEqualizerFaderView view = (SessionsEqualizerFaderView)sender;
-
+            var view = (SessionsEqualizerFaderView)sender;
             var band = _preset.Bands.FirstOrDefault(x => x.Label == view.Frequency);
             band.Gain = e.Value;
 
