@@ -80,7 +80,7 @@ namespace Sessions.WPF.Classes.Windows
         private int _selectedMarkerIndex = -1;
         private int _selectedLoopIndex = -1;
         private int _selectedSegmentIndex = -1;
-        private AudioFile _currentAudioFile;
+        private SongInformationEntity _currentSongInfo;
         private string _currentAlbumArtKey;
         private LibraryBrowserEntity _selectedLibraryNode;
         private static NotifyIcon _playerNotifyIcon;
@@ -1091,7 +1091,7 @@ namespace Sessions.WPF.Classes.Windows
 
         private void ScrollViewWaveForm_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_currentAudioFile == null)
+            if (_currentSongInfo == null)
                 return;
 
             //contextMenuWaveForm.Placement = PlacementMode.MousePoint;
@@ -1436,12 +1436,17 @@ namespace Sessions.WPF.Classes.Windows
 
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                if (_currentAudioFile == null)
+                if (_currentSongInfo == null || _currentSongInfo.AudioFile == null)
                     return;
 
+                // The wave form scroll view isn't aware of floating point
+                long positionBytes = position.Bytes;
+                if (_currentSongInfo.UseFloatingPoint)
+                    positionBytes /= 2;
+
                 lblPosition.Content = position.Str;
-                trackPosition.Value = (int)(((float)position.Bytes / (float)_currentAudioFile.LengthBytes) * 1000f);
-                scrollViewWaveForm.SetPosition(position.Bytes);
+                trackPosition.Value = (int)(((float)position.Bytes / (float)_currentSongInfo.AudioFile.LengthBytes) * 1000f);
+                scrollViewWaveForm.SetPosition(positionBytes);
                 //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
             }));
         }
@@ -1458,7 +1463,7 @@ namespace Sessions.WPF.Classes.Windows
         {
             var audioFile = entity.AudioFile;
             _selectedMarkerIndex = -1;
-            _currentAudioFile = audioFile;
+            _currentSongInfo = entity;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 if (audioFile == null)

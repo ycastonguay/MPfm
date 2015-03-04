@@ -323,6 +323,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libssp_player\libssp_player.vcxproj">
+      <Project>{f534062b-dd66-453b-b08b-87ae6741179d}</Project>
+      <Name>libssp_player</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
       <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
       <Name>Sessions.Core</Name>

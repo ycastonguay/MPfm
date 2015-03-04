@@ -316,7 +316,7 @@ namespace Sessions.Player
 
         public void SetEQPreset(SSPEQPreset preset)
         {
-            CheckForError(SSP.SSP_SetEQPreset(preset.Struct));
+            CheckForError(SSP.SSP_SetEQPreset(ref preset.Struct));
         }
 
         public void SetEQPresetBand(int band, float gain)
