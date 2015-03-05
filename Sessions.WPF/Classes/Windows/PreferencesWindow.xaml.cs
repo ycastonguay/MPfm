@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using org.sessionsapp.player;
 using Sessions.Core.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.Sound.BassNetWrapper;
@@ -39,7 +40,7 @@ namespace Sessions.WPF.Classes.Windows
         private AudioAppConfig _audioAppConfig;
         private LibraryAppConfig _libraryAppConfig;
         private CloudAppConfig _cloudAppConfig;
-        private List<Device> _devices;
+        private List<SSPDevice> _devices;
         private bool _isRefreshingComboBoxes;
 
         public PreferencesWindow(Action<IBaseView> onViewReady)
@@ -396,7 +397,7 @@ namespace Sessions.WPF.Classes.Windows
         #region IAudioPreferencesView implementation
 
         public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action<SSPDevice, int> OnSetOutputDeviceAndSampleRate { get; set; }
         public Action OnResetAudioSettings { get; set; }
         public Func<bool> OnCheckIfPlayerIsPlaying { get; set; } 
 
@@ -415,7 +416,7 @@ namespace Sessions.WPF.Classes.Windows
                 trackUpdatePeriod.Value = config.UpdatePeriod;
                 lblBufferSize.Content = config.BufferSize.ToString();
                 lblUpdatePeriod.Content = config.UpdatePeriod.ToString();
-                comboOutputDevice.SelectedIndex = _devices.FindIndex(d => d.Id == config.AudioDevice.Id && d.DriverType == config.AudioDevice.DriverType);
+                comboOutputDevice.SelectedIndex = _devices.FindIndex(d => d.DeviceId == config.AudioDevice.DeviceId);
                 if (comboOutputDevice.SelectedIndex == -1)
                     comboOutputDevice.SelectedIndex = 0;
 
@@ -432,7 +433,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshAudioDevices(IEnumerable<Device> devices)
+        public void RefreshAudioDevices(IEnumerable<SSPDevice> devices)
         {
             _devices = devices.ToList();
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
