@@ -24,7 +24,6 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
 using System.Collections.Generic;

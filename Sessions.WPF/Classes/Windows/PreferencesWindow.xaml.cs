@@ -24,7 +24,6 @@ using System.Windows.Threading;
 using org.sessionsapp.player;
 using Sessions.Core.Helpers;
 using Sessions.GenericControls.Basics;
-using Sessions.Sound.BassNetWrapper;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
 using Sessions.MVP.Config.Models;

@@ -70,9 +70,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net">
-      <HintPath>..\Sessions.Sound\Lib\Bass.Net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -100,22 +97,15 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="Exceptions\PlayerCreateStreamException.cs" />
     <Compile Include="IPlayer.cs" />
-    <Compile Include="Objects\CastServerMetadata.cs" />
-    <Compile Include="Objects\CastServerParams.cs" />
     <Compile Include="Objects\PlayerMetadata.cs" />
     <Compile Include="Objects\PlayerPitchShifting.cs" />
-    <Compile Include="Objects\PlayerPosition.cs" />
-    <Compile Include="Objects\PlayerSyncProc.cs" />
     <Compile Include="Objects\PlayerTimeShifting.cs" />
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Objects\RepeatType.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="Events\AudioInterruptedData.cs" />
     <Compile Include="Services\IDecodingService.cs" />
     <Compile Include="Services\DecodingService.cs" />
   </ItemGroup>

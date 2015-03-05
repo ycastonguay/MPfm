@@ -28,7 +28,6 @@ using Sessions.Player;
 using Sessions.Player.Events;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
-using Sessions.Sound.BassNetWrapper;
 using TinyMessenger;
 using org.sessionsapp.player;
 

@@ -31,7 +31,6 @@ using Sessions.MVP.Services;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Sound;
-using Sessions.Sound.BassNetWrapper;
 using Timer = System.Timers.Timer;
 
 namespace Sessions.MVP.Presenters

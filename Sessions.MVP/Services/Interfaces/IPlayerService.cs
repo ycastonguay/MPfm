@@ -21,7 +21,6 @@ using org.sessionsapp.player;
 using Sessions.Player;
 using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
-using Sessions.Sound.BassNetWrapper;
 
 namespace Sessions.MVP.Services.Interfaces
 {

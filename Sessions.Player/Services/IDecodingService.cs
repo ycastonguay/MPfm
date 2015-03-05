@@ -14,9 +14,9 @@
 ////
 //// You should have received a copy of the GNU General Public License
 //// along with Sessions. If not, see <http://www.gnu.org/licenses/>.
-//
+
 //using System.Collections.Generic;
-//
+
 //namespace Sessions.Player.Services
 //{
 //    public interface IDecodingService
@@ -24,7 +24,7 @@
 //        int BufferDataLength { get; }
 //        int BufferLength { get; }
 //        event DecodingService.NoAudioFileToDecode OnNoAudioFileToDecode;
-//
+
 //        void StartWorker();
 //        void StopWorker();
 //        void StartDecodingFile(string audioFilePath, long startPosition);

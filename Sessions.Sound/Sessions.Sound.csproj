@@ -71,9 +71,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net">
-      <HintPath>Lib\Bass.Net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -88,13 +85,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lib\System.Reactive.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <None Include="Lib\Bass.Net.dll" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
     <Compile Include="AudioFiles\AudioTools.cs" />
@@ -102,8 +95,6 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
-    <Compile Include="BassNetWrapper\BaseCast.cs" />
-    <Compile Include="BassNetWrapper\BaseEnc.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
@@ -126,25 +117,7 @@
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="PeakFiles\IPeakFileService.cs" />
     <Compile Include="PeakFiles\PeakFileService.cs" />
-    <Compile Include="BassNetWrapper\Channel.cs" />
-    <Compile Include="BassNetWrapper\ChannelType.cs" />
-    <Compile Include="BassNetWrapper\IChannel.cs" />
-    <Compile Include="BassNetWrapper\IMixerChannel.cs" />
-    <Compile Include="BassNetWrapper\ITestDevice.cs" />
-    <Compile Include="BassNetWrapper\MixerChannel.cs" />
-    <Compile Include="BassNetWrapper\DriverType.cs" />
-    <Compile Include="BassNetWrapper\TestDevice.cs" />
-    <Compile Include="BassNetWrapper\DeviceHelper.cs" />
-    <Compile Include="BassNetWrapper\Device.cs" />
-    <Compile Include="BassNetWrapper\Exception.cs" />
-    <Compile Include="BassNetWrapper\Base.cs" />
-    <Compile Include="BassNetWrapper\ASIO\ASIOInfo.cs" />
-    <Compile Include="BassNetWrapper\ASIO\BaseASIO.cs" />
-    <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
-    <Compile Include="BassNetKey.cs" />
-    <Compile Include="BassNetWrapper\BassWrapper.cs" />
-    <Compile Include="BassNetWrapper\BaseFx.cs" />
     <Compile Include="Services\AlbumArtExtractionService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
@@ -185,7 +158,7 @@
     <Compile Include="Player\ISSPPlayer.cs" />
     <Compile Include="Player\SSPException.cs" />
     <Compile Include="Player\SSPPlayer.cs" />
-    <Compile Include="Player\SSPPlaylist.cs" />    
+    <Compile Include="Player\SSPPlaylist.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
@@ -193,7 +166,5 @@
       <Name>Sessions.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CueFiles\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

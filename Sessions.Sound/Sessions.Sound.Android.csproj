@@ -80,10 +80,6 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net.android, Version=2.4.10.0, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Android\Bass.Net.android.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -95,7 +91,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lib\Android\Bass.Net.android.dll" />
     <Content Include="Lib\Android\taglib-sharp.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
@@ -113,8 +108,6 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
-    <Compile Include="BassNetWrapper\BaseCast.cs" />
-    <Compile Include="BassNetWrapper\BaseEnc.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
@@ -134,25 +127,7 @@
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="PeakFiles\IPeakFileService.cs" />
     <Compile Include="PeakFiles\PeakFileService.cs" />
-    <Compile Include="BassNetWrapper\Channel.cs" />
-    <Compile Include="BassNetWrapper\ChannelType.cs" />
-    <Compile Include="BassNetWrapper\IChannel.cs" />
-    <Compile Include="BassNetWrapper\IMixerChannel.cs" />
-    <Compile Include="BassNetWrapper\ITestDevice.cs" />
-    <Compile Include="BassNetWrapper\MixerChannel.cs" />
-    <Compile Include="BassNetWrapper\DriverType.cs" />
-    <Compile Include="BassNetWrapper\TestDevice.cs" />
-    <Compile Include="BassNetWrapper\DeviceHelper.cs" />
-    <Compile Include="BassNetWrapper\Device.cs" />
-    <Compile Include="BassNetWrapper\Exception.cs" />
-    <Compile Include="BassNetWrapper\Base.cs" />
-    <Compile Include="BassNetWrapper\ASIO\ASIOInfo.cs" />
-    <Compile Include="BassNetWrapper\ASIO\BaseASIO.cs" />
-    <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
-    <Compile Include="BassNetKey.cs" />
-    <Compile Include="BassNetWrapper\BassWrapper.cs" />
-    <Compile Include="BassNetWrapper\BaseFx.cs" />
     <Compile Include="Playlists\ShufflePlaylist.cs" />
     <Compile Include="Playlists\PlaylistHelper.cs" />
     <Compile Include="Playlists\EndOfPlaylistException.cs" />
