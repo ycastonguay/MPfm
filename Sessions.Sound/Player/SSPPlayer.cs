@@ -20,6 +20,7 @@ using System.IO;
 using System.Reflection;
 using Sessions.Core;
 using org.sessionsapp.player;
+using System.Collections.Generic;
 
 #if IOS
 using MonoTouch;
@@ -336,12 +337,12 @@ namespace Sessions.Player
 
         public void StartLoop(SSPLoop loop)
         {
-            CheckForError(SSP.SSP_StartLoop(loop.Struct));
+            CheckForError(SSP.SSP_StartLoop(ref loop.Struct));
         }
 
         public void UpdateLoop(SSPLoop loop)
         {
-            CheckForError(SSP.SSP_UpdateLoop(loop.Struct));
+            CheckForError(SSP.SSP_UpdateLoop(ref loop.Struct));
         }
 
         public void StopLoop()
@@ -450,6 +451,20 @@ namespace Sessions.Player
         public void StopCast()
         {
             CheckForError(SSP.SSP_StopCast());
+        }
+
+        public IEnumerable<SSPDevice> GetOutputDevices()
+        {
+            int count = SSP.SSP_GetOutputDeviceCount();
+            var devices = new List<SSPDevice>();
+            for(int a = 0; a < count; a++) 
+            {
+                var device = new SSPDevice();
+                bool success = SSP.SSP_GetOutputDevice(a, ref device.Struct);
+                if(success)
+                    devices.Add(device);
+            }
+            return devices;
         }
     }
 }

@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.MVP.Config.Models;
-using Sessions.Sound.BassNetWrapper;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views
 {
@@ -27,12 +27,12 @@ namespace Sessions.MVP.Views
     public interface IAudioPreferencesView : IBaseView
 	{        
         Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        Action<SSPDevice, int> OnSetOutputDeviceAndSampleRate { get; set; }
         Action OnResetAudioSettings { get; set; }
         Func<bool> OnCheckIfPlayerIsPlaying { get; set; } 
 
         void AudioPreferencesError(Exception ex);
         void RefreshAudioPreferences(AudioAppConfig config);
-	    void RefreshAudioDevices(IEnumerable<Device> devices);
+	    void RefreshAudioDevices(IEnumerable<SSPDevice> devices);
 	}
 }

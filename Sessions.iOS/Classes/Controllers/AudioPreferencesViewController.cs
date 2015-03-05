@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Config.Models;
 using System.Linq;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS
 {
@@ -120,7 +121,7 @@ namespace Sessions.iOS
 		#region IAudioPreferencesView implementation
 
 		public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action<SSPDevice, int> OnSetOutputDeviceAndSampleRate { get; set; }
         public Action OnResetAudioSettings { get; set; }
         public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
@@ -138,7 +139,7 @@ namespace Sessions.iOS
 			});
 		}
 
-        public void RefreshAudioDevices(IEnumerable<Device> devices)
+        public void RefreshAudioDevices(IEnumerable<SSPDevice> devices)
         {
         }
 

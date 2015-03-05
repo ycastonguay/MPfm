@@ -158,9 +158,9 @@ namespace Sessions.MVP.Services
                 OnBPMDetected(IntPtr.Zero, bpm);
         }
 
-        public void InitDevice(Device device, int sampleRate, int bufferSize, int updatePeriod)
+        public void InitDevice(SSPDevice device, int sampleRate, int bufferSize, int updatePeriod)
         {
-            _sspPlayer.InitDevice(device.Id, sampleRate, bufferSize, updatePeriod, true);
+            _sspPlayer.InitDevice(device.DeviceId, sampleRate, bufferSize, updatePeriod, true);
         
 //            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
 //            {
@@ -228,8 +228,8 @@ namespace Sessions.MVP.Services
             short[] right = new short[l4 / 2];
             for (int a = 0; a < l4; a++)
             {
-                short leftValue = Base.LowWord(sampleData[a]);
-                short rightValue = Base.HighWord(sampleData[a]);
+                short leftValue = Conversion.LowWord(sampleData[a]);
+                short rightValue = Conversion.HighWord(sampleData[a]);
 
                 short absLevelLeft = Math.Abs(leftValue);
                 short absLevelRight = Math.Abs(rightValue);
@@ -501,6 +501,11 @@ namespace Sessions.MVP.Services
             AppConfigManager.Instance.Save();
 
             _sspPlayer.SetEQPreset(preset);
+        }
+
+        public IEnumerable<SSPDevice> GetOutputDevices()
+        {
+            return _sspPlayer.GetOutputDevices();
         }
     }
 }

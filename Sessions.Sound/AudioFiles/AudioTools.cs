@@ -20,10 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-using Sessions.Sound.BassNetWrapper;
-#endif
-
 namespace Sessions.Sound.AudioFiles
 {
     /// <summary>
@@ -124,8 +120,8 @@ namespace Sessions.Sound.AudioFiles
             float dbRight = 0;
 
             #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-            dbLeft = (float)Base.LevelToDB_16Bit(peakL);
-            dbRight = (float)Base.LevelToDB_16Bit(peakR);
+            dbLeft = (float)ConvertAudio.LevelToDB(peakL, 65535);
+            dbRight = (float)ConvertAudio.LevelToDB(peakR, 65535);
             #endif
 
             // Check if the max peak reaches or goes past the threshold (left channel)

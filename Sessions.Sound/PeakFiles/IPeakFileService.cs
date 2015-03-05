@@ -55,7 +55,7 @@ namespace Sessions.Sound.PeakFiles
         /// every x blocks (where x is ProgressReportBlockInterval). 
         /// The default value is 20.
         /// </summary>
-        int ProgressReportBlockInterval { get; set; }
+        uint ProgressReportBlockInterval { get; set; }
 
         /// <summary>
         /// Event called when a thread starts its work.

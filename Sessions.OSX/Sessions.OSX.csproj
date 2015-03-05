@@ -26,12 +26,9 @@
     <CreatePackage>False</CreatePackage>
     <EnablePackageSigning>False</EnablePackageSigning>
     <IncludeMonoRuntime>False</IncludeMonoRuntime>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
-    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <OutputPath>..\Output\Debug</OutputPath>
     <UseSGen>False</UseSGen>
-    <I18n>
-    </I18n>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -46,6 +43,7 @@
     <OutputPath>..\Output\Release</OutputPath>
     <DefineConstants>MACOSX</DefineConstants>
     <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -62,6 +60,7 @@
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -76,6 +75,7 @@
     <IncludeMonoRuntime>False</IncludeMonoRuntime>
     <Externalconsole>True</Externalconsole>
     <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -92,6 +92,7 @@
     <CreatePackage>True</CreatePackage>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -106,6 +107,7 @@
     <EnablePackageSigning>False</EnablePackageSigning>
     <CreatePackage>False</CreatePackage>
     <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

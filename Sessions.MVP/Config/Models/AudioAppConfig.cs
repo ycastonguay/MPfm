@@ -16,6 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using Sessions.Sound.BassNetWrapper;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Config.Models
 {
@@ -24,7 +25,7 @@ namespace Sessions.MVP.Config.Models
     /// </summary>
     public class AudioAppConfig : IAppConfig
     {
-        public Device AudioDevice { get; set; }
+        public SSPDevice AudioDevice { get; set; }
         public int SampleRate { get; set; }
         public float Volume { get; set; }
         public int BufferSize { get; set; }
@@ -34,8 +35,7 @@ namespace Sessions.MVP.Config.Models
 
         public AudioAppConfig()
         {
-            // Set defaults
-            AudioDevice = new Device();
+            AudioDevice = new SSPDevice();
             SampleRate = 44100;
             Volume = 1;
             BufferSize = 1000;

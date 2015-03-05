@@ -154,6 +154,38 @@
     <Compile Include="CueFiles\CueFile.cs" />
     <Compile Include="CueFiles\CueMetadata.cs" />
     <Compile Include="CueFiles\CueTrack.cs" />
+    <Compile Include="..\libssp_player\player-csharp\SSP.cs">
+      <Link>libssp_player\SSP.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPCastServer.cs">
+      <Link>libssp_player\SSPCastServer.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPDevice.cs">
+      <Link>libssp_player\SSPDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPEQPreset.cs">
+      <Link>libssp_player\SSPEQPreset.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPEQPresetBand.cs">
+      <Link>libssp_player\SSPEQPresetBand.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPLoop.cs">
+      <Link>libssp_player\SSPLoop.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPMixer.cs">
+      <Link>libssp_player\SSPMixer.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPPlaylistItem.cs">
+      <Link>libssp_player\SSPPlaylistItem.cs</Link>
+    </Compile>
+    <Compile Include="..\libssp_player\player-csharp\SSPPosition.cs">
+      <Link>libssp_player\SSPPosition.cs</Link>
+    </Compile>
+    <Compile Include="AudioFiles\AudioFileDictionary.cs" />
+    <Compile Include="Player\ISSPPlayer.cs" />
+    <Compile Include="Player\SSPException.cs" />
+    <Compile Include="Player\SSPPlayer.cs" />
+    <Compile Include="Player\SSPPlaylist.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">

@@ -23,10 +23,10 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Sessions.Sound.AudioFiles;
-using Sessions.Sound.BassNetWrapper;
 using System.Linq;
 using Sessions.Core;
 using Sessions.Core.Helpers;
+using org.sessionsapp.player;
 
 namespace Sessions.Sound.PeakFiles
 {
@@ -57,13 +57,13 @@ namespace Sessions.Sound.PeakFiles
         /// </summary>
         public bool IsProcessing { get; private set; }
 
-        private int progressReportBlockInterval = 200;
+        private uint progressReportBlockInterval = 200;
         /// <summary>
         /// Defines when the OnProgressData event is called; it will be called
         /// every x blocks (where x is ProgressReportBlockInterval). 
         /// The default value is 20.
         /// </summary>
-        public int ProgressReportBlockInterval
+        public uint ProgressReportBlockInterval
         {
             get
             {
@@ -92,11 +92,11 @@ namespace Sessions.Sound.PeakFiles
             FileStream fileStream = null;
             BinaryWriter binaryWriter = null;
             GZipStream gzipStream = null;            
-            int chunkSize = 0;
-            int currentBlock = 0;
-            long audioFileLength = 0;
-            int read = 0;
-            long bytesRead = 0;
+            uint chunkSize = 0;
+            uint currentBlock = 0;
+            ulong audioFileLength = 0;
+            ulong read = 0;
+            ulong bytesRead = 0;
             float[] floatLeft = null;
             float[] floatRight = null;
             IntPtr data = new IntPtr();
@@ -111,9 +111,9 @@ namespace Sessions.Sound.PeakFiles
             {
                 try
                 {
-                    // Get audio file length and divide it by two since we're using floating point                     
-                    Channel channelDecode = Channel.CreateFileStreamForDecoding(audioFilePath, _useFloatingPoint);
-                    audioFileLength = channelDecode.GetLength();
+                    // Get audio file length and divide it by two since we're using floating point
+                    UInt32 channelDecode = SSP.SSP_Decoder_CreateStream(audioFilePath, _useFloatingPoint);
+                    audioFileLength = SSP.SSP_Decoder_GetLength(channelDecode);
                     audioFileLength /= 2;
 
                     // Delete any previous peak file
@@ -143,7 +143,7 @@ namespace Sessions.Sound.PeakFiles
                     binaryWriter.Write((Int32)blocks);                      
 
                     // Create buffer
-                    data = Marshal.AllocHGlobal(chunkSize);
+                    data = Marshal.AllocHGlobal((int)chunkSize);
                     buffer = new int[chunkSize];
 
                     // Is an event binded to OnProcessData?
@@ -157,7 +157,7 @@ namespace Sessions.Sound.PeakFiles
                     }
 
                     // Loop through file using chunk size
-                    int dataBlockRead = 0;
+                    ulong dataBlockRead = 0;
                     do
                     {
                         // Check for cancel
@@ -176,7 +176,7 @@ namespace Sessions.Sound.PeakFiles
                         }
 
                         // Get data and increment bytes read
-                        read = channelDecode.GetData(buffer, chunkSize);
+                        read = SSP.SSP_Decoder_GetData(buffer, (int)chunkSize);
                         bytesRead += read;
 
                         // Create arrays for left and right channel
@@ -197,8 +197,8 @@ namespace Sessions.Sound.PeakFiles
                             else
                             {
                                 // Get left/right channel values
-                                short leftValue = Base.LowWord(buffer[a]);
-                                short rightValue = Base.HighWord(buffer[a]);
+                                short leftValue = Conversion.LowWord(buffer[a]);
+                                short rightValue = Conversion.HighWord(buffer[a]);
                                 floatLeft[a/2] = (float)leftValue / (float)Int16.MaxValue;
                                 floatRight[a/2] = (float)rightValue / (float)Int16.MaxValue;
                             }
@@ -230,7 +230,7 @@ namespace Sessions.Sound.PeakFiles
                             dataProgress.PercentageDone = (((float)bytesRead / (float)audioFileLength) / 2) * 100;
                             dataProgress.Length = audioFileLength;
                             dataProgress.CurrentBlock = currentBlock;
-                            dataProgress.TotalBlocks = (Int32)blocks;
+                            dataProgress.TotalBlocks = (UInt32)blocks;
                             dataProgress.MinMax = listMinMaxForProgressData;
                             OnProcessData(dataProgress); 
 
@@ -242,7 +242,7 @@ namespace Sessions.Sound.PeakFiles
 
                     // Free channel
                     Console.WriteLine("PeakFileService - Freeing channel...");
-                    channelDecode.Free();
+                    SSP.SSP_Decoder_FreeStream(channelDecode);
 
                     // TODO: This should replace the IsCancelled status since cancelling the task doesn't go end well
                     Console.WriteLine("PeakFileService - Is process successful? bytesRead: " + bytesRead.ToString() + " audioFileLength: " + audioFileLength.ToString());
@@ -250,7 +250,6 @@ namespace Sessions.Sound.PeakFiles
                         processSuccessful = true;
 
                     // Set nulls for garbage collection               
-                    channelDecode = null;
                     floatLeft = null;
                     floatRight = null;
                     buffer = null;

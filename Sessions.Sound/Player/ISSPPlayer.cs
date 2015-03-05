@@ -17,6 +17,7 @@
 
 using System;
 using org.sessionsapp.player;
+using System.Collections.Generic;
 
 namespace Sessions.Player
 {
@@ -98,5 +99,8 @@ namespace Sessions.Player
         void StopEncode();
         void StartCast(SSPCastServer server);
         void StopCast();
+
+        // Output devices
+        IEnumerable<SSPDevice> GetOutputDevices();
     }
 }

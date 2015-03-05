@@ -172,9 +172,39 @@ namespace Sessions.Core
 			return default(T);
 		}
 
-        public static short HighWord(int dWord)
+//        public static short HighWord(int dWord)
+//        {
+//            return (short)(dWord >> 16 & 65535);
+//        }
+
+//        public static int LowWord(int number)
+//        { 
+//            return number & 0x0000FFFF; 
+//        }
+//
+//        public static int LowWord(int number, int newValue)
+//        { 
+//            return (int)((number & 0xFFFF0000) + (newValue & 0x0000FFFF)); 
+//        }
+//
+//        public static int HighWord(int number)
+//        { 
+//            return (int)(number & 0xFFFF0000); 
+//        }
+//
+//        public static int HighWord(int number, int newValue)
+//        { 
+//            return (number & 0x0000FFFF) + (newValue << 16); 
+//        }
+
+        public static short LowWord(int value)
         {
-            return (short)(dWord >> 16 & 65535);
+            return unchecked((short)(uint)value);
+        }
+
+        public static short HighWord(int value)
+        {
+            return unchecked((short)((uint)value >> 16));
         }
 
         public static char IndexToLetter(int index)

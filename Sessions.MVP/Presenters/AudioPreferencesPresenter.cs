@@ -27,6 +27,7 @@ using Sessions.MVP.Views;
 using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
+using System.Collections.Generic;
 
 namespace Sessions.MVP.Presenters
 {
@@ -78,7 +79,7 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        private void SetOutputDeviceAndSampleRate(Device device, int sampleRate)
+        private void SetOutputDeviceAndSampleRate(SSPDevice device, int sampleRate)
         {
             try
             {                
@@ -112,7 +113,7 @@ namespace Sessions.MVP.Presenters
             {
                 AppConfigManager.Instance.Root.Audio.BufferSize = 1000;
                 AppConfigManager.Instance.Root.Audio.UpdatePeriod = 100;
-                var defaultDevice = DeviceHelper.GetDefaultDirectSoundOutputDevice();
+                var defaultDevice = new SSPDevice();
                 SetOutputDeviceAndSampleRate(defaultDevice, 44100);
                 RefreshPreferences();
             }
@@ -145,7 +146,7 @@ namespace Sessions.MVP.Presenters
 	    {
             try
             {
-                var devices = DeviceHelper.DetectOutputDevices();
+                var devices = _playerService.GetOutputDevices();
                 View.RefreshAudioDevices(devices);
             }
             catch (Exception ex)

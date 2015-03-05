@@ -128,9 +128,6 @@
     <Reference Include="DropBoxSync.iOS">
       <HintPath>Lib\DropBoxSync.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Bass.Net.iOS">
-      <HintPath>..\Sessions.Sound\Lib\iOS\Bass.Net.iOS.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

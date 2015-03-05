@@ -44,15 +44,15 @@ namespace Sessions.Sound.PeakFiles
         /// <summary>
         /// Defines the audio file path length in bytes.
         /// </summary>
-        public long Length { get; set; }
+        public ulong Length { get; set; }
         /// <summary>
         /// Defines the current block to read.
         /// </summary>
-        public int CurrentBlock { get; set; }
+        public uint CurrentBlock { get; set; }
         /// <summary>
         /// Defines the total number of blocks to read.
         /// </summary>
-        public int TotalBlocks { get; set; }
+        public uint TotalBlocks { get; set; }
 
         /// <summary>
         /// Defines the list of min/max wave data values for waveform.

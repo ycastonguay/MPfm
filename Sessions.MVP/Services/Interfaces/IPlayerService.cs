@@ -53,7 +53,7 @@ namespace Sessions.MVP.Services.Interfaces
         event LoopPlaybackStoppedDelegate OnLoopPlaybackStopped;
         event BPMDetectedDelegate OnBPMDetected;
 
-        void InitDevice(Device device, int sampleRate, int bufferSize, int updatePeriod);
+        void InitDevice(SSPDevice device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
 
         void SetBufferSize(int bufferSize);
@@ -91,5 +91,7 @@ namespace Sessions.MVP.Services.Interfaces
         void ResetEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
         void ApplyEQPreset(SSPEQPreset preset);
+
+        IEnumerable<SSPDevice> GetOutputDevices();
     }
 }

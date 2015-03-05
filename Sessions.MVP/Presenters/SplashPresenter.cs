@@ -79,7 +79,6 @@ namespace Sessions.MVP.Presenters
             View.RefreshStatus("Initializing player...");
 	        InitializationService.CreateDirectories();
             AppConfigManager.Instance.Load();
-            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
 
 	        try
 	        {
@@ -124,7 +123,7 @@ namespace Sessions.MVP.Presenters
 	    {
             try
             {
-                var device = DeviceHelper.GetDefaultDirectSoundOutputDevice();
+                var device = new SSPDevice();
                 int sampleRate = 44100;
                 int bufferSize = 1000;
                 int updatePeriod = 100;
@@ -134,7 +133,9 @@ namespace Sessions.MVP.Presenters
                     bufferSize = AppConfigManager.Instance.Root.Audio.BufferSize;
                     updatePeriod = AppConfigManager.Instance.Root.Audio.UpdatePeriod;
                     var configuredDevice = AppConfigManager.Instance.Root.Audio.AudioDevice;
-                    var foundConfiguredDevice = DeviceHelper.FindOutputDevice(configuredDevice.DriverType, configuredDevice.Name);
+
+                    var devices = _playerService.GetOutputDevices();
+                    var foundConfiguredDevice = devices.FirstOrDefault(x => x.Name.ToUpper() == configuredDevice.Name);
                     if (foundConfiguredDevice != null)
                         device = foundConfiguredDevice;
                 }

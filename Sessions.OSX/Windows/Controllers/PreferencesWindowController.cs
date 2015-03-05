@@ -31,6 +31,7 @@ using Sessions.Core.Helpers;
 using Sessions.OSX.Classes.Helpers;
 using System.IO;
 using Sessions.Library.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.OSX
 {
@@ -40,7 +41,7 @@ namespace Sessions.OSX
         private AudioAppConfig _audioAppConfig;
         private LibraryAppConfig _libraryAppConfig;
         private CloudAppConfig _cloudAppConfig;
-        private List<Device> _devices;
+        private List<SSPDevice> _devices;
         private bool _isRefreshingComboBoxes = false;
 
         public PreferencesWindowController(IntPtr handle) 
@@ -810,7 +811,7 @@ namespace Sessions.OSX
         #region IAudioPreferencesView implementation
 
         public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }		
-        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action<SSPDevice, int> OnSetOutputDeviceAndSampleRate { get; set; }
         public Action OnResetAudioSettings { get; set; }
         public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
@@ -828,7 +829,7 @@ namespace Sessions.OSX
                 trackUpdatePeriod.Value = config.UpdatePeriod;
                 lblBufferSizeValue.StringValue = config.BufferSize.ToString();
                 lblUpdatePeriodValue.StringValue = config.UpdatePeriod.ToString();
-                popupOutputDevice.SelectItem(_devices.FindIndex(d => d.Id == config.AudioDevice.Id && d.DriverType == config.AudioDevice.DriverType));
+                popupOutputDevice.SelectItem(_devices.FindIndex(d => d.DeviceId == config.AudioDevice.DeviceId));
                 if (popupOutputDevice.IndexOfSelectedItem == -1)
                     popupOutputDevice.SelectItem(0);
 
@@ -836,7 +837,7 @@ namespace Sessions.OSX
             });
         }
 		
-		public void RefreshAudioDevices(IEnumerable<Device> devices)
+		public void RefreshAudioDevices(IEnumerable<SSPDevice> devices)
         {
             _devices = devices.ToList();
             InvokeOnMainThread(() => {

@@ -16,7 +16,6 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using Sessions.Sound.AudioFiles;
-using Un4seen.Bass;
 
 namespace Sessions.Player.Objects
 {

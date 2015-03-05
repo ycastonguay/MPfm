@@ -77,9 +77,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Bass.Net.OSX">
-      <HintPath>..\Sessions.Sound\Lib\OSX\Bass.Net.OSX.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
@@ -118,40 +115,5 @@
     <Compile Include="Objects\PlayerMetadata.cs" />
     <Compile Include="Services\IDecodingService.cs" />
     <Compile Include="Services\DecodingService.cs" />
-    <Compile Include="..\libssp_player\player-csharp\SSP.cs">
-      <Link>SSP\player-csharp\SSP.cs</Link>
-    </Compile>
-    <Compile Include="SSP\SSPPlayer.cs" />
-    <Compile Include="SSP\ISSPPlayer.cs" />
-    <Compile Include="SSP\SSPPlaylist.cs" />
-    <Compile Include="SSP\AudioFileDictionary.cs" />
-    <Compile Include="SSP\SSPException.cs" />
-    <Compile Include="..\libssp_player\player-csharp\SSPCastServer.cs">
-      <Link>SSP\player-csharp\SSPCastServer.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPDevice.cs">
-      <Link>SSP\player-csharp\SSPDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPEQPreset.cs">
-      <Link>SSP\player-csharp\SSPEQPreset.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPEQPresetBand.cs">
-      <Link>SSP\player-csharp\SSPEQPresetBand.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPLoop.cs">
-      <Link>SSP\player-csharp\SSPLoop.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPMixer.cs">
-      <Link>SSP\player-csharp\SSPMixer.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPPlaylistItem.cs">
-      <Link>SSP\player-csharp\SSPPlaylistItem.cs</Link>
-    </Compile>
-    <Compile Include="..\libssp_player\player-csharp\SSPPosition.cs">
-      <Link>SSP\player-csharp\SSPPosition.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SSP\player-csharp\" />
   </ItemGroup>
 </Project>
