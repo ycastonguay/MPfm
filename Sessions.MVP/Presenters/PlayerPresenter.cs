@@ -135,15 +135,13 @@ namespace Sessions.MVP.Presenters
 
                 switch(m.State)
                 {
-                    case SSPPlayerState.Playing:
-                        Console.WriteLine(">>>>>>>>>>>> PLAYERPRES -- STATUS MESSAGE PLAYINGS");
+                    case SSPPlayerState.Playing:                        
                         _timerOutputMeter.Start();
                         break;
                     case SSPPlayerState.Paused:
                         _timerOutputMeter.Stop();
                         break;
-                    case SSPPlayerState.Stopped:
-                        Console.WriteLine(">>>>>>>>>>>> PLAYERPRES -- STATUS MESSAGE STOPPED");
+                    case SSPPlayerState.Stopped:                        
                         _timerOutputMeter.Stop();
                         View.RefreshSongInformation(new SongInformationEntity());
                         View.RefreshPlayerPosition(SSPPosition.Empty);

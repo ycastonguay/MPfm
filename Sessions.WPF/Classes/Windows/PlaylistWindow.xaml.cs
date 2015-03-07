@@ -22,6 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Sessions.Player;
+using Sessions.Sound.Player;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;

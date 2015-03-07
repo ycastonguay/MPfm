@@ -21,12 +21,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls;
 using Sessions.GenericControls.Services;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Control = System.Windows.Controls.Control;
 

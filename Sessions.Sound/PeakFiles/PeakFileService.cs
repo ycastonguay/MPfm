@@ -94,9 +94,9 @@ namespace Sessions.Sound.PeakFiles
             GZipStream gzipStream = null;            
             uint chunkSize = 0;
             uint currentBlock = 0;
-            ulong audioFileLength = 0;
-            ulong read = 0;
-            ulong bytesRead = 0;
+            long audioFileLength = 0;
+            long read = 0;
+            long bytesRead = 0;
             float[] floatLeft = null;
             float[] floatRight = null;
             IntPtr data = new IntPtr();
@@ -157,7 +157,7 @@ namespace Sessions.Sound.PeakFiles
                     }
 
                     // Loop through file using chunk size
-                    ulong dataBlockRead = 0;
+                    long dataBlockRead = 0;
                     do
                     {
                         // Check for cancel
@@ -176,7 +176,8 @@ namespace Sessions.Sound.PeakFiles
                         }
 
                         // Get data and increment bytes read
-                        read = SSP.SSP_Decoder_GetData(buffer, (int)chunkSize);
+                        int dafuck = SSP.SSP_Decoder_GetData(channelDecode, buffer, (int)chunkSize);
+                        read = dafuck;
                         bytesRead += read;
 
                         // Create arrays for left and right channel

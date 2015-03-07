@@ -100,10 +100,6 @@
       <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
       <Name>Sessions.Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound</Name>

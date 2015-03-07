@@ -44,7 +44,7 @@ namespace Sessions.Sound.PeakFiles
         /// <summary>
         /// Defines the audio file path length in bytes.
         /// </summary>
-        public ulong Length { get; set; }
+        public long Length { get; set; }
         /// <summary>
         /// Defines the current block to read.
         /// </summary>
