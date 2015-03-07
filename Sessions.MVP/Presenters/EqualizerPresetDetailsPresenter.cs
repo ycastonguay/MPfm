@@ -23,7 +23,6 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
-using Sessions.Player.Objects;
 using TinyMessenger;
 using Sessions.MVP.Messages;
 using org.sessionsapp.player;

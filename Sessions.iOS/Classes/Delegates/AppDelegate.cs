@@ -99,7 +99,7 @@ namespace Sessions.iOS.Classes.Delegates
 
         public override void WillTerminate(UIApplication application)
         {
-            Sessions.Player.SSPPlayer.CurrentPlayer.Dispose();
+            Sessions.Sound.Player.SSPPlayer.CurrentPlayer.Dispose();
         }
 
         public void RegisterViews()

@@ -24,12 +24,12 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
-using Sessions.Player;
 using Sessions.Player.Events;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using org.sessionsapp.player;
+using Sessions.Sound.Player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Services
 {

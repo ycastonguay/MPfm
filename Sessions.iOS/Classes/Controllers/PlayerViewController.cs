@@ -38,10 +38,10 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Services;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Player;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
+using Sessions.Sound.Objects;
+using Sessions.Sound.Player;
 
 namespace Sessions.iOS.Classes.Controllers
 {

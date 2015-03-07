@@ -21,7 +21,6 @@ using System.Linq;
 using Sessions.MVP;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;

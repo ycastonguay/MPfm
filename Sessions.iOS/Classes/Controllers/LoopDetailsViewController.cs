@@ -23,9 +23,10 @@ using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
+using System.Collections.Generic;
 
 namespace Sessions.iOS
 {
@@ -78,7 +79,7 @@ namespace Sessions.iOS
 //        {
 //        }		
 
-        public void RefreshLoopMarkers(System.Collections.Generic.IEnumerable<Marker> markers)
+        public void RefreshLoopMarkers(IEnumerable<Marker> markers)
         {
         }
 

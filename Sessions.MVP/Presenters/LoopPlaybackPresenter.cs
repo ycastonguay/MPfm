@@ -18,7 +18,6 @@
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using System;

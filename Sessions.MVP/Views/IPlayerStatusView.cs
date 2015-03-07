@@ -21,6 +21,7 @@ using Sessions.MVP.Models;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using org.sessionsapp.player;
+using Sessions.Sound.Player;
 
 namespace Sessions.MVP.Views
 {
@@ -38,7 +39,7 @@ namespace Sessions.MVP.Views
 
 	    void RefreshPlayerState(SSPPlayerState state);
 	    void RefreshAudioFile(AudioFile audioFile);
-	    void RefreshPlaylist(Playlist playlist);
+	    void RefreshPlaylist(SSPPlaylist playlist);
 	    void RefreshPlaylists(List<PlaylistEntity> playlists, Guid selectedPlaylistId);
 	}
 }

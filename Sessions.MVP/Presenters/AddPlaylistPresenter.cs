@@ -24,6 +24,7 @@ using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.Playlists;
 using TinyMessenger;
+using Sessions.Sound.Player;
 
 namespace Sessions.MVP.Presenters
 {
@@ -52,7 +53,7 @@ namespace Sessions.MVP.Presenters
 	    {
             try
             {
-                var playlist = new Playlist();
+                var playlist = new SSPPlaylist();
                 playlist.Name = title;
                 _libraryService.InsertPlaylist(playlist);
                 _messengerHub.PublishAsync<PlaylistListUpdatedMessage>(new PlaylistListUpdatedMessage(this));

@@ -18,10 +18,11 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Library.Objects;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
+using Sessions.Sound.Player;
 
 namespace Sessions.Library.Database.Interfaces
 {
@@ -84,10 +85,10 @@ namespace Sessions.Library.Database.Interfaces
         void UpdatePlayCount(Guid audioFileId);
         void UpdateSetting(Setting dto);
 
-        List<Playlist> SelectPlaylists();
-        Playlist SelectPlaylist(Guid playlistId);
-        void InsertPlaylist(Playlist playlist);
-        void UpdatePlaylist(Playlist playlist);
+        List<SSPPlaylist> SelectPlaylists();
+        SSPPlaylist SelectPlaylist(Guid playlistId);
+        void InsertPlaylist(SSPPlaylist playlist);
+        void UpdatePlaylist(SSPPlaylist playlist);
         void DeletePlaylist(Guid playlistId);
 
         List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId);

@@ -690,10 +690,6 @@
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.iOS.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player.iOS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sessions.Library\Sessions.Library.iOS.csproj">
       <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
       <Name>Sessions.Library.iOS</Name>

@@ -15,21 +15,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-namespace Sessions.Player.Objects
+using Sessions.Sound.AudioFiles;
+
+namespace Sessions.Sound.Objects
 {
-    /// <summary>
-    /// Data structure repesenting the current player volume.
-    /// </summary>
-    public class PlayerVolume
+    public class PlayerMetadata
     {
-        /// <summary>
-        /// Player volume (in float format, 0 to 100).
-        /// </summary>
-        public float Volume { get; set; }
-        /// <summary>
-        /// Player volume (in string format, 0 to 100%).
-        /// </summary>
-        public string VolumeString { get; set; }
+        public AudioFile CurrentAudioFile { get; set; }
+        public PlayerStatus Status { get; set; }
+        public int PlaylistIndex { get; set; }
+        public int PlaylistCount { get; set; }
+        public string Position { get; set; }
+        public string Length { get; set; }
+
+        public enum PlayerStatus
+        {
+            Stopped = 0, Playing = 1, Paused = 2
+        }
+
+        public PlayerMetadata()
+        {
+            Position = "0:00.000";
+            Length = "0:00.000";
+        }
     }
 }
-

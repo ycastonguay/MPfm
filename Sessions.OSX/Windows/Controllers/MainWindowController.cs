@@ -31,13 +31,14 @@ using Sessions.MVP.Models;
 using Sessions.MVP.Presenters;
 using Sessions.MVP.Views;
 using Sessions.Player;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using org.sessionsapp.player;
 using Sessions.OSX.Classes.Controls;
 using Sessions.OSX.Classes.Delegates;
 using Sessions.OSX.Classes.Helpers;
 using Sessions.OSX.Classes.Objects;
+using Sessions.Sound.Objects;
+using Sessions.Sound.Player;
 
 namespace Sessions.OSX
 {

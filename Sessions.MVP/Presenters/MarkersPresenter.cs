@@ -25,11 +25,11 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Presenters
 {

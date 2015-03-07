@@ -15,22 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+using org.sessionsapp.player;
+using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls;
+using Sessions.GenericControls.Services;
 using Sessions.OSX.Classes.Controls.Graphics;
 using Sessions.OSX.Classes.Controls.Helpers;
-using System;
-using Sessions.Player.Objects;
-using System.Collections.Generic;
 using Sessions.Sound.AudioFiles;
-using Sessions.OSX.Classes.Helpers;
-using Sessions.GenericControls.Basics;
-using System.Diagnostics;
-using Sessions.GenericControls.Services;
-using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.OSX.Classes.Controls
 {

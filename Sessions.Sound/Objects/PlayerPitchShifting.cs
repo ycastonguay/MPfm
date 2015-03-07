@@ -17,7 +17,7 @@
 
 using System;
 
-namespace Sessions.Player.Objects
+namespace Sessions.Sound.Objects
 {
     /// <summary>
     /// Data structure repesenting the current player pitch shifting.

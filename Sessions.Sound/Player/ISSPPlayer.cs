@@ -19,7 +19,7 @@ using System;
 using org.sessionsapp.player;
 using System.Collections.Generic;
 
-namespace Sessions.Player
+namespace Sessions.Sound.Player
 {
     /// <summary>
     /// Interface for the Player class.

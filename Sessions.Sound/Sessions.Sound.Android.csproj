@@ -172,5 +172,15 @@
     <Compile Include="Player\SSPException.cs" />
     <Compile Include="Player\SSPPlayer.cs" />
     <Compile Include="Player\SSPPlaylist.cs" />    
+    <Compile Include="Objects\Marker.cs" />
+    <Compile Include="Objects\PlayerMetadata.cs" />
+    <Compile Include="Objects\PlayerPitchShifting.cs" />
+    <Compile Include="Objects\PlayerTimeShifting.cs" />
+    <Compile Include="Objects\PlayerVolume.cs" />
+    <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
+    <Compile Include="Services\DecodingService.cs" />
+    <Compile Include="Services\Interfaces\IDecodingService.cs" />
+    <Compile Include="Legacy\IPlayer.cs" />
+    <Compile Include="Legacy\Player.cs" />    
   </ItemGroup>
 </Project>

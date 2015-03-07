@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using MonoTouch;
 #endif
 
-namespace Sessions.Player
+namespace Sessions.Sound.Player
 {
     public class SSPPlayer : ISSPPlayer 
     {

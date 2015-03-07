@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sessions.MVP.Presenters;
-using Sessions.Player.Objects;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Views
 {

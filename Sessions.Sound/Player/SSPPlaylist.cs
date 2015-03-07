@@ -19,12 +19,49 @@ using System;
 using org.sessionsapp.player;
 using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
+using Sessions.Core.Attributes;
+using Sessions.Sound.Playlists;
 
-namespace Sessions.Player
+namespace Sessions.Sound.Player
 {
     public class SSPPlaylist
     {
         private AudioFileDictionary _audioFiles;
+
+        // TODO: Should these be split from this class? i.e. this class is a wrapper to the public methods, not SSP_PLAYLIST
+        /// <summary>
+        /// Defines the repeat type of the playlist.
+        /// </summary>
+        [DatabaseField(false)]
+        public SSPRepeatType RepeatType { get; set; }
+
+        /// <summary>
+        /// Playlist name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Playlist identifier.
+        /// </summary>
+        public Guid PlaylistId { get; set; }
+
+        /// <summary>
+        /// Playlist last modified.
+        /// </summary>
+        [DatabaseField(false)] // TODO: Save in database... causes an error in Android
+        public DateTime LastModified { get; set; }
+
+        /// <summary>
+        /// Playlist file path.
+        /// </summary>
+        [DatabaseField(false)]
+        public string FilePath { get; set; }
+
+        /// <summary>
+        /// Playlist format.
+        /// </summary>
+        [DatabaseField(false)]
+        public PlaylistFileFormat Format { get; set; }
 
         public int Count
         {

@@ -22,12 +22,13 @@ using Sessions.Library.Database.Interfaces;
 using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
+using Sessions.Sound.Player;
 
 #if WINDOWSSTORE
 using Windows.Storage;
 using Sessions.Core.WinRT;
 #endif
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 
@@ -196,22 +197,22 @@ namespace Sessions.Library.Services
 
         #region Playlists
 
-        public Playlist SelectPlaylist(Guid playlistId)
+        public SSPPlaylist SelectPlaylist(Guid playlistId)
         {
             return _gateway.SelectPlaylist(playlistId);
         }
 
-        public List<Playlist> SelectPlaylists()
+        public List<SSPPlaylist> SelectPlaylists()
         {
             return _gateway.SelectPlaylists();
         }
 
-        public void InsertPlaylist(Playlist playlist)
+        public void InsertPlaylist(SSPPlaylist playlist)
         {
             _gateway.InsertPlaylist(playlist);
         }
 
-        public void UpdatePlaylist(Playlist playlist)
+        public void UpdatePlaylist(SSPPlaylist playlist)
         {
             _gateway.UpdatePlaylist(playlist);
         }

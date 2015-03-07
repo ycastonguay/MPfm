@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controllers.Base;

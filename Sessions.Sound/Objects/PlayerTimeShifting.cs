@@ -15,28 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using Sessions.Sound.AudioFiles;
-
-namespace Sessions.Player.Objects
+namespace Sessions.Sound.Objects
 {
-    public class PlayerMetadata
+    /// <summary>
+    /// Data structure repesenting the current player time shifting.
+    /// </summary>
+    public class PlayerTimeShifting
     {
-        public AudioFile CurrentAudioFile { get; set; }
-        public PlayerStatus Status { get; set; }
-        public int PlaylistIndex { get; set; }
-        public int PlaylistCount { get; set; }
-        public string Position { get; set; }
-        public string Length { get; set; }
-
-        public enum PlayerStatus
-        {
-            Stopped = 0, Playing = 1, Paused = 2
-        }
-
-        public PlayerMetadata()
-        {
-            Position = "0:00.000";
-            Length = "0:00.000";
-        }
+        public string CurrentTempo { get; set; }
+        public string ReferenceTempo { get; set; }
+        public string DetectedTempo { get; set; }
+        public float TimeShiftingValue { get; set; }
     }
 }

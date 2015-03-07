@@ -19,13 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sessions.Core;
-using Sessions.Player.Objects;
 using TinyMessenger;
 using Sessions.MVP.Messages;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Presenters
 {

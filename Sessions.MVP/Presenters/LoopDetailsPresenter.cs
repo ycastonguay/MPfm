@@ -21,13 +21,13 @@ using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Views;
 using Sessions.Core;
 using Sessions.Library.Services.Interfaces;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using Sessions.MVP.Messages;
 using System;
 using Sessions.MVP.Services.Interfaces;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Presenters
 {

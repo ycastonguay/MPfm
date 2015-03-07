@@ -18,14 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoMac.Foundation;
 using MonoMac.AppKit;
-using Sessions.MVP;
 using Sessions.MVP.Views;
 using Sessions.OSX.Classes.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.OSX.Classes.Helpers;
-using Sessions.Player;
+using Sessions.Sound.Player;
 
 namespace Sessions.OSX
 {

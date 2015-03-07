@@ -23,7 +23,6 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
@@ -31,6 +30,7 @@ using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
 using Sessions.iOS.Classes.Objects;
 using System.Linq;
+using Sessions.Sound.Objects;
 
 namespace Sessions.iOS
 {

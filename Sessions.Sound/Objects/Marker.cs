@@ -18,7 +18,7 @@
 using System;
 using Sessions.Core.Attributes;
 
-namespace Sessions.Player.Objects
+namespace Sessions.Sound.Objects
 {
     /// <summary>
     /// Defines a Marker, which points to a specific position in an audio file.    

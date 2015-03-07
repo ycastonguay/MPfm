@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using org.sessionsapp.player;
 using Sessions.Sound.AudioFiles;
 
-namespace Sessions.Player
+namespace Sessions.Sound.AudioFiles
 {
     public class AudioFileDictionary
     {

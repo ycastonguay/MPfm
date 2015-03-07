@@ -24,8 +24,8 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Helpers;
 using Sessions.iOS.Classes.Objects;
-using Sessions.Player.Objects;
 using Sessions.GenericControls.Basics;
+using Sessions.Sound.Objects;
 
 namespace Sessions.iOS.Classes.Controls
 {

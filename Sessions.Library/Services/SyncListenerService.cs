@@ -25,9 +25,9 @@ using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
 using Sessions.Core;
 using Sessions.Player;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using org.sessionsapp.player;
+using Sessions.Sound.Player;
 
 namespace Sessions.Library.Services
 {
@@ -274,7 +274,7 @@ namespace Sessions.Library.Services
         {
             try
             {
-                var player = Sessions.Player.SSPPlayer.CurrentPlayer;
+                var player = Sessions.Sound.Player.SSPPlayer.CurrentPlayer;
                 if (player == null)
                 {
                     WriteHTMLResponse(httpContext, "<h2>Could not fetch player metadata; the player isn't available.</h2>", HttpStatusCode.ServiceUnavailable);

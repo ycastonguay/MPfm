@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sessions.Player
+namespace Sessions.Sound.Player
 {
     public class SSPException : Exception
     {

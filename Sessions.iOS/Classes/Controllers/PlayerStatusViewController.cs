@@ -25,6 +25,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using Sessions.iOS.Classes.Controllers.Base;
 using org.sessionsapp.player;
+using Sessions.Sound.Player;
 
 namespace Sessions.iOS
 {
@@ -60,7 +61,7 @@ namespace Sessions.iOS
 		{
 		}
 
-		public void RefreshPlaylist(Playlist playlist)
+		public void RefreshPlaylist(SSPPlaylist playlist)
 		{
 		}
 

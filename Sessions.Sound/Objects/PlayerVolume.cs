@@ -15,16 +15,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-namespace Sessions.Player.Objects
+namespace Sessions.Sound.Objects
 {
     /// <summary>
-    /// Data structure repesenting the current player time shifting.
+    /// Data structure repesenting the current player volume.
     /// </summary>
-    public class PlayerTimeShifting
+    public class PlayerVolume
     {
-        public string CurrentTempo { get; set; }
-        public string ReferenceTempo { get; set; }
-        public string DetectedTempo { get; set; }
-        public float TimeShiftingValue { get; set; }
+        /// <summary>
+        /// Player volume (in float format, 0 to 100).
+        /// </summary>
+        public float Volume { get; set; }
+        /// <summary>
+        /// Player volume (in string format, 0 to 100%).
+        /// </summary>
+        public string VolumeString { get; set; }
     }
 }
+

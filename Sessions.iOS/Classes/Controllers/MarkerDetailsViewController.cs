@@ -18,7 +18,6 @@
 using System;
 using System.Drawing;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
@@ -29,6 +28,7 @@ using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using Sessions.Sound.Objects;
 
 namespace Sessions.iOS
 {

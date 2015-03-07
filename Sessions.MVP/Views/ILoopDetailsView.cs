@@ -17,9 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Views
 {

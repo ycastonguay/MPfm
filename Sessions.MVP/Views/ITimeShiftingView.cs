@@ -16,10 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using Sessions.MVP.Models;
-using Sessions.MVP.Presenters;
-using Sessions.Player.Objects;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Views
 {

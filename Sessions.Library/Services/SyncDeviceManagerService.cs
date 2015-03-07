@@ -27,7 +27,7 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Core;
 using Sessions.Core.Network;
 using Sessions.Core.Helpers;
-using Sessions.Player.Objects;
+using Sessions.Sound.Objects;
 
 namespace Sessions.Library.Services
 {

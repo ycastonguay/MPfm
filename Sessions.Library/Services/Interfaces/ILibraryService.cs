@@ -18,10 +18,11 @@
 using System;
 using System.Collections.Generic;
 using Sessions.Library.Objects;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
+using Sessions.Sound.Player;
 
 namespace Sessions.Library.Services.Interfaces
 {
@@ -54,10 +55,10 @@ namespace Sessions.Library.Services.Interfaces
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
 
-        Playlist SelectPlaylist(Guid playlistId);
-        List<Playlist> SelectPlaylists();
-        void InsertPlaylist(Playlist playlist);
-        void UpdatePlaylist(Playlist playlist);
+        SSPPlaylist SelectPlaylist(Guid playlistId);
+        List<SSPPlaylist> SelectPlaylists();
+        void InsertPlaylist(SSPPlaylist playlist);
+        void UpdatePlaylist(SSPPlaylist playlist);
         void DeletePlaylist(Guid playlistId);
 
         List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId);

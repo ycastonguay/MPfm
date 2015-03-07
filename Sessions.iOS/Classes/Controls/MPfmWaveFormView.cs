@@ -24,9 +24,9 @@ using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
-using Sessions.Player.Objects;
 using Sessions.iOS.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
+using Sessions.Sound.Objects;
 
 namespace Sessions.iOS.Classes.Controls
 {

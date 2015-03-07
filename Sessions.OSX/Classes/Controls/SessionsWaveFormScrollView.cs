@@ -21,16 +21,13 @@ using MonoMac.Foundation;
 using Sessions.GenericControls.Controls;
 using Sessions.Sound.AudioFiles;
 using System.Collections.Generic;
-using Sessions.Player.Objects;
-using Sessions.OSX.Classes.Helpers;
-using MonoMac.CoreGraphics;
 using System.Drawing;
 using Sessions.OSX.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using System.Timers;
 using Sessions.GenericControls.Services;
-using System.Linq;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.OSX.Classes.Controls
 {

@@ -24,7 +24,6 @@ using Sessions.MVP;
 using Sessions.MVP.Views;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Models;
-using Sessions.Sound.BassNetWrapper;
 using Sessions.OSX.Classes.Controls;
 using Sessions.OSX.Classes.Objects;
 using Sessions.Core.Helpers;

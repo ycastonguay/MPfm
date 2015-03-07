@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Player;
+using Sessions.Sound.Player;
 
 namespace Sessions.iOS
 {

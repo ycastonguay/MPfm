@@ -31,9 +31,9 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
+using Sessions.Sound.Objects;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;

@@ -23,8 +23,8 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using TinyMessenger;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Presenters
 {

@@ -115,7 +115,7 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-      <EmbeddedResource Include="Scripts\1.08-1.09.sql" />
+    <EmbeddedResource Include="Scripts\1.08-1.09.sql" />
     <EmbeddedResource Include="Scripts\1.06-1.07.sql" />
     <EmbeddedResource Include="Scripts\1.05-1.06.sql" />
     <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
@@ -148,10 +148,6 @@
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.OSX.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound.OSX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.OSX.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player.OSX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

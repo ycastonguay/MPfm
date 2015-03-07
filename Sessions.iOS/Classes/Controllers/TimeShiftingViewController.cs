@@ -27,7 +27,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Helpers;
 using Sessions.MVP.Models;
-using Sessions.Player.Objects;
+using Sessions.Sound.Objects;
 
 namespace Sessions.iOS
 {

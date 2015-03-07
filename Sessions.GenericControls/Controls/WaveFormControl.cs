@@ -28,12 +28,12 @@ using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Graphics;
 using Sessions.Core;
 using Sessions.MVP.Bootstrap;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Helpers;
 using org.sessionsapp.player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.GenericControls.Controls
 {

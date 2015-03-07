@@ -16,8 +16,6 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using Sessions.Player.Objects;
 using org.sessionsapp.player;
 
 namespace Sessions.MVP.Models

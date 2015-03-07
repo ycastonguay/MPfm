@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using Sessions.Player.Objects;
 using org.sessionsapp.player;
 
 namespace Sessions.MVP.Views

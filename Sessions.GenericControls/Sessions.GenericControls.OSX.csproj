@@ -121,7 +121,7 @@
     <Compile Include="Controls\PlaylistListViewControl.cs" />
     <Compile Include="Controls\Items\PlaylistListViewItem.cs" />
     <Compile Include="Controls\Themes\PlaylistListViewTheme.cs" />
-    <Compile Include="Controls\EqualizerPresetGraphControl.cs" />    
+    <Compile Include="Controls\EqualizerPresetGraphControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
@@ -135,10 +135,6 @@
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.OSX.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound.OSX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.OSX.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player.OSX</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.OSX.csproj">
       <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Sound.OSX", "Sessi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Library.OSX", "Sessions.Library\Sessions.Library.OSX.csproj", "{2A62D229-D7FC-41DA-B676-BB1371659BFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.Player.OSX", "Sessions.Player\Sessions.Player.OSX.csproj", "{FEB7497C-784C-4380-874F-46FD93C82BA1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.OSX", "Sessions.OSX\Sessions.OSX.csproj", "{0BC54417-B1EB-4EE0-892D-8F1B94F88843}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sessions.MVP.OSX", "Sessions.MVP\Sessions.MVP.OSX.csproj", "{B6B0613C-FF39-479D-9EF0-31DAF9684A06}"
@@ -97,21 +95,8 @@ Global
 		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_MacOSX|Any CPU.Build.0 = Release|Any CPU
 		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_MacOSX|Any CPU.Build.0 = Debug_MacOSX|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_Linux|Any CPU.ActiveCfg = Release_Linux|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_Linux|Any CPU.Build.0 = Release_Linux|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_MacOSX|Any CPU.ActiveCfg = Release_MacOSX|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release_MacOSX|Any CPU.Build.0 = Release_MacOSX|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Sessions.OSX\Sessions.OSX.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None

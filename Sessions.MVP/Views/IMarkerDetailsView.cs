@@ -16,8 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Views
 {

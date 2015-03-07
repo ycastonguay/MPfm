@@ -18,9 +18,9 @@
 using System;
 using System.Collections.Generic;
 using org.sessionsapp.player;
-using Sessions.Player;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Player;
+using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Services.Interfaces
 {
