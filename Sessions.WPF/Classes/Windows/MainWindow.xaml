@@ -553,7 +553,7 @@
                                                       </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                   </GridViewColumn>
-                                                  <GridViewColumn Header="Length" Width="60" DisplayMemberBinding="{Binding Path=TotalLength}" />
+                                                  <GridViewColumn Header="Length" Width="60" DisplayMemberBinding="{Binding Path=Length}" />
                                               </GridView>
                                           </ListView.View>
                                       </ListView>

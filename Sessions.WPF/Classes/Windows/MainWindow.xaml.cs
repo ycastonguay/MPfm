@@ -1454,10 +1454,10 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshPlaylist(Playlist playlist)
         {
-            //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            //{
-            //    playlistListView.SetPlaylist(playlist);
-            //}));
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                playlistListView.SetPlaylist(playlist);
+            }));
         }
 
         public void RefreshSongInformation(SongInformationEntity entity)

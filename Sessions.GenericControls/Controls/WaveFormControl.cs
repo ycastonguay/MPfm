@@ -604,9 +604,9 @@ namespace Sessions.GenericControls.Controls
                 return;
 
             // Calculate position
-            float startPositionPercentage = (float)_loop.StartPosition / (float)Length;
+            float startPositionPercentage = (float)_loop.StartPositionBytes / (float)Length;
             float startX = (startPositionPercentage * ContentSize.Width) - ContentOffset.X;
-            float endPositionPercentage = (float)_loop.EndPosition / (float)Length;
+            float endPositionPercentage = (float)_loop.EndPositionBytes / (float)Length;
             float endX = (endPositionPercentage * ContentSize.Width) - ContentOffset.X;
 
             // Draw loop lines
@@ -900,8 +900,8 @@ namespace Sessions.GenericControls.Controls
             var rect = new BasicRectangle();
 
             // Zoom...
-            float startPct = _loop.StartPosition/(float) Length;
-            float endPct = _loop.EndPosition/(float) Length;
+            float startPct = _loop.StartPositionBytes / (float)Length;
+            float endPct = _loop.EndPositionBytes / (float)Length;
             float x = (startPct * Frame.Width * Zoom) - ContentOffset.X;
             float width = endPct * Frame.Width * Zoom;
             return new BasicRectangle(x, 0, width, Frame.Height);

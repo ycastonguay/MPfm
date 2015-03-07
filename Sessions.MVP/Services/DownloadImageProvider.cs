@@ -55,7 +55,7 @@ namespace Sessions.MVP.Services
 
 	                if (!imageUrls.Contains(url))
 	                {
-	                    Console.WriteLine("Found url: {0}", url);
+	                    //Console.WriteLine("Found url: {0}", url);
 	                    imageUrls.Add(url);
 	                }
 	            }

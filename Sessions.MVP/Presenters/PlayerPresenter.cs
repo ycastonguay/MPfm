@@ -312,36 +312,36 @@ namespace Sessions.MVP.Presenters
         private void HandleOutputMeterTimerElapsed(object sender, object eventArgs)
         #endif
         {
-//            try
-//            {
-//                if (_playerService.Mixer.useFloatingPoint)
-//                {
-//                    Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
-//                    View.RefreshOutputMeter(data.Item1, data.Item2);
-//                }
-//                else
-//                {
-//                    Tuple<short[], short[]> data = _playerService.GetMixerData(0.02);
-//
-//                    // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
-//                    float[] left = new float[data.Item1.Length];
-//                    float[] right = new float[data.Item1.Length];
-//                    for (int a = 0; a < data.Item1.Length; a++)
-//                    {
-//                        // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
-//                        left[a] = (float)data.Item1[a] / (float)Int16.MaxValue;
-//                        right[a] = (float)data.Item2[a] / (float)Int16.MaxValue;
-//                        //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
-//                    }
-//
-//                    View.RefreshOutputMeter(left, right);
-//                }
-//            }
-//            catch(Exception ex)
-//            {
-//                // Log a soft error
-//                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
-//            }
+            try
+            {
+                if (_playerService.Mixer.UseFloatingPoint)
+                {
+                    Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
+                    View.RefreshOutputMeter(data.Item1, data.Item2);
+                }
+                else
+                {
+                    Tuple<short[], short[]> data = _playerService.GetMixerData(0.02);
+
+                    // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
+                    float[] left = new float[data.Item1.Length];
+                    float[] right = new float[data.Item1.Length];
+                    for (int a = 0; a < data.Item1.Length; a++)
+                    {
+                        // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
+                        left[a] = (float)data.Item1[a] / (float)Int16.MaxValue;
+                        right[a] = (float)data.Item2[a] / (float)Int16.MaxValue;
+                        //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
+                    }
+
+                    View.RefreshOutputMeter(left, right);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log a soft error
+                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
+            }
         }
 
 	    public void EditSongMetadata()

@@ -414,18 +414,12 @@ namespace Sessions.Sound.Player
 
         public int GetMixerData(int length, float[] sampleData)
         {
-            // TODO: Complete this
-//            int data = SSP.SSP_GetMixerData(sampleData, length);
-//            return data;
-            return 0;
+            return SSP.SSP_GetMixerData(sampleData, length);
         }
 
         public int GetMixerData(int length, int[] sampleData) 
         {
-            // TODO: Complete this
-//            int data = SSP.SSP_GetMixerData(sampleData, length);
-//            return data;
-            return 0;
+            return SSP.SSP_GetMixerData(sampleData, length);
         }
 
         public long GetDataAvailable() 

@@ -121,7 +121,7 @@ namespace Sessions.MVP.Presenters
 	        for (int a = 0; a < _loops.Count; a++)
 	        {
 	            var loop = _loops[a];
-	            loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
+	            //loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
 	        }
 	    }
 
@@ -154,17 +154,8 @@ namespace Sessions.MVP.Presenters
                 var loop = new SSPLoop();
                 loop.AudioFileId = _playerService.CurrentAudioFile.Id;
                 loop.Name = "New Loop";
-//                loop.CreateStartEndSegments();
-//
-//                var startSegment = loop.GetStartSegment();
-//                startSegment.SetPositionFromPercentage(0.1f, _playerService.CurrentAudioFile.LengthBytes, _playerService.CurrentAudioFile);
-//
-//                var endSegment = loop.GetEndSegment();
-//                endSegment.SetPositionFromPercentage(0.9f, _playerService.CurrentAudioFile.LengthBytes, _playerService.CurrentAudioFile);
-//
+
                 _libraryService.InsertLoop(loop);
-//                _libraryService.InsertSegment(loop.Segments[0]);
-//                _libraryService.InsertSegment(loop.Segments[1]);
                 _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
                     AudioFileId = loop.AudioFileId,
                     LoopId = loop.LoopId
@@ -204,8 +195,6 @@ namespace Sessions.MVP.Presenters
             try
             {
                 _loops.Remove(loop);
-//                foreach(var segment in loop.Segments)
-//                    _libraryService.DeleteSegment(segment.SegmentId);
                 _libraryService.DeleteLoop(loop.LoopId);
                 _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
                     AudioFileId = loop.AudioFileId,
