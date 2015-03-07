@@ -619,9 +619,9 @@ namespace Sessions.Library.Database
         /// Selects all the playlists from the database.
         /// </summary>
         /// <returns>List of playlists</returns>
-        public List<SSPPlaylist> SelectPlaylists()
+        public List<Playlist> SelectPlaylists()
         {
-            var playlists = _gateway.Select<SSPPlaylist>("SELECT * FROM Playlists");
+            var playlists = _gateway.Select<Playlist>("SELECT * FROM Playlists");
             return playlists;
         }
 
@@ -630,9 +630,9 @@ namespace Sessions.Library.Database
         /// </summary>
         /// <param name="playlistId">Playlist identifier</param>
         /// <returns>Playlist</returns>
-        public SSPPlaylist SelectPlaylist(Guid playlistId)
+        public Playlist SelectPlaylist(Guid playlistId)
         {
-            var playlist = _gateway.SelectOne<SSPPlaylist>("SELECT * FROM Playlists WHERE PlaylistId = '" + playlistId.ToString() + "'");
+            var playlist = _gateway.SelectOne<Playlist>("SELECT * FROM Playlists WHERE PlaylistId = '" + playlistId.ToString() + "'");
             return playlist;
         }
 
@@ -640,18 +640,18 @@ namespace Sessions.Library.Database
         /// Inserts a playlist into the database.
         /// </summary>
         /// <param name="playlist">Playlist to insert</param>
-        public void InsertPlaylist(SSPPlaylist playlist)
+        public void InsertPlaylist(Playlist playlist)
         {
-            _gateway.Insert<SSPPlaylist>(playlist, "Playlists");
+            _gateway.Insert<Playlist>(playlist, "Playlists");
         }
 
         /// <summary>
         /// Updates a playlist in the database.
         /// </summary>
         /// <param name="playlist">Playlist to update</param>
-        public void UpdatePlaylist(SSPPlaylist playlist)
+        public void UpdatePlaylist(Playlist playlist)
         {
-            _gateway.Update<SSPPlaylist>(playlist, "Playlists", "PlaylistId", playlist.PlaylistId.ToString());
+            _gateway.Update<Playlist>(playlist, "Playlists", "PlaylistId", playlist.PlaylistId.ToString());
         }
 
         /// <summary>

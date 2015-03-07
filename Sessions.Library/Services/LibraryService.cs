@@ -197,22 +197,22 @@ namespace Sessions.Library.Services
 
         #region Playlists
 
-        public SSPPlaylist SelectPlaylist(Guid playlistId)
+        public Playlist SelectPlaylist(Guid playlistId)
         {
             return _gateway.SelectPlaylist(playlistId);
         }
 
-        public List<SSPPlaylist> SelectPlaylists()
+        public List<Playlist> SelectPlaylists()
         {
             return _gateway.SelectPlaylists();
         }
 
-        public void InsertPlaylist(SSPPlaylist playlist)
+        public void InsertPlaylist(Playlist playlist)
         {
             _gateway.InsertPlaylist(playlist);
         }
 
-        public void UpdatePlaylist(SSPPlaylist playlist)
+        public void UpdatePlaylist(Playlist playlist)
         {
             _gateway.UpdatePlaylist(playlist);
         }

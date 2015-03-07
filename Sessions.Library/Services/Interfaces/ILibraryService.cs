@@ -55,10 +55,10 @@ namespace Sessions.Library.Services.Interfaces
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
 
-        SSPPlaylist SelectPlaylist(Guid playlistId);
-        List<SSPPlaylist> SelectPlaylists();
-        void InsertPlaylist(SSPPlaylist playlist);
-        void UpdatePlaylist(SSPPlaylist playlist);
+        Playlist SelectPlaylist(Guid playlistId);
+        List<Playlist> SelectPlaylists();
+        void InsertPlaylist(Playlist playlist);
+        void UpdatePlaylist(Playlist playlist);
         void DeletePlaylist(Guid playlistId);
 
         List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId);

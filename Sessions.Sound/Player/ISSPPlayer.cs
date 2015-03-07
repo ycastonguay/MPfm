@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -32,7 +32,7 @@ namespace Sessions.Sound.Player
         event StateChangedDelegate StateChanged;
         event PlaylistIndexChangedDelegate PlaylistIndexChanged;
 
-        SSPPlaylist Playlist { get; }
+        Playlist Playlist { get; }
 
         // Initialization
         void Init();

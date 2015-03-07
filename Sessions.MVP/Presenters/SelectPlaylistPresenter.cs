@@ -72,61 +72,61 @@ namespace Sessions.MVP.Presenters
 
 	    private void RefreshPlaylists()
 	    {
-	        var playlists = _libraryService.SelectPlaylists().ToList();
-            _items = new List<PlaylistEntity>();
-	        foreach (var playlist in playlists)
-	        {
-	            var items = _libraryService.SelectPlaylistItems(playlist.PlaylistId);
-	            _items.Add(new PlaylistEntity()
-	            {
-	                PlaylistId = playlist.PlaylistId,
-	                Name = playlist.Name,
-	                LastModified = playlist.LastModified,
-	                ItemCount = items.Count
-	            });
-	        }
+            //var playlists = _libraryService.SelectPlaylists().ToList();
+            //_items = new List<PlaylistEntity>();
+            //foreach (var playlist in playlists)
+            //{
+            //    var items = _libraryService.SelectPlaylistItems(playlist.PlaylistId);
+            //    _items.Add(new PlaylistEntity()
+            //    {
+            //        PlaylistId = playlist.PlaylistId,
+            //        Name = playlist.Name,
+            //        LastModified = playlist.LastModified,
+            //        ItemCount = items.Count
+            //    });
+            //}
 
-            View.RefreshPlaylists(_items);
+            //View.RefreshPlaylists(_items);
 	    }
 
         private void SelectPlaylist(PlaylistEntity playlist)
 	    {
-            try
-            {
-                // Check if adding a song or an album
-                if (_item.AudioFile != null)
-                {
-                    //_playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
-                    //View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
-                }
-                else
-                {
-                    var items = _libraryService.SelectPlaylistItems(playlist.PlaylistId).ToList();
-                    var audioFileIds = _audioFileCacheService.SelectAudioFiles(_item.Query).Select(x => x.Id).ToList();
+            //try
+            //{
+            //    // Check if adding a song or an album
+            //    if (_item.AudioFile != null)
+            //    {
+            //        //_playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
+            //        //View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
+            //    }
+            //    else
+            //    {
+            //        var items = _libraryService.SelectPlaylistItems(playlist.PlaylistId).ToList();
+            //        var audioFileIds = _audioFileCacheService.SelectAudioFiles(_item.Query).Select(x => x.Id).ToList();
                     
-                    // Find a list of new items
-                    var newItems = new List<PlaylistAudioFile>();
-                    int position = items.Count;
-                    foreach (Guid audioFileId in audioFileIds)
-                    {
-                        if (!items.Any(x => x.AudioFileId == audioFileId))
-                        {
-                            newItems.Add(new PlaylistAudioFile(playlist.PlaylistId, audioFileId, position));
-                            position++;
-                        }
-                    }
+            //        // Find a list of new items
+            //        var newItems = new List<PlaylistAudioFile>();
+            //        int position = items.Count;
+            //        foreach (Guid audioFileId in audioFileIds)
+            //        {
+            //            if (!items.Any(x => x.AudioFileId == audioFileId))
+            //            {
+            //                newItems.Add(new PlaylistAudioFile(playlist.PlaylistId, audioFileId, position));
+            //                position++;
+            //            }
+            //        }
 
-                    foreach(var item in newItems)
-                        _libraryService.InsertPlaylistItem(item);
+            //        foreach(var item in newItems)
+            //            _libraryService.InsertPlaylistItem(item);
 
-                    _messengerHub.PublishAsync<PlaylistUpdatedMessage>(new PlaylistUpdatedMessage(this, playlist.PlaylistId, newItems.Count));
-                }                
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log("An error occured while selecting playlist: " + ex.Message);
-                View.SelectPlaylistError(ex);
-            }
+            //        _messengerHub.PublishAsync<PlaylistUpdatedMessage>(new PlaylistUpdatedMessage(this, playlist.PlaylistId, newItems.Count));
+            //    }                
+            //}
+            //catch (Exception ex)
+            //{
+            //    Tracing.Log("An error occured while selecting playlist: " + ex.Message);
+            //    View.SelectPlaylistError(ex);
+            //}
 	    }
 
 	    private void AddNewPlaylist()

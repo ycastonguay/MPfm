@@ -130,8 +130,6 @@
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="Playlists\ShufflePlaylist.cs" />
     <Compile Include="Playlists\PlaylistHelper.cs" />
-    <Compile Include="Playlists\EndOfPlaylistException.cs" />
-    <Compile Include="Playlists\PlaylistRepeatType.cs" />
     <Compile Include="Services\AlbumArtExtractionService.cs" />
     <Compile Include="Services\Interfaces\IAlbumArtExtractionService.cs" />
     <Compile Include="AudioFiles\AudioFileLoader.cs" />
@@ -171,7 +169,6 @@
     <Compile Include="Player\ISSPPlayer.cs" />
     <Compile Include="Player\SSPException.cs" />
     <Compile Include="Player\SSPPlayer.cs" />
-    <Compile Include="Player\SSPPlaylist.cs" />    
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Objects\PlayerMetadata.cs" />
     <Compile Include="Objects\PlayerPitchShifting.cs" />

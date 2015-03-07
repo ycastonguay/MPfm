@@ -85,10 +85,10 @@ namespace Sessions.Library.Database.Interfaces
         void UpdatePlayCount(Guid audioFileId);
         void UpdateSetting(Setting dto);
 
-        List<SSPPlaylist> SelectPlaylists();
-        SSPPlaylist SelectPlaylist(Guid playlistId);
-        void InsertPlaylist(SSPPlaylist playlist);
-        void UpdatePlaylist(SSPPlaylist playlist);
+        List<Playlist> SelectPlaylists();
+        Playlist SelectPlaylist(Guid playlistId);
+        void InsertPlaylist(Playlist playlist);
+        void UpdatePlaylist(Playlist playlist);
         void DeletePlaylist(Guid playlistId);
 
         List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId);

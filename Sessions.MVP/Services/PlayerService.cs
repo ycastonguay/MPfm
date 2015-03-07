@@ -54,12 +54,16 @@ namespace Sessions.MVP.Services
         public bool IsPlayingLoop { get { return _sspPlayer.IsPlayingLoop; } }
         public bool IsShuffleEnabled { get { return _sspPlayer.IsShuffle; } set { _sspPlayer.IsShuffle = value; } }
         public SSPRepeatType RepeatType { get { return _sspPlayer.RepeatType; } }
-        public SSPPlaylist Playlist { get { return _sspPlayer.Playlist; } }
+        public Playlist Playlist { get { return _sspPlayer.Playlist; } }
         public AudioFile CurrentAudioFile 
         { 
             get 
             {
-                return _sspPlayer.Playlist.GetItemAt(_sspPlayer.Playlist.CurrentIndex);
+                var item = _sspPlayer.Playlist.GetItemAt(_sspPlayer.Playlist.CurrentIndex);
+                if(item != null)
+                    return _sspPlayer.Playlist.GetItemAt(_sspPlayer.Playlist.CurrentIndex).AudioFile;
+
+                return null;
             } 
         }
 
@@ -117,14 +121,14 @@ namespace Sessions.MVP.Services
             data.PlaylistIndex = Playlist.CurrentIndex;
             data.PlaylistCount = Playlist.Count;
             data.PlaylistName = "New playlist";
-            data.AudioFileStarted = Playlist.GetItemAt(Playlist.CurrentIndex);
+            data.AudioFileStarted = Playlist.GetItemAt(Playlist.CurrentIndex).AudioFile;
             if (Playlist.CurrentIndex > 0)
             {
-                data.AudioFileEnded = Playlist.GetItemAt(Playlist.CurrentIndex - 1);
+                data.AudioFileEnded = Playlist.GetItemAt(Playlist.CurrentIndex - 1).AudioFile;
             }
             if (Playlist.CurrentIndex + 1 < Playlist.Count)
             {
-                data.NextAudioFile = Playlist.GetItemAt(Playlist.CurrentIndex + 1);
+                data.NextAudioFile = Playlist.GetItemAt(Playlist.CurrentIndex + 1).AudioFile;
             }
 
             _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });

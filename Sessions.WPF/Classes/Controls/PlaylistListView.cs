@@ -24,6 +24,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Sessions.GenericControls.Controls;
 using Sessions.GenericControls.Services.Interfaces;
+using Sessions.Sound.Player;
 using Sessions.Sound.Playlists;
 using Sessions.WPF.Classes.Controls.Graphics;
 using Sessions.WPF.Classes.Controls.Helpers;

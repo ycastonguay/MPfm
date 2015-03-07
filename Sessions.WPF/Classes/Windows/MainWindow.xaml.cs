@@ -1452,7 +1452,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPlaylist(SSPPlaylist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
             //Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             //{

@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -37,7 +37,7 @@ namespace Sessions.Sound.Player
         /// </summary>
         public static SSPPlayer CurrentPlayer = null;
 
-        public SSPPlaylist Playlist { get; private set; }
+        public Playlist Playlist { get; private set; }
 
         private LogDelegate _logDelegate;
         private PlaylistIndexChangedDelegate _playlistIndexChangedDelegate;
@@ -147,7 +147,7 @@ namespace Sessions.Sound.Player
 
         public SSPPlayer()
         {
-            Playlist = new SSPPlaylist();
+            Playlist = new Playlist();
             SSPPlayer.CurrentPlayer = this;
         }
 

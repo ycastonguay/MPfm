@@ -26,6 +26,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.GenericControls.Services.Interfaces;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Controls.Themes;
+using Sessions.Sound.Player;
 using Sessions.Sound.Playlists;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,9 +45,9 @@ namespace Sessions.GenericControls.Controls
 
         public PlaylistListViewTheme ExtendedTheme { get; set; }
 
-        private Guid _nowPlayingPlaylistItemId = Guid.Empty;
+        private int _nowPlayingPlaylistItemId = -1;
         [Browsable(false)]
-        public Guid NowPlayingPlaylistItemId
+        public int NowPlayingPlaylistItemId
         {
             get
             {
@@ -57,8 +58,11 @@ namespace Sessions.GenericControls.Controls
                 var oldValue = _nowPlayingPlaylistItemId;
                 _nowPlayingPlaylistItemId = value;
                 InvalidateRow(oldValue, _nowPlayingPlaylistItemId);
-                int index = _playlist.Items.FindIndex(x => x.Id == _nowPlayingPlaylistItemId);
-                ScrollToRow(index);
+                int index = _playlist.GetIndexFromId(_nowPlayingPlaylistItemId);
+                if (index >= 0)
+                {
+                    ScrollToRow(index);
+                }
             }
         }
         public List<AudioFile> SelectedAudioFiles
@@ -68,7 +72,7 @@ namespace Sessions.GenericControls.Controls
                 var audioFiles = new List<AudioFile>();
                 foreach (int index in SelectedIndexes)
                 {
-                    audioFiles.Add(_playlist.Items[index].AudioFile);
+                    audioFiles.Add(_playlist.GetItemAt(index).AudioFile);
                 }
                 return audioFiles;
             }
@@ -119,7 +123,7 @@ namespace Sessions.GenericControls.Controls
 
         protected override int GetRowCount()
         {
-            return _playlist == null ? 0 : _playlist.Items.Count;
+            return _playlist == null ? 0 : _playlist.Count;
         }
 
         protected override bool IsRowEmpty(int row)
@@ -173,7 +177,7 @@ namespace Sessions.GenericControls.Controls
         protected override BasicColor GetRowBackgroundColor(int row)
         {
             var color = SelectedIndexes.Contains(row) ? ExtendedTheme.SelectedBackgroundColor : ExtendedTheme.BackgroundColor;
-            if(_playlist.CurrentItemIndex == row)
+            if(_playlist.CurrentIndex == row)
                 color = ExtendedTheme.NowPlayingBackgroundColor;
             return color;
         }
@@ -186,7 +190,7 @@ namespace Sessions.GenericControls.Controls
         protected override void DrawCell(IGraphicsContext context, int row, int col, float offsetX, float offsetY)
         {
             int heightWithPadding = GetRowHeight();// - Theme.Padding / 2;
-            var audioFile = _playlist.Items[row].AudioFile;
+            var audioFile = _playlist.GetItemAt(row).AudioFile;
             //Console.WriteLine("PlaylistListView - DrawCell - row: {0}", row);
 
             // Try to extract image from cache
@@ -319,7 +323,8 @@ namespace Sessions.GenericControls.Controls
 
             // Keep original songId in case the now playing value is set before invalidating the older value
             //Guid originalId = _nowPlayingAudioFileId;
-            Guid originalId = _playlist.CurrentItem.Id;
+            var item = _playlist.GetCurrentItem();
+            int originalId = item.Id;
 
             // Loop through visible lines
             for (int a = StartLineNumber; a < StartLineNumber + NumberOfLinesToDraw; a++)
@@ -334,7 +339,7 @@ namespace Sessions.GenericControls.Controls
                     partialRect.Merge(newPartialRect);
                     controlNeedsToBePartiallyInvalidated = true;
                 }
-                else if(_playlist.Items[a].AudioFile != null && _playlist.Items[a].Id == originalId)
+                else if(_playlist.GetItemAt(a).AudioFile != null && _playlist.GetItemAt(a).Id == originalId)
                 {
                     var newPartialRect = new BasicRectangle(HorizontalScrollBar.Value, ((a - StartLineNumber + 1) * ListCache.LineHeight) + scrollbarOffsetY, Frame.Width + HorizontalScrollBar.Value, ListCache.LineHeight);
                     partialRect.Merge(newPartialRect);
@@ -353,13 +358,13 @@ namespace Sessions.GenericControls.Controls
 
         #endregion
 
-        private void InvalidateRow(Guid oldPlaylistId, Guid newPlaylistId)
+        private void InvalidateRow(int oldPlaylistId, int newPlaylistId)
         {
             if (ListCache == null)
                 return;
 
-            int oldIndex = _playlist.Items.FindIndex(x => x.Id == oldPlaylistId);
-            int newIndex = _playlist.Items.FindIndex(x => x.Id == newPlaylistId);
+            int oldIndex = _playlist.GetIndexFromId(oldPlaylistId);
+            int newIndex = _playlist.GetIndexFromId(newPlaylistId);
             int scrollbarOffsetY = (StartLineNumber * ListCache.LineHeight) - VerticalScrollBar.Value;
             int firstIndex = oldIndex < newIndex ? oldIndex : newIndex;
             int secondIndex = newIndex > oldIndex ? newIndex : oldIndex;

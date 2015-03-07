@@ -53,10 +53,10 @@ namespace Sessions.MVP.Presenters
 	    {
             try
             {
-                var playlist = new SSPPlaylist();
-                playlist.Name = title;
-                _libraryService.InsertPlaylist(playlist);
-                _messengerHub.PublishAsync<PlaylistListUpdatedMessage>(new PlaylistListUpdatedMessage(this));
+                //var playlist = new Playlist();
+                //playlist.Name = title;
+                ////_libraryService.InsertPlaylist(playlist);
+                //_messengerHub.PublishAsync<PlaylistListUpdatedMessage>(new PlaylistListUpdatedMessage(this));
             }
             catch (Exception ex)
             {

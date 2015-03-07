@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -45,8 +45,8 @@ namespace Sessions.MVP.Services.Interfaces
 
         //PlaylistItem CurrentPlaylistItem { get; }
         AudioFile CurrentAudioFile { get; }
-        SSPPlaylist Playlist { get; }
-        //SSPPlaylist CurrentQueue { get; }
+        Playlist Playlist { get; }
+        //Playlist CurrentQueue { get; }
 
         event LoopPlaybackStartedDelegate OnLoopPlaybackStarted;
         event LoopPlaybackStoppedDelegate OnLoopPlaybackStopped;

@@ -72,9 +72,9 @@ namespace Sessions.MVP.Presenters
             });
             _messageHub.Subscribe<PlaylistUpdatedMessage>(message =>
             {
-                var playlist = _libraryService.SelectPlaylist(message.PlaylistId);
-                View.RefreshPlaylist(playlist);
-                RefreshPlaylists(playlist.PlaylistId);
+                //var playlist = _libraryService.SelectPlaylist(message.PlaylistId);
+                //View.RefreshPlaylist(playlist);
+                //RefreshPlaylists(playlist.PlaylistId);
             });
             _messageHub.Subscribe<PlaylistListUpdatedMessage>(message => RefreshPlaylists(Guid.Empty));
 
@@ -93,15 +93,15 @@ namespace Sessions.MVP.Presenters
 
 	    private void RefreshPlaylists(Guid selectedPlaylistId)
 	    {
-            var playlists = _libraryService.SelectPlaylists();
-            var items = playlists.Select(playlist => new PlaylistEntity()
-            {
-                PlaylistId = playlist.PlaylistId,
-                Name = playlist.Name,
-                LastModified = playlist.LastModified
-            }).ToList();
+            //var playlists = _libraryService.SelectPlaylists();
+            //var items = playlists.Select(playlist => new PlaylistEntity()
+            //{
+            //    PlaylistId = playlist.PlaylistId,
+            //    Name = playlist.Name,
+            //    LastModified = playlist.LastModified
+            //}).ToList();
 
-	        View.RefreshPlaylists(items, selectedPlaylistId);
+            //View.RefreshPlaylists(items, selectedPlaylistId);
 	    }
 
         private void OpenPlaylist()

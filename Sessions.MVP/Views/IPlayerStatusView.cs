@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -39,7 +39,7 @@ namespace Sessions.MVP.Views
 
 	    void RefreshPlayerState(SSPPlayerState state);
 	    void RefreshAudioFile(AudioFile audioFile);
-	    void RefreshPlaylist(SSPPlaylist playlist);
+	    void RefreshPlaylist(Playlist playlist);
 	    void RefreshPlaylists(List<PlaylistEntity> playlists, Guid selectedPlaylistId);
 	}
 }

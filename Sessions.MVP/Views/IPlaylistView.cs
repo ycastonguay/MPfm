@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -37,7 +37,7 @@ namespace Sessions.MVP.Views
         Action OnShufflePlaylist { get; set; }
 
         void PlaylistError(Exception ex);
-        void RefreshPlaylist(SSPPlaylist playlist);
+        void RefreshPlaylist(Playlist playlist);
         void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
 	}
 }

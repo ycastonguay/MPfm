@@ -57,7 +57,7 @@ namespace Sessions.MVP.Views
 	    void PushSubView(IBaseView view);
         void RefreshPlayerState(SSPPlayerState state, SSPRepeatType repeatType, bool isShuffleEnabled);
 		void RefreshPlayerPosition(SSPPosition position);
-        void RefreshPlaylist(SSPPlaylist playlist);
+        void RefreshPlaylist(Playlist playlist);
         void RefreshSongInformation(SongInformationEntity entity);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshActiveMarker(Guid markerId);

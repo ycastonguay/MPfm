@@ -32,7 +32,7 @@ namespace Sessions.WPF.Classes.Windows
 {
     public partial class PlaylistWindow : BaseWindow, IPlaylistView
     {
-        private SSPPlaylist _playlist;
+        private Playlist _playlist;
 
         public PlaylistWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -59,7 +59,7 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshPlaylist(SSPPlaylist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {

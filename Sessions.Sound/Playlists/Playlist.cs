@@ -17,244 +17,132 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 using Sessions.Core.Attributes;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 
-namespace Sessions.Sound.Playlists
+namespace Sessions.Sound.Player
 {
-    /// <summary>
-    /// Defines a playlist to be used with the Player.
-    /// </summary>
+    // It is a bit misleading that this Playlist class is actually tied to a singleton playlist in libssp_player.
+    // This class cannot be used right now to build a playlist that's not connected to the player.
     public class Playlist
     {
-        /// <summary>
-        /// Defines the repeat type of the playlist.
-        /// </summary>
-        [DatabaseField(false)]
-        public PlaylistRepeatType RepeatType { get; set; }
+        private AudioFileDictionary _audioFiles;
 
-        /// <summary>
-        /// List of playlist _items.
-        /// </summary>
-        [DatabaseField(false)]
-        public List<PlaylistItem> Items { get; protected set; }
-
-        /// <summary>
-        /// Returns the current playlist item index.
-        /// </summary>
-        [DatabaseField(false)]
-        public int CurrentItemIndex { get; protected set; }
-
-        /// <summary>
-        /// Returns the current item.
-        /// </summary>
-        [DatabaseField(false)]
-        public PlaylistItem CurrentItem { get; protected set; }
-
-        /// <summary>
-        /// Playlist name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Playlist identifier.
-        /// </summary>
+        public string Name { get; set; } // not actually tied to SSP_PLAYLIST
         public Guid PlaylistId { get; set; }
 
-        /// <summary>
-        /// Playlist last modified.
-        /// </summary>
-        [DatabaseField(false)] // TODO: Save in database... causes an error in Android
+        [DatabaseField(false)]
+        public SSPRepeatType RepeatType { get; set; } // this has to be removed... right?
+
+        [DatabaseField(false)]
         public DateTime LastModified { get; set; }
 
-        /// <summary>
-        /// Playlist file path.
-        /// </summary>
         [DatabaseField(false)]
         public string FilePath { get; set; }
 
-        /// <summary>
-        /// Playlist format.
-        /// </summary>
         [DatabaseField(false)]
         public PlaylistFileFormat Format { get; set; }
 
+        public int Count
+        {
+            get
+            {
+                return SSP.SSP_Playlist_GetCount();
+            }
+        }
+
+        public int CurrentIndex
+        {
+            get
+            {
+                return SSP.SSP_Playlist_GetCurrentIndex();
+            }
+        }
+
+        public object this[int i]
+        {
+            get
+            {
+                return GetItemAt(i);
+            }
+        }
+
         public Playlist()
         {
-            Items = new List<PlaylistItem>();
-            PlaylistId = Guid.NewGuid();
-            LastModified = DateTime.Now;
-            Format = PlaylistFileFormat.Unknown;
+            _audioFiles = new AudioFileDictionary();
         }
 
-        private void PrepareCurrentItemForPlayback()
+        public void AddItem(string filePath)
         {
-            if (CurrentItem == null && Items.Count > 0)
-                CurrentItem = Items[0];
-        }
-
-        public virtual void Clear()
-        {            
-            FilePath = string.Empty;
-            Format = PlaylistFileFormat.Unknown;
-            Items = new List<PlaylistItem>();
-            CurrentItemIndex = 0;
-            CurrentItem = null;            
-        }
-       
-        public void DisposeChannels()
-        {
-            for (int a = 0; a < Items.Count; a++)
-                Items[a].Dispose();
-        }
-
-        public void AddItem(PlaylistItem playlistItem)
-        {
-            Items.Add(playlistItem);
-            PrepareCurrentItemForPlayback();
+            SSP.SSP_Playlist_AddItem(filePath);
+            //var audioFile = _audioFiles.RequestItem(filePath); // preload metadata?
         }
 
         public void AddItems(IEnumerable<string> filePaths)
         {
-            AudioFile audioFile = null;
-            for (int a = 0; a < filePaths.Count(); a++)
+            foreach (var filePath in filePaths)
             {
-                bool addItem = false;
-
-                try
-                {
-                    audioFile = new AudioFile(filePaths.ElementAt(a));
-                    addItem = true;
-                }
-                catch
-                {
-                    addItem = false;
-                }                
-
-                if (addItem)
-                    Items.Add(new PlaylistItem(audioFile));
-            }
-
-            PrepareCurrentItemForPlayback();
-        }
-
-		public void AddItems(IEnumerable<PlaylistItem> playlistItems)
-        {
-            Items.AddRange(playlistItems);
-			PrepareCurrentItemForPlayback();
-        }
-
-        public void InsertItem(string filePath, int index)
-        {
-            InsertItem(new AudioFile(filePath), index);
-        }
-
-        public void InsertItem(AudioFile audioFile, int index)
-        {
-            InsertItem(new PlaylistItem(audioFile), index);
-        }
-
-        public void InsertItem(PlaylistItem item, int index)
-        {
-            // Add new playlist item at the specified index
-            Items.Insert(index, item);
-
-            // Increment current item index if an item was inserted before the current item; set current item if index is the same
-            if (index < CurrentItemIndex)
-                CurrentItemIndex++;
-            else if (index == CurrentItemIndex)
-                CurrentItem = item;
-
-            PrepareCurrentItemForPlayback();
-        }
-
-        public void RemoveItem(int index)
-        {            
-            Items[index].Dispose();
-            Items.RemoveAt(index);
-
-            // Decrement current item index if an item was removed before the current item
-            //if (index <= CurrentItemIndex)
-            if (index < CurrentItemIndex)
-                CurrentItemIndex--;
-            
-            PrepareCurrentItemForPlayback();
-        }
-
-        public void RemoveItems(IEnumerable<Guid> playlistIds)
-        {
-            foreach (var playlistId in playlistIds)
-                Items.RemoveAll(x => x.Id == playlistId);
-            
-            PrepareCurrentItemForPlayback();
-        }
-
-        /// <summary>
-        /// Sets the playlist to the first item.
-        /// </summary>
-        public void First()
-        {
-            CurrentItemIndex = 0;
-            CurrentItem = Items[CurrentItemIndex];
-        }
-
-        /// <summary>
-        /// Go to a specific item using the playlist item index.
-        /// </summary>
-        /// <param name="index">Playlist item index</param>
-        public void GoTo(int index)
-        {
-            CurrentItemIndex = index;
-            CurrentItem = Items[CurrentItemIndex];
-        }
-
-        /// <summary>
-        /// Go to a specific item using the playlist item identifier.
-        /// </summary>
-        /// <param name="id">Playlist item identifier</param>
-        public void GoTo(Guid id)
-        {
-            // Search for the playlist item by its id
-            int index = -1;
-            for (int a = 0; a < Items.Count; a++)
-            {
-                if (Items[a].Id == id || Items[a].AudioFile.Id == id)
-                {
-                    index = a;
-                    break;
-                }                
-            }
-
-            // Check if we have a valid item
-            if (index >= 0)
-                GoTo(index);
-        }
-
-        public virtual void Previous()
-        {
-            if (CurrentItemIndex > 0)
-            {
-                CurrentItemIndex--;
-                CurrentItem = Items[CurrentItemIndex];
+                AddItem(filePath);
             }
         }
 
-        public virtual void Next()
+        public void InsertItemAt(string filePath, int index)
         {
-            if (CurrentItemIndex < Items.Count - 1)
-            {
-                CurrentItemIndex++;
-                CurrentItem = Items[CurrentItemIndex];
-            }
-            else
-            {
-                if (RepeatType == PlaylistRepeatType.Playlist)
-                {
-                    CurrentItemIndex = 0;
-                    CurrentItem = Items[0];
-                }
-            }
+            SSP.SSP_Playlist_InsertItemAt(filePath, index);
+            //var audioFile = _audioFiles.RequestItem(filePath); // preload metadata?
+        }
+
+        public virtual PlaylistItem GetItemAt(int index)
+        {
+            var item = new PlaylistItem();
+            SSP.SSP_Playlist_GetItemAt(index, ref item.Struct);
+            if (string.IsNullOrEmpty(item.FilePath))
+                return null;
+
+            var audioFile = _audioFiles.RequestItem(item);
+            item.AudioFile = audioFile;
+            return item;
+        }
+
+        public virtual PlaylistItem GetItemFromId(int id)
+        {
+            var item = new PlaylistItem();
+            SSP.SSP_Playlist_GetItemFromId(id, ref item.Struct);
+            if (string.IsNullOrEmpty(item.FilePath))
+                return null;
+
+            var audioFile = _audioFiles.RequestItem(item);
+            item.AudioFile = audioFile;
+            return item;
+        }
+
+        public virtual int GetIndexFromId(int id)
+        {
+            return SSP.SSP_Playlist_GetIndexFromId(id);
+        }
+
+        public virtual PlaylistItem GetCurrentItem()
+        {
+            return GetItemAt(CurrentIndex);
+        }
+
+        public void RemoveItemAt(int index)
+        {
+            var item = new SSPPlaylistItem();
+            SSP.SSP_Playlist_GetItemAt(index, ref item.Struct);
+            if (string.IsNullOrEmpty(item.FilePath))
+                return;
+
+            _audioFiles.RemoveItem(item.FilePath); // is this really what we want?
+            SSP.SSP_Playlist_RemoveItemAt(index);
+        }
+
+        public void Clear()
+        {
+            SSP.SSP_Playlist_Clear();
+            _audioFiles.Clear(); // is this really what we want?
         }
     }
 }
