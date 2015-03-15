@@ -12,13 +12,9 @@ For more information, go to the MPfm website: http://mp4m.org. A new web site wi
 Important notes:
 --
 
-I'm currently refactoring the project with version 0.7.0.0. Please consult the [Mantis bug tracker for Sessions](http://www.mp4m.org/mantis/roadmap_page.php).
+Sessions is written in C# using the .NET framework and Mono. The core player component, [libssp_player](https://github.com/ycastonguay/libssp_player), is written in C.
 
 Sessions uses the __BASS audio library__, which is a commercial library, but available for free for open source projects. The Sessions source code repository contains the BASS static/dynamic libraries needed to build each platform. To download updated versions of the BASS library, go to the [BASS library home page](http://www.un4seen.com). Please note that newer versions might introduce breaking changes.
-
-Sessions also uses the __BASS.NET audio library__, which is a commercial library, but available for free for open source projects. The Sessions source code repository contains the BASS.NET assemblies needed to build each platform. To download updated versions of the BASS.NET library, go to the [BASS.NET library home page](http://bass.radio42.com). Please note that newer versions might introduce breaking changes. 
-
-To build Sessions successfully, you will also need a valid BASS.NET registration key which you can generate for free for open source projects [here](http://bass.radio42.com/bass_register.html). Simply uncomment the [BassNetKey.cs](Sessions.Sound/BassNetKey.cs) file in Sessions.Sound and add your email address and key.
 
 If you want to deploy the iOS and Android versions to hardware devices, you'll need a valid Xamarin license. You can obtain a license [here](http://www.xamarin.com).
 
@@ -60,6 +56,5 @@ __iOS__:
 __Android__:
 + [Xamarin.Android](http://xamarin.com/monoforandroid)
 
-*'Sessions' and 'MPfm: Music Player for Musicians' are © 2011-2014 Yanick Castonguay and is released under the GPLv3 license.*
-*The BASS audio library is © 1999-2014 Un4seen Developments.*
-*The BASS.NET audio library is © 2005-2014 Bernd Niedergesäß.*
+*'Sessions' and 'MPfm: Music Player for Musicians' are © 2011-2015 Yanick Castonguay and is released under the GPLv3 license.*
+*The BASS audio library is © 1999-2015 Un4seen Developments.*
