@@ -75,6 +75,7 @@ namespace Sessions.MVP.Services.Interfaces
         Tuple<short[], short[]> GetMixerData(double seconds);
         Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
         SSPPosition GetPosition();
+        SSPPosition GetPositionFromPercentage(double percentage);
 
         void SetPosition(double percentage);
         void SetPosition(long bytes);

@@ -163,7 +163,12 @@ namespace Sessions.MVP.Services
 
         public void InitDevice(SSPDevice device, int sampleRate, int bufferSize, int updatePeriod)
         {
-            _sspPlayer.InitDevice(device.DeviceId, sampleRate, bufferSize, updatePeriod, true);
+            bool useFloatingPoint = true;
+            #if ANDROID
+                useFloatingPoint = false; // Floating point is not supported on Android
+            #endif
+
+            _sspPlayer.InitDevice(device.DeviceId, sampleRate, bufferSize, updatePeriod, useFloatingPoint);
         
 //            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
 //            {
@@ -437,8 +442,12 @@ namespace Sessions.MVP.Services
 
         public SSPPosition GetPosition()
         {
-            var position = _sspPlayer.GetPosition();
-            return position;
+            return _sspPlayer.GetPosition();
+        }
+
+        public SSPPosition GetPositionFromPercentage(double percentage)
+        {
+            return _sspPlayer.GetPositionFromPercentage(percentage);            
         }
 
         public void SetPosition(double percentage)

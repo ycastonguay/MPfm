@@ -397,6 +397,13 @@ namespace Sessions.Sound.Player
             return position;
         }
 
+        public SSPPosition GetPositionFromPercentage(double percentage)
+        {
+            var position = new SSPPosition();
+            CheckForError(SSP.SSP_GetPositionFromPercentage((float)percentage, ref position.Struct));
+            return position;
+        }
+
         public void SetPosition(long position)
         {
             CheckForError(SSP.SSP_SetPosition(position));

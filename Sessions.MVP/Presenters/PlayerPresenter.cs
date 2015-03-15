@@ -107,10 +107,7 @@ namespace Sessions.MVP.Presenters
             });
             _messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
                 string filePath = m != null ? m.Item.FilePath : null;
-
-                Task.Factory.StartNew(() => {
                 Play(_audioFileCacheService.SelectAudioFiles(m.Query), filePath);
-                });
             });
             //messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) => {
             //    Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
@@ -490,7 +487,6 @@ namespace Sessions.MVP.Presenters
 		{
             try
             {
-                Tracing.Log("PlayerPresenter.Next -- Skipping to next item in playlist...");
                 _playerService.Next();
             }
             catch(Exception ex)
@@ -506,7 +502,6 @@ namespace Sessions.MVP.Presenters
 		{            
             try
             {
-                Tracing.Log("PlayerPresenter.Previous -- Skipping to previous item in playlist...");
                 _playerService.Previous();
             }
             catch(Exception ex)
@@ -529,16 +524,6 @@ namespace Sessions.MVP.Presenters
 
         private void PlayerViewAppeared()
         {
-            // TODO: Is this still necessary?
-//            if (_playerService.State == PlayerStatusType.WaitingToStart || 
-//                _playerService.State == PlayerStatusType.StartPaused)
-//            {
-//                _playerService.Resume();
-//                _timerRefreshSongPosition.Start();
-//                _timerSavePlayerStatus.Start();
-//            }
-
-            Console.WriteLine("PlayerPresenter - PlayerViewAppeared");
             if(!_timerRefreshSongPosition.Enabled)
                 _timerRefreshSongPosition.Start();
 
@@ -550,17 +535,14 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                //Tracing.Log("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
-                //var position = new SSPPosition();
-                //SSP.SSP_GetPositionFromPercentage(positionPercentage, ref position.Struct);
-                var position = _playerService.GetPosition();
-                return position;
+                return _playerService.GetPositionFromPercentage(positionPercentage);
             }
             catch(Exception ex)
             {
                 Tracing.Log("An error occured while calculating the player position: " + ex.Message);
                 View.PlayerError(ex);
             }
+
             return SSPPosition.Empty;
         }
         

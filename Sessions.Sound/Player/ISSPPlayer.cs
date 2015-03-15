@@ -85,6 +85,7 @@ namespace Sessions.Sound.Player
 
         // Position
         SSPPosition GetPosition();
+        SSPPosition GetPositionFromPercentage(double percentage);
         void SetPosition(long position);
         void SetPosition(float position);
 

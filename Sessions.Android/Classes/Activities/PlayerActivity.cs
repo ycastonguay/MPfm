@@ -71,6 +71,7 @@ namespace Sessions.Android
         private ViewPager _viewPager;
         private ViewPagerAdapter _viewPagerAdapter;
         private MobileNavigationManager _navigationManager;
+        private SongInformationEntity _currentSongInfo;
         private bool _isPositionChanging;
         private bool _isPlaying;
 
@@ -214,6 +215,8 @@ namespace Sessions.Android
         {
             Console.WriteLine("PlayerActivity - OnResume");
             base.OnResume();
+            if(OnPlayerViewAppeared != null)
+                OnPlayerViewAppeared();
         }
 
         protected override void OnStop()
@@ -447,7 +450,7 @@ namespace Sessions.Android
                 if (!_isPositionChanging)
                 {
                     _lblPosition.Text = position.Str;
-                    //_seekBar.Progress = (int) (prop.PositionPercentage * 100);
+                    _seekBar.Progress = (int)(((float)position.Bytes / (float)_currentSongInfo.AudioFile.LengthBytes) * 10000f);
                 }
 
                 _waveFormScrollView.SetPosition(position.Bytes);
@@ -456,11 +459,17 @@ namespace Sessions.Android
 
         public void RefreshSongInformation(SongInformationEntity entity)
         {
-            RunOnUiThread(() => {
-                if (entity == null || entity.AudioFile == null)
-                    return;
+            if (entity == null || entity.AudioFile == null)
+                return;
 
-                var audioFile = entity.AudioFile;
+            // Prevent refreshing song twice
+            if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
+                return;
+
+            var audioFile = entity.AudioFile;
+            _currentSongInfo = entity;
+
+            RunOnUiThread(() => {
                 _lblLength.Text = audioFile.Length;
                 ActionBar.Title = audioFile.ArtistName;
 
