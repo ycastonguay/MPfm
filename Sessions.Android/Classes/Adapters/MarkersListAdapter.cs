@@ -21,7 +21,7 @@ using Android.App;
 using Android.Views;
 using Android.Widget;
 using Sessions.Core;
-using Sessions.Player.Objects;
+using Sessions.Sound.Objects;
 
 namespace Sessions.Android.Classes.Adapters
 {

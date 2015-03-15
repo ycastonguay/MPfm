@@ -23,7 +23,7 @@ using Sessions.Android.Classes.Fragments.Base;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.Android.Classes.Fragments
 {
@@ -51,16 +51,22 @@ namespace Sessions.Android.Classes.Fragments
         #region ILoopsView implementation
 
         public Action OnAddLoop { get; set; }
-        public Action<Loop> OnEditLoop { get; set; }
-        public Action<Loop> OnDeleteLoop { get; set; }
-        public Action<Loop> OnPlayLoop { get; set; }
+        public Action<SSPLoop> OnEditLoop { get; set; }
+        public Action<SSPLoop> OnSelectLoop { get; set; }
+        public Action<SSPLoop> OnDeleteLoop { get; set; }
+        public Action<SSPLoop> OnPlayLoop { get; set; }
+        public Action<SSPLoop> OnUpdateLoop { get; set; }
 
         public void LoopError(Exception ex)
         {
             ShowErrorDialog(ex);
         }
 
-        public void RefreshLoops(List<Loop> loops)
+        public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
+        {
+        }
+
+        public void RefreshLoops(List<SSPLoop> loops)
         {
         }
 

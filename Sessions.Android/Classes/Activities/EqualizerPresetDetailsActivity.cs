@@ -28,7 +28,7 @@ using org.sessionsapp.android;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.Android
 {
@@ -42,7 +42,7 @@ namespace Sessions.Android
         private EditText _txtPresetName;
         private Button _btnNormalize;
         private Button _btnReset;
-        private EQPreset _preset;
+        private SSPEQPreset _preset;
         private EqualizerPresetGraphView _equalizerPresetGraph;
 
         protected override void OnCreate(Bundle bundle)
@@ -64,7 +64,7 @@ namespace Sessions.Android
             //_txtPresetName.SetOnEditorActionListener(this);
 
             _listView = FindViewById<ListView>(Resource.Id.equalizerPresetDetails_listView);
-            _listAdapter = new EqualizerPresetFadersListAdapter(this, _listView, new EQPreset());
+            _listAdapter = new EqualizerPresetFadersListAdapter(this, _listView, new SSPEQPreset());
             _listView.SetAdapter(_listAdapter);
 
             // Save the source activity type for later (for providing Up navigation)
@@ -200,7 +200,7 @@ namespace Sessions.Android
             ad.Show();
         }
 
-        public void UpdatePreset(EQPreset preset)
+        public void UpdatePreset(SSPEQPreset preset)
         {
             //Console.WriteLine("EQDA - UPDATE PRESET");
             _preset = preset;
@@ -248,7 +248,7 @@ namespace Sessions.Android
             });
         }
 
-        public void RefreshPreset(EQPreset preset)
+        public void RefreshPreset(SSPEQPreset preset)
         {
             //Console.WriteLine("EQDA - REFRESH PRESET");
             RunOnUiThread(() => {

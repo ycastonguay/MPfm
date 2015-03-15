@@ -35,10 +35,11 @@ using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using TinyMessenger;
+using org.sessionsapp.player;
+using Sessions.Sound.Player;
 
 namespace Sessions.Android
 {
@@ -131,8 +132,8 @@ namespace Sessions.Android
                     {
                         var position = _playerService.GetPosition();
                         //Console.WriteLine("LockScreenActivity - timerSongPosition - position: {0}", position);
-                        _lblPosition.Text = position.Position;
-                        float percentage = ((float)position.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes) * 10000f;
+                        _lblPosition.Text = position.Str;
+                        float percentage = ((float)position.Bytes / (float)_playerService.CurrentAudioFile.LengthBytes) * 10000f;
                         _seekBar.Progress = (int)percentage;
                     }
                     catch
@@ -179,36 +180,39 @@ namespace Sessions.Android
         {
             if(_isPositionChanging)
             {
-                PlayerPosition entity = RequestPosition((float) _seekBar.Progress/10000f);
-                _lblPosition.Text = entity.Position;
+                SSPPosition entity = RequestPosition((float) _seekBar.Progress/10000f);
+                _lblPosition.Text = entity.Str;
             }
         }
 
-        private PlayerPosition RequestPosition(float positionPercentage)
+        private SSPPosition RequestPosition(float positionPercentage)
         {
             try
             {
                 // TODO: Move this into PlayerStatusPresenter
                 //Console.WriteLine("LockScreenActivity - RequestPosition - positionPercentage: {0}", positionPercentage);
                 // Calculate new position from 0.0f/1.0f scale
-                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-                long positionBytes = (long)(positionPercentage * lengthBytes);
-                //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
-                long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
-                string positionString = ConvertAudio.ToTimeString(positionMS);
-                var entity = new PlayerPosition();
-                entity.Position = positionString;
-                entity.PositionBytes = positionBytes;
-                entity.PositionSamples = (uint)positionSamples;
-                return entity;
+//                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+//                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+//                long positionBytes = (long)(positionPercentage * lengthBytes);
+//                //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
+//                long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
+//                long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
+//                string positionString = ConvertAudio.ToTimeString(positionMS);
+//                var entity = new PlayerPosition();
+//                entity.Position = positionString;
+//                entity.PositionBytes = positionBytes;
+//                entity.PositionSamples = (uint)positionSamples;
+
+                //return entity;
+
+                return new SSPPosition();
             }
             catch (System.Exception ex)
             {
                 Console.WriteLine("LockScreenActivity - An error occured while calculating the player position: " + ex.Message);
             }
-            return new PlayerPosition();
+            return new SSPPosition();
         }
 
         public bool OnTouch(View v, MotionEvent e)
@@ -312,14 +316,14 @@ namespace Sessions.Android
         public Action OnPlayerRepeat { get; set; }
         public Action OnOpenPlaylist { get; set; }
 
-        public void RefreshPlayerStatus(PlayerStatusType status)
+        public void RefreshPlayerState(SSPPlayerState state)
         {
             RunOnUiThread(() =>
             {
                 //Console.WriteLine("LockScreenActivity - PlayerStatusMessage - Status: " + message.Status.ToString());
-                if (status == PlayerStatusType.Initialized ||
-                    status == PlayerStatusType.Paused ||
-                    status == PlayerStatusType.Stopped)
+                if (state == SSPPlayerState.Initialized ||
+                    state == SSPPlayerState.Paused ||
+                    state == SSPPlayerState.Stopped)
                 {
                     _isPlaying = false;
                     _btnPlayPause.SetImageResource(Resource.Drawable.player_play);

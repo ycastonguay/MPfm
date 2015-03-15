@@ -29,7 +29,7 @@ using org.sessionsapp.android;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.Android
 {
@@ -42,7 +42,7 @@ namespace Sessions.Android
         ToggleButton _btnBypass;
         ListView _listView;
         EqualizerPresetsListAdapter _listAdapter;
-        List<EQPreset> _presets;
+        List<SSPEQPreset> _presets;
         OutputMeterView _outputMeter;
 
         protected override void OnCreate(Bundle bundle)
@@ -64,7 +64,7 @@ namespace Sessions.Android
             _outputMeter = FindViewById<OutputMeterView>(Resource.Id.equalizerPresets_outputMeterView);
 
             _listView = FindViewById<ListView>(Resource.Id.equalizerPresets_listView);
-            _listAdapter = new EqualizerPresetsListAdapter(this, _listView, new List<EQPreset>());
+            _listAdapter = new EqualizerPresetsListAdapter(this, _listView, new List<SSPEQPreset>());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
@@ -170,7 +170,7 @@ namespace Sessions.Android
             ShowErrorDialog(ex);
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
             RunOnUiThread(() => {
                 _btnBypass.Checked = isEQBypassed;

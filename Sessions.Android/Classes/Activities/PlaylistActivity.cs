@@ -30,6 +30,7 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using Sessions.Sound.Player;
 
 namespace Sessions.Android
 {
@@ -93,7 +94,11 @@ namespace Sessions.Android
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            OnSelectPlaylistItem(_playlist.Items[itemClickEventArgs.Position].Id);
+            var item = _playlist.GetItemAt(itemClickEventArgs.Position);
+            if (item != null)
+            {
+                //OnSelectPlaylistItem(item.Id);
+            }
         }
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)

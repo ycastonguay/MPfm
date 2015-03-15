@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -29,7 +27,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <DefineConstants>ANDROID</DefineConstants>
   </PropertyGroup>
@@ -42,6 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -51,6 +49,7 @@
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -59,7 +58,6 @@
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
@@ -70,14 +68,9 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sessions.Library\Lib\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Posix" />
@@ -86,12 +79,13 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Sessions.Library\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="taglib-sharp">
       <HintPath>..\Sessions.Sound\Lib\Android\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="TinyIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TinyIoC">
       <HintPath>..\Sessions.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -116,10 +110,6 @@
       <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
       <Name>Sessions.Library.Android</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.Android.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player.Android</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.Android.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound.Android</Name>
@@ -136,7 +126,7 @@
     <Compile Include="Config\Models\ResumePlaybackAppConfig.cs" />
     <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
-	<Compile Include="Messages\PlayerReinitializedMessage.cs" />
+    <Compile Include="Messages\PlayerReinitializedMessage.cs" />
     <Compile Include="Messages\ApplicationCloseMessage.cs" />
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
     <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
@@ -196,7 +186,7 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\SyncCloudPresenter.cs" />
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
-    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />    
+    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Views\ICloudConnectView.cs" />
     <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
@@ -301,7 +291,7 @@
     <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
     <Compile Include="Views\ISyncView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
-    <Compile Include="Presenters\SyncPresenter.cs" />   
+    <Compile Include="Presenters\SyncPresenter.cs" />
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
@@ -324,9 +314,6 @@
     <Compile Include="Services\Interfaces\ILifecycleService.cs" />
     <Compile Include="Services\Interfaces\IResumePlaybackService.cs" />
     <Compile Include="Services\ResumePlaybackService.cs" />
-    <Compile Include="Views\ISegmentDetailsView.cs" />
-    <Compile Include="Presenters\SegmentDetailsPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\ISegmentDetailsPresenter.cs" />
     <Compile Include="Messages\MarkerBeingEditedMessage.cs" />
     <Compile Include="Messages\LoopActivatedMessage.cs" />
     <Compile Include="Messages\LoopBeingEditedMessage.cs" />
@@ -337,11 +324,11 @@
     <Compile Include="Messages\CloudAppConfigChangedMessage.cs" />
     <Compile Include="Messages\GeneralAppConfigChangedMessage.cs" />
     <Compile Include="Messages\AudioAppConfigChangedMessage.cs" />
-    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />    
+    <Compile Include="Messages\LibraryAppConfigChangedMessage.cs" />
     <Compile Include="Views\ILoopPlaybackView.cs" />
     <Compile Include="Models\LoopPlaybackEntity.cs" />
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
-    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />    
+    <Compile Include="Presenters\LoopPlaybackPresenter.cs" />
     <Compile Include="Services\DownloadImageProvider.cs" />
     <Compile Include="Services\DownloadImageService.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageProvider.cs" />
@@ -350,7 +337,7 @@
     <Compile Include="Presenters\Interfaces\ISelectAlbumArtPresenter.cs" />
     <Compile Include="Presenters\SelectAlbumArtPresenter.cs" />
     <Compile Include="Messages\AppInactiveMessage.cs" />
-    <Compile Include="Messages\AppActivatedMessage.cs" />    
-    <Compile Include="Models\SongInformationEntity.cs" />    
+    <Compile Include="Messages\AppActivatedMessage.cs" />
+    <Compile Include="Models\SongInformationEntity.cs" />
   </ItemGroup>
 </Project>

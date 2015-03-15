@@ -26,8 +26,8 @@ using Sessions.Android.Classes.Controls.Graphics;
 using Sessions.Android.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Controls;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Objects;
 
 namespace org.sessionsapp.android
 {

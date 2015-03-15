@@ -26,8 +26,8 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using Sessions.GenericControls.Basics;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Objects;
 
 namespace org.sessionsapp.android
 {

@@ -20,6 +20,7 @@ using Android.Graphics;
 using Sessions.Android.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.GenericControls.Graphics;
+using System.Collections.Generic;
 
 namespace Sessions.Android.Classes.Controls.Graphics
 {
@@ -133,6 +134,11 @@ namespace Sessions.Android.Classes.Controls.Graphics
             };
             paint.SetStyle(Paint.Style.Fill);
             _canvas.DrawLine(point.X, point.Y, point2.X, point2.Y, paint);
+        }
+
+        public void DrawLine(List<BasicPoint> points, BasicPen pen, bool isRounded, bool closePath, bool isDashed)
+        {
+            throw new NotImplementedException();
         }
 
         public void DrawPath(BasicPath path, BasicBrush brush, BasicPen pen)

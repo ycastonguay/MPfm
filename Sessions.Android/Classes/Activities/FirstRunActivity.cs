@@ -95,6 +95,16 @@ namespace Sessions.Android
             Console.WriteLine("FirstRunActivity - OnDestroy");
             base.OnDestroy();
         }
+            
+        #region IFirstRunView implementation
 
+        public Action OnCloseView { get; set; }
+
+        public void FirstRunError(Exception ex)
+        {
+            base.ShowErrorDialog(ex);
+        }
+
+        #endregion
     }
 }

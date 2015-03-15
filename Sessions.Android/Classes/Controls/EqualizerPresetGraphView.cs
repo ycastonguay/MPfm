@@ -22,13 +22,13 @@ using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
-using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace org.sessionsapp.android
 {
     public class EqualizerPresetGraphView : SurfaceView
     {
-        private EQPreset _preset;
+        private SSPEQPreset _preset;
 
         public EqualizerPresetGraphView(Context context) : base(context)
         {
@@ -57,7 +57,7 @@ namespace org.sessionsapp.android
                 SetLayerType(LayerType.Hardware, null); // Use GPU instead of CPU (except in IDE such as Eclipse)
         }
 
-        public void SetPreset(EQPreset preset)
+        public void SetPreset(SSPEQPreset preset)
         {
             _preset = preset;
             Invalidate();
@@ -99,9 +99,9 @@ namespace org.sessionsapp.android
                 Color = Color.Gray,
                 TextSize = 14 * Resources.DisplayMetrics.Density
             };
-            float textWidth = paintText.MeasureText(_preset.Bands[_preset.Bands.Count - 1].CenterString);
-            canvas.DrawText(_preset.Bands[0].CenterString, padding * 2, Height - (padding * 2), paintText);
-            canvas.DrawText(_preset.Bands[_preset.Bands.Count - 1].CenterString, Width - textWidth - (padding * 2), Height - (padding * 2), paintText);
+            float textWidth = paintText.MeasureText(_preset.Bands[_preset.Bands.Length - 1].Label);
+            canvas.DrawText(_preset.Bands[0].Label, padding * 2, Height - (padding * 2), paintText);
+            canvas.DrawText(_preset.Bands[_preset.Bands.Length - 1].Label, Width - textWidth - (padding * 2), Height - (padding * 2), paintText);
 
             if (_preset == null)
                 return;
@@ -116,7 +116,7 @@ namespace org.sessionsapp.android
             paintEQLine.SetStyle(Paint.Style.Stroke);
             paintEQLine.StrokeWidth = 2f * Resources.DisplayMetrics.Density;
             float x = padding;
-            for (int a = 0; a < _preset.Bands.Count; a++)
+            for (int a = 0; a < _preset.Bands.Length; a++)
             {
                 // Value range is -6 to 6.
                 var band = _preset.Bands[a];
@@ -129,13 +129,13 @@ namespace org.sessionsapp.android
                 points.Add(y);
 
                 // Add the same point a second time because Android needs start/end for each segment
-                if (a > 0 && a < _preset.Bands.Count - 1)
+                if (a > 0 && a < _preset.Bands.Length - 1)
                 {
                     points.Add(x);
                     points.Add(y);
                 }
 
-                x += (Width - (padding * 2)) / (_preset.Bands.Count - 1);
+                x += (Width - (padding * 2)) / (_preset.Bands.Length - 1);
             }
             canvas.DrawLines(points.ToArray(), paintEQLine);
         }

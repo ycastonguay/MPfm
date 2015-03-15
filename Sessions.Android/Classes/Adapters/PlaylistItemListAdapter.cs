@@ -22,6 +22,7 @@ using Android.Widget;
 using org.sessionsapp.android;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
+using Sessions.Sound.Player;
 
 namespace Sessions.Android.Classes.Adapters
 {
@@ -56,17 +57,21 @@ namespace Sessions.Android.Classes.Adapters
 
         public override AudioFile this[int position]
         {
-            get { return _playlist.Items[position].AudioFile; }
+            get 
+            { 
+                var item = _playlist.GetItemAt(position);
+                return item.AudioFile;
+            }
         }
 
         public override int Count
         {
-            get { return _playlist.Items.Count; }
+            get { return _playlist.Count; }
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var item = _playlist.Items[position];
+            var item = _playlist.GetItemAt(position);
             View view = convertView;
             if (view == null) // no view to re-use, create new
                 view = _context.LayoutInflater.Inflate(Resource.Layout.PlaylistItemCell, null);
@@ -112,7 +117,8 @@ namespace Sessions.Android.Classes.Adapters
             if (view == null)
                 return;
 
-            if (_playlist.Items[position].AudioFile != null && _playlist.Items[position].AudioFile.Id == _nowPlayingAudioFileId)
+            var item = _playlist.GetItemAt(position);
+            if (item != null && item.AudioFile != null && audioFile.Id == _nowPlayingAudioFileId)
             {
                 var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.playlistItemCell_imageNowPlaying);
                 imageNowPlaying.Visibility = ViewStates.Visible;

@@ -32,6 +32,7 @@ using Sessions.MVP.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using Exception = System.Exception;
+using org.sessionsapp.player;
 
 namespace org.sessionsapp.android
 {
@@ -47,7 +48,7 @@ namespace org.sessionsapp.android
         Notification _notification;
         bool _isShutDowning;
         AudioFile _audioFile;
-        PlayerStatusType _status;
+        SSPPlayerState _status;
         Bitmap _bitmapAlbumArt;
 
         public override void OnStart(Intent intent, int startId)
@@ -115,8 +116,8 @@ namespace org.sessionsapp.android
                 }
             });
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
-                Console.WriteLine("WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
-                _status = message.Status;
+                Console.WriteLine("WidgetService - PlayerStatusMessage - Status=" + message.State.ToString());
+                _status = message.State;
                 UpdateWidgetView();
             });
         }
@@ -151,9 +152,9 @@ namespace org.sessionsapp.android
                     viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, "");                                    
                 }
 
-                if (_status == PlayerStatusType.Initialized ||
-                    _status == PlayerStatusType.Paused ||
-                    _status == PlayerStatusType.Stopped)
+                if (_status == SSPPlayerState.Initialized ||
+                    _status == SSPPlayerState.Paused ||
+                    _status == SSPPlayerState.Stopped)
                 {
                     viewWidget.SetImageViewResource(Resource.Id.widgetPlayer_btnPlayPause, Resource.Drawable.player_play);
                 }

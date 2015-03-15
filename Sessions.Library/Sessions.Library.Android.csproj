@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -35,7 +33,6 @@
     <DefineConstants>TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
@@ -47,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -56,6 +54,7 @@
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -64,7 +63,6 @@
     <OutputPath>..\Output\Debug_Mac\</OutputPath>
     <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
@@ -75,7 +73,6 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
@@ -97,12 +94,10 @@
       <HintPath>Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite" />
-    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="taglib-sharp">
       <HintPath>..\Sessions.Sound\Lib\Android\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="TinyIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TinyIoC">
       <HintPath>..\Sessions.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -110,9 +105,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-      <EmbeddedResource Include="Scripts\1.08-1.09.sql" />
-  <EmbeddedResource Include="Scripts\1.07-1.08.sql" />
-  <EmbeddedResource Include="Scripts\1.06-1.07.sql" />
+    <EmbeddedResource Include="Scripts\1.08-1.09.sql" />
+    <EmbeddedResource Include="Scripts\1.07-1.08.sql" />
+    <EmbeddedResource Include="Scripts\1.06-1.07.sql" />
     <EmbeddedResource Include="Scripts\1.05-1.06.sql" />
     <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
     <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
@@ -140,10 +135,6 @@
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.Android.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>Sessions.Core.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.Android.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.Android.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
@@ -205,8 +196,8 @@
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
     <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
-        <Compile Include="Services\SyncListenerServiceBase.cs" />
+    <Compile Include="Services\SyncListenerServiceBase.cs" />
     <Compile Include="Services\SyncDeviceManagerService.cs" />
-    <Compile Include="Services\Interfaces\ISyncDeviceManagerService.cs" />        
+    <Compile Include="Services\Interfaces\ISyncDeviceManagerService.cs" />
   </ItemGroup>
 </Project>

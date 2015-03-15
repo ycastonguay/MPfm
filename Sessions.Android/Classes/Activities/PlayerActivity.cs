@@ -35,11 +35,13 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using org.sessionsapp.android;
 using Exception = System.Exception;
+using org.sessionsapp.player;
+using Sessions.Sound.Objects;
+using Sessions.Sound.Player;
 
 namespace Sessions.Android
 {
@@ -303,9 +305,9 @@ namespace Sessions.Android
             //Console.WriteLine("PlayerActivity - SeekBarOnProgressChanged");
             if (_isPositionChanging)
             {
-                var entity = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
-                _lblPosition.Text = entity.Position;
-                _waveFormScrollView.SetSecondaryPosition(entity.PositionBytes);
+                var position = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
+                _lblPosition.Text = position.Str;
+                _waveFormScrollView.SetSecondaryPosition(position.Bytes);
             }
         }
 
@@ -399,7 +401,7 @@ namespace Sessions.Android
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPosition> OnPlayerRequestPosition { get; set; }
+        public Func<float, SSPPosition> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
         public Action OnOpenEffects { get; set; }
@@ -423,13 +425,13 @@ namespace Sessions.Android
                 _viewPagerAdapter.NotifyDataSetChanged();
         }
 
-        public void RefreshPlayerStatus(PlayerStatusType status, RepeatType repeatType, bool isShuffleEnabled)
+        public void RefreshPlayerState(SSPPlayerState status, SSPRepeatType repeatType, bool isShuffleEnabled)
         {
-            _isPlaying = status == PlayerStatusType.Playing;
+            _isPlaying = status == SSPPlayerState.Playing;
             RunOnUiThread(() => {
                 switch (status)
                 {
-                    case PlayerStatusType.Playing:
+                    case SSPPlayerState.Playing:
                         _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
                         break;
                     default:
@@ -439,25 +441,26 @@ namespace Sessions.Android
             });
         }
 
-        public void RefreshPlayerPosition(PlayerPosition entity)
+        public void RefreshPlayerPosition(SSPPosition position)
         {
             RunOnUiThread(() => {
                 if (!_isPositionChanging)
                 {
-                    _lblPosition.Text = entity.Position;
-                    _seekBar.Progress = (int) (entity.PositionPercentage * 100);
+                    _lblPosition.Text = position.Str;
+                    //_seekBar.Progress = (int) (prop.PositionPercentage * 100);
                 }
 
-                _waveFormScrollView.SetPosition(entity.PositionBytes);
+                _waveFormScrollView.SetPosition(position.Bytes);
             });
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        public void RefreshSongInformation(SongInformationEntity entity)
         {
             RunOnUiThread(() => {
-                if (audioFile == null)
+                if (entity == null || entity.AudioFile == null)
                     return;
 
+                var audioFile = entity.AudioFile;
                 _lblLength.Text = audioFile.Length;
                 ActionBar.Title = audioFile.ArtistName;
 
@@ -477,7 +480,7 @@ namespace Sessions.Android
                     }
                 });
 
-                _waveFormScrollView.SetWaveFormLength(lengthBytes);
+                _waveFormScrollView.SetWaveFormLength(audioFile.LengthBytes);
                 _waveFormScrollView.LoadPeakFile(audioFile);
             });   
         }
@@ -495,7 +498,7 @@ namespace Sessions.Android
         {
         }
 
-        public void RefreshLoops(IEnumerable<Loop> loops)
+        public void RefreshLoops(IEnumerable<SSPLoop> loops)
         {
         }
 
@@ -508,6 +511,10 @@ namespace Sessions.Android
         }
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        {
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
         {
         }
 

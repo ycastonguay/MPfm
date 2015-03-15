@@ -29,7 +29,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Sound.BassNetWrapper;
+using org.sessionsapp.player;
 
 namespace org.sessionsapp.android
 {
@@ -75,7 +75,7 @@ namespace org.sessionsapp.android
         #region IAudioPreferencesView implementation
 
         public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
-        public Action<Device, int> OnSetOutputDeviceAndSampleRate { get; set; }
+        public Action<SSPDevice, int> OnSetOutputDeviceAndSampleRate { get; set; }
         public Action OnResetAudioSettings { get; set; }
         public Func<bool> OnCheckIfPlayerIsPlaying { get; set; }
 
@@ -87,7 +87,7 @@ namespace org.sessionsapp.android
         {
         }
 
-        public void RefreshAudioDevices(IEnumerable<Device> devices)
+        public void RefreshAudioDevices(IEnumerable<SSPDevice> devices)
         {
         }
 

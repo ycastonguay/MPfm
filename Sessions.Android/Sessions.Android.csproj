@@ -165,34 +165,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbassflac.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbassmix.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbasswv.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_aac.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_alac.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_ape.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_fx.so" />
     <AndroidNativeLibrary Include="Lib\armeabi\libDropboxSync.so" />
     <AndroidNativeLibrary Include="Lib\x86\libDropboxSync.so" />
     <AndroidNativeLibrary Include="Lib\armeabi-v7a\libDropboxSync.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbassenc.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_mpc.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbass.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbassenc.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbassflac.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbassmix.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbasswv.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbass_aac.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbass_alac.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbass_ape.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbass_fx.so" />
-    <AndroidNativeLibrary Include="Lib\armeabi\libbass_mpc.so" />
-    <AndroidNativeLibrary Include="Lib\x86\libbass.so" />
-    <AndroidNativeLibrary Include="Lib\x86\libbassenc.so" />
-    <AndroidNativeLibrary Include="Lib\x86\libbassflac.so" />
-    <AndroidNativeLibrary Include="Lib\x86\libbassmix.so" />
-    <AndroidNativeLibrary Include="Lib\x86\libbasswv.so" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\Player.axml">
@@ -347,6 +322,114 @@
     <AndroidResource Include="Resources\layout\CloudConnect.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidNativeLibrary Include="..\libssp_player\libs\x86\libssp_player.so">
+      <Link>Lib\x86\libssp_player.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\libs\armeabi\libssp_player.so">
+      <Link>Lib\armeabi\libssp_player.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\libs\armeabi-v7a\libssp_player.so">
+      <Link>Lib\armeabi-v7a\libssp_player.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbass.so">
+      <Link>Lib\armeabi\libbass.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbass_aac.so">
+      <Link>Lib\armeabi\libbass_aac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbass_alac.so">
+      <Link>Lib\armeabi\libbass_alac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbass_ape.so">
+      <Link>Lib\armeabi\libbass_ape.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbass_fx.so">
+      <Link>Lib\armeabi\libbass_fx.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbass_mpc.so">
+      <Link>Lib\armeabi\libbass_mpc.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbassenc.so">
+      <Link>Lib\armeabi\libbassenc.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbassflac.so">
+      <Link>Lib\armeabi\libbassflac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbassmidi.so">
+      <Link>Lib\armeabi\libbassmidi.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbassmix.so">
+      <Link>Lib\armeabi\libbassmix.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi\libbasswv.so">
+      <Link>Lib\armeabi\libbasswv.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbass.so">
+      <Link>Lib\armeabi-v7a\libbass.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbass_aac.so">
+      <Link>Lib\armeabi-v7a\libbass_aac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbass_alac.so">
+      <Link>Lib\armeabi-v7a\libbass_alac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbass_ape.so">
+      <Link>Lib\armeabi-v7a\libbass_ape.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbass_fx.so">
+      <Link>Lib\armeabi-v7a\libbass_fx.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbass_mpc.so">
+      <Link>Lib\armeabi-v7a\libbass_mpc.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbassenc.so">
+      <Link>Lib\armeabi-v7a\libbassenc.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbassflac.so">
+      <Link>Lib\armeabi-v7a\libbassflac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbassmidi.so">
+      <Link>Lib\armeabi-v7a\libbassmidi.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbassmix.so">
+      <Link>Lib\armeabi-v7a\libbassmix.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\armeabi-v7a\libbasswv.so">
+      <Link>Lib\armeabi-v7a\libbasswv.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbass.so">
+      <Link>Lib\x86\libbass.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbass_aac.so">
+      <Link>Lib\x86\libbass_aac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbass_alac.so">
+      <Link>Lib\x86\libbass_alac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbass_ape.so">
+      <Link>Lib\x86\libbass_ape.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbass_fx.so">
+      <Link>Lib\x86\libbass_fx.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbass_mpc.so">
+      <Link>Lib\x86\libbass_mpc.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbassenc.so">
+      <Link>Lib\x86\libbassenc.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbassflac.so">
+      <Link>Lib\x86\libbassflac.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbassmidi.so">
+      <Link>Lib\x86\libbassmidi.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbassmix.so">
+      <Link>Lib\x86\libbassmix.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\libssp_player\jni\x86\libbasswv.so">
+      <Link>Lib\x86\libbasswv.so</Link>
+    </AndroidNativeLibrary>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -367,10 +450,6 @@
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.Android.csproj">
       <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
       <Name>Sessions.MVP.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.Android.csproj">
-      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
-      <Name>Sessions.Player.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.Android.csproj">
       <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>

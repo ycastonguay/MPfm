@@ -37,6 +37,7 @@ using Sessions.MVP.Config.Providers;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.Player;
+using org.sessionsapp.player;
 
 namespace Sessions.Android.Classes
 {
@@ -70,12 +71,20 @@ namespace Sessions.Android.Classes
         {
             base.OnCreate();
 
+            ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
             _context = ApplicationContext; // TODO: Probably creates a memory leak.
             BootstrapApp();
 
-            // Set player plugin directory path
-            ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
-            Sessions.Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
+            // Load dynamic libraries
+            Java.Lang.JavaSystem.LoadLibrary("bass");
+            Java.Lang.JavaSystem.LoadLibrary("bass_fx");
+            Java.Lang.JavaSystem.LoadLibrary("bassmix");
+            Java.Lang.JavaSystem.LoadLibrary("bassenc");
+            Java.Lang.JavaSystem.LoadLibrary("ssp_player");
+
+            // Perform any additional setup after loading the view, typically from a nib.
+            int version = SSP.SSP_GetVersion();
+            Console.WriteLine("libssp_player version: {0}", version);
 
             try
             {
@@ -120,9 +129,9 @@ namespace Sessions.Android.Classes
             base.OnTerminate();
 
             // Stop and clean up player
-            if (Sessions.Player.Player.CurrentPlayer.IsPlaying)
-                Sessions.Player.Player.CurrentPlayer.Stop();
-            Sessions.Player.Player.CurrentPlayer.Dispose();
+            if (Sessions.Sound.Player.SSPPlayer.CurrentPlayer.State == SSPPlayerState.Playing)
+                Sessions.Sound.Player.SSPPlayer.CurrentPlayer.Stop();
+            Sessions.Sound.Player.SSPPlayer.CurrentPlayer.Dispose();
 
 //#if __ANDROID_16__
 //            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {

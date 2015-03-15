@@ -19,26 +19,26 @@ using System;
 using System.Collections.Generic;
 using Android.Views;
 using Android.Widget;
-using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.Android.Classes.Adapters
 {
-    public class EqualizerPresetFadersListAdapter : BaseAdapter<EQPresetBand>, SeekBar.IOnSeekBarChangeListener
+    public class EqualizerPresetFadersListAdapter : BaseAdapter<SSPEQPresetBand>, SeekBar.IOnSeekBarChangeListener
     {
         private readonly EqualizerPresetDetailsActivity _context;
         private readonly ListView _listView;
-        private EQPreset _preset;
+        private SSPEQPreset _preset;
 
         public bool HasPresetChanged { get; set; }
 
-        public EqualizerPresetFadersListAdapter(EqualizerPresetDetailsActivity context, ListView listView, EQPreset preset)
+        public EqualizerPresetFadersListAdapter(EqualizerPresetDetailsActivity context, ListView listView, SSPEQPreset preset)
         {
             _context = context;
             _listView = listView;
             _preset = preset;
         }
 
-        public void SetData(EQPreset preset)
+        public void SetData(SSPEQPreset preset)
         {
             _preset = preset;
             NotifyDataSetChanged();
@@ -49,14 +49,14 @@ namespace Sessions.Android.Classes.Adapters
             return position;
         }
 
-        public override EQPresetBand this[int position]
+        public override SSPEQPresetBand this[int position]
         {
             get { return _preset.Bands[position]; }
         }
 
         public override int Count
         {
-            get { return _preset.Bands.Count; }
+            get { return _preset.Bands.Length; }
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -71,7 +71,7 @@ namespace Sessions.Android.Classes.Adapters
             var seekBar = view.FindViewById<SeekBar>(Resource.Id.equalizerPresetFaderCell_seekBar);
 
             int progress = (int) ((_preset.Bands[position].Gain + 6f)*10f);
-            lblFrequency.Text = _preset.Bands[position].CenterString;
+            lblFrequency.Text = _preset.Bands[position].Label;
             lblValue.Text = GetGainString(_preset.Bands[position].Gain);
             seekBar.Progress = progress;
             seekBar.Tag = position;
@@ -104,7 +104,7 @@ namespace Sessions.Android.Classes.Adapters
 
             _preset.Bands[position].Gain = gain;
             _context.UpdatePreset(_preset);
-            _context.OnSetFaderGain(_preset.Bands[position].CenterString, gain);
+            _context.OnSetFaderGain(_preset.Bands[position].Label, gain);
         }
 
         public void OnStartTrackingTouch(SeekBar seekBar)

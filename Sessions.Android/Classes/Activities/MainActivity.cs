@@ -41,6 +41,8 @@ using TinyMessenger;
 using org.sessionsapp.android;
 using Fragment = Android.App.Fragment;
 using FragmentTransaction = Android.App.FragmentTransaction;
+using org.sessionsapp.player;
+using Sessions.Sound.Player;
 
 namespace Sessions.Android
 {
@@ -439,12 +441,12 @@ namespace Sessions.Android
         public Action OnPlayerRepeat { get; set; }
         public Action OnOpenPlaylist { get; set; }
 
-        public void RefreshPlayerStatus(PlayerStatusType status)
+        public void RefreshPlayerState(SSPPlayerState state)
         {
             RunOnUiThread(() =>
             {
-                bool hasStartedPlaying = !_isPlaying && status == PlayerStatusType.Playing;
-                _isPlaying = status == PlayerStatusType.Playing;
+                bool hasStartedPlaying = !_isPlaying && state == SSPPlayerState.Playing;
+                _isPlaying = state == SSPPlayerState.Playing;
                 //Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
                 RunOnUiThread(() =>
                 {
@@ -458,9 +460,9 @@ namespace Sessions.Android
                         }
                     }
 
-                    switch (status)
+                    switch (state)
                     {
-                        case PlayerStatusType.Playing:
+                        case SSPPlayerState.Playing:
                             _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
                             break;
                         default:
@@ -521,7 +523,7 @@ namespace Sessions.Android
             RunOnUiThread(() =>
             {
                 //_lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
-                _lblPlaylistCount.Text = string.Format("{0} items", playlist.Items.Count);
+                _lblPlaylistCount.Text = string.Format("{0} items", playlist.Count);
                 //ShowMiniPlaylist();
             });
         }

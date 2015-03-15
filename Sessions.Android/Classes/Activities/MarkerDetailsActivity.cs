@@ -25,8 +25,8 @@ using Android.OS;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Objects;
 
 namespace Sessions.Android
 {

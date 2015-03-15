@@ -20,28 +20,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.Views;
 using Android.Widget;
-using Sessions.Player.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.Android.Classes.Adapters
 {
-    public class EqualizerPresetsListAdapter : BaseAdapter<EQPreset>
+    public class EqualizerPresetsListAdapter : BaseAdapter<SSPEQPreset>
     {
         readonly EqualizerPresetsActivity _context;
         readonly ListView _listView;
-        List<EQPreset> _presets;
+        List<SSPEQPreset> _presets;
         int _checkmarkRowPosition;
         Guid _selectedPresetId;
 
         public bool HasPresetChanged { get; private set; }
 
-        public EqualizerPresetsListAdapter(EqualizerPresetsActivity context, ListView listView, List<EQPreset> presets)
+        public EqualizerPresetsListAdapter(EqualizerPresetsActivity context, ListView listView, List<SSPEQPreset> presets)
         {
             _context = context;
             _listView = listView;
             _presets = presets;
         }
 
-        public void SetData(List<EQPreset> presets, Guid selectedPresetId)
+        public void SetData(List<SSPEQPreset> presets, Guid selectedPresetId)
         {
             _selectedPresetId = selectedPresetId;
             _presets = presets;
@@ -53,7 +53,7 @@ namespace Sessions.Android.Classes.Adapters
             return position;
         }
 
-        public override EQPreset this[int position]
+        public override SSPEQPreset this[int position]
         {
             get { return _presets[position]; }
         }

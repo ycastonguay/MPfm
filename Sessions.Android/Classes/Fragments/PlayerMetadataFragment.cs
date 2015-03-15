@@ -24,8 +24,8 @@ using Sessions.Android.Classes.Fragments.Base;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
 using Sessions.Sound.AudioFiles;
+using org.sessionsapp.player;
 
 namespace Sessions.Android.Classes.Fragments
 {
@@ -63,7 +63,7 @@ namespace Sessions.Android.Classes.Fragments
         public Action OnToggleShuffle { get; set; }
         public Action OnToggleRepeat { get; set; }
 
-        public void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount)
+        public void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount, long currentPositionMS, long lengthMS)
         {            
             Activity.RunOnUiThread(() => {
                 if (audioFile != null)
@@ -87,7 +87,7 @@ namespace Sessions.Android.Classes.Fragments
         {
         }
 
-        public void RefreshRepeat(RepeatType repeatType)
+        public void RefreshRepeat(SSPRepeatType repeatType)
         {
         }
 

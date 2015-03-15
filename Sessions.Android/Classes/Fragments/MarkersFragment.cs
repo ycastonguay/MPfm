@@ -27,7 +27,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters;
 using Sessions.MVP.Views;
-using Sessions.Player.Objects;
+using Sessions.Sound.Objects;
 
 namespace Sessions.Android.Classes.Fragments
 {
