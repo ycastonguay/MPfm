@@ -351,14 +351,16 @@ namespace Sessions.iOS.Classes.Controllers
 
         private void AppActivatedMessageReceived(AppActivatedMessage message)
         {
-            _isAppInactive = false;
+            InvokeOnMainThread(() => {
+                _isAppInactive = false;
 
-            // If the peak file loading/generation was interrupted, restart the process when the app is once again visible
-            if (scrollViewWaveForm.IsEmpty && _currentSongInfo != null)
-            {
-                Console.WriteLine("PlayerViewController - AppActivatedMessageReceived - Loading peak file...");
-                scrollViewWaveForm.LoadPeakFile(_currentSongInfo.AudioFile);
-            }
+                // If the peak file loading/generation was interrupted, restart the process when the app is once again visible
+                if (scrollViewWaveForm.IsEmpty && _currentSongInfo != null)
+                {
+                    Console.WriteLine("PlayerViewController - AppActivatedMessageReceived - Loading peak file...");
+                    scrollViewWaveForm.LoadPeakFile(_currentSongInfo.AudioFile);
+                }
+            });
         }
 
         private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)
@@ -642,16 +644,17 @@ namespace Sessions.iOS.Classes.Controllers
 
         public void RefreshSongInformation(SongInformationEntity entity)
         {
-            if (entity == null)
-                return;
-
-            // Prevent refreshing song twice
-            if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
-                return;
-
-            _currentSongInfo = entity;
             InvokeOnMainThread(() =>
             {
+                if (entity == null)
+                    return;
+
+                // Prevent refreshing song twice
+                if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
+                    return;
+
+                _currentSongInfo = entity;
+
                 try
                 {
                     //_currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();

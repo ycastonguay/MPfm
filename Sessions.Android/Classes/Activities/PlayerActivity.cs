@@ -459,17 +459,16 @@ namespace Sessions.Android
 
         public void RefreshSongInformation(SongInformationEntity entity)
         {
-            if (entity == null || entity.AudioFile == null)
-                return;
-
-            // Prevent refreshing song twice
-            if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
-                return;
-
-            var audioFile = entity.AudioFile;
-            _currentSongInfo = entity;
-
             RunOnUiThread(() => {
+                if (entity == null || entity.AudioFile == null)
+                    return;
+
+                // Prevent refreshing song twice
+                if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
+                    return;
+
+                var audioFile = entity.AudioFile;
+                _currentSongInfo = entity;
                 _lblLength.Text = audioFile.Length;
                 ActionBar.Title = audioFile.ArtistName;
 

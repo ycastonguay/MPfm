@@ -1515,7 +1515,7 @@ namespace Sessions.OSX
             ShowError(ex);
         }
 
-        public void RefreshPlaylist(SSPPlaylist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
             //InvokeOnMainThread(() => playlistView.SetPlaylist(playlist));
         }
@@ -1563,13 +1563,13 @@ namespace Sessions.OSX
 
 		public void RefreshPlayerPosition(SSPPosition position)
         {
-            if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
-                return;
-
-            if(_currentSongInfo == null || _currentSongInfo.AudioFile == null)
-                return;
-
             InvokeOnMainThread(() => {
+
+                if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+                return;
+
+                if(_currentSongInfo == null || _currentSongInfo.AudioFile == null)
+                    return;
 
                 // The wave form scroll view isn't aware of floating point
                 long positionBytes = position.Bytes;
@@ -1589,8 +1589,8 @@ namespace Sessions.OSX
 		
         public void RefreshSongInformation(SongInformationEntity entity)
         {
-            _currentSongInfo = entity;
             InvokeOnMainThread(() => {
+                _currentSongInfo = entity;
                 if (entity == null || entity.AudioFile == null)
                 {
                     lblArtistName.StringValue = string.Empty;

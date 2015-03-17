@@ -1432,11 +1432,11 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshPlayerPosition(SSPPosition position)
         {
-            if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
-                return;
-
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
+	            if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+    	            return;
+            
                 if (_currentSongInfo == null || _currentSongInfo.AudioFile == null)
                     return;
 
@@ -1462,11 +1462,11 @@ namespace Sessions.WPF.Classes.Windows
 
         public void RefreshSongInformation(SongInformationEntity entity)
         {
-            var audioFile = entity.AudioFile;
-            _selectedMarkerIndex = -1;
-            _currentSongInfo = entity;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
+	            var audioFile = entity.AudioFile;
+    	        _selectedMarkerIndex = -1;
+	            _currentSongInfo = entity;
                 if (audioFile == null)
                 {
                     lblArtistName.Content = string.Empty;

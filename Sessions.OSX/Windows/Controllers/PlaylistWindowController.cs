@@ -30,7 +30,7 @@ namespace Sessions.OSX
     public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {
         Guid _currentlyPlayingSongId;
-        SSPPlaylist _playlist = new SSPPlaylist();
+        Playlist _playlist = new Playlist();
 
         public PlaylistWindowController(IntPtr handle) 
             : base (handle)
@@ -89,7 +89,7 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshPlaylist(SSPPlaylist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
             Console.WriteLine("PlaylistWindowController - RefreshPlaylist");
             _playlist = playlist;

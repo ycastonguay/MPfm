@@ -28,6 +28,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
 using Sessions.OSX.Classes.Controls.Graphics;
 using Sessions.OSX.Classes.Controls.Helpers;
+using Sessions.Sound.Player;
 
 namespace Sessions.OSX.Classes.Controls
 {
@@ -41,7 +42,7 @@ namespace Sessions.OSX.Classes.Controls
         private NSEvent _rightClickEvent;
 
         public List<AudioFile> SelectedAudioFiles { get { return _control.SelectedAudioFiles; } }
-        public Guid NowPlayingPlaylistItemId { get { return _control.NowPlayingPlaylistItemId; } set { _control.NowPlayingPlaylistItemId = value; } }
+        public int NowPlayingPlaylistItemId { get { return _control.NowPlayingPlaylistItemId; } set { _control.NowPlayingPlaylistItemId = value; } }
 
         //public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
