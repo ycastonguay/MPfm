@@ -202,7 +202,6 @@ namespace Sessions.Android
 
         public void UpdatePreset(SSPEQPreset preset)
         {
-            //Console.WriteLine("EQDA - UPDATE PRESET");
             _preset = preset;
             _equalizerPresetGraph.SetPreset(preset);
             _txtPresetName.Text = preset.Name;
@@ -250,7 +249,6 @@ namespace Sessions.Android
 
         public void RefreshPreset(SSPEQPreset preset)
         {
-            //Console.WriteLine("EQDA - REFRESH PRESET");
             RunOnUiThread(() => {
                 UpdatePreset(preset);
                 _listAdapter.SetData(preset);

@@ -16,10 +16,12 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using Sessions.MVP.Views;
+using System;
 
 namespace Sessions.MVP.Presenters.Interfaces
 {
 	public interface IEqualizerPresetDetailsPresenter : IBasePresenter<IEqualizerPresetDetailsView>
 	{
+        void ChangePreset(Guid equalizerPresetId);
 	}
 }

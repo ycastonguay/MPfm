@@ -26,6 +26,7 @@ using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
 using Sessions.Library.Objects;
 using Sessions.MVP.Bootstrap;
+using System;
 
 namespace Sessions.iOS.Classes.Navigation
 {
@@ -99,5 +100,17 @@ namespace Sessions.iOS.Classes.Navigation
             var view = Bootstrapper.GetContainer().Resolve<IPlayerView>();
             AppDelegate.PushTabView(tabType, (PlayerViewController)view);
         }
+
+        public override void CreateEqualizerPresetDetailsView(IBaseView sourceView, Guid presetId)
+        {
+            if (EqualizerPresetDetailsPresenter != null)
+            {
+                // Since views are recycled on iOS, use the current instance and change the preset
+                EqualizerPresetDetailsPresenter.ChangePreset(presetId);
+            }
+
+            base.CreateEqualizerPresetDetailsView(sourceView, presetId);
+        }
+
 	}
 }

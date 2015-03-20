@@ -82,7 +82,6 @@ namespace Sessions.MVP.Presenters
 
         public void ChangePreset(Guid equalizerPresetId)
         {
-            // Only used on desktop devices where the EqualizerPreset and EqualizerPresetDetails are merged into the same view
             var preset = _libraryService.SelectEQPreset(equalizerPresetId);
             if (preset == null)
                 return;
@@ -101,14 +100,13 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                // TODO: Test me
                 _preset = _originalPreset;
                 _playerService.ApplyEQPreset(_preset);
                 View.RefreshPreset(_preset);
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while reverting the equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -125,7 +123,6 @@ namespace Sessions.MVP.Presenters
                 {
                     var band = _preset.Bands[a];
                     value = _preset.Bands[a].Gain;
-                    Tracing.Log("NormalizePreset - band {0} value {1}", band, value);
                     if (value > highestValue)
                         highestValue = value;
                 }
@@ -138,7 +135,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while normalizing the equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -153,7 +150,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while reseting the equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -183,7 +180,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while saving the equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -192,10 +189,8 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                //Tracing.Log("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
                 var band = _preset.Bands.FirstOrDefault(x => x.Label == frequency);
                 band.Gain = gain;
-                //int index = Array.IndexOf(_preset.Bands, band);
                 int index = _preset.Bands.ToList().FindIndex(x => x.Label == frequency);
 
                 if(index >= 0) 
@@ -203,7 +198,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while setting the equalizer preset fader value: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetDetailsError(ex);
             }
         }       

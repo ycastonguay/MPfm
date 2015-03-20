@@ -58,7 +58,7 @@ namespace Sessions.MVP.Navigation
         private IEqualizerPresetsView _equalizerPresetsView;
         private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
         private IEqualizerPresetDetailsView _equalizerPresetDetailsView;
-        private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
+        protected IEqualizerPresetDetailsPresenter EqualizerPresetDetailsPresenter;
         private IPlayerView _playerView;
         private IPlayerPresenter _playerPresenter;
         private IQueueView _queueView;
@@ -802,12 +802,12 @@ namespace Sessions.MVP.Navigation
             _equalizerPresetDetailsView = view;
             _equalizerPresetDetailsView.OnViewDestroy = (view2) =>
             {
-                _equalizerPresetDetailsPresenter.ViewDestroyed();
-                _equalizerPresetDetailsPresenter = null;
+                EqualizerPresetDetailsPresenter.ViewDestroyed();
+                EqualizerPresetDetailsPresenter = null;
                 _equalizerPresetDetailsView = null;
             };
-            _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"presetId", presetId}});
-            _equalizerPresetDetailsPresenter.BindView(view);
+            EqualizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"presetId", presetId}});
+            EqualizerPresetDetailsPresenter.BindView(view);
         }
 
         public virtual void CreateSyncView()

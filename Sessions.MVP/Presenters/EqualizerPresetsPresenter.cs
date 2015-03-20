@@ -146,8 +146,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                // Log a soft error
-                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
+                Tracing.Log(ex);
             }
         }
 
@@ -159,7 +158,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while bypassing the equalizer: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -172,7 +171,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while setting the volume: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -181,23 +180,25 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                // For mobile devices
-                if (_mobileNavigationManager != null)
-                {
-                    _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, Guid.Empty);
-                    //return;
-                }
-
-                // For desktop devices
                 var newPreset = new SSPEQPreset();
                 _libraryService.InsertEQPreset(newPreset);
                 _playerService.ApplyEQPreset(newPreset);
                 RefreshPresets();
-                _messageHub.PublishAsync<EqualizerPresetSelectedMessage>(new EqualizerPresetSelectedMessage(this, newPreset.EQPresetId));
+
+                if (_mobileNavigationManager != null)
+                {
+                    // Mobile devices
+                    _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, newPreset.EQPresetId);
+                }
+                else
+                {
+                    // Desktop devices
+                    _messageHub.PublishAsync<EqualizerPresetSelectedMessage>(new EqualizerPresetSelectedMessage(this, newPreset.EQPresetId));
+                }
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while adding an equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -212,7 +213,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while loading an equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -232,7 +233,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while editing an equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -242,13 +243,13 @@ namespace Sessions.MVP.Presenters
             try
             {
                 _libraryService.DeleteEQPreset(presetId);
-                if(_playerService.EQPreset.EQPresetId == presetId)
+                if(_playerService.EQPreset != null && _playerService.EQPreset.EQPresetId == presetId)
                     _playerService.ResetEQ();
                 RefreshPresets();
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while deleting an equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -265,7 +266,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while duplicating an equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -283,7 +284,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while exporting an equalizer preset: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -298,7 +299,7 @@ namespace Sessions.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while refreshing equalizer presets: " + ex.Message);
+                Tracing.Log(ex);
                 View.EqualizerPresetsError(ex);
             }
         }
