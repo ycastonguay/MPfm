@@ -638,17 +638,17 @@ namespace Sessions.iOS.Classes.Controllers
         {
         }
 
-        public void RefreshPlaylist(SSPPlaylist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
         }
 
         public void RefreshSongInformation(SongInformationEntity entity)
         {
-            InvokeOnMainThread(() =>
-            {
-                if (entity == null)
+            if (entity == null || entity.AudioFile == null)
                     return;
 
+            InvokeOnMainThread(() =>
+            {
                 // Prevent refreshing song twice
                 if (_currentSongInfo != null && _currentSongInfo.AudioFile.Id == entity.AudioFile.Id)
                     return;

@@ -36,7 +36,7 @@ namespace Sessions.iOS
         string _cellIdentifier = "PlaylistItemCell";
         bool _isEditingTableView = false;
         Guid _currentlyPlayingSongId;
-        SSPPlaylist _playlist;
+        Playlist _playlist;
         UIBarButtonItem _btnDone;
         UIBarButtonItem _btnEdit;
         SessionsFlatButton _btnFlatEdit;
@@ -118,18 +118,19 @@ namespace Sessions.iOS
                 cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
             var item = _playlist.GetItemAt(indexPath.Row);
+            var audioFile = item.AudioFile;
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
-            cell.TextLabel.Text = item.Title;
+            cell.TextLabel.Text = audioFile.Title;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
-            cell.DetailTextLabel.Text = item.ArtistName;
+            cell.DetailTextLabel.Text = audioFile.ArtistName;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
             cell.ImageChevron.Hidden = true;
             cell.IndexTextLabel.Text = (indexPath.Row+1).ToString();
 
-            if (_currentlyPlayingSongId == item.Id)
+            if (_currentlyPlayingSongId == audioFile.Id)
                 cell.RightImage.Hidden = false;
             else
                 cell.RightImage.Hidden = true;
@@ -141,8 +142,11 @@ namespace Sessions.iOS
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var item = _playlist.GetItemAt(indexPath.Row);
-            OnSelectPlaylistItem(item.Id);
-            tableView.DeselectRow(indexPath, true);
+            if (item != null)
+            {
+                OnSelectPlaylistItem(item.AudioFile.Id);
+                tableView.DeselectRow(indexPath, true);
+            }
         }
 
         [Export ("tableView:didHighlightRowAtIndexPath:")]
@@ -220,7 +224,7 @@ namespace Sessions.iOS
             });
         }
 
-        public void RefreshPlaylist(SSPPlaylist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
             InvokeOnMainThread(() => {
                 _playlist = playlist;
@@ -244,7 +248,7 @@ namespace Sessions.iOS
                     if(item != null)
                     {
                         var customCell = (SessionsTableViewCell)cell;
-                        if(item.Id == audioFile.Id)
+                        if(item.AudioFile.Id == audioFile.Id)
                             customCell.RightImage.Hidden = false;
                         else
                             customCell.RightImage.Hidden = true;

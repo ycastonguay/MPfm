@@ -61,7 +61,7 @@ namespace Sessions.iOS
 		{
 		}
 
-		public void RefreshPlaylist(SSPPlaylist playlist)
+		public void RefreshPlaylist(Playlist playlist)
 		{
 		}
 
