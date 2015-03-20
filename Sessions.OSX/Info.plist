@@ -5,10 +5,10 @@
 	<key>ATSApplicationFontsPath</key>
 	<string>Resources/Fonts</string>
 	<key>CFBundleIconFile</key>
-	<string>MPfm.icns</string>
+	<string>Sessions</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>MPfm.icns</string>
+		<string>Sessions.icns</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>org.sessionsapp.osx</string>

@@ -288,12 +288,10 @@
     <None Include="Info.plist" />
     <None Include="Lib\taglib-sharp.dll" />
     <None Include="Lib\MonoMac.dll" />
-    <None Include="Sessions.OSX.exe.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
   <ItemGroup>
-    <Content Include="Bass.Net.dll.config" />
     <Content Include="Sessions.icns" />
     <Content Include="Resources\Fonts\Roboto-Bold.ttf" />
     <Content Include="Resources\Fonts\Roboto-Regular.ttf" />

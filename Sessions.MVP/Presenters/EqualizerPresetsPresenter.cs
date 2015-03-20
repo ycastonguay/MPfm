@@ -110,6 +110,7 @@ namespace Sessions.MVP.Presenters
             if (_playerService.State == SSPPlayerState.Playing)
                 _timerOutputMeter.Start();
 
+            _selectedPresetId = _playerService.EQPreset != null ? _playerService.EQPreset.EQPresetId : Guid.Empty;
             RefreshPresets();
             View.RefreshVolume(_playerService.Volume);
         }

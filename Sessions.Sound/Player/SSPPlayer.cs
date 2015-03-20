@@ -274,6 +274,11 @@ namespace Sessions.Sound.Player
         {
             CheckForError(SSP.SSP_InitDevice(deviceId, sampleRate, bufferSize, updatePeriod, useFloatingPoint));
 
+            // Create a dummy EQ preset so we can interact with it right away and make sure the app won't crash if we access an EQ preset
+            CheckForError(SSP.SSP_SetEQEnabled(true));
+            var emptyPreset = new SSPEQPreset();
+            CheckForError(SSP.SSP_SetEQPreset(ref emptyPreset.Struct));
+
             #if IOS
             CheckForError(SSP.SSP_IOS_ConfigureAirPlay(true));
             CheckForError(SSP.SSP_IOS_ConfigureAudioInterruptionNotification(true));

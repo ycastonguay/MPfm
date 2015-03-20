@@ -47,7 +47,7 @@ namespace Sessions.MVP.Services
 //        public Playlist CurrentQueue { get { return _currentQueue; } }
 
         public SSPLoop Loop { get; private set; }
-        public SSPEQPreset EQPreset { get; private set; }
+        public SSPEQPreset EQPreset { get { return _sspPlayer.EQPreset; } }
 
         public SSPPlayerState State { get { return _sspPlayer.State; } }
         public bool IsSettingPosition { get { return _sspPlayer.IsSettingPosition; } }
@@ -139,7 +139,7 @@ namespace Sessions.MVP.Services
                     // Store player status locally for resuming playback later
                     AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = data.AudioFileStarted.Id.ToString();
 //                    AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _player.Playlist.PlaylistId.ToString();
-//                    AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = _player.EQPreset.EQPresetId.ToString();
+                    AppConfigManager.Instance.Root.ResumePlayback.EQPresetId = _sspPlayer.EQPreset.EQPresetId.ToString();
                     AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = 0;
                     AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
                     AppConfigManager.Instance.Save();
@@ -170,12 +170,12 @@ namespace Sessions.MVP.Services
 
             _sspPlayer.InitDevice(device.DeviceId, sampleRate, bufferSize, updatePeriod, useFloatingPoint);
         
-//            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
-//            {
-//                var preset = _libraryService.SelectEQPreset(new Guid(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId));
-//                if (preset != null)
-//                    _sspPlayer.SetEQPreset(preset);
-//            }
+            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId))
+            {
+                var preset = _libraryService.SelectEQPreset(new Guid(AppConfigManager.Instance.Root.ResumePlayback.EQPresetId));
+                if (preset != null)
+                    _sspPlayer.SetEQPreset(preset);
+            }
 
             SubscribeToMessages();
         }
