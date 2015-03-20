@@ -40,11 +40,12 @@ namespace Sessions.MVP.Presenters
 {
 	public class EqualizerPresetsPresenter : BasePresenter<IEqualizerPresetsView>, IEqualizerPresetsPresenter
 	{
-        readonly NavigationManager _navigationManager;
-        readonly MobileNavigationManager _mobileNavigationManager;
-        readonly ITinyMessengerHub _messageHub;
-        readonly IPlayerService _playerService;
-        readonly ILibraryService _libraryService;
+        private readonly NavigationManager _navigationManager;
+        private readonly MobileNavigationManager _mobileNavigationManager;
+        private readonly ITinyMessengerHub _messageHub;
+        private readonly IPlayerService _playerService;
+        private readonly ILibraryService _libraryService;
+        private Guid _selectedPresetId = Guid.Empty;
 
 #if WINDOWS_PHONE
         private System.Windows.Threading.DispatcherTimer _timerOutputMeter = null;
@@ -209,7 +210,14 @@ namespace Sessions.MVP.Presenters
             {
                 var preset = _libraryService.SelectEQPreset(presetId);
                 if(preset != null)
+                {
+                    _selectedPresetId = preset.EQPresetId;
                     _playerService.ApplyEQPreset(preset);
+                }
+                else
+                {
+                    _selectedPresetId = Guid.Empty;
+                }
             }
             catch(Exception ex)
             {
@@ -294,8 +302,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var presets = _libraryService.SelectEQPresets().OrderBy(x => x.Name).ToList();
-                Guid selectedPresetId = (_playerService.EQPreset != null) ? _playerService.EQPreset.EQPresetId : Guid.Empty;
-                View.RefreshPresets(presets, selectedPresetId, _playerService.IsEQEnabled);
+                View.RefreshPresets(presets, _selectedPresetId, _playerService.IsEQEnabled);
             }
             catch(Exception ex)
             {

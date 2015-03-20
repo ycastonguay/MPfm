@@ -88,6 +88,7 @@ namespace Sessions.OSX
             btnRemovePreset.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnRemovePreset.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemovePreset.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnRemovePreset.DisabledBackgroundColor = GlobalTheme.ButtonToolbarDisabledBackgroundColor;
             btnRemovePreset.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
         }
 
@@ -130,6 +131,8 @@ namespace Sessions.OSX
             btnReset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
             btnAddPreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnRemovePreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+
+            txtName.WeakDelegate = this;
         }
 
         private void LoadFaders()
@@ -206,6 +209,7 @@ namespace Sessions.OSX
 
         private void EnablePresetDetails(bool enable)
         {
+            btnRemovePreset.Enabled = enable;
             txtName.Enabled = enable;
             btnAutoLevel.Enabled = enable;
             btnReset.Enabled = enable;
@@ -440,6 +444,13 @@ namespace Sessions.OSX
             }
         }
 
+        [Export("controlTextDidEndEditing:")]
+        private void TxtNameControlTextDidEndEditing(NSNotification notification)
+        {
+            _hasPresetChanged = true;
+            SavePreset();
+        }
+
         [Export ("windowDidResignKey:")]
         public void WindowDidResignKey(NSNotification notification)
         {
@@ -523,18 +534,23 @@ namespace Sessions.OSX
             InvokeOnMainThread(delegate 
             {
                 _presets = presets.ToList();
+                int selRowBefore = tablePresets.SelectedRow;
                 tablePresets.ReloadData();
 
                 int newRow = _presets.FindIndex(x => x.EQPresetId == selectedPresetId);
-                if (newRow >= 0)
+                if (newRow < 0)
+                {
+                    if(tablePresets.SelectedRow >= 0)
+                        tablePresets.DeselectRow(tablePresets.SelectedRow);
+                }
+                else if (selRowBefore < 0 && newRow >= 0)
+                {
                     tablePresets.SelectRow(newRow, false);
-
-//                if (_preset != null)
-//                {
-//                    int newRow = _presets.FindIndex(x => x.EQPresetId == _preset.EQPresetId);
-//                    if (newRow >= 0)
-//                        tablePresets.SelectRow(newRow, false);
-//                }
+                }
+                else if (selRowBefore >= 0)
+                {
+                    tablePresets.SelectRow(selRowBefore, false);
+                }
             });
         }
 
