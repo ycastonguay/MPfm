@@ -203,9 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
-    <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
-    <Compile Include="Database\DatabaseFacade.cs" />
     <Compile Include="Objects\AuthenticationToken.cs" />
     <Compile Include="Objects\CloudDeviceInfo.cs" />
     <Compile Include="Objects\CloudPlaylist.cs" />

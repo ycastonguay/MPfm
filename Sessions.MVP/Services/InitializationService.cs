@@ -22,6 +22,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Sessions.MVP.Config;
 using Sessions.MVP.Services.Interfaces;
+using Sessions.Library.Services;
+
+
 #if WINDOWSSTORE
 using Windows.Storage;
 using Sessions.Core.WinRT;
@@ -43,6 +46,7 @@ namespace Sessions.MVP.Services
 		private Stream _fileTracing;
         private IAudioFileCacheService _audioFileCacheService;
         private ISyncListenerService _syncListenerService;
+        private ILibraryService _libraryService;
 
 #if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
         private TextWriterTraceListener textTraceListener = null;
@@ -58,10 +62,11 @@ namespace Sessions.MVP.Services
 	    /// </summary>
 	    private int _databaseVersionMinor = 9;
 
-        public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
+        public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService, ILibraryService libraryService)
         {
             _audioFileCacheService = audioFileCacheService;
             _syncListenerService = syncListenerService;
+            _libraryService = libraryService;
         }
         
         /// <summary>
@@ -162,7 +167,7 @@ namespace Sessions.MVP.Services
 			
             try
             {
-                string databaseVersion = GetDatabaseVersion(PathHelper.DatabaseFilePath);
+                string databaseVersion = GetDatabaseVersion();
                 string[] currentVersionSplit = databaseVersion.Split('.');
 
                 // Check integrity of the setting value (should be split in 2)
@@ -183,7 +188,7 @@ namespace Sessions.MVP.Services
 
                 // Check if the database needs to be updated
                 Tracing.Log("InitializationService.CreateLibrary -- Database version is " + databaseVersion + ". Checking if the database version needs to be updated...");
-                CheckIfDatabaseVersionNeedsToBeUpdated(PathHelper.DatabaseFilePath);
+                CheckIfDatabaseVersionNeedsToBeUpdated();
             }
             catch (Exception ex)
             {
@@ -196,11 +201,10 @@ namespace Sessions.MVP.Services
         /// </summary>
         /// <param name="databaseFilePath">Database file path</param>
         /// <returns>Database version (ex: "1.04")</returns>
-        private string GetDatabaseVersion(string databaseFilePath)
+        private string GetDatabaseVersion()
         {
             // Fetch database version
-            var gateway = new DatabaseFacade(databaseFilePath);
-            Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
+            Setting settingDatabaseVersion = _libraryService.SelectSetting("DatabaseVersion");
 
             // Check if setting is null
             if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
@@ -219,17 +223,14 @@ namespace Sessions.MVP.Services
         /// be updated by running the appropriate migration scripts in the right order.
         /// </summary>
         /// <param name="databaseFilePath">Database file path</param>
-        private void CheckIfDatabaseVersionNeedsToBeUpdated(string databaseFilePath)
+        private void CheckIfDatabaseVersionNeedsToBeUpdated()
         {
             int currentMajor = 1;
             int currentMinor = 0;
 
-            // Create gateway
-            var gateway = new DatabaseFacade(databaseFilePath);
-
             // Get setting
             Tracing.Log("InitializationService - Fetching database version...");
-            Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
+            Setting settingDatabaseVersion = _libraryService.SelectSetting("DatabaseVersion");
 
             // Check if setting is null
             if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
@@ -286,7 +287,7 @@ namespace Sessions.MVP.Services
                         {
                             // Execute create script
                             Tracing.Log("InitializationService - Executing database update script statement " + (a + 1).ToString() + " (" + scriptFileName + ")...");
-                            gateway.ExecuteSQL(sqlSplit[a]);
+                            _libraryService.ExecuteSQL(sqlSplit[a]);
                         }
                         catch (Exception ex)
                         {
@@ -308,8 +309,7 @@ namespace Sessions.MVP.Services
         /// <param name="databaseFilePath">Database file path</param>
         private void CreateDatabaseFile(string databaseFilePath)
         {
-            DatabaseFacade.CreateDatabaseFile(databaseFilePath);
-            var gateway = new DatabaseFacade(databaseFilePath);
+            LibraryService.CreateDatabaseFile(databaseFilePath);
             string sql = GetEmbeddedSQLScript("Sessions.Library.Scripts.CreateDatabase.sql");
 
             // Remove the header comments
@@ -320,7 +320,7 @@ namespace Sessions.MVP.Services
 
             // Loop through statements and execute each script
             foreach (string sqlStatement in sqlSplit)
-                gateway.ExecuteSQL(sqlStatement);
+                _libraryService.ExecuteSQL(sqlStatement);
         }
 
         /// <summary>

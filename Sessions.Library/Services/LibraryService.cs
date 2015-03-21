@@ -17,113 +17,77 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
+using System.Text;
 using Sessions.Library.Database.Interfaces;
 using Sessions.Library.Objects;
-using Sessions.Library.Services.Interfaces;
+using Sessions.Sound.AudioFiles;
+using Sessions.Sound.Playlists;
 using org.sessionsapp.player;
 using Sessions.Sound.Objects;
 using Sessions.Sound.Player;
-
-#if WINDOWSSTORE
-using Windows.Storage;
-using Sessions.Core.WinRT;
-#endif
-using Sessions.Sound.AudioFiles;
-using Sessions.Sound.Playlists;
+using System.IO;
+using Sessions.Library.Database;
+using Sessions.Library.Services.Interfaces;
 
 namespace Sessions.Library.Services
 {
-    /// <summary>
-    /// Service used for interacting with the library database.
-    /// </summary>
     public class LibraryService : ILibraryService
     {
-		private readonly IDatabaseFacade _gateway = null;
-		
-		public LibraryService(IDatabaseFacade gateway)
-		{
-			if(gateway == null)
-				throw new ArgumentNullException("The gateway parameter cannot be null!");
-				
-			this._gateway = gateway;
-		}
-		
-		public void CompactDatabase()
-		{
-			_gateway.CompactDatabase();
-		}
+        private readonly ISQLiteGateway _gateway;
 
+        /// <summary>
+        /// Default constructor for the DatabaseFacade class.
+        /// </summary>
+        /// <param name="databaseFilePath">Database file path</param>
+        public LibraryService(string databaseFilePath)
+        {
+
+#if IOS || ANDROID || MACOSX || LINUX
+            _gateway = new MonoSQLiteGateway(databaseFilePath);
+#elif WINDOWSSTORE || WINDOWS_PHONE
+            _gateway = new WinRTSQLiteGateway(databaseFilePath);
+#else
+            _gateway = new SQLiteGateway(databaseFilePath);
+#endif
+        }
+
+        public static void CreateDatabaseFile(string databaseFilePath)
+        {
+            // Create database file -- TODO: Replace by interface
+            #if IOS || ANDROID || LINUX || MACOSX
+            MonoSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+            #elif WINDOWSSTORE || WINDOWS_PHONE
+            WinRTSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+            #else
+            SQLiteGateway.CreateDatabaseFile(databaseFilePath);
+            #endif
+        }
+        
+        /// <summary>
+        /// Executes an SQL statement.
+        /// </summary>
+        /// <param name="sql">SQL statement to execute</param>
+        public void ExecuteSQL(string sql)
+        {
+            _gateway.Execute(sql);
+        }
+
+        /// <summary>
+        /// Resets the library.
+        /// </summary>
         public void ResetLibrary()
         {
-            _gateway.ResetLibrary();
+            // Delete all table content
+            _gateway.Delete("AudioFiles");
+            _gateway.Delete("PlaylistFiles");
+            _gateway.Delete("Loops");
+            _gateway.Delete("Markers");
         }
 
-        #region Audio Files
-		
-		public IEnumerable<Folder> SelectFolders()
-		{
-			return _gateway.SelectFolders();
-		}
-		
-		public IEnumerable<string> SelectFilePaths()
-		{
-			return _gateway.SelectFilePaths();
-		}
-
-        public IEnumerable<string> SelectFilePathsRelatedToCueFiles()
+        public void RemoveAudioFilesWithBrokenFilePaths()
         {
-            return _gateway.SelectFilePathsRelatedToCueFiles();
-        }
-		
-		public IEnumerable<AudioFile> SelectAudioFiles()
-		{
-			return _gateway.SelectAudioFiles();			
-		}
-
-        public IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query)
-        {
-            return _gateway.SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
-        }
-		
-		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
-		{
-			return _gateway.SelectAudioFiles(format, artistName, albumTitle, search);			
-		}
-				
-		public void InsertAudioFile(AudioFile audioFile)
-		{
-			_gateway.InsertAudioFile(audioFile);
-		}
-
-        public void InsertAudioFiles(IEnumerable<AudioFile> audioFiles)
-        {
-            _gateway.InsertAudioFiles(audioFiles);   
-        }
-		
-		public void InsertPlaylistFile(PlaylistFile playlistFile)
-		{
-			_gateway.InsertPlaylistFile(playlistFile);
-		}
-
-        public void DeleteAudioFile(Guid audioFileId)
-        {
-            _gateway.DeleteAudioFile(audioFileId);
-        }
-
-        public void DeleteAudioFiles(string basePath)
-        {
-            _gateway.DeleteAudioFiles(basePath);
-        }
-
-        public void DeleteAudioFiles(string artistName, string albumTitle)
-        {
-            _gateway.DeleteAudioFiles(artistName, albumTitle);
-        }
-		
-		public void RemoveAudioFilesWithBrokenFilePaths()
-		{
-            List<AudioFile> files = _gateway.SelectAudioFiles();
+            List<AudioFile> files = SelectAudioFiles();
             for (int a = 0; a < files.Count; a++)
             {
                 // If the file doesn't exist, delete the audio file from the database
@@ -134,23 +98,18 @@ namespace Sessions.Library.Services
                     _gateway.DeleteAudioFile(files[a].Id);
                 #else
                 if (!File.Exists(files[a].FilePath))
-                    _gateway.DeleteAudioFile(files[a].Id);
+                    DeleteAudioFile(files[a].Id);
                 #endif
             }
-		}	
-		
-		public void AddFiles(List<string> filePaths)
-		{
-			//gateway.InsertAudioFile(
-		}
-	
-		public void AddFolder(string folderPath, bool recursive)
-		{		
+        }   
+
+        public void AddFolder(string folderPath, bool recursive)
+        {       
             // Check if the folder is already part of a configured folder
             bool folderFound = false;
 
             // Get the list of folders from the database                
-            List<Folder> folders = _gateway.SelectFolders();
+            List<Folder> folders = SelectFolders();
 
             // Search through folders if the base found can be found
             foreach (Folder folder in folders)
@@ -170,166 +129,868 @@ namespace Sessions.Library.Services
             {
                 // Check if the configured path is part of the specified path
                 if (folder.FolderPath.Contains(folderPath))
-                    _gateway.DeleteFolder(folder.FolderId);
+                    DeleteFolder(folder.FolderId);
             }
 
             // Add the folder to the list of configured folders
             if (!folderFound)
-                _gateway.InsertFolder(folderPath, true);
-		}		
-		
-		public List<string> SelectDistinctArtistNames(AudioFileFormat format)
-		{
-			return _gateway.SelectDistinctArtistNames(format);
-		}
-		
-		public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format)
-		{
-			return _gateway.SelectDistinctAlbumTitles(format);
-		}
-		
-		public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName)
-		{
-			return _gateway.SelectDistinctAlbumTitles(format, artistName);
-		}
+                InsertFolder(folderPath, true);
+        }       
+
+
+        #region Audio Files
+
+        /// <summary>
+        /// Selects all audio files from the database.
+        /// </summary>
+        /// <returns>List of AudioFiles</returns>
+        public List<AudioFile> SelectAudioFiles()
+        {
+            List<AudioFile> audioFiles = _gateway.Select<AudioFile>("SELECT * FROM AudioFiles");
+            return audioFiles;
+        }
+
+        public List<AudioFile> SelectAudioFiles(LibraryQuery query)
+        {
+            return SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
+        }
+        
+        public List<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.AppendLine("SELECT * FROM AudioFiles ");
+            
+            if(format != AudioFileFormat.All || !String.IsNullOrEmpty(artistName) || !String.IsNullOrEmpty(albumTitle) || !String.IsNullOrEmpty(search))
+            {
+                sql.AppendLine(" WHERE ");
+                
+                int count = 0;
+                if(format != AudioFileFormat.All)
+                {
+                    count++;
+                    sql.AppendLine(" [FileType] = '" + FormatSQLValue(format.ToString()) + "'");
+                }
+                if(!String.IsNullOrEmpty(artistName))
+                {
+                    count++;
+                    if(count > 1)
+                    {
+                        sql.AppendLine(" AND ");
+                    }
+                    sql.AppendLine(" [ArtistName] = '" + FormatSQLValue(artistName) + "' ");
+                }
+                if(!String.IsNullOrEmpty(albumTitle))
+                {
+                    count++;
+                    if(count > 1)
+                    {
+                        sql.AppendLine(" AND ");
+                    }
+                    sql.AppendLine(" [AlbumTitle] = '" + FormatSQLValue(albumTitle) + "' ");
+                }
+                if(!String.IsNullOrEmpty(search))
+                {
+
+                }           
+            }
+
+            List<AudioFile> audioFiles = _gateway.Select<AudioFile>(sql.ToString());
+            return audioFiles;
+        }
+
+        /// <summary>
+        /// Selects a specific audio file from the database by its identifier.
+        /// </summary>
+        /// <param name="audioFileId">Audio file unique identifier</param>
+        /// <returns>AudioFile</returns>
+        public AudioFile SelectAudioFile(Guid audioFileId)
+        {
+            AudioFile audioFile = _gateway.SelectOne<AudioFile>("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+            return audioFile;
+        }
+
+        /// <summary>
+        /// Inserts a new audio file into the database.
+        /// </summary>
+        /// <param name="audioFile">AudioFile to insert</param>
+        public void InsertAudioFile(AudioFile audioFile)
+        {
+            _gateway.Insert<AudioFile>(audioFile, "AudioFiles");            
+        }
+
+        /// <summary>
+        /// Inserts new audio files into the database.
+        /// </summary>
+        /// <param name="audioFiles">List of AudioFiles to insert</param>
+        public void InsertAudioFiles(IEnumerable<AudioFile> audioFiles)
+        {
+            _gateway.Insert<AudioFile>(audioFiles, "AudioFiles");
+        }
+
+        /// <summary>
+        /// Updates an existing audio file to the database.
+        /// </summary>
+        /// <param name="audioFile">AudioFile to update</param>
+        public void UpdateAudioFile(AudioFile audioFile)
+        {
+            _gateway.Update<AudioFile>(audioFile, "AudioFiles", "AudioFileId", audioFile.Id.ToString());
+        }
+
+        /// <summary>
+        /// Deletes an audio file from the database.
+        /// </summary>
+        /// <param name="audioFileId">AudioFile to delete</param>
+        public void DeleteAudioFile(Guid audioFileId)
+        {
+            _gateway.Delete("AudioFiles", "AudioFileId", audioFileId);
+        }
+
+        /// <summary>
+        /// Deletes audio files from the database based on their file path.
+        /// </summary>
+        /// <param name="basePath">Base audio file path</param>
+        public void DeleteAudioFiles(string basePath)
+        {
+            _gateway.Delete("AudioFiles", "FilePath LIKE '" + FormatSQLValue(basePath) + "%'");
+        }
+
+        /// <summary>
+        /// Deletes audio files from the database based on their artist name and/or album title.
+        /// </summary>
+        public void DeleteAudioFiles(string artistName, string albumTitle)
+        {
+            string whereClause = string.Format("ArtistName LIKE '{0}'", FormatSQLValue(artistName));
+            if (!string.IsNullOrEmpty(albumTitle))
+                whereClause += string.Format(" AND AlbumTitle LIKE '{0}'", FormatSQLValue(albumTitle));
+            _gateway.Delete("AudioFiles", whereClause);
+        }
+
+        /// <summary>
+        /// Returns the distinct list of artist names from the database.        
+        /// </summary>        
+        /// <returns>List of distinct artist names</returns>
+        public List<string> SelectDistinctArtistNames()
+        {
+            return SelectDistinctArtistNames(AudioFileFormat.All);
+        }
+
+        /// <summary>
+        /// Returns the distinct list of artist names from the database, using the sound format
+        /// filter passed in the soundFormat parameter.
+        /// </summary>
+        /// <param name="audioFileFormat">Audio file format filter</param>
+        /// <returns>List of distinct artist names</returns>
+        public List<string> SelectDistinctArtistNames(AudioFileFormat audioFileFormat)
+        {
+            // Create list
+            List<string> artists = new List<string>();
+
+            // Set query
+            string sql = "SELECT DISTINCT ArtistName FROM AudioFiles ORDER BY ArtistName";
+
+            // Check for audio file format filter
+            if (audioFileFormat != AudioFileFormat.All)
+            {
+                sql = "SELECT DISTINCT ArtistName FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
+            }
+
+            // Select distinct
+            IEnumerable<object> list = _gateway.SelectList(sql);
+            foreach (object obj in list)
+            {
+                artists.Add(obj.ToString());
+            }
+
+            return artists;
+        }
+
+        /// <summary>
+        /// Returns the distinct list of album titles per artist from the database.        
+        /// </summary>        
+        /// <returns>List of distinct album titles per artist</returns>
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles()
+        {
+            return SelectDistinctAlbumTitles(AudioFileFormat.All, string.Empty);
+        }
+        
+        /// <summary>
+        /// Returns the distinct list of album titles per artist from the database.        
+        /// </summary>        
+        /// <returns>List of distinct album titles per artist</returns>
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat)
+        {
+            return SelectDistinctAlbumTitles(audioFileFormat, string.Empty);
+        }       
+
+        /// <summary>
+        /// Returns the distinct list of album titles per artist from the database, using the sound format
+        /// filter passed in the soundFormat parameter.
+        /// </summary>
+        /// <param name="audioFileFormat">Audio file format filter</param>
+        /// <param name="artistName">Artist name filter</param>
+        /// <returns>List of distinct album titles per artist</returns>
+        public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat, string artistName)
+        {
+            // Create dictionary
+            Dictionary<string, List<string>> albums = new Dictionary<string, List<string>>();
+
+            // Set query
+            StringBuilder sql = new StringBuilder();
+            sql.AppendLine("SELECT DISTINCT ArtistName, AlbumTitle FROM AudioFiles ");
+            if (audioFileFormat != AudioFileFormat.All && !String.IsNullOrEmpty(artistName))
+            {               
+                sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' AND ArtistName = '" + FormatSQLValue(artistName) + "'");
+            }
+            else if (audioFileFormat != AudioFileFormat.All)
+            {
+                sql.AppendLine(" WHERE FileType = '" + audioFileFormat.ToString() + "' ");
+            }
+            else if(!String.IsNullOrEmpty(artistName))
+            {
+                sql.AppendLine(" WHERE ArtistName = '" + FormatSQLValue(artistName) + "' ");
+            }
+            sql.AppendLine(" ORDER BY ArtistName, AlbumTitle ");
+
+            // Select distinct
+            List<Tuple<object, object>> listTuple = _gateway.SelectTuple(sql.ToString());
+            foreach (Tuple<object, object> tuple in listTuple)
+            {
+                // Get values
+                string artistNameDistinct = tuple.Item1.ToString();
+                string albumTitleDistinct = tuple.Item2.ToString();
+
+                // Add value to dictionary
+                if (albums.ContainsKey(artistNameDistinct))
+                {
+                    albums[artistNameDistinct].Add(albumTitleDistinct);
+                }
+                else
+                {
+                    albums.Add(artistNameDistinct, new List<string>() { albumTitleDistinct });
+                }
+            }      
+
+            return albums;
+        }
+        
+        public IEnumerable<string> SelectFilePaths()
+        {
+            IEnumerable<object> listObjects = _gateway.SelectList("SELECT FilePath FROM AudioFiles");
+            return listObjects.Select(x => x.ToString());
+        }
+
+        public IEnumerable<string> SelectFilePathsRelatedToCueFiles()
+        {
+            IEnumerable<object> listObjects = _gateway.SelectList("SELECT FilePath FROM AudioFiles WHERE CueFilePath IS NOT NULL");
+            return listObjects.Select(x => x.ToString());
+        }
+
+        ///// <summary>
+        ///// Returns the distinct list of album titles with the path of at least one song of the album from the database, 
+        ///// using the sound format filter passed in the soundFormat parameter. This is useful for displaying album art
+        ///// for example (no need to return all songs from every album).
+        ///// </summary>
+        ///// <param name="audioFileFormat">Audio file format filter (use Unknown to skip filter)</param>
+        ///// <returns>List of distinct album titles with file paths</returns>
+        //public Dictionary<string, string> SelectDistinctAlbumTitlesWithFilePaths(AudioFileFormat audioFileFormat)
+        //{
+        //    // Create dictionary
+        //    Dictionary<string, string> albums = new Dictionary<string, string>();
+
+        //    // Set query
+        //    string sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles";
+        //    if (audioFileFormat != AudioFileFormat.All)
+        //    {
+        //        sql = "SELECT DISTINCT AlbumTitle, FilePath FROM AudioFiles WHERE FileType = '" + audioFileFormat.ToString() + "' ORDER BY ArtistName";
+        //    }
+
+        //    // Select distinct
+        //    DataTable table = Select(sql);
+
+        //    // Convert into a list of strings
+        //    for (int a = 0; a < table.Rows.Count; a++)
+        //    {
+        //        // Get values                
+        //        string albumTitle = table.Rows[a]["AlbumTitle"].ToString();
+        //        string filePath = table.Rows[a]["FilePath"].ToString();
+
+        //        // Add item to dictionary
+        //        if (!albums.ContainsKey(albumTitle))
+        //        {
+        //            albums.Add(albumTitle, filePath);
+        //        }
+        //    }
+
+        //    return albums;
+        //}
+
+        /// <summary>
+        /// Updates the play count of an audio file and sets the last playback datetime.
+        /// </summary>
+        /// <param name="audioFileId">AudioFile identifier</param>
+        public void UpdatePlayCount(Guid audioFileId)
+        {
+            // Get play count
+            AudioFile audioFile = SelectAudioFile(audioFileId);
+
+            // Check if the audiofile was found
+            if (audioFile == null)
+            {
+                throw new Exception("Error; The audiofile was not found!");
+            }
+
+            string lastPlayed = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            _gateway.Execute("UPDATE AudioFiles SET PlayCount = " + (audioFile.PlayCount + 1).ToString() + ", LastPlayedDateTime = '" + lastPlayed + "' WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+        }
 
         #endregion
 
-        #region Playlists
+        #region Folders
 
-        public Playlist SelectPlaylist(Guid playlistId)
+        /// <summary>
+        /// Selects a folder from a path.
+        /// </summary>
+        /// <param name="path">Path to the folder</param>
+        /// <returns>Folder</returns>
+        public Folder SelectFolderByPath(string path)
         {
-            return _gateway.SelectPlaylist(playlistId);
+            Folder folder = _gateway.SelectOne<Folder>("SELECT * FROM Folders WHERE FolderPath = '" + FormatSQLValue(path) + "'");
+            return folder;
         }
 
-        public List<Playlist> SelectPlaylists()
+        /// <summary>
+        /// Selects a folders.
+        /// </summary>        
+        /// <returns>List of folders</returns>
+        public List<Folder> SelectFolders()
         {
-            return _gateway.SelectPlaylists();
+            List<Folder> folders = _gateway.Select<Folder>("SELECT * FROM Folders");
+            return folders;
         }
 
-        public void InsertPlaylist(Playlist playlist)
+        /// <summary>
+        /// Inserts a folder in the database. Configuration for library location.
+        /// </summary>
+        /// <param name="folderPath">Path of the folder to add</param>
+        /// <param name="recursive">If resursive</param>
+        public void InsertFolder(string folderPath, bool recursive)
         {
-            _gateway.InsertPlaylist(playlist);
+            // Insert new folder
+            Folder folder = new Folder();
+            folder.FolderPath = folderPath;
+            folder.IsRecursive = recursive;
+            //folder.LastUpdated = DateTime.Now;
+            _gateway.Insert<Folder>(folder, "Folders");
         }
 
-        public void UpdatePlaylist(Playlist playlist)
+        /// <summary>
+        /// Deletes a specific folder.
+        /// </summary>
+        /// <param name="folderId">FolderId</param>
+        public void DeleteFolder(Guid folderId)
         {
-            _gateway.UpdatePlaylist(playlist);
+            // Delete folder
+            _gateway.Delete("Folders", "FolderId", folderId);
         }
 
-        public void DeletePlaylist(Guid playlistId)
+        /// <summary>
+        /// Deletes all folders.
+        /// </summary>
+        public void DeleteFolders()
         {
-            _gateway.DeletePlaylist(playlistId);
+            // Delete all folders
+            _gateway.Delete("Folders");
         }
 
         #endregion
 
-        #region Playlist Items
+        #region Equalizers
 
-        public List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId)
+        public List<SSPEQPreset> SelectEQPresets()
         {
-            var items = _gateway.SelectPlaylistItems(playlistId);
-            return items;
+            var eqs = _gateway.Select<SSPEQPreset>("SELECT * FROM EQPresets");
+            return eqs;
         }
 
-        public void InsertPlaylistItem(PlaylistAudioFile playlist)
+        public SSPEQPreset SelectEQPreset(Guid presetId)
         {
-            _gateway.InsertPlaylistItem(playlist);
+            var preset = _gateway.SelectOne<SSPEQPreset>("SELECT * FROM EQPresets WHERE EQPresetId = '" + FormatSQLValue(presetId.ToString()) + "'");
+            return preset;
         }
 
-        public void DeletePlaylistItem(Guid playlistId, Guid audioFileId)
+        public SSPEQPreset SelectEQPreset(string name)
         {
-            _gateway.DeletePlaylistItem(playlistId, audioFileId);
+            var preset = _gateway.SelectOne<SSPEQPreset>("SELECT * FROM EQPresets WHERE Name = '" + FormatSQLValue(name) + "'");
+            return preset;
+        }
+
+        public void InsertEQPreset(SSPEQPreset eq)
+        {
+            _gateway.Insert<SSPEQPreset>(eq, "EQPresets");
+        }
+
+        public void UpdateEQPreset(SSPEQPreset eq)
+        {
+            _gateway.Update<SSPEQPreset>(eq, "EQPresets", "EQPresetId", eq.EQPresetId);            
+        }
+
+        public void DeleteEQPreset(Guid eqPresetId)
+        {
+            // Delete item
+            _gateway.Delete("EQPresets", "EQPresetId", eqPresetId);
         }
 
         #endregion
 
         #region Markers
 
-        public void InsertMarker(Marker marker)
+        /// <summary>
+        /// Selects all markers from the database.
+        /// </summary>
+        /// <returns>List of Markers</returns>
+        public List<Marker> SelectMarkers()
         {
-            _gateway.InsertMarker(marker);
+            List<Marker> markers = _gateway.Select<Marker>("SELECT * FROM Markers");
+            return markers;
         }
 
-        public Marker SelectMarker(Guid markerId)
-        {
-            return _gateway.SelectMarker(markerId);
-        }
-
+        /// <summary>
+        /// Selects markers related to an audio file from the database.
+        /// </summary>
+        /// <param name="audioFileId">AudioFile identifier</param>
+        /// <returns>List of Markers</returns>
         public List<Marker> SelectMarkers(Guid audioFileId)
         {
-            return _gateway.SelectMarkers(audioFileId);
+            List<Marker> markers = _gateway.Select<Marker>("SELECT * FROM Markers WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY PositionBytes");
+            return markers;
         }
 
-        public void UpdateMarker(Marker marker)
+        /// <summary>
+        /// Selects a marker from the database.
+        /// </summary>
+        /// <param name="markerId">Marker Id</param>
+        /// <returns>Marker</returns>
+        public Marker SelectMarker(Guid markerId)
         {
-            _gateway.UpdateMarker(marker);
+            Marker marker = _gateway.SelectOne<Marker>("SELECT * FROM Markers WHERE MarkerId = '" + markerId.ToString() + "'");
+            return marker;
         }
 
+        /// <summary>
+        /// Inserts a new marker into the database.
+        /// </summary>
+        /// <param name="dto">Marker to insert</param>
+        public void InsertMarker(Marker dto)
+        {
+            _gateway.Insert<Marker>(dto, "Markers");
+        }
+
+        /// <summary>
+        /// Updates an existing marker from the database.
+        /// </summary>
+        /// <param name="dto">Marker to update</param>
+        public void UpdateMarker(Marker dto)
+        {
+            _gateway.Update<Marker>(dto, "Markers", "MarkerId", dto.MarkerId.ToString());
+        }
+
+        /// <summary>
+        /// Deletes a marker from the database.
+        /// </summary>
+        /// <param name="markerId">Marker to delete</param>
         public void DeleteMarker(Guid markerId)
         {
-            _gateway.DeleteMarker(markerId);
+            // Delete marker
+            _gateway.Delete("Markers", "MarkerId", markerId);
         }
 
         #endregion
 
         #region Loops
-        
-        public void InsertLoop(SSPLoop loop)
+
+        /// <summary>
+        /// Selects all loops from the database.
+        /// </summary>
+        /// <returns>List of Loops</returns>
+        public List<SSPLoop> SelectLoops()
         {
-            _gateway.InsertLoop(loop);
-        }
-        
-        public SSPLoop SelectLoop(Guid loopId)
-        {
-            return _gateway.SelectLoop(loopId);
+            var loops = _gateway.Select<SSPLoop>("SELECT * FROM Loops");
+            return loops;
         }
 
+        /// <summary>
+        /// Selects loops related to an audio file from the database.
+        /// </summary>
+        /// <param name="audioFileId">AudioFile identifier</param>
+        /// <returns>List of Loops</returns>
         public List<SSPLoop> SelectLoops(Guid audioFileId)
         {
-            return _gateway.SelectLoops(audioFileId);
+            var loops = _gateway.Select<SSPLoop>("SELECT * FROM Loops WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
+            return loops;
         }
 
-        public void UpdateLoop(SSPLoop loop)
+        /// <summary>
+        /// Selects a loop from the database.
+        /// </summary>
+        /// <param name="loopId">Loop identifier</param>
+        /// <returns>Loop</returns>
+        public SSPLoop SelectLoop(Guid loopId)
         {
-            _gateway.UpdateLoop(loop);
+            var loop = _gateway.SelectOne<SSPLoop>("SELECT * FROM Loops WHERE LoopId = '" + loopId.ToString() + "'");
+            return loop;
         }
-        
+
+        /// <summary>
+        /// Inserts a new loop into the database.
+        /// </summary>
+        /// <param name="dto">Loop to insert</param>
+        public void InsertLoop(SSPLoop dto)
+        {
+            _gateway.Insert<SSPLoop>(dto, "Loops");
+        }
+
+        /// <summary>
+        /// Updates an existing loop from the database.
+        /// </summary>
+        /// <param name="dto">Loop to update</param>
+        public void UpdateLoop(SSPLoop dto)
+        {
+            _gateway.Update<SSPLoop>(dto, "Loops", "LoopId", dto.LoopId.ToString());
+        }
+
+        /// <summary>
+        /// Deletes a loop from the database.
+        /// </summary>
+        /// <param name="loopId">Loop to delete</param>
         public void DeleteLoop(Guid loopId)
-        {
-            _gateway.DeleteLoop(loopId);
+        {            
+            _gateway.Delete("Loops", "LoopId", loopId);
         }
-        
+
         #endregion
 
-        #region Equalizer Presets
+        #region Playlists
 
-        public void InsertEQPreset(SSPEQPreset preset)
+        /// <summary>
+        /// Selects all the playlists from the database.
+        /// </summary>
+        /// <returns>List of playlists</returns>
+        public List<Playlist> SelectPlaylists()
         {
-            _gateway.InsertEQPreset(preset);
-        }
-
-        public SSPEQPreset SelectEQPreset(Guid presetId)
-        {
-            return _gateway.SelectEQPreset(presetId);
-        }
-
-        public IEnumerable<SSPEQPreset> SelectEQPresets()
-        {
-            return _gateway.SelectEQPresets();
+            var playlists = _gateway.Select<Playlist>("SELECT * FROM Playlists");
+            return playlists;
         }
 
-        public void UpdateEQPreset(SSPEQPreset preset)
+        /// <summary>
+        /// Selects a playlist from the database, using its identifier.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier</param>
+        /// <returns>Playlist</returns>
+        public Playlist SelectPlaylist(Guid playlistId)
         {
-            _gateway.UpdateEQPreset(preset);
+            var playlist = _gateway.SelectOne<Playlist>("SELECT * FROM Playlists WHERE PlaylistId = '" + playlistId.ToString() + "'");
+            return playlist;
         }
-        
-        public void DeleteEQPreset(Guid presetId)
+
+        /// <summary>
+        /// Inserts a playlist into the database.
+        /// </summary>
+        /// <param name="playlist">Playlist to insert</param>
+        public void InsertPlaylist(Playlist playlist)
         {
-            _gateway.DeleteEQPreset(presetId);
+            _gateway.Insert<Playlist>(playlist, "Playlists");
         }
-        
+
+        /// <summary>
+        /// Updates a playlist in the database.
+        /// </summary>
+        /// <param name="playlist">Playlist to update</param>
+        public void UpdatePlaylist(Playlist playlist)
+        {
+            _gateway.Update<Playlist>(playlist, "Playlists", "PlaylistId", playlist.PlaylistId.ToString());
+        }
+
+        /// <summary>
+        /// Deletes a playlist from the database.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier to delete</param>
+        public void DeletePlaylist(Guid playlistId)
+        {
+            _gateway.Delete("Playlists", "PlaylistId", playlistId);
+        }
+
         #endregion
 
+        #region Playlist Items
+
+        /// <summary>
+        /// Selects a playlist with its items from the database, using its identifier.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier</param>
+        /// <returns>Playlist</returns>
+        public List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId)
+        {
+            var items = _gateway.Select<PlaylistAudioFile>("SELECT * FROM PlaylistItems WHERE PlaylistId = '" + playlistId.ToString() + "'");
+            return items;
+        }
+
+        /// <summary>
+        /// Inserts a playlist item into the database.
+        /// </summary>
+        /// <param name="playlistItem">Playlist item to insert</param>
+        public void InsertPlaylistItem(PlaylistAudioFile playlistItem)
+        {
+            _gateway.Insert<PlaylistAudioFile>(playlistItem, "PlaylistItems");
+        }
+
+        /// <summary>
+        /// Deletes a playlist item from the database.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier to delete</param>
+        /// <param name="audioFileId">Audio File identifier to delete</param>
+        public void DeletePlaylistItem(Guid playlistId, Guid audioFileId)
+        {
+            //_gateway.Delete("Playlists", "PlaylistId", playlistId);
+        }
+
+        #endregion
+
+        #region Settings
+
+        /// <summary>
+        /// Selects all settings.
+        /// </summary>        
+        /// <returns>List of settings</returns>
+        public List<Setting> SelectSettings()
+        {
+            List<Setting> settings = _gateway.Select<Setting>("SELECT * FROM Settings");
+            return settings;
+        }
+
+        /// <summary>
+        /// Selects a setting by its name.
+        /// </summary>
+        /// <param name="name">Setting name</param>
+        /// <returns>Setting object</returns>
+        public Setting SelectSetting(string name)
+        {
+            Setting setting = _gateway.SelectOne<Setting>("SELECT * FROM Settings WHERE SettingName = '" + FormatSQLValue(name) + "'");
+            return setting;
+        }
+
+        /// <summary>
+        /// Inserts a new setting into the database.
+        /// </summary>
+        /// <param name="name">Setting name</param>
+        /// <param name="value">Setting value</param>
+        public void InsertSetting(string name, string value)
+        {
+            // Create setting
+            Setting setting = new Setting();
+            setting.SettingName = name;
+            setting.SettingValue = value;
+
+            // Insert setting
+            InsertSetting(setting);
+        }
+
+        /// <summary>
+        /// Inserts a new setting into the database.
+        /// </summary>
+        /// <param name="dto">Setting to insert</param>
+        public void InsertSetting(Setting dto)
+        {
+            _gateway.Insert<Setting>(dto, "Settings");
+        }
+
+        /// <summary>
+        /// Updates an existing setting from the database.
+        /// </summary>
+        /// <param name="dto">Setting to update</param>
+        public void UpdateSetting(Setting dto)
+        {
+            _gateway.Update<Setting>(dto, "Settings", "SettingId", dto.SettingId.ToString());
+        }
+
+        /// <summary>
+        /// Deletes a setting from the database.
+        /// </summary>
+        /// <param name="settingId">Setting to delete</param>
+        public void DeleteSetting(Guid settingId)
+        {
+            // Delete loop
+            _gateway.Delete("Settings", "SettingId", settingId);
+        }
+
+        #endregion
+
+        #region Playlist Files
+
+        /// <summary>
+        /// Selects all playlist files.
+        /// </summary>        
+        /// <returns>List of playlist files</returns>
+        public List<PlaylistFile> SelectPlaylistFiles()
+        {
+            List<PlaylistFile> playlistFiles = _gateway.Select<PlaylistFile>("SELECT * FROM PlaylistFiles");
+            return playlistFiles;
+        }
+
+        /// <summary>
+        /// Inserts a new playlist file into the database.
+        /// </summary>
+        /// <param name="dto">Playlist file</param>
+        public void InsertPlaylistFile(PlaylistFile dto)
+        {
+            _gateway.Insert<PlaylistFile>(dto, "PlaylistFiles");
+        }
+
+        /// <summary>
+        /// Deletes a playlist file from the database.
+        /// </summary>
+        /// <param name="filePath">Playlist file path to delete</param>
+        public void DeletePlaylistFile(string filePath)
+        {
+            // Delete loop
+            _gateway.Delete("PlaylistFiles", "FilePath = '" + FormatSQLValue(filePath) + "'");
+        }
+
+        #endregion
+
+        #region History
+
+        /// <summary>
+        /// Returns the number of times the audio file has been played.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        /// <returns>Play count</returns>
+        public int GetAudioFilePlayCountFromHistory(Guid audioFileId)
+        {
+            // Declare variables
+            int playCount = 0;
+
+            // Execute scalar query
+            string query = "SELECT COUNT(*) FROM History WHERE AudioFileId = '" + audioFileId.ToString() + "'";
+            object value = _gateway.ExecuteScalar(query);
+
+            bool isNull = false;
+            #if WINDOWSSTORE
+            isNull = value == null;
+            #else
+            isNull = value == DBNull.Value;
+            #endif
+
+            if (isNull)
+            {
+                // No play count
+                return 0;
+            }
+            else
+            {                
+                try
+                {
+                    // Try to cast into an integer       
+                    playCount = (int)value;
+                }
+                catch
+                {
+                    // Return no play count
+                    return 0;
+                }
+            }
+            
+            return playCount;
+        }
+
+        /// <summary>
+        /// Returns the last time the audio file has been played.
+        /// The value is null if the file has never been played.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        /// <returns>Nullable date/time</returns>
+        public DateTime? GetAudioFileLastPlayedFromHistory(Guid audioFileId)
+        {
+            // Declare variables
+            DateTime? lastPlayed = null;
+
+            // Execute scalar query
+            string query = "SELECT TOP 1 FROM History WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY EventDateTime";
+            object value = _gateway.ExecuteScalar(query);
+
+            bool isNull = false;
+#if WINDOWSSTORE
+            isNull = value == null;
+#else
+            isNull = value == DBNull.Value;
+#endif
+            if (isNull)
+            {
+                // No last played value
+                return null;
+            }
+            else
+            {
+                try
+                {
+                    // Try to cast into a DateTime       
+                    DateTime valueDateTime;
+                    bool success = DateTime.TryParse(value.ToString(), out valueDateTime);
+                    if (success)
+                    {
+                        lastPlayed = valueDateTime;
+                    }
+                }
+                catch
+                {
+                    // No last played value
+                    return null;
+                }
+            }
+
+            return lastPlayed;
+        }
+
+        /// <summary>
+        /// Inserts an history item into the database using the current datetime.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        public void InsertHistory(Guid audioFileId)
+        {
+            // Create history object
+            History history = new History();
+            history.AudioFileId = audioFileId;
+            history.EventDateTime = DateTime.Now;
+
+            // Insert history
+            _gateway.Insert<History>(history, "History");
+        }
+
+        /// <summary>
+        /// Inserts an history item into the database.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        /// <param name="eventDateTime">Event date/time</param>
+        public void InsertHistory(Guid audioFileId, DateTime eventDateTime)
+        {
+            // Create history object
+            History history = new History();
+            history.AudioFileId = audioFileId;
+            history.EventDateTime = eventDateTime;
+
+            // Insert history            
+            _gateway.Insert<History>(history, "History");
+        }
+
+        #endregion
+
+        public void CompactDatabase()
+        {
+            _gateway.CompactDatabase();
+        }
+
+        private string FormatSQLValue(string value)
+        {
+            return value.Replace("'", "''");
+        }
     }
 }

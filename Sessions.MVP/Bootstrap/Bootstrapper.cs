@@ -45,11 +45,10 @@ namespace Sessions.MVP.Bootstrap
             var container = TinyIoC.TinyIoCContainer.Current;
 
             // Register services
-            container.Register<IDatabaseFacade>(new DatabaseFacade(PathHelper.DatabaseFilePath));
+            container.Register<ILibraryService>(new LibraryService(PathHelper.DatabaseFilePath));
             container.Register<ITinyMessengerHub, TinyMessengerHub>().AsSingleton(); 
             container.Register<IInitializationService, InitializationService>().AsSingleton();
             container.Register<IPlayerService, PlayerService>().AsSingleton();            
-            container.Register<ILibraryService, LibraryService>().AsSingleton();
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
             container.Register<IPeakFileService, PeakFileService>().AsSingleton();

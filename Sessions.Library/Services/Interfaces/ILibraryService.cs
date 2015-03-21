@@ -26,37 +26,80 @@ using Sessions.Sound.Player;
 
 namespace Sessions.Library.Services.Interfaces
 {
-    /// <summary>
-    /// Interface for the LibraryService class.
-    /// </summary>
     public interface ILibraryService
     {
-		IEnumerable<string> SelectFilePaths();
-        IEnumerable<string> SelectFilePathsRelatedToCueFiles();
-		IEnumerable<Folder> SelectFolders();
-		void RemoveAudioFilesWithBrokenFilePaths();
+        void ExecuteSQL(string sql);
         void ResetLibrary();
-		
-		IEnumerable<AudioFile> SelectAudioFiles();
-        IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query);
-		IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);		
-		void InsertAudioFile(AudioFile audioFile);
+    
+        void RemoveAudioFilesWithBrokenFilePaths();
+        void AddFolder(string folderPath, bool recursive);
+
+        IEnumerable<string> SelectFilePaths();
+        IEnumerable<string> SelectFilePathsRelatedToCueFiles();
+        AudioFile SelectAudioFile(Guid audioFileId);
+        List<AudioFile> SelectAudioFiles();
+        List<AudioFile> SelectAudioFiles(LibraryQuery query);
+        List<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
+        Dictionary<string, List<string>> SelectDistinctAlbumTitles();
+        Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat);
+        Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat audioFileFormat, string artistName);
+        List<string> SelectDistinctArtistNames();
+        List<string> SelectDistinctArtistNames(AudioFileFormat audioFileFormat);
+
+        DateTime? GetAudioFileLastPlayedFromHistory(Guid audioFileId);
+        int GetAudioFilePlayCountFromHistory(Guid audioFileId);
+        void InsertAudioFile(AudioFile audioFile);
         void InsertAudioFiles(IEnumerable<AudioFile> audioFiles);
-		void InsertPlaylistFile(PlaylistFile playlistFile);
+        void UpdateAudioFile(AudioFile audioFile);
         void DeleteAudioFile(Guid audioFileId);
         void DeleteAudioFiles(string basePath);
         void DeleteAudioFiles(string artistName, string albumTitle);
 
-		void CompactDatabase();
-		void AddFiles(List<string> filePaths);
-		void AddFolder(string folderPath, bool recursive);
-		
-		List<string> SelectDistinctArtistNames(AudioFileFormat format);
-		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
-		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
+        SSPEQPreset SelectEQPreset(string name);
+        SSPEQPreset SelectEQPreset(Guid presetId);
+        List<SSPEQPreset> SelectEQPresets();
+        void InsertEQPreset(SSPEQPreset eq);
+        void UpdateEQPreset(SSPEQPreset eq);
+        void DeleteEQPreset(Guid eqPresetId);
 
-        Playlist SelectPlaylist(Guid playlistId);
+        Folder SelectFolderByPath(string path);
+        List<Folder> SelectFolders();
+        void InsertFolder(string folderPath, bool recursive);
+        void DeleteFolder(Guid folderId);
+        void DeleteFolders();
+
+        SSPLoop SelectLoop(Guid loopId);
+        List<SSPLoop> SelectLoops();
+        List<SSPLoop> SelectLoops(Guid audioFileId);
+        void InsertLoop(SSPLoop dto);
+        void UpdateLoop(SSPLoop dto);
+        void DeleteLoop(Guid loopId);
+
+        Marker SelectMarker(Guid markerId);
+        List<Marker> SelectMarkers();
+        List<Marker> SelectMarkers(Guid audioFileId);
+        void InsertMarker(Marker dto);
+        void UpdateMarker(Marker dto);
+        void DeleteMarker(Guid markerId);
+
+        List<PlaylistFile> SelectPlaylistFiles();
+        void InsertPlaylistFile(PlaylistFile dto);
+        void DeletePlaylistFile(string filePath);
+
+        Setting SelectSetting(string name);
+        List<Setting> SelectSettings();
+        void InsertSetting(Setting dto);
+        void InsertSetting(string name, string value);
+        void UpdateSetting(Setting dto);
+        void DeleteSetting(Guid settingId);
+
+        void InsertHistory(Guid audioFileId);
+        void InsertHistory(Guid audioFileId, DateTime eventDateTime);
+        
+        void UpdatePlayCount(Guid audioFileId);
+
         List<Playlist> SelectPlaylists();
+        Playlist SelectPlaylist(Guid playlistId);
         void InsertPlaylist(Playlist playlist);
         void UpdatePlaylist(Playlist playlist);
         void DeletePlaylist(Guid playlistId);
@@ -65,22 +108,6 @@ namespace Sessions.Library.Services.Interfaces
         void InsertPlaylistItem(PlaylistAudioFile playlist);
         void DeletePlaylistItem(Guid playlistId, Guid audioFileId);
 
-        Marker SelectMarker(Guid markerId);
-        List<Marker> SelectMarkers(Guid audioFileId);
-        void InsertMarker(Marker marker);
-        void UpdateMarker(Marker marker);
-        void DeleteMarker(Guid markerId);
-
-        SSPLoop SelectLoop(Guid LoopId);
-        List<SSPLoop> SelectLoops(Guid audioFileId);
-        void InsertLoop(SSPLoop Loop);
-        void UpdateLoop(SSPLoop Loop);
-        void DeleteLoop(Guid LoopId);
-
-        SSPEQPreset SelectEQPreset(Guid presetId);
-        IEnumerable<SSPEQPreset> SelectEQPresets();
-        void InsertEQPreset(SSPEQPreset preset);
-        void UpdateEQPreset(SSPEQPreset preset);
-        void DeleteEQPreset(Guid presetId);
+        void CompactDatabase();
     }
 }
