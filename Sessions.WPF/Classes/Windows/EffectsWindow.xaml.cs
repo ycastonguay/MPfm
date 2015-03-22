@@ -57,7 +57,6 @@ namespace Sessions.WPF.Classes.Windows
         private void EnablePresetDetails(bool enable)
         {
             txtPresetName.IsEnabled = enable;
-            btnSavePreset.Enabled = enable;
             btnNormalize.Enabled = enable;
             btnReset.Enabled = enable;
         }
@@ -132,16 +131,16 @@ namespace Sessions.WPF.Classes.Windows
             SavePreset();
         }
 
-        private void BtnSavePreset_OnClick(object sender, RoutedEventArgs e)
+        private void TxtPresetName_OnKeyDown(object sender, KeyEventArgs e)
         {
             _preset.Name = txtPresetName.Text;
             //OnSavePreset(txtPresetName.Text);
         }
 
-        private void TxtPresetName_OnKeyDown(object sender, KeyEventArgs e)
+        private void txtPresetName_LostFocus(object sender, RoutedEventArgs e)
         {
             _preset.Name = txtPresetName.Text;
-            //OnSavePreset(txtPresetName.Text);
+            OnSavePreset(txtPresetName.Text);
         }
 
         private void BtnNormalize_OnClick(object sender, RoutedEventArgs e)
@@ -149,7 +148,7 @@ namespace Sessions.WPF.Classes.Windows
             if (MessageBox.Show("Are you sure you wish to normalize this equalizer preset?", "Normalize equalizer preset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            OnNormalizePreset();
+            OnNormalizePreset(true);
         }
 
         private void BtnAddPreset_OnClick(object sender, RoutedEventArgs e)
@@ -179,7 +178,7 @@ namespace Sessions.WPF.Classes.Windows
             if (MessageBox.Show("Are you sure you wish to reset this equalizer preset?", "Reset equalizer preset", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            OnResetPreset();
+            OnResetPreset(true);
         }
 
         private void SavePreset()
@@ -197,15 +196,21 @@ namespace Sessions.WPF.Classes.Windows
             EnablePresetDetails(listViewPresets.SelectedIndex >= 0);
             EnableFaders(listViewPresets.SelectedIndex >= 0);
             EnableContextMenu(listViewPresets.SelectedIndex >= 0);
-            if (listViewPresets.SelectedIndex < 0)
+
+            Guid id = Guid.Empty;
+            if (listViewPresets.SelectedIndex >= 0)
+            {
+                id = _presets[listViewPresets.SelectedIndex].EQPresetId;
+            }
+            else
             {
                 ResetFaderValuesAndPresetDetails();
-                return;
             }
 
-            var id = _presets[listViewPresets.SelectedIndex].EQPresetId;
             OnLoadPreset(id); // EqualizerPresets
-            OnChangePreset(id); // EqualizerPresetDetails
+
+            if (OnChangePreset != null)
+                OnChangePreset(id); // EqualizerPresetDetails
         }
 
         private void ListViewPresets_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -283,7 +288,7 @@ namespace Sessions.WPF.Classes.Windows
 
         #region IEqualizerPresetsView implementation
 
-        public Action OnBypassEqualizer { get; set; }
+        public Action<bool> OnEnableEqualizer { get; set; }
         public Action<float> OnSetVolume { get; set; }
         public Action OnAddPreset { get; set; }
         public Action<Guid> OnLoadPreset { get; set; }
@@ -311,6 +316,7 @@ namespace Sessions.WPF.Classes.Windows
                 //foreach (var preset in _presets)
                 //    listViewPresets.Items.Add(preset);
                 listViewPresets.ItemsSource = _presets;
+                listViewPresets.SelectedIndex = _presets.FindIndex(x => x.EQPresetId == selectedPresetId);
 
                 if(isFirstRefresh)
                     RefreshPreset(_preset);
@@ -332,8 +338,8 @@ namespace Sessions.WPF.Classes.Windows
         #region IEqualizerPresetDetailsView implementation
 
         public Action<Guid> OnChangePreset { get; set; }
-        public Action OnResetPreset { get; set; }
-        public Action OnNormalizePreset { get; set; }
+        public Action<bool> OnResetPreset { get; set; }
+        public Action<bool> OnNormalizePreset { get; set; }
         public Action OnRevertPreset { get; set; }
         public Action<string> OnSavePreset { get; set; }
         public Action<string, float> OnSetFaderGain { get; set; }
@@ -415,6 +421,7 @@ namespace Sessions.WPF.Classes.Windows
         }
 
         #endregion
+
 
     }
 }
