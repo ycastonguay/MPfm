@@ -40,7 +40,7 @@ namespace Sessions.GenericControls.Controls.Themes
             }
         }
 
-        private BasicColor _centerLineColor = new BasicColor(0, 0, 0, 150);
+        private BasicColor _centerLineColor = new BasicColor(24, 24, 24, 150);
         public BasicColor CenterLineColor
         {
             get { return _centerLineColor; }

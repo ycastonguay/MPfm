@@ -42,11 +42,11 @@ namespace Sessions.GenericControls.Controls
         private BasicColor _backgroundColor2 = new BasicColor(32, 40, 46);
         private BasicColor _faderColor1 = new BasicColor(255, 255, 255);
         private BasicColor _faderColor2 = new BasicColor(245, 245, 245);
-        private BasicColor _faderShadowColor1 = new BasicColor(188, 188, 188);
+        private BasicColor _faderShadowColor1 = new BasicColor(208, 208, 208);
         private BasicColor _faderShadowColor2 = new BasicColor(220, 220, 220);
-        private BasicColor _centerLineColor = new BasicColor(0, 0, 0, 150);
+        private BasicColor _centerLineColor = new BasicColor(24, 24, 24, 150);
         private BasicColor _centerLineShadowColor = new BasicColor(169, 169, 169, 80); 
-        private BasicColor _faderMiddleLineColor = new BasicColor(0, 0, 0);
+        private BasicColor _faderMiddleLineColor = new BasicColor(120, 120, 120);
         private BasicColor _faderShadowColor = new BasicColor(169, 169, 169);
 
         private BasicRectangle _rectFader = new BasicRectangle();

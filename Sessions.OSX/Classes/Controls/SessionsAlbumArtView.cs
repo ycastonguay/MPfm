@@ -72,30 +72,31 @@ namespace Sessions.OSX.Classes.Controls
 
         private void Initialize()
         {
-            WantsLayer = true;
+//            WantsLayer = true;
 
             _imageViewAlbumArt = new NSImageView(Bounds);
-            _imageViewAlbumArt.WantsLayer = true;
+//            _imageViewAlbumArt.Image = new NSImage(new SizeF(Bounds.Width, Bounds.Height));
+//            _imageViewAlbumArt.WantsLayer = true;
             AddSubview(_imageViewAlbumArt);
 
             _viewImageDownloading = new SessionsOverlayView(Bounds);
             _viewImageDownloading.Hidden = true;
             _viewImageDownloading.SetTheme(SessionsOverlayView.ThemeType.LabelWithActivityIndicator);
             _viewImageDownloading.LabelTitle = "Downloading image from the internet...";
-            AddSubview(_viewImageDownloading);
+//            AddSubview(_viewImageDownloading);
 
             _viewImageDownloaded = new SessionsOverlayView(Bounds);
             _viewImageDownloaded.Hidden = false;
             _viewImageDownloaded.SetTheme(SessionsOverlayView.ThemeType.LabelWithButtons);
             _viewImageDownloaded.LabelTitle = "This image has been downloaded from the internet.";
             _viewImageDownloaded.OnButtonSelected += HandleOnButtonSelected;
-            AddSubview(_viewImageDownloaded);
+//            AddSubview(_viewImageDownloaded);
 
             _viewImageDownloadError = new SessionsOverlayView(Bounds);
             _viewImageDownloadError.Hidden = true;
             _viewImageDownloadError.SetTheme(SessionsOverlayView.ThemeType.Label);
             _viewImageDownloadError.LabelTitle = "Error downloading image from the internet.";
-            AddSubview(_viewImageDownloadError);
+//            AddSubview(_viewImageDownloadError);
         }
 
         private void HandleOnButtonSelected(SessionsRoundButton button)
@@ -118,6 +119,10 @@ namespace Sessions.OSX.Classes.Controls
 //                NSAnimationContext.EndGrouping();
 
                 _imageViewAlbumArt.Image = image;
+//                if(image == null)
+//                    _imageViewAlbumArt.Image = new NSImage(new SizeF(Bounds.Width, Bounds.Height));
+//                else
+//                    _imageViewAlbumArt.Image = image;
 
 //                NSAnimationContext.BeginGrouping();
 //                NSAnimationContext.CurrentContext.Duration = 0.5;
