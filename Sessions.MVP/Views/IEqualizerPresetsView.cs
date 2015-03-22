@@ -23,7 +23,7 @@ namespace Sessions.MVP.Views
 {
 	public interface IEqualizerPresetsView : IBaseView
 	{
-        Action OnBypassEqualizer { get; set; }
+        Action<bool> OnEnableEqualizer { get; set; }
         Action<float> OnSetVolume { get; set; }
         Action OnAddPreset { get; set; }
         Action<Guid> OnLoadPreset { get; set; }
@@ -33,7 +33,7 @@ namespace Sessions.MVP.Views
         Action<Guid, string> OnExportPreset { get; set; }
 
         void EqualizerPresetsError(Exception ex);
-        void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed);
+        void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQEnabled);
         void RefreshOutputMeter(float[] dataLeft, float[] dataRight);
         void RefreshVolume(float volume);
 	}

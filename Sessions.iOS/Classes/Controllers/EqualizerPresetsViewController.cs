@@ -140,7 +140,7 @@ namespace Sessions.iOS
 
         private void HandleSwitchBypassValueChanged(object sender, EventArgs e)
         {
-            OnBypassEqualizer();
+            OnEnableEqualizer(!switchBypass.On);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -458,7 +458,7 @@ namespace Sessions.iOS
 
         #region IEqualizerPresetsView implementation
 
-        public Action OnBypassEqualizer { get; set; }
+        public Action<bool> OnEnableEqualizer { get; set; }
         public Action<float> OnSetVolume { get; set; }
         public Action OnAddPreset { get; set; }
         public Action<Guid> OnLoadPreset { get; set; }
@@ -472,12 +472,12 @@ namespace Sessions.iOS
             ShowErrorDialog(ex);
         }
 
-        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQEnabled)
         {
             InvokeOnMainThread(() => {
                 _selectedPresetId = selectedPresetId;
                 _presets = presets.ToList();
-                switchBypass.On = isEQBypassed;
+                switchBypass.On = !isEQEnabled;
 
                 tableView.ReloadData();
                 int index = _presets.FindIndex(x => x.EQPresetId == _selectedPresetId);

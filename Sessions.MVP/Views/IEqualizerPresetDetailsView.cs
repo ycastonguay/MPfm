@@ -24,8 +24,8 @@ namespace Sessions.MVP.Views
 	public interface IEqualizerPresetDetailsView : IBaseView
     {
         Action<Guid> OnChangePreset { get; set; } 
-        Action OnResetPreset { get; set; }
-        Action OnNormalizePreset { get; set; }
+        Action<bool> OnResetPreset { get; set; }
+        Action<bool> OnNormalizePreset { get; set; }
         Action OnRevertPreset { get; set; }
         Action<string> OnSavePreset { get; set; }
         Action<string, float> OnSetFaderGain { get; set; }

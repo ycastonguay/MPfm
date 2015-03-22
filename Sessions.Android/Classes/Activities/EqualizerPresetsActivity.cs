@@ -59,7 +59,7 @@ namespace Sessions.Android
             _seekBarVolume.ProgressChanged += (sender, args) => OnSetVolume(1);
 
             _btnBypass = FindViewById<ToggleButton>(Resource.Id.equalizerPresets_btnBypass);
-            _btnBypass.Click += (sender, args) => OnBypassEqualizer();
+            _btnBypass.Click += (sender, args) => OnEnableEqualizer(!_btnBypass.Checked);
 
             _outputMeter = FindViewById<OutputMeterView>(Resource.Id.equalizerPresets_outputMeterView);
 
@@ -156,7 +156,7 @@ namespace Sessions.Android
 
         #region IEqualizerPresetsView implementation
 
-        public Action OnBypassEqualizer { get; set; }
+        public Action<bool> OnEnableEqualizer { get; set; }
         public Action<float> OnSetVolume { get; set; }
         public Action OnAddPreset { get; set; }
         public Action<Guid> OnLoadPreset { get; set; }
@@ -170,10 +170,10 @@ namespace Sessions.Android
             ShowErrorDialog(ex);
         }
 
-        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQEnabled)
         {
             RunOnUiThread(() => {
-                _btnBypass.Checked = isEQBypassed;
+                _btnBypass.Checked = !isEQEnabled;
                 _presets = presets.ToList();
                 _listAdapter.SetData(_presets, selectedPresetId);
             });

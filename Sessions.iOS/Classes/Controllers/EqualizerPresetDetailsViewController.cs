@@ -19,19 +19,15 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Sessions.MVP.Navigation;
-using Sessions.MVP.Views;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
-using Sessions.MVP.Bootstrap;
 using Sessions.iOS.Helpers;
-using Sessions.Core;
-using org.sessionsapp.player;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 
 namespace Sessions.iOS
 {
@@ -183,7 +179,7 @@ namespace Sessions.iOS
             UIAlertView alertView = new UIAlertView("Equalizer preset will be reset", "Are you sure you wish to reset this equalizer preset?", null, "OK", new string[1] {"Cancel"});
             alertView.Dismissed += (sender2, e2) => {
                 if(e2.ButtonIndex == 0)
-                    OnResetPreset();                    
+                    OnResetPreset(false);
             };
             alertView.Show();
         }
@@ -193,7 +189,7 @@ namespace Sessions.iOS
             var alertView = new UIAlertView("Equalizer preset will be normalized", "Are you sure you wish to normalize this equalizer preset?", null, "OK", new string[1] {"Cancel"});
             alertView.Dismissed += (sender2, e2) => {
                 if(e2.ButtonIndex == 0)
-                    OnNormalizePreset();
+                    OnNormalizePreset(false);
             };
             alertView.Show();
         }
@@ -226,8 +222,8 @@ namespace Sessions.iOS
         #region IEqualizerPresetDetailsView implementation
 
         public Action<Guid> OnChangePreset { get; set; }
-        public Action OnResetPreset { get; set; }
-        public Action OnNormalizePreset { get; set; }
+        public Action<bool> OnResetPreset { get; set; }
+        public Action<bool> OnNormalizePreset { get; set; }
         public Action OnRevertPreset { get; set; }
         public Action<string> OnSavePreset { get; set; }
         public Action<string, float> OnSetFaderGain { get; set; }

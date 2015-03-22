@@ -111,25 +111,16 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        public void NormalizePreset()
+        public void NormalizePreset(bool savePreset)
         {
             try
             {
-                float highestValue = -6f;
-                float value = 0;
+                // Normalize EQ through the C library, and then fetch/replace the local preset
+                _playerService.NormalizeEQ();
+                _preset = _playerService.EQPreset;
 
-                // Try to find the highest value in all bands
-                for (int a = 0; a < _preset.Bands.Length; a++)
-                {
-                    var band = _preset.Bands[a];
-                    value = _preset.Bands[a].Gain;
-                    if (value > highestValue)
-                        highestValue = value;
-                }
-
-                // Normalize bands
-                foreach (var band in _preset.Bands)
-                    band.Gain = band.Gain - highestValue;
+                if(savePreset)
+                    SavePreset();
 
                 View.RefreshPreset(_preset);
             }
@@ -140,12 +131,17 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        public void ResetPreset()
+        public void ResetPreset(bool savePreset)
         {
             try
             {
-                _preset.Reset();
+                // Reset EQ through the C library, and then fetch/replace the local preset
                 _playerService.ResetEQ();
+                _preset = _playerService.EQPreset;
+
+                if(savePreset)
+                    SavePreset();
+
                 View.RefreshPreset(_preset);
             }
             catch(Exception ex)
@@ -166,6 +162,19 @@ namespace Sessions.MVP.Presenters
                 }
 
                 _preset.Name = presetName;
+                SavePreset();
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log(ex);
+                View.EqualizerPresetDetailsError(ex);
+            }
+        }
+
+        public void SavePreset()
+        {
+            try
+            {
                 var preset = _libraryService.SelectEQPreset(_preset.EQPresetId);
                 if(preset == null)
                     _libraryService.InsertEQPreset(_preset);

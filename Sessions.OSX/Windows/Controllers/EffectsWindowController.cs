@@ -18,17 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sessions.MVP;
-using Sessions.MVP.Presenters.Interfaces;
-using Sessions.MVP.Views;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using Sessions.OSX.Classes.Objects;
-using Sessions.OSX.Classes.Helpers;
-using Sessions.OSX.Classes.Controls;
 using System.Reflection;
+using MonoMac.AppKit;
+using MonoMac.Foundation;
 using org.sessionsapp.player;
+using Sessions.MVP.Views;
+using Sessions.OSX.Classes.Controls;
+using Sessions.OSX.Classes.Helpers;
+using Sessions.OSX.Classes.Objects;
 
 namespace Sessions.OSX
 {
@@ -127,7 +124,7 @@ namespace Sessions.OSX
             lblScaleMinus6.Font = NSFont.FromFontName("Roboto", 11f);
             txtName.Font = NSFont.FromFontName("Roboto", 12f);
 
-            btnAutoLevel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnAutoLevel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_normalize");
             btnReset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
             btnAddPreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnRemovePreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
@@ -282,7 +279,7 @@ namespace Sessions.OSX
 
         partial void actionEQOnChange(NSObject sender)
         {
-            OnBypassEqualizer();
+            OnEnableEqualizer(btnEQOn.State == NSCellStateValue.On);
         }
 
         partial void actionNameChanged(NSObject sender)
@@ -328,7 +325,7 @@ namespace Sessions.OSX
                 var btnOK = alert.AddButton("OK");
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
-                    OnNormalizePreset();
+                    OnNormalizePreset(true);
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -348,7 +345,7 @@ namespace Sessions.OSX
                 var btnOK = alert.AddButton("OK");
                 btnOK.Activated += (sender2, e2) => {
                     NSApplication.SharedApplication.StopModal();
-                    OnResetPreset();
+                    OnResetPreset(true);
                 };
                 var btnCancel = alert.AddButton("Cancel");
                 btnCancel.Activated += (sender3, e3) => {
@@ -479,13 +476,17 @@ namespace Sessions.OSX
             EnablePresetDetails(tablePresets.SelectedRow >= 0);
             EnableFaders(tablePresets.SelectedRow >= 0);
             EnableContextMenu(tablePresets.SelectedRow >= 0);
-            if (tablePresets.SelectedRow < 0)
+
+            Guid id = Guid.Empty;
+            if (tablePresets.SelectedRow >= 0)
+            {
+                id = _presets[tablePresets.SelectedRow].EQPresetId;
+            }
+            else
             {
                 ResetFaderValuesAndPresetDetails();
-                return;
             }
 
-            var id = _presets[tablePresets.SelectedRow].EQPresetId;
             OnLoadPreset(id); // EqualizerPresets
 
             if(OnChangePreset != null)
@@ -507,13 +508,12 @@ namespace Sessions.OSX
             }
 
             view.TextField.Font = NSFont.FromFontName("Roboto", 12);
-
             return view;
         }
 
         #region IEqualizerPresetsView implementation
 
-        public Action OnBypassEqualizer { get; set; }
+        public Action<bool> OnEnableEqualizer { get; set; }
         public Action<float> OnSetVolume { get; set; }
         public Action OnAddPreset { get; set; }
         public Action<Guid> OnLoadPreset { get; set; }
@@ -529,21 +529,25 @@ namespace Sessions.OSX
             });
         }
 
-        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshPresets(IEnumerable<SSPEQPreset> presets, Guid selectedPresetId, bool isEQEnabled)
         {
             InvokeOnMainThread(delegate 
             {
+                btnEQOn.State = isEQEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+
+                bool hasPresetCountChanged = _presets.Count != presets.Count();
                 _presets = presets.ToList();
                 int selRowBefore = tablePresets.SelectedRow;
                 tablePresets.ReloadData();
 
+                // Ugly fix for reselecting the right row after refreshing table view data
                 int newRow = _presets.FindIndex(x => x.EQPresetId == selectedPresetId);
                 if (newRow < 0)
                 {
                     if(tablePresets.SelectedRow >= 0)
                         tablePresets.DeselectRow(tablePresets.SelectedRow);
                 }
-                else if (selRowBefore < 0 && newRow >= 0)
+                else if (hasPresetCountChanged || (selRowBefore < 0 && newRow >= 0))
                 {
                     tablePresets.SelectRow(newRow, false);
                 }
@@ -569,17 +573,15 @@ namespace Sessions.OSX
         #region IEqualizerPresetDetailsView implementation
 
         public Action<Guid> OnChangePreset { get; set; } 
-        public Action OnResetPreset { get; set; }
-        public Action OnNormalizePreset { get; set; }
+        public Action<bool> OnResetPreset { get; set; }
+        public Action<bool> OnNormalizePreset { get; set; }
         public Action OnRevertPreset { get; set; }
         public Action<string> OnSavePreset { get; set; }
         public Action<string, float> OnSetFaderGain { get; set; }
 
         public void EqualizerPresetDetailsError(Exception ex)
         {
-            InvokeOnMainThread(delegate {
-                CocoaHelper.ShowAlert("Error", string.Format("An error occured in EqualizerPresets: {0}", ex), NSAlertStyle.Critical);
-            });
+            ShowError(ex);
         }
 
         public void ShowMessage(string title, string message)

@@ -118,7 +118,7 @@ namespace Sessions.Android
                .SetTitle("Equalizer preset will be reset")
                .SetMessage("Are you sure you wish to reset this equalizer preset?")
                .SetCancelable(true)
-               .SetPositiveButton("OK", (sender2, args) => OnResetPreset())
+               .SetPositiveButton("OK", (sender2, args) => OnResetPreset(false))
                .SetNegativeButton("Cancel", (sender2, args) => { })
                .Create();
             ad.Show();
@@ -131,7 +131,7 @@ namespace Sessions.Android
                .SetTitle("Equalizer preset will be normalized")
                .SetMessage("Are you sure you wish to normalize this equalizer preset?")
                .SetCancelable(true)
-               .SetPositiveButton("OK", (sender2, args) => OnNormalizePreset())
+               .SetPositiveButton("OK", (sender2, args) => OnNormalizePreset(false))
                .SetNegativeButton("Cancel", (sender2, args) => { })
                .Create();
             ad.Show();
@@ -224,8 +224,8 @@ namespace Sessions.Android
         #region IEqualizerPresetDetailsView implementation
 
         public Action<Guid> OnChangePreset { get; set; }
-        public Action OnResetPreset { get; set; }
-        public Action OnNormalizePreset { get; set; }
+        public Action<bool> OnResetPreset { get; set; }
+        public Action<bool> OnNormalizePreset { get; set; }
         public Action OnRevertPreset { get; set; }
         public Action<string> OnSavePreset { get; set; }
         public Action<string, float> OnSetFaderGain { get; set; }

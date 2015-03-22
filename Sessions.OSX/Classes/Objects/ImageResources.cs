@@ -45,6 +45,7 @@ namespace Sessions.OSX.Classes.Objects
                 NSImage.ImageNamed("icon_button_general"),
                 NSImage.ImageNamed("icon_button_goto"),
                 NSImage.ImageNamed("icon_button_library"),
+                NSImage.ImageNamed("icon_button_normalize"),
                 NSImage.ImageNamed("icon_button_ok"),
                 NSImage.ImageNamed("icon_button_open"),
                 NSImage.ImageNamed("icon_button_play"),

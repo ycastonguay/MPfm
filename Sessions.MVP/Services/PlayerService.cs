@@ -502,6 +502,11 @@ namespace Sessions.MVP.Services
             _sspPlayer.ResetEQ();
         }
 
+        public void NormalizeEQ()
+        {
+            _sspPlayer.NormalizeEQ();
+        }
+
         public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
         {
             _sspPlayer.SetEQPresetBand(band, gain);

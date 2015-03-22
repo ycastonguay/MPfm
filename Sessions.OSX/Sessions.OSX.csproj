@@ -544,5 +544,7 @@
     <BundleResource Include="Resources\toolbar_shuffle_off%402x.png" />
     <BundleResource Include="Resources\toolbar_shuffle_on%402x.png" />
     <BundleResource Include="Resources\toolbar_shuffle_on.png" />
+    <BundleResource Include="Resources\icon_button_normalize.png" />
+    <BundleResource Include="Resources\icon_button_normalize%402x.png" />
   </ItemGroup>
 </Project>

@@ -82,7 +82,7 @@ namespace Sessions.MVP.Presenters
         {
             base.BindView(view);
 
-            view.OnBypassEqualizer = BypassEqualizer;
+            view.OnEnableEqualizer = EnableEqualizer;
             view.OnSetVolume = SetVolume;
             view.OnAddPreset = AddPreset;
             view.OnLoadPreset = LoadPreset;
@@ -152,11 +152,11 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        private void BypassEqualizer()
+        private void EnableEqualizer(bool enable)
         {
             try
             {
-                _playerService.EnableEQ(!_playerService.IsEQEnabled);
+                _playerService.EnableEQ(enable);
             }
             catch(Exception ex)
             {
@@ -218,6 +218,7 @@ namespace Sessions.MVP.Presenters
                 else
                 {
                     _selectedPresetId = Guid.Empty;
+                    _playerService.ApplyEQPreset(new SSPEQPreset());
                 }
             }
             catch(Exception ex)
@@ -271,6 +272,7 @@ namespace Sessions.MVP.Presenters
                 preset.EQPresetId = Guid.NewGuid();
                 preset.Name = "Copy of " + preset.Name;
                 _libraryService.InsertEQPreset(preset);
+                _selectedPresetId = preset.EQPresetId;
                 RefreshPresets();
             }
             catch(Exception ex)

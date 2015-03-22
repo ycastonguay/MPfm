@@ -89,6 +89,7 @@ namespace Sessions.MVP.Services.Interfaces
 
         void EnableEQ(bool enabled);
         void ResetEQ();
+        void NormalizeEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
         void ApplyEQPreset(SSPEQPreset preset);
 
