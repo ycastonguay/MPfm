@@ -389,6 +389,7 @@ namespace Sessions.Sound.AudioFiles
 		/// reading the audio file metadata (ex: ID3 tags)</param>
 		private void Initialize(string filePath, Guid id, bool readMetadata)
 		{
+            Console.WriteLine("---> Creating AudioFile; {0} / {1}", filePath, id);
 			FilePath = filePath;
 			Id = id;
 

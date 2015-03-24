@@ -252,8 +252,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 var audioFiles = _libraryService.SelectAudioFiles(entity.Query);
-                foreach(var audioFile in audioFiles)
-                    _playerService.Playlist.AddItem(audioFile.FilePath);
+                _playerService.Playlist.AddItems(audioFiles);
             }
             catch(Exception ex)
             {

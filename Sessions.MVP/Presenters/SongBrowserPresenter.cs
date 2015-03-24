@@ -89,7 +89,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 foreach(var audioFile in audioFiles)
-                    _playerService.Playlist.AddItem(audioFile.FilePath);
+                    _playerService.Playlist.AddItem(audioFile);
             }
             catch(Exception ex)
             {

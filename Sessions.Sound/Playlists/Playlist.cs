@@ -74,23 +74,23 @@ namespace Sessions.Sound.Player
             _audioFiles = new AudioFileDictionary();
         }
 
-        public void AddItem(string filePath)
+        public void AddItem(AudioFile audioFile)
         {
-            SSP.SSP_Playlist_AddItem(filePath);
+            SSP.SSP_Playlist_AddItem(audioFile.FilePath, audioFile.Id.ToString());
             //var audioFile = _audioFiles.RequestItem(filePath); // preload metadata?
         }
 
-        public void AddItems(IEnumerable<string> filePaths)
+        public void AddItems(IEnumerable<AudioFile> audioFiles)
         {
-            foreach (var filePath in filePaths)
+            foreach (var audioFile in audioFiles)
             {
-                AddItem(filePath);
+                AddItem(audioFile);
             }
         }
 
-        public void InsertItemAt(string filePath, int index)
+        public void InsertItemAt(AudioFile audioFile, int index)
         {
-            SSP.SSP_Playlist_InsertItemAt(filePath, index);
+            SSP.SSP_Playlist_InsertItemAt(audioFile.FilePath, audioFile.Id.ToString(), index);
             //var audioFile = _audioFiles.RequestItem(filePath); // preload metadata?
         }
 

@@ -345,21 +345,12 @@ namespace Sessions.MVP.Services
             NotifyPlaylistUpdate();
         }
 
-        public void Play(IEnumerable<string> filePaths)
-        {
-            Stop();
-            _sspPlayer.Playlist.Clear();
-            _sspPlayer.Playlist.AddItems(filePaths.ToList());
-            Play();
-        }
-
         public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart)
         {
             // TODO: Remove waitingToStart parameter
             Stop();
             _sspPlayer.Playlist.Clear();
-            foreach (var audioFile in audioFiles)
-                _sspPlayer.Playlist.AddItem(audioFile.FilePath);
+            _sspPlayer.Playlist.AddItems(audioFiles);
 
             int startIndex = Math.Max(0, audioFiles.ToList().FindIndex(x => x.FilePath == startAudioFilePath));
             _sspPlayer.Play(startIndex, 0, startPaused);

@@ -415,12 +415,18 @@ namespace Sessions.WPF.Classes.Windows
 
         private void TrackPosition_OnTrackBarValueChanged()
         {
-            if (OnPlayerRequestPosition == null || !_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+            if (OnPlayerRequestPosition == null || _currentSongInfo == null || !_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
 
             var position = OnPlayerRequestPosition((float) trackPosition.Value/1000f);
             lblPosition.Content = position.Str;
-            scrollViewWaveForm.SetSecondaryPosition(position.Bytes);
+
+            // The wave form scroll view isn't aware of floating point
+            long positionBytes = position.Bytes;
+            if (_currentSongInfo.UseFloatingPoint)
+                positionBytes /= 2;
+
+            scrollViewWaveForm.SetSecondaryPosition(positionBytes);
         }
 
         private void FaderVolume_OnFaderValueChanged(object sender, EventArgs e)
@@ -1512,7 +1518,7 @@ namespace Sessions.WPF.Classes.Windows
             //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
             //        miTraySongTitle.Text = audioFile.Title;
 
-                    songGridView.NowPlayingAudioFileId = audioFile.Id;
+                    songGridView.NowPlayingAudioFileId = audioFile.Id;                    
 
                     // The wave form scroll view isn't aware of floating point
                     long lengthWaveForm = entity.AudioFile.LengthBytes;

@@ -36,10 +36,11 @@ namespace Sessions.Sound.AudioFiles
         {
             var audioFile = RequestItem(item.FilePath);
             audioFile.LengthBytes = item.Length;
+            audioFile.Id = new Guid(item.AudioFileId);
             return audioFile;
         }
 
-        public AudioFile RequestItem(string filePath)
+        private AudioFile RequestItem(string filePath)
         {
             if (_dict.ContainsKey(filePath))
             {

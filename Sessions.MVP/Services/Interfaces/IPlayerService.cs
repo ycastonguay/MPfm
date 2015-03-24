@@ -59,7 +59,6 @@ namespace Sessions.MVP.Services.Interfaces
         void SetUpdatePeriod(int updatePeriod);
 
         void Play();        
-        void Play(IEnumerable<string> filePaths);
         void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart);
         void PlayQueue();
         void Stop();

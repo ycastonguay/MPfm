@@ -405,25 +405,6 @@ namespace Sessions.MVP.Presenters
                 SetError(ex);
             }
 		}
-
-		/// <summary>
-		/// Starts the playback of a new playlist.
-		/// </summary>
-		/// <param name='filePaths'>List of audio file paths</param>
-        private void Play(IEnumerable<string> filePaths)
-		{
-            try
-            {
-                _playerService.Play(filePaths);
-                _timerRefreshSongPosition.Start();
-                _timerSavePlayerStatus.Start();
-                View.RefreshPlaylist(_playerService.Playlist);
-            }
-            catch(Exception ex)
-            {
-                SetError(ex);
-            }
-		}
 		
 		/// <summary>
 		/// Starts the playback of a new playlist at a specific position.
