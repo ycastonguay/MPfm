@@ -1488,6 +1488,8 @@ namespace Sessions.OSX
         #region IPlayerView implementation
 
         public bool IsOutputMeterEnabled { get { return true; } }
+        public bool IsPlayerPerformanceEnabled { get { return true; } }
+
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -1561,7 +1563,7 @@ namespace Sessions.OSX
             });
         }
 
-		public void RefreshPlayerPosition(SSPPosition position)
+        public void RefreshPlayerPosition(SSPPosition position)
         {
             InvokeOnMainThread(() => {
 
@@ -1586,6 +1588,15 @@ namespace Sessions.OSX
                 }
             });
 		}
+
+        public void RefreshPlayerPerformance(float cpu, UInt32 bufferDataAvailable)
+        {
+            Console.WriteLine("[PlayerPerformance] CPU: {0:0.0} - Buffer: {1}", cpu, bufferDataAvailable);
+            InvokeOnMainThread(() => {
+                string perf = string.Format("CPU: {0:0.0}% - Buffer: {1:0.0}kb", cpu, bufferDataAvailable / 1000f);
+                lblSubtitleSongPosition.StringValue = perf;
+            });
+        }
 		
         public void RefreshSongInformation(SongInformationEntity entity)
         {

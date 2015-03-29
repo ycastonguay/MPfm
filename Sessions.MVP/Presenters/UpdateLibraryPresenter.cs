@@ -112,12 +112,14 @@ namespace Sessions.MVP.Presenters
 
 	    public void StartUpdateLibrary()
         {
-            var folder = new Folder()
+            var folders = new List<Folder>();
+            var paths = _syncDeviceSpecifications.GetMusicFolderPaths();
+            foreach (var path in paths)
             {
-                FolderPath = _syncDeviceSpecifications.GetMusicFolderPath(),
-                IsRecursive = true
-            };
-            UpdateLibrary(new List<string>(), new List<Folder>(){ folder });
+                folders.Add(new Folder(path, true));
+            }
+
+            UpdateLibrary(new List<string>(), folders);
         }
 		
 		public void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths)

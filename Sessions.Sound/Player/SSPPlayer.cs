@@ -310,6 +310,16 @@ namespace Sessions.Sound.Player
             _playlistIndexChangedDelegate = null;
         }
 
+        public float GetCPU()
+        {
+            return SSP.SSP_GetCPU();
+        }
+
+        public UInt32 GetBufferDataAvailable()
+        {
+            return SSP.SSP_GetBufferDataAvailable();
+        }
+
         public void SetBufferSize(int bufferSize)
         {
             CheckForError(SSP.SSP_SetBufferSize(bufferSize));

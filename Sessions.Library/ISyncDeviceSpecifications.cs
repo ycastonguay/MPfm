@@ -33,7 +33,8 @@ namespace Sessions.Library
         long GetFreeSpace();
         string GetIPAddress();
         string GetMusicFolderPath();
-        List<string> GetRootFolderPaths();
+        IEnumerable<string> GetMusicFolderPaths();
+        IEnumerable<string> GetRootFolderPaths();
         void ReportNetworkStateChange(NetworkState networkState);
     }
 }

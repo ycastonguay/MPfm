@@ -567,6 +567,7 @@ namespace Sessions.iOS.Classes.Controllers
 				return true; 
 			} 
 		}
+        public bool IsPlayerPerformanceEnabled { get { return true; } }
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -613,6 +614,15 @@ namespace Sessions.iOS.Classes.Controllers
                 }
 
                 scrollViewWaveForm.SetPosition(position.Bytes);
+            });
+        }
+
+        public void RefreshPlayerPerformance(float cpu, UInt32 bufferDataAvailable)
+        {
+            Console.WriteLine("[PlayerPerformance] CPU: {0:0.0} - Buffer: {1}", cpu, bufferDataAvailable);
+            InvokeOnMainThread(() => {
+                string perf = string.Format("CPU {0:0.0}% - Buff {1:0.0}kb", cpu, bufferDataAvailable / 1000f);
+                lblLength.Text = perf;
             });
         }
 

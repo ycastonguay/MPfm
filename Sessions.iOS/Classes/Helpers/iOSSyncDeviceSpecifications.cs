@@ -87,7 +87,14 @@ namespace Sessions.iOS.Helpers
             return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
-        public List<string> GetRootFolderPaths()
+        public IEnumerable<string> GetMusicFolderPaths()
+        {
+            var folders = new List<string>();
+            folders.Add(GetMusicFolderPath());
+            return folders;
+        }
+
+        public IEnumerable<string> GetRootFolderPaths()
         {
             return new List<string>();
         }

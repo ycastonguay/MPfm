@@ -392,6 +392,8 @@ namespace Sessions.Android
         #region IPlayerView implementation
 
         public bool IsOutputMeterEnabled { get { return false; } }
+        public bool IsPlayerPerformanceEnabled { get { return true; } }
+
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -454,6 +456,15 @@ namespace Sessions.Android
                 }
 
                 _waveFormScrollView.SetPosition(position.Bytes);
+            });
+        }
+
+        public void RefreshPlayerPerformance(float cpu, UInt32 bufferDataAvailable)
+        {
+            Console.WriteLine("[PlayerPerformance] CPU: {0:0.0} - Buffer: {1}", cpu, bufferDataAvailable);
+            RunOnUiThread(() => {
+                string perf = string.Format("CPU {0:0.0}% - Buff {1:0.0}kb", cpu, bufferDataAvailable / 1000f);
+                _lblLength.Text = perf;
             });
         }
 

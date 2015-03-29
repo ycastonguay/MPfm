@@ -180,6 +180,16 @@ namespace Sessions.MVP.Services
             SubscribeToMessages();
         }
 
+        public float GetCPU()
+        {
+            return _sspPlayer.GetCPU();
+        }
+
+        public UInt32 GetBufferDataAvailable()
+        {
+            return _sspPlayer.GetBufferDataAvailable();
+        }
+
         public void PlayerSetPositionMessageReceived(PlayerSetPositionMessage m)
         {
             _sspPlayer.SetPosition(m.Position);

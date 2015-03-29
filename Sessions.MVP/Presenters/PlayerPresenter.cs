@@ -266,6 +266,13 @@ namespace Sessions.MVP.Presenters
                 var position = _playerService.GetPosition();
                 View.RefreshPlayerPosition(position);
             }
+
+            if(View.IsPlayerPerformanceEnabled)
+            {
+                float cpu = _playerService.GetCPU();
+                UInt32 bufferDataAvailable = _playerService.GetBufferDataAvailable();
+                View.RefreshPlayerPerformance(cpu, bufferDataAvailable);
+            }
 		}
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE

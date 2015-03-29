@@ -55,6 +55,9 @@ namespace Sessions.MVP.Services.Interfaces
         void InitDevice(SSPDevice device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
 
+        float GetCPU();
+        UInt32 GetBufferDataAvailable();
+
         void SetBufferSize(int bufferSize);
         void SetUpdatePeriod(int updatePeriod);
 

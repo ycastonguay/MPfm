@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using Sessions.MVP.Models;
 using org.sessionsapp.player;
-using Sessions.Player;
 using Sessions.Sound.Player;
 using Sessions.Sound.Objects;
 
@@ -31,6 +30,7 @@ namespace Sessions.MVP.Views
     public interface IPlayerView : IBaseView
 	{
         bool IsOutputMeterEnabled { get; }
+        bool IsPlayerPerformanceEnabled { get; }
 
         Action OnPlayerPlay { get; set; }
         Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -57,6 +57,7 @@ namespace Sessions.MVP.Views
 	    void PushSubView(IBaseView view);
         void RefreshPlayerState(SSPPlayerState state, SSPRepeatType repeatType, bool isShuffleEnabled);
 		void RefreshPlayerPosition(SSPPosition position);
+        void RefreshPlayerPerformance(float cpu, UInt32 bufferDataAvailable);
         void RefreshPlaylist(Playlist playlist);
         void RefreshSongInformation(SongInformationEntity entity);
         void RefreshMarkers(IEnumerable<Marker> markers);

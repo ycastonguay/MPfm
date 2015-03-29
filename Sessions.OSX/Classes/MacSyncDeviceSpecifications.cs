@@ -78,7 +78,15 @@ namespace Sessions.OSX
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         }
 
-        public List<string> GetRootFolderPaths()
+        public IEnumerable<string> GetMusicFolderPaths()
+        {
+            var paths = new List<string>();
+            paths.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+            paths.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            return paths;
+        }
+
+        public IEnumerable<string> GetRootFolderPaths()
         {
             return new List<string>();
         }

@@ -29,9 +29,6 @@ using Sessions.Library.Objects;
 
 namespace Sessions.Android.Classes
 {
-    /// <summary>
-    /// Device specifications for iOS. Used for identifying sync devices.
-    /// </summary>
     public class AndroidSyncDeviceSpecifications : ISyncDeviceSpecifications
     {
         private readonly Context _context;
@@ -69,14 +66,14 @@ namespace Sessions.Android.Classes
 
         public long GetFreeSpace()
         {
-            StatFs stat = new StatFs(global::Android.OS.Environment.ExternalStorageDirectory.ToString());
+            var stat = new StatFs(global::Android.OS.Environment.ExternalStorageDirectory.ToString());
             long bytesAvailable = (long)stat.BlockSize * (long)stat.AvailableBlocks;
             return bytesAvailable;
         }
 
         public string GetIPAddress()
         {
-            WifiManager wifiManager = (WifiManager)_context.GetSystemService(Context.WifiService);
+            var wifiManager = (WifiManager)_context.GetSystemService(Context.WifiService);
             int ip = wifiManager.ConnectionInfo.IpAddress;
             return Formatter.FormatIpAddress(ip);
         }
@@ -86,7 +83,15 @@ namespace Sessions.Android.Classes
             return global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryMusic).ToString();
         }
 
-        public List<string> GetRootFolderPaths()
+        public IEnumerable<string> GetMusicFolderPaths()
+        {
+            var paths = new List<string>();
+            paths.Add(global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryMusic).ToString());
+            paths.Add(global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryDownloads).ToString());
+            return paths;
+        }
+
+        public IEnumerable<string> GetRootFolderPaths()
         {
             var paths = new List<string>();
 
