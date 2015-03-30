@@ -69,9 +69,9 @@ namespace Sessions.MVP.Presenters
             view.OnPlayLoop = PlayLoop;
             view.OnUpdateLoop = UpdateLoop;
 
-//            view.OnPunchInLoopSegment = PunchInLoopSegment;
-//            view.OnChangingLoopSegmentPosition = ChangingLoopSegmentPosition;
-//            view.OnChangedLoopSegmentPosition = ChangedLoopSegmentPosition;
+            view.OnPunchInLoopSegment = PunchInLoopSegment;
+            view.OnChangingLoopSegmentPosition = ChangingLoopSegmentPosition;
+            view.OnChangedLoopSegmentPosition = ChangedLoopSegmentPosition;
 
             base.BindView(view);
             
@@ -155,6 +155,18 @@ namespace Sessions.MVP.Presenters
                 loop.AudioFileId = _playerService.CurrentAudioFile.Id;
                 loop.Name = "New Loop";
 
+                var startPosition = _playerService.GetPositionFromBytes(0);
+                loop.StartPosition = startPosition.Str;
+                loop.StartPositionBytes = startPosition.Bytes;
+                loop.StartPositionMS = startPosition.MS;
+                loop.StartPositionSamples = startPosition.Samples;
+
+                var endPosition = _playerService.GetPositionFromBytes(_audioFile.LengthBytes);
+                loop.EndPosition = endPosition.Str;
+                loop.EndPositionBytes = endPosition.Bytes;
+                loop.EndPositionMS = endPosition.MS;
+                loop.EndPositionSamples = endPosition.Samples;
+
                 _libraryService.InsertLoop(loop);
                 _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
                     AudioFileId = loop.AudioFileId,
@@ -178,7 +190,7 @@ namespace Sessions.MVP.Presenters
         private void SelectLoop(SSPLoop loop)
         {
             // If there is a loop currently playing, stop the current loop
-            if (_loop != null && _loop.LoopId != loop.LoopId)
+            if (_loop != null && _loop.LoopId != loop.LoopId && _playerService.Loop != null)
             {
                 if (_playerService.IsPlayingLoop && _playerService.Loop.LoopId == _loop.LoopId)
                 {
@@ -242,70 +254,95 @@ namespace Sessions.MVP.Presenters
             }	        
 	    }
 
-//        private void PunchInLoopSegment(Segment segment)
-//        {
-//            try
-//            {
-//                var position = _playerService.GetPosition();
-//                float positionPercentage = (float)position.Bytes / (float)_audioFile.LengthBytes;
-//                ChangeSegmentPosition(segment, positionPercentage, true);
-//            }
-//            catch (Exception ex)
-//            {
-//                Tracing.Log("An error occured while punching in a segment: " + ex.Message);
-//                View.LoopError(ex);
-//            }
-//        }
-//
-//        private void ChangedLoopSegmentPosition(Segment segment, float positionPercentage)
-//        {
-//            ChangeSegmentPosition(segment, positionPercentage, true);
-//
-//            if(_playerService.IsPlayingLoop)
-//                _playerService.UpdateLoop(_loop);
-//        }
-//
-//        private void ChangingLoopSegmentPosition(Segment segment, float positionPercentage)
-//        {
-//            ChangeSegmentPosition(segment, positionPercentage, false);
-//        }
-//
-//        private void ChangeSegmentPosition(Segment segment, float positionPercentage, bool updateDatabase)
-//        {
-//            try
-//            {
-//                var startSegment = _loop.GetStartSegment();
-//                var endSegment = _loop.GetEndSegment();
-//
-//                // Make sure the loop length doesn't get below 0
-//                if (segment == startSegment && positionPercentage > ((float)endSegment.PositionBytes / (float)_audioFile.LengthBytes))
-//                {
-//                    positionPercentage = (float)endSegment.PositionBytes / (float)_audioFile.LengthBytes;
-//                }
-//                else if (segment == endSegment && positionPercentage < ((float)startSegment.PositionBytes / (float)_audioFile.LengthBytes))
-//                {
-//                    positionPercentage = (float)startSegment.PositionBytes / (float)_audioFile.LengthBytes;
-//                }
-//
-//                segment.SetPositionFromPercentage(positionPercentage, _audioFile.LengthBytes, _audioFile);
-//
-//                if (updateDatabase)
-//                {
-//                    _libraryService.UpdateSegment(segment);
-//                    _messageHub.PublishAsync(new LoopUpdatedMessage(this)
-//                    {
-//                        AudioFileId = _audioFile.Id,
-//                        LoopId = _loop.LoopId
-//                    });
-//                }
-//
-//                View.RefreshLoopSegment(_loop, segment, _audioFile.LengthBytes);
-//            }
-//            catch (Exception ex)
-//            {
-//                Tracing.Log("An error occured while calculating the segment position: " + ex.Message);
-//                View.LoopError(ex);
-//            }
-//        }
+        private void PunchInLoopSegment(SSPLoopSegmentType segmentType)
+        {
+            try
+            {
+                var position = _playerService.GetPosition();
+                float positionPercentage = (float)position.Bytes / (float)_audioFile.LengthBytes;
+                ChangeSegmentPosition(segmentType, positionPercentage, true);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while punching in a segment: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
+
+        private void ChangedLoopSegmentPosition(SSPLoopSegmentType segmentType, float positionPercentage)
+        {
+            ChangeSegmentPosition(segmentType, positionPercentage, true);
+            UpdateLoop(_loop);
+
+            if (_playerService.IsPlayingLoop)
+                _playerService.UpdateLoop(_loop);
+        }
+
+        private void ChangingLoopSegmentPosition(SSPLoopSegmentType segmentType, float positionPercentage)
+        {
+            ChangeSegmentPosition(segmentType, positionPercentage, false);
+        }
+
+        private void ChangeSegmentPosition(SSPLoopSegmentType segmentType, float positionPercentage, bool updateDatabase)
+        {
+            try
+            {
+                // Make sure the loop length doesn't get below 0
+                if (segmentType == SSPLoopSegmentType.Start && positionPercentage > ((float)_loop.EndPositionBytes / (float)_audioFile.LengthBytes))
+                {
+                    positionPercentage = (float)_loop.EndPositionBytes / (float)_audioFile.LengthBytes;
+                }
+                else if (segmentType == SSPLoopSegmentType.End && positionPercentage < ((float)_loop.StartPositionBytes / (float)_audioFile.LengthBytes))
+                {
+                    positionPercentage = (float)_loop.StartPositionBytes / (float)_audioFile.LengthBytes;
+                }
+
+                var pos = _playerService.GetPositionFromPercentage(positionPercentage);
+                switch (segmentType)
+                {
+                    case SSPLoopSegmentType.Start:
+                        _loop.StartPosition = pos.Str;
+                        _loop.StartPositionBytes = pos.Bytes;
+                        _loop.StartPositionSamples = pos.Samples;
+                        _loop.StartPositionMS = pos.MS;
+                        break;
+                    case SSPLoopSegmentType.End:
+                        _loop.EndPosition = pos.Str;
+                        _loop.EndPositionBytes = pos.Bytes;
+                        _loop.EndPositionSamples = pos.Samples;
+                        _loop.EndPositionMS = pos.MS;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("segmentType");
+                }
+
+                long loopLength = _loop.EndPositionBytes - _loop.StartPositionBytes;
+                var length = _playerService.GetPositionFromBytes(loopLength);
+                _loop.Length = length.Str;
+                _loop.LengthBytes = length.Bytes;
+                _loop.LengthMS = length.MS;
+                _loop.LengthSamples = length.Samples;
+
+                if (updateDatabase)
+                {
+                    _libraryService.UpdateLoop(_loop);
+                    _messageHub.PublishAsync(new LoopUpdatedMessage(this)
+                    {
+                        AudioFileId = _audioFile.Id,
+                        LoopId = _loop.LoopId
+                    });
+                }
+
+                if (_playerService.IsPlayingLoop)
+                {
+                    View.RefreshCurrentlyPlayingLoop(_loop);
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while calculating the segment position: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
     }
 }

@@ -51,6 +51,7 @@ namespace Sessions.GenericControls.Controls
         private BasicPen _penTransparent;
         private BasicPen _penBorder;
 
+        public bool UseFloatingPoint { get; set; }
         public BasicRectangle Frame { get; set; }
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
@@ -147,7 +148,8 @@ namespace Sessions.GenericControls.Controls
             // The scale doesn't have to fit right at the end, it must only show 'major' positions
             // Scale majors: 1 minute > 30 secs > 10 secs > 5 secs > 1 sec
             // 10 'ticks' between each major scale; the left, central and right ticks are higher than the others
-            long lengthSamples = ConvertAudio.ToPCM(_audioFileLength, _audioFile.BitsPerSample, _audioFile.AudioChannels);
+            long length = UseFloatingPoint ? _audioFileLength/2 : _audioFileLength;
+            long lengthSamples = ConvertAudio.ToPCM(length, _audioFile.BitsPerSample, _audioFile.AudioChannels);
             long lengthMilliseconds = ConvertAudio.ToMS(lengthSamples, _audioFile.SampleRate);
             float totalSeconds = (float)lengthMilliseconds / 1000f;
             float totalMinutes = totalSeconds / 60f;

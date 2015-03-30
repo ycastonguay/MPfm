@@ -30,53 +30,11 @@ namespace Sessions.WPF.Classes.Controls
     {
         private readonly WaveFormScaleControl _control;
 
-        public AudioFile AudioFile
-        {
-            get
-            {
-                return _control.AudioFile;
-            }
-            set
-            {
-                _control.AudioFile = value;
-            }
-        }
-
-        public long AudioFileLength
-        {
-            get
-            {
-                return _control.AudioFileLength;
-            }
-            set
-            {
-                _control.AudioFileLength = value;
-            }
-        }
-
-        public float Zoom
-        {
-            get
-            {
-                return _control.Zoom;
-            }
-            set
-            {
-                _control.Zoom = value;
-            }
-        }
-
-        public BasicPoint ContentOffset
-        {
-            get
-            {
-                return _control.ContentOffset;
-            }
-            set
-            {
-                _control.ContentOffset = value;
-            }
-        }  
+        public bool UseFloatingPoint { get { return _control.UseFloatingPoint; } set { _control.UseFloatingPoint = value; } }
+        public AudioFile AudioFile { get { return _control.AudioFile; } set { _control.AudioFile = value; } }
+        public long AudioFileLength { get { return _control.AudioFileLength; } set { _control.AudioFileLength = value; } }
+        public float Zoom { get { return _control.Zoom; } set { _control.Zoom = value; } }
+        public BasicPoint ContentOffset { get { return _control.ContentOffset; } set { _control.ContentOffset = value; } }  
 
         public WaveFormScale()
         {

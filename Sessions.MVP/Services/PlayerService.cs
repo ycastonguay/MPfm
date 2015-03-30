@@ -446,6 +446,11 @@ namespace Sessions.MVP.Services
             return _sspPlayer.GetPosition();
         }
 
+        public SSPPosition GetPositionFromBytes(long bytes)
+        {
+            return _sspPlayer.GetPositionFromBytes(bytes);
+        }
+
         public SSPPosition GetPositionFromPercentage(double percentage)
         {
             return _sspPlayer.GetPositionFromPercentage(percentage);            

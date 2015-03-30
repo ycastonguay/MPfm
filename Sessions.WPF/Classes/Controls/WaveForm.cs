@@ -36,94 +36,19 @@ namespace Sessions.WPF.Classes.Controls
     {
         private readonly WaveFormControl _control;
 
-        public long Position
-        {
-            get
-            {
-                return _control.Position;
-            }
-            set
-            {
-                _control.Position = value;
-            }
-        }
-
-        public long SecondaryPosition
-        {
-            get
-            {
-                return _control.SecondaryPosition;
-            }
-            set
-            {
-                _control.SecondaryPosition = value;
-            }
-        }
-
-        public bool ShowSecondaryPosition
-        {
-            get
-            {
-                return _control.ShowSecondaryPosition;
-            }
-            set
-            {
-                _control.ShowSecondaryPosition = value;
-            }
-        }
-
-        public float Zoom
-        {
-            get
-            {
-                return _control.Zoom;
-            }
-            set
-            {
-                _control.Zoom = value;
-            }
-        }
-
-        public BasicPoint ContentOffset
-        {
-            get
-            {
-                return _control.ContentOffset;
-            }
-            set
-            {
-                _control.ContentOffset = value;
-            }
-        }
-
-        public WaveFormControl.InputInteractionMode InteractionMode
-        {
-            get
-            {
-                return _control.InteractionMode;
-            }
-            set
-            {
-                _control.InteractionMode = value;
-            }
-        }
-
-        public WaveFormDisplayType DisplayType
-        {
-            get
-            {
-                return _control.DisplayType;
-            }
-            set
-            {
-                _control.DisplayType = value;
-            }
-        }
+        public bool UseFloatingPoint { get { return _control.UseFloatingPoint; } set { _control.UseFloatingPoint = value; } }
+        public long Position { get { return _control.Position; } set { _control.Position = value; } }
+        public long SecondaryPosition { get { return _control.SecondaryPosition; } set { _control.SecondaryPosition = value; } }
+        public bool ShowSecondaryPosition { get { return _control.ShowSecondaryPosition; } set { _control.ShowSecondaryPosition = value; } }
+        public float Zoom { get { return _control.Zoom; } set { _control.Zoom = value; } }
+        public BasicPoint ContentOffset { get { return _control.ContentOffset; } set { _control.ContentOffset = value; } }
+        public WaveFormControl.InputInteractionMode InteractionMode { get { return _control.InteractionMode; } set { _control.InteractionMode = value; } }
+        public WaveFormDisplayType DisplayType { get { return _control.DisplayType; } set { _control.DisplayType = value; } }
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
-        //public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
-        //public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
 
         public WaveForm()
         {
@@ -141,8 +66,8 @@ namespace Sessions.WPF.Classes.Controls
             }));
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
-            //_control.OnChangingSegmentPosition += (segment, bytes) => OnChangingSegmentPosition(segment, bytes);
-            //_control.OnChangedSegmentPosition += (segment, bytes) => OnChangedSegmentPosition(segment, bytes);
+            _control.OnChangingSegmentPosition += (segmentType, bytes) => OnChangingSegmentPosition(segmentType, bytes);
+            _control.OnChangedSegmentPosition += (segmentType, bytes) => OnChangedSegmentPosition(segmentType, bytes);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
         }
 
@@ -170,11 +95,6 @@ namespace Sessions.WPF.Classes.Controls
         {
             _control.SetLoop(loop);
         }
-
-        //public void SetSegment(Segment segment)
-        //{
-        //    _control.SetSegment(segment);
-        //}
 
         public void LoadPeakFile(AudioFile audioFile)
         {

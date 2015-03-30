@@ -119,8 +119,14 @@ namespace Sessions.Sound.Player
 
         public float Volume
         {
-            get { return SSP.SSP_GetVolume(); }
-            set { SSP.SSP_SetVolume(value); }
+            get
+            {
+                return SSP.SSP_GetVolume();
+            }
+            set
+            {
+                SSP.SSP_SetVolume(value);
+            }
         }
 
         public int PitchShifting
@@ -142,7 +148,10 @@ namespace Sessions.Sound.Player
 
         public bool IsPlayingLoop
         {
-            get { return SSP.SSP_GetIsPlayingLoop(); }
+            get
+            {
+                return SSP.SSP_GetIsPlayingLoop();
+            }
         }
 
         public SSPPlayer()
@@ -410,6 +419,13 @@ namespace Sessions.Sound.Player
             var position = new SSPPosition();
             CheckForError(SSP.SSP_GetPosition(ref position.Struct));
             return position;
+        }
+
+        public SSPPosition GetPositionFromBytes(long bytes)
+        {
+            var position = new SSPPosition();
+            CheckForError(SSP.SSP_GetPositionFromBytes(bytes, ref position.Struct));
+            return position;            
         }
 
         public SSPPosition GetPositionFromPercentage(double percentage)

@@ -73,7 +73,14 @@ namespace Sessions.WPF.Classes.Specifications
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         }
 
-        public List<string> GetRootFolderPaths()
+        public IEnumerable<string> GetMusicFolderPaths()
+        {
+            var folders = new List<string>();
+            folders.Add(GetMusicFolderPath());
+            return folders;
+        }
+
+        public IEnumerable<string> GetRootFolderPaths()
         {
             return new List<string>();
         }

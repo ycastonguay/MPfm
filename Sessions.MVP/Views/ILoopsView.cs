@@ -30,6 +30,10 @@ namespace Sessions.MVP.Views
         Action<SSPLoop> OnPlayLoop { get; set; }
         Action<SSPLoop> OnUpdateLoop { get; set; }
 
+        Action<SSPLoopSegmentType> OnPunchInLoopSegment { get; set; }
+        Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
+        Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
+
         void LoopError(Exception ex);
         void RefreshCurrentlyPlayingLoop(SSPLoop loop);
         void RefreshLoops(List<SSPLoop> loops);

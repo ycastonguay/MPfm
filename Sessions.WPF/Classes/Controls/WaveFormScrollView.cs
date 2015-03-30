@@ -94,16 +94,16 @@ namespace Sessions.WPF.Classes.Controls
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
-        //public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
-        //public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangingSegmentPosition;
+        public event WaveFormControl.ChangeSegmentPosition OnChangedSegmentPosition;
 
         public WaveFormScrollView()
         {
             WaveFormView = new WaveForm();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
             WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
-            //WaveFormView.OnChangingSegmentPosition += (segment, bytes) => OnChangingSegmentPosition(segment, bytes);
-            //WaveFormView.OnChangedSegmentPosition += (segment, bytes) => OnChangedSegmentPosition(segment, bytes);
+            WaveFormView.OnChangingSegmentPosition += (segmentType, bytes) => OnChangingSegmentPosition(segmentType, bytes);
+            WaveFormView.OnChangedSegmentPosition += (segmentType, bytes) => OnChangedSegmentPosition(segmentType, bytes);
             
             WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
@@ -301,6 +301,12 @@ namespace Sessions.WPF.Classes.Controls
             WaveFormScaleView.Reset();
         }
 
+        public void SetFloatingPoint(bool useFloatingPoint)
+        {
+            WaveFormView.UseFloatingPoint = useFloatingPoint;
+            WaveFormScaleView.UseFloatingPoint = useFloatingPoint;
+        }
+
         public void SetWaveFormLength(long lengthBytes)
         {
             _waveFormLength = lengthBytes;
@@ -346,11 +352,6 @@ namespace Sessions.WPF.Classes.Controls
         {
             WaveFormView.SetLoop(loop);
         }
-
-        //public void SetSegment(Segment segment)
-        //{
-        //    WaveFormView.SetSegment(segment);
-        //}
 
         private void SetContentOffsetX(float x)
         {

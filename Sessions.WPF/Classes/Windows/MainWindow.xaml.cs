@@ -106,8 +106,8 @@ namespace Sessions.WPF.Classes.Windows
             songGridView.MenuItemClicked += SongGridViewOnMenuItemClicked;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
-            //scrollViewWaveForm.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
-            //scrollViewWaveForm.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
+            scrollViewWaveForm.OnChangingSegmentPosition += ScrollViewWaveForm_OnChangingSegmentPosition;
+            scrollViewWaveForm.OnChangedSegmentPosition += ScrollViewWaveForm_OnChangedSegmentPosition;
 
             InitializeComboBoxes();
             EnableMarkerButtons(false);
@@ -422,11 +422,7 @@ namespace Sessions.WPF.Classes.Windows
             lblPosition.Content = position.Str;
 
             // The wave form scroll view isn't aware of floating point
-            long positionBytes = position.Bytes;
-            if (_currentSongInfo.UseFloatingPoint)
-                positionBytes /= 2;
-
-            scrollViewWaveForm.SetSecondaryPosition(positionBytes);
+            scrollViewWaveForm.SetSecondaryPosition(position.Bytes);
         }
 
         private void FaderVolume_OnFaderValueChanged(object sender, EventArgs e)
@@ -899,7 +895,7 @@ namespace Sessions.WPF.Classes.Windows
             {
                 var loop = frameworkElement.DataContext as SSPLoop;
                 OnSelectLoop(loop);
-                //if (loop != null) OnPunchInLoopSegment(loop.GetStartSegment());
+                if (loop != null) OnPunchInLoopSegment(SSPLoopSegmentType.Start);
             }
         }
 
@@ -910,7 +906,7 @@ namespace Sessions.WPF.Classes.Windows
             {
                 var loop = frameworkElement.DataContext as SSPLoop;
                 OnSelectLoop(loop);
-                //if (loop != null) OnPunchInLoopSegment(loop.GetEndSegment());
+                if (loop != null) OnPunchInLoopSegment(SSPLoopSegmentType.End);
             }
         }
 
@@ -981,15 +977,15 @@ namespace Sessions.WPF.Classes.Windows
             btnRemoveLoop.Enabled = enabled;
         }
 
-        //private void ScrollViewWaveForm_OnChangingSegmentPosition(Segment segment, float positionPercentage)
-        //{
-        //    OnChangingLoopSegmentPosition(segment, positionPercentage);
-        //}
+        private void ScrollViewWaveForm_OnChangingSegmentPosition(SSPLoopSegmentType segmentType, float positionPercentage)
+        {
+            OnChangingLoopSegmentPosition(segmentType, positionPercentage);
+        }
 
-        //private void ScrollViewWaveForm_OnChangedSegmentPosition(Segment segment, float positionPercentage)
-        //{
-        //    OnChangedLoopSegmentPosition(segment, positionPercentage);
-        //}
+        private void ScrollViewWaveForm_OnChangedSegmentPosition(SSPLoopSegmentType segmentType, float positionPercentage)
+        {
+            OnChangedLoopSegmentPosition(segmentType, positionPercentage);
+        }
 
         private void SliderMarkerPosition_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -1375,6 +1371,8 @@ namespace Sessions.WPF.Classes.Windows
         #region IPlayerView implementation
 
         public bool IsOutputMeterEnabled { get { return true; } }
+        public bool IsPlayerPerformanceEnabled { get { return false; } }
+
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -1447,14 +1445,19 @@ namespace Sessions.WPF.Classes.Windows
                     return;
 
                 // The wave form scroll view isn't aware of floating point
-                long positionBytes = position.Bytes;
-                if (_currentSongInfo.UseFloatingPoint)
-                    positionBytes /= 2;
-
                 lblPosition.Content = position.Str;
                 trackPosition.Value = (int)(((float)position.Bytes / (float)_currentSongInfo.AudioFile.LengthBytes) * 1000f);
-                scrollViewWaveForm.SetPosition(positionBytes);
+                scrollViewWaveForm.SetPosition(position.Bytes);
                 //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
+            }));
+        }
+
+        public void RefreshPlayerPerformance(float cpu, UInt32 bufferDataAvailable)
+        {
+            Console.WriteLine("[PlayerPerformance] CPU: {0:0.0} - Buffer: {1}", cpu, bufferDataAvailable);
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                lblSubtitleSongPosition.Content = string.Format("CPU: {0:0.0}% - Buffer: {1:0.0}kb", cpu, bufferDataAvailable / 1000f);
             }));
         }
 
@@ -1520,12 +1523,8 @@ namespace Sessions.WPF.Classes.Windows
 
                     songGridView.NowPlayingAudioFileId = audioFile.Id;                    
 
-                    // The wave form scroll view isn't aware of floating point
-                    long lengthWaveForm = entity.AudioFile.LengthBytes;
-                    if (entity.UseFloatingPoint)
-                        lengthWaveForm /= 2;
-
-                    scrollViewWaveForm.SetWaveFormLength(lengthWaveForm);
+                    scrollViewWaveForm.SetFloatingPoint(entity.UseFloatingPoint);
+                    scrollViewWaveForm.SetWaveFormLength(audioFile.LengthBytes);
                     scrollViewWaveForm.LoadPeakFile(audioFile);
 
                     string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
@@ -1736,9 +1735,9 @@ namespace Sessions.WPF.Classes.Windows
         public Action<SSPLoop> OnPlayLoop { get; set; }
         public Action<SSPLoop> OnUpdateLoop { get; set; }
 
-        //public Action<Segment> OnPunchInLoopSegment { get; set; }
-        //public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
-        //public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
+        public Action<SSPLoopSegmentType> OnPunchInLoopSegment { get; set; }
+        public Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
+        public Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
 
         public void LoopError(Exception ex)
         {
