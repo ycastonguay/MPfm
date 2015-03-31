@@ -162,10 +162,7 @@
     <Compile Include="Objects\PlayerTimeShifting.cs" />
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
-    <Compile Include="Services\DecodingService.cs" />
-    <Compile Include="Services\Interfaces\IDecodingService.cs" />
-    <Compile Include="Legacy\IPlayer.cs" />
-    <Compile Include="Legacy\Player.cs" />
+	<Compile Include="Playlists\PlaylistFile.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">

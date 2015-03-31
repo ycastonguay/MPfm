@@ -152,8 +152,6 @@
   <ItemGroup>
     <None Include="Lib\Android\taglib-sharp.dll" />
     <None Include="Lib\iOS\taglib-sharp.dll" />
-    <None Include="Lib\Bass.Net.dll" />
-    <None Include="Lib\iOS\Bass.Net.iOS.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\iOS\" />
@@ -161,7 +159,6 @@
     <Folder Include="PeakFiles\" />
     <Folder Include="Readers\" />
     <Folder Include="libssp_player\" />
-    <Folder Include="Legacy\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
@@ -237,9 +234,6 @@
     <Compile Include="Objects\PlayerTimeShifting.cs" />
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
-    <Compile Include="Services\DecodingService.cs" />
-    <Compile Include="Services\Interfaces\IDecodingService.cs" />
-    <Compile Include="Legacy\IPlayer.cs" />
-    <Compile Include="Legacy\Player.cs" />
+    <Compile Include="Playlists\PlaylistFile.cs" />
   </ItemGroup>
 </Project>

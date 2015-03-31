@@ -13,6 +13,8 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -92,12 +94,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Sessions.Core\Sessions.Core.Android.csproj">
-      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
-      <Name>Sessions.Core.Android</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
     <Compile Include="AudioFiles\AudioTools.cs" />
     <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
@@ -171,9 +167,6 @@
     <Compile Include="Objects\PlayerTimeShifting.cs" />
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
-    <Compile Include="Services\DecodingService.cs" />
-    <Compile Include="Services\Interfaces\IDecodingService.cs" />
-    <Compile Include="Legacy\IPlayer.cs" />
-    <Compile Include="Legacy\Player.cs" />
+    <Compile Include="Playlists\PlaylistFile.cs" />
   </ItemGroup>
 </Project>

@@ -207,9 +207,7 @@
     <Compile Include="Objects\AuthenticationToken.cs" />
     <Compile Include="Objects\CloudDeviceInfo.cs" />
     <Compile Include="Objects\CloudPlaylist.cs" />
-    <Compile Include="Objects\PlaylistAudioFile.cs" />
     <Compile Include="Objects\NetworkState.cs" />
-    <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />
     <Compile Include="Objects\Setting.cs" />
     <Compile Include="Database\SQLiteGateway.cs" />

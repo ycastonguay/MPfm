@@ -28,6 +28,7 @@ using Sessions.Library.UpdateLibrary;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Sessions.Sound.CueFiles;
+using Sessions.Sound.Playlists;
 
 
 #if (MACOSX || LINUX)

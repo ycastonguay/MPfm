@@ -28,6 +28,7 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Objects;
 using Sessions.Sound.Player;
+using Sessions.Sound.Playlists;
 
 namespace Sessions.Library.Services
 {
@@ -469,27 +470,6 @@ namespace Sessions.Library.Services
         public void DeletePlaylist(Guid playlistId)
         {
             _gateway.Delete("Playlists", "PlaylistId", playlistId);
-        }
-
-        #endregion
-
-        // TODO: Is this still used? I thought Playlists were no longer saved in the database
-        #region Playlist Items
-
-        public List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId)
-        {
-            return _gateway.Select<PlaylistAudioFile>("SELECT * FROM PlaylistItems WHERE PlaylistId = '" + playlistId.ToString() + "'");
-        }
-
-        public void InsertPlaylistItem(PlaylistAudioFile playlistItem)
-        {
-            _gateway.Insert<PlaylistAudioFile>(playlistItem, "PlaylistItems");
-        }
-
-        public void DeletePlaylistItem(Guid playlistId, Guid audioFileId)
-        {
-            // TODO: Why isn't this implemented?
-            //_gateway.Delete("Playlists", "PlaylistId", playlistId);
         }
 
         #endregion
