@@ -64,6 +64,7 @@ namespace Sessions.iOS
 
         public void FirstRunError(Exception ex)
         {
+            ShowErrorDialog(ex);
         }
 
         #endregion

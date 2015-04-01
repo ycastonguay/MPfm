@@ -280,10 +280,7 @@ namespace Sessions.iOS
 
         public void MarkerError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("Marker Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshMarkers(List<Marker> markers)

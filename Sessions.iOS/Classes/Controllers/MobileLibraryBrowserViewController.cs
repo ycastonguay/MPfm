@@ -1147,10 +1147,7 @@ namespace Sessions.iOS.Classes.Controllers
 
         public void MobileLibraryBrowserError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("MobileLibraryBrowser Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public async void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)

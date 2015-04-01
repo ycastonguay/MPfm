@@ -87,10 +87,7 @@ namespace Sessions.iOS
 
         public void StartResumePlaybackError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("StartResumePlayback Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public async void RefreshCloudDeviceInfo(CloudDeviceInfo device, AudioFile audioFile)

@@ -74,10 +74,7 @@ namespace Sessions.iOS
 
         public void SyncDownloadError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Sync Download Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshDevice(SyncDevice device)

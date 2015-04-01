@@ -67,10 +67,7 @@ namespace Sessions.iOS
 
         public void SyncWebBrowserError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("Sync Web Browser Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshContent(string url, string authenticationCode)

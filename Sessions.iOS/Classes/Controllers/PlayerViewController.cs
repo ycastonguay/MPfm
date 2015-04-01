@@ -592,10 +592,7 @@ namespace Sessions.iOS.Classes.Controllers
 
         public void PlayerError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alert = new UIAlertView("An error occured in Player", ex.Message, null, "OK", null);
-                alert.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void PushSubView(IBaseView view)
@@ -606,6 +603,9 @@ namespace Sessions.iOS.Classes.Controllers
         public void RefreshPlayerPosition(SSPPosition position)
         {
             InvokeOnMainThread(() => {
+                if(_currentSongInfo == null || _currentSongInfo.AudioFile == null)
+                    return;
+
                 _currentPositionMS = position.MS;
                 if(!_isPositionChanging)
                 {

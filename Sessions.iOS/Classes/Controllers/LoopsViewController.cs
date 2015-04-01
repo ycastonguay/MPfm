@@ -65,12 +65,13 @@ namespace Sessions.iOS
         public Action<SSPLoop> OnUpdateLoop { get; set; }
         public Action<SSPLoop> OnPlayLoop { get; set; }
 
+        public Action<SSPLoopSegmentType> OnPunchInLoopSegment { get; set; }
+        public Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
+        public Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
+
         public void LoopError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("Loop Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshLoops(List<SSPLoop> loops)

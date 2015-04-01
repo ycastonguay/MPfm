@@ -275,18 +275,12 @@ namespace Sessions.iOS
 
         public void SyncMenuError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Sync Menu Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void SyncEmptyError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Sync Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshDevice(SyncDevice device)

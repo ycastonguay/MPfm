@@ -401,6 +401,7 @@ namespace Sessions.iOS.Classes.Controls
             Slider.Hidden = item.CellType != PreferenceCellType.Slider;
             SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.CellType != PreferenceCellType.Slider && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
             ValueTextField.Hidden = item.CellType != PreferenceCellType.Integer;
+            ValueTextLabel.Hidden = item.CellType != PreferenceCellType.Slider;
             MinValueTextLabel.Hidden = item.CellType != PreferenceCellType.Slider;
             MaxValueTextLabel.Hidden = item.CellType != PreferenceCellType.Slider;
 

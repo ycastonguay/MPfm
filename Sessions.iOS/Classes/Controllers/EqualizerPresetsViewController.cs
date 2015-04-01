@@ -68,11 +68,6 @@ namespace Sessions.iOS
             switchBypass.On = false;
             switchBypass.ValueChanged += HandleSwitchBypassValueChanged;
 
-            //sliderMasterVolume.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
-            //sliderMasterVolume.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            //sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            //sliderMasterVolume.ValueChanged += HandleSliderMasterVolumeValueChanged;
-
             var btnDone = new SessionsFlatButton();
             btnDone.Label.Text = "Done";
             btnDone.Frame = new RectangleF(0, 0, 70, 44);
@@ -123,12 +118,6 @@ namespace Sessions.iOS
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindEqualizerPresetsView(null, this);
         }
-
-//        private void HandleSliderMasterVolumeValueChanged(object sender, EventArgs e)
-//        {
-//            lblMasterVolumeValue.Text = sliderMasterVolume.Value.ToString("0") + " %";
-//            OnSetVolume(sliderMasterVolume.Value / 100);
-//        }
 
         private void HandleButtonAddTouchUpInside()
         {
@@ -210,12 +199,8 @@ namespace Sessions.iOS
                 var oldCell = (SessionsEqualizerTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
                 if (oldCell != null)
                 {
-                    //oldCell.ContainerBackgroundView.BackgroundColor = UIColor.Blue; //GlobalTheme.SecondaryColor;
                     oldCell.IsDarkBackground = false;
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-//                      oldCell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
-//                      oldCell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
-//                      oldCell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
                         oldCell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.EditButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
@@ -247,9 +232,6 @@ namespace Sessions.iOS
                     cell.EditButton.Alpha = 0;
                     cell.DuplicateButton.Alpha = 0;
                     cell.DeleteButton.Alpha = 0;
-//                  cell.PlayButton.Frame = new RectangleF(4, 25, 100, 44);
-//                  cell.AddButton.Frame = new RectangleF(108, 25, 100, 44);
-//                  cell.DeleteButton.Frame = new RectangleF(212, 25, 100, 44);
 
                     cell.ContainerBackgroundView.BackgroundColor = GlobalTheme.SecondaryColor;
                     cell.IsDarkBackground = true;
@@ -271,9 +253,6 @@ namespace Sessions.iOS
                         cell.TitleTextLabel.TextColor = UIColor.White;
                         cell.SubtitleTextLabel.TextColor = UIColor.White;
 
-//                      cell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
-//                      cell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
-//                      cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
                         cell.EditButton.UpdateLayout();
                         cell.DuplicateButton.UpdateLayout();
                         cell.DeleteButton.UpdateLayout();
@@ -328,28 +307,21 @@ namespace Sessions.iOS
             cell.GraphView.Preset = _presets[indexPath.Row];
             cell.TitleTextLabel.Text = _presets[indexPath.Row].Name;
             cell.Accessory = UITableViewCellAccessory.None;
-            //cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
-
             cell.CheckmarkImageView.Hidden = _presets[indexPath.Row].EQPresetId != _selectedPresetId;
-            //if (_presets[indexPath.Row].EQPresetId == _selectedPresetId)
-//                cell.Accessory = UITableViewCellAccessory.Checkmark;
-            
+
             bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
             cell.IsDarkBackground = isEditing;
-            //cell.ContainerBackgroundView.BackgroundColor = isEditing ? UIColor.Green : UIColor.Purple; //GlobalTheme.BackgroundColor;// : UIColor.Green;
             cell.ContainerBackgroundView.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
             cell.EditButton.Alpha = isEditing ? 1 : 0;
             cell.DuplicateButton.Alpha = isEditing ? 1 : 0;
             cell.DeleteButton.Alpha = isEditing ? 1 : 0;
             cell.TitleTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
             cell.SubtitleTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Gray;
-            //cell.IndexTextLabel.TextColor = isEditing ? UIColor.White : UIColor.FromRGB(0.5f, 0.5f, 0.5f);
 
             if (isEditing)
             {
                 cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                 cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
-//                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                 cell.EditButton.Transform = CGAffineTransform.MakeScale(1, 1);
                 cell.DuplicateButton.Transform = CGAffineTransform.MakeScale(1, 1);
                 cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
@@ -358,7 +330,6 @@ namespace Sessions.iOS
             {
                 cell.TitleTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
                 cell.SubtitleTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
-//                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
                 cell.EditButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                 cell.DuplicateButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                 cell.DeleteButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
@@ -392,21 +363,19 @@ namespace Sessions.iOS
             return isEditing ? SessionsEqualizerTableViewCell.ExpandedCellHeight : SessionsEqualizerTableViewCell.StandardCellHeight;
         }
 
-        private void SetCheckmarkCell(NSIndexPath indexPath)
+        private void SetCheckmarkCell(NSIndexPath indexPath, bool uncheckIfAlreadyChecked = true)
         {
-            // _selectedPresetId = _presets[indexPath.Row].EQPresetId;
             var presetId = _presets[indexPath.Row].EQPresetId;
 
             // Reset checkmarks
             foreach (var visibleCell in tableView.VisibleCells)
             {
-                //visibleCell.Accessory = UITableViewCellAccessory.None;
                 var cellToRemove = visibleCell as SessionsEqualizerTableViewCell;
                 cellToRemove.IsPresetSelected = false;
             }
 
             // If selecting a cell that's already checked, then uncheck this cell
-            if (presetId == _selectedPresetId)
+            if (presetId == _selectedPresetId && uncheckIfAlreadyChecked)
             {
                 _selectedPresetId = Guid.Empty;
                 return;
@@ -420,7 +389,6 @@ namespace Sessions.iOS
                 var cellToAdd = cell as SessionsEqualizerTableViewCell;
                 cellToAdd.IsPresetSelected = true;
             }
-                //tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
         }
 
         private void HandleTableViewEditTouchUpInside(object sender, EventArgs e)
@@ -482,7 +450,7 @@ namespace Sessions.iOS
                 tableView.ReloadData();
                 int index = _presets.FindIndex(x => x.EQPresetId == _selectedPresetId);
                 if(index >= 0) {
-                    SetCheckmarkCell(NSIndexPath.FromRowSection(index, 0));
+                    SetCheckmarkCell(NSIndexPath.FromRowSection(index, 0), false);
                 }
             });
         }
@@ -500,10 +468,7 @@ namespace Sessions.iOS
 
         public void RefreshVolume(float volume)
         {
-            InvokeOnMainThread(() => {
-                //sliderMasterVolume.Value = volume * 100;
-                //lblMasterVolumeValue.Text = (volume * 100).ToString("0") + " %";
-            });
+            // On iOS, we use the MPVolumeView, so the volume is controlled by iOS.
         }
 
         #endregion

@@ -144,10 +144,7 @@ namespace Sessions.iOS
 
         public void SelectPlaylistError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("SelectPlaylist Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshPlaylists(List<PlaylistEntity> playlists)

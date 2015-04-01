@@ -150,10 +150,7 @@ namespace Sessions.iOS
 
         public void CloudPreferencesError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("CloudPreferences error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshCloudPreferences(CloudAppConfig config)

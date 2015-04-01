@@ -240,10 +240,7 @@ namespace Sessions.iOS
 
         public void SyncCloudError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         #endregion

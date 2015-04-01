@@ -96,10 +96,7 @@ namespace Sessions.iOS
 
         public void TimeShiftingError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Time shifting error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
 		public void RefreshTimeShifting(PlayerTimeShifting entity)

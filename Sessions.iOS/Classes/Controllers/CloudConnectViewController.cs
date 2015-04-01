@@ -33,9 +33,16 @@ namespace Sessions.iOS
 
 		public override void WillAnimateRotation(UIInterfaceOrientation toInterfaceOrientation, double duration)
 		{
-			var screenSize = UIKitHelper.GetDeviceSize();
-			View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+            View.SetNeedsLayout();
 		}
+
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+            var screenSize = UIKitHelper.GetDeviceSize();
+            View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+            viewPanel.Center = View.Center;
+        }
 
         partial void actionOK(NSObject sender)
         {

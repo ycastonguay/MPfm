@@ -156,10 +156,7 @@ namespace Sessions.iOS
 
         public void PitchShiftingError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Time shifting error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshKeys(List<Tuple<int, string>> keys)

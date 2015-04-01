@@ -170,10 +170,7 @@ namespace Sessions.iOS
 
         public void LibraryPreferencesError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Library Preferences error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
 		public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)

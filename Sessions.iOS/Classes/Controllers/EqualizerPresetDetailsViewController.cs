@@ -158,7 +158,7 @@ namespace Sessions.iOS
         {
             if (_isPresetModified)
             {
-                UIAlertView alertView = new UIAlertView("Equalizer preset has been modified", "Are you sure you wish to exit this screen without saving?", null, "OK", new string[1] {"Cancel"});
+                var alertView = new UIAlertView("Equalizer preset has been modified", "Are you sure you wish to exit this screen without saving?", null, "OK", new string[1] {"Cancel"});
                 alertView.Dismissed += (sender2, e2) => {
                     if(e2.ButtonIndex == 0)
                     {
@@ -176,7 +176,7 @@ namespace Sessions.iOS
 
         private void HandleButtonResetTouchUpInside(object sender, EventArgs e)
         {
-            UIAlertView alertView = new UIAlertView("Equalizer preset will be reset", "Are you sure you wish to reset this equalizer preset?", null, "OK", new string[1] {"Cancel"});
+            var alertView = new UIAlertView("Equalizer preset will be reset", "Are you sure you wish to reset this equalizer preset?", null, "OK", new string[1] {"Cancel"});
             alertView.Dismissed += (sender2, e2) => {
                 if(e2.ButtonIndex == 0)
                     OnResetPreset(false);
@@ -230,16 +230,13 @@ namespace Sessions.iOS
 
         public void EqualizerPresetDetailsError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("Equalizer Preset Details Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void ShowMessage(string title, string message)
         {
             InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView(title, message, null, "OK", null);
+                var alertView = new UIAlertView(title, message, null, "OK", null);
                 alertView.Show();
             });
         }

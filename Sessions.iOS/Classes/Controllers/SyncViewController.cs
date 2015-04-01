@@ -161,10 +161,7 @@ namespace Sessions.iOS
 
         public void SyncError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("Sync error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshIPAddress(string address)
