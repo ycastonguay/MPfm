@@ -339,5 +339,8 @@
     <Compile Include="Messages\AppInactiveMessage.cs" />
     <Compile Include="Messages\AppActivatedMessage.cs" />
     <Compile Include="Models\SongInformationEntity.cs" />
+    <Compile Include="Models\ResumePlaybackInfo.cs" />
+    <Compile Include="Models\ResumePlaybackInfoCloud.cs" />
+    <Compile Include="Models\ResumePlaybackInfoLocal.cs" />    
   </ItemGroup>
 </Project>

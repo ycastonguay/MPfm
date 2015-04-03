@@ -26,6 +26,7 @@ using Sessions.MVP.Models;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
 using Sessions.MVP.Views;
+using Sessions.MVP.Services;
 
 namespace Sessions.MVP.Navigation
 {
@@ -35,7 +36,7 @@ namespace Sessions.MVP.Navigation
     public abstract class MobileNavigationManager : INavigationManager
     {
         private readonly object _locker = new object();
-        private CloudDeviceInfo _resumeCloudDeviceInfo;
+        private ResumePlaybackInfo _resumePlaybackInfo;
 
         private IMobileMainView _mainView;
         private IMobileMainPresenter _mainPresenter;
@@ -149,9 +150,18 @@ namespace Sessions.MVP.Navigation
             else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
             {
                 Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Found audio file to resume from (from local config file)...");
-                var resumePlaybackService = Bootstrapper.GetContainer().Resolve<IResumePlaybackService>();
-                _resumeCloudDeviceInfo = resumePlaybackService.GetResumePlaybackInfo();
-                if (_resumeCloudDeviceInfo != null)
+
+                try 
+                {
+                    var resumePlaybackService = Bootstrapper.GetContainer().Resolve<IResumePlaybackService>();
+                    _resumePlaybackInfo = resumePlaybackService.TryToResumePlaybackFromLocalOrCloud();
+                } 
+                catch (Exception ex) 
+                {
+                    Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Failed to get resume playback info!");
+                }
+
+                if (_resumePlaybackInfo != null)
                 {
                     Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Found info from resume cloud device!");
                     CreatePlayerView(MobileNavigationTabType.Playlists);
@@ -625,12 +635,12 @@ namespace Sessions.MVP.Navigation
             _playerView.PushSubView(pitchShifting);
 
             // Check if the Start Resume Playback view must be shown after startup
-            if (_resumeCloudDeviceInfo != null)
+            if (_resumePlaybackInfo.Source == ResumePlaybackSourceType.LocalOrCloud)
             {
                 Tracing.Log("MobileNavigationManager - BindPlayerView - showing Start Resume Playback view...");
                 var startResumePlaybackView = CreateStartResumePlaybackView();
                 PushDialogView(MobileDialogPresentationType.Overlay, "Resume Playback", _playerView, startResumePlaybackView);
-                _resumeCloudDeviceInfo = null;
+                _resumePlaybackInfo = null;
             }
         }
 
@@ -997,14 +1007,14 @@ namespace Sessions.MVP.Navigation
 
         public virtual IStartResumePlaybackView CreateStartResumePlaybackView()
         {
-            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "resumePlaybackInfo", _resumePlaybackInfo } });
             return _startResumePlaybackView;
         }
 
         public virtual void BindStartResumePlaybackView(IStartResumePlaybackView view)
         {
             _startResumePlaybackView = view;
-            _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
+            _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "resumePlaybackInfo", _resumePlaybackInfo } });
             _startResumePlaybackPresenter.BindView(view);
             _startResumePlaybackView.OnViewDestroy = (view2) =>
             {

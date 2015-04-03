@@ -16,16 +16,17 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Sessions.MVP.Config;
-using Sessions.MVP.Services.Interfaces;
-using Sessions.MVP.Bootstrap;
 using System.Collections.Generic;
 using System.Linq;
 using Sessions.Core;
 using Sessions.Library;
 using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
+using Sessions.MVP.Config;
+using Sessions.MVP.Services.Interfaces;
 using Sessions.Sound.AudioFiles;
+using System.IO;
+using Sessions.MVP.Models;
 
 namespace Sessions.MVP.Services
 {	
@@ -34,116 +35,156 @@ namespace Sessions.MVP.Services
 	/// </summary>
     public class ResumePlaybackService : IResumePlaybackService
 	{
-        public CloudDeviceInfo GetResumePlaybackInfo()
+        private readonly IPlayerService _playerService;
+        private readonly ICloudLibraryService _cloudLibraryService;
+        private readonly IAudioFileCacheService _audioFileCacheService;
+        private readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
+
+        public ResumePlaybackService(IPlayerService playerService, ICloudLibraryService cloudLibraryService, 
+                                     IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications syncDeviceSpecifications)
         {
-            CloudDeviceInfo resumeCloudDeviceInfo = null;
-            var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-            var cloudLibraryService = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
-            var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
-            var syncDeviceSpecs = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
+            _playerService = playerService;
+            _cloudLibraryService = cloudLibraryService;
+            _audioFileCacheService = audioFileCacheService;
+            _syncDeviceSpecifications = syncDeviceSpecifications;
+        }
 
-            // Compare timestamps from cloud vs local
-            var infos = new List<CloudDeviceInfo>();
-            try
+        private IEnumerable<CloudDeviceInfo> GetDeviceInfosOrderedByTimestamp()
+        {
+            var infos = _cloudLibraryService.GetDeviceInfos();
+            if (infos != null)
             {
-                infos = cloudLibraryService.GetDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
-            }
-            catch (Exception ex)
-            {
-                // TODO: When an exception is thrown, it is not shown to the user because this is done in a delegate.
-                // Not being able to connect to the cloud is a minor error; keep on starting the app as if there was no info for resuming                    
+                var orderedInfos = infos.OrderByDescending(x => x.Timestamp).ToList();
+                return orderedInfos;
             }
 
+            return infos;
+        }
+
+        public ResumePlaybackInfoCloud FindResumableCloudDevice()
+        {
             CloudDeviceInfo cloudDeviceInfo = null;
             AudioFile audioFileCloud = null;
-            AudioFile audioFileLocal = null;
-            string localDeviceName = syncDeviceSpecs.GetDeviceName();
-            //DateTime localTimestamp = AppConfigManager.Instance.Root.ResumePlayback.Timestamp;
-            DateTime localTimestamp = DateTime.MinValue; // Temporary for testing purposes
+            string localDeviceName = _syncDeviceSpecifications.GetDeviceName();
+
+            var infos = GetDeviceInfosOrderedByTimestamp();
+            if(infos == null)
+                return null;
+
             foreach (var deviceInfo in infos)
             {
-                // Make sure the timestamp is earlier than local, and that this isn't actually the same device!
-                if (deviceInfo.Timestamp > localTimestamp && deviceInfo.DeviceName != localDeviceName)
+                // Make sure we aren't trying to resume from the local device
+                if (deviceInfo.DeviceName != localDeviceName)
                 {
-                    // Check if the file can be found in the database
-                    Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Cloud device {0} has earlier timestamp {1} compared to local timestamp {2}", deviceInfo.DeviceName, deviceInfo.Timestamp, localTimestamp);
-                    audioFileCloud = null;
-                    audioFileCloud = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == deviceInfo.AudioFileId);
+                    // Check if the file can be found in the database; try to find it by its identifier first
+                    audioFileCloud = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == deviceInfo.AudioFileId);
                     if (audioFileCloud == null)
                     {
-                        audioFileCloud = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == deviceInfo.ArtistName.ToUpper() &&
-                            x.AlbumTitle.ToUpper() == deviceInfo.AlbumTitle.ToUpper() &&
-                            x.Title.ToUpper() == deviceInfo.SongTitle.ToUpper());
+                        // Try to find it by its metadata (a little less likely to work)
+                        audioFileCloud = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == deviceInfo.ArtistName.ToUpper() &&
+                        x.AlbumTitle.ToUpper() == deviceInfo.AlbumTitle.ToUpper() &&
+                        x.Title.ToUpper() == deviceInfo.SongTitle.ToUpper());
                     }
                     if (audioFileCloud != null)
                     {
-                        cloudDeviceInfo = deviceInfo;
-                        Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Found audioFile {0}/{1}/{2} in database!", audioFileCloud.ArtistName, audioFileCloud.AlbumTitle, audioFileCloud.Title);
-                        break;
+                        // We found the album on this device!
+                        return new ResumePlaybackInfoCloud() { DeviceInfo = deviceInfo, AudioFile = audioFileCloud };
                     }
                 }
             }
 
-            // Try to get info to resume locally
-            double positionPercentage = 0;
-            Guid audioFileId = Guid.Empty;
-            if(!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
-                audioFileId = new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId);
-            audioFileLocal = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == audioFileId);
-            positionPercentage = AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage;
-            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resuming from local device with audioFile {0} at position {1}", audioFileId, positionPercentage);
+            return null;
+        }
 
-            // Try to resume playback
-            try
+        private AudioFile GetAudioFileFromLocalResumeInfo()
+        {
+            AudioFile audioFileLocal = null;
+            if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
             {
-                if (audioFileLocal != null || audioFileCloud != null)
+                var audioFileId = new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId);
+                audioFileLocal = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == audioFileId);
+                double positionPercentage = AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage;
+                Tracing.Log("ResumePlaybackService - GetAudioFileFromLocalResumeInfo - Got audioFile {0} at position {1}", audioFileId, positionPercentage);
+            }
+            return audioFileLocal;
+        }
+
+        //private ResumePlaybackSourceType SelectResumePlaybackSource(DateTime cloudTimestamp, AudioFile audioFileCloud, DateTime localTimestamp, AudioFile audioFileLocal)
+        private ResumePlaybackSourceType SelectResumePlaybackSource(ResumePlaybackInfo info)
+        {
+            if (info.Local.AudioFile == null && info.Cloud != null)
+            {
+                return ResumePlaybackSourceType.Cloud;
+            } 
+            else if (info.Cloud == null && info.Local.AudioFile != null)
+            {
+                return ResumePlaybackSourceType.Local;
+            } 
+            else if (info.Cloud != null && info.Local.AudioFile != null)
+            {
+                if (info.Local.Timestamp > info.Cloud.DeviceInfo.Timestamp)
                 {
-                    AudioFile audioFile = null;
-                    //List<AudioFile> audioFiles = new List<AudioFile>();
-                    if (audioFileLocal == null)
-                    {
-                        // We can only resume from the cloud!
-                        audioFile = audioFileCloud;
-                    }
-                    else if (audioFileCloud == null)
-                    {
-                        // We can only resume from the local device!
-                        audioFile = audioFileLocal;
-                    }
-                    else
-                    {
-                        // By default, resume from local device before showing dialog, so that when the user clicks cancel, the playlist is already loaded.
-                        audioFile = audioFileLocal;
-
-                        // We can resume from both devices; compare timestamps to determine if the dialog must be shown
-                        if (cloudDeviceInfo.Timestamp > localTimestamp)
-                        {
-                            // A cloud device has a timestamp that is earlier than the local device.
-                            // Keep a flag to show the Start Resume Playback view when the Player view will be created. Or else the view will be pushed too soon!
-                            resumeCloudDeviceInfo = cloudDeviceInfo;
-                        }
-                    }
-
-                    // Limit the value in case we try to skip beyond 100%
-                    if (positionPercentage > 1)
-                        positionPercentage = 0.99;
-
-                    Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resume playback is available; showing Player view...");
-                    var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
+                    // If the time stamp from the local device is more recent than the cloud timestamp, we select the local device automatically
+                    return ResumePlaybackSourceType.Local;
                 }
                 else
                 {
-                    // No info to resume; skip this step and go to IMobileMainView                    
+                    // Display a dialog for the user to select between local or cloud
+                    return ResumePlaybackSourceType.LocalOrCloud;
                 }
             }
-            catch(Exception ex)
+
+            return ResumePlaybackSourceType.None;
+        }
+
+        public ResumePlaybackInfo TryToResumePlaybackFromLocalOrCloud()
+        {
+            AudioFile audioFileToResumeFrom = null;
+            var info = new ResumePlaybackInfo();
+
+            // Extract information for resuming playback from a previous local session
+            info.Local = new ResumePlaybackInfoLocal();
+            info.Local.Timestamp = DateTime.MinValue; // Force older timestamp for testing purposes // AppConfigManager.Instance.Root.ResumePlayback.Timestamp;
+            info.Local.AudioFile = GetAudioFileFromLocalResumeInfo();
+
+            // Extract information for resuming playback from another device connected to the cloud
+            info.Cloud = FindResumableCloudDevice();
+
+            // Call a method that will help us select the source from which we should resume the playback
+            info.Source = SelectResumePlaybackSource(info);
+            switch (info.Source)
             {
-                // If we cannot resume playback, this will simply go to IMobileMainView
-                Tracing.Log("MobileNavigationManager - Failed to resume playback: {0}", ex);
+                case ResumePlaybackSourceType.Local:
+                case ResumePlaybackSourceType.LocalOrCloud:
+                    // By default, we take the local resume, but we will display a popup and let the user choose between the two.
+                    audioFileToResumeFrom = info.Local.AudioFile;
+                    break;
+                case ResumePlaybackSourceType.Cloud:
+                    audioFileToResumeFrom = info.Cloud.AudioFile;
+                    break;
             }
 
-            return resumeCloudDeviceInfo;
+            if (audioFileToResumeFrom == null)
+                return info;
+
+            // Check if the files we want to play still exist (TODO: Shouldn't this be done in PlayerService instead?)
+            Tracing.Log("ResumePlaybackService - TryToResumePlaybackFromLocalOrCloud - Resuming playback from {0}...", info.Source);
+            var audioFilesToResumeFrom = _audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFileToResumeFrom.ArtistName && x.AlbumTitle == audioFileToResumeFrom.AlbumTitle).ToList();
+            var audioFilesToPlay = new List<AudioFile>();
+            foreach (var audioFile in audioFilesToResumeFrom)
+            {
+                if (File.Exists(audioFile.FilePath))
+                    audioFilesToPlay.Add(audioFile);
+            }
+
+            if (audioFilesToPlay.Count > 0)
+            {
+                // Start playback (paused); only the position information is available from a local resume
+                double positionPercentage = info.Source == ResumePlaybackSourceType.Local ? Math.Min(1, AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage) : 0;
+                _playerService.Play(audioFilesToResumeFrom, audioFileToResumeFrom.FilePath, positionPercentage * 100, true, true);
+            }
+
+            return info;
         }
     }
 }

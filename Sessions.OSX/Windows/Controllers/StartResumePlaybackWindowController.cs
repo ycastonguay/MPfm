@@ -26,6 +26,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.OSX.Classes.Objects;
 using System.Threading.Tasks;
 using System.Drawing;
+using Sessions.MVP.Models;
 
 namespace Sessions.OSX
 {
@@ -167,18 +168,20 @@ namespace Sessions.OSX
             ShowError(ex);
         }
 
-        public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
+        public void RefreshCloudDeviceInfo(ResumePlaybackInfo resumePlaybackInfo)
         {
+            var deviceInfo = resumePlaybackInfo.Cloud.DeviceInfo;
+            var audioFile = resumePlaybackInfo.Cloud.AudioFile;
             InvokeOnMainThread(() =>
             {
-                lblDeviceName.StringValue = info.DeviceName;
+                lblDeviceName.StringValue = deviceInfo.DeviceName;
                 lblArtistName.StringValue = audioFile.ArtistName;
                 lblAlbumTitle.StringValue = audioFile.AlbumTitle;
                 lblSongTitle.StringValue = audioFile.Title;
-                lblLastUpdated.StringValue = string.Format("Last updated: {0}", info.Timestamp);
+                lblLastUpdated.StringValue = string.Format("Last updated: {0}", deviceInfo.Timestamp);
 
                 SyncDeviceType deviceType = SyncDeviceType.Unknown;
-                Enum.TryParse<SyncDeviceType>(info.DeviceType, out deviceType);
+                Enum.TryParse<SyncDeviceType>(deviceInfo.DeviceType, out deviceType);
                 LoadDeviceIcon(deviceType);
                 LoadAlbumArt(audioFile);
             });

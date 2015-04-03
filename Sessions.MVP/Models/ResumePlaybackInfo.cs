@@ -16,13 +16,21 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Sessions.MVP.Models;
 
-namespace Sessions.MVP.Services.Interfaces
-{
-    public interface IResumePlaybackService
-	{		
-        ResumePlaybackInfoCloud FindResumableCloudDevice();
-        ResumePlaybackInfo TryToResumePlaybackFromLocalOrCloud();
-	}
+namespace Sessions.MVP.Models
+{	
+    public class ResumePlaybackInfo
+    {
+        public ResumePlaybackSourceType Source { get; set; }
+        public ResumePlaybackInfoCloud Cloud { get; set; }
+        public ResumePlaybackInfoLocal Local { get; set; }
+    }
+
+    public enum ResumePlaybackSourceType
+    {
+        None = 0,
+        Local = 1,
+        Cloud = 2,
+        LocalOrCloud = 3 // Display a dialog to let the user select the source
+    }
 }

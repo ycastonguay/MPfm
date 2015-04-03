@@ -15,14 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Sessions.MVP.Models;
+using Sessions.Library.Objects;
+using Sessions.Sound.AudioFiles;
 
-namespace Sessions.MVP.Services.Interfaces
-{
-    public interface IResumePlaybackService
-	{		
-        ResumePlaybackInfoCloud FindResumableCloudDevice();
-        ResumePlaybackInfo TryToResumePlaybackFromLocalOrCloud();
-	}
+namespace Sessions.MVP.Models
+{	
+    public class ResumePlaybackInfoCloud
+    {
+        public AudioFile AudioFile { get; set; }
+        public CloudDeviceInfo DeviceInfo { get; set; }
+    }
+    
 }

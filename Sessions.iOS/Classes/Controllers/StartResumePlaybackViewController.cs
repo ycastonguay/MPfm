@@ -16,17 +16,16 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using Sessions.Library.Objects;
-using Sessions.MVP.Views;
+using System.Threading.Tasks;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
-using Sessions.MVP.Navigation;
-using Sessions.MVP.Bootstrap;
-using System.Threading.Tasks;
 using Sessions.iOS.Helpers;
+using Sessions.MVP.Bootstrap;
+using Sessions.MVP.Models;
+using Sessions.MVP.Navigation;
+using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 
 namespace Sessions.iOS
@@ -90,8 +89,11 @@ namespace Sessions.iOS
             ShowErrorDialog(ex);
         }
 
-        public async void RefreshCloudDeviceInfo(CloudDeviceInfo device, AudioFile audioFile)
+        public async void RefreshCloudDeviceInfo(ResumePlaybackInfo resumePlaybackInfo)
         {
+            var device = resumePlaybackInfo.Cloud.DeviceInfo;
+            var audioFile = resumePlaybackInfo.Cloud.AudioFile;
+
             InvokeOnMainThread(() => {
                 lblDeviceName.Text = device.DeviceName;
                 lblPlaylistName.Text = "On-the-fly Playlist";

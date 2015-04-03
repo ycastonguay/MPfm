@@ -28,6 +28,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
+using Sessions.MVP.Models;
 
 namespace Sessions.Android.Classes.Fragments
 {
@@ -94,16 +95,17 @@ namespace Sessions.Android.Classes.Fragments
             ShowErrorDialog(ex);
         }
 
-        public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
+        public void RefreshCloudDeviceInfo(ResumePlaybackInfo resumePlaybackInfo)
         {
+            var deviceInfo = resumePlaybackInfo.Cloud.DeviceInfo;
             Activity.RunOnUiThread(() =>
             {
-                _lblDeviceName.Text = info.DeviceName;
+                _lblDeviceName.Text = deviceInfo.DeviceName;
                 _lblPlaylistName.Text = "On-the-fly playlist";
-                _lblArtistName.Text = info.ArtistName;
-                _lblAlbumTitle.Text = info.AlbumTitle;
-                _lblSongTitle.Text = info.SongTitle;
-                _lblTimestamp.Text = string.Format("Last updated: {0} {1}", info.Timestamp.ToShortDateString(), info.Timestamp.ToLongTimeString());
+                _lblArtistName.Text = deviceInfo.ArtistName;
+                _lblAlbumTitle.Text = deviceInfo.AlbumTitle;
+                _lblSongTitle.Text = deviceInfo.SongTitle;
+                _lblTimestamp.Text = string.Format("Last updated: {0} {1}", deviceInfo.Timestamp.ToShortDateString(), deviceInfo.Timestamp.ToLongTimeString());
             });
         }
 

@@ -2045,10 +2045,10 @@ namespace Sessions.OSX
         public Action<SSPLoop> OnUpdateLoop { get; set; }
         public Action<SSPLoop> OnPlayLoop { get; set; }
 
-//        public Action<Segment> OnPunchInLoopSegment { get; set; }
-//        public Action<Segment, float> OnChangingLoopSegmentPosition { get; set; }
-//        public Action<Segment, float> OnChangedLoopSegmentPosition { get; set; }
-//
+        public Action<SSPLoopSegmentType> OnPunchInLoopSegment { get; set; }
+        public Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
+        public Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
+
         public void LoopError(Exception ex)
         {
             ShowError(ex);

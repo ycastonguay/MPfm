@@ -16,13 +16,14 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Sessions.MVP.Models;
+using Sessions.Sound.AudioFiles;
 
-namespace Sessions.MVP.Services.Interfaces
-{
-    public interface IResumePlaybackService
-	{		
-        ResumePlaybackInfoCloud FindResumableCloudDevice();
-        ResumePlaybackInfo TryToResumePlaybackFromLocalOrCloud();
-	}
+namespace Sessions.MVP.Models
+{	
+    public class ResumePlaybackInfoLocal
+    {
+        public AudioFile AudioFile { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+    
 }

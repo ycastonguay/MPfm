@@ -146,7 +146,6 @@
     <Folder Include="Presenters\Interfaces\" />
     <Folder Include="Config\" />
     <Folder Include="Messages\" />
-    <Folder Include="Lib\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -291,7 +290,6 @@
     <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
     <Compile Include="Config\Models\WindowAppConfig.cs" />
     <Compile Include="Config\Models\WindowsAppConfig.cs" />
-    <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
     <Compile Include="Views\IPreferencesView.cs" />
     <Compile Include="Presenters\Interfaces\IGeneralPreferencesPresenter.cs" />
@@ -367,7 +365,6 @@
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
     <Compile Include="Views\IDesktopEffectsView.cs" />
-    <Compile Include="Services\LifecycleService.cs" />
     <Compile Include="Services\Interfaces\ILifecycleService.cs" />
     <Compile Include="Services\Interfaces\IResumePlaybackService.cs" />
     <Compile Include="Services\ResumePlaybackService.cs" />
@@ -388,6 +385,7 @@
     <Compile Include="Presenters\Interfaces\ILoopPlaybackPresenter.cs" />
     <Compile Include="Presenters\LoopPlaybackPresenter.cs" />
     <Compile Include="Services\DownloadImageProvider.cs" />
+    <Compile Include="Services\LifecycleService.cs" />
     <Compile Include="Services\DownloadImageService.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageProvider.cs" />
     <Compile Include="Services\Interfaces\IDownloadImageService.cs" />
@@ -397,5 +395,9 @@
     <Compile Include="Messages\AppInactiveMessage.cs" />
     <Compile Include="Messages\AppActivatedMessage.cs" />
     <Compile Include="Models\SongInformationEntity.cs" />
+    <Compile Include="Models\ResumePlaybackInfo.cs" />
+    <Compile Include="Models\ResumePlaybackInfoCloud.cs" />
+    <Compile Include="Models\ResumePlaybackInfoLocal.cs" />
+    <Compile Include="Services\PlayerService.cs" />
   </ItemGroup>
 </Project>

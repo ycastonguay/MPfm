@@ -16,9 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using Sessions.Library.Objects;
-using Sessions.Sound.AudioFiles;
+using Sessions.MVP.Models;
 
 namespace Sessions.MVP.Views
 {
@@ -30,6 +28,6 @@ namespace Sessions.MVP.Views
         Action OnResumePlayback { get; set; }
 
         void StartResumePlaybackError(Exception ex);
-        void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile);
+        void RefreshCloudDeviceInfo(ResumePlaybackInfo resumePlaybackInfo);
 	}
 }

@@ -25,6 +25,8 @@ using TinyIoC;
 using Sessions.MVP.Views;
 using Sessions.MVP.Presenters.Interfaces;
 using Sessions.MVP.Services.Interfaces;
+using Sessions.MVP.Services;
+using Sessions.MVP.Models;
 
 namespace Sessions.MVP.Navigation
 {
@@ -33,71 +35,71 @@ namespace Sessions.MVP.Navigation
     /// </summary>
     public abstract class NavigationManager
     {
-        private CloudDeviceInfo _resumeCloudDeviceInfo;
+        private ResumePlaybackInfo _resumePlaybackInfo;
 
-        IAboutView _aboutView;
-        IAboutPresenter _aboutPresenter;
-        ISplashView _splashView;
-        ISplashPresenter _splashPresenter;
+        private IAboutView _aboutView;
+        private IAboutPresenter _aboutPresenter;
+        private ISplashView _splashView;
+        private ISplashPresenter _splashPresenter;
 
-        IMainView _mainView;
-        IMainPresenter _mainPresenter;
-        IPlayerPresenter _playerPresenter;
-        ILibraryBrowserPresenter _libraryBrowserPresenter;
-        ISongBrowserPresenter _songBrowserPresenter;
-        IMarkersPresenter _markersPresenter;
-        ILoopsPresenter _loopsPresenter;
-        ITimeShiftingPresenter _timeShiftingPresenter;
-        IPitchShiftingPresenter _pitchShiftingPresenter;
+        private IMainView _mainView;
+        private IMainPresenter _mainPresenter;
+        private IPlayerPresenter _playerPresenter;
+        private ILibraryBrowserPresenter _libraryBrowserPresenter;
+        private ISongBrowserPresenter _songBrowserPresenter;
+        private IMarkersPresenter _markersPresenter;
+        private ILoopsPresenter _loopsPresenter;
+        private ITimeShiftingPresenter _timeShiftingPresenter;
+        private IPitchShiftingPresenter _pitchShiftingPresenter;
 
-        IResumePlaybackView _resumePlaybackView;
-        IResumePlaybackPresenter _resumePlaybackPresenter;
-        IStartResumePlaybackView _startResumePlaybackView;
-        IStartResumePlaybackPresenter _startResumePlaybackPresenter;
+        private IResumePlaybackView _resumePlaybackView;
+        private IResumePlaybackPresenter _resumePlaybackPresenter;
+        private IStartResumePlaybackView _startResumePlaybackView;
+        private IStartResumePlaybackPresenter _startResumePlaybackPresenter;
 
-        IMarkerDetailsView _markerDetailsView;
-        IMarkerDetailsPresenter _markerDetailsPresenter;
-        ILoopDetailsView _loopDetailsView;
-        ILoopDetailsPresenter _loopDetailsPresenter;
+        private IMarkerDetailsView _markerDetailsView;
+        private IMarkerDetailsPresenter _markerDetailsPresenter;
+        private ILoopDetailsView _loopDetailsView;
+        private ILoopDetailsPresenter _loopDetailsPresenter;
 
-        ISelectAlbumArtView _selectAlbumArtView;
-        ISelectAlbumArtPresenter _selectAlbumArtPresenter;
+        private ISelectAlbumArtView _selectAlbumArtView;
+        private ISelectAlbumArtPresenter _selectAlbumArtPresenter;
 
-        IFirstRunView _firstRunView;
-        IFirstRunPresenter _firstRunPresenter;
+        private IFirstRunView _firstRunView;
+        private IFirstRunPresenter _firstRunPresenter;
 
-        IEditSongMetadataView _editSongMetadataView;
-        IEditSongMetadataPresenter _editSongMetadataPresenter;
+        private IEditSongMetadataView _editSongMetadataView;
+        private IEditSongMetadataPresenter _editSongMetadataPresenter;
 
-        IDesktopPreferencesView _preferencesView;
-        IAudioPreferencesPresenter _audioPreferencesPresenter;
-        ICloudPreferencesPresenter _cloudPreferencesPresenter;
-        IGeneralPreferencesPresenter _generalPreferencesPresenter;
-        ILibraryPreferencesPresenter _libraryPreferencesPresenter;
+        private IDesktopPreferencesView _preferencesView;
+        private IAudioPreferencesPresenter _audioPreferencesPresenter;
+        private ICloudPreferencesPresenter _cloudPreferencesPresenter;
+        private IGeneralPreferencesPresenter _generalPreferencesPresenter;
+        private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        ICloudConnectView _cloudConnectView;
-        ICloudConnectPresenter _cloudConnectPresenter;
+        private ICloudConnectView _cloudConnectView;
+        private ICloudConnectPresenter _cloudConnectPresenter;
 
-        IPlaylistView _playlistView;
-        IPlaylistPresenter _playlistPresenter;
+        private IPlaylistView _playlistView;
+        private IPlaylistPresenter _playlistPresenter;
 
-        IUpdateLibraryView _updateLibraryView;
-        IUpdateLibraryPresenter _updateLibraryPresenter;
+        private IUpdateLibraryView _updateLibraryView;
+        private IUpdateLibraryPresenter _updateLibraryPresenter;
 
-        IDesktopEffectsView _effectsView;
-        IEqualizerPresetsPresenter _equalizerPresetsPresenter;
-        IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
+        private IDesktopEffectsView _effectsView;
+        private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
+        private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
 
-        ISyncView _syncView;
-        ISyncPresenter _syncPresenter;
-        ISyncMenuView _syncMenuView;
-        ISyncMenuPresenter _syncMenuPresenter;
-        ISyncDownloadView _syncDownloadView;
-        ISyncDownloadPresenter _syncDownloadPresenter;
-        ISyncCloudView _syncCloudView;
-        ISyncCloudPresenter _syncCloudPresenter;
-        ISyncWebBrowserView _syncWebBrowserView;
-        ISyncWebBrowserPresenter _syncWebBrowserPresenter;
+        private ISyncView _syncView;
+        private ISyncPresenter _syncPresenter;
+        private ISyncMenuView _syncMenuView;
+        private ISyncMenuPresenter _syncMenuPresenter;
+        private ISyncDownloadView _syncDownloadView;
+        private ISyncDownloadPresenter _syncDownloadPresenter;
+        private ISyncCloudView _syncCloudView;
+        private ISyncCloudPresenter _syncCloudPresenter;
+        private ISyncWebBrowserView _syncWebBrowserView;
+        private ISyncWebBrowserPresenter _syncWebBrowserPresenter;
 
         public virtual ISplashView CreateSplashView()
         {
@@ -108,10 +110,10 @@ namespace Sessions.MVP.Navigation
                 try
                 {
                     var resumePlaybackService = Bootstrapper.GetContainer().Resolve<IResumePlaybackService>();
-                    _resumeCloudDeviceInfo = resumePlaybackService.GetResumePlaybackInfo();
+                    _resumePlaybackInfo = resumePlaybackService.TryToResumePlaybackFromLocalOrCloud();
                     CreateMainView();
 
-                    if(_resumeCloudDeviceInfo != null)
+                    if(_resumePlaybackInfo != null)
                         CreateStartResumePlaybackView();
                 }
                 catch(Exception ex)
@@ -518,12 +520,12 @@ namespace Sessions.MVP.Navigation
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
+                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "resumePlaybackInfo", _resumePlaybackInfo } });
                 _startResumePlaybackPresenter.BindView((IStartResumePlaybackView)view);
             };
 
             // Create view and manage view destruction
-            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady }, { "device", _resumeCloudDeviceInfo } });
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady }, { "resumePlaybackInfo", _resumePlaybackInfo } });
             _startResumePlaybackView.OnViewDestroy = (view) =>
             {
                 _startResumePlaybackPresenter.ViewDestroyed();
