@@ -87,8 +87,12 @@ namespace Sessions.MVP.Services
             _sspPlayer = new SSPPlayer();
             _sspPlayer.StateChanged += HandleStateChanged;
             _sspPlayer.PlaylistIndexChanged += HandlePlaylistIndexChanged;
+            _sspPlayer.PlaylistEnded += HandlePlaylistEnded;
+            _sspPlayer.LoopPlaybackStarted += HandleLoopPlaybackStarted;
+            _sspPlayer.LoopPlaybackStopped += HandleLoopPlaybackStopped;
+            _sspPlayer.BPMDetected += HandleBPMDetected;
             _sspPlayer.Init();
-		}     
+		}
 
         public void Dispose()
         {
@@ -155,10 +159,27 @@ namespace Sessions.MVP.Services
             });
         }
 
-        private void HandleOnBPMDetected(float bpm)
+        private void HandlePlaylistEnded(IntPtr user)
+        {
+            // TODO: Handle playlist ended
+        }
+
+        private void HandleLoopPlaybackStarted(IntPtr user)
+        {
+            if (OnLoopPlaybackStarted != null)
+                OnLoopPlaybackStarted(user);
+        }
+
+        private void HandleLoopPlaybackStopped(IntPtr user)
+        {
+            if (OnLoopPlaybackStopped != null)
+                OnLoopPlaybackStopped(user);
+        }
+
+        private void HandleBPMDetected(IntPtr user, float bpm)
         {
             if (OnBPMDetected != null)
-                OnBPMDetected(IntPtr.Zero, bpm);
+                OnBPMDetected(user, bpm);
         }
 
         public void InitDevice(SSPDevice device, int sampleRate, int bufferSize, int updatePeriod)

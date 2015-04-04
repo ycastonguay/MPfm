@@ -41,13 +41,21 @@ namespace Sessions.Sound.Player
 
         private LogDelegate _logDelegate;
         private PlaylistIndexChangedDelegate _playlistIndexChangedDelegate;
+        private PlaylistEndedDelegate _playlistEndedDelegate;
         private StateChangedDelegate _stateDelegate;
         private AudioInterruptedDelegate _audioInterruptedDelegate;
+        private LoopPlaybackStartedDelegate _loopPlaybackStartedDelegate;
+        private LoopPlaybackStoppedDelegate _loopPlaybackStoppedDelegate;
+        private BPMDetectedDelegate _bpmDetectedDelegate;
 
         public event LogDelegate Log;
         public event PlaylistIndexChangedDelegate PlaylistIndexChanged;
+        public event PlaylistEndedDelegate PlaylistEnded;
         public event StateChangedDelegate StateChanged;
         public event AudioInterruptedDelegate AudioInterrupted;
+        public event LoopPlaybackStartedDelegate LoopPlaybackStarted;
+        public event LoopPlaybackStoppedDelegate LoopPlaybackStopped;
+        public event BPMDetectedDelegate BPMDetected;
 
         public int Version
         {
@@ -188,51 +196,85 @@ namespace Sessions.Sound.Player
             SSPPlayer.CurrentPlayer.HandlePlaylistIndexChanged(user);
         }
 
+        [MonoPInvokeCallback(typeof(PlaylistEndedDelegate))]
+        private static void HandlePlaylistEndedIOS(IntPtr user)
+        {
+            SSPPlayer.CurrentPlayer.HandlePlaylistEnded(user);
+        }
+
         [MonoPInvokeCallback(typeof(AudioInterruptedDelegate))]
         private static void HandleAudioInterruptedIOS(IntPtr user, bool ended)
         {
             SSPPlayer.CurrentPlayer.HandleAudioInterrupted(user, ended);
         }
 
-        #endif
+        [MonoPInvokeCallback(typeof(LoopPlaybackStartedDelegate))]
+        private static void HandleLoopPlaybackStartedIOS(IntPtr user)
+        {
+            SSPPlayer.CurrentPlayer.HandleLoopPlaybackStarted(user);
+        }
+
+        [MonoPInvokeCallback(typeof(LoopPlaybackEndedDelegate))]
+        private static void HandleLoopPlaybackEndedIOS(IntPtr user)
+        {
+            SSPPlayer.CurrentPlayer.HandleLoopPlaybackEnded(user);
+        }
+
+        [MonoPInvokeCallback(typeof(BPMDetectedDelegate))]
+        private static void HandleBPMDetectedIOS(IntPtr user, float bpm)
+        {
+            SSPPlayer.CurrentPlayer.HandleBPMDetected(user, bpm);
+        }
+
+#endif
 
         public void HandleLog(IntPtr user, string str)
         {
-            Tracing.Log("libssp_player - {0}", str);
-
             if (Log != null)
-            {
                 Log(user, str);
-            }
         }
 
         public void HandleStateChanged(IntPtr user, SSPPlayerState state)
         {
-            Tracing.Log("libssp_player - state changed {0}", state);
             if (StateChanged != null)
-            {
                 StateChanged(user, state);
-            }
         }
 
         public void HandlePlaylistIndexChanged(IntPtr user)
         {
-            Tracing.Log("libssp_player - playlist index changed");
             if (PlaylistIndexChanged != null)
-            {
                 PlaylistIndexChanged(user);
-            }
+        }
+
+        public void HandlePlaylistEnded(IntPtr user)
+        {
+            if (PlaylistEnded != null)
+                PlaylistEnded(user);
         }
 
         public void HandleAudioInterrupted(IntPtr user, bool ended)
         {
-            Tracing.Log("libssp_player - audio interrupted; ended: {0}", ended);
-
-            //Pause(); // not sure if this is even necessary
+            //Pause(); // TODO: not sure if this is even necessary
             if (AudioInterrupted != null)
-            {
                 AudioInterrupted(user, ended);
-            }
+        }
+
+        public void HandleLoopPlaybackStarted(IntPtr user)
+        {
+            if (LoopPlaybackStarted != null)
+                LoopPlaybackStarted(user);
+        }
+
+        public void HandleLoopPlaybackStopped(IntPtr user)
+        {
+            if (LoopPlaybackStopped != null)
+                LoopPlaybackStopped(user);
+        }
+
+        public void HandleBPMDetected(IntPtr user, float bpm)
+        {
+            if (BPMDetected != null)
+                BPMDetected(user, bpm);
         }
 
         private string GetPluginPath()
@@ -265,18 +307,30 @@ namespace Sessions.Sound.Player
             _logDelegate = new LogDelegate(HandleLogIOS);
             _stateDelegate = new StateChangedDelegate(HandleStateChangedIOS);
             _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChangedIOS);
+            _playlistEndedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistEndedIOS);
             _audioInterruptedDelegate = new AudioInterruptedDelegate(HandleAudioInterruptedIOS);
+            _loopPlaybackStartedDelegate = new LoopPlaybackStartedDelegate(HandleLoopPlaybackStartedIOS);
+            _loopPlaybackStoppedDelegate = new LoopPlaybackStoppedDelegate(HandleLoopPlaybackStoppedIOS);
+            _bpmDetectedDelegate = new BPMDetectedDelegate(HandleBPMDetectedIOS);
             #else
             _logDelegate = new LogDelegate(HandleLog);
             _stateDelegate = new StateChangedDelegate(HandleStateChanged);
             _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChanged);
+            _playlistEndedDelegate = new PlaylistEndedDelegate(HandlePlaylistEnded);
             _audioInterruptedDelegate = new AudioInterruptedDelegate(HandleAudioInterrupted);
+            _loopPlaybackStartedDelegate = new LoopPlaybackStartedDelegate(HandleLoopPlaybackStarted);
+            _loopPlaybackStoppedDelegate = new LoopPlaybackStoppedDelegate(HandleLoopPlaybackStopped);
+            _bpmDetectedDelegate = new BPMDetectedDelegate(HandleBPMDetected);
             #endif
 
             SSP.SSP_SetLogCallback(_logDelegate, IntPtr.Zero);
             SSP.SSP_SetStateChangedCallback(_stateDelegate, IntPtr.Zero);
             SSP.SSP_SetPlaylistIndexChangedCallback(_playlistIndexChangedDelegate, IntPtr.Zero);
+            SSP.SSP_SetPlaylistEndedCallback(_playlistEndedDelegate, IntPtr.Zero);
             SSP.SSP_SetAudioInterruptedCallback(_audioInterruptedDelegate, IntPtr.Zero);
+            SSP.SSP_SetLoopPlaybackStartedCallback(_loopPlaybackStartedDelegate, IntPtr.Zero);
+            SSP.SSP_SetLoopPlaybackStoppedCallback(_loopPlaybackStoppedDelegate, IntPtr.Zero);
+            SSP.SSP_SetBPMDetectedCallback(_bpmDetectedDelegate, IntPtr.Zero);
         }
         
         public void InitDevice(int deviceId, int sampleRate, int bufferSize, int updatePeriod, bool useFloatingPoint) 

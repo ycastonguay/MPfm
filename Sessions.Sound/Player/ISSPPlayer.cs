@@ -21,16 +21,16 @@ using System.Collections.Generic;
 
 namespace Sessions.Sound.Player
 {
-    /// <summary>
-    /// Interface for the Player class.
-    /// </summary>
     public interface ISSPPlayer : IDisposable
     {
-        // This will replace IPlayer, but should it replace IPlayerService? 
-        // IPlayerService manages AppConfigManager but also requires ICloudService and ILibraryService.
         event LogDelegate Log;
-        event StateChangedDelegate StateChanged;
         event PlaylistIndexChangedDelegate PlaylistIndexChanged;
+        event PlaylistEndedDelegate PlaylistEnded;
+        event StateChangedDelegate StateChanged;
+        event AudioInterruptedDelegate AudioInterrupted;
+        event LoopPlaybackStartedDelegate LoopPlaybackStarted;
+        event LoopPlaybackStoppedDelegate LoopPlaybackStopped;
+        event BPMDetectedDelegate BPMDetected;
 
         Playlist Playlist { get; }
 

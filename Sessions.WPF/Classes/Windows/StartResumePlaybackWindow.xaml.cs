@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Sessions.MVP.Models;
 using Sessions.WPF.Classes.Windows.Base;
 using Sessions.Library.Objects;
 using Sessions.MVP.Views;
@@ -64,15 +65,17 @@ namespace Sessions.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
+        public void RefreshCloudDeviceInfo(ResumePlaybackInfo resumePlaybackInfo)
         {
+            var deviceInfo = resumePlaybackInfo.Cloud.DeviceInfo;
+            var audioFile = resumePlaybackInfo.Cloud.AudioFile;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                lblDeviceName.Content = info.DeviceName;
+                lblDeviceName.Content = deviceInfo.DeviceName;
                 lblArtistName.Content = audioFile.ArtistName;
                 lblAlbumTitle.Content = audioFile.AlbumTitle;
                 lblSongTitle.Content = audioFile.Title;
-                lblLastUpdated.Content = string.Format("Last updated: {0}", info.Timestamp);
+                lblLastUpdated.Content = string.Format("Last updated: {0}", deviceInfo.Timestamp);
 
                 imageAlbum.Source = null;
                 var task = Task<BitmapImage>.Factory.StartNew(() =>

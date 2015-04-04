@@ -186,8 +186,8 @@ namespace Sessions.MVP.Presenters
             view.OnApplyAlbumArtToAlbum = ApplyAlbumArtToAlbum;
 
             // If the player is already playing, refresh initial data
-            if (_playerService.State == SSPPlayerState.Playing)
-            {
+            if (_playerService.State == SSPPlayerState.Playing || _playerService.State == SSPPlayerState.Paused)
+            {                
                 View.RefreshPlaylist(_playerService.Playlist);
                 View.RefreshSongInformation(new SongInformationEntity() {
                     AudioFile = _playerService.CurrentAudioFile,
@@ -198,6 +198,11 @@ namespace Sessions.MVP.Presenters
 
                 var markers = _libraryService.SelectMarkers(_playerService.CurrentAudioFile.Id);
                 View.RefreshMarkers(markers);
+
+                _timerRefreshSongPosition.Start();
+
+                if (View.IsOutputMeterEnabled)
+                    _timerOutputMeter.Start();                
             }
 
 //            #if !IOS
@@ -215,9 +220,6 @@ namespace Sessions.MVP.Presenters
                 VolumeString = "100%"
             });
             View.RefreshPlayerState(_playerService.State, _playerService.RepeatType, _playerService.IsShuffleEnabled);
-
-            if (_playerService.State == SSPPlayerState.Playing && View.IsOutputMeterEnabled)
-                _timerOutputMeter.Start();
         }
 
 	    public override void ViewDestroyed()
