@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Sessions.Sound.CueFiles;
 using Sessions.Sound.Playlists;
+using Sessions.Core.Helpers;
 
 
 #if (MACOSX || LINUX)
@@ -213,7 +214,7 @@ namespace Sessions.Library.Services
 	                if (_cancelUpdateLibrary) throw new UpdateLibraryException();							           				
 						
 					// Get current file path and calculate stats
-					string filePath = filePathsToUpdate.ElementAt(a);											
+					string filePath = filePathsToUpdate.ElementAt(a);                    
 			        float percentCompleted = ((float)a / (float)filePathsToUpdate.Count());
 					
 					try
@@ -241,6 +242,17 @@ namespace Sessions.Library.Services
                             else
                             {
                                 var audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
+
+                                // On iOS, the Documents path might change when updating the app, especially when updating the app in debug.
+                                // Thus we have to store a relative path instead, and complete this path dynamically when launching the app.
+                                #if IOS
+
+                                //string filePathWithHome = audioFile.FilePath.Replace(PathHelper.HomeDirectory, "%HOME%");
+                                //Console.WriteLine("--->>> FilePath        : {0}", filePath);
+                                //Console.WriteLine("--->>> FilePathWithHome: {0}", filePathWithHome);
+                                audioFile.FilePath = audioFile.FilePath.Replace(PathHelper.HomeDirectory, "%HOME%");
+                                #endif
+
                                 audioFiles.Add(audioFile);
                             }
 

@@ -52,7 +52,7 @@ namespace Sessions.MVP.Presenters
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
 
             // Refresh initial data if player is already playing
-            if (_playerService.State == SSPPlayerState.Playing)
+            if (_playerService.State == SSPPlayerState.Playing || _playerService.State == SSPPlayerState.Paused)
             {
                 var position = _playerService.GetPosition();
                 View.RefreshMetadata(_playerService.CurrentAudioFile, _playerService.Playlist.CurrentIndex, _playerService.Playlist.Count, position.MS, 0); //_playerService.CurrentPlaylistItem.LengthMilliseconds);

@@ -26,9 +26,10 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>i386</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -cxx -gcc_flags "-stdlib=libstdc++ -L${ProjectDir}/../libssp_player/output/ -framework Accelerate -framework AudioToolbox -framework CoreMIDI -framework CFNetwork -ObjC -lstdc++ -lssp_player ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -cxx -gcc_flags "-stdlib=libstdc++ -L${ProjectDir}/../libssp_player/output/ -framework Accelerate -framework AudioToolbox -framework CoreMIDI -framework CFNetwork -ObjC -lstdc++ -lssp_player -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
+    <MtouchProfiling>true</MtouchProfiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -40,7 +41,7 @@
     <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchArch>ARMv7</MtouchArch>
+    <MtouchArch>i386</MtouchArch>
     <MtouchSdkVersion>6.0</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -59,7 +60,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -cxx -gcc_flags "-stdlib=libstdc++ -L${ProjectDir}/../libssp_player/output/ -framework Accelerate -framework AudioToolbox -framework CoreMIDI -framework CFNetwork -ObjC -lstdc++ -lssp_player ${ProjectDir}/Lib/bass_missing_defs.o -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -cxx -gcc_flags "-stdlib=libstdc++ -L${ProjectDir}/../libssp_player/output/ -framework Accelerate -framework AudioToolbox -framework CoreMIDI -framework CFNetwork -ObjC -lstdc++ -lssp_player -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
     <CodesignProvision>c53580d8-6ed4-4fac-878e-22594aa761ec</CodesignProvision>
@@ -131,20 +132,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="Lib\libbass_ape.a" />
-    <None Include="Lib\libbass_fx.a" />
-    <None Include="Lib\libbass_mpc.a" />
-    <None Include="Lib\libbass.a" />
-    <None Include="Lib\libbassflac.a" />
-    <None Include="Lib\libbassmix.a" />
-    <None Include="Lib\libbasswv.a" />
     <None Include="Lib\taglib-sharp.dll" />
-    <None Include="Lib\libbassenc.a" />
     <None Include="Lib\DropBoxSync.iOS.dll" />
-    <None Include="bass_missing_defs.c" />
-    <None Include="Lib\bass_missing_defs.o" />
-    <None Include="Lib\libbassmidi.a" />
-    <None Include="Lib\libtags.a" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Controllers\PlayerViewController.designer.cs">

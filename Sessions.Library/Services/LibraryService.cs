@@ -29,6 +29,7 @@ using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Objects;
 using Sessions.Sound.Player;
 using Sessions.Sound.Playlists;
+using Sessions.Core.Helpers;
 
 namespace Sessions.Library.Services
 {
@@ -120,14 +121,34 @@ namespace Sessions.Library.Services
 
         #region Audio Files
 
+        /// <summary>
+        /// Update audio files paths to replace %HOME% by an actual home directory.
+        /// This is used to create dynamic paths for the iOS Documents folder, which can change over time.
+        /// </summary>
+        /// <param name="audioFiles">Audio file list to update</param>
+        private void UpdateAudioFilePaths(List<AudioFile> audioFiles)
+        {
+            foreach (var audioFile in audioFiles)
+                UpdateAudioFilePath(audioFile);
+        }
+
+        private void UpdateAudioFilePath(AudioFile audioFile)
+        {
+            audioFile.FilePath = audioFile.FilePath.Replace("%HOME%", PathHelper.HomeDirectory);
+        }
+
         public List<AudioFile> SelectAudioFiles()
         {
-            return _gateway.Select<AudioFile>("SELECT * FROM AudioFiles");
+            var audioFiles = _gateway.Select<AudioFile>("SELECT * FROM AudioFiles");
+            UpdateAudioFilePaths(audioFiles);
+            return audioFiles;
         }
 
         public List<AudioFile> SelectAudioFiles(LibraryQuery query)
         {
-            return SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
+            var audioFiles = SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
+            UpdateAudioFilePaths(audioFiles);
+            return audioFiles;
         }
         
         public List<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
@@ -169,13 +190,15 @@ namespace Sessions.Library.Services
                 }           
             }
 
-            List<AudioFile> audioFiles = _gateway.Select<AudioFile>(sql.ToString());
+            var audioFiles = _gateway.Select<AudioFile>(sql.ToString());
+            UpdateAudioFilePaths(audioFiles);
             return audioFiles;
         }
 
         public AudioFile SelectAudioFile(Guid audioFileId)
         {
-            AudioFile audioFile = _gateway.SelectOne<AudioFile>("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+            var audioFile = _gateway.SelectOne<AudioFile>("SELECT * FROM AudioFiles WHERE AudioFileId = '" + audioFileId.ToString() + "'");
+            UpdateAudioFilePath(audioFile);
             return audioFile;
         }
 

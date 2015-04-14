@@ -214,10 +214,10 @@ namespace Sessions.Sound.Player
             SSPPlayer.CurrentPlayer.HandleLoopPlaybackStarted(user);
         }
 
-        [MonoPInvokeCallback(typeof(LoopPlaybackEndedDelegate))]
-        private static void HandleLoopPlaybackEndedIOS(IntPtr user)
+        [MonoPInvokeCallback(typeof(LoopPlaybackStoppedDelegate))]
+        private static void HandleLoopPlaybackStoppedIOS(IntPtr user)
         {
-            SSPPlayer.CurrentPlayer.HandleLoopPlaybackEnded(user);
+            SSPPlayer.CurrentPlayer.HandleLoopPlaybackStopped(user);
         }
 
         [MonoPInvokeCallback(typeof(BPMDetectedDelegate))]
@@ -307,7 +307,7 @@ namespace Sessions.Sound.Player
             _logDelegate = new LogDelegate(HandleLogIOS);
             _stateDelegate = new StateChangedDelegate(HandleStateChangedIOS);
             _playlistIndexChangedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistIndexChangedIOS);
-            _playlistEndedDelegate = new PlaylistIndexChangedDelegate(HandlePlaylistEndedIOS);
+            _playlistEndedDelegate = new PlaylistEndedDelegate(HandlePlaylistEndedIOS);
             _audioInterruptedDelegate = new AudioInterruptedDelegate(HandleAudioInterruptedIOS);
             _loopPlaybackStartedDelegate = new LoopPlaybackStartedDelegate(HandleLoopPlaybackStartedIOS);
             _loopPlaybackStoppedDelegate = new LoopPlaybackStoppedDelegate(HandleLoopPlaybackStoppedIOS);
