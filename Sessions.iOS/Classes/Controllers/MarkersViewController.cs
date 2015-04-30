@@ -96,9 +96,9 @@ namespace Sessions.iOS
             cell.Tag = indexPath.Row;
             cell.BackgroundColor = UIColor.Clear;
             cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
-			cell.TextLabel.Text = item.Name;
+            cell.TitleTextLabel.Text = item.Name;
 			cell.TextField.Text = item.Name;
-			cell.DetailTextLabel.Text = item.Position;
+			cell.PositionTextLabel.Text = item.Position;
 			cell.Slider.Value = item.PositionPercentage;
 			cell.MarkerId = item.MarkerId;
 
