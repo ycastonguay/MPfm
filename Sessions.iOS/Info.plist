@@ -14,7 +14,7 @@
 	<key>CFBundleName</key>
 	<string>Sessions</string>
 	<key>MinimumOSVersion</key>
-	<string>6.0</string>
+	<string>8.0</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fonts/Junction.otf</string>
