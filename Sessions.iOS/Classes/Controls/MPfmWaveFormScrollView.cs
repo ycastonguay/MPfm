@@ -267,6 +267,12 @@ namespace Sessions.iOS.Classes.Controls
             WaveFormView.CancelPeakFile();
         }
 
+        public void SetFloatingPoint(bool useFloatingPoint)
+        {
+            WaveFormView.UseFloatingPoint = useFloatingPoint;
+            WaveFormScaleView.UseFloatingPoint = useFloatingPoint;
+        }
+
         public void SetWaveFormLength(long lengthBytes)
         {
             WaveFormView.Length = lengthBytes;

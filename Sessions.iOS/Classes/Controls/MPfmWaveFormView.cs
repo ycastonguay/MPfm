@@ -123,6 +123,18 @@ namespace Sessions.iOS.Classes.Controls
             }
         }
 
+        public bool UseFloatingPoint
+        {
+            get
+            {
+                return _control.UseFloatingPoint;
+            }
+            set
+            {
+                _control.UseFloatingPoint = value;
+            }
+        }
+
 		public SessionsWaveFormView(IntPtr handle) 
 			: base (handle)
 		{

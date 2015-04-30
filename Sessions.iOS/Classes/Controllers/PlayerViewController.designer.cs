@@ -88,6 +88,9 @@ namespace Sessions.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIView viewPlayerButtons { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIView viewPlayerButtonsGroup { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIView viewPosition { get; set; }
 
 		[Outlet]
@@ -218,6 +221,11 @@ namespace Sessions.iOS.Classes.Controllers
 			if (viewEffects != null) {
 				viewEffects.Dispose ();
 				viewEffects = null;
+			}
+
+			if (viewPlayerButtonsGroup != null) {
+				viewPlayerButtonsGroup.Dispose ();
+				viewPlayerButtonsGroup = null;
 			}
 
 			if (viewMain != null) {
