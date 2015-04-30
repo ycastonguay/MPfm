@@ -635,7 +635,7 @@ namespace Sessions.MVP.Navigation
             _playerView.PushSubView(pitchShifting);
 
             // Check if the Start Resume Playback view must be shown after startup
-            if (_resumePlaybackInfo.Source == ResumePlaybackSourceType.LocalOrCloud)
+            if (_resumePlaybackInfo != null && _resumePlaybackInfo.Source == ResumePlaybackSourceType.LocalOrCloud)
             {
                 Tracing.Log("MobileNavigationManager - BindPlayerView - showing Start Resume Playback view...");
                 var startResumePlaybackView = CreateStartResumePlaybackView();
