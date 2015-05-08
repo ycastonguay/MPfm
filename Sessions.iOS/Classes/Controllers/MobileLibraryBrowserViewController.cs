@@ -208,8 +208,7 @@ namespace Sessions.iOS.Classes.Controllers
 				iconName = "album";
 
 			//Tracing.Log("MLBVC - RefreshNavBar - defaultTitle: {0} navTitle: {1} iconName: {2}", defaultTitle, navTitle, iconName);
-			SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
-
+			var navCtrl = (SessionsNavigationController)this.NavigationController;
 			if(navCtrl != null)
 				navCtrl.SetTitle(navTitle, iconName);
 		}
@@ -951,7 +950,7 @@ namespace Sessions.iOS.Classes.Controllers
 
             if (_browserType == MobileLibraryBrowserType.Songs)
             {
-                cell.IndexTextLabel.Text = item.AudioFile.TrackNumber.ToString();
+                cell.SetIndexText(item.AudioFile.DiscTrackNumber);
                 cell.ImageAlbum1.Hidden = true;
                 cell.ImageAlbum2.Hidden = true;
                 cell.ImageAlbum3.Hidden = true;
@@ -1292,7 +1291,7 @@ namespace Sessions.iOS.Classes.Controllers
 						var distinctAlbums = entities.Where(x => x.AudioFile.ArtistName == artist).Select(x => x.AudioFile.AlbumTitle).OrderBy(x => x).Distinct().ToList();
 						foreach(var album in distinctAlbums)
 						{
-							var list = entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.TrackNumber).ToList();
+							var list = entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.DiscNumber).ThenBy(x => x.AudioFile.TrackNumber).ToList();
 
 							// Calculate total length
 							long ms = 0;

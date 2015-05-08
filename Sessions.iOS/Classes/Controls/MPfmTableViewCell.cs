@@ -276,6 +276,12 @@ namespace Sessions.iOS.Classes.Controls
 			ContainerView.AddSubview(DeleteButton);
         }
 
+        public void SetIndexText(string text)
+        {
+            IndexTextLabel.Text = text;
+            IndexTextLabel.Font = UIFont.FromName("HelveticaNeue", text.Length > 1 ? 12 : 16);
+        }
+
         private void HandleRightButtonTouchUpInside(object sender, EventArgs e)
         {
             if (OnRightButtonTap != null)
