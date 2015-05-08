@@ -33,19 +33,16 @@ using Sessions.Sound.Objects;
 
 namespace Sessions.MVP.Presenters
 {
-	/// <summary>
-	/// Markers view presenter.
-	/// </summary>
 	public class MarkersPresenter : BasePresenter<IMarkersView>, IMarkersPresenter
 	{
-        readonly ITinyMessengerHub _messageHub;
-        readonly MobileNavigationManager _mobileNavigationManager;
-        readonly NavigationManager _navigationManager;
-        readonly ILibraryService _libraryService;
-        readonly IPlayerService _playerService;
-	    List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
-        Guid _audioFileId = Guid.Empty;
-        List<Marker> _markers = new List<Marker>();
+        private readonly ITinyMessengerHub _messageHub;
+        private readonly MobileNavigationManager _mobileNavigationManager;
+        private readonly NavigationManager _navigationManager;
+        private readonly ILibraryService _libraryService;
+        private readonly IPlayerService _playerService;
+        private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
+        private Guid _audioFileId = Guid.Empty;
+        private List<Marker> _markers = new List<Marker>();
 
         public MarkersPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
@@ -129,37 +126,39 @@ namespace Sessions.MVP.Presenters
 
         private void AddMarkerWithTemplate(MarkerTemplateNameType markerTemplateNameType)
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                try
-                {
-                    // Create marker name from template type (check for markers sharing the same name)
-                    List<string> similarMarkers = _markers.Select(x => x.Name).Where(x => x.ToUpper().StartsWith(markerTemplateNameType.ToString().ToUpper())).ToList();
-                    string markerName = markerTemplateNameType.ToString() + " " + (similarMarkers.Count + 1).ToString();
+                // Create marker name from template type (check for markers sharing the same name)
+                List<string> similarMarkers = _markers.Select(x => x.Name).Where(x => x.ToUpper().StartsWith(markerTemplateNameType.ToString().ToUpper())).ToList();
+                string markerName = string.Format("{0} {1}", markerTemplateNameType, similarMarkers.Count + 1);
 
-                    // Create marker and add to database
-                    Marker marker = new Marker();
-                    marker.Name = markerName;
-                    marker.PositionBytes = _playerService.GetPosition().Bytes;
-                    marker.PositionSamples = ConvertAudio.ToPCM(marker.PositionBytes, _playerService.CurrentAudioFile.BitsPerSample, 2);
-                    long ms = ConvertAudio.ToMS(marker.PositionSamples, _playerService.CurrentAudioFile.SampleRate);
-                    marker.Position = ConvertAudio.ToTimeString(ms);
-                    marker.AudioFileId = _playerService.CurrentAudioFile.Id;
-                    marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
-                    _libraryService.InsertMarker(marker);
+                long positionBytes = _playerService.GetPosition().Bytes;
+                var audioFile = _playerService.CurrentAudioFile;
+                var position = _playerService.GetPositionFromBytes(positionBytes);
 
-                    _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
-                        AudioFileId = marker.AudioFileId,
-                        MarkerId = marker.MarkerId
-                    });
-                    //RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
-                } 
-                catch (Exception ex)
-                {
-                    Tracing.Log("An error occured while adding a marker: " + ex.Message);
-                    View.MarkerError(ex);
-                }
-            });
+                // Create marker and add to database
+                var marker = new Marker();
+                marker.Name = markerName;
+                marker.AudioFileId = _playerService.CurrentAudioFile.Id;
+                float positionPercentage = (float)marker.PositionBytes / (float)audioFile.LengthBytes;
+                marker.Position = position.Str;
+                marker.PositionBytes = positionBytes;
+                marker.PositionSamples = position.Samples;
+                marker.PositionPercentage = positionPercentage;
+
+                _libraryService.InsertMarker(marker);
+
+                _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
+                    AudioFileId = marker.AudioFileId,
+                    MarkerId = marker.MarkerId
+                });
+                //RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while adding a marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void EditMarker(Marker marker)
@@ -183,24 +182,21 @@ namespace Sessions.MVP.Presenters
 
         private void DeleteMarker(Marker marker)
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                try
-                {
-                    _markers.Remove(marker);
-                    _libraryService.DeleteMarker(marker.MarkerId);
-                    _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
-                        AudioFileId = marker.AudioFileId,
-                        MarkerId = marker.MarkerId
-                    });
-                    RefreshMarkersViewWithUpdatedIndexes();
-                } 
-                catch (Exception ex)
-                {
-                    Tracing.Log("An error occured while deleting marker: " + ex.Message);
-                    View.MarkerError(ex);
-                }
-            });
+                _markers.Remove(marker);
+                _libraryService.DeleteMarker(marker.MarkerId);
+                _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
+                    AudioFileId = marker.AudioFileId,
+                    MarkerId = marker.MarkerId
+                });
+                RefreshMarkersViewWithUpdatedIndexes();
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while deleting marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void RefreshMarkers(Guid audioFileId)
@@ -231,20 +227,17 @@ namespace Sessions.MVP.Presenters
 
         private void ChangeMarkerName(Guid markerId, string name)
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                try
-                {
-                    var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
-                    marker.Name = name;
-                    UpdateMarker(marker);
-                } 
-                catch (Exception ex)
-                {
-                    Tracing.Log("An error occured while change the marker name: " + ex.Message);
-                    View.MarkerError(ex);
-                }
-            });
+                var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+                marker.Name = name;
+                UpdateMarker(marker);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while change the marker name: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void ChangeMarkerPosition(Guid markerId, float newPositionPercentage)
@@ -256,50 +249,40 @@ namespace Sessions.MVP.Presenters
 
         private void ChangeMarkerPosition(Guid markerId, long positionBytes)
         {
-            Task.Factory.StartNew(() =>
+            try
             {
-                try
+                //Tracing.Log("MarkersPresenter - ChangeMarkerPosition - markerId: {0} positionBytes: {1}", markerId, positionBytes);
+                // Instead of using FirstOrDefault, search in a simple loop so we don't have an exception that the list is modified
+                Marker marker = null;
+                for(int a = 0; a < _markers.Count; a++)
                 {
-                    //Tracing.Log("MarkersPresenter - ChangeMarkerPosition - markerId: {0} positionBytes: {1}", markerId, positionBytes);
-                    // Instead of using FirstOrDefault, search in a simple loop so we don't have an exception that the list is modified
-                    Marker marker = null;
-                    for(int a = 0; a < _markers.Count; a++)
+                    if(_markers[a].MarkerId == markerId)
                     {
-                        if(_markers[a].MarkerId == markerId)
-                        {
-                            marker = _markers[a];
-                            break;
-                        }
+                        marker = _markers[a];
+                        break;
                     }
-
-                    if(marker == null)
-                        return;
-
-                    var audioFile = _playerService.CurrentAudioFile;
-
-                    // Calculate new position from 0.0f/1.0f scale
-                    long positionSamples = ConvertAudio.ToPCM(positionBytes, audioFile.BitsPerSample, audioFile.AudioChannels);
-                    long positionMS = ConvertAudio.ToMS(positionSamples, audioFile.SampleRate);
-                    string positionString = ConvertAudio.ToTimeString(positionMS);
-                    float positionPercentage = (float)marker.PositionBytes / (float)audioFile.LengthBytes;
-
-                    // Update marker and update view
-                    marker.Position = positionString;
-                    marker.PositionBytes = positionBytes;
-                    marker.PositionSamples = positionSamples;
-                    marker.PositionPercentage = positionPercentage;
-                    _messageHub.PublishAsync<MarkerPositionUpdatedMessage>(new MarkerPositionUpdatedMessage(this, marker));
-
-                    // Check new index
-                    int index = _markers.OrderBy(x => x.PositionBytes).ToList().FindIndex(x => x.MarkerId == markerId);
-                    View.RefreshMarkerPosition(marker, index);
-                } 
-                catch (Exception ex)
-                {
-                    Tracing.Log("An error occured while calculating the marker position: " + ex.Message);
-                    View.MarkerError(ex);
                 }
-            });
+
+                if(marker == null)
+                    return;
+
+                var audioFile = _playerService.CurrentAudioFile;
+                var position = _playerService.GetPositionFromBytes(positionBytes);
+                float positionPercentage = (float)marker.PositionBytes / (float)audioFile.LengthBytes;
+                marker.Position = position.Str;
+                marker.PositionBytes = positionBytes;
+                marker.PositionSamples = position.Samples;
+                marker.PositionPercentage = positionPercentage;
+                _messageHub.PublishAsync<MarkerPositionUpdatedMessage>(new MarkerPositionUpdatedMessage(this, marker));
+
+                int index = _markers.OrderBy(x => x.PositionBytes).ToList().FindIndex(x => x.MarkerId == markerId);
+                View.RefreshMarkerPosition(marker, index);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while calculating the marker position: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void SetMarkerPosition(Guid markerId, float newPositionPercentage)
@@ -312,50 +295,44 @@ namespace Sessions.MVP.Presenters
 
         private void UpdateMarker(Marker marker)
         {
-            Task.Factory.StartNew(() =>
-            {            
-                try
+            try
+            {
+                //Tracing.Log("MarkersPresenter - UpdateMarker - markerId: {0}", marker.MarkerId);
+                if (string.IsNullOrEmpty(marker.Name))
                 {
-                        //Tracing.Log("MarkersPresenter - UpdateMarker - markerId: {0}", marker.MarkerId);
-                    if (string.IsNullOrEmpty(marker.Name))
-                    {
-                        View.MarkerError(new ArgumentNullException("The marker name must not be empty!"));
-                        return;
-                    }
-
-                    // Update marker and close view
-                    _libraryService.UpdateMarker(marker);
-                    _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
-                        AudioFileId = marker.AudioFileId,
-                        MarkerId = marker.MarkerId
-                    });
-                } 
-                catch (Exception ex)
-                {
-                    Tracing.Log("An error occured while updating a marker: " + ex.Message);
-                    View.MarkerError(ex);
+                    View.MarkerError(new ArgumentNullException("The marker name must not be empty!"));
+                    return;
                 }
-            });
+
+                // Update marker and close view
+                _libraryService.UpdateMarker(marker);
+                _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
+                    AudioFileId = marker.AudioFileId,
+                    MarkerId = marker.MarkerId
+                });
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while updating a marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void PunchInMarker(Guid markerId)
         {
-//            Task.Factory.StartNew(() =>
-//            {
-                try
-                {
+            try
+            {
                 //Tracing.Log("MarkersPresenter - PunchInMarker - markerId: {0}", markerId);
-                    var position = _playerService.GetPosition();
-                    ChangeMarkerPosition(markerId, position.Bytes);
-                    var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
-                    UpdateMarker(marker);
-                } 
-                catch (Exception ex)
-                {
-                    Tracing.Log("An error occured while punching in a marker: " + ex.Message);
-                    View.MarkerError(ex);
-                }
-//            });
+                var position = _playerService.GetPosition();
+                ChangeMarkerPosition(markerId, position.Bytes);
+                var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+                UpdateMarker(marker);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while punching in a marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void UndoMarker(Guid markerId)
