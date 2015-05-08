@@ -121,10 +121,10 @@ namespace Sessions.iOS
             var audioFile = item.AudioFile;
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
-            cell.TextLabel.Text = audioFile.Title;
-            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
-            cell.DetailTextLabel.Text = audioFile.ArtistName;
+            cell.TitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
+            cell.TitleTextLabel.Text = audioFile.Title;
+            cell.SubtitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
+            cell.SubtitleTextLabel.Text = audioFile.ArtistName;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
             cell.ImageChevron.Hidden = true;
