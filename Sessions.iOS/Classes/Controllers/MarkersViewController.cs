@@ -36,9 +36,9 @@ namespace Sessions.iOS
 {
     public partial class MarkersViewController : BaseViewController, IMarkersView
     {
-        string _cellIdentifier = "MarkerCell";
-        List<Marker> _markers;
-		Guid _currentEditMarkerId = Guid.Empty;
+        private const string _cellIdentifier = "MarkerCell";
+        private List<Marker> _markers;
+        private Guid _currentEditMarkerId = Guid.Empty;
 
         public MarkersViewController()
             : base (UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)
@@ -54,8 +54,6 @@ namespace Sessions.iOS
             tableView.WeakDelegate = this;
 
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
-			//btnAddMarker.BackgroundColor = GlobalTheme.PlayerPanelButtonColor;
-			//btnAddMarker.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 			btnAddMarker.GlyphImageView.Image = UIImage.FromBundle("Images/Player/add");
 
             base.ViewDidLoad();
@@ -75,7 +73,7 @@ namespace Sessions.iOS
         {
 			//Tracing.Log("MarkersViewController - GetCell - indexPath.Row: {0}", indexPath.Row);
 			var item = _markers[indexPath.Row];
-			SessionsMarkerTableViewCell cell = (SessionsMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+			var cell = (SessionsMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
 			if (cell == null)
 			{
 				//Tracing.Log("MarkersViewController - GetCell - CREATING NEW cell - indexPath.Row: {0}", indexPath.Row);
@@ -140,7 +138,6 @@ namespace Sessions.iOS
 		{
 			int index = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
 			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} index: {1} _currentEditMarkerId: {2}", indexPath.Row, index, _currentEditMarkerId);
-			//return index == indexPath.Row ? 172 : 52;
 			return index == indexPath.Row ? 126 : 52;
 		}
 
@@ -162,7 +159,7 @@ namespace Sessions.iOS
         partial void actionAddMarker(NSObject sender)
         {
             // Show a list of templates for the marker name
-            UIActionSheet actionSheet = new UIActionSheet("Select a marker name template:", null, "Cancel", null, new string[4] { "Verse", "Chorus", "Bridge", "Solo" });
+            var actionSheet = new UIActionSheet("Select a marker name template:", null, "Cancel", null, new string[4] { "Verse", "Chorus", "Bridge", "Solo" });
             actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
             actionSheet.Clicked += (eventSender, e) => {
 
@@ -174,7 +171,7 @@ namespace Sessions.iOS
             };
 
             // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
-            AppDelegate appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+            var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
 			actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
         }
 
@@ -301,9 +298,9 @@ namespace Sessions.iOS
 					_markers[index] = marker;
 
 				// Update position
-				var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0));
+				var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0)) as SessionsMarkerTableViewCell;
 				if(cell != null)
-					cell.DetailTextLabel.Text = marker.Position;
+					cell.PositionTextLabel.Text = marker.Position;
 
 				// Check for row movement
 				if(index != newIndex)

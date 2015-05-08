@@ -16,23 +16,18 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using Sessions.MVP.Bootstrap;
-using Sessions.MVP.Navigation;
-using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using Sessions.iOS.Classes.Objects;
-using Sessions.iOS.Helpers;
 using Sessions.Core;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS.Classes.Controls
 {
 	[Register("SessionsMarkerTableViewCell")]
-	public class SessionsMarkerTableViewCell : UITableViewCell
+	public class SessionsMarkerTableViewCell : SessionsBaseTableViewCell
     {
 		public delegate void LongPressMarker(Guid markerId);
 		public delegate void DeleteMarker(Guid markerId);
@@ -44,57 +39,45 @@ namespace Sessions.iOS.Classes.Controls
 		public event LongPressMarker OnLongPressMarker;
 		public event DeleteMarker OnDeleteMarker;
 		public event PunchInMarker OnPunchInMarker;
-		public event UndoMarker OnUndoMarker;
 		public event ChangeMarkerPosition OnChangeMarkerPosition;
 		public event ChangeMarkerName OnChangeMarkerName;
 		public event SetMarkerPosition OnSetMarkerPosition;
 
         private bool _isTextLabelAllowedToChangeFrame = true;
 		private float _sliderValue;
-		private UIView _backgroundView;
+
 
         public UILabel IndexTextLabel { get; private set; }
         public UILabel TitleTextLabel { get; private set; }
         public UILabel PositionTextLabel { get; private set; }
 		public SessionsSemiTransparentRoundButton DeleteButton { get; set; }
 		public SessionsSemiTransparentRoundButton PunchInButton { get; set; }
-		//public SessionsSemiTransparentRoundButton UndoButton { get; set; }
         public UISlider Slider { get; private set; }
         public UITextField TextField { get; private set; }
 		public UILabel PositionTitleLabel { get; private set; }
 
-        public bool IsTextAnimationEnabled { get; set; }
         public float RightOffset { get; set; }
 		public bool IsExpanded { get; private set; }
 		public Guid MarkerId { get; set; }
 
-		public SessionsMarkerTableViewCell() : base()
+        public SessionsMarkerTableViewCell() : base()
         {
-            Initialize();
         }
 
-		public SessionsMarkerTableViewCell(RectangleF frame) : base(frame)
+        public SessionsMarkerTableViewCell(RectangleF frame) : base(frame)
         {
-            Initialize();
         }
 
-		public SessionsMarkerTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
+        public SessionsMarkerTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
         {
-            Initialize();
         }
 
-        public void Initialize()
+        protected override void Initialize()
         {
-            IsTextAnimationEnabled = false;
-            SelectionStyle = UITableViewCellSelectionStyle.None;
-           
-//            UIView backView = new UIView(Frame);
-//			backView.BackgroundColor = UIColor.Blue;
-//            BackgroundView = backView;
+            base.Initialize();
 
-			_backgroundView = new UIView(Frame);
-			_backgroundView.BackgroundColor = UIColor.Clear;
-			AddSubview(_backgroundView);
+            IsTextAnimationEnabled = true;
+            SelectionStyle = UITableViewCellSelectionStyle.None;           
 
             TextLabel.RemoveFromSuperview();
             DetailTextLabel.RemoveFromSuperview();
@@ -103,7 +86,7 @@ namespace Sessions.iOS.Classes.Controls
 			var longPress = new UILongPressGestureRecognizer(HandleLongPress);
 			longPress.MinimumPressDuration = 0.7f;
 			longPress.WeakDelegate = this;
-			_backgroundView.AddGestureRecognizer(longPress);
+			BackgroundView.AddGestureRecognizer(longPress);
 
             var backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -113,7 +96,7 @@ namespace Sessions.iOS.Classes.Controls
 
             TitleTextLabel = new UILabel();
             TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            TitleTextLabel.BackgroundColor = UIColor.Purple;
+            TitleTextLabel.BackgroundColor = UIColor.Clear;
             TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TitleTextLabel.TextColor = UIColor.White;
             TitleTextLabel.HighlightedTextColor = UIColor.White;
@@ -129,8 +112,10 @@ namespace Sessions.iOS.Classes.Controls
             ImageView.BackgroundColor = UIColor.Clear;		
 
             // Make sure the text label is over all other subviews
-            //PositionTextLabel.RemoveFromSuperview();
+            TextLabel.RemoveFromSuperview();
+            DetailTextLabel.RemoveFromSuperview();
             ImageView.RemoveFromSuperview();
+            AddSubview(TitleTextLabel);
             AddSubview(PositionTextLabel);
             AddSubview(ImageView);
 
@@ -185,12 +170,6 @@ namespace Sessions.iOS.Classes.Controls
 			PunchInButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/punch_in");
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
 			AddSubview(PunchInButton);
-
-//			UndoButton = new SessionsSemiTransparentRoundButton();
-//			UndoButton.Alpha = 0;
-//			UndoButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/undo");
-//			UndoButton.TouchUpInside += HandleOnUndoButtonClick;
-//			AddSubview(UndoButton);
 
 			Slider = new UISlider(new RectangleF(0, 0, 10, 10));
 			Slider.ExclusiveTouch = true;
@@ -252,18 +231,12 @@ namespace Sessions.iOS.Classes.Controls
 				OnPunchInMarker(MarkerId);
 		}
 
-		private void HandleOnUndoButtonClick(object sender, EventArgs e)
-		{
-			if (OnUndoMarker != null)
-				OnUndoMarker(MarkerId);
-		}
-
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
 
 			float padding = 8;
-			_backgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+			BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             float x = 0;
@@ -297,21 +270,19 @@ namespace Sessions.iOS.Classes.Controls
 			Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12 - 44 - 12, 36);
 			DeleteButton.Frame = new RectangleF(Bounds.Width - 44, 6, 44, 44);
 			PunchInButton.Frame = new RectangleF(Bounds.Width - 44, 68, 44, 44);
-			//UndoButton.Frame = new RectangleF((Bounds.Width - 44 - 14 - 44) / 2, 76 + 34, 44, 44);
-			//PunchInButton.Frame = new RectangleF(((Bounds.Width - 44 - 14 - 44) / 2) + 44 + 14, 76 + 34, 44, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
         {
-			Tracing.Log("MarkerTableViewCell - SetHighlighted - highlighted: {0} animated: {1}", highlighted, animated);
-//            SelectedBackgroundView.Alpha = 1;
-//            SelectedBackgroundView.Hidden = !highlighted;
+//			Tracing.Log("MarkerTableViewCell - SetHighlighted - highlighted: {0} animated: {1}", highlighted, animated);
             PositionTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
 
 			if (!highlighted)
 			{
-				UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => SelectedBackgroundView.Hidden = true);
+				UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => {
+                SelectedBackgroundView.Hidden = true; 
+                });
 			}
 			else
 			{
@@ -319,23 +290,12 @@ namespace Sessions.iOS.Classes.Controls
 				SelectedBackgroundView.Alpha = 1;
 			}
 
-            base.SetHighlighted(highlighted, animated);
+            // Do not call base here as we override the way selection is handled
         }
 
         public override void SetSelected(bool selected, bool animated)
         {
-			Tracing.Log("MarkerTableViewCell - SetSelected - selected: {0} animated: {1}", selected, animated);
-            if (!selected)
-            {
-                UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => SelectedBackgroundView.Hidden = true);
-            }
-            else
-            {
-                SelectedBackgroundView.Hidden = false;
-                SelectedBackgroundView.Alpha = 1;
-            }
-
-            base.SetSelected(selected, animated);
+            // Do not call base here as we override the way selection is handled
         }
 
 		public void ExpandCell(bool animated)
@@ -359,10 +319,13 @@ namespace Sessions.iOS.Classes.Controls
 
 		public void CollapseCell(bool animated)
 		{
-            Tracing.Log("MarkerTableViewCell - CollapseCell - title: {0}", TitleTextLabel.Text);
 			if (animated)
 			{
-				UIView.Animate(0.2, CollapseCell, () => IsExpanded = false);
+                _isTextLabelAllowedToChangeFrame = false;
+				UIView.Animate(0.2, CollapseCell, () => {
+                    IsExpanded = false;
+                    _isTextLabelAllowedToChangeFrame = true;
+                });
 			}
 			else
 			{
@@ -386,29 +349,28 @@ namespace Sessions.iOS.Classes.Controls
             Slider.Alpha = isExpanded ? 1 : 0;
             DeleteButton.Alpha = isExpanded ? 1 : 0;
             PunchInButton.Alpha = isExpanded ? 1 : 0;
-            //UndoButton.Alpha = isExpanded ? 1 : 0;
 
-            float padding = IsExpanded ? 48f : 0;
+            float padding = IsExpanded ? 0 : 48f;
             PositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
-			//Tracing.Log("MarkerTableViewCell - TouchesBegan - eventType: {0}", evt.Type);
+//			Tracing.Log("MarkerTableViewCell - TouchesBegan - eventType: {0}", evt.Type);
             AnimatePress(true);
             base.TouchesBegan(touches, evt);
         }
 
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
-			//Tracing.Log("MarkerTableViewCell - TouchesEnded - eventType: {0}", evt.Type);
+//			Tracing.Log("MarkerTableViewCell - TouchesEnded - eventType: {0}", evt.Type);
             AnimatePress(false);
             base.TouchesEnded(touches, evt);
         }
 
         public override void TouchesCancelled(NSSet touches, UIEvent evt)
         {
-			//Tracing.Log("MarkerTableViewCell - TouchesCancelled - eventType: {0}", evt.Type);
+//			Tracing.Log("MarkerTableViewCell - TouchesCancelled - eventType: {0}", evt.Type);
             AnimatePress(false);
             base.TouchesCancelled(touches, evt);
         }
@@ -436,7 +398,7 @@ namespace Sessions.iOS.Classes.Controls
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     PositionTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.5f);
                 }, null);
             }
         }

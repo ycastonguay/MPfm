@@ -350,6 +350,9 @@
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmRoundImageView.cs" />
+    <Compile Include="Classes\Controls\Cells\SessionsBaseTableViewCell.cs">
+      <DependentUpon>..\MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -460,6 +463,7 @@
     <Folder Include="Images\SmallWhiteIcons\" />
     <Folder Include="Classes\Controls\Graphics\" />
     <Folder Include="Classes\Controls\Helpers\" />
+    <Folder Include="Classes\Controls\Cells\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
