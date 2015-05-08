@@ -77,7 +77,7 @@ namespace Sessions.iOS.Classes.Controllers.Base
             }
 
             base.ViewDidLoad();
-            this.NavigationItem.SetHidesBackButton(true, true);
+            this.NavigationItem.SetHidesBackButton(true, false);
         }
 
         protected void ShowErrorDialog(Exception ex)

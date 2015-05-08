@@ -236,7 +236,12 @@ namespace Sessions.iOS.Classes.Controls
         [Export("navigationBar:shouldPushItem:")]
         public bool ShouldPushItem(UINavigationBar bar, UINavigationItem item)
         {
-			//Console.WriteLine("NavCtrl - ShouldPushItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
+            //Console.WriteLine("NavCtrl - ShouldPushItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
+
+            // Make sure there isn't a ghost back button
+            if (item != null)
+                item.SetHidesBackButton(true, false);
+
             SetButtonVisibility();
             UpdateNowPlayingView();
 
