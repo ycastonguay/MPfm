@@ -28,6 +28,8 @@ using Sessions.MVP.Navigation;
 using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.Core;
+using System.Linq;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -76,52 +78,53 @@ namespace Sessions.iOS.Classes.Controllers
         {
             //Tracing.Log("MarkersViewController - GetCell - indexPath.Row: {0}", indexPath.Row);
             var item = _loops[indexPath.Row];
-            var cell = (SessionsMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            var cell = (SessionsLoopTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 //Tracing.Log("MarkersViewController - GetCell - CREATING NEW cell - indexPath.Row: {0}", indexPath.Row);
-                var cellStyle = UITableViewCellStyle.Subtitle;                
-                cell = new SessionsMarkerTableViewCell(cellStyle, _cellIdentifier);
-//                cell.OnLongPressMarker += HandleOnLongPressMarker;
-//                cell.OnDeleteMarker += HandleOnDeleteMarker;
-//                cell.OnPunchInMarker += HandleOnPunchInMarker;
-//                cell.OnChangeMarkerName += HandleOnChangeMarkerName; 
-//                cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
-//                cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
+                cell = new SessionsLoopTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell.OnLongPressLoop += HandleOnLongPressLoop;
+                cell.OnDeleteLoop += HandleOnDeleteLoop;
+                cell.OnPunchInLoop += HandleOnPunchInLoop;
+                cell.OnChangeLoopName += HandleOnChangeLoopName; 
+                cell.OnChangeLoopPosition += HandleOnChangeLoopPosition;
+                cell.OnSetLoopPosition += HandleOnSetLoopPosition;
             }
             else
             {
                 //Tracing.Log("MarkersViewController - GetCell - REUSING cell - indexPath.Row: {0}", indexPath.Row);
             }
 
-//            cell.Tag = indexPath.Row;
-//            cell.BackgroundColor = UIColor.Clear;
-//            cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
-//            cell.TitleTextLabel.Text = item.Name;
-//            cell.TextField.Text = item.Name;
-//            cell.PositionTextLabel.Text = item.Position;
-//            cell.Slider.Value = item.PositionPercentage;
-//            cell.MarkerId = item.MarkerId;
-//
-//            // Check if the reused cell should be expanded
-//            int editIndex = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
-//            //Tracing.Log("!!! MarkersViewController - GetCell - indexPath.Row: {0} editIndex: {1} cellExpanded: {2}", indexPath.Row, editIndex, cell.IsExpanded);
-//            if (cell.IsExpanded)
-//            {
-//                if (editIndex != indexPath.Row)
-//                {
-//                    //Tracing.Log("MarkersViewController - GetCell - COLLAPSING reused cell - indexPath.Row: {0}", indexPath.Row);
-//                    cell.CollapseCell(false);
-//                }
-//            }
-//            else
-//            {
-//                if (editIndex == indexPath.Row)
-//                {
-//                    //Tracing.Log("MarkersViewController - GetCell - EXPANDING reused cell - indexPath.Row: {0}", indexPath.Row);
-//                    cell.ExpandCell(false);
-//                }
-//            }
+            cell.Tag = indexPath.Row;
+            cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
+            cell.TitleTextLabel.Text = item.Name;
+            cell.TextField.Text = item.Name;
+            cell.StartPositionTextLabel.Text = item.StartPosition;
+            cell.EndPositionTextLabel.Text = item.EndPosition;
+            //cell.StartPositionSlider.Value = item.
+            //cell.PositionTextLabel.Text = item.Position;
+            //cell.Slider.Value = item.PositionPercentage;
+            cell.LoopId = item.LoopId;
+
+            // Check if the reused cell should be expanded
+            int editIndex = _loops.FindIndex(x => x.LoopId == _currentEditLoopId);
+            //Tracing.Log("!!! MarkersViewController - GetCell - indexPath.Row: {0} editIndex: {1} cellExpanded: {2}", indexPath.Row, editIndex, cell.IsExpanded);
+            if (cell.IsExpanded)
+            {
+                if (editIndex != indexPath.Row)
+                {
+                    //Tracing.Log("MarkersViewController - GetCell - COLLAPSING reused cell - indexPath.Row: {0}", indexPath.Row);
+                    cell.CollapseCell(false);
+                }
+            }
+            else
+            {
+                if (editIndex == indexPath.Row)
+                {
+                    //Tracing.Log("MarkersViewController - GetCell - EXPANDING reused cell - indexPath.Row: {0}", indexPath.Row);
+                    cell.ExpandCell(false);
+                }
+            }
 
             return cell;
         }
@@ -140,8 +143,7 @@ namespace Sessions.iOS.Classes.Controllers
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             int index = _loops.FindIndex(x => x.LoopId == _currentEditLoopId);
-            //Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} index: {1} _currentEditMarkerId: {2}", indexPath.Row, index, _currentEditMarkerId);
-            return index == indexPath.Row ? 126 : 52;
+            return index == indexPath.Row ? 182 : 52;
         }
 
         [Export ("tableView:heightForFooterInSection:")]
@@ -149,7 +151,6 @@ namespace Sessions.iOS.Classes.Controllers
         {
             // This will create an "invisible" footer
             return 0.01f;
-            //return 1f;
         }
 
         [Export ("tableView:viewForFooterInSection:")]
@@ -157,6 +158,86 @@ namespace Sessions.iOS.Classes.Controllers
         {
             // Remove extra separators
             return new UIView();
+        }
+
+        private void HandleOnLongPressLoop(Guid loopId)
+        {
+            Tracing.Log("HandleOnLongPressLoop - loopId: {0}", loopId);
+            int previousIndex = _loops.FindIndex(x => x.LoopId == _currentEditLoopId);
+            int index = _loops.FindIndex(x => x.LoopId == loopId);
+            if (index == -1)
+                return;
+
+            NSIndexPath indexPath = NSIndexPath.FromRowSection(index, 0);
+            NSIndexPath indexPathEdit = NSIndexPath.FromRowSection(previousIndex, 0);
+            if (indexPath != null)
+            {
+                Tracing.Log("LoopsViewController - HandleLongPress");
+
+                var cell = (SessionsLoopTableViewCell)tableView.CellAt(indexPath);
+                var previousCell = (SessionsLoopTableViewCell)tableView.CellAt(indexPathEdit);
+
+                // Execute animation for new row height (as simple as that!)
+                _currentEditLoopId = _currentEditLoopId == loopId ? Guid.Empty : loopId;
+                tableView.BeginUpdates();
+                tableView.EndUpdates();         
+
+                if (previousCell != null)
+                    previousCell.CollapseCell(true);
+                if (cell != null)
+                {
+//                    OnSetActiveMarker(_currentEditLoopId);
+                    if (_currentEditLoopId == Guid.Empty)
+                    {
+                        if(indexPath.Row != indexPathEdit.Row)
+                            cell.CollapseCell(true);
+                    }
+                    else
+                    {
+                        cell.ExpandCell(true);
+                        tableView.ScrollToRow(indexPath, UITableViewScrollPosition.Top, true);
+                    }
+                }
+            }
+        }
+
+        private void HandleOnDeleteLoop(Guid loopId)
+        {
+            var item = _loops.FirstOrDefault(x => x.LoopId == loopId);
+            if (item == null)
+                return;
+
+            var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", item.Name), null, "OK", new string[1] { "Cancel" });
+            alertView.Clicked += (object sender2, UIButtonEventArgs e2) => {
+                switch(e2.ButtonIndex)
+                {
+                    case 0:
+                        _currentEditLoopId = Guid.Empty;
+                        OnDeleteLoop(item);
+                        break;
+                }
+            };
+            alertView.Show();
+        }
+
+        private void HandleOnPunchInLoop(Guid loopId, SSPLoopSegmentType segmentType)
+        {
+            OnPunchInLoopSegment(segmentType);
+        }
+
+        private void HandleOnChangeLoopName(Guid loopId, string newName)
+        {
+//            OnChangeMarkerName(markerId, newName);
+        }
+
+        private void HandleOnChangeLoopPosition(Guid loopId, SSPLoopSegmentType segmentType, float newPositionPercentage)
+        {
+//            OnChangeMarkerPosition(markerId, newPositionPercentage);
+        }
+
+        private void HandleOnSetLoopPosition(Guid loopId, SSPLoopSegmentType segmentType, float newPositionPercentage)
+        {
+//            OnSetMarkerPosition(markerId, newPositionPercentage);
         }
 
         #region ILoopsView implementation

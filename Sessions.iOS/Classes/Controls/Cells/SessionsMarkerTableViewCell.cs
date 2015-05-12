@@ -33,7 +33,6 @@ namespace Sessions.iOS.Classes.Controls.Cells
 		public delegate void LongPressMarker(Guid markerId);
 		public delegate void DeleteMarker(Guid markerId);
 		public delegate void PunchInMarker(Guid markerId);
-		public delegate void UndoMarker(Guid markerId);
 		public delegate void ChangeMarkerPosition(Guid markerId, float newPositionPercentage);
 		public delegate void ChangeMarkerName(Guid markerId, string newName);
 		public delegate void SetMarkerPosition(Guid markerId, float newPositionPercentage);

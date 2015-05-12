@@ -136,7 +136,6 @@ namespace Sessions.iOS.Classes.Controllers
 		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
 			int index = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
-			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} index: {1} _currentEditMarkerId: {2}", indexPath.Row, index, _currentEditMarkerId);
 			return index == indexPath.Row ? 126 : 52;
 		}
 

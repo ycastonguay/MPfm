@@ -26,6 +26,7 @@ using Sessions.iOS.Helpers;
 using Sessions.iOS.Classes.Objects;
 using Sessions.GenericControls.Basics;
 using Sessions.Sound.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -293,6 +294,11 @@ namespace Sessions.iOS.Classes.Controls
 		{
 			WaveFormView.SetMarkerPosition(marker);
 		}
+
+        public void SetLoop(SSPLoop loop)
+        {
+            WaveFormView.SetLoop(loop);
+        }
 
         public void SetPosition(long position)
         {

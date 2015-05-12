@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using Sessions.iOS.Classes.Controls.Helpers;
 using Sessions.GenericControls.Basics;
 using Sessions.Sound.Objects;
+using org.sessionsapp.player;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -191,6 +192,11 @@ namespace Sessions.iOS.Classes.Controls
 		{
 			_control.SetMarkerPosition(marker);
 		}
+
+        public void SetLoop(SSPLoop loop)
+        {
+            _control.SetLoop(loop);
+        }
 
 		public void InvalidateBitmaps()
 		{
