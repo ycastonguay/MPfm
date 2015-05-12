@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using Sessions.MVP.Config.Models;
 using System.Linq;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class GeneralPreferencesViewController : BasePreferencesViewController, IGeneralPreferencesView
     {

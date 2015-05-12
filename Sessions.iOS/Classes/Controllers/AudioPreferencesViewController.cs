@@ -30,7 +30,7 @@ using Sessions.MVP.Config.Models;
 using System.Linq;
 using org.sessionsapp.player;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class AudioPreferencesViewController : BasePreferencesViewController, IAudioPreferencesView
     {

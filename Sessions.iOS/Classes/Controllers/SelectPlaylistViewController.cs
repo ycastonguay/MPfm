@@ -32,7 +32,7 @@ using Sessions.Core;
 using Sessions.iOS.Helpers;
 using Sessions.iOS.Classes.Controls.Cells;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class SelectPlaylistViewController : BaseViewController, ISelectPlaylistView
     {

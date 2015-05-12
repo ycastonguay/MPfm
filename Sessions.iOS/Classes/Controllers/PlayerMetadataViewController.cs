@@ -27,7 +27,7 @@ using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Services;
 using org.sessionsapp.player;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class PlayerMetadataViewController : BaseViewController, IPlayerMetadataView
     {

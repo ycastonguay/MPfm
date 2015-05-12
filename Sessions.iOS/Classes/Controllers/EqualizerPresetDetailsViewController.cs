@@ -30,7 +30,7 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Controls.Buttons;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {

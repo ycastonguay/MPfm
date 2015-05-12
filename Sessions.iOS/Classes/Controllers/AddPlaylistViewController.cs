@@ -25,7 +25,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Helpers;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class AddPlaylistViewController : BaseViewController, IAddPlaylistView
     {

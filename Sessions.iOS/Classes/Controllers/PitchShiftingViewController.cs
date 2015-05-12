@@ -29,7 +29,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Sound.Objects;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class PitchShiftingViewController : BaseViewController, IPitchShiftingView
     {

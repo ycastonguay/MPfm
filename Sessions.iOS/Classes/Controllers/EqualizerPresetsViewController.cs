@@ -36,7 +36,7 @@ using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controls.Cells;
 using Sessions.iOS.Classes.Controls.Buttons;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {

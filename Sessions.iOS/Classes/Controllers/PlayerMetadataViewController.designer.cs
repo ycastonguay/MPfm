@@ -7,7 +7,7 @@
 using MonoTouch.Foundation;
 using System.CodeDom.Compiler;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
 	[Register ("PlayerMetadataViewController")]
 	partial class PlayerMetadataViewController

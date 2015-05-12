@@ -25,7 +25,7 @@ using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class AboutViewController : BaseViewController, IAboutView
     {

@@ -35,7 +35,7 @@ using Sessions.iOS.Helpers;
 using Sessions.MVP.Models;
 using Sessions.iOS.Classes.Controls.Cells;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class ResumePlaybackViewController : BaseViewController, IResumePlaybackView
     {

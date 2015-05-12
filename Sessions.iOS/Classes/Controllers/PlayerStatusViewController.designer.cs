@@ -5,7 +5,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     [Register("PlayerStatusViewController")]
     partial class PlayerStatusViewController

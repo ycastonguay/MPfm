@@ -28,7 +28,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Controls.Cells;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class PreferencesViewController : BaseViewController, IPreferencesView
     {

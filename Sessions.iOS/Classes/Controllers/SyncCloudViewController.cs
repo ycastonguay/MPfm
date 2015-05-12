@@ -30,7 +30,7 @@ using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class SyncCloudViewController : BaseViewController, ISyncCloudView
     {

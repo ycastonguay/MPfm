@@ -31,7 +31,7 @@ using Sessions.MVP.Navigation;
 using Sessions.Sound.Objects;
 using Sessions.iOS.Classes.Controls.Buttons;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class MarkerDetailsViewController : BaseViewController, IMarkerDetailsView
     {

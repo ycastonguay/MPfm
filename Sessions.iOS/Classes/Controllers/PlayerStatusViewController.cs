@@ -27,7 +27,7 @@ using Sessions.iOS.Classes.Controllers.Base;
 using org.sessionsapp.player;
 using Sessions.Sound.Player;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
 	public partial class PlayerStatusViewController : BaseViewController, IPlayerStatusView
     {

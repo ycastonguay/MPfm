@@ -26,7 +26,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
 	public partial class QueueViewController : BaseViewController, IQueueView
     {

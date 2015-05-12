@@ -27,7 +27,7 @@ using Sessions.Library.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class SyncDownloadViewController : BaseViewController, ISyncDownloadView
     {

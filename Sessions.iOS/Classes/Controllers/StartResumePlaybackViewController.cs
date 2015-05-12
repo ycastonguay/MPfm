@@ -28,7 +28,7 @@ using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class StartResumePlaybackViewController : BaseViewController, IStartResumePlaybackView
     {

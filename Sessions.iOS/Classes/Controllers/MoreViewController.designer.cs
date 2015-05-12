@@ -6,7 +6,7 @@
 //
 using MonoTouch.Foundation;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
 	[Register ("MoreViewController")]
 	partial class MoreViewController

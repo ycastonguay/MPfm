@@ -33,7 +33,7 @@ using System.Linq;
 using Sessions.Sound.Objects;
 using Sessions.iOS.Classes.Controls.Cells;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class MarkersViewController : BaseViewController, IMarkersView
     {

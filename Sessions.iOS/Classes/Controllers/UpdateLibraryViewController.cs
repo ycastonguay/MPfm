@@ -30,7 +30,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Classes.Delegates;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class UpdateLibraryViewController : BaseViewController, IUpdateLibraryView
     {

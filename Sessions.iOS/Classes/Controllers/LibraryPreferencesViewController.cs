@@ -30,7 +30,7 @@ using Sessions.iOS.Classes.Objects;
 using System.Linq;
 using Sessions.Library.Objects;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class LibraryPreferencesViewController : BasePreferencesViewController, ILibraryPreferencesView
     {

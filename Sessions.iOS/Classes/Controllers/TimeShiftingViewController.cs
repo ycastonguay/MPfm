@@ -29,7 +29,7 @@ using Sessions.iOS.Helpers;
 using Sessions.MVP.Models;
 using Sessions.Sound.Objects;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class TimeShiftingViewController : BaseViewController, ITimeShiftingView
     {

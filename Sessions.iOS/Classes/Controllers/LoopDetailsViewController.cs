@@ -28,7 +28,7 @@ using org.sessionsapp.player;
 using Sessions.Sound.Objects;
 using System.Collections.Generic;
 
-namespace Sessions.iOS
+namespace Sessions.iOS.Classes.Controllers
 {
     public partial class LoopDetailsViewController : BaseViewController, ILoopDetailsView
     {
