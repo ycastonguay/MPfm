@@ -77,8 +77,7 @@ namespace Sessions.iOS
 			if (cell == null)
 			{
 				//Tracing.Log("MarkersViewController - GetCell - CREATING NEW cell - indexPath.Row: {0}", indexPath.Row);
-				var cellStyle = UITableViewCellStyle.Subtitle;                
-				cell = new SessionsMarkerTableViewCell(cellStyle, _cellIdentifier);
+                cell = new SessionsMarkerTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 				cell.OnLongPressMarker += HandleOnLongPressMarker;
 				cell.OnDeleteMarker += HandleOnDeleteMarker;
 				cell.OnPunchInMarker += HandleOnPunchInMarker;
@@ -92,7 +91,6 @@ namespace Sessions.iOS
 			}
 
             cell.Tag = indexPath.Row;
-            cell.BackgroundColor = UIColor.Clear;
             cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
             cell.TitleTextLabel.Text = item.Name;
 			cell.TextField.Text = item.Name;
@@ -146,7 +144,6 @@ namespace Sessions.iOS
 		{
 			// This will create an "invisible" footer
 			return 0.01f;
-			//return 1f;
 		}
 
 		[Export ("tableView:viewForFooterInSection:")]

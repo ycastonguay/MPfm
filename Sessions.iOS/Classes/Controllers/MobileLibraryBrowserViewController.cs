@@ -76,7 +76,6 @@ namespace Sessions.iOS.Classes.Controllers
             base.DidReceiveMemoryWarning();
 
             // Flush image cache and table view items
-			//_items.Clear();
 			_items.Clear();
             _imageCache.Clear();
             _thumbnailImageCache.Clear();
@@ -874,20 +873,10 @@ namespace Sessions.iOS.Classes.Controllers
             }
 
             cell.Tag = indexPath.Row;
-            cell.Accessory = UITableViewCellAccessory.None;
-            cell.IsTextAnimationEnabled = true;
-            cell.TitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
             cell.TitleTextLabel.Text = item.Title;
-			cell.TitleTextLabel.HighlightedTextColor = UIColor.White;
-            cell.SubtitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             cell.SubtitleTextLabel.Text = item.Subtitle;
-			cell.SubtitleTextLabel.HighlightedTextColor = UIColor.White;
-			cell.AlbumCountLabel.HighlightedTextColor = UIColor.White;
-            cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
-            cell.ImageView.ClipsToBounds = true;
-            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
-            cell.ImageChevron.Hidden = false;
 
+            cell.ImageChevron.Hidden = false;
             cell.ImageAlbum1.Image = null;
             cell.ImageAlbum2.Image = null;
             cell.ImageAlbum3.Image = null;
@@ -896,13 +885,16 @@ namespace Sessions.iOS.Classes.Controllers
             cell.ImageAlbum3.Tag = 3;
             cell.RightOffset = 0;
 
+            cell.IsQueued = item.IsQueued;
+
             // Change title font when the item has a subtitle
             if(String.IsNullOrEmpty(item.Subtitle))
                 cell.TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            else
+                cell.TitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
 
 			//var newContainerViewFrame = cell.ContainerView.Frame;
 			//newContainerViewFrame.X = item.IsQueued ? 12 : 0;
-			cell.IsQueued = item.IsQueued;
 			//cell.ContainerView.Frame = newContainerViewFrame;
 
 			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;

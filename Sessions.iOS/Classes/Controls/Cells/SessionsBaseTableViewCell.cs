@@ -26,13 +26,24 @@ using Sessions.Core;
 namespace Sessions.iOS.Classes.Controls.Cells
 {
 	[Register("SessionsBaseTableViewCell")]
-	public class SessionsBaseTableViewCell : UITableViewCell
+	public abstract class SessionsBaseTableViewCell : UITableViewCell
     {
-        protected UIView BackgroundView { get; set; }
+        protected UIView BackgroundView { get; private set; }
+        public UIView ContainerView { get; private set; }
+        public UIView ContainerBackgroundView { get; private set; }
+        public UIView BehindView { get; private set; }
 
         public bool IsTextAnimationEnabled { get; set; }
+        protected bool IsTextLabelAllowedToChangeFrame { get; set; }
+
+        public abstract bool UseContainerView { get; }
 
         public SessionsBaseTableViewCell() : base()
+        {
+            Initialize();
+        }
+
+        public SessionsBaseTableViewCell(IntPtr handle) : base(handle)
         {
             Initialize();
         }
@@ -49,9 +60,102 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
         protected virtual void Initialize()
         {
+            Accessory = UITableViewCellAccessory.None;
+            SelectionStyle = UITableViewCellSelectionStyle.None;
+            BackgroundColor = UIColor.Clear;
+
+            IsTextLabelAllowedToChangeFrame = true;
+        
             BackgroundView = new UIView(Frame);
             BackgroundView.BackgroundColor = UIColor.Clear;
             AddSubview(BackgroundView);
+
+            if (UseContainerView)
+            {
+                BehindView = new UIView(Bounds);
+                BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
+                AddSubview(BehindView);
+
+                ContainerView = new UIView(Bounds);
+                ContainerView.BackgroundColor = UIColor.White;
+                AddSubview(ContainerView);
+
+                ContainerBackgroundView = new UIView(Bounds);
+                ContainerBackgroundView.BackgroundColor = UIColor.Clear;
+                ContainerView.AddSubview(ContainerBackgroundView);
+            }
+
+            var backViewSelected = new UIView(Frame);
+            backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
+            SelectedBackgroundView = backViewSelected;     
+            SelectedBackgroundView.Hidden = true;
+            AddView(SelectedBackgroundView);
         }
+
+        public void AddView(UIView view)
+        {
+            if(UseContainerView)
+                ContainerView.AddSubview(view);
+            else
+                AddSubview(view);
+        }
+
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+
+            if(BehindView != null)
+                BehindView.Frame = Bounds;
+
+            if(ContainerView != null)
+                ContainerView.Frame = Bounds;
+
+            BackgroundView.Frame = Bounds;
+            SelectedBackgroundView.Frame = Bounds;
+        }
+
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(true);
+            base.TouchesBegan(touches, evt);
+        }
+
+        public override void TouchesEnded(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(false);
+            base.TouchesEnded(touches, evt);
+        }
+
+        public override void TouchesCancelled(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(false);
+            base.TouchesCancelled(touches, evt);
+        }
+
+        protected virtual void AnimatePress(bool on)
+        {
+            if (!IsTextAnimationEnabled)
+                return;
+
+            IsTextLabelAllowedToChangeFrame = !on;
+
+            if (!on)
+            {
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                    // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
+                    //if(TitleTextLabel.Transform.xx < 0.95f) return; // Do we still need this?
+
+                    SetControlScaleForTouchAnimation(1);
+                }, null);
+            }
+            else
+            {
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                    SetControlScaleForTouchAnimation(0.96f);
+                }, null);
+            }
+        }
+
+        protected abstract void SetControlScaleForTouchAnimation(float scale);
     }
 }

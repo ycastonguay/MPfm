@@ -353,6 +353,9 @@
     <Compile Include="Classes\Controls\Cells\SessionsBaseTableViewCell.cs">
       <DependentUpon>..\MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\Cells\SessionsBaseExpandableTableViewCell.cs">
+      <DependentUpon>..\MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

@@ -17,18 +17,18 @@
 
 using System;
 using System.Drawing;
+using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using Sessions.iOS.Classes.Objects;
-using Sessions.Core;
 using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS.Classes.Controls
 {
 	[Register("SessionsMarkerTableViewCell")]
-	public class SessionsMarkerTableViewCell : SessionsBaseTableViewCell
+    public class SessionsMarkerTableViewCell : SessionsBaseExpandableTableViewCell
     {
+        private float _sliderValue;
+    
 		public delegate void LongPressMarker(Guid markerId);
 		public delegate void DeleteMarker(Guid markerId);
 		public delegate void PunchInMarker(Guid markerId);
@@ -43,10 +43,6 @@ namespace Sessions.iOS.Classes.Controls
 		public event ChangeMarkerName OnChangeMarkerName;
 		public event SetMarkerPosition OnSetMarkerPosition;
 
-        private bool _isTextLabelAllowedToChangeFrame = true;
-		private float _sliderValue;
-
-
         public UILabel IndexTextLabel { get; private set; }
         public UILabel TitleTextLabel { get; private set; }
         public UILabel PositionTextLabel { get; private set; }
@@ -57,8 +53,9 @@ namespace Sessions.iOS.Classes.Controls
 		public UILabel PositionTitleLabel { get; private set; }
 
         public float RightOffset { get; set; }
-		public bool IsExpanded { get; private set; }
 		public Guid MarkerId { get; set; }
+
+        public override bool UseContainerView { get { return false; } }
 
         public SessionsMarkerTableViewCell() : base()
         {
@@ -77,22 +74,14 @@ namespace Sessions.iOS.Classes.Controls
             base.Initialize();
 
             IsTextAnimationEnabled = true;
-            SelectionStyle = UITableViewCellSelectionStyle.None;           
 
             TextLabel.RemoveFromSuperview();
             DetailTextLabel.RemoveFromSuperview();
-            
-			// Adding gesture recognizer to BackgroundView doesn't work
+
 			var longPress = new UILongPressGestureRecognizer(HandleLongPress);
 			longPress.MinimumPressDuration = 0.7f;
 			longPress.WeakDelegate = this;
 			BackgroundView.AddGestureRecognizer(longPress);
-
-            var backViewSelected = new UIView(Frame);
-            backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-            SelectedBackgroundView = backViewSelected;     
-            SelectedBackgroundView.Hidden = true;
-            AddSubview(SelectedBackgroundView);
 
             TitleTextLabel = new UILabel();
             TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
@@ -109,15 +98,11 @@ namespace Sessions.iOS.Classes.Controls
 			PositionTextLabel.HighlightedTextColor = UIColor.White;
 			PositionTextLabel.TextAlignment = UITextAlignment.Right;
 
-            ImageView.BackgroundColor = UIColor.Clear;		
-
             // Make sure the text label is over all other subviews
-            TextLabel.RemoveFromSuperview();
-            DetailTextLabel.RemoveFromSuperview();
             ImageView.RemoveFromSuperview();
-            AddSubview(TitleTextLabel);
-            AddSubview(PositionTextLabel);
-            AddSubview(ImageView);
+            AddView(TitleTextLabel);
+            AddView(PositionTextLabel);
+            AddView(ImageView);
 
 			TextField = new UITextField();
 			TextField.Layer.CornerRadius = 8;
@@ -127,14 +112,14 @@ namespace Sessions.iOS.Classes.Controls
 			TextField.TextColor = UIColor.White;
 			TextField.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			TextField.ReturnKeyType = UIReturnKeyType.Done;
-			AddSubview(TextField);
+            AddView(TextField);
 
 			PositionTitleLabel = new UILabel();
 			PositionTitleLabel.Text = "Position";
 			PositionTitleLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			PositionTitleLabel.TextColor = UIColor.FromRGB(0.8f, 0.8f, 0.8f);
             PositionTitleLabel.Alpha = 0;
-			AddSubview(PositionTitleLabel);
+            AddView(PositionTitleLabel);
 
 			// Add padding to text field
 			var paddingView = new UIView(new RectangleF(0, 0, 4, 20));
@@ -157,19 +142,19 @@ namespace Sessions.iOS.Classes.Controls
 			IndexTextLabel.TextColor = UIColor.White;
             IndexTextLabel.TextAlignment = UITextAlignment.Center;
             IndexTextLabel.HighlightedTextColor = UIColor.White;
-            AddSubview(IndexTextLabel);
+            AddView(IndexTextLabel);
 
 			DeleteButton = new SessionsSemiTransparentRoundButton();
 			DeleteButton.Alpha = 0;
 			DeleteButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/remove");
 			DeleteButton.TouchUpInside += HandleOnDeleteButtonClick;
-			AddSubview(DeleteButton);
+            AddView(DeleteButton);
 
 			PunchInButton = new SessionsSemiTransparentRoundButton();
 			PunchInButton.Alpha = 0;
 			PunchInButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/punch_in");
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
-			AddSubview(PunchInButton);
+            AddView(PunchInButton);
 
 			Slider = new UISlider(new RectangleF(0, 0, 10, 10));
 			Slider.ExclusiveTouch = true;
@@ -183,20 +168,18 @@ namespace Sessions.iOS.Classes.Controls
 				OnChangeMarkerPosition(MarkerId, Slider.Value);
 			};
 			Slider.TouchDown += (sender, e) => {
-				//Tracing.Log("MarkerTableViewCell - TouchDown");
 				// There's a bug in UISlider inside a UITableView inside a UIScrollView; the table view offset will change when changing slider value
 				var tableView = (SessionsTableView)GetTableView();
 				tableView.BlockContentOffsetChange = true;
 			};
 			Slider.TouchUpInside += (sender, e) => {
-				//Tracing.Log("MarkerTableViewCell - TouchUpInside");
 				var tableView = (SessionsTableView)GetTableView();
 				tableView.BlockContentOffsetChange = false;
 
 				// Take the last value from ValueChanged to prevent getting a slightly different value when the finger leaves the screen
 				OnSetMarkerPosition(MarkerId, _sliderValue); 
 			};
-			AddSubview(Slider);
+            AddView(Slider);
         }
 
 		private UITableView GetTableView()
@@ -209,12 +192,9 @@ namespace Sessions.iOS.Classes.Controls
 
 		private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
 		{
-			Tracing.Log("MarkerTableViewCell - HandleLongPress - state: {0}", gestureRecognizer.State);
 			if (gestureRecognizer.State != UIGestureRecognizerState.Began)
 				return;
 
-			//PointF pt = gestureRecognizer.LocationInView(BackgroundView);
-			//Tracing.Log("MarkerTableViewCell - HandleLongPress - point: {0}", pt);
 			if (OnLongPressMarker != null)
 				OnLongPressMarker(MarkerId);
 		}
@@ -235,10 +215,7 @@ namespace Sessions.iOS.Classes.Controls
         {
             base.LayoutSubviews();
 
-			float padding = 8;
-			BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
-            SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
-
+			const float padding = 8;
             float x = 0;
             if (ImageView.Image != null)
             {
@@ -256,14 +233,16 @@ namespace Sessions.iOS.Classes.Controls
                 x += padding + (padding / 2);
             }
 
-			if (_isTextLabelAllowedToChangeFrame)
+			if (IsTextLabelAllowedToChangeFrame)
 			{
                 TitleTextLabel.Frame = new RectangleF(x, 6, Bounds.Width - 120, 38);
 				PositionTitleLabel.Frame = new RectangleF(padding, 6 + 35, Bounds.Width, 38);
+
+                float positionTextLabelX = Bounds.Width - 128;
 				if (PunchInButton.Alpha > 0)
-					PositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - 48, 6, 120, 38);
-				else
-					PositionTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
+                    positionTextLabelX -= 48;
+
+                PositionTextLabel.Frame = new RectangleF(positionTextLabelX, 6, 120, 38);
 			}
 
 			TextField.Frame = new RectangleF(x - 4, 7, Bounds.Width - 120 - 48, 38);
@@ -274,14 +253,14 @@ namespace Sessions.iOS.Classes.Controls
 
         public override void SetHighlighted(bool highlighted, bool animated)
         {
-//			Tracing.Log("MarkerTableViewCell - SetHighlighted - highlighted: {0} animated: {1}", highlighted, animated);
             PositionTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
 
+            // TODO: Can this be made generic?
 			if (!highlighted)
 			{
 				UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => {
-                SelectedBackgroundView.Hidden = true; 
+                    SelectedBackgroundView.Hidden = true; 
                 });
 			}
 			else
@@ -298,50 +277,15 @@ namespace Sessions.iOS.Classes.Controls
             // Do not call base here as we override the way selection is handled
         }
 
-		public void ExpandCell(bool animated)
+		protected override void CollapseCell()
 		{
-            Tracing.Log("MarkerTableViewCell - ExpandCell - title: {0}", TitleTextLabel.Text);
-			if (animated)
-			{
-				UIView.Animate(0.2, ExpandCell, () => IsExpanded = true);
-			}
-			else
-			{
-				ExpandCell();
-				IsExpanded = true;
-			}
-		}
+            base.CollapseCell();
 
-		private void ExpandCell()
-		{
-            SetControlVisibility(true);
-		}
-
-		public void CollapseCell(bool animated)
-		{
-			if (animated)
-			{
-                _isTextLabelAllowedToChangeFrame = false;
-				UIView.Animate(0.2, CollapseCell, () => {
-                    IsExpanded = false;
-                    _isTextLabelAllowedToChangeFrame = true;
-                });
-			}
-			else
-			{
-				CollapseCell();
-				IsExpanded = false;
-			}
-		}
-
-		private void CollapseCell()
-		{
-            SetControlVisibility(false);
             TitleTextLabel.Text = TextField.Text;
 			TextField.ResignFirstResponder();
 		}
 
-        private void SetControlVisibility(bool isExpanded)
+        protected override void SetControlVisibilityForExpand(bool isExpanded)
         {
             TextField.Alpha = isExpanded ? 1 : 0;
             TitleTextLabel.Alpha = isExpanded ? 0 : 1;
@@ -350,57 +294,15 @@ namespace Sessions.iOS.Classes.Controls
             DeleteButton.Alpha = isExpanded ? 1 : 0;
             PunchInButton.Alpha = isExpanded ? 1 : 0;
 
-            float padding = IsExpanded ? 0 : 48f;
+            float padding = isExpanded ? 0 : 48f;
             PositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
         }
 
-        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        protected override void SetControlScaleForTouchAnimation(float scale)
         {
-//			Tracing.Log("MarkerTableViewCell - TouchesBegan - eventType: {0}", evt.Type);
-            AnimatePress(true);
-            base.TouchesBegan(touches, evt);
-        }
-
-        public override void TouchesEnded(NSSet touches, UIEvent evt)
-        {
-//			Tracing.Log("MarkerTableViewCell - TouchesEnded - eventType: {0}", evt.Type);
-            AnimatePress(false);
-            base.TouchesEnded(touches, evt);
-        }
-
-        public override void TouchesCancelled(NSSet touches, UIEvent evt)
-        {
-//			Tracing.Log("MarkerTableViewCell - TouchesCancelled - eventType: {0}", evt.Type);
-            AnimatePress(false);
-            base.TouchesCancelled(touches, evt);
-        }
-
-        private void AnimatePress(bool on)
-        {
-            if (!IsTextAnimationEnabled)
-                return;
-
-            _isTextLabelAllowedToChangeFrame = !on;
-
-            if (!on)
-            {
-                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-                    // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
-                    if(TitleTextLabel.Transform.xx < 0.95f) return;
-
-                    TitleTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                    PositionTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                }, null);
-            }
-            else
-            {
-                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-                    TitleTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-                    PositionTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.5f);
-                }, null);
-            }
+            TitleTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
+            PositionTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
+            IndexTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
         }
 
 //		public override UIView HitTest(PointF point, UIEvent uievent)
