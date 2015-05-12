@@ -305,8 +305,9 @@ namespace Sessions.GenericControls.Controls
 
         private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
         {
-			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
-            RefreshStatus("Generating peak file (" + e.PercentageDone.ToString("0") + "% done)");
+			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");            
+            //RefreshStatus("Generating peak file (" + e.PercentageDone.ToString("0") + "% done)");
+            RefreshStatus(string.Format("{0}%; {1}", e.PercentageDone.ToString("0"), e.AudioFilePath));
         }
 
         private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
