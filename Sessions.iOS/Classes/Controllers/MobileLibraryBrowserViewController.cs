@@ -37,6 +37,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Library.Objects;
 using Sessions.Core.Helpers;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -58,7 +59,7 @@ namespace Sessions.iOS.Classes.Controllers
         string _navigationBarSubtitle;
         List<KeyValuePair<string, UIImage>> _imageCache;
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
-		SessionsTableViewCell _movingCell = null;
+		SessionsLibraryTableViewCell _movingCell = null;
         int _editingRowPosition = -1;
 		int _editingRowSection = -1;
 
@@ -493,7 +494,7 @@ namespace Sessions.iOS.Classes.Controllers
 				if (indexPath == null)
 					return;
 
-				var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+				var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
 				if (cell == null)
 					return;
 
@@ -521,7 +522,7 @@ namespace Sessions.iOS.Classes.Controllers
 			AnimateCellQueueMovement(_movingCell, ptTranslation, maxX);
 		}
 
-		private void AnimateCellQueueMovement(SessionsTableViewCell cell, PointF ptTranslation, float maxX)
+		private void AnimateCellQueueMovement(SessionsLibraryTableViewCell cell, PointF ptTranslation, float maxX)
 		{
 			if (cell == null)
 				return;
@@ -553,7 +554,7 @@ namespace Sessions.iOS.Classes.Controllers
 			//Console.WriteLine("alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
 		}
 
-		private void AnimateCellQueueSuccess(SessionsTableViewCell cell, int section, int row)
+		private void AnimateCellQueueSuccess(SessionsLibraryTableViewCell cell, int section, int row)
 		{
 			if (cell == null)
 				return;
@@ -626,7 +627,7 @@ namespace Sessions.iOS.Classes.Controllers
 				});
 		}
 
-		private void AnimateCellQueueCancel(SessionsTableViewCell cell)
+		private void AnimateCellQueueCancel(SessionsLibraryTableViewCell cell)
 		{
 			if (cell == null)
 				return;
@@ -675,7 +676,7 @@ namespace Sessions.iOS.Classes.Controllers
 
             if (oldRow >= 0)
             {
-				var oldCell = (SessionsTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
+				var oldCell = (SessionsLibraryTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
                 if (oldCell != null)
                 {
 					oldCell.ContainerBackgroundView.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -718,7 +719,7 @@ namespace Sessions.iOS.Classes.Controllers
 
 			if (row >= 0)
             {
-				var cell = (SessionsTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(row, section));
+				var cell = (SessionsLibraryTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(row, section));
                 if (cell != null)
                 {
                     cell.PlayButton.Alpha = 0;
@@ -859,12 +860,12 @@ namespace Sessions.iOS.Classes.Controllers
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
 			var item = _items[indexPath.Section].Item2[indexPath.Row];
-			var cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+			var cell = (SessionsLibraryTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
 			Console.WriteLine("MLBV - GetCell - dequeue cell==null: {0}", cell == null);
             if (cell == null)
             {
 				Console.WriteLine("MLBV - GetCell - Creating cell manually");
-                cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell = new SessionsLibraryTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
                 // Register events only once!
                 cell.PlayButton.TouchUpInside += HandleTableViewPlayTouchUpInside;
@@ -1019,7 +1020,7 @@ namespace Sessions.iOS.Classes.Controllers
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
             Console.WriteLine("MLBVC - DidHighlightRowAtIndexPath - row: {0}", indexPath.Row);
-            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
             if (cell == null)
                 return;
 
@@ -1035,7 +1036,7 @@ namespace Sessions.iOS.Classes.Controllers
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
             if (cell == null)
                 return;
 
@@ -1376,7 +1377,7 @@ namespace Sessions.iOS.Classes.Controllers
 				if(index == -1)
 					return;
 
-				var cell = (SessionsTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(index, sectionIndex));
+				var cell = (SessionsLibraryTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(index, sectionIndex));
 				if(cell == null)
 					return;
 

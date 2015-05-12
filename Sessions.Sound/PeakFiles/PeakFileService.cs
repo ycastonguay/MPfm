@@ -176,8 +176,7 @@ namespace Sessions.Sound.PeakFiles
                         }
 
                         // Get data and increment bytes read
-                        int dafuck = SSP.SSP_Decoder_GetData(channelDecode, buffer, (int)chunkSize);
-                        read = dafuck;
+                        read = SSP.SSP_Decoder_GetData(channelDecode, buffer, (int)chunkSize);
                         bytesRead += read;
 
                         // Create arrays for left and right channel

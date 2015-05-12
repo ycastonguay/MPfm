@@ -31,6 +31,7 @@ using Sessions.iOS.Classes.Delegates;
 using Sessions.iOS.Classes.Objects;
 using System.Linq;
 using Sessions.Sound.Objects;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {

@@ -30,6 +30,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Core;
 using Sessions.iOS.Helpers;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {

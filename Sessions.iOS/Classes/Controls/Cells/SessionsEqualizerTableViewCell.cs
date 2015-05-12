@@ -24,7 +24,7 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.GenericControls.Basics;
 using MonoTouch.CoreAnimation;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Cells
 {
     [Register("SessionsEqualizerTableViewCell")]
     public class SessionsEqualizerTableViewCell : UITableViewCell

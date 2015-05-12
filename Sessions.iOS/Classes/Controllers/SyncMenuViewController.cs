@@ -30,6 +30,7 @@ using Sessions.Library.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Core;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {
@@ -171,10 +172,10 @@ namespace Sessions.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            SessionsLibraryTableViewCell cell = (SessionsLibraryTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell = new SessionsLibraryTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
                 cell.OnRightButtonTap += HandleOnRightButtonTap;
             }
 
@@ -221,7 +222,7 @@ namespace Sessions.iOS
             return cell;
         }
 
-        private void HandleOnRightButtonTap(SessionsTableViewCell cell)
+        private void HandleOnRightButtonTap(SessionsLibraryTableViewCell cell)
         {
             Console.WriteLine("SyncMenuViewController - HandleOnRightButtonTap");
             int row = cell.Tag;

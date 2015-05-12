@@ -26,6 +26,7 @@ using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {
@@ -80,11 +81,11 @@ namespace Sessions.iOS
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var item = _items[indexPath.Row];
-            SessionsTableViewCell cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            SessionsLibraryTableViewCell cell = (SessionsLibraryTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new SessionsTableViewCell(cellStyle, _cellIdentifier);
+                cell = new SessionsLibraryTableViewCell(cellStyle, _cellIdentifier);
             }
 
             cell.ImageView.Alpha = 0.7f;
@@ -116,14 +117,14 @@ namespace Sessions.iOS
         [Export ("tableView:didHighlightRowAtIndexPath:")]
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
         }
 
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 

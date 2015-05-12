@@ -25,6 +25,7 @@ using Sessions.MVP.Views;
 using System.Drawing;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS.Classes.Controllers.Base
 {

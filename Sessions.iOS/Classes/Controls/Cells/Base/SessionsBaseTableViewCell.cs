@@ -23,7 +23,7 @@ using MonoTouch.CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Core;
 
-namespace Sessions.iOS.Classes.Controls.Cells
+namespace Sessions.iOS.Classes.Controls.Cells.Base
 {
 	[Register("SessionsBaseTableViewCell")]
 	public abstract class SessionsBaseTableViewCell : UITableViewCell

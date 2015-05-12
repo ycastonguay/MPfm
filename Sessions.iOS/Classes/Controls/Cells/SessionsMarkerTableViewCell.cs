@@ -20,9 +20,9 @@ using System.Drawing;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Controls.Cells.Base;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Cells
 {
 	[Register("SessionsMarkerTableViewCell")]
     public class SessionsMarkerTableViewCell : SessionsBaseExpandableTableViewCell

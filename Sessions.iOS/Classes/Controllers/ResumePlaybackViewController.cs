@@ -33,6 +33,7 @@ using Sessions.Sound.AudioFiles;
 using System.Threading.Tasks;
 using Sessions.iOS.Helpers;
 using Sessions.MVP.Models;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {

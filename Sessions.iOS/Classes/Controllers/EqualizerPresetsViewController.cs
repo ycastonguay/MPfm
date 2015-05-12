@@ -33,6 +33,7 @@ using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
 using Sessions.GenericControls.Basics;
 using org.sessionsapp.player;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {

@@ -27,7 +27,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Objects;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Cells
 {
     [Register("SessionsCollectionArtistViewCell")]
     public class SessionsCollectionArtistViewCell : UICollectionViewCell

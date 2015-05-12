@@ -20,13 +20,13 @@ using System.Drawing;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Controls.Cells.Base;
 using Sessions.iOS.Helpers;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Cells
 {
-    [Register("SessionsTableViewCell")]
-    public class SessionsTableViewCell : SessionsBaseTableViewCell
+    [Register("SessionsLibraryTableViewCell")]
+    public class SessionsLibraryTableViewCell : SessionsBaseTableViewCell
     {        
 		public UIImageView ImageCheckmark { get; private set; }
 		public UIImageView ImageCheckmarkConfirm { get; private set; }
@@ -56,25 +56,22 @@ namespace Sessions.iOS.Classes.Controls
 
         public override bool UseContainerView { get { return true; } }
 
-        public delegate void RightButtonTap(SessionsTableViewCell cell);
+        public delegate void RightButtonTap(SessionsLibraryTableViewCell cell);
         public event RightButtonTap OnRightButtonTap;
 
-        // TODO: Rename this to SessionsLibraryTableViewCell
-        public SessionsTableViewCell() : base()
+        public SessionsLibraryTableViewCell() : base()
         {
-            Initialize();
         }
 
-		// Keep this or cell reuse won't work for the first items
-		public SessionsTableViewCell(IntPtr handle) : base(handle)
+		public SessionsLibraryTableViewCell(IntPtr handle) : base(handle)
 		{
 		}
 
-        public SessionsTableViewCell(RectangleF frame) : base(frame)
+        public SessionsLibraryTableViewCell(RectangleF frame) : base(frame)
         {
         }
 
-        public SessionsTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
+        public SessionsLibraryTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
         {
         }
 

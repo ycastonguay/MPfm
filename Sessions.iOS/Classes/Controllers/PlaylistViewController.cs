@@ -28,6 +28,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Player;
 using Sessions.Sound.Player;
+using Sessions.iOS.Classes.Controls.Cells;
 
 namespace Sessions.iOS
 {
@@ -113,9 +114,9 @@ namespace Sessions.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (SessionsTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            var cell = (SessionsLibraryTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
-                cell = new SessionsTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell = new SessionsLibraryTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
             var item = _playlist.GetItemAt(indexPath.Row);
             var audioFile = item.AudioFile;
@@ -152,14 +153,14 @@ namespace Sessions.iOS
         [Export ("tableView:didHighlightRowAtIndexPath:")]
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
         }
 
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (SessionsTableViewCell)tableView.CellAt(indexPath);
+            var cell = (SessionsLibraryTableViewCell)tableView.CellAt(indexPath);
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker");
         }
 
@@ -244,7 +245,7 @@ namespace Sessions.iOS
                     var item = _playlist.GetItemAt(cell.Tag);
                     if(item != null)
                     {
-                        var customCell = (SessionsTableViewCell)cell;
+                        var customCell = (SessionsLibraryTableViewCell)cell;
                         if(item.AudioFile.Id == audioFile.Id)
                             customCell.RightImage.Hidden = false;
                         else
