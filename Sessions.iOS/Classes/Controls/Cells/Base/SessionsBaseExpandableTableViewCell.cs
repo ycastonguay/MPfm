@@ -91,6 +91,28 @@ namespace Sessions.iOS.Classes.Controls.Cells.Base
             SetControlVisibilityForExpand(false);
         }
 
+        public override void SetHighlighted(bool highlighted, bool animated)
+        {
+            if (!highlighted)
+            {
+                UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => {
+                    SelectedBackgroundView.Hidden = true; 
+                });
+            }
+            else
+            {
+                SelectedBackgroundView.Hidden = false;
+                SelectedBackgroundView.Alpha = 1;
+            }
+
+            // Do not call base here as we override the way selection is handled
+        }
+
+        public override void SetSelected(bool selected, bool animated)
+        {
+            // Do not call base here as we override the way selection is handled
+        }
+
         protected abstract void SetControlVisibilityForExpand(bool isExpanded);
     }
 }

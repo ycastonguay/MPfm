@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using DropBoxSync.iOS;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.MVP.Bootstrap;
@@ -72,7 +71,7 @@ namespace Sessions.iOS
         {
             base.ViewWillAppear(animated);
 
-            SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
+            var navCtrl = (SessionsNavigationController)this.NavigationController;
             navCtrl.SetTitle("More Options");
         }
         
@@ -87,8 +86,7 @@ namespace Sessions.iOS
             var cell = (SessionsPreferenceTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new SessionsPreferenceTableViewCell(cellStyle, _cellIdentifier);
+                cell = new SessionsPreferenceTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
             }
 
             cell.ImageView.Alpha = 0.7f;
@@ -133,7 +131,6 @@ namespace Sessions.iOS
             }
             
             cell.TitleTextLabel.Text = item.Title;
-            cell.Accessory = UITableViewCellAccessory.None;
             cell.IsLargeIcon = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;

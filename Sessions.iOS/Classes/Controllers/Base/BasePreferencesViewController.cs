@@ -15,17 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using Sessions.MVP;
-using Sessions.MVP.Views;
-using System.Drawing;
-using Sessions.iOS.Classes.Controls;
-using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Objects;
 
 namespace Sessions.iOS.Classes.Controllers.Base
 {
@@ -36,9 +32,6 @@ namespace Sessions.iOS.Classes.Controllers.Base
         public abstract List<PreferenceCellItem> Items { get; }
 
         public abstract void PreferenceValueChanged(PreferenceCellItem item);
-
-        //string _cellIdentifier = "CloudPreferencesCell";
-        //List<PreferenceCellItem> _items;
 
         public BasePreferencesViewController(string nibName, NSBundle bundle) 
             : base(nibName, bundle) 
@@ -93,7 +86,6 @@ namespace Sessions.iOS.Classes.Controllers.Base
             label.Text = sectionTitle;
 
             var view = new UIView();
-            //view.BackgroundColor = UIColor.Yellow;
             view.AddSubview(label);
 
             return view;
@@ -116,7 +108,6 @@ namespace Sessions.iOS.Classes.Controllers.Base
             label.SizeToFit();
 
             var view = new UIView();
-            //view.BackgroundColor = UIColor.Yellow;
             view.AddSubview(label);
 
             return view;
@@ -178,7 +169,6 @@ namespace Sessions.iOS.Classes.Controllers.Base
             }
 
             cell.Tag = indexPath.Row;
-            cell.Accessory = UITableViewCellAccessory.None;
             cell.SetItem(item);
 
             return cell;

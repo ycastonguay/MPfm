@@ -79,7 +79,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
             base.Initialize();
 
-            IsTextAnimationEnabled = false;
+            IsTextAnimationEnabled = true;
 
             CreateContainerViewControls();
             CreateBehindViewControls();

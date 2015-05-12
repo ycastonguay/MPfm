@@ -92,6 +92,14 @@ namespace Sessions.iOS.Classes.Controls.Cells.Base
             AddView(SelectedBackgroundView);
         }
 
+        protected UITableView GetTableView()
+        {
+            UIView view = Superview;
+            while (!(view is UITableView))
+                view = view.Superview;
+            return (UITableView)view;
+        }
+
         public void AddView(UIView view)
         {
             if(UseContainerView)

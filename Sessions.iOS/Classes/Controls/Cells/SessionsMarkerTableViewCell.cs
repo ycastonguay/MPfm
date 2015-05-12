@@ -182,14 +182,6 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddView(Slider);
         }
 
-		private UITableView GetTableView()
-		{
-			UIView view = Superview;
-			while (!(view is UITableView))
-				view = view.Superview;
-			return (UITableView)view;
-		}
-
 		private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
 		{
 			if (gestureRecognizer.State != UIGestureRecognizerState.Began)
@@ -215,66 +207,38 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
             base.LayoutSubviews();
 
-			const float padding = 8;
-            float x = 0;
-            if (ImageView.Image != null)
-            {
-                ImageView.Frame = new RectangleF(x, 4, 44, 44);
-                x += 44 + padding;
-            } 
-            else if (!string.IsNullOrEmpty(IndexTextLabel.Text))
-            {
-                x += padding;
-                IndexTextLabel.Frame = new RectangleF(x, 6, 22, 38);
-                x += 22 + padding;
-            } 
-            else
-            {
-                x += padding + (padding / 2);
-            }
+			const float leftPadding = 8;
+            const float topPadding = 6;
+            const float buttonSize = 44;
+            const float textHeight = 38;
+
+            float x = leftPadding;
+            IndexTextLabel.Frame = new RectangleF(x, 6, 22, textHeight);
+            x += 22 + leftPadding;
 
 			if (IsTextLabelAllowedToChangeFrame)
 			{
-                TitleTextLabel.Frame = new RectangleF(x, 6, Bounds.Width - 120, 38);
-				PositionTitleLabel.Frame = new RectangleF(padding, 6 + 35, Bounds.Width, 38);
-
                 float positionTextLabelX = Bounds.Width - 128;
 				if (PunchInButton.Alpha > 0)
                     positionTextLabelX -= 48;
 
-                PositionTextLabel.Frame = new RectangleF(positionTextLabelX, 6, 120, 38);
+                PositionTextLabel.Frame = new RectangleF(positionTextLabelX, topPadding, 120, textHeight);
+                PositionTitleLabel.Frame = new RectangleF(leftPadding, topPadding + 35, Bounds.Width, textHeight);
+                TitleTextLabel.Frame = new RectangleF(x, topPadding, Bounds.Width - 120, textHeight);
 			}
 
-			TextField.Frame = new RectangleF(x - 4, 7, Bounds.Width - 120 - 48, 38);
-			Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12 - 44 - 12, 36);
-			DeleteButton.Frame = new RectangleF(Bounds.Width - 44, 6, 44, 44);
-			PunchInButton.Frame = new RectangleF(Bounds.Width - 44, 68, 44, 44);
+			TextField.Frame = new RectangleF(x - 4, topPadding + 1, Bounds.Width - 120 - 48, 38);
+            Slider.Frame = new RectangleF(leftPadding, textHeight + 34, Bounds.Width - 12 - buttonSize - 12, 36);
+            DeleteButton.Frame = new RectangleF(Bounds.Width - buttonSize, topPadding, buttonSize, buttonSize);
+            PunchInButton.Frame = new RectangleF(Bounds.Width - buttonSize, 68, buttonSize, buttonSize);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
         {
+            base.SetHighlighted(highlighted, animated);
+
             PositionTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
-
-            // TODO: Can this be made generic?
-			if (!highlighted)
-			{
-				UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => {
-                    SelectedBackgroundView.Hidden = true; 
-                });
-			}
-			else
-			{
-				SelectedBackgroundView.Hidden = false;
-				SelectedBackgroundView.Alpha = 1;
-			}
-
-            // Do not call base here as we override the way selection is handled
-        }
-
-        public override void SetSelected(bool selected, bool animated)
-        {
-            // Do not call base here as we override the way selection is handled
         }
 
 		protected override void CollapseCell()
