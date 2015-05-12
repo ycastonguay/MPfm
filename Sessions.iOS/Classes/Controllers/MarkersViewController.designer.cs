@@ -13,7 +13,7 @@ namespace Sessions.iOS
 	partial class MarkersViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentRoundButton btnAddMarker { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentRoundButton btnAddMarker { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }

@@ -16,7 +16,7 @@ namespace Sessions.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnClose { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnClose { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblSubtitle { get; set; }

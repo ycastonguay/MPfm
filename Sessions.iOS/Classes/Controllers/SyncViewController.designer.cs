@@ -16,7 +16,7 @@ namespace Sessions.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnConnectDeviceManually { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnConnectDeviceManually { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblIPAddress { get; set; }

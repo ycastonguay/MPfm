@@ -26,8 +26,9 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Objects;
+using Sessions.iOS.Classes.Controls.Buttons;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Headers
 {
 	[Register("SessionsCollectionHeaderView")]
 	public class SessionsCollectionHeaderView : UICollectionReusableView

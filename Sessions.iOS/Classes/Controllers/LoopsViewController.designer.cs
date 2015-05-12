@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace Sessions.iOS
 {
@@ -12,13 +13,13 @@ namespace Sessions.iOS
 	partial class LoopsViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentRoundButton btnAddLoop { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnAddLoop { get; set; }
+		MonoTouch.UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
@@ -38,14 +39,14 @@ namespace Sessions.iOS
 				lblTitle = null;
 			}
 
-			if (btnAddLoop != null) {
-				btnAddLoop.Dispose ();
-				btnAddLoop = null;
-			}
-
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
+			}
+
+			if (btnAddLoop != null) {
+				btnAddLoop.Dispose ();
+				btnAddLoop = null;
 			}
 		}
 	}

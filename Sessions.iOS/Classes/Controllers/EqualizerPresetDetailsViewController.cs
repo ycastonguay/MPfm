@@ -28,6 +28,7 @@ using Sessions.iOS.Helpers;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS
 {

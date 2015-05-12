@@ -13,10 +13,10 @@ namespace Sessions.iOS
 	partial class StartResumePlaybackViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnResume { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnResume { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView imageAlbum { get; set; }

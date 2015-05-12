@@ -34,6 +34,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.GenericControls.Basics;
 using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS
 {

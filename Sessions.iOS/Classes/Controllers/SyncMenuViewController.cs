@@ -31,6 +31,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Core;
 using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS
 {

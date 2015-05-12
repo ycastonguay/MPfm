@@ -28,6 +28,7 @@ using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Messages;
 using Sessions.MVP.Navigation;
 using TinyMessenger;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS.Classes.Controls
 {

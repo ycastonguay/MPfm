@@ -23,6 +23,7 @@ using MonoTouch.CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.GenericControls.Basics;
 using MonoTouch.CoreAnimation;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS.Classes.Controls.Cells
 {

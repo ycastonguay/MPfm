@@ -27,7 +27,7 @@ using MonoTouch.CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Core;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Headers
 {
 	[Register("SessionsAlbumHeaderView")]
 	public class SessionsAlbumHeaderView : UITableViewHeaderFooterView

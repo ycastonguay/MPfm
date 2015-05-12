@@ -29,6 +29,7 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Sound.Objects;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS
 {

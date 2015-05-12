@@ -16,7 +16,7 @@ namespace Sessions.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnOK { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnOK { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblStatus { get; set; }

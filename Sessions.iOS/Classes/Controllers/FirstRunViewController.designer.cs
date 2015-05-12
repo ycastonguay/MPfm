@@ -13,7 +13,7 @@ namespace Sessions.iOS
 	partial class FirstRunViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnClose { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnClose { get; set; }
 
 		[Action ("actionClose:")]
 		partial void actionClose (MonoTouch.Foundation.NSObject sender);

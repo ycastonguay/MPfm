@@ -23,7 +23,7 @@ using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Buttons
 {
     [Register("SessionsButton")]
     public class SessionsButton : UIButton

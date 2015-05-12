@@ -13,19 +13,19 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class PlayerViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnNext { get; set; }
+		Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnNext { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnPlayPause { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnPlayPause { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnPrevious { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnPrevious { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnRepeat { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnRepeat { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnShuffle { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnShuffle { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsEqualizerPresetGraphView graphView { get; set; }

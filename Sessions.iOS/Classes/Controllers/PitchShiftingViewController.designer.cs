@@ -13,13 +13,13 @@ namespace Sessions.iOS
 	partial class PitchShiftingViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnChangeKey { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnChangeKey { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnDecrementInterval { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnDecrementInterval { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnIncrementInterval { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnIncrementInterval { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }

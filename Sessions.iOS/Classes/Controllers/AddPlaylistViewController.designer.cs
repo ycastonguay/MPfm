@@ -13,10 +13,10 @@ namespace Sessions.iOS
 	partial class AddPlaylistViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnCreate { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnCreate { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField txtPlaylistName { get; set; }

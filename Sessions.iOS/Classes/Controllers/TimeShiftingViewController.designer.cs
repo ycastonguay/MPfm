@@ -13,10 +13,10 @@ namespace Sessions.iOS
 	partial class TimeShiftingViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnDecrementTempo { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnDecrementTempo { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsSemiTransparentButton btnIncrementTempo { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnIncrementTempo { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }

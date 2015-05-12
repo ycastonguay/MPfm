@@ -39,6 +39,7 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using TinyMessenger;
+using System.Drawing;
 
 namespace Sessions.iOS.Classes.Delegates
 {
@@ -58,13 +59,6 @@ namespace Sessions.iOS.Classes.Delegates
 
 		public MainViewController MainViewController { get { return _mainViewController; } }
 
-		//
-		// This method is invoked when the application has loaded and is ready to run. In this 
-		// method you should instantiate the window, load the UI into it and then make the window
-		// visible.
-		//
-		// You have 17 seconds to return from this method, or iOS will terminate your application.
-		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 //			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
@@ -86,7 +80,6 @@ namespace Sessions.iOS.Classes.Delegates
 			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
 			{
 				_window.TintColor = GlobalTheme.SecondaryColor;
-				//UINavigationBar.Appearance.BarTintColor = UIColor.Yellow;
 			}
 
 			// Start navigation manager

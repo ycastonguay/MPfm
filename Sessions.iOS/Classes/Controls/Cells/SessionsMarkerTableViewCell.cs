@@ -21,6 +21,7 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Sessions.iOS.Classes.Controls.Cells.Base;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS.Classes.Controls.Cells
 {

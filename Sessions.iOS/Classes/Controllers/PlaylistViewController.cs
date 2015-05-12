@@ -29,6 +29,7 @@ using Sessions.MVP.Navigation;
 using Sessions.Player;
 using Sessions.Sound.Player;
 using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Controls.Buttons;
 
 namespace Sessions.iOS
 {

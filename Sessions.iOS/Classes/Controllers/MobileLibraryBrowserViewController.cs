@@ -38,6 +38,7 @@ using Sessions.MVP.Navigation;
 using Sessions.Library.Objects;
 using Sessions.Core.Helpers;
 using Sessions.iOS.Classes.Controls.Cells;
+using Sessions.iOS.Classes.Controls.Headers;
 
 namespace Sessions.iOS.Classes.Controllers
 {

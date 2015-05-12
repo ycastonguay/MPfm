@@ -13,13 +13,13 @@ namespace Sessions.iOS
 	partial class SelectPlaylistViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnAddNewPlaylist { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnAddNewPlaylist { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnSelect { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnSelect { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }

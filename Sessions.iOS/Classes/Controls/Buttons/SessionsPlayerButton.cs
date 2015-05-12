@@ -24,7 +24,7 @@ using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using MonoTouch.CoreAnimation;
 
-namespace Sessions.iOS.Classes.Controls
+namespace Sessions.iOS.Classes.Controls.Buttons
 {
     [Register("SessionsPlayerButton")]
     public class SessionsPlayerButton : UIButton

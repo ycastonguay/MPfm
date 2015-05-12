@@ -13,10 +13,10 @@ namespace Sessions.iOS
 	partial class SyncConnectManualViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnCancel { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnCancel { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnConnect { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnConnect { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField txtUrl { get; set; }

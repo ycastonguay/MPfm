@@ -13,10 +13,10 @@ namespace Sessions.iOS
 	partial class QueueViewController
 	{
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnPlay { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnPlay { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsPlayerButton btnRemoveAll { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnRemoveAll { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblSubtitle { get; set; }

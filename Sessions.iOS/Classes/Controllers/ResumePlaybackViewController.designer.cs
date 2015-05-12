@@ -16,7 +16,7 @@ namespace Sessions.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		Sessions.iOS.Classes.Controls.SessionsButton btnOpenCloudPreferences { get; set; }
+        Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnOpenCloudPreferences { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
