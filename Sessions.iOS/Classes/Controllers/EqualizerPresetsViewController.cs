@@ -296,8 +296,7 @@ namespace Sessions.iOS.Classes.Controllers
             var cell = (SessionsEqualizerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new SessionsEqualizerTableViewCell(cellStyle, _cellIdentifier);
+                cell = new SessionsEqualizerTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
                 // Register events only once!
                 cell.EditButton.TouchUpInside += HandleTableViewEditTouchUpInside;
@@ -308,7 +307,6 @@ namespace Sessions.iOS.Classes.Controllers
             cell.Tag = indexPath.Row;
             cell.GraphView.Preset = _presets[indexPath.Row];
             cell.TitleTextLabel.Text = _presets[indexPath.Row].Name;
-            cell.Accessory = UITableViewCellAccessory.None;
             cell.CheckmarkImageView.Hidden = _presets[indexPath.Row].EQPresetId != _selectedPresetId;
 
             bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
@@ -336,10 +334,6 @@ namespace Sessions.iOS.Classes.Controllers
                 cell.DuplicateButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                 cell.DeleteButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
             }
-
-//            UIView viewBackgroundSelected = new UIView();
-//            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-//            cell.SelectedBackgroundView = viewBackgroundSelected;
             
             return cell;
         }
