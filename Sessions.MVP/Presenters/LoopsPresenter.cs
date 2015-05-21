@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System;
 using Sessions.Sound.AudioFiles;
 using org.sessionsapp.player;
+using System.Linq;
 
 namespace Sessions.MVP.Presenters
 {
@@ -69,6 +70,7 @@ namespace Sessions.MVP.Presenters
             view.OnPlayLoop = PlayLoop;
             view.OnUpdateLoop = UpdateLoop;
 
+            view.OnChangeLoopName = ChangeLoopName;
             view.OnPunchInLoopSegment = PunchInLoopSegment;
             view.OnChangingLoopSegmentPosition = ChangingLoopSegmentPosition;
             view.OnChangedLoopSegmentPosition = ChangedLoopSegmentPosition;
@@ -116,18 +118,20 @@ namespace Sessions.MVP.Presenters
             base.ViewDestroyed();
         }
 
-	    private void SetLoopIndexes()
+	    private void SetLoopIndexesAndPositionPercentages()
 	    {
 	        for (int a = 0; a < _loops.Count; a++)
 	        {
 	            var loop = _loops[a];
-	            //loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
+	            loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
+                loop.StartPositionPercentage = (float)loop.StartPositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
+                loop.EndPositionPercentage = (float)loop.EndPositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
 	        }
 	    }
 
-	    private void RefreshLoopsViewWithUpdatedIndexes()
+	    private void RefreshLoopsViewWithUpdatedIndexesAndPositionPercentages()
 	    {
-            SetLoopIndexes();
+            SetLoopIndexesAndPositionPercentages();
 	        View.RefreshLoops(_loops);
 	    }
 
@@ -138,7 +142,7 @@ namespace Sessions.MVP.Presenters
                 //_loops = _libraryService.SelectLoopsIncludingSegments(audioFileId);
                 _loops = _libraryService.SelectLoops(audioFileId);
                 _audioFile = _playerService.CurrentAudioFile;
-                RefreshLoopsViewWithUpdatedIndexes();
+                RefreshLoopsViewWithUpdatedIndexesAndPositionPercentages();
             } 
             catch (Exception ex)
             {
@@ -173,7 +177,7 @@ namespace Sessions.MVP.Presenters
                     LoopId = loop.LoopId
                 });
                 _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
-                RefreshLoopsViewWithUpdatedIndexes();
+                RefreshLoopsViewWithUpdatedIndexesAndPositionPercentages();
             } 
             catch (Exception ex)
             {
@@ -187,19 +191,42 @@ namespace Sessions.MVP.Presenters
             _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
         }
 
+        private void ChangeLoopName(Guid loopId, string name)
+        {
+            try
+            {
+                var loop = _loops.FirstOrDefault(x => x.LoopId == loopId);
+                loop.Name = name;
+                UpdateLoop(loop);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while changing the loop name: " + ex.Message);
+                View.LoopError(ex);
+            }
+        }
+
         private void SelectLoop(SSPLoop loop)
         {
-            // If there is a loop currently playing, stop the current loop
-            if (_loop != null && _loop.LoopId != loop.LoopId && _playerService.Loop != null)
+            try
             {
-                if (_playerService.IsPlayingLoop && _playerService.Loop.LoopId == _loop.LoopId)
+                // If there is a loop currently playing, stop the current loop
+                if (_loop != null && _loop.LoopId != loop.LoopId && _playerService.Loop != null)
                 {
-                    _playerService.StopLoop();
+                    if (_playerService.IsPlayingLoop && _playerService.Loop.LoopId == _loop.LoopId)
+                    {
+                        _playerService.StopLoop();
+                    }
                 }
-            }
 
-            _loop = loop;
-            _audioFile = _playerService.CurrentAudioFile;
+                _loop = loop;
+                _audioFile = _playerService.CurrentAudioFile;
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while setting the active loop: " + ex.Message);
+                View.LoopError(ex);
+            }
         }
         
         private void DeleteLoop(SSPLoop loop)
@@ -212,7 +239,7 @@ namespace Sessions.MVP.Presenters
                     AudioFileId = loop.AudioFileId,
                     LoopId = loop.LoopId
                 });
-                RefreshLoopsViewWithUpdatedIndexes();
+                RefreshLoopsViewWithUpdatedIndexesAndPositionPercentages();
             } 
             catch (Exception ex)
             {
@@ -333,10 +360,10 @@ namespace Sessions.MVP.Presenters
                     });
                 }
 
-                if (_playerService.IsPlayingLoop)
-                {
+//                if (_playerService.IsPlayingLoop)
+//                {
                     View.RefreshCurrentlyPlayingLoop(_loop);
-                }
+//                }
             }
             catch (Exception ex)
             {

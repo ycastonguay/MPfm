@@ -34,6 +34,8 @@ namespace Sessions.MVP.Views
         Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
         Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
 
+        Action<Guid, string> OnChangeLoopName { get; set; }
+
         void LoopError(Exception ex);
         void RefreshCurrentlyPlayingLoop(SSPLoop loop);
         void RefreshLoops(List<SSPLoop> loops);

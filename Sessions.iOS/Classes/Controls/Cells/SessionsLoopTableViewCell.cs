@@ -46,6 +46,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
         public UILabel IndexTextLabel { get; private set; }
         public UILabel TitleTextLabel { get; private set; }
+        public UILabel PositionTextLabel { get; private set; }
         public UILabel StartPositionTextLabel { get; private set; }
         public UILabel EndPositionTextLabel { get; private set; }
 		public SessionsSemiTransparentRoundButton DeleteButton { get; set; }
@@ -96,23 +97,33 @@ namespace Sessions.iOS.Classes.Controls.Cells
             TitleTextLabel.HighlightedTextColor = UIColor.White;
             TitleTextLabel.Alpha = 1;
 
+            PositionTextLabel = new UILabel();
+            PositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            PositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
+            PositionTextLabel.TextColor = UIColor.White;
+            PositionTextLabel.HighlightedTextColor = UIColor.White;
+            PositionTextLabel.TextAlignment = UITextAlignment.Right;
+
             StartPositionTextLabel = new UILabel();
             StartPositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            StartPositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 15);
+            StartPositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 13);
             StartPositionTextLabel.TextColor = UIColor.White;
             StartPositionTextLabel.HighlightedTextColor = UIColor.White;
             StartPositionTextLabel.TextAlignment = UITextAlignment.Right;
+            StartPositionTextLabel.Alpha = 0;
 
             EndPositionTextLabel = new UILabel();
             EndPositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            EndPositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 15);
+            EndPositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 13);
             EndPositionTextLabel.TextColor = UIColor.White;
             EndPositionTextLabel.HighlightedTextColor = UIColor.White;
             EndPositionTextLabel.TextAlignment = UITextAlignment.Right;
+            EndPositionTextLabel.Alpha = 0;
 
             // Make sure the text label is over all other subviews
             ImageView.RemoveFromSuperview();
             AddView(TitleTextLabel);
+            AddView(PositionTextLabel);
             AddView(StartPositionTextLabel);
             AddView(EndPositionTextLabel);
             AddView(ImageView);
@@ -260,6 +271,22 @@ namespace Sessions.iOS.Classes.Controls.Cells
                 OnPunchInLoop(LoopId, SSPLoopSegmentType.End);
         }
 
+        public void SetLoop(SSPLoop loop, bool setSliderValues)
+        {
+            TitleTextLabel.Text = loop.Name;
+            TextField.Text = loop.Name;
+            PositionTextLabel.Text = string.Format("{0} / {1}", loop.StartPosition, loop.EndPosition);
+            StartPositionTextLabel.Text = loop.StartPosition;
+            EndPositionTextLabel.Text = loop.EndPosition;
+            LoopId = loop.LoopId;
+
+            if (setSliderValues)
+            {
+                StartPositionSlider.Value = loop.StartPositionPercentage;
+                EndPositionSlider.Value = loop.EndPositionPercentage;
+            }
+        }
+
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
@@ -277,14 +304,12 @@ namespace Sessions.iOS.Classes.Controls.Cells
 			if (IsTextLabelAllowedToChangeFrame)
 			{
                 float positionTextLabelX = Bounds.Width - 128;
-				if (StartPositionPunchInButton.Alpha > 0)
-                    positionTextLabelX -= 48;
-
-                StartPositionTextLabel.Frame = new RectangleF(positionTextLabelX, topPadding, 120, textHeight);
-                EndPositionTextLabel.Frame = new RectangleF(positionTextLabelX, topPadding, 120, textHeight);
+                PositionTextLabel.Frame = new RectangleF(positionTextLabelX, topPadding, 120, textHeight);
 
                 StartPositionTitleLabel.Frame = new RectangleF(leftPadding, topPadding + 35, Bounds.Width, textHeight);
+                StartPositionTextLabel.Frame = new RectangleF(positionTextLabelX - 48, topPadding + 35, 120, textHeight);
                 EndPositionTitleLabel.Frame = new RectangleF(leftPadding, topPadding + 35 + sliderAndTextHeight, Bounds.Width, textHeight);
+                EndPositionTextLabel.Frame = new RectangleF(positionTextLabelX - 48, topPadding + 35 + sliderAndTextHeight, 120, textHeight);
 
                 TitleTextLabel.Frame = new RectangleF(x, topPadding, Bounds.Width - 120, textHeight);
 			}
@@ -328,15 +353,19 @@ namespace Sessions.iOS.Classes.Controls.Cells
             DeleteButton.Alpha = isExpanded ? 1 : 0;
             StartPositionPunchInButton.Alpha = isExpanded ? 1 : 0;
             EndPositionPunchInButton.Alpha = isExpanded ? 1 : 0;
+            PositionTextLabel.Alpha = isExpanded ? 0 : 1;
+            StartPositionTextLabel.Alpha = isExpanded ? 1 : 0;
+            EndPositionTextLabel.Alpha = isExpanded ? 1 : 0;
 
-            float padding = isExpanded ? 0 : 48f;
-            StartPositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
-            EndPositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
+//            float padding = isExpanded ? 0 : 48f;
+//            StartPositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
+//            EndPositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
         }
 
         protected override void SetControlScaleForTouchAnimation(float scale)
         {
             TitleTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
+            PositionTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
             StartPositionTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
             EndPositionTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
             IndexTextLabel.Transform = CGAffineTransform.MakeScale(scale, scale);

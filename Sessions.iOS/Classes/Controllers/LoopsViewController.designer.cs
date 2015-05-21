@@ -13,13 +13,13 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class LoopsViewController
 	{
 		[Outlet]
-        Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentRoundButton btnAddLoop { get; set; }
+		Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentRoundButton btnAddLoop { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+		Sessions.iOS.Classes.Controls.SessionsTableView tableView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
@@ -29,9 +29,9 @@ namespace Sessions.iOS.Classes.Controllers
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (tableView != null) {
-				tableView.Dispose ();
-				tableView = null;
+			if (btnAddLoop != null) {
+				btnAddLoop.Dispose ();
+				btnAddLoop = null;
 			}
 
 			if (lblTitle != null) {
@@ -39,14 +39,14 @@ namespace Sessions.iOS.Classes.Controllers
 				lblTitle = null;
 			}
 
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
+			}
+
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
-			}
-
-			if (btnAddLoop != null) {
-				btnAddLoop.Dispose ();
-				btnAddLoop = null;
 			}
 		}
 	}

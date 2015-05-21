@@ -97,14 +97,7 @@ namespace Sessions.iOS.Classes.Controllers
 
             cell.Tag = indexPath.Row;
             cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
-            cell.TitleTextLabel.Text = item.Name;
-            cell.TextField.Text = item.Name;
-            cell.StartPositionTextLabel.Text = item.StartPosition;
-            cell.EndPositionTextLabel.Text = item.EndPosition;
-            //cell.StartPositionSlider.Value = item.
-            //cell.PositionTextLabel.Text = item.Position;
-            //cell.Slider.Value = item.PositionPercentage;
-            cell.LoopId = item.LoopId;
+            cell.SetLoop(item, true);
 
             // Check if the reused cell should be expanded
             int editIndex = _loops.FindIndex(x => x.LoopId == _currentEditLoopId);
@@ -186,7 +179,7 @@ namespace Sessions.iOS.Classes.Controllers
                     previousCell.CollapseCell(true);
                 if (cell != null)
                 {
-//                    OnSetActiveMarker(_currentEditLoopId);
+                    OnSelectLoop(_loops[index]);
                     if (_currentEditLoopId == Guid.Empty)
                     {
                         if(indexPath.Row != indexPathEdit.Row)
@@ -227,17 +220,17 @@ namespace Sessions.iOS.Classes.Controllers
 
         private void HandleOnChangeLoopName(Guid loopId, string newName)
         {
-//            OnChangeMarkerName(markerId, newName);
+            OnChangeLoopName(loopId, newName);
         }
 
         private void HandleOnChangeLoopPosition(Guid loopId, SSPLoopSegmentType segmentType, float newPositionPercentage)
         {
-//            OnChangeMarkerPosition(markerId, newPositionPercentage);
+            OnChangingLoopSegmentPosition(segmentType, newPositionPercentage);
         }
 
         private void HandleOnSetLoopPosition(Guid loopId, SSPLoopSegmentType segmentType, float newPositionPercentage)
         {
-//            OnSetMarkerPosition(markerId, newPositionPercentage);
+            OnChangedLoopSegmentPosition(segmentType, newPositionPercentage);
         }
 
         #region ILoopsView implementation
@@ -252,6 +245,8 @@ namespace Sessions.iOS.Classes.Controllers
         public Action<SSPLoopSegmentType> OnPunchInLoopSegment { get; set; }
         public Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
         public Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
+
+        public Action<Guid, string> OnChangeLoopName { get; set; }
 
         public void LoopError(Exception ex)
         {
@@ -268,6 +263,17 @@ namespace Sessions.iOS.Classes.Controllers
 
         public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
         {
+            InvokeOnMainThread(() => {
+                Console.WriteLine("--------->>>>> RefreshCurrentlyPlayingLoop - start {0} end {1}", loop.StartPosition, loop.EndPosition);
+
+                int index = _loops.FindIndex(x => x.LoopId == loop.LoopId);
+                //Tracing.Log("MarkersViewController - RefreshMarkerPosition - markerId: {0} position: {1} index: {2} newIndex: {3}", marker.MarkerId, marker.Position, index, newIndex);
+
+                // Update position
+                var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0)) as SessionsLoopTableViewCell;
+                if(cell != null)
+                    cell.SetLoop(loop, false);
+            });
         }
 
         #endregion
