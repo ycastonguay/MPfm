@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sessions.Core.Tests\Lib\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.core">
       <HintPath>..\Sessions.Core.Tests\Lib\nunit.core.dll</HintPath>
     </Reference>
@@ -49,6 +45,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\Sessions.Core.Tests\Lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Sessions.Core.Tests\Lib\Moq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,27 +55,23 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.csproj">
-      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>Sessions.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.GenericControls\Sessions.GenericControls.csproj">
-      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
       <Name>Sessions.GenericControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.Library\Sessions.Library.csproj">
-      <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
       <Name>Sessions.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sessions.MVP\Sessions.MVP.csproj">
-      <Project>{b6b0613c-ff39-479d-9ef0-31daf9684a06}</Project>
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
       <Name>Sessions.MVP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sessions.Player\Sessions.Player.csproj">
-      <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
-      <Name>Sessions.Player</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sessions.Sound\Sessions.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>Sessions.Sound</Name>
     </ProjectReference>
   </ItemGroup>

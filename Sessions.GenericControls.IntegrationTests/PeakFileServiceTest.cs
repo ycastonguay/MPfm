@@ -24,11 +24,11 @@ using Sessions.Sound.PeakFiles;
 using Sessions.Core.TestConfiguration;
 using Sessions.Sound.AudioFiles;
 using System.Threading;
-using Sessions.Sound.BassNetWrapper;
 using Sessions.Sound;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Basics;
 using System.IO;
+using Sessions.Sound.Player;
 
 namespace Sessions.GenericControls.IntegrationTests
 {
@@ -37,7 +37,6 @@ namespace Sessions.GenericControls.IntegrationTests
     {
         protected IPeakFileService Service;
         protected TestConfigurationEntity Config { get; private set; }
-        protected TestDevice TestDevice { get; private set; }
 
         public PeakFileServiceTest()
         {
@@ -52,8 +51,9 @@ namespace Sessions.GenericControls.IntegrationTests
         protected void InitializeBass()
         {
             Console.WriteLine("Initializing Bass...");
-            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
-            TestDevice = new TestDevice(DriverType.DirectSound, -1, 44100);
+            var player = new SSPPlayer();
+            player.Init();
+            player.InitDevice(-1, 44100, 1000, 100, true);
         }
 
         [SetUp]
@@ -92,6 +92,7 @@ namespace Sessions.GenericControls.IntegrationTests
         public void ShouldCancelGeneratePeakFile()
         {
             // Arrange
+            string currentDir = Directory.GetCurrentDirectory();
             var finished = new ManualResetEvent(false);
             var audioFile = GetTestAudioFile();
             string peakFilePath = PeakFileService.GetPeakFilePathForAudioFileAndCreatePeakFileDirectory(audioFile);
@@ -118,7 +119,8 @@ namespace Sessions.GenericControls.IntegrationTests
 
             // Act
             Service.GeneratePeakFile(audioFile.FilePath, peakFilePath);
-            Assert.IsTrue(finished.WaitOne(15000));
+            bool result = finished.WaitOne(15000);
+            Assert.IsTrue(result);
         }
 	}
 }

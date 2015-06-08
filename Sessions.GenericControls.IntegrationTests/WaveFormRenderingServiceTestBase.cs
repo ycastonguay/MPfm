@@ -24,8 +24,6 @@ using Sessions.Sound.PeakFiles;
 using Sessions.Core.TestConfiguration;
 using Sessions.Sound.AudioFiles;
 using System.Threading;
-using Sessions.Sound.BassNetWrapper;
-using Sessions.Sound;
 using Sessions.GenericControls.Services.Objects;
 using Sessions.GenericControls.Basics;
 
@@ -38,7 +36,7 @@ namespace Sessions.GenericControls.IntegrationTests
         private IPeakFileService _peakFileService;
 
         protected TestConfigurationEntity Config { get; private set; }
-        protected TestDevice TestDevice { get; private set; }
+//        protected TestDevice TestDevice { get; private set; }
         protected IWaveFormRenderingService RenderingService { get; private set; }
 
         protected WaveFormRenderingServiceTestBase()
@@ -60,8 +58,7 @@ namespace Sessions.GenericControls.IntegrationTests
         protected void InitializeBass()
         {
             Console.WriteLine("Initializing Bass...");
-            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
-            TestDevice = new TestDevice(DriverType.DirectSound, -1, 44100);
+//            TestDevice = new TestDevice(DriverType.DirectSound, -1, 44100);
         }
 
         [SetUp]
