@@ -28,6 +28,7 @@ using Sessions.GenericControls.Services.Objects;
 using System.Threading;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.PeakFiles;
+using Sessions.Sound.PeakFiles.Interfaces;
 
 namespace Sessions.GenericControls.Services
 {
@@ -35,6 +36,7 @@ namespace Sessions.GenericControls.Services
     {
         private readonly object _locker = new object();
         private readonly IPeakFileService _peakFileService;
+        private readonly IPeakFileQueueService _peakFileQueueService;
         private readonly IMemoryGraphicsContextFactory _memoryGraphicsContextFactory;
         private AudioFile _audioFile;
         private BasicBrush _brushBackground;
@@ -47,6 +49,8 @@ namespace Sessions.GenericControls.Services
         public delegate void GeneratePeakFileEventHandler(object sender, GeneratePeakFileEventArgs e);
         public delegate void GenerateWaveFormEventHandler(object sender, GenerateWaveFormEventArgs e);
 
+        public bool IsGeneratingPeakFile { get { return _peakFileQueueService.IsLoading; } }
+
         public event GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         public event GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         public event GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
@@ -54,13 +58,15 @@ namespace Sessions.GenericControls.Services
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
-        public WaveFormRenderingService(IPeakFileService peakFileService, IMemoryGraphicsContextFactory memoryGraphicsContextFactory)
+        public WaveFormRenderingService(IPeakFileService peakFileService, IPeakFileQueueService peakFileQueueService, IMemoryGraphicsContextFactory memoryGraphicsContextFactory)
         {
             _peakFileService = peakFileService;
+            _peakFileQueueService = peakFileQueueService;
+            _peakFileQueueService.OnGenerationStarted += HandleOnPeakFileProcessStarted;
+            _peakFileQueueService.OnGenerationProgress += HandleOnPeakFileProcessData;
+            _peakFileQueueService.OnGenerationFinished += HandleOnPeakFileProcessDone;
+
             _memoryGraphicsContextFactory = memoryGraphicsContextFactory;
-            _peakFileService.OnProcessStarted += HandleOnPeakFileProcessStarted;
-            _peakFileService.OnProcessData += HandleOnPeakFileProcessData;
-            _peakFileService.OnProcessDone += HandleOnPeakFileProcessDone;
 
             CreateDrawingResources();
         }
@@ -107,13 +113,13 @@ namespace Sessions.GenericControls.Services
                 GenerateWaveFormBitmapEndedEvent(this, e);
         }
 
-        void HandleOnPeakFileProcessStarted(PeakFileStartedData data)
+        void HandleOnPeakFileProcessStarted(PeakFileGenerationStartedData data)
         {
             //Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessStarted");
             OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
         }
 
-        void HandleOnPeakFileProcessData(PeakFileProgressData data)
+        void HandleOnPeakFileProcessData(PeakFileGenerationProgressData data)
         {
             //Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessData");
             OnGeneratePeakFileProgress(new GeneratePeakFileEventArgs()
@@ -123,9 +129,9 @@ namespace Sessions.GenericControls.Services
             });
         }
 
-        void HandleOnPeakFileProcessDone(PeakFileDoneData data)
+        void HandleOnPeakFileProcessDone(PeakFileGenerationFinishedData data)
         {
-            Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
+//            Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
             if (!data.Cancelled)
             {
                 // Load the new peak file from disk
@@ -143,7 +149,7 @@ namespace Sessions.GenericControls.Services
 
         public void FlushCache()
         {
-            Console.WriteLine("WaveFormRenderingService - FlushCache");
+//            Console.WriteLine("WaveFormRenderingService - FlushCache");
             lock (_locker)
             {
                 _waveDataCache = null;
@@ -153,14 +159,8 @@ namespace Sessions.GenericControls.Services
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-            // Check if another peak file is already loading
-            Console.WriteLine("WaveFormRenderingService - LoadPeakFile audioFile: " + audioFile.FilePath);
+            Console.WriteLine("==========> [WaveFormRenderingService] - LoadPeakFile audioFile: " + audioFile.FilePath);
             _audioFile = audioFile;
-            if (_peakFileService.IsLoading)
-            {
-                //Console.WriteLine("WaveFormRenderingService - Cancelling current peak file generation...");
-                _peakFileService.Cancel();
-            }
 
             string peakFilePath = PeakFileService.GetPeakFilePathForAudioFileAndCreatePeakFileDirectory(audioFile);
 
@@ -175,7 +175,7 @@ namespace Sessions.GenericControls.Services
                     FlushCache();
                     try
                     {
-                        Console.WriteLine("WaveFormRenderingService - Reading peak file: " + peakFilePath);
+                        Console.WriteLine("==========> [WaveFormRenderingService] - Reading peak file: " + peakFilePath);
                         data = _peakFileService.ReadPeakFile(peakFilePath);
                         if (data != null)
                             return data;
@@ -187,9 +187,9 @@ namespace Sessions.GenericControls.Services
 
                     try
                     {
-                        Console.WriteLine("WaveFormRenderingService - Peak file could not be loaded - Generating " + peakFilePath + "...");
+                        Console.WriteLine("==========> [WaveFormRenderingService] - Peak file could not be loaded - Generating " + peakFilePath + "...");
                         OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
-                        _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+                        _peakFileQueueService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
                     }
                     catch (Exception ex)
                     {
@@ -198,15 +198,15 @@ namespace Sessions.GenericControls.Services
                     return null;
                 }, TaskCreationOptions.LongRunning).ContinueWith(t =>
                 {
-                    Console.WriteLine("WaveFormRenderingService - Read peak file over.");
+                    Console.WriteLine("==========> [WaveFormRenderingService] - Read peak file over.");
                     var data = (List<WaveDataMinMax>)t.Result;
                     if (data == null)
                     {
-                        //Console.WriteLine("WaveFormRenderingService - Could not load a peak file from disk (i.e. generating a new peak file).");
+                        Console.WriteLine("==========> [WaveFormRenderingService] - Could not load a peak file from disk (i.e. generating a new peak file).");
                         return;
                     }
 
-                    Console.WriteLine("WaveFormRenderingService - Adding wave data to cache...");
+                    Console.WriteLine("==========> [WaveFormRenderingService] - Adding wave data to cache...");
                     _waveDataCache = data;
 
 					OnLoadedPeakFileSuccessfully(new LoadPeakFileEventArgs() { AudioFile = audioFile });
@@ -215,14 +215,14 @@ namespace Sessions.GenericControls.Services
             else
             {
                 // Start generating peak file in background
-                Console.WriteLine("Peak file doesn't exist - Generating " + peakFilePath + "...");
-                _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+                Console.WriteLine("==========> [WaveFormRenderingService] - Peak file doesn't exist - Generating " + peakFilePath + "...");
+                _peakFileQueueService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
             }
         }
 
         public void CancelPeakFile()
         {
-            _peakFileService.Cancel();
+            _peakFileQueueService.CancelAll();
         }
 
         /// <summary>
@@ -245,13 +245,13 @@ namespace Sessions.GenericControls.Services
                 context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(request.BoundsBitmap.Width, request.BoundsBitmap.Height);
                 if (context == null)
                 {
-                    Console.WriteLine("Error initializing image cache context!");
+//                    Console.WriteLine("Error initializing image cache context!");
 					return;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error while creating image cache context: " + ex.Message);
+//                Console.WriteLine("Error while creating image cache context: " + ex.Message);
                 return;
             }
 
@@ -381,7 +381,7 @@ namespace Sessions.GenericControls.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error while creating image cache: " + ex.Message);
+//                Console.WriteLine("RequestBitmapInternal - Error while creating image cache: " + ex.Message);
             }
             finally
             {

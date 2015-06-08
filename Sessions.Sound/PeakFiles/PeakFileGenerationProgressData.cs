@@ -20,10 +20,7 @@ using Sessions.Sound.AudioFiles;
 
 namespace Sessions.Sound.PeakFiles
 {
-    /// <summary>
-    /// Defines the progress data used with the OnProcessData event.
-    /// </summary>
-    public class PeakFileProgressData
+    public class PeakFileGenerationProgressData
     {
         /// <summary>
         /// Defines the audio file path to analyse in order to generate the peak file.

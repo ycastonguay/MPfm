@@ -34,6 +34,8 @@ namespace Sessions.GenericControls.Services
         private readonly IWaveFormRequestService _requestService;
         private readonly ITileCacheService _cacheService;
 
+        public bool IsGeneratingPeakFile { get { return _waveFormRenderingService.IsGeneratingPeakFile; } }
+
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;

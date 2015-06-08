@@ -83,7 +83,7 @@ namespace Sessions.GenericControls.Controls
         private BasicColor _textColor = new BasicColor(255, 255, 255);
 
         public bool IsEmpty { get; private set; }
-        public bool IsLoading { get; private set; }
+        public bool IsGeneratingPeakFile { get { return _waveFormEngineService.IsGeneratingPeakFile; } }
         public InputInteractionMode InteractionMode { get; set; }
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
@@ -104,7 +104,7 @@ namespace Sessions.GenericControls.Controls
                 _position = value;
 
                 // Don't bother if a peak file is loading
-                if (IsLoading)// || _imageCache == null)
+                if (IsGeneratingPeakFile)// || _imageCache == null)
                     return;
 
                 // Calculate position
@@ -140,7 +140,7 @@ namespace Sessions.GenericControls.Controls
                 _secondaryPosition = value;
 
                 // Don't bother if a peak file is loading
-                if (IsLoading)
+                if (IsGeneratingPeakFile)
                     return;
 
                 float secondaryPositionPercentage = (float)_secondaryPosition / (float)Length;                
@@ -316,14 +316,12 @@ namespace Sessions.GenericControls.Controls
             //if (!e.Cancelled)
             //    _waveFormRenderingService.LoadPeakFile(new AudioFile(e.AudioFilePath));
 
-            IsLoading = false;
             InvalidateBitmaps();
         }
 
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
 			//Console.WriteLine("WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
-            IsLoading = false;
             InvalidateBitmaps();
         }
 
@@ -411,10 +409,9 @@ namespace Sessions.GenericControls.Controls
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-			Console.WriteLine("WaveFormControl - LoadPeakFile - filePath: {0}", audioFile.FilePath);
+//			Console.WriteLine("WaveFormControl - LoadPeakFile - filePath: {0}", audioFile.FilePath);
             _loop = null;
             _markers = null;
-            IsLoading = true;
             IsEmpty = false;
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
@@ -423,10 +420,9 @@ namespace Sessions.GenericControls.Controls
 
         public void CancelPeakFile()
         {
-            if (IsLoading)
+            if (IsGeneratingPeakFile)
             {
                 Console.WriteLine("WaveFormControl - Canceling peak file generation...");
-                IsLoading = false;
                 IsEmpty = true;
                 _waveFormEngineService.CancelPeakFile();
             }
@@ -435,7 +431,6 @@ namespace Sessions.GenericControls.Controls
         public void Reset()
         {
             IsEmpty = true;            
-            IsLoading = false;            
             _waveFormEngineService.FlushCache();
             InvalidateVisual();
         }
@@ -639,12 +634,14 @@ namespace Sessions.GenericControls.Controls
         {
             base.Render(context);
 
+//            Console.WriteLine("##################>>> WaveFormControl - Render - isLoading: {0} - isEmpty: {1}", IsLoading, IsEmpty);
+
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
             _density = context.Density;
-            if (IsLoading)
+            if (IsGeneratingPeakFile)
             {
-                //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
+//                Console.WriteLine("##################>>> WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
                 DrawStatus(context, _status);
             }
             else if (IsEmpty)
@@ -653,7 +650,7 @@ namespace Sessions.GenericControls.Controls
             }
             else
             {
-                //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
+//                Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap...");
                 DrawWaveFormBitmap(context);
             }
 

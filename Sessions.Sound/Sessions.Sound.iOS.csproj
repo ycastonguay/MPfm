@@ -46,7 +46,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\Output\Sessions.Sound.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -159,6 +158,7 @@
     <Folder Include="PeakFiles\" />
     <Folder Include="Readers\" />
     <Folder Include="libssp_player\" />
+    <Folder Include="PeakFiles\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
@@ -168,10 +168,7 @@
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
-    <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
-    <Compile Include="PeakFiles\PeakFileProgressData.cs" />
-    <Compile Include="PeakFiles\PeakFileStartedData.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />
@@ -184,7 +181,6 @@
     <Compile Include="Tags\ID3v2Metadata.cs" />
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
-    <Compile Include="PeakFiles\IPeakFileService.cs" />
     <Compile Include="PeakFiles\PeakFileService.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="Playlists\ShufflePlaylist.cs" />
@@ -235,5 +231,11 @@
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Playlists\PlaylistFile.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerationFinishedData.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerationProgressData.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerationStartedData.cs" />
+    <Compile Include="PeakFiles\Interfaces\IPeakFileService.cs" />
+    <Compile Include="PeakFiles\Interfaces\IPeakFileQueueService.cs" />
+    <Compile Include="PeakFiles\PeakFileQueueService.cs" />
   </ItemGroup>
 </Project>

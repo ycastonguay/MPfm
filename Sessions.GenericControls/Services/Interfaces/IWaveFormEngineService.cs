@@ -24,6 +24,8 @@ namespace Sessions.GenericControls.Services.Interfaces
 {
     public interface IWaveFormEngineService
     {
+        bool IsGeneratingPeakFile { get; }
+
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;

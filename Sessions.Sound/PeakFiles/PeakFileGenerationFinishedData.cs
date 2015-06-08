@@ -17,10 +17,7 @@
 
 namespace Sessions.Sound.PeakFiles
 {
-    /// <summary>
-    /// Defines the data used with the OnProcessDone event.
-    /// </summary>
-    public class PeakFileDoneData
+    public class PeakFileGenerationFinishedData
     {
         public string AudioFilePath { get; set; }
         public bool Cancelled { get; set; }

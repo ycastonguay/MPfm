@@ -166,6 +166,12 @@
     <Compile Include="Objects\PlayerVolume.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Playlists\PlaylistFile.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerationFinishedData.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerationProgressData.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerationStartedData.cs" />
+    <Compile Include="PeakFiles\Interfaces\IPeakFileService.cs" />
+    <Compile Include="PeakFiles\Interfaces\IPeakFileQueueService.cs" />
+    <Compile Include="PeakFiles\PeakFileQueueService.cs" />    
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sessions.Core\Sessions.Core.Android.csproj">

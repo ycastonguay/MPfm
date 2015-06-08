@@ -27,6 +27,7 @@ using System.Linq;
 using Sessions.Core;
 using Sessions.Core.Helpers;
 using org.sessionsapp.player;
+using Sessions.Sound.PeakFiles.Interfaces;
 
 namespace Sessions.Sound.PeakFiles
 {
@@ -35,11 +36,11 @@ namespace Sessions.Sound.PeakFiles
     /// </summary>
     public class PeakFileService : IPeakFileService
     {
-        bool _useFloatingPoint = false;
-
-        Task _currentTask;
-        CancellationTokenSource _cancellationTokenSource = null;
-        CancellationToken _cancellationToken;        
+        private readonly object _lockerCancel = new object();
+        private bool _useFloatingPoint = false;
+        private Task _currentTask;
+        private CancellationTokenSource _cancellationTokenSource = null;
+        private CancellationToken _cancellationToken;        
 
         /// <summary>
         /// Defines the current peak file version. Used when reading peak files to make sure
@@ -51,11 +52,7 @@ namespace Sessions.Sound.PeakFiles
         /// Indicates if a peak file is generating.
         /// </summary>
         public bool IsLoading { get; private set; }
-
-        /// <summary>
-        /// Indicates if the class is currently generating peak files.
-        /// </summary>
-        public bool IsProcessing { get; private set; }
+        public bool IsCanceling { get; private set; }
 
         private uint progressReportBlockInterval = 200;
         /// <summary>
@@ -75,9 +72,9 @@ namespace Sessions.Sound.PeakFiles
             }
         }
 
-        public event ProcessStarted OnProcessStarted;
-        public event ProcessData OnProcessData;
-        public event ProcessDone OnProcessDone;
+        public event PeakFileGenerationStarted OnGenerationStarted;
+        public event PeakFileGenerationProgress OnGenerationProgress;
+        public event PeakFileGenerationFinished OnGenerationFinished;
 
         /// <summary>
         /// Generates a peak file for an audio file.
@@ -99,12 +96,13 @@ namespace Sessions.Sound.PeakFiles
             long bytesRead = 0;
             float[] floatLeft = null;
             float[] floatRight = null;
-            IntPtr data = new IntPtr();
             WaveDataMinMax minMax = null;
-            List<WaveDataMinMax> listMinMaxForProgressData = new List<WaveDataMinMax>();
+            var data = new IntPtr();
+            var listMinMaxForProgressData = new List<WaveDataMinMax>();
 
             IsLoading = true;
             bool processSuccessful = false;
+            Console.WriteLine("--------> [PeakFileService] - Generating peak file; creating new cancellation token source... {0}", peakFilePath);
             _cancellationTokenSource = new CancellationTokenSource();
             _cancellationToken = _cancellationTokenSource.Token;
             _currentTask = Task.Factory.StartNew(() =>
@@ -147,31 +145,28 @@ namespace Sessions.Sound.PeakFiles
                     buffer = new int[chunkSize];
 
                     // Is an event binded to OnProcessData?
-                    if (OnProcessStarted != null)
+                    if (OnGenerationStarted != null)
                     {
-                        PeakFileStartedData dataStarted = new PeakFileStartedData(){
-                            Length = audioFileLength,
+                        var dataStarted = new PeakFileGenerationStartedData(){
+                            LengthBytes = audioFileLength,
                             TotalBlocks = (Int32)blocks
                         };
-                        OnProcessStarted(dataStarted);
+                        OnGenerationStarted(dataStarted);
                     }
+
+                    Console.WriteLine("--------> [PeakFileService] - Generate peak file - file: {0}", audioFilePath.Substring(audioFilePath.Length - 15, 15));
 
                     // Loop through file using chunk size
                     long dataBlockRead = 0;
                     do
                     {
                         // Check for cancel
-                        //Console.WriteLine("PeakFileService - Bytes read: " + bytesRead.ToString());
+                        //Console.WriteLine("--> PeakFileService - Bytes read: {0} - file: {1}", bytesRead, audioFilePath.Substring(audioFilePath.Length - 15, 15));
                         if (_cancellationToken.IsCancellationRequested)
                         {
                             // Set flags, exit loop
-                            Console.WriteLine("PeakFileService - Cancelling peak file generation...");
+                            Console.WriteLine("--------> [PeakFileService] - ***CANCELING*** peak file generation ({0})...", audioFilePath.Substring(audioFilePath.Length - 15, 15));
                             cancelled = true;
-                            IsLoading = false;
-                            OnProcessDone(new PeakFileDoneData() { 
-                                AudioFilePath = audioFilePath,
-                                Cancelled = true
-                            });
                             break;
                         }
 
@@ -224,7 +219,7 @@ namespace Sessions.Sound.PeakFiles
                             dataBlockRead = 0;
 
                             // Report progress
-                            var dataProgress = new PeakFileProgressData();
+                            var dataProgress = new PeakFileGenerationProgressData();
                             dataProgress.AudioFilePath = audioFilePath;
                             dataProgress.PeakFilePath = peakFilePath;
                             dataProgress.PercentageDone = (((float)bytesRead / (float)audioFileLength) / 2) * 100;
@@ -232,7 +227,7 @@ namespace Sessions.Sound.PeakFiles
                             dataProgress.CurrentBlock = currentBlock;
                             dataProgress.TotalBlocks = (UInt32)blocks;
                             dataProgress.MinMax = listMinMaxForProgressData;
-                            OnProcessData(dataProgress); 
+                            OnGenerationProgress(dataProgress); 
 
                             // Reset min/max list
                             listMinMaxForProgressData = new List<WaveDataMinMax>();
@@ -297,9 +292,13 @@ namespace Sessions.Sound.PeakFiles
                 }
 
                 // Set completed
+                Console.WriteLine("--------> [PeakFileService] - ProcessDone - processSuccessful: {0} - filePath: {1}", processSuccessful, audioFilePath);
                 IsLoading = false;
-                Console.WriteLine("PeakFileService - ProcessDone - processSuccessful: " + processSuccessful.ToString() + " filePath: " + audioFilePath);
-                OnProcessDone(new PeakFileDoneData() {
+                lock(_lockerCancel)
+                {
+                    IsCanceling = false;                
+                }
+                OnGenerationFinished(new PeakFileGenerationFinishedData() {
                     AudioFilePath = audioFilePath,
                     Cancelled = !processSuccessful
                 });
@@ -311,12 +310,16 @@ namespace Sessions.Sound.PeakFiles
         /// </summary>
         public void Cancel()
         {
-            if (IsLoading)
+            lock (_lockerCancel)
             {
-                if (_cancellationTokenSource != null)
+                if (IsLoading && !IsCanceling)
                 {
-                    Console.WriteLine("PeakFileService - Cancel - Cancelling token...");
-                    _cancellationTokenSource.Cancel();
+                    if (_cancellationTokenSource != null)
+                    {
+                        IsCanceling = true;
+                        Console.WriteLine("--------> [PeakFileService] - ***CANCEL***");
+                        _cancellationTokenSource.Cancel();
+                    }
                 }
             }
         }
@@ -328,11 +331,11 @@ namespace Sessions.Sound.PeakFiles
         /// <returns>List of min/max peaks</returns>
         public List<WaveDataMinMax> ReadPeakFile(string peakFilePath)
         {
-            // Declare variables 
+            // TODO: Should this be in another thread?
             FileStream fileStream = null;
             GZipStream gzipStream = null;
             BinaryReader binaryReader = null;
-            List<WaveDataMinMax> listMinMax = new List<WaveDataMinMax>();
+            var listMinMax = new List<WaveDataMinMax>();
             string fileHeader = null;
             long audioFileLength = 0;
             int chunkSize = 0;
@@ -366,7 +369,7 @@ namespace Sessions.Sound.PeakFiles
                     currentBlock++;
 
                     // Read peak information and add to list
-                    WaveDataMinMax peak = new WaveDataMinMax();
+                    var peak = new WaveDataMinMax();
                     peak.leftMin = (float)binaryReader.ReadDouble();
                     peak.leftMax = (float)binaryReader.ReadDouble();
                     peak.rightMin = (float)binaryReader.ReadDouble();
@@ -397,13 +400,12 @@ namespace Sessions.Sound.PeakFiles
         public static string GetPeakFilePathForAudioFileAndCreatePeakFileDirectory(AudioFile audioFile)
         {
             // Check if the peak file subfolder exists
-            string peakFileFolder = Path.Combine(PathHelper.PeakFileDirectory, "PeakFiles");
-            if (!Directory.Exists(peakFileFolder))
+            if (!Directory.Exists(PathHelper.PeakFileDirectory))
             {
                 try
                 {
                     //Console.WriteLine("WaveFormRenderingService - Creating folder " + peakFileFolder + "...");
-                    Directory.CreateDirectory(peakFileFolder);
+                    Directory.CreateDirectory(PathHelper.PeakFileDirectory);
                 }
                 catch (Exception ex)
                 {
@@ -412,7 +414,7 @@ namespace Sessions.Sound.PeakFiles
             }
 
             // Generate peak file path
-            string peakFilePath = Path.Combine(peakFileFolder, Normalizer.NormalizeStringForUrl(audioFile.ArtistName + "_" + audioFile.AlbumTitle + "_" + audioFile.Title + "_" + audioFile.FileType.ToString()) + ".peak");
+            string peakFilePath = Path.Combine(PathHelper.PeakFileDirectory, Normalizer.NormalizeStringForUrl(audioFile.ArtistName + "_" + audioFile.AlbumTitle + "_" + audioFile.Title + "_" + audioFile.FileType.ToString()) + ".peak");
             return peakFilePath;
         }
 

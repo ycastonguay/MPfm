@@ -20,15 +20,9 @@ namespace Sessions.Sound.PeakFiles
     /// <summary>
     /// Defines the data used with the OnProcessStarted event.
     /// </summary>
-    public class PeakFileStartedData
+    public class PeakFileGenerationStartedData
     {
-        /// <summary>
-        /// Defines the audio file path length in bytes.
-        /// </summary>
-        public long Length { get; set; }
-        /// <summary>
-        /// Defines the total number of blocks to read.
-        /// </summary>
+        public long LengthBytes { get; set; }
         public int TotalBlocks { get; set; }
         public string AudioFilePath { get; set; }
     }

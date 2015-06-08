@@ -27,6 +27,7 @@ using Sessions.MVP.Views;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
 using System.Collections.Generic;
+using Sessions.Sound.PeakFiles.Interfaces;
 
 namespace Sessions.MVP.Presenters
 {
@@ -82,7 +83,7 @@ namespace Sessions.MVP.Presenters
         {
             try
             {                
-                if(_peakFileService.IsLoading || _peakFileService.IsProcessing)
+                if(_peakFileService.IsLoading)
                     _peakFileService.Cancel();
 
                 if(_playerService.State == SSPPlayerState.Playing)

@@ -27,6 +27,7 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.Sound.PeakFiles;
 using TinyMessenger;
 using Sessions.Core.Network;
+using Sessions.Sound.PeakFiles.Interfaces;
 
 namespace Sessions.MVP.Bootstrap
 {
@@ -52,6 +53,7 @@ namespace Sessions.MVP.Bootstrap
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
             container.Register<IPeakFileService, PeakFileService>().AsSingleton();
+            container.Register<IPeakFileQueueService, PeakFileQueueService>().AsSingleton();
             container.Register<ILifecycleService, LifecycleService>().AsSingleton();
             container.Register<IResumePlaybackService, ResumePlaybackService>().AsSingleton();
             container.Register<ISyncClientService, SyncClientService>().AsMultiInstance();

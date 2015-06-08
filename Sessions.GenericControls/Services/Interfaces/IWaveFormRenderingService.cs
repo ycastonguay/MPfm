@@ -23,12 +23,15 @@ namespace Sessions.GenericControls.Services.Interfaces
 {
     public interface IWaveFormRenderingService
     {
+        bool IsGeneratingPeakFile { get; }
+
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
         event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
+
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
         void CancelPeakFile();
