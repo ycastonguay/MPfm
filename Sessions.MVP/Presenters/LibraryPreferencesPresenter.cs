@@ -29,6 +29,8 @@ using Sessions.Library.Objects;
 using Sessions.Library.Services.Interfaces;
 using TinyMessenger;
 using Sessions.MVP.Messages;
+using Sessions.Library.Services.Events;
+using Sessions.Library.Messages;
 
 namespace Sessions.MVP.Presenters
 {
@@ -44,6 +46,7 @@ namespace Sessions.MVP.Presenters
 	    private readonly IUpdateLibraryService _updateLibraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
         private readonly ITinyMessengerHub _messageHub;
+        private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
 
         public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, IUpdateLibraryService updateLibraryService,
                                            IAudioFileCacheService audioFileCacheService, ITinyMessengerHub messageHub)
@@ -71,9 +74,22 @@ namespace Sessions.MVP.Presenters
             view.OnRemoveFolders = RemoveFolders;
             view.OnEnableSyncListener = EnableSyncService;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
+
+            _tokens.Add(_messageHub.Subscribe<AudioFileCacheUpdatedMessage>((AudioFileCacheUpdatedMessage m) => {
+                RefreshPreferences();
+            }));
+
             base.BindView(view);
 
             RefreshPreferences();
+        }
+
+        public override void ViewDestroyed()
+        {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+            base.ViewDestroyed();
         }
 
         private void SetLibraryPreferences(LibraryAppConfig config)
