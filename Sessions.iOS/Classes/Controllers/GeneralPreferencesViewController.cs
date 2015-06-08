@@ -78,7 +78,8 @@ namespace Sessions.iOS.Classes.Controllers
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Download Album Art",
                 Title = "Download Missing Album Art",
-                Value = _config.DownloadAlbumArtFromTheInternet
+                Value = _config.DownloadAlbumArtFromTheInternet,
+                FooterTitle = "Warning: Downloading album art on cellular network can cost you money depending on your data plan."
             });
             _items.Add(new PreferenceCellItem()
             {
