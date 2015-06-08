@@ -159,12 +159,12 @@ namespace Sessions.Sound.CueFiles
 
         public static string GetAudioFilePathFromCueFile(string cueFilePath)
         {
-            // Find out the actual audio file path
-            // 99% of the time the audio file has the same file name but a different extension
+            // Find out the actual audio file path; 99% of the time the audio file has the same file name but a different extension
             string directoryPath = Path.GetDirectoryName(cueFilePath);
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(cueFilePath);
             var files = Directory.GetFiles(directoryPath, string.Format("{0}.*", fileNameWithoutExtension), SearchOption.TopDirectoryOnly);
-            var filesWithoutCue = files.Where(x => !x.ToUpper().Contains(".CUE")).ToList();
+            var included = new List<string>() { ".MP3", ".FLAC", ".WAV", ".APE" };
+            var filesWithoutCue = files.Where(x => included.Any(y => x.ToUpper().Contains(y))).ToList();
             return filesWithoutCue.Any() ? filesWithoutCue.ElementAt(0) : null;
         }
 
