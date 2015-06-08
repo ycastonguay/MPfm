@@ -109,5 +109,6 @@
     <Compile Include="Network\IPAddressRangeFinderHelper.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
     <Compile Include="XmlSerialization.cs" />
+        <Compile Include="Tasks\TaskServiceBase.cs" />
   </ItemGroup>
 </Project>

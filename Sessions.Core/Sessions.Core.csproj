@@ -110,6 +110,7 @@
     <Compile Include="ByteArrayQueue.cs" />
     <Compile Include="Normalizer.cs" />
     <Compile Include="Helpers\XMLHelper.cs" />
+    <Compile Include="Tasks\TaskServiceBase.cs" />
     <Compile Include="Network\WebClientTimeout.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -35,7 +35,6 @@
     <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Output\Sessions.Core.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -150,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\iOS\" />
+    <Folder Include="Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lib\iOS\TinyIoC.dll" />
@@ -175,5 +175,6 @@
     <Compile Include="Network\IPAddressRangeFinderHelper.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
     <Compile Include="XmlSerialization.cs" />
+    <Compile Include="Tasks\TaskServiceBase.cs" />
   </ItemGroup>
 </Project>
