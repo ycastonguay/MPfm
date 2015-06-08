@@ -46,8 +46,8 @@ namespace Sessions.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
-			if(Directory.Exists(PathHelper.PeakFileDirectory))
-				_imageFilePaths = Directory.EnumerateFiles(PathHelper.PeakFileDirectory, "*.png").ToList();
+            if(Directory.Exists(PathHelper.ImageCacheDirectory))
+				_imageFilePaths = Directory.EnumerateFiles(PathHelper.ImageCacheDirectory, "*.png").ToList();
 
 //			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
 //				//SetNeedsStatusBarAppearanceUpdate();

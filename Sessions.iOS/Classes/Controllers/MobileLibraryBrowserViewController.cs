@@ -1152,7 +1152,7 @@ namespace Sessions.iOS.Classes.Controllers
 				{
 					lock (_locker)
 					{
-						string filePath = Path.Combine(PathHelper.PeakFileDirectory, string.Format("{0}_{1}.png", artistName, albumTitle));
+                        string filePath = Path.Combine(PathHelper.ImageCacheDirectory, string.Format("{0}_{1}.png", artistName, albumTitle));
 						if(!File.Exists(filePath))
 							using (var file = File.Open(filePath, FileMode.OpenOrCreate))
 								file.Write(albumArtData, 0, albumArtData.Length);

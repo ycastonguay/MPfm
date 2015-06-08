@@ -30,7 +30,9 @@ namespace Sessions.Core.Helpers
     public static class PathHelper
     {
         public static string HomeDirectory { get; set; }
+        public static string AudioFileDirectory { get; set; } // Only used on iOS
         public static string PeakFileDirectory { get; set; }
+        public static string ImageCacheDirectory { get; set; }
         public static string ConfigurationFilePath { get; set; }
         public static string UnitTestConfigurationFilePath { get; set; }
         public static string DeviceStoreFilePath { get; set; }
@@ -39,26 +41,22 @@ namespace Sessions.Core.Helpers
 		
 		static PathHelper()
 		{
-			// Get assembly directory
-            //// Get application data folder path
-            //// Vista/Windows7: C:\Users\%username%\AppData\Roaming\
-            //// XP: C:\Documents and Settings\%username%\Application Data\
-            //applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Sessions";
+            // Vista/Windows7: C:\Users\%username%\AppData\Roaming\
+            // XP: C:\Documents and Settings\%username%\Application Data\
 			
 #if IOS || ANDROID
-        	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "PeakFiles");
+        	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);            
+            AudioFileDirectory = HomeDirectory.Replace(".Sessions", string.Empty);
 #elif WINDOWSSTORE
 		    HomeDirectory = ApplicationData.Current.LocalFolder.Path;
-		    PeakFileDirectory = Path.Combine(ApplicationData.Current.LocalFolder.Path, "PeakFiles");
 #elif WINDOWS_PHONE
 		    HomeDirectory = "TODO";
-		    PeakFileDirectory = "TODO";
 #else
             HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".Sessions");
-            PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".Sessions", "PeakFiles");
 #endif
 
+            PeakFileDirectory = Path.Combine(HomeDirectory, "PeakFiles");
+            ImageCacheDirectory = Path.Combine(HomeDirectory, "ImageCache");
 			ConfigurationFilePath = Path.Combine(HomeDirectory, "Sessions.Configuration.xml");
             UnitTestConfigurationFilePath = Path.Combine(HomeDirectory, "Sessions.UnitTest.Configuration.xml");
             DeviceStoreFilePath = Path.Combine(HomeDirectory, "Sessions.Devices.json");

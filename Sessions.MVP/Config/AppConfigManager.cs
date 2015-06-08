@@ -61,9 +61,9 @@ namespace Sessions.MVP.Config
         {
             try
             {
-                Console.WriteLine("AppConfigManager - Load - PathHelper.ConfigurationFilePath: {0}", PathHelper.ConfigurationFilePath);
+//                Console.WriteLine("AppConfigManager - Load - PathHelper.ConfigurationFilePath: {0}", PathHelper.ConfigurationFilePath);
                 Root = _provider.Load(PathHelper.ConfigurationFilePath);
-                Console.WriteLine("AppConfigManager - Load - Load successful - Root.General.DownloadAlbumArtFromTheInternet: {0}!", Root.General.DownloadAlbumArtFromTheInternet);
+//                Console.WriteLine("AppConfigManager - Load - Load successful - Root.General.DownloadAlbumArtFromTheInternet: {0}!", Root.General.DownloadAlbumArtFromTheInternet);
             }
             catch(Exception ex)
             {
@@ -93,9 +93,9 @@ namespace Sessions.MVP.Config
 
         public void Save()
         {
-            Console.WriteLine("AppConfigManager - Save - PathHelper.ConfigurationFilePath: {0}", PathHelper.ConfigurationFilePath);
+//            Console.WriteLine("AppConfigManager - Save - PathHelper.ConfigurationFilePath: {0}", PathHelper.ConfigurationFilePath);
             _provider.Save(PathHelper.ConfigurationFilePath, Root);
-            Console.WriteLine("AppConfigManager - Save - Save successful!");
+//            Console.WriteLine("AppConfigManager - Save - Save successful!");
         }
     }
 }

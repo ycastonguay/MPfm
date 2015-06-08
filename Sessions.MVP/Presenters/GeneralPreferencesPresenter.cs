@@ -26,12 +26,10 @@ using System.Linq;
 using Sessions.Core;
 using TinyMessenger;
 using Sessions.MVP.Messages;
+using Sessions.Core.Helpers;
 
 namespace Sessions.MVP.Presenters
 {
-	/// <summary>
-    /// General preferences presenter.
-	/// </summary>
     public class GeneralPreferencesPresenter : BasePresenter<IGeneralPreferencesView>, IGeneralPreferencesPresenter
 	{
         private readonly ITinyMessengerHub _messageHub;
@@ -79,7 +77,6 @@ namespace Sessions.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("--->> GeneralPreferencesPresenter - RefreshPreferences");
                 if(!string.IsNullOrEmpty(_peakFolderSize))
                 {
                     View.RefreshGeneralPreferences(AppConfigManager.Instance.Root.General, _peakFolderSize);
@@ -88,9 +85,8 @@ namespace Sessions.MVP.Presenters
                 {
                     View.RefreshGeneralPreferences(AppConfigManager.Instance.Root.General, "Calculating...");
                     Task.Factory.StartNew(() =>
-                    {
-                        string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
-                        var info = new DirectoryInfo(peakFileFolder);
+                    {                        
+                        var info = new DirectoryInfo(PathHelper.PeakFileDirectory);
                         if (info.Exists)
                         {
                             var files = info.GetFiles();
@@ -114,9 +110,8 @@ namespace Sessions.MVP.Presenters
             {
                 try
                 {
-                    string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
-                    Directory.Delete(peakFileFolder, true);
-                    Directory.CreateDirectory(peakFileFolder);
+                    Directory.Delete(PathHelper.PeakFileDirectory, true);
+                    Directory.CreateDirectory(PathHelper.PeakFileDirectory);
                     _peakFolderSize = "0 MB";
                     RefreshPreferences();
                 }

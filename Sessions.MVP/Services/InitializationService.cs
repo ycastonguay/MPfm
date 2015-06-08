@@ -112,6 +112,8 @@ namespace Sessions.MVP.Services
                 Directory.CreateDirectory(PathHelper.HomeDirectory);
             if (!Directory.Exists(PathHelper.PeakFileDirectory))
                 Directory.CreateDirectory(PathHelper.PeakFileDirectory);
+            if (!Directory.Exists(PathHelper.ImageCacheDirectory))
+                Directory.CreateDirectory(PathHelper.ImageCacheDirectory);
 #endif
         }
 
