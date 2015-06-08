@@ -246,11 +246,7 @@ namespace Sessions.Library.Services
                                 // On iOS, the Documents path might change when updating the app, especially when updating the app in debug.
                                 // Thus we have to store a relative path instead, and complete this path dynamically when launching the app.
                                 #if IOS
-
-                                //string filePathWithHome = audioFile.FilePath.Replace(PathHelper.HomeDirectory, "%HOME%");
-                                //Console.WriteLine("--->>> FilePath        : {0}", filePath);
-                                //Console.WriteLine("--->>> FilePathWithHome: {0}", filePathWithHome);
-                                audioFile.FilePath = audioFile.FilePath.Replace(PathHelper.HomeDirectory, "%HOME%");
+                                audioFile.FilePath = audioFile.FilePath.Replace(PathHelper.AudioFileDirectory, "%HOME%");
                                 #endif
 
                                 audioFiles.Add(audioFile);
