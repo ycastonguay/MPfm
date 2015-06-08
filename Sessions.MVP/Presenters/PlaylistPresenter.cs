@@ -112,15 +112,15 @@ namespace Sessions.MVP.Presenters
         {
         }
 
-        private void ChangePlaylistItemOrder(Guid playlistItemId, int newIndex)
+        private void ChangePlaylistItemOrder(int playlistItemId, int newIndex)
         {
         }
 
-        private void SelectPlaylistItem(Guid playlistItemId)
+        private void SelectPlaylistItem(int playlistItemId)
         {
             try
             {
-                _playerService.GoTo(playlistItemId);
+                _playerService.GoToPlaylistItem(playlistItemId);
             }
             catch(Exception ex)
             {
@@ -129,7 +129,7 @@ namespace Sessions.MVP.Presenters
             }
         }
 
-        private void RemovePlaylistItems(List<Guid> playlistItemIds)
+        private void RemovePlaylistItems(List<int> playlistItemIds)
         {
             try
             {

@@ -70,7 +70,7 @@ namespace Sessions.MVP.Services.Interfaces
         void Previous();
         void Resume();
         void GoTo(int index);
-        void GoTo(Guid playlistItemId);
+        void GoToPlaylistItem(int id);
         void ToggleRepeatType();
 
         long GetDataAvailable();

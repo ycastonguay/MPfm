@@ -432,10 +432,11 @@ namespace Sessions.MVP.Services
             _sspPlayer.GoTo(index);
         }
 
-        public void GoTo(Guid playlistItemId)
+        public void GoToPlaylistItem(int id)
         {
-            // TODO
-            //_sspPlayer.GoTo(playlistItemId);
+            int index = Playlist.GetIndexFromId(id);
+            if(index >= 0)
+                _sspPlayer.GoTo(index);
         }
 
         public void Resume()

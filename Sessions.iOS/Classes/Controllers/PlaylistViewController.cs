@@ -146,7 +146,7 @@ namespace Sessions.iOS.Classes.Controllers
             var item = _playlist.GetItemAt(indexPath.Row);
             if (item != null)
             {
-                OnSelectPlaylistItem(item.AudioFile.Id);
+                OnSelectPlaylistItem(item.Id);
                 tableView.DeselectRow(indexPath, true);
             }
         }
@@ -210,9 +210,9 @@ namespace Sessions.iOS.Classes.Controllers
 
         #region IPlaylistView implementation
 
-        public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
-        public Action<Guid> OnSelectPlaylistItem { get; set; }
-        public Action<List<Guid>> OnRemovePlaylistItems { get; set; }
+        public Action<int, int> OnChangePlaylistItemOrder { get; set; }
+        public Action<int> OnSelectPlaylistItem { get; set; }
+        public Action<List<int>> OnRemovePlaylistItems { get; set; }
         public Action OnNewPlaylist { get; set; }
         public Action<string> OnLoadPlaylist { get; set; }
         public Action OnSavePlaylist { get; set; }
@@ -233,7 +233,7 @@ namespace Sessions.iOS.Classes.Controllers
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
         {
-            Console.WriteLine("PlaylistViewController - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
+            Console.WriteLine("##########################>>> PlaylistViewController - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
 
             if (audioFile != null)
                 _currentlyPlayingSongId = audioFile.Id;
