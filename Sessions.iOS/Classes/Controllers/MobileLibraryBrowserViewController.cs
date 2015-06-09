@@ -420,20 +420,44 @@ namespace Sessions.iOS.Classes.Controllers
         [Export ("collectionView:viewForSupplementaryElementOfKind:atIndexPath:")]
         public UICollectionReusableView ViewForSupplementaryElement(UICollectionView collectionView, string viewForSupplementaryElementOfKind, NSIndexPath indexPath)
         {
-			//Tracing.Log("MobileLibraryBrowserViewCtrl - ViewForSupplementaryElement - kind: {0} section: {1} row: {2}", viewForSupplementaryElementOfKind, indexPath.Section, indexPath.Row);
+            //Tracing.Log("MobileLibraryBrowserViewCtrl - ViewForSupplementaryElement - kind: {0} section: {1} row: {2}", viewForSupplementaryElementOfKind, indexPath.Section, indexPath.Row);
 
 //			// Do not show header when item count is 1
 //			if (_itemsWithSections.Count <= 1)
 //				return null;
 
-			if (viewForSupplementaryElementOfKind == "UICollectionElementKindSectionHeader")
-			{
-				var view = (SessionsCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);
-				if (indexPath.Section <= _items.Count - 1)
-					view.TextLabel.Text = _items[indexPath.Section].Item1.Title;
+            if (viewForSupplementaryElementOfKind == "UICollectionElementKindSectionHeader")
+            {
+                var view = (SessionsCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);
+                view.Section = indexPath.Section;
+                if (indexPath.Section <= _items.Count - 1)
+                {
+                    view.TextLabel.Text = _items[indexPath.Section].Item1.Title;
+                }
 				return view;
 			}
 			return null;
+        }
+
+        [Export ("collectionView:willDisplaySupplementaryView:forElementKind:atIndexPath:")]
+        public void WillDisplaySupplementaryView(UICollectionView collectionView, UICollectionReusableView view, string elementKind, NSIndexPath indexPath)
+        {
+            var header = view as SessionsCollectionHeaderView;
+            if (header != null)
+                header.PlayAll += PlayAllHeaderButtonClicked;
+        }
+
+        [Export ("collectionView:didEndDisplayingSupplementaryView:forElementOfKind:atIndexPath:")]
+        public void DidEndDisplayingSupplementaryView(UICollectionView collectionView, UICollectionReusableView view, string elementKind, NSIndexPath indexPath)
+        {
+            var header = view as SessionsCollectionHeaderView;
+            if (header != null)
+                header.PlayAll -= PlayAllHeaderButtonClicked;
+        }
+
+        private void PlayAllHeaderButtonClicked(int section)
+        {
+            OnPlayAll(_items[section].Item1.ArtistName, _items[section].Item1.AlbumTitle);
         }
 
 		#endregion
@@ -862,10 +886,10 @@ namespace Sessions.iOS.Classes.Controllers
         {
 			var item = _items[indexPath.Section].Item2[indexPath.Row];
 			var cell = (SessionsLibraryTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
-			Console.WriteLine("MLBV - GetCell - dequeue cell==null: {0}", cell == null);
+//			Console.WriteLine("MLBV - GetCell - dequeue cell==null: {0}", cell == null);
             if (cell == null)
             {
-				Console.WriteLine("MLBV - GetCell - Creating cell manually");
+//				Console.WriteLine("MLBV - GetCell - Creating cell manually");
                 cell = new SessionsLibraryTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
                 // Register events only once!
@@ -1134,6 +1158,7 @@ namespace Sessions.iOS.Classes.Controllers
 		public Action<Guid> OnDeleteItem { get; set; }
         public Action<string, string, object> OnRequestAlbumArt { get; set; }
 		public Action<Guid> OnPlayItem { get; set; }
+        public Action<string, string> OnPlayAll { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 		public Action<Guid> OnAddItemToPlaylist { get; set; }
 		public Action<Guid> OnAddRemoveItemQueue { get; set; }

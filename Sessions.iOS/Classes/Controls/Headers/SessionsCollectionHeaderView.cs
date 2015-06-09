@@ -35,6 +35,10 @@ namespace Sessions.iOS.Classes.Controls.Headers
     {
 		public UILabel TextLabel { get; set; }
 		public SessionsFlatButton PlayButton { get; set; }
+        public int Section { get; set; }
+
+        public delegate void HeaderPlayAllDelegate(int section);
+        public event HeaderPlayAllDelegate PlayAll;
 
 		public SessionsCollectionHeaderView() : base()
         {
@@ -73,9 +77,7 @@ namespace Sessions.iOS.Classes.Controls.Headers
 			PlayButton.Label.Frame = new RectangleF(0, 0, 54, 44);
 			PlayButton.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
 			PlayButton.ImageChevron.Frame = new RectangleF(80 - 22, 0, 22, 44);
-			PlayButton.OnButtonClick += () => {
-			};
-
+            PlayButton.OnButtonClick += PlayButton_OnButtonClick;
 			AddSubview(PlayButton);
         }
 
@@ -85,6 +87,12 @@ namespace Sessions.iOS.Classes.Controls.Headers
 			TextLabel.Frame = new RectangleF(y * 2, 0, Bounds.Width - 80 - 12, Bounds.Height);
 			//PlayButton.Frame = new RectangleF(Bounds.Width - 44 - y, y, 44, 44);
 			PlayButton.Frame = new RectangleF(Bounds.Width - 80, y, 80, 44);
+        }
+
+        private void PlayButton_OnButtonClick()
+        {
+            if(PlayAll != null)
+                PlayAll(Section);
         }
 
 		private void HandleOnPlayButtonClick(object sender, EventArgs e)

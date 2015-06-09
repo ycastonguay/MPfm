@@ -81,6 +81,7 @@ namespace Sessions.MVP.Presenters
             view.OnDeleteItem = DeleteItem;
             view.OnItemClick = ItemClick;
             view.OnPlayItem = PlayItem;
+            view.OnPlayAll = PlayAll;
             view.OnAddItemToPlaylist = AddItemToPlaylist;
             view.OnAddRemoveItemQueue = AddRemoveItemQueue;
             view.OnRequestAlbumArt = RequestAlbumArt;
@@ -366,6 +367,15 @@ namespace Sessions.MVP.Presenters
                 View.MobileLibraryBrowserError(ex);
             }
 	    }
+
+        private void PlayAll(string artistName, string albumTitle)
+        {
+            // Start playback and start Player view
+            var query = new LibraryQuery(){ ArtistName = artistName, AlbumTitle = albumTitle };
+            var audioFiles = _audioFileCacheService.SelectAudioFiles(query);
+            _playerService.Play(audioFiles, string.Empty, 0, false, true);
+            _navigationManager.CreatePlayerView(_tabType);
+        }
 
         private void RefreshLibraryBrowser()
         {
