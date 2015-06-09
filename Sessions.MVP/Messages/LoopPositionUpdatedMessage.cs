@@ -21,11 +21,14 @@ using org.sessionsapp.player;
 
 namespace Sessions.MVP.Messages
 {
-    public class LoopBeingEditedMessage : TinyMessageBase
+    /// <summary>
+    /// Message indicating that a loop start/end position has been updated.
+    /// </summary>
+    public class LoopPositionUpdatedMessage : TinyMessageBase
     {
         public SSPLoop Loop { get; set; }
 
-        public LoopBeingEditedMessage(object sender, SSPLoop loop)
+        public LoopPositionUpdatedMessage(object sender, SSPLoop loop) 
             : base(sender)
         {
             Loop = loop;

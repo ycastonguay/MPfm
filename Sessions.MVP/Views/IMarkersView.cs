@@ -33,8 +33,10 @@ namespace Sessions.MVP.Views
         Action<Marker> OnSelectMarker { get; set; }
         Action<Marker> OnDeleteMarker { get; set; }
         Action<Marker> OnUpdateMarker { get; set; }
+
+        // Mobile
         Action<Guid> OnPunchInMarker { get; set; }
-        Action<Guid> OnUndoMarker { get; set; }
+        Action<Guid> OnUndoMarker { get; set; } // deprecated
         Action<Guid> OnSetActiveMarker { get; set; }
         Action<Guid, string> OnChangeMarkerName { get; set; }
         Action<Guid, float> OnChangeMarkerPosition { get; set; }

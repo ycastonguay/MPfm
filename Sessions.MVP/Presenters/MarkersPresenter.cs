@@ -235,7 +235,7 @@ namespace Sessions.MVP.Presenters
             } 
             catch (Exception ex)
             {
-                Tracing.Log("An error occured while change the marker name: " + ex.Message);
+                Tracing.Log("An error occured while changing the marker name: " + ex.Message);
                 View.MarkerError(ex);
             }
         }

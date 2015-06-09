@@ -225,6 +225,34 @@ namespace Sessions.GenericControls.Controls
         public long Length { get; set; }
         public bool UseFloatingPoint { get; set; }
 
+        private bool _showMarkers;
+        public bool ShowMarkers
+        {
+            get
+            {
+                return _showMarkers;
+            }
+            set
+            {
+                _showMarkers = value;
+                InvalidateVisual();
+            }
+        }
+
+        private bool _showLoops;
+        public bool ShowLoops
+        {
+            get
+            {
+                return _showLoops;
+            }
+            set
+            {
+                _showLoops = value;
+                InvalidateVisual();
+            }
+        }
+
         public delegate void ChangePosition(float positionPercentage);
         public delegate void ChangeSegmentPosition(SSPLoopSegmentType segmentType, float positionPercentage);
         public delegate void ContentOffsetChanged(BasicPoint offset);
@@ -251,6 +279,8 @@ namespace Sessions.GenericControls.Controls
             OnContentOffsetChanged += (offset) => { };
             OnChangeMouseCursorType += type => { };
             
+            _showMarkers = true;
+            _showLoops = true;
             IsEmpty = true;
             ShowScrollBar = true;
             DisplayType = WaveFormDisplayType.Stereo;
@@ -307,7 +337,7 @@ namespace Sessions.GenericControls.Controls
         {
 			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");            
             //RefreshStatus("Generating peak file (" + e.PercentageDone.ToString("0") + "% done)");
-            RefreshStatus(string.Format("{0}%; {1}", e.PercentageDone.ToString("0"), e.AudioFilePath));
+            RefreshStatus(string.Format("{0}%; {1}", e.PercentageDone.ToString("0"), e.AudioFilePath.Substring(e.AudioFilePath.Length - 16, 16)));
         }
 
         private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
@@ -507,8 +537,12 @@ namespace Sessions.GenericControls.Controls
 
             DrawTiles(context, tileSize);
             //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent); // for debugging dirty rects
-            DrawMarkers(context, cursorHeight);
-            DrawLoop(context, cursorHeight);
+            if(ShowMarkers)
+                DrawMarkers(context, cursorHeight);
+
+            if(ShowLoops)
+                DrawLoop(context, cursorHeight);
+
             DrawCursors(context, heightAvailable, cursorHeight, scrollBarCursorX);
             DrawScrollBar(context, scrollBarHeight);
         }

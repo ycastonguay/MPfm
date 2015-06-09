@@ -155,6 +155,15 @@ namespace Sessions.MVP.Presenters
             _messageHub.Subscribe<MarkerActivatedMessage>((MarkerActivatedMessage m) => {
                 View.RefreshActiveMarker(m.MarkerId);
             });
+            _messageHub.Subscribe<LoopPlayingMessage>((LoopPlayingMessage m) => {
+                View.RefreshCurrentLoop(m.IsPlaying ? m.Loop : null);
+            });
+            _messageHub.Subscribe<LoopPositionUpdatedMessage>((LoopPositionUpdatedMessage m) => {
+                View.RefreshCurrentLoop(m.Loop);
+            });
+            _messageHub.Subscribe<LoopBeingEditedMessage>((LoopBeingEditedMessage m) => {
+                View.RefreshCurrentLoop(m.Loop);
+            });
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -228,6 +237,7 @@ namespace Sessions.MVP.Presenters
 
             #if !IOS && !ANDROID
             _playerService.Dispose();
+            // TODO: Unsubscribe from events
             #endif
         }
 

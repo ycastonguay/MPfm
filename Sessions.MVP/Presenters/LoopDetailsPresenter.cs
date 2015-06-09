@@ -81,7 +81,7 @@ namespace Sessions.MVP.Presenters
 
         private void LoopBeingEdited(LoopBeingEditedMessage message)
         {
-            _loopId = message.LoopId;
+//            _loopId = message.LoopId;
 //            RefreshLoop();
         }
 

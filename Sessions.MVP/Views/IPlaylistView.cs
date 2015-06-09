@@ -28,9 +28,9 @@ namespace Sessions.MVP.Views
     public interface IPlaylistView : IBaseView
 	{
         // Note: These actions use the PlaylistItemId, not AudioFileId!
-        Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
-        Action<Guid> OnSelectPlaylistItem { get; set; }
-        Action<List<Guid>> OnRemovePlaylistItems { get; set; }
+        Action<int, int> OnChangePlaylistItemOrder { get; set; }
+        Action<int> OnSelectPlaylistItem { get; set; }
+        Action<List<int>> OnRemovePlaylistItems { get; set; }
         Action OnNewPlaylist { get; set; }
         Action<string> OnLoadPlaylist { get; set; }
         Action OnSavePlaylist { get; set; }

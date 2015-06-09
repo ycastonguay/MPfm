@@ -1488,7 +1488,7 @@ namespace Sessions.OSX
         #region IPlayerView implementation
 
         public bool IsOutputMeterEnabled { get { return true; } }
-        public bool IsPlayerPerformanceEnabled { get { return true; } }
+        public bool IsPlayerPerformanceEnabled { get { return false; } }
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -1714,6 +1714,10 @@ namespace Sessions.OSX
         }
 
         public void RefreshLoops(IEnumerable<SSPLoop> loops)
+        {
+        }
+
+        public void RefreshCurrentLoop(SSPLoop loop)
         {
         }
 
@@ -2049,6 +2053,8 @@ namespace Sessions.OSX
         public Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
         public Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
 
+        public Action<Guid, string> OnChangeLoopName { get; set; }
+
         public void LoopError(Exception ex)
         {
             ShowError(ex);
@@ -2071,15 +2077,11 @@ namespace Sessions.OSX
             });
         }
 
-//        public void RefreshLoopSegment(Loop loop, Segment segment, long audioFileLength)
-//        {
-//            InvokeOnMainThread(delegate {
-//                
-//                //tableLoops.ReloadData(NSIndexSet.FromIndex(
-//            });
-//        }
+        public void RefreshPlayingLoop(SSPLoop loop, bool isPlaying)
+        {
+        }
 
-        public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
+        public void RefreshCurrentlyEditedLoop(SSPLoop loop)
         {
         }
 

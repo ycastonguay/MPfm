@@ -17,6 +17,7 @@
 
 using System;
 using TinyMessenger;
+using org.sessionsapp.player;
 
 namespace Sessions.MVP.Messages
 {
@@ -25,12 +26,12 @@ namespace Sessions.MVP.Messages
     /// </summary>
     public class LoopUpdatedMessage : TinyMessageBase
     {
-        public Guid AudioFileId { get; set; }
-        public Guid LoopId { get; set; }
+        public SSPLoop Loop { get; set; }
 
-        public LoopUpdatedMessage(object sender) 
+        public LoopUpdatedMessage(object sender, SSPLoop loop) 
             : base(sender)
         {
+            Loop = loop;
         }
     }
 }

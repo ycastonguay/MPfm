@@ -21,14 +21,16 @@ using org.sessionsapp.player;
 
 namespace Sessions.MVP.Messages
 {
-    public class LoopBeingEditedMessage : TinyMessageBase
+    public class LoopPlayingMessage : TinyMessageBase
     {
         public SSPLoop Loop { get; set; }
+        public bool IsPlaying { get; set; }
 
-        public LoopBeingEditedMessage(object sender, SSPLoop loop)
+        public LoopPlayingMessage(object sender, SSPLoop loop, bool isPlaying) 
             : base(sender)
         {
             Loop = loop;
+            IsPlaying = isPlaying;
         }
     }
 }

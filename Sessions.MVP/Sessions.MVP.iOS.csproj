@@ -399,5 +399,7 @@
     <Compile Include="Models\ResumePlaybackInfoCloud.cs" />
     <Compile Include="Models\ResumePlaybackInfoLocal.cs" />
     <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Messages\LoopPositionUpdatedMessage.cs" />
+    <Compile Include="Messages\LoopPlayingMessage.cs" />
   </ItemGroup>
 </Project>

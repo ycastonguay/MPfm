@@ -36,105 +36,17 @@ namespace Sessions.iOS.Classes.Controls
     {
 		private WaveFormControl _control;
 
-		public long Length
-		{
-			get
-			{
-				return _control.Length;
-			}
-			set
-			{
-				_control.Length = value;
-			}
-		}
-
-		public long Position
-		{
-			get
-			{
-				return _control.Position;
-			}
-			set
-			{
-				_control.Position = value;
-			}
-		}
-
-		public bool ShowSecondaryPosition
-		{
-			get
-			{
-				return _control.ShowSecondaryPosition;
-			}
-			set
-			{
-				_control.ShowSecondaryPosition = value;
-			}
-		}
-
-		public long SecondaryPosition
-		{
-			get
-			{
-				return _control.SecondaryPosition;
-			}
-			set
-			{
-				_control.SecondaryPosition = value;
-			}
-		}
-        
-        public float Zoom
-        {
-            get
-            {
-                return _control.Zoom;
-            }
-            set
-            {
-                _control.Zoom = value;
-            }
-        }           
-
-		public BasicPoint ContentOffset
-		{
-			get
-			{
-				return _control.ContentOffset;
-			}
-			set
-			{
-				_control.ContentOffset = value;
-			}
-		}
-
-        public BasicRectangle ContentSize
-        {
-            get
-            {
-                return _control.ContentSize;
-            }
-        }
-
-        public bool IsEmpty
-        {
-            get
-            {
-                return _control.IsEmpty;
-            }
-        }
-
-        public bool UseFloatingPoint
-        {
-            get
-            {
-                return _control.UseFloatingPoint;
-            }
-            set
-            {
-                _control.UseFloatingPoint = value;
-            }
-        }
+		public long Length { get { return _control.Length; } set { _control.Length = value; } }
+		public long Position { get { return _control.Position; } set { _control.Position = value; } }
+		public bool ShowSecondaryPosition { get { return _control.ShowSecondaryPosition; } set { _control.ShowSecondaryPosition = value; } }
+		public long SecondaryPosition { get { return _control.SecondaryPosition; } set { _control.SecondaryPosition = value; } }        
+        public float Zoom { get { return _control.Zoom; } set { _control.Zoom = value; } }           
+		public BasicPoint ContentOffset { get { return _control.ContentOffset; } set { _control.ContentOffset = value; } }
+        public BasicRectangle ContentSize { get { return _control.ContentSize; } }
+        public bool IsEmpty { get { return _control.IsEmpty; } } 
+        public bool UseFloatingPoint { get { return _control.UseFloatingPoint; } set { _control.UseFloatingPoint = value; } }
+        public bool ShowMarkers { get { return _control.ShowMarkers; } set { _control.ShowMarkers = value; } }
+        public bool ShowLoops { get { return _control.ShowLoops; } set { _control.ShowLoops = value; } }
 
 		public SessionsWaveFormView(IntPtr handle) 
 			: base (handle)
@@ -154,6 +66,8 @@ namespace Sessions.iOS.Classes.Controls
 			_control = new WaveFormControl();
 			_control.FontFace = "HelveticaNeue";
 			_control.LetterFontFace = "HelveticaNeue";
+            _control.ShowMarkers = false;
+            _control.ShowLoops = false;
 			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
 			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
 		}
@@ -169,7 +83,6 @@ namespace Sessions.iOS.Classes.Controls
 
 		public void LoadPeakFile(AudioFile audioFile)
 		{
-            Console.WriteLine("SessionsWaveFormView - LoadPeakFile");
 			_control.LoadPeakFile(audioFile);
 		}
 

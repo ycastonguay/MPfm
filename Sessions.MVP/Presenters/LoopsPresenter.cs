@@ -79,7 +79,7 @@ namespace Sessions.MVP.Presenters
             
             // Subscribe to messages
             _tokens.Add(_messageHub.Subscribe<LoopUpdatedMessage>((LoopUpdatedMessage m) => {
-                _audioFileId = m.AudioFileId;
+                _audioFileId = m.Loop.AudioFileId;
                 RefreshLoops(_audioFileId);
             }));
             _tokens.Add(_messageHub.Subscribe<SegmentUpdatedMessage>((SegmentUpdatedMessage m) =>
@@ -102,12 +102,12 @@ namespace Sessions.MVP.Presenters
 
         private void HandleOnLoopPlaybackStarted(IntPtr user)
         {
-            View.RefreshCurrentlyPlayingLoop(_loop);
+            View.RefreshPlayingLoop(_loop, true);
         }
 
         private void HandleOnLoopPlaybackStopped(IntPtr user)
         {
-            View.RefreshCurrentlyPlayingLoop(null);
+            View.RefreshPlayingLoop(_loop, false);
         }
 
         public override void ViewDestroyed()
@@ -172,11 +172,8 @@ namespace Sessions.MVP.Presenters
                 loop.EndPositionSamples = endPosition.Samples;
 
                 _libraryService.InsertLoop(loop);
-                _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
-                    AudioFileId = loop.AudioFileId,
-                    LoopId = loop.LoopId
-                });
-                _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
+                _messageHub.PublishAsync<LoopUpdatedMessage>(new LoopUpdatedMessage(this, loop));
+                _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop));
                 RefreshLoopsViewWithUpdatedIndexesAndPositionPercentages();
             } 
             catch (Exception ex)
@@ -188,7 +185,8 @@ namespace Sessions.MVP.Presenters
         
         private void EditLoop(SSPLoop loop)
         {
-            _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop.LoopId));
+            // TODO: Clarify difference between EditLoop and SelectLoop
+            _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop));
         }
 
         private void ChangeLoopName(Guid loopId, string name)
@@ -211,7 +209,7 @@ namespace Sessions.MVP.Presenters
             try
             {
                 // If there is a loop currently playing, stop the current loop
-                if (_loop != null && _loop.LoopId != loop.LoopId && _playerService.Loop != null)
+                if (_loop != null && loop != null && _loop.LoopId != loop.LoopId && _playerService.Loop != null)
                 {
                     if (_playerService.IsPlayingLoop && _playerService.Loop.LoopId == _loop.LoopId)
                     {
@@ -221,6 +219,8 @@ namespace Sessions.MVP.Presenters
 
                 _loop = loop;
                 _audioFile = _playerService.CurrentAudioFile;
+
+                _messageHub.PublishAsync<LoopBeingEditedMessage>(new LoopBeingEditedMessage(this, loop));
             } 
             catch (Exception ex)
             {
@@ -235,10 +235,7 @@ namespace Sessions.MVP.Presenters
             {
                 _loops.Remove(loop);
                 _libraryService.DeleteLoop(loop.LoopId);
-                _messageHub.PublishAsync(new LoopUpdatedMessage(this) { 
-                    AudioFileId = loop.AudioFileId,
-                    LoopId = loop.LoopId
-                });
+                _messageHub.PublishAsync(new LoopUpdatedMessage(this, loop));
                 RefreshLoopsViewWithUpdatedIndexesAndPositionPercentages();
             } 
             catch (Exception ex)
@@ -260,6 +257,9 @@ namespace Sessions.MVP.Presenters
                 {
                     _playerService.StartLoop(loop);
                 }
+
+                View.RefreshPlayingLoop(loop, _playerService.IsPlayingLoop);
+                _messageHub.PublishAsync(new LoopPlayingMessage(this, loop, _playerService.IsPlayingLoop));
             } 
             catch (Exception ex)
             {
@@ -350,20 +350,15 @@ namespace Sessions.MVP.Presenters
                 _loop.LengthMS = length.MS;
                 _loop.LengthSamples = length.Samples;
 
+                _messageHub.PublishAsync(new LoopPositionUpdatedMessage(this, _loop));
+
                 if (updateDatabase)
                 {
                     _libraryService.UpdateLoop(_loop);
-                    _messageHub.PublishAsync(new LoopUpdatedMessage(this)
-                    {
-                        AudioFileId = _audioFile.Id,
-                        LoopId = _loop.LoopId
-                    });
+                    _messageHub.PublishAsync(new LoopUpdatedMessage(this, _loop));
                 }
 
-//                if (_playerService.IsPlayingLoop)
-//                {
-                    View.RefreshCurrentlyPlayingLoop(_loop);
-//                }
+                View.RefreshCurrentlyEditedLoop(_loop);
             }
             catch (Exception ex)
             {

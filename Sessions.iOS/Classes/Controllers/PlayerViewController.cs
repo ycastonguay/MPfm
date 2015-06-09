@@ -302,7 +302,7 @@ namespace Sessions.iOS.Classes.Controllers
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            Tracing.Log("PlayerVC - ViewDidLayoutSubviews - View size: {0}x{1} - scrollView size: {2}x{3}", View.Frame.Width, View.Frame.Height, scrollView.Frame.Width, scrollView.Frame.Height);
+//            Tracing.Log("PlayerVC - ViewDidLayoutSubviews - View size: {0}x{1} - scrollView size: {2}x{3}", View.Frame.Width, View.Frame.Height, scrollView.Frame.Width, scrollView.Frame.Height);
 
             if (graphView != null)
                 graphView.SetNeedsDisplay();
@@ -445,8 +445,8 @@ namespace Sessions.iOS.Classes.Controllers
 //                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollViewWidth, scrollView.Frame.Height);
                 scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollViewWidth, scrollViewHeight);
 
-                Console.WriteLine("---------->> Scrollview.Frame.Width: {0} -- scrollViewWidth: {1} -- scrollView.ContentSize: {2} -- View.Frame.Width: {3} -- View.Bounds.Width: {4} -- UIScreen.Bounds.Width: {5}", scrollView.Frame.Width, scrollViewWidth, scrollView.ContentSize, View.Frame.Width, View.Bounds.Width, UIScreen.MainScreen.Bounds.Width);
-                Console.WriteLine("-----------> Scrollview.Frame.Height: {0} -- View.Frame.Height: {1} -- newHeight: {2}", scrollView.Frame.Height, View.Frame.Height, scrollViewHeight);
+//                Console.WriteLine("Scrollview.Frame.Width: {0} -- scrollViewWidth: {1} -- scrollView.ContentSize: {2} -- View.Frame.Width: {3} -- View.Bounds.Width: {4} -- UIScreen.Bounds.Width: {5}", scrollView.Frame.Width, scrollViewWidth, scrollView.ContentSize, View.Frame.Width, View.Bounds.Width, UIScreen.MainScreen.Bounds.Width);
+//                Console.WriteLine("Scrollview.Frame.Height: {0} -- View.Frame.Height: {1} -- newHeight: {2}", scrollView.Frame.Height, View.Frame.Height, scrollViewHeight);
             }
             else
             {
@@ -471,7 +471,13 @@ namespace Sessions.iOS.Classes.Controllers
         {
             float pageWidth = scrollView.Frame.Width;
             int page = (int)Math.Floor((scrollView.ContentOffset.X - pageWidth / 2) / pageWidth) + 1;
-            pageControl.CurrentPage = page;
+
+            if (page != pageControl.CurrentPage)
+            {
+                pageControl.CurrentPage = page;
+                scrollViewWaveForm.ShowLoops = page == 1;
+                scrollViewWaveForm.ShowMarkers = page == 2;
+            }
 
             float alpha = 1 - Math.Min(scrollView.ContentOffset.X, scrollView.Frame.Width) / scrollview.Frame.Width;
             viewAlbumArt.Alpha = alpha;
@@ -668,9 +674,7 @@ namespace Sessions.iOS.Classes.Controllers
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
-            InvokeOnMainThread(() => {
-                scrollViewWaveForm.SetMarkers(markers);
-            });
+            InvokeOnMainThread(() => scrollViewWaveForm.SetMarkers(markers));
         }
 
 		public void RefreshMarkerPosition(Marker marker)
@@ -685,7 +689,12 @@ namespace Sessions.iOS.Classes.Controllers
 		}
 
         public void RefreshLoops(IEnumerable<SSPLoop> loops)
+        {            
+        }
+
+        public void RefreshCurrentLoop(SSPLoop loop)
         {
+            InvokeOnMainThread(() => scrollViewWaveForm.SetLoop(loop));
         }
 
         public void RefreshPlaylist(Playlist playlist)
@@ -740,7 +749,7 @@ namespace Sessions.iOS.Classes.Controllers
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
             if (_currentAlbumArtKey == key)
             {
-                Console.WriteLine("PlayerViewController - RefreshSongInformation - The current album key matches ({0}); keeping the same album art.", key);
+//                Console.WriteLine("PlayerViewController - RefreshSongInformation - The current album key matches ({0}); keeping the same album art.", key);
                 return;
             }
 
@@ -767,7 +776,7 @@ namespace Sessions.iOS.Classes.Controllers
             {
                 try
                 {
-                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Extracting album art from audio file...");
+//                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Extracting album art from audio file...");
                     byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
                     using (NSData imageData = NSData.FromArray(bytesImage))
                     {
@@ -777,7 +786,7 @@ namespace Sessions.iOS.Classes.Controllers
                             {
                                 try
                                 {
-                                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Scaling album art to {0} (key={1})...", _albumArtHeight, key);
+//                                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Scaling album art to {0} (key={1})...", _albumArtHeight, key);
                                     _currentAlbumArtKey = key;
                                     UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, _albumArtHeight);
                                     return imageResized;
@@ -804,12 +813,12 @@ namespace Sessions.iOS.Classes.Controllers
                 {
                     if (image == null)
                     {
-                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Downloading image from the internet...");
+//                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Downloading image from the internet...");
                         DownloadImage(audioFile);
                     }
                     else
                     {
-                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Assigning album art from file...");
+//                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Assigning album art from file...");
                         imageViewAlbumArt.Image = image;
                         UIView.Animate(0.2, () => {
                             imageViewAlbumArt.Alpha = 1;
@@ -880,7 +889,7 @@ namespace Sessions.iOS.Classes.Controllers
         private Task<UIImage> ResizeImage(DownloadImageService.DownloadImageResult result, string key)
         {
             // Load album art + resize in another thread
-            Console.WriteLine("AlbumArtView - Downloaded image successfully!");
+//            Console.WriteLine("AlbumArtView - Downloaded image successfully!");
             var task = Task<UIImage>.Factory.StartNew(() =>
             {
                 try
@@ -894,7 +903,7 @@ namespace Sessions.iOS.Classes.Controllers
                                 try
                                 {
                                     UIImage imageResized = null;
-                                    Console.WriteLine("AlbumArtView - Resizing image...");
+//                                    Console.WriteLine("AlbumArtView - Resizing image...");
                                     InvokeOnMainThread(() =>
                                     {
                                         _currentAlbumArtKey = key;                                    

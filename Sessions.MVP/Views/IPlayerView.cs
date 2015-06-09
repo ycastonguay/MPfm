@@ -64,6 +64,7 @@ namespace Sessions.MVP.Views
         void RefreshActiveMarker(Guid markerId);
         void RefreshMarkerPosition(Marker marker);
         void RefreshLoops(IEnumerable<SSPLoop> loops);
+        void RefreshCurrentLoop(SSPLoop loop);
         void RefreshPlayerVolume(PlayerVolume entity);
         void RefreshPlayerTimeShifting(PlayerTimeShifting entity);
         void RefreshOutputMeter(float[] dataLeft, float[] dataRight);

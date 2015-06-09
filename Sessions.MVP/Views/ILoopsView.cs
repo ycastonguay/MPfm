@@ -37,7 +37,8 @@ namespace Sessions.MVP.Views
         Action<Guid, string> OnChangeLoopName { get; set; }
 
         void LoopError(Exception ex);
-        void RefreshCurrentlyPlayingLoop(SSPLoop loop);
+        void RefreshPlayingLoop(SSPLoop loop, bool isPlaying);
+        void RefreshCurrentlyEditedLoop(SSPLoop loop);
         void RefreshLoops(List<SSPLoop> loops);
 	}
 }

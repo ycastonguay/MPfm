@@ -57,6 +57,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         public UITextField TextField { get; private set; }
 		public UILabel StartPositionTitleLabel { get; private set; }
         public UILabel EndPositionTitleLabel { get; private set; }
+        public UIImageView PlayImageView { get; private set; }
 
         public float RightOffset { get; set; }
 		public Guid LoopId { get; set; }
@@ -175,6 +176,11 @@ namespace Sessions.iOS.Classes.Controls.Cells
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddView(IndexTextLabel);
 
+            PlayImageView = new UIImageView();
+            PlayImageView.BackgroundColor = UIColor.Clear;
+            PlayImageView.Image = UIImage.FromBundle("Images/ContextualButtons/play");
+            AddView(PlayImageView);
+
 			DeleteButton = new SessionsSemiTransparentRoundButton();
 			DeleteButton.Alpha = 0;
 			DeleteButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/remove");
@@ -287,6 +293,11 @@ namespace Sessions.iOS.Classes.Controls.Cells
             }
         }
 
+        public void SetLoopPlaying(bool isPlaying)
+        {
+            PlayImageView.Image = isPlaying ? UIImage.FromBundle("Images/ContextualButtons/trash") : UIImage.FromBundle("Images/ContextualButtons/play");
+        }
+
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
@@ -296,10 +307,13 @@ namespace Sessions.iOS.Classes.Controls.Cells
             const float buttonSize = 44;
             const float textHeight = 38;
             const float sliderAndTextHeight = 68;
+            const float loopIconSize = 26;
 
             float x = leftPadding;
             IndexTextLabel.Frame = new RectangleF(x, 6, 22, textHeight);
             x += 22 + leftPadding;
+            PlayImageView.Frame = new RectangleF(x, 12, loopIconSize, loopIconSize);
+            x += loopIconSize + leftPadding;
 
 			if (IsTextLabelAllowedToChangeFrame)
 			{

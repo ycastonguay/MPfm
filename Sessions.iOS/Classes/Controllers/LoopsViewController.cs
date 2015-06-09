@@ -38,6 +38,7 @@ namespace Sessions.iOS.Classes.Controllers
         private const string _cellIdentifier = "LoopCell";
         private List<SSPLoop> _loops;
         private Guid _currentEditLoopId = Guid.Empty;
+        private Guid _currentlyPlayingLoopId = Guid.Empty;
 
         public LoopsViewController()
 			: base (UserInterfaceIdiomIsPhone ? "LoopsViewController_iPhone" : "LoopsViewController_iPad", null)
@@ -70,7 +71,7 @@ namespace Sessions.iOS.Classes.Controllers
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
         {
-            return _loops.Count;
+            return _loops != null ? _loops.Count : 0;
         }
         
         [Export ("tableView:cellForRowAtIndexPath:")]
@@ -127,7 +128,8 @@ namespace Sessions.iOS.Classes.Controllers
         {
             if(OnSelectLoop != null)
             {
-                OnSelectLoop(_loops[indexPath.Row]);
+//                OnSelectLoop(_loops[indexPath.Row]);
+                OnPlayLoop(_loops[indexPath.Row]);
                 tableView.DeselectRow(indexPath, true);
             }
         }
@@ -177,16 +179,18 @@ namespace Sessions.iOS.Classes.Controllers
 
                 if (previousCell != null)
                     previousCell.CollapseCell(true);
+
                 if (cell != null)
                 {
-                    OnSelectLoop(_loops[index]);
                     if (_currentEditLoopId == Guid.Empty)
                     {
+                        OnSelectLoop(null);
                         if(indexPath.Row != indexPathEdit.Row)
                             cell.CollapseCell(true);
                     }
                     else
                     {
+                        OnSelectLoop(_loops[index]);
                         cell.ExpandCell(true);
                         tableView.ScrollToRow(indexPath, UITableViewScrollPosition.Top, true);
                     }
@@ -261,18 +265,41 @@ namespace Sessions.iOS.Classes.Controllers
             });
         }
 
-        public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
+        private void SetLoopCellIsPlaying(Guid loopId, bool isPlaying)
+        {
+            int index = _loops.FindIndex(x => x.LoopId == loopId);
+            var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0));
+            if(cell != null)
+            {
+                var loopCell = cell as SessionsLoopTableViewCell;
+                loopCell.SetLoopPlaying(isPlaying);
+            }
+        }
+
+        public void RefreshPlayingLoop(SSPLoop loop, bool isPlaying)
         {
             InvokeOnMainThread(() => {
-                Console.WriteLine("--------->>>>> RefreshCurrentlyPlayingLoop - start {0} end {1}", loop.StartPosition, loop.EndPosition);
+                SetLoopCellIsPlaying(_currentlyPlayingLoopId, false);
+                _currentlyPlayingLoopId = loop != null ? loop.LoopId : Guid.Empty;
+                SetLoopCellIsPlaying(_currentlyPlayingLoopId, isPlaying);
+            });
+        }
+
+        public void RefreshCurrentlyEditedLoop(SSPLoop loop)
+        {
+            InvokeOnMainThread(() => {
+//                Console.WriteLine("--------->>>>> RefreshCurrentlyPlayingLoop - start {0} end {1}", loop.StartPosition, loop.EndPosition);
 
                 int index = _loops.FindIndex(x => x.LoopId == loop.LoopId);
                 //Tracing.Log("MarkersViewController - RefreshMarkerPosition - markerId: {0} position: {1} index: {2} newIndex: {3}", marker.MarkerId, marker.Position, index, newIndex);
 
                 // Update position
-                var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0)) as SessionsLoopTableViewCell;
+                var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0));
                 if(cell != null)
-                    cell.SetLoop(loop, false);
+                {
+                    var loopCell = cell as SessionsLoopTableViewCell;
+                    loopCell.SetLoop(loop, false);
+                }
             });
         }
 
