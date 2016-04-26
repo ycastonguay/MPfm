@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -13,22 +13,22 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class CloudConnectViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
+		UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
         Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnOK { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStatus { get; set; }
+		UIKit.UILabel lblStatus { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStatusCenter { get; set; }
+		UIKit.UILabel lblStatusCenter { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPanel { get; set; }
+		UIKit.UIView viewPanel { get; set; }
 
 		[Action ("actionOK:")]
-		partial void actionOK (MonoTouch.Foundation.NSObject sender);
+		partial void actionOK (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

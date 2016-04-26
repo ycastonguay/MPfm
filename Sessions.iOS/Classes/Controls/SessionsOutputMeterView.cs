@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.GenericControls.Controls;
 using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.iOS.Classes.Controls.Helpers;
@@ -41,7 +41,7 @@ namespace Sessions.iOS.Classes.Controls
             Initialize();
         }
 
-        public SessionsOutputMeterView(RectangleF frame) 
+        public SessionsOutputMeterView(CGRect frame) 
             : base(frame)
         {
             Initialize();
@@ -61,7 +61,7 @@ namespace Sessions.iOS.Classes.Controls
 			_control.AddWaveDataBlock(waveDataLeft, waveDataRight);
         }
 
-		public override void Draw(RectangleF rect)
+		public override void Draw(CGRect rect)
 		{
             var context = UIGraphics.GetCurrentContext();
             context.SaveState();

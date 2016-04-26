@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -19,10 +19,10 @@ namespace Sessions.iOS.Classes.Controllers
         Sessions.iOS.Classes.Controls.Buttons.SessionsPlayerButton btnRemoveAll { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblSubtitle { get; set; }
+		UIKit.UILabel lblSubtitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

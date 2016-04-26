@@ -4,7 +4,7 @@
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -12,19 +12,19 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class LoopDetailsViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblLoopDetails { get; set; }
+		UIKit.UILabel lblLoopDetails { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnDeleteLoop { get; set; }
+		UIKit.UIButton btnDeleteLoop { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnClose { get; set; }
+		UIKit.UIButton btnClose { get; set; }
 
 		[Action ("actionClose:")]
-		partial void actionClose (MonoTouch.Foundation.NSObject sender);
+		partial void actionClose (Foundation.NSObject sender);
 
 		[Action ("actionDeleteLoop:")]
-		partial void actionDeleteLoop (MonoTouch.Foundation.NSObject sender);
+		partial void actionDeleteLoop (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

@@ -17,13 +17,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Core;
 
@@ -49,7 +49,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
 			Initialize();
 		}
 
-		public SessionsSemiTransparentButton(RectangleF frame) : base(frame)
+		public SessionsSemiTransparentButton(CGRect frame) : base(frame)
 		{
 			Initialize();
 		}
@@ -64,7 +64,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
 			TitleLabel.TextColor = UIColor.White;
 			TitleLabel.Text = CurrentTitle;
 			TitleLabel.TextAlignment = UITextAlignment.Center;
-			TitleLabel.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+			TitleLabel.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
             Layer.CornerRadius = 8;
 			Layer.BorderWidth = 1f;
 			Layer.BorderColor = GlobalTheme.MainLightColor.CGColor;
@@ -78,7 +78,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
 			//Tracing.Log("SemiTransparentButton - LayoutSubviews - title: {0}", TitleLabel.Text);
 
 			if(_isTextLabelAllowedToChangeFrame)
-				TitleLabel.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+				TitleLabel.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
 		}
 
 		public override void SetTitle(string title, UIControlState forState)

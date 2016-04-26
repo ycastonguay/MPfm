@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using TinyMessenger;
@@ -33,7 +33,7 @@ namespace Sessions.iOS.Classes.Controls
     {
         private readonly ITinyMessengerHub _messengerHub;
 
-        public SessionsWindow(RectangleF frame) : base(frame)
+        public SessionsWindow(CGRect frame) : base(frame)
         {
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
         }

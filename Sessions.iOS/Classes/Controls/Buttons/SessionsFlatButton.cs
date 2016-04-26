@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -53,7 +53,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
             LabelAlignment = UIControlContentHorizontalAlignment.Left;
             BackgroundColor = UIColor.Clear;
 
-            Label = new UILabel(new RectangleF(26, 5, 80, 32));
+            Label = new UILabel(new CGRect(26, 5, 80, 32));
             Label.BackgroundColor = UIColor.Clear;
             Label.Text = "Back";
             Label.TextColor = UIColor.FromRGB(182, 213, 233);
@@ -62,7 +62,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron_left_blue"));
             ImageChevron.BackgroundColor = UIColor.Clear;
-            ImageChevron.Frame = new RectangleF(0, 0, 22, 44);
+            ImageChevron.Frame = new CGRect(0, 0, 22, 44);
 
             AddSubview(Label);
             AddSubview(ImageChevron);
@@ -97,9 +97,9 @@ namespace Sessions.iOS.Classes.Controls.Buttons
                 UIView.Animate(0.1, () => {
                     BackgroundColor = UIColor.Clear;
                     if (LabelAlignment == UIControlContentHorizontalAlignment.Left)
-                        Label.Frame = new RectangleF(Label.Frame.X + 8, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                        Label.Frame = new CGRect(Label.Frame.X + 8, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
                     else if (LabelAlignment == UIControlContentHorizontalAlignment.Right)
-                        Label.Frame = new RectangleF(Label.Frame.X - 4, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                        Label.Frame = new CGRect(Label.Frame.X - 4, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
 
                     Label.Transform = CGAffineTransform.MakeScale(1, 1);
                     ImageChevron.Transform = CGAffineTransform.MakeScale(1, 1);
@@ -113,9 +113,9 @@ namespace Sessions.iOS.Classes.Controls.Buttons
                     ImageChevron.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
 
                     if(LabelAlignment == UIControlContentHorizontalAlignment.Left)
-                        Label.Frame = new RectangleF(Label.Frame.X - 8, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                        Label.Frame = new CGRect(Label.Frame.X - 8, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
                     else if(LabelAlignment == UIControlContentHorizontalAlignment.Right)
-                        Label.Frame = new RectangleF(Label.Frame.X + 4, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                        Label.Frame = new CGRect(Label.Frame.X + 4, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
                 });
             }
         }

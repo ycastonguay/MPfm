@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Helpers;
 using Sessions.GenericControls.Controls;
 using Sessions.iOS.Classes.Controls.Helpers;
@@ -49,7 +49,7 @@ namespace Sessions.iOS.Classes.Controls
             Initialize();
         }
 
-        public SessionsEqualizerPresetGraphView(RectangleF frame) 
+        public SessionsEqualizerPresetGraphView(CGRect frame) 
             : base(frame)
         {
             Initialize();
@@ -65,7 +65,7 @@ namespace Sessions.iOS.Classes.Controls
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
 
-        public override void Draw(RectangleF rect)
+        public override void Draw(CGRect rect)
         {
             var context = UIGraphics.GetCurrentContext();
             context.SaveState();

@@ -17,13 +17,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using System.Threading.Tasks;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.MediaPlayer;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using MediaPlayer;
+using UIKit;
 using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
@@ -128,7 +128,7 @@ namespace Sessions.iOS.Classes.Controllers
             lblPosition.Text = "0:00.000";
 
 			// Create MPVolumeView (only visible on iPad or maybe in the future on iPhone with a scroll view)
-			var rectVolume = new RectangleF(12, 10, 100, 46);
+			var rectVolume = new CGRect(12, 10, 100, 46);
 			_volumeView = new MPVolumeView(rectVolume);
 			_volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 			_volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
@@ -152,11 +152,11 @@ namespace Sessions.iOS.Classes.Controllers
 				scrollViewPlayer.AddSubview(viewEffects);
 				scrollViewPlayer.AddSubview(viewPlayerButtons);
 				scrollViewPlayer.AddSubview(viewVolume);
-				scrollViewPlayer.ContentSize = new SizeF(3 * UIScreen.MainScreen.Bounds.Width, 72);
-                scrollViewPlayer.ContentOffset = new PointF(UIScreen.MainScreen.Bounds.Width, 0);
-				viewEffects.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 72);
-				viewPlayerButtons.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, 72);
-				viewVolume.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width * 2, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				scrollViewPlayer.ContentSize = new CGSize(3 * UIScreen.MainScreen.Bounds.Width, 72);
+                scrollViewPlayer.ContentOffset = new CGPoint(UIScreen.MainScreen.Bounds.Width, 0);
+				viewEffects.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				viewPlayerButtons.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				viewVolume.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width * 2, 0, UIScreen.MainScreen.Bounds.Width, 72);
 
                 // Center button group inside group
                 var rectPlayerButtonsGroup = viewPlayerButtonsGroup.Frame;
@@ -250,9 +250,9 @@ namespace Sessions.iOS.Classes.Controllers
             sliderPosition.TouchesBeganEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
                     float offset = 42;
-                    viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height + offset);
-                    scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y + offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height * 2);
-                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
+                    viewPosition.Frame = new CGRect(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height + offset);
+                    scrollViewWaveForm.Frame = new CGRect(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y + offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height * 2);
+                    viewMain.Frame = new CGRect(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
                     lblSlideMessage.Alpha = 1;
                     lblScrubbingType.Alpha = 1;
                     scrollViewWaveForm.ShowSecondaryPosition(true);
@@ -268,9 +268,9 @@ namespace Sessions.iOS.Classes.Controllers
             sliderPosition.TouchesEndedEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
                     float offset = 42;
-                    viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
-                    scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y - offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height / 2);
-                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
+                    viewPosition.Frame = new CGRect(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
+                    scrollViewWaveForm.Frame = new CGRect(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y - offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height / 2);
+                    viewMain.Frame = new CGRect(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
@@ -308,15 +308,15 @@ namespace Sessions.iOS.Classes.Controllers
                 graphView.SetNeedsDisplay();
 
             if (UserInterfaceIdiomIsPhone)
-                _volumeView.Frame = new RectangleF(48, 25, UIScreen.MainScreen.Bounds.Width - 96, 46);
+                _volumeView.Frame = new CGRect(48, 25, UIScreen.MainScreen.Bounds.Width - 96, 46);
             else
-                _volumeView.Frame = new RectangleF(16 + 16 + 12, 32, viewVolume.Frame.Width - 88, 46);
+                _volumeView.Frame = new CGRect(16 + 16 + 12, 32, viewVolume.Frame.Width - 88, 46);
 
             if (!UserInterfaceIdiomIsPhone)
             {
                 // Resize scrollview subviews
-                float width = View.Frame.Width;
-                float height = viewMain.Frame.Height - 24; // 24 = Page Control
+                nfloat width = View.Frame.Width;
+                nfloat height = viewMain.Frame.Height - 24; // 24 = Page Control
                 if (UIDevice.CurrentDevice.Orientation == UIDeviceOrientation.Portrait ||
                 UIDevice.CurrentDevice.Orientation == UIDeviceOrientation.PortraitUpsideDown)
                 {
@@ -324,15 +324,15 @@ namespace Sessions.iOS.Classes.Controllers
                     {
                         var view = scrollView.Subviews[a];
                         if (a == 0)
-                            view.Frame = new RectangleF(0, 0, width, height);
+                            view.Frame = new CGRect(0, 0, width, height);
                         else if (a == 1)
-                            view.Frame = new RectangleF(width, 0, width, height / 2);
+                            view.Frame = new CGRect(width, 0, width, height / 2);
                         else if (a == 2)
-                            view.Frame = new RectangleF(width, height / 2, width, height / 2);
+                            view.Frame = new CGRect(width, height / 2, width, height / 2);
                         else if (a == 3)
-                            view.Frame = new RectangleF(2 * width, 0, width, height / 2);
+                            view.Frame = new CGRect(2 * width, 0, width, height / 2);
                         else if (a == 4)
-                            view.Frame = new RectangleF(2 * width, height / 2, width, height / 2);
+                            view.Frame = new CGRect(2 * width, height / 2, width, height / 2);
                     }
                 }
                 else
@@ -341,28 +341,28 @@ namespace Sessions.iOS.Classes.Controllers
                     {
                         var view = scrollView.Subviews[a];
                         if (a == 0)
-                            view.Frame = new RectangleF(0, 0, width, height);
+                            view.Frame = new CGRect(0, 0, width, height);
                         else if (a == 1)
-                            view.Frame = new RectangleF(width, 0, width / 2, height);
+                            view.Frame = new CGRect(width, 0, width / 2, height);
                         else if (a == 2)
-                            view.Frame = new RectangleF(width + (width / 2), 0, width / 2, height);
+                            view.Frame = new CGRect(width + (width / 2), 0, width / 2, height);
                         else if (a == 3)
-                            view.Frame = new RectangleF(2 * width, 0, width / 2, height);
+                            view.Frame = new CGRect(2 * width, 0, width / 2, height);
                         else if (a == 4)
-                            view.Frame = new RectangleF((2 * width) + (width / 2), 0, width / 2, height);
+                            view.Frame = new CGRect((2 * width) + (width / 2), 0, width / 2, height);
                     }
                 }
-                float oldWidth = scrollView.ContentSize.Width / 3f;
-                float offset = scrollView.ContentOffset.X / oldWidth;
-                scrollView.ContentSize = new SizeF(3 * width, height);
-                scrollView.ContentOffset = new PointF(offset * width, 0);
+                nfloat oldWidth = scrollView.ContentSize.Width / 3f;
+                nfloat offset = scrollView.ContentOffset.X / oldWidth;
+                scrollView.ContentSize = new CGSize(3 * width, height);
+                scrollView.ContentOffset = new CGPoint(offset * width, 0);
             }
             else
             {
-                float width = View.Frame.Width;
-                float height = viewMain.Frame.Height - scrollViewWaveForm.Frame.Height - 3; // not sure of this padding
-                scrollView.Frame = new RectangleF(0, 0, width, height);
-                scrollView.ContentSize = new SizeF(5 * width, height);
+                nfloat width = View.Frame.Width;
+                nfloat height = viewMain.Frame.Height - scrollViewWaveForm.Frame.Height - 3; // not sure of this padding
+                scrollView.Frame = new CGRect(0, 0, width, height);
+                scrollView.ContentSize = new CGSize(5 * width, height);
             }
 
 			//scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
@@ -371,7 +371,7 @@ namespace Sessions.iOS.Classes.Controllers
             sliderPosition.TranslatesAutoresizingMaskIntoConstraints = true;
 
             // We need to keep a negative Y because of scaling issues (i.e. 70% of normal size)
-            sliderPosition.Frame = new RectangleF(70, -8, View.Frame.Width - 140, 40); 
+            sliderPosition.Frame = new CGRect(70, -8, View.Frame.Width - 140, 40); 
         }
 
         private void AppInactiveMessageReceived(AppInactiveMessage message)
@@ -430,20 +430,20 @@ namespace Sessions.iOS.Classes.Controllers
 //                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollView.Frame.Width, scrollView.Frame.Height);
 
                 //float scrollViewWidth = UIScreen.MainScreen.Bounds.Width;
-                float scrollViewWidth = View.Frame.Width;
-                float scrollViewWidth2 = UIScreen.MainScreen.Bounds.Width;
-                float scrollViewHeight = View.Frame.Height - scrollViewWaveForm.Frame.Bottom;
+                nfloat scrollViewWidth = View.Frame.Width;
+                nfloat scrollViewWidth2 = UIScreen.MainScreen.Bounds.Width;
+                nfloat scrollViewHeight = View.Frame.Height - scrollViewWaveForm.Frame.Bottom;
 //                float scrollViewHeight = viewMain.Frame.Height - 24; // 24 = Page Control //100;
 
                 // NEW: The problem is the Y position of the scrollview.
 
                 //viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth, 0, scrollViewWidth, scrollView.Frame.Height);
-                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth2, 0, scrollViewWidth, scrollView.Frame.Height);
+                viewController.View.Frame = new CGRect(scrollSubviewsLength * scrollViewWidth2, 0, scrollViewWidth, scrollView.Frame.Height);
 //                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollViewWidth2, 0, scrollViewWidth, scrollViewHeight);
                 scrollView.AddSubview(viewController.View);
                 pageControl.Pages = scrollSubviewsLength + 1;
 //                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollViewWidth, scrollView.Frame.Height);
-                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollViewWidth, scrollViewHeight);
+                scrollView.ContentSize = new CGSize((scrollSubviewsLength + 1) * scrollViewWidth, scrollViewHeight);
 
 //                Console.WriteLine("Scrollview.Frame.Width: {0} -- scrollViewWidth: {1} -- scrollView.ContentSize: {2} -- View.Frame.Width: {3} -- View.Bounds.Width: {4} -- UIScreen.Bounds.Width: {5}", scrollView.Frame.Width, scrollViewWidth, scrollView.ContentSize, View.Frame.Width, View.Bounds.Width, UIScreen.MainScreen.Bounds.Width);
 //                Console.WriteLine("Scrollview.Frame.Height: {0} -- View.Frame.Height: {1} -- newHeight: {2}", scrollView.Frame.Height, View.Frame.Height, scrollViewHeight);
@@ -451,25 +451,25 @@ namespace Sessions.iOS.Classes.Controllers
             else
             {
                 if (viewController is PlayerMetadataViewController)
-                    viewController.View.Frame = new RectangleF(0, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+                    viewController.View.Frame = new CGRect(0, 0, scrollView.Frame.Width, scrollView.Frame.Height);
                 else if(viewController is MarkersViewController)
-                    viewController.View.Frame = new RectangleF(scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    viewController.View.Frame = new CGRect(scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
                 else if(viewController is LoopsViewController)
-                    viewController.View.Frame = new RectangleF(scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    viewController.View.Frame = new CGRect(scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
                 else if(viewController is TimeShiftingViewController)
-                    viewController.View.Frame = new RectangleF(2 * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    viewController.View.Frame = new CGRect(2 * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
                 else if(viewController is PitchShiftingViewController)
-                    viewController.View.Frame = new RectangleF(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    viewController.View.Frame = new CGRect(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
 
                 scrollView.AddSubview(viewController.View);
-                scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
+                scrollView.ContentSize = new CGSize(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
         }
 
         [Export("scrollViewDidScroll:")]
         public void ScrollViewDidScroll(UIScrollView scrollview)
         {
-            float pageWidth = scrollView.Frame.Width;
+            nfloat pageWidth = scrollView.Frame.Width;
             int page = (int)Math.Floor((scrollView.ContentOffset.X - pageWidth / 2) / pageWidth) + 1;
 
             if (page != pageControl.CurrentPage)
@@ -479,7 +479,7 @@ namespace Sessions.iOS.Classes.Controllers
                 scrollViewWaveForm.ShowMarkers = page == 2;
             }
 
-            float alpha = 1 - Math.Min(scrollView.ContentOffset.X, scrollView.Frame.Width) / scrollview.Frame.Width;
+            nfloat alpha = (nfloat)(1 - Math.Min(scrollView.ContentOffset.X, scrollView.Frame.Width) / scrollview.Frame.Width);
             viewAlbumArt.Alpha = alpha;
 
             if(_timerHidePlayerMetadata != null)

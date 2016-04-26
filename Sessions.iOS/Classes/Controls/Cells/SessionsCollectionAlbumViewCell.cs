@@ -17,14 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Classes.Controls.Buttons;
 
@@ -90,7 +90,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         }
 
         [Export ("initWithFrame:")]
-        public SessionsCollectionAlbumViewCell(RectangleF frame) : base(frame)
+        public SessionsCollectionAlbumViewCell(CGRect frame) : base(frame)
         {
             Initialize();
         }
@@ -103,11 +103,11 @@ namespace Sessions.iOS.Classes.Controls.Cells
 			ContentView.BackgroundColor = GlobalTheme.BackgroundDarkerColor;
             ContentView.AutosizesSubviews = true;
 
-            _labelBackgroundView = new UIView(new RectangleF(0, Frame.Height - 36, Frame.Width, 36));
+            _labelBackgroundView = new UIView(new CGRect(0, Frame.Height - 36, Frame.Width, 36));
             _labelBackgroundView.BackgroundColor = new UIColor(0, 0, 0, 0.5f);
 
 			//_lblTitle = new UILabel(new RectangleF(8, Frame.Height - 36, Frame.Width - 16, 20));
-			_lblTitle = new UILabel(new RectangleF(8, Frame.Height - 36, Frame.Width - 16, 36));
+			_lblTitle = new UILabel(new CGRect(8, Frame.Height - 36, Frame.Width - 16, 36));
 			_lblTitle.BackgroundColor = UIColor.Clear;
 			//_lblTitle.Font = UIFont.FromName("HelveticaNeue", 12);
 			_lblTitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
@@ -115,32 +115,32 @@ namespace Sessions.iOS.Classes.Controls.Cells
             _lblTitle.TextAlignment = UITextAlignment.Center;
 			_lblTitle.Lines = 2;
 
-            _lblSubtitle = new UILabel(new RectangleF(8, Frame.Height - 20, Frame.Width - 16, 18));
+            _lblSubtitle = new UILabel(new CGRect(8, Frame.Height - 20, Frame.Width - 16, 18));
 			_lblSubtitle.Hidden = true;
             _lblSubtitle.BackgroundColor = UIColor.Clear;
             _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             _lblSubtitle.TextColor = new UIColor(0.8f, 0.8f, 0.8f, 1);
             _lblSubtitle.TextAlignment = UITextAlignment.Center;
            
-            PlayButton = new SessionsImageButton(new RectangleF(((Frame.Width - 44) / 2) - 52, (Frame.Height - 44) / 2, 44, 44));
+            PlayButton = new SessionsImageButton(new CGRect(((Frame.Width - 44) / 2) - 52, (Frame.Height - 44) / 2, 44, 44));
             PlayButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
             PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
             PlayButton.Layer.CornerRadius = 4;
             PlayButton.Alpha = 0;
 
-            AddButton = new SessionsImageButton(new RectangleF((Frame.Width - 44) / 2, (Frame.Height - 44) / 2, 44, 44));
+            AddButton = new SessionsImageButton(new CGRect((Frame.Width - 44) / 2, (Frame.Height - 44) / 2, 44, 44));
             AddButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
             AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
             AddButton.Layer.CornerRadius = 4;
             AddButton.Alpha = 0;
 
-            DeleteButton = new SessionsImageButton(new RectangleF(((Frame.Width - 44) / 2) + 52, (Frame.Height - 44) / 2, 44, 44));
+            DeleteButton = new SessionsImageButton(new CGRect(((Frame.Width - 44) / 2) + 52, (Frame.Height - 44) / 2, 44, 44));
             DeleteButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
             DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
             DeleteButton.Layer.CornerRadius = 4;
             DeleteButton.Alpha = 0;
 
-            _imageView = new UIImageView(new RectangleF(0, 0, Frame.Width, Frame.Height));
+            _imageView = new UIImageView(new CGRect(0, 0, Frame.Width, Frame.Height));
             _imageView.Alpha = 0;
 			_imageView.BackgroundColor = GlobalTheme.BackgroundDarkColor;
             _imageView.Center = ContentView.Center;
@@ -179,10 +179,10 @@ namespace Sessions.iOS.Classes.Controls.Cells
                     _lblTitle.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     _lblSubtitle.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
 
-                    _imageView.Frame = new RectangleF(8, 8, Frame.Width - 16, Frame.Height - 16);
-                    _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X - 8, _labelBackgroundView.Frame.Y - 2, _labelBackgroundView.Frame.Width + 16, _labelBackgroundView.Frame.Height - 2);
-                    _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y - 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height - 1);
-                    _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
+                    _imageView.Frame = new CGRect(8, 8, Frame.Width - 16, Frame.Height - 16);
+                    _labelBackgroundView.Frame = new CGRect(_labelBackgroundView.Frame.X - 8, _labelBackgroundView.Frame.Y - 2, _labelBackgroundView.Frame.Width + 16, _labelBackgroundView.Frame.Height - 2);
+                    _lblTitle.Frame = new CGRect(_lblTitle.Frame.X, _lblTitle.Frame.Y - 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height - 1);
+                    _lblSubtitle.Frame = new CGRect(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
                 }, null);
             }
             else
@@ -190,10 +190,10 @@ namespace Sessions.iOS.Classes.Controls.Cells
                 // TODO: When quick tapping the cell, the animation will start right away from the "pressed" state. Try to find a way to not animate the cell.
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     // Don't change the order, it is important to set the frame before transform!
-                    _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X + 8, _labelBackgroundView.Frame.Y + 2, _labelBackgroundView.Frame.Width - 16, _labelBackgroundView.Frame.Height + 2);
-                    _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y + 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height + 1);
-                    _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y + 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height + 2);
-                    _imageView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+                    _labelBackgroundView.Frame = new CGRect(_labelBackgroundView.Frame.X + 8, _labelBackgroundView.Frame.Y + 2, _labelBackgroundView.Frame.Width - 16, _labelBackgroundView.Frame.Height + 2);
+                    _lblTitle.Frame = new CGRect(_lblTitle.Frame.X, _lblTitle.Frame.Y + 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height + 1);
+                    _lblSubtitle.Frame = new CGRect(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y + 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height + 2);
+                    _imageView.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
 
                     _labelBackgroundView.Transform = CGAffineTransform.MakeScale(1, 1);
                     _lblTitle.Transform = CGAffineTransform.MakeScale(1, 1);

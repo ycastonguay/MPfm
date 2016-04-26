@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -43,7 +43,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
             Initialize();
         }
 
-        public SessionsImageButton(RectangleF frame)
+        public SessionsImageButton(CGRect frame)
             : base(frame)
         {
             Initialize();

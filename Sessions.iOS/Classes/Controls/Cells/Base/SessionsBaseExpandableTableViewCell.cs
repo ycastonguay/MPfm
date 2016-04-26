@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Core;
 
@@ -38,7 +38,7 @@ namespace Sessions.iOS.Classes.Controls.Cells.Base
         {
         }
 
-        public SessionsBaseExpandableTableViewCell(RectangleF frame) : base(frame)
+        public SessionsBaseExpandableTableViewCell(CGRect frame) : base(frame)
         {
         }
 

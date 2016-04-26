@@ -16,8 +16,8 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using Sessions.Sound.AudioFiles;
-using MonoTouch.UIKit;
-using MonoTouch.MediaPlayer;
+using UIKit;
+using MediaPlayer;
 
 namespace Sessions.iOS.Classes.Services
 {

@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MonoTouch.Foundation;
+using Foundation;
 using Sessions.Library;
 using Sessions.Library.Objects;
-using MonoTouch.UIKit;
+using UIKit;
 using Sessions.Library.Services;
 using System.Collections.Generic;
 

@@ -16,11 +16,11 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.MVP.Bootstrap;

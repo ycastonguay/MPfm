@@ -17,15 +17,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Config.Models;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;

@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -13,19 +13,19 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class PlayerMetadataViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblAlbumTitle { get; set; }
+		UIKit.UILabel lblAlbumTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblArtistName { get; set; }
+		UIKit.UILabel lblArtistName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblSongCount { get; set; }
+		UIKit.UILabel lblSongCount { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewBackground { get; set; }
+		UIKit.UIView viewBackground { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

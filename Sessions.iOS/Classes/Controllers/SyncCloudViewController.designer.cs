@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -13,28 +13,28 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class SyncCloudViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDataChanged { get; set; }
+		UIKit.UILabel lblDataChanged { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblIsLinked { get; set; }
+		UIKit.UILabel lblIsLinked { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblValue { get; set; }
+		UIKit.UILabel lblValue { get; set; }
 
 		[Action ("actionDelete:")]
-		partial void actionDelete (MonoTouch.Foundation.NSObject sender);
+		partial void actionDelete (Foundation.NSObject sender);
 
 		[Action ("actionDisableSync:")]
-		partial void actionDisableSync (MonoTouch.Foundation.NSObject sender);
+		partial void actionDisableSync (Foundation.NSObject sender);
 
 		[Action ("actionEnableSync:")]
-		partial void actionEnableSync (MonoTouch.Foundation.NSObject sender);
+		partial void actionEnableSync (Foundation.NSObject sender);
 
 		[Action ("actionPull:")]
-		partial void actionPull (MonoTouch.Foundation.NSObject sender);
+		partial void actionPull (Foundation.NSObject sender);
 
 		[Action ("actionPush:")]
-		partial void actionPush (MonoTouch.Foundation.NSObject sender);
+		partial void actionPush (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

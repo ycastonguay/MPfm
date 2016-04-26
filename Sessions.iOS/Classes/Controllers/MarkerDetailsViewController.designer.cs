@@ -4,7 +4,7 @@
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -12,43 +12,43 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class MarkerDetailsViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblMarkerDetails { get; set; }
+		UIKit.UILabel lblMarkerDetails { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnDeleteMarker { get; set; }
+		UIKit.UIButton btnDeleteMarker { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnClose { get; set; }
+		UIKit.UIButton btnClose { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitleName { get; set; }
+		UIKit.UILabel lblTitleName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitlePosition { get; set; }
+		UIKit.UILabel lblTitlePosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitleComments { get; set; }
+		UIKit.UILabel lblTitleComments { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPosition { get; set; }
+		UIKit.UILabel lblPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblLength { get; set; }
+		UIKit.UILabel lblLength { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField txtName { get; set; }
+		UIKit.UITextField txtName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView textViewComments { get; set; }
+		UIKit.UITextView textViewComments { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISlider sliderPosition { get; set; }
+		UIKit.UISlider sliderPosition { get; set; }
 
 		[Action ("actionClose:")]
-		partial void actionClose (MonoTouch.Foundation.NSObject sender);
+		partial void actionClose (Foundation.NSObject sender);
 
 		[Action ("actionDeleteMarker:")]
-		partial void actionDeleteMarker (MonoTouch.Foundation.NSObject sender);
+		partial void actionDeleteMarker (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using System.Linq;
 using System.Collections.Generic;
 using System;
@@ -33,10 +33,10 @@ namespace Sessions.iOS.Classes.Controls.Layouts
 			// Remove spacing between items on iPhone to stack two album arts in width
 			float spacing = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone ? 0 : 8;
             //ItemSize = new SizeF(160, 160);
-            float width = UIScreen.MainScreen.Bounds.Width / 2;
-            ItemSize = new SizeF(width, width);
+            nfloat width = UIScreen.MainScreen.Bounds.Width / 2;
+            ItemSize = new CGSize(width, width);
 			SectionInset = new UIEdgeInsets(spacing, spacing, spacing, spacing);
-			HeaderReferenceSize = new SizeF(0, 52);
+			HeaderReferenceSize = new CGSize(0, 52);
 			MinimumInteritemSpacing = spacing;
 			MinimumLineSpacing = spacing;
         }

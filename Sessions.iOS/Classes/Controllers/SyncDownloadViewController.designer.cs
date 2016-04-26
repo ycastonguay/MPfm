@@ -4,7 +4,7 @@
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -12,52 +12,52 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class SyncDownloadViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIProgressView progressView { get; set; }
+		UIKit.UIProgressView progressView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPercentageDoneValue { get; set; }
+		UIKit.UILabel lblPercentageDoneValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPercentageDone { get; set; }
+		UIKit.UILabel lblPercentageDone { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblFilesDownloadedValue { get; set; }
+		UIKit.UILabel lblFilesDownloadedValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblFilesDownloaded { get; set; }
+		UIKit.UILabel lblFilesDownloaded { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTotalFiles { get; set; }
+		UIKit.UILabel lblTotalFiles { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDownloadSpeedValue { get; set; }
+		UIKit.UILabel lblDownloadSpeedValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDownloadSpeed { get; set; }
+		UIKit.UILabel lblDownloadSpeed { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTotalFilesValue { get; set; }
+		UIKit.UILabel lblTotalFilesValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblCurrentFileValue { get; set; }
+		UIKit.UILabel lblCurrentFileValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblCurrentFile { get; set; }
+		UIKit.UILabel lblCurrentFile { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblFileNameValue { get; set; }
+		UIKit.UILabel lblFileNameValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblErrorsValue { get; set; }
+		UIKit.UILabel lblErrorsValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblErrors { get; set; }
+		UIKit.UILabel lblErrors { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView textViewLog { get; set; }
+		UIKit.UITextView textViewLog { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

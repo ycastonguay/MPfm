@@ -17,9 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.UIKit;
+using UIKit;
 using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
@@ -57,7 +57,7 @@ namespace Sessions.iOS.Classes.Controllers
             lblPresetName.TextColor = UIColor.White;
             
             // Add padding to text field (http://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone)
-            UIView paddingView = new UIView(new RectangleF(0, 0, 5, 20));
+            UIView paddingView = new UIView(new CGRect(0, 0, 5, 20));
             txtPresetName.LeftView = paddingView;
             txtPresetName.LeftViewMode = UITextFieldViewMode.Always;
 
@@ -69,10 +69,10 @@ namespace Sessions.iOS.Classes.Controllers
 
             var btnBack = new SessionsFlatButton();
             btnBack.Label.Text = "Back";
-            btnBack.Frame = new RectangleF(0, 0, 70, 44);
+            btnBack.Frame = new CGRect(0, 0, 70, 44);
             btnBack.OnButtonClick += HandleButtonBackClick;
-            var btnBackView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnBackView.Bounds.X + 16, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
+            var btnBackView = new UIView(new CGRect(0, 0, 70, 44));
+            var rect = new CGRect(btnBackView.Bounds.X + 16, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
             btnBackView.Bounds = rect;
             btnBackView.AddSubview(btnBack);
             _btnBack = new UIBarButtonItem(btnBackView);
@@ -81,12 +81,12 @@ namespace Sessions.iOS.Classes.Controllers
             btnSave.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnSave.Label.Text = "Save";
             btnSave.Label.TextAlignment = UITextAlignment.Right;
-            btnSave.Label.Frame = new RectangleF(0, 0, 44, 44);
+            btnSave.Label.Frame = new CGRect(0, 0, 44, 44);
             btnSave.ImageChevron.Hidden = true;
-            btnSave.Frame = new RectangleF(0, 0, 60, 44);
+            btnSave.Frame = new CGRect(0, 0, 60, 44);
             btnSave.OnButtonClick += HandleButtonSaveTouchUpInside;
-            var btnSaveView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
-            var rect2 = new RectangleF(btnSaveView.Bounds.X - 16, btnSaveView.Bounds.Y, btnSaveView.Bounds.Width, btnSaveView.Bounds.Height);
+            var btnSaveView = new UIView(new CGRect(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
+            var rect2 = new CGRect(btnSaveView.Bounds.X - 16, btnSaveView.Bounds.Y, btnSaveView.Bounds.Width, btnSaveView.Bounds.Height);
             btnSaveView.Bounds = rect2;
             btnSaveView.AddSubview(btnSave);
             _btnSave = new UIBarButtonItem(btnSaveView);
@@ -94,14 +94,14 @@ namespace Sessions.iOS.Classes.Controllers
             var btnReset = new SessionsButton();
             btnReset.SetTitle("Reset", UIControlState.Normal);
             btnReset.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            btnReset.Frame = new RectangleF(0, 12, 60, 30);
+            btnReset.Frame = new CGRect(0, 12, 60, 30);
             btnReset.TouchUpInside += HandleButtonResetTouchUpInside;
             _btnReset = new UIBarButtonItem(btnReset);
 
             var btnNormalize = new SessionsButton();
             btnNormalize.SetTitle("Normalize", UIControlState.Normal);
             btnNormalize.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            btnNormalize.Frame = new RectangleF(0, 12, 80, 30);
+            btnNormalize.Frame = new CGRect(0, 12, 80, 30);
             btnNormalize.TouchUpInside += HandleButtonNormalizeTouchUpInside;
             _btnNormalize = new UIBarButtonItem(btnNormalize);
 
@@ -133,7 +133,7 @@ namespace Sessions.iOS.Classes.Controllers
 			base.ViewDidLayoutSubviews();
 
 			var screenSize = UIKitHelper.GetDeviceSize();
-			scrollView.ContentSize = new SizeF(screenSize.Width, _faderViews.Count * 44);
+			scrollView.ContentSize = new CGSize(screenSize.Width, _faderViews.Count * 44);
 
 			//Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - width: {0} faderCount: {1}", screenSize.Width, _faderViews.Count);
 			float y = 0;
@@ -143,7 +143,7 @@ namespace Sessions.iOS.Classes.Controllers
 				var view = scrollView.Subviews[a];
 				if (view is SessionsEqualizerFaderView)
 				{
-					view.Frame = new RectangleF(0, y, screenSize.Width, 44);
+					view.Frame = new CGRect(0, y, screenSize.Width, 44);
 					y += 44;
 				}
 			}
@@ -164,14 +164,14 @@ namespace Sessions.iOS.Classes.Controllers
                     if(e2.ButtonIndex == 0)
                     {
                         OnRevertPreset();
-                        NavigationController.PopViewControllerAnimated(true);
+                        NavigationController.PopViewController(true);
                     }
                 };
                 alertView.Show();
             }
             else
             {
-                NavigationController.PopViewControllerAnimated(true);
+                NavigationController.PopViewController(true);
             }
         }
 
@@ -199,11 +199,11 @@ namespace Sessions.iOS.Classes.Controllers
         {
 			//Tracing.Log("EqualizerPresetDetailsVC - AddFaderToScrollView - frequency: {0} faderCount: {1}", frequency, _faderViews.Count);
             var view = new SessionsEqualizerFaderView();
-            view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
+            view.Frame = new CGRect(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
             view.SetValue(frequency, 0);
             view.ValueChanged += HandleFaderValueChanged;
             scrollView.AddSubview(view);
-            scrollView.ContentSize = new SizeF(scrollView.Frame.Width, (_faderViews.Count + 1) * 44);
+            scrollView.ContentSize = new CGSize(scrollView.Frame.Width, (_faderViews.Count + 1) * 44);
             _faderViews.Add(view);
         }
 

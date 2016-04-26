@@ -17,14 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
+using CoreAnimation;
+using CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -40,7 +40,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             Initialize();
         }
 
-        public SessionsPlaylistTableViewCell(RectangleF frame) : base(frame)
+        public SessionsPlaylistTableViewCell(CGRect frame) : base(frame)
         {
             Initialize();
         }
@@ -74,7 +74,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
-            RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
+            RightButton.Frame = new CGRect(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             AddSubview(RightButton);
 
             // Make sure the text label is over all other subviews
@@ -90,7 +90,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             float padding = 8;
 
             // Determine width available for text
-            float textWidth = Bounds.Width;
+            nfloat textWidth = Bounds.Width;
             if (Accessory != UITableViewCellAccessory.None)
                 textWidth -= 44;
             if (ImageView.Image != null && !ImageView.Hidden)
@@ -101,7 +101,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             float x = 0;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 4, 44, 44);
+                ImageView.Frame = new CGRect(x, 4, 44, 44);
                 x += 44 + padding;
             } 
             else
@@ -115,10 +115,10 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
             //TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-                DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
+                DetailTextLabel.Frame = new CGRect(x, 22 + 4, textWidth, 16);
 
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
-                RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
+                RightButton.Frame = new CGRect(screenSize.Width - 44, 4, 44, 44);
 
         }
 

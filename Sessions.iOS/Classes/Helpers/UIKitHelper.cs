@@ -16,9 +16,9 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using System.Drawing;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 
 namespace Sessions.iOS.Helpers
 {
@@ -31,24 +31,24 @@ namespace Sessions.iOS.Helpers
         /// Returns the device size, depending on the device orientation (portrait/landscape).
         /// </summary>
         /// <returns>Device size (in pixels)</returns>
-        public static SizeF GetDeviceSize()
+        public static CGSize GetDeviceSize()
         {
-            float width = UIScreen.MainScreen.Bounds.Width;
-            float height = UIScreen.MainScreen.Bounds.Height;
+            nfloat width = UIScreen.MainScreen.Bounds.Width;
+            nfloat height = UIScreen.MainScreen.Bounds.Height;
             if (UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeLeft ||
                 UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeRight)
             {
                 width = UIScreen.MainScreen.Bounds.Height;
                 height = UIScreen.MainScreen.Bounds.Width;
             }
-            return new SizeF(width, height);
+            return new CGSize(width, height);
         }
 
 		public static UIColor ColorWithBrightness(UIColor color, float brightnessMultiplier)
 		{
-			float h, s, b, a;
+			nfloat h, s, b, a;
 			color.GetHSBA(out h, out s, out b, out a);
-			return UIColor.FromHSBA(h, s, Math.Min(b * brightnessMultiplier, 1), a);
+            return UIColor.FromHSBA(h, s, (nfloat)Math.Min(b * brightnessMultiplier, 1), a);
 		}
     }
 }

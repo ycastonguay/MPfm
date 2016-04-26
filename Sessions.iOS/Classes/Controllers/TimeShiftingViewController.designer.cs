@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -19,52 +19,52 @@ namespace Sessions.iOS.Classes.Controllers
         Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnIncrementTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnReset { get; set; }
+		UIKit.UIButton btnReset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnUseTempo { get; set; }
+		UIKit.UIButton btnUseTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblCurrentTempo { get; set; }
+		UIKit.UILabel lblCurrentTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblCurrentTempoValue { get; set; }
+		UIKit.UILabel lblCurrentTempoValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDetectedTempo { get; set; }
+		UIKit.UILabel lblDetectedTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDetectedTempoValue { get; set; }
+		UIKit.UILabel lblDetectedTempoValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblReferenceTempo { get; set; }
+		UIKit.UILabel lblReferenceTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblReferenceTempoValue { get; set; }
+		UIKit.UILabel lblReferenceTempoValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISlider slider { get; set; }
+		UIKit.UISlider slider { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewBackground { get; set; }
+		UIKit.UIView viewBackground { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewButtons { get; set; }
+		UIKit.UIView viewButtons { get; set; }
 
 		[Action ("actionDecrementTempo:")]
-		partial void actionDecrementTempo (MonoTouch.Foundation.NSObject sender);
+		partial void actionDecrementTempo (Foundation.NSObject sender);
 
 		[Action ("actionIncrementTempo:")]
-		partial void actionIncrementTempo (MonoTouch.Foundation.NSObject sender);
+		partial void actionIncrementTempo (Foundation.NSObject sender);
 
 		[Action ("actionReset:")]
-		partial void actionReset (MonoTouch.Foundation.NSObject sender);
+		partial void actionReset (Foundation.NSObject sender);
 
 		[Action ("actionUseTempo:")]
-		partial void actionUseTempo (MonoTouch.Foundation.NSObject sender);
+		partial void actionUseTempo (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

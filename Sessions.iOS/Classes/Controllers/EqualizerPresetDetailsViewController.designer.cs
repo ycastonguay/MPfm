@@ -4,7 +4,7 @@
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -12,22 +12,22 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class EqualizerPresetDetailsViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPresetName { get; set; }
+		UIKit.UILabel lblPresetName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField txtPresetName { get; set; }
+		UIKit.UITextField txtPresetName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
+		UIKit.UIScrollView scrollView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIToolbar toolbar { get; set; }
+		UIKit.UIToolbar toolbar { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem btnReset { get; set; }
+		UIKit.UIBarButtonItem btnReset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewOptions { get; set; }
+		UIKit.UIView viewOptions { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsEqualizerPresetGraphView presetGraph { get; set; }

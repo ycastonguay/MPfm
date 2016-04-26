@@ -17,9 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.Library.UpdateLibrary;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Models;
@@ -104,9 +104,9 @@ namespace Sessions.iOS.Classes.Controllers
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 
 				if(!UserInterfaceIdiomIsPhone)
-					lblTitle.Frame = new RectangleF(46, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
+					lblTitle.Frame = new CGRect(46, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
 				else
-					lblTitle.Frame = new RectangleF(44, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
+					lblTitle.Frame = new CGRect(44, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
 			});
 		}
         
@@ -123,7 +123,7 @@ namespace Sessions.iOS.Classes.Controllers
 				UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 					activityIndicator.Alpha = 0;
 					btnClose.Alpha = 0;
-					lblTitle.Frame = new RectangleF(12, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
+					lblTitle.Frame = new CGRect(12, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
 				}, () => {
 					UIView.Animate(1.0, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 						//btnClose.Alpha = 0;

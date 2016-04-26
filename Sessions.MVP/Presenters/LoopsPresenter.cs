@@ -123,9 +123,9 @@ namespace Sessions.MVP.Presenters
 	        for (int a = 0; a < _loops.Count; a++)
 	        {
 	            var loop = _loops[a];
-	            loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
-                loop.StartPositionPercentage = (float)loop.StartPositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
-                loop.EndPositionPercentage = (float)loop.EndPositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
+//	            loop.Index = string.Format("{0}", Conversion.IndexToLetter(a));
+//                loop.StartPositionPercentage = (float)loop.StartPositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
+//                loop.EndPositionPercentage = (float)loop.EndPositionBytes / (float)_playerService.CurrentAudioFile.LengthBytes;
 	        }
 	    }
 

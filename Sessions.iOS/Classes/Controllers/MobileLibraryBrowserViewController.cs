@@ -17,16 +17,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Sessions.MVP.Models;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Controls.Layouts;
@@ -102,8 +102,8 @@ namespace Sessions.iOS.Classes.Controllers
             collectionView.WeakDataSource = this;
             collectionView.WeakDelegate = this;
 			collectionView.CollectionViewLayout = new SessionsCollectionViewFlowLayout();
-            float cellWidth = UIScreen.MainScreen.Bounds.Width / 2;
-            collectionView.ContentSize = new SizeF(cellWidth, cellWidth);
+            nfloat cellWidth = UIScreen.MainScreen.Bounds.Width / 2;
+            collectionView.ContentSize = new CGSize(cellWidth, cellWidth);
             collectionView.RegisterClassForCell(typeof(SessionsCollectionAlbumViewCell), _collectionCellIdentifier);
 			collectionView.RegisterClassForSupplementaryView(typeof(SessionsCollectionHeaderView), UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier);
 
@@ -222,7 +222,7 @@ namespace Sessions.iOS.Classes.Controllers
                 return;
 
 			Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressCollectionCellRow");
-            PointF pt = gestureRecognizer.LocationInView(collectionView);
+            CGPoint pt = gestureRecognizer.LocationInView(collectionView);
             NSIndexPath indexPath = collectionView.IndexPathForItemAtPoint(pt);
 			if (indexPath != null)
 			{
@@ -261,9 +261,9 @@ namespace Sessions.iOS.Classes.Controllers
                         oldCell.PlayButton.Alpha = 0;
                         oldCell.AddButton.Alpha = 0;
                         oldCell.DeleteButton.Alpha = 0;
-						oldCell.PlayButton.Frame = new RectangleF(((oldCell.Frame.Width - 44) / 2) - 8, 48, 44, 44);
-						oldCell.AddButton.Frame = new RectangleF((oldCell.Frame.Width - 44) / 2 + 44, 48, 44, 44);
-						oldCell.DeleteButton.Frame = new RectangleF(((oldCell.Frame.Width - 44) / 2) + 96, 48, 44, 44);
+						oldCell.PlayButton.Frame = new CGRect(((oldCell.Frame.Width - 44) / 2) - 8, 48, 44, 44);
+						oldCell.AddButton.Frame = new CGRect((oldCell.Frame.Width - 44) / 2 + 44, 48, 44, 44);
+						oldCell.DeleteButton.Frame = new CGRect(((oldCell.Frame.Width - 44) / 2) + 96, 48, 44, 44);
                     }, null);
                 }
             }
@@ -276,16 +276,16 @@ namespace Sessions.iOS.Classes.Controllers
                     cell.PlayButton.Alpha = 0;
                     cell.AddButton.Alpha = 0;
                     cell.DeleteButton.Alpha = 0;
-					cell.PlayButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) - 8, 48, 44, 44);
-					cell.AddButton.Frame = new RectangleF((cell.Frame.Width - 44) / 2 + 44, 48, 44, 44);
-					cell.DeleteButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) + 96, 48, 44, 44);
+					cell.PlayButton.Frame = new CGRect(((cell.Frame.Width - 44) / 2) - 8, 48, 44, 44);
+					cell.AddButton.Frame = new CGRect((cell.Frame.Width - 44) / 2 + 44, 48, 44, 44);
+					cell.DeleteButton.Frame = new CGRect(((cell.Frame.Width - 44) / 2) + 96, 48, 44, 44);
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                         cell.PlayButton.Alpha = 1;
                         cell.AddButton.Alpha = 1;
                         cell.DeleteButton.Alpha = 1;
-						cell.PlayButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) - 52, 48, 44, 44);
-						cell.AddButton.Frame = new RectangleF((cell.Frame.Width - 44) / 2, 48, 44, 44);
-						cell.DeleteButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) + 52, 48, 44, 44);
+						cell.PlayButton.Frame = new CGRect(((cell.Frame.Width - 44) / 2) - 52, 48, 44, 44);
+						cell.AddButton.Frame = new CGRect((cell.Frame.Width - 44) / 2, 48, 44, 44);
+						cell.DeleteButton.Frame = new CGRect(((cell.Frame.Width - 44) / 2) + 52, 48, 44, 44);
                     }, null);
                 }
             }
@@ -508,7 +508,7 @@ namespace Sessions.iOS.Classes.Controllers
 			//Console.WriteLine("Peter Pan - gesture state: {0} ptLocation: {1} ptTranslation: {2}", panGestureRecognizer.State, ptLocation, ptTranslation);
 
 			// Block scrolling when the user clearly starts to go left or right
-			float maxX = (View.Bounds.Width / 2f) + 28f + 14f + 8f;
+			nfloat maxX = (View.Bounds.Width / 2f) + 28f + 14f + 8f;
 			if (ptTranslation.X > 20f)
 				tableView.ScrollEnabled = false;
 
@@ -534,7 +534,7 @@ namespace Sessions.iOS.Classes.Controllers
 			}
 			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
 			{
-				float movingX = Math.Min(ptTranslation.X, maxX);
+                nfloat movingX = (nfloat)Math.Min(ptTranslation.X, maxX);
 				if(movingX == maxX)
 					AnimateCellQueueSuccess(_movingCell, _movingIndexPath.Section, _movingIndexPath.Row);
 				else
@@ -547,18 +547,18 @@ namespace Sessions.iOS.Classes.Controllers
 			AnimateCellQueueMovement(_movingCell, ptTranslation, maxX);
 		}
 
-		private void AnimateCellQueueMovement(SessionsLibraryTableViewCell cell, PointF ptTranslation, float maxX)
+		private void AnimateCellQueueMovement(SessionsLibraryTableViewCell cell, CGPoint ptTranslation, nfloat maxX)
 		{
 			if (cell == null)
 				return;
 
 			var newFrame = _movingCell.ContainerView.Frame;
-			newFrame.X = Math.Max(Math.Min(_movingCell.IsQueued ? 4 + ptTranslation.X : ptTranslation.X, maxX), 0);
+            newFrame.X = (nfloat)Math.Max(Math.Min(_movingCell.IsQueued ? 4 + ptTranslation.X : ptTranslation.X, maxX), 0);
 			_movingCell.ContainerView.Frame = newFrame;
 
-			float alpha = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
-			float scale = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
-			float scale2 = 0.5f + (scale * 0.5f);
+            nfloat alpha = (nfloat)Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
+            nfloat scale = (nfloat)Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
+			nfloat scale2 = 0.5f + (scale * 0.5f);
 
 			// Blue: 47, 129, 183
 			// Red: 139, 0, 0
@@ -679,7 +679,7 @@ namespace Sessions.iOS.Classes.Controllers
                 return;
 
             Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressTableCellRow");
-            PointF pt = gestureRecognizer.LocationInView(tableView);
+            CGPoint pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
 			if (_editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section)
 				ResetEditingTableCellRow();
@@ -1285,7 +1285,7 @@ namespace Sessions.iOS.Classes.Controllers
 				RefreshNavigationBar(_navigationBarSubtitle);
 
                 // Reset scroll bar
-                tableView.ScrollRectToVisible(new RectangleF(0, 0, 1, 1), false);
+                tableView.ScrollRectToVisible(new CGRect(0, 0, 1, 1), false);
 
 				// Generate list of items with sections
 				_items.Clear();
@@ -1373,7 +1373,7 @@ namespace Sessions.iOS.Classes.Controllers
                 // Hide album cover if not showing songs
                 if(browserType != MobileLibraryBrowserType.Songs)
                 {
-					tableView.Frame = new RectangleF(View.Frame.X, View.Frame.Y - 44 - 20, View.Frame.Width, View.Frame.Height);
+					tableView.Frame = new CGRect(View.Frame.X, View.Frame.Y - 44 - 20, View.Frame.Width, View.Frame.Height);
                 }
                 else
                 {

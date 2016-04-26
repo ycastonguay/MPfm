@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.GenericControls.Basics;
 using Sessions.iOS.Classes.Controls.Buttons;
 using Sessions.iOS.Classes.Controls.Cells.Base;
@@ -85,7 +85,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 		{
 		}
 
-        public SessionsEqualizerTableViewCell(RectangleF frame) : base(frame)
+        public SessionsEqualizerTableViewCell(CGRect frame) : base(frame)
         {
         }
 
@@ -106,14 +106,14 @@ namespace Sessions.iOS.Classes.Controls.Cells
             }
            
             TitleTextLabel = new UILabel();
-            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             TitleTextLabel.BackgroundColor = UIColor.Clear;
             TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TitleTextLabel.TextColor = UIColor.Black;
             TitleTextLabel.HighlightedTextColor = UIColor.White;
 
             SubtitleTextLabel = new UILabel();
-            SubtitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            SubtitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
 			SubtitleTextLabel.TextColor = UIColor.Gray;
 			SubtitleTextLabel.HighlightedTextColor = UIColor.White;
             SubtitleTextLabel.BackgroundColor = UIColor.Clear;
@@ -131,7 +131,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             CheckmarkImageView.GlyphImageView.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark_nobg");
             AddView(CheckmarkImageView);
 
-            GraphView = new SessionsEqualizerPresetGraphView(new RectangleF(0, 0, 60, 40));
+            GraphView = new SessionsEqualizerPresetGraphView(new CGRect(0, 0, 60, 40));
             GraphView.ShowText = false;
             GraphView.ShowGuideLines = false;
             GraphView.BackgroundColor = UIColor.Clear;
@@ -146,7 +146,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
 			// Maybe add icons only to iPad where there is enough space
 			EditButton = new SessionsSecondaryMenuButton();
-			EditButton.Frame = new RectangleF(4, 53, 100, 64);
+			EditButton.Frame = new CGRect(4, 53, 100, 64);
 			EditButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
 			EditButton.SetTitle("Edit", UIControlState.Normal); 
 			EditButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
@@ -154,7 +154,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddView(EditButton);
 
 			DuplicateButton = new SessionsSecondaryMenuButton();
-			DuplicateButton.Frame = new RectangleF(108, 53, 100, 64);
+			DuplicateButton.Frame = new CGRect(108, 53, 100, 64);
 			DuplicateButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
 			DuplicateButton.SetTitle("Duplicate", UIControlState.Normal);
 			DuplicateButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
@@ -162,7 +162,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddView(DuplicateButton);
 
 			DeleteButton = new SessionsSecondaryMenuButton();
-			DeleteButton.Frame = new RectangleF(212, 53, 100, 64);
+			DeleteButton.Frame = new CGRect(212, 53, 100, 64);
 			DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
 			DeleteButton.SetTitle("Delete", UIControlState.Normal);
 			DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
@@ -183,10 +183,10 @@ namespace Sessions.iOS.Classes.Controls.Cells
             const float padding = 8;
 
             ContainerBackgroundView.Frame = Bounds;
-            GraphView.Frame = new RectangleF(Bounds.Width - GraphViewPadding - GraphViewWidth, GraphViewPadding, GraphViewWidth, 44);
+            GraphView.Frame = new CGRect(Bounds.Width - GraphViewPadding - GraphViewWidth, GraphViewPadding, GraphViewWidth, 44);
 
             // Determine width available for text
-            float textWidth = Bounds.Width;
+            nfloat textWidth = Bounds.Width;
             if (Accessory != UITableViewCellAccessory.None)
                 textWidth -= 44;
             if (ImageView.Image != null && !ImageView.Hidden)
@@ -195,13 +195,13 @@ namespace Sessions.iOS.Classes.Controls.Cells
             float x = 0;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 4, 44, 44);
+                ImageView.Frame = new CGRect(x, 4, 44, 44);
                 x += 44 + padding;
             }
             else if (!CheckmarkImageView.Hidden)
             {
                 x += padding;
-                CheckmarkImageView.Frame = new RectangleF(x, (StandardCellHeight - CheckmarkWidth) / 2, CheckmarkWidth, CheckmarkWidth);                
+                CheckmarkImageView.Frame = new CGRect(x, (StandardCellHeight - CheckmarkWidth) / 2, CheckmarkWidth, CheckmarkWidth);                
                 x += CheckmarkWidth + padding;
             }
             else
@@ -213,9 +213,9 @@ namespace Sessions.iOS.Classes.Controls.Cells
             if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
                 titleY = 2 + 4;
 
-            TitleTextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
+            TitleTextLabel.Frame = new CGRect(x, titleY, textWidth, 22);
             if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
-                SubtitleTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
+                SubtitleTextLabel.Frame = new CGRect(x, 22 + 4, textWidth, 16);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)

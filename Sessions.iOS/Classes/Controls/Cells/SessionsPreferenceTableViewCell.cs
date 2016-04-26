@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using Sessions.iOS.Classes.Controls.Cells.Base;
@@ -57,7 +57,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
         }
 
-        public SessionsPreferenceTableViewCell(RectangleF frame) : base(frame)
+        public SessionsPreferenceTableViewCell(CGRect frame) : base(frame)
         {
         }
 
@@ -72,14 +72,14 @@ namespace Sessions.iOS.Classes.Controls.Cells
             IsTextAnimationEnabled = true;
            
             TitleTextLabel = new UILabel();
-            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             TitleTextLabel.BackgroundColor = UIColor.Clear;
             TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TitleTextLabel.TextColor = UIColor.Black;
             TitleTextLabel.HighlightedTextColor = UIColor.White;
 
             SubtitleTextLabel = new UILabel();
-            SubtitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            SubtitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             SubtitleTextLabel.TextColor = UIColor.Gray;
             SubtitleTextLabel.HighlightedTextColor = UIColor.White;
             SubtitleTextLabel.BackgroundColor = UIColor.Clear;
@@ -95,7 +95,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
+            ImageChevron.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
             AddView(ImageChevron);           
 
             // Make sure the text label is over all other subviews
@@ -184,7 +184,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
             ContainerBackgroundView.Frame = Bounds;
 
-            float textWidth = Bounds.Width;
+            nfloat textWidth = Bounds.Width;
             if (ImageView.Image != null && !ImageView.Hidden)
                 textWidth -= 44 + padding;
 
@@ -194,13 +194,13 @@ namespace Sessions.iOS.Classes.Controls.Cells
                 if (IsLargeIcon)
                 {
                     x = 8;
-                    ImageView.Frame = new RectangleF(x, 6, 40, 40);
+                    ImageView.Frame = new CGRect(x, 6, 40, 40);
                     x += 44 + padding;
                 }
                 else
                 {
                     x = 12;
-                    ImageView.Frame = new RectangleF(x, 14, 24, 24);
+                    ImageView.Frame = new CGRect(x, 14, 24, 24);
                     x += 32 + padding;
                 }
             }
@@ -210,23 +210,23 @@ namespace Sessions.iOS.Classes.Controls.Cells
                 titleY = 2 + 4;
 
             if(IsTextLabelAllowedToChangeFrame)
-                TitleTextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
+                TitleTextLabel.Frame = new CGRect(x, titleY, textWidth - 52, 22);
 
-            ValueTextLabel.Frame = new RectangleF(0, titleY, Bounds.Width - 12, 22);
-            ValueTextField.Frame = new RectangleF(Bounds.Width - 112, titleY, 100, 22);
+            ValueTextLabel.Frame = new CGRect(0, titleY, Bounds.Width - 12, 22);
+            ValueTextField.Frame = new CGRect(Bounds.Width - 112, titleY, 100, 22);
 
             if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
-                SubtitleTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth - 52, 16);
+                SubtitleTextLabel.Frame = new CGRect(x, 22 + 4, textWidth - 52, 16);
 
-            ImageChevron.Frame = new RectangleF(screenSize.Width - 22, 4, 22, 44);
-            MinValueTextLabel.Frame = new RectangleF(12, 48, 60, 44);
-            MaxValueTextLabel.Frame = new RectangleF(Bounds.Width - 60 - 12, 48, 60, 44);
-            Slider.Frame = new RectangleF(12 + 60, 48, Bounds.Width - 24 - 120, 44);
+            ImageChevron.Frame = new CGRect(screenSize.Width - 22, 4, 22, 44);
+            MinValueTextLabel.Frame = new CGRect(12, 48, 60, 44);
+            MaxValueTextLabel.Frame = new CGRect(Bounds.Width - 60 - 12, 48, 60, 44);
+            Slider.Frame = new CGRect(12 + 60, 48, Bounds.Width - 24 - 120, 44);
 
             if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-                Switch.Frame = new RectangleF(screenSize.Width - 62, 10, 60, 44);
+                Switch.Frame = new CGRect(screenSize.Width - 62, 10, 60, 44);
             else
-                Switch.Frame = new RectangleF(screenSize.Width - 93, 12, 91, 44);
+                Switch.Frame = new CGRect(screenSize.Width - 93, 12, 91, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)

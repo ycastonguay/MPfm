@@ -1,7 +1,7 @@
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
 using Sessions.MVP.Models;
@@ -40,7 +40,7 @@ namespace Sessions.iOS.Classes.Controllers
         {
             base.ViewDidLayoutSubviews();
             var screenSize = UIKitHelper.GetDeviceSize();
-            View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+            View.Frame = new CGRect(0, 0, screenSize.Width, screenSize.Height);
             viewPanel.Center = View.Center;
         }
 

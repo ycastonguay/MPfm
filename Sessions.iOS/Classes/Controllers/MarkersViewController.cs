@@ -17,14 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.Core;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Presenters;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
@@ -164,7 +164,7 @@ namespace Sessions.iOS.Classes.Controllers
                 if(e.ButtonIndex == 4)
                     return;
 
-                OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
+                OnAddMarkerWithTemplate((MarkerTemplateNameType)(int)e.ButtonIndex);
             };
 
             // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...

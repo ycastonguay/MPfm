@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.Core;
@@ -61,7 +61,7 @@ namespace Sessions.iOS.Classes.Controls
 			}
 		}
 
-		public override PointF ContentOffset
+		public override CGPoint ContentOffset
 		{
 			get
 			{

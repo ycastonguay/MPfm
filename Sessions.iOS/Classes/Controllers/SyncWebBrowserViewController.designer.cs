@@ -4,7 +4,7 @@
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -12,22 +12,22 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class SyncWebBrowserViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStep1 { get; set; }
+		UIKit.UILabel lblStep1 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStep1Text { get; set; }
+		UIKit.UILabel lblStep1Text { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStep2 { get; set; }
+		UIKit.UILabel lblStep2 { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStep2Text { get; set; }
+		UIKit.UILabel lblStep2Text { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField lblUrl { get; set; }
+		UIKit.UITextField lblUrl { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField lblAuthenticationCode { get; set; }
+		UIKit.UITextField lblAuthenticationCode { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

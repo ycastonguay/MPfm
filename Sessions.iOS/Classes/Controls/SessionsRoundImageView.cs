@@ -16,13 +16,13 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
-using MonoTouch.CoreAnimation;
+using CoreAnimation;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -55,12 +55,12 @@ namespace Sessions.iOS.Classes.Controls
             TintColor = UIColor.White;
 			Layer.BackgroundColor = UIColor.Clear.CGColor;
 
-            float radius = Bounds.Width / 2;
+            nfloat radius = Bounds.Width / 2;
             _layerCircle = new CAShapeLayer();
             _layerCircle.AllowsEdgeAntialiasing = true;
             _layerCircle.Bounds = Bounds;
-            _layerCircle.Path = UIBezierPath.FromRoundedRect(new RectangleF(0, 0, 2f * radius, 2f * radius), radius).CGPath;
-            _layerCircle.Position = new PointF(Bounds.Width / 2, Bounds.Height / 2);
+            _layerCircle.Path = UIBezierPath.FromRoundedRect(new CGRect(0, 0, 2f * radius, 2f * radius), radius).CGPath;
+            _layerCircle.Position = new CGPoint(Bounds.Width / 2, Bounds.Height / 2);
 			_layerCircle.FillColor = FillColor.CGColor;
 			_layerCircle.StrokeColor = StrokeColor.CGColor;
             _layerCircle.LineWidth = 1f;
@@ -68,8 +68,8 @@ namespace Sessions.iOS.Classes.Controls
 
             GlyphImageView = new UIImageView();
             GlyphImageView.BackgroundColor = UIColor.Clear;
-            GlyphImageView.Layer.AnchorPoint = new PointF(0.5f, 0.5f);
-            GlyphImageView.Frame = new RectangleF((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
+            GlyphImageView.Layer.AnchorPoint = new CGPoint(0.5f, 0.5f);
+            GlyphImageView.Frame = new CGRect((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
 			GlyphImageView.Alpha = GlyphAlpha;
 
             AddSubview(GlyphImageView);
@@ -98,8 +98,8 @@ namespace Sessions.iOS.Classes.Controls
 		{
 			base.LayoutSubviews();
 
-			float radius = Bounds.Width / 2;
-			_layerCircle.Path = UIBezierPath.FromRoundedRect(new RectangleF(0, 0, 2f * radius, 2f * radius), radius).CGPath;
+			nfloat radius = Bounds.Width / 2;
+			_layerCircle.Path = UIBezierPath.FromRoundedRect(new CGRect(0, 0, 2f * radius, 2f * radius), radius).CGPath;
 
             GlyphImageView.Frame = Bounds;
 		}

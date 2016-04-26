@@ -16,13 +16,13 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
@@ -56,10 +56,10 @@ namespace Sessions.iOS.Classes.Controllers
             sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-            sliderPosition.Frame = new RectangleF(90, sliderPosition.Frame.Y + 1, sliderPosition.Frame.Width * 1.4f, sliderPosition.Frame.Height);
+            sliderPosition.Frame = new CGRect(90, sliderPosition.Frame.Y + 1, sliderPosition.Frame.Width * 1.4f, sliderPosition.Frame.Height);
 
             // Add padding to text field (http://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone)
-            UIView paddingView = new UIView(new RectangleF(0, 0, 5, 20));
+            UIView paddingView = new UIView(new CGRect(0, 0, 5, 20));
             txtName.LeftView = paddingView;
             txtName.LeftViewMode = UITextFieldViewMode.Always;
 
@@ -70,14 +70,14 @@ namespace Sessions.iOS.Classes.Controllers
             };
             textViewComments.ShouldBeginEditing = (a) => {
                 UIView.Animate(0.2f, () => {
-                    View.Bounds = new RectangleF(View.Bounds.X, View.Bounds.Y + 100, View.Bounds.Width, View.Bounds.Height);
+                    View.Bounds = new CGRect(View.Bounds.X, View.Bounds.Y + 100, View.Bounds.Width, View.Bounds.Height);
                 });
                 return true;
             };
             textViewComments.ShouldEndEditing = (a) => {
                 textViewComments.ResignFirstResponder();
                 UIView.Animate(0.2f, () => {
-                    View.Bounds = new RectangleF(View.Bounds.X, View.Bounds.Y - 100, View.Bounds.Width, View.Bounds.Height);
+                    View.Bounds = new CGRect(View.Bounds.X, View.Bounds.Y - 100, View.Bounds.Width, View.Bounds.Height);
                 });
                 return true;
             };
@@ -86,7 +86,7 @@ namespace Sessions.iOS.Classes.Controllers
 
             var btnDone = new SessionsFlatButton();
             btnDone.Label.Text = "Done";
-            btnDone.Frame = new RectangleF(0, 0, 70, 44);
+            btnDone.Frame = new CGRect(0, 0, 70, 44);
             btnDone.OnButtonClick += () => {
                 _marker.Name = txtName.Text;
                 _marker.Comments = textViewComments.Text;
@@ -94,8 +94,8 @@ namespace Sessions.iOS.Classes.Controllers
 				OnUpdateMarkerDetails(_marker);
                 this.DismissViewController(true, null);
             };
-            var btnBackView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnBackView.Bounds.X + 5, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
+            var btnBackView = new UIView(new CGRect(0, 0, 70, 44));
+            var rect = new CGRect(btnBackView.Bounds.X + 5, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
             btnBackView.Bounds = rect;
             btnBackView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnBackView);

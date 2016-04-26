@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -31,40 +31,40 @@ namespace Sessions.iOS.Classes.Controllers
 		Sessions.iOS.Classes.Controls.SessionsEqualizerPresetGraphView graphView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
+		UIKit.UIImageView imageViewAlbumArt { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageViewVolumeHigh { get; set; }
+		UIKit.UIImageView imageViewVolumeHigh { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageViewVolumeLow { get; set; }
+		UIKit.UIImageView imageViewVolumeLow { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblLength { get; set; }
+		UIKit.UILabel lblLength { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPosition { get; set; }
+		UIKit.UILabel lblPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPresetName { get; set; }
+		UIKit.UILabel lblPresetName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblScrubbingType { get; set; }
+		UIKit.UILabel lblScrubbingType { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblSlideMessage { get; set; }
+		UIKit.UILabel lblSlideMessage { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
+		UIKit.UIPageControl pageControl { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
+		UIKit.UIScrollView scrollView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIScrollView scrollViewPlayer { get; set; }
+		UIKit.UIScrollView scrollViewPlayer { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsWaveFormScrollView scrollViewWaveForm { get; set; }
@@ -79,37 +79,37 @@ namespace Sessions.iOS.Classes.Controllers
 		Sessions.iOS.Classes.Controls.SessionsScaleView viewEffects { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewMain { get; set; }
+		UIKit.UIView viewMain { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPageControls { get; set; }
+		UIKit.UIView viewPageControls { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPlayerButtons { get; set; }
+		UIKit.UIView viewPlayerButtons { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPlayerButtonsGroup { get; set; }
+		UIKit.UIView viewPlayerButtonsGroup { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPosition { get; set; }
+		UIKit.UIView viewPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewVolume { get; set; }
+		UIKit.UIView viewVolume { get; set; }
 
 		[Action ("actionNext:")]
-		partial void actionNext (MonoTouch.Foundation.NSObject sender);
+		partial void actionNext (Foundation.NSObject sender);
 
 		[Action ("actionPause:")]
-		partial void actionPause (MonoTouch.Foundation.NSObject sender);
+		partial void actionPause (Foundation.NSObject sender);
 
 		[Action ("actionPrevious:")]
-		partial void actionPrevious (MonoTouch.Foundation.NSObject sender);
+		partial void actionPrevious (Foundation.NSObject sender);
 
 		[Action ("actionRepeat:")]
-		partial void actionRepeat (MonoTouch.Foundation.NSObject sender);
+		partial void actionRepeat (Foundation.NSObject sender);
 
 		[Action ("actionShuffle:")]
-		partial void actionShuffle (MonoTouch.Foundation.NSObject sender);
+		partial void actionShuffle (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.GenericControls.Controls;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controls.Graphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Sound.AudioFiles;
@@ -54,7 +54,7 @@ namespace Sessions.iOS.Classes.Controls
 			Initialize();
 		}
 
-		public SessionsWaveFormView(RectangleF frame) 
+		public SessionsWaveFormView(CGRect frame) 
 			: base(frame)
 		{
 			Initialize();
@@ -72,7 +72,7 @@ namespace Sessions.iOS.Classes.Controls
 			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
 		}
 
-		public override void Draw(RectangleF rect)
+		public override void Draw(CGRect rect)
 		{
 			var context = UIGraphics.GetCurrentContext();
             context.SaveState();

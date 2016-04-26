@@ -16,9 +16,9 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Controls;
@@ -57,12 +57,12 @@ namespace Sessions.iOS.Classes.Controllers
 
             var btnDone = new SessionsFlatButton();
             btnDone.Label.Text = "Done";
-            btnDone.Frame = new RectangleF(0, 0, 70, 44);
+            btnDone.Frame = new CGRect(0, 0, 70, 44);
             btnDone.OnButtonClick += () => {
                 NavigationController.DismissViewController(true, null);
             };
-            var btnDoneView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnDoneView.Bounds.X + 16, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
+            var btnDoneView = new UIView(new CGRect(0, 0, 70, 44));
+            var rect = new CGRect(btnDoneView.Bounds.X + 16, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
             btnDoneView.Bounds = rect;
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
@@ -71,12 +71,12 @@ namespace Sessions.iOS.Classes.Controllers
             _btnFlatEdit.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             _btnFlatEdit.Label.Text = "Edit";
             _btnFlatEdit.Label.TextAlignment = UITextAlignment.Right;
-            _btnFlatEdit.Label.Frame = new RectangleF(0, 0, 44, 44);
+            _btnFlatEdit.Label.Frame = new CGRect(0, 0, 44, 44);
             _btnFlatEdit.ImageChevron.Hidden = true;
-            _btnFlatEdit.Frame = new RectangleF(0, 0, 60, 44);
+            _btnFlatEdit.Frame = new CGRect(0, 0, 60, 44);
             _btnFlatEdit.OnButtonClick += HandleEditTouchUpInside;
-            var btnEditView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
-            var rect2 = new RectangleF(btnEditView.Bounds.X - 16, btnEditView.Bounds.Y, btnEditView.Bounds.Width, btnEditView.Bounds.Height);
+            var btnEditView = new UIView(new CGRect(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
+            var rect2 = new CGRect(btnEditView.Bounds.X - 16, btnEditView.Bounds.Y, btnEditView.Bounds.Width, btnEditView.Bounds.Height);
             btnEditView.Bounds = rect2;
             btnEditView.AddSubview(_btnFlatEdit);
             _btnEdit = new UIBarButtonItem(btnEditView);           
@@ -87,14 +87,14 @@ namespace Sessions.iOS.Classes.Controllers
             var btnNew = new SessionsButton();
             btnNew.SetTitle("New", UIControlState.Normal);
             btnNew.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            btnNew.Frame = new RectangleF(0, 12, 50, 30);
+            btnNew.Frame = new CGRect(0, 12, 50, 30);
             btnNew.TouchUpInside += HandleNewTouchUpInside;
             _btnNew = new UIBarButtonItem(btnNew);
 
             var btnShuffle = new SessionsButton();
             btnShuffle.SetTitle("Shuffle", UIControlState.Normal);
             btnShuffle.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            btnShuffle.Frame = new RectangleF(0, 12, 70, 30);
+            btnShuffle.Frame = new CGRect(0, 12, 70, 30);
             btnShuffle.TouchUpInside += HandleShuffleTouchUpInside;
             _btnShuffle = new UIBarButtonItem(btnShuffle);
 
@@ -243,7 +243,7 @@ namespace Sessions.iOS.Classes.Controllers
             InvokeOnMainThread(() => {
                 foreach(var cell in tableView.VisibleCells)
                 {
-                    var item = _playlist.GetItemAt(cell.Tag);
+                    var item = _playlist.GetItemAt((int)cell.Tag);
                     if(item != null)
                     {
                         var customCell = (SessionsLibraryTableViewCell)cell;

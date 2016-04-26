@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -13,22 +13,22 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class EqualizerPresetsViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblBypass { get; set; }
+		UIKit.UILabel lblBypass { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblMasterVolume { get; set; }
+		UIKit.UILabel lblMasterVolume { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISwitch switchBypass { get; set; }
+		UIKit.UISwitch switchBypass { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+		UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewOptions { get; set; }
+		UIKit.UIView viewOptions { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

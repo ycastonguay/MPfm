@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -13,28 +13,28 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class ResumePlaybackViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
+		UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
         Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnOpenCloudPreferences { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+		UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewAppNotLinked { get; set; }
+		UIKit.UIView viewAppNotLinked { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewLoading { get; set; }
+		UIKit.UIView viewLoading { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewTable { get; set; }
+		UIKit.UIView viewTable { get; set; }
 
 		[Action ("actionOpenCloudPreferences:")]
-		partial void actionOpenCloudPreferences (MonoTouch.Foundation.NSObject sender);
+		partial void actionOpenCloudPreferences (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

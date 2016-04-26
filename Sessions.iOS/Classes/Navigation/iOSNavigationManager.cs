@@ -18,8 +18,8 @@
 using Sessions.MVP.Messages;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using TinyMessenger;
 using Sessions.iOS.Classes.Controllers;
 using Sessions.iOS.Classes.Controls;

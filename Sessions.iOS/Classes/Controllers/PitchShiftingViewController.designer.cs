@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -22,40 +22,40 @@ namespace Sessions.iOS.Classes.Controllers
         Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentButton btnIncrementInterval { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnReset { get; set; }
+		UIKit.UIButton btnReset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblInterval { get; set; }
+		UIKit.UILabel lblInterval { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblKey { get; set; }
+		UIKit.UILabel lblKey { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblNewKey { get; set; }
+		UIKit.UILabel lblNewKey { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISlider slider { get; set; }
+		UIKit.UISlider slider { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewBackground { get; set; }
+		UIKit.UIView viewBackground { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewButtons { get; set; }
+		UIKit.UIView viewButtons { get; set; }
 
 		[Action ("actionChangeKey:")]
-		partial void actionChangeKey (MonoTouch.Foundation.NSObject sender);
+		partial void actionChangeKey (Foundation.NSObject sender);
 
 		[Action ("actionDecrementInterval:")]
-		partial void actionDecrementInterval (MonoTouch.Foundation.NSObject sender);
+		partial void actionDecrementInterval (Foundation.NSObject sender);
 
 		[Action ("actionIncrementInterval:")]
-		partial void actionIncrementInterval (MonoTouch.Foundation.NSObject sender);
+		partial void actionIncrementInterval (Foundation.NSObject sender);
 
 		[Action ("actionReset:")]
-		partial void actionReset (MonoTouch.Foundation.NSObject sender);
+		partial void actionReset (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

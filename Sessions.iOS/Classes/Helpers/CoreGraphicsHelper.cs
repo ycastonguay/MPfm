@@ -17,10 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace Sessions.iOS.Helpers
 {
@@ -39,26 +38,26 @@ namespace Sessions.iOS.Helpers
 //            return rect;
 //        }
         
-        public static float MeasureStringWidth(CGContext context, string text, string fontName, float fontSize)
+        public static nfloat MeasureStringWidth(CGContext context, string text, string fontName, nfloat fontSize)
         {
 			if (string.IsNullOrEmpty(text))
 				return 0;
 
             //context.SaveState();
-            PointF pos = context.TextPosition;
+            CGPoint pos = context.TextPosition;
             context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
             context.TextMatrix = CGAffineTransform.MakeScale(1.0f, -1.0f);
             //context.TranslateCTM(0, 20);
             context.ScaleCTM(1, -1);
             context.SetTextDrawingMode(CGTextDrawingMode.Invisible);
             context.ShowTextAtPoint(pos.X, pos.Y, text);
-            PointF pos2 = context.TextPosition;
+            CGPoint pos2 = context.TextPosition;
             //context.RestoreState();
             
             return pos2.X - pos.X;
         }
         
-        public static void FillRect(CGContext context, RectangleF rect, CGColor color)
+        public static void FillRect(CGContext context, CGRect rect, CGColor color)
         {
             //context.SaveState();
             context.AddRect(rect);
@@ -68,7 +67,7 @@ namespace Sessions.iOS.Helpers
             //context.RestoreState();
         }
         
-        public static void DrawEllipsis(CGContext context, RectangleF rect, CGColor color, float lineWidth)
+        public static void DrawEllipsis(CGContext context, CGRect rect, CGColor color, float lineWidth)
         {
             //context.SaveState();
             context.SetStrokeColor(color);
@@ -78,7 +77,7 @@ namespace Sessions.iOS.Helpers
             //context.RestoreState();
         }
 
-        public static void DrawLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
+        public static void DrawLine(CGContext context, List<CGPoint> points, CGColor color, float lineWidth, bool closePath, bool dashed)
         {
             if (points == null)
                 throw new NullReferenceException();
@@ -93,14 +92,14 @@ namespace Sessions.iOS.Helpers
             for(int a = 1; a < points.Count; a++)
                 context.AddLineToPoint(points[a].X, points[a].Y);
             if (dashed)
-                context.SetLineDash(0, new float[2] { 1, 2 }, 2);
+                context.SetLineDash(0, new nfloat[2] { 1, 2 }, 2);
             if (closePath)
                 context.ClosePath();
             context.StrokePath();
             //context.RestoreState();
         }
 
-        public static void DrawRoundedLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
+        public static void DrawRoundedLine(CGContext context, List<CGPoint> points, CGColor color, float lineWidth, bool closePath, bool dashed)
         {
             if (points == null)
                 throw new NullReferenceException();
@@ -117,14 +116,14 @@ namespace Sessions.iOS.Helpers
             for(int a = 1; a < points.Count; a++)
                 context.AddLineToPoint(points[a].X, points[a].Y);
             if (dashed)
-                context.SetLineDash(0, new float[2] { 1, 2 }, 2);
+                context.SetLineDash(0, new nfloat[2] { 1, 2 }, 2);
             if (closePath)
                 context.ClosePath();
             context.StrokePath();
             //context.RestoreState();
         }
 
-        public static void FillEllipsis(CGContext context, RectangleF rect, CGColor color)
+        public static void FillEllipsis(CGContext context, CGRect rect, CGColor color)
         {
             //context.SaveState();
             context.SetFillColor(color);
@@ -151,13 +150,13 @@ namespace Sessions.iOS.Helpers
             //context.RestoreState();
         }
         
-        public static void FillGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2)
+        public static void FillGradient(CGContext context, CGRect rect, CGColor color1, CGColor color2)
         {
             CGGradient gradientBackground;
             CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
             
-            float[] locationListBackground = new float[] { 1.0f, 0.0f };
-            List<float> colorListBackground = new List<float>();
+            nfloat[] locationListBackground = new nfloat[] { 1.0f, 0.0f };
+            List<nfloat> colorListBackground = new List<nfloat>();
             colorListBackground.AddRange(color1.Components);
             colorListBackground.AddRange(color2.Components);
             gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
@@ -166,41 +165,41 @@ namespace Sessions.iOS.Helpers
             context.AddRect(rect);
             context.Clip();
             //context.ScaleCTM(1, -1);
-            context.DrawLinearGradient(gradientBackground, new PointF(rect.X, rect.Y), new PointF(rect.X + rect.Width, rect.Y + rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
+            context.DrawLinearGradient(gradientBackground, new CGPoint(rect.X, rect.Y), new CGPoint(rect.X + rect.Width, rect.Y + rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
             //context.RestoreState();
         }       
         
-        public static SizeF DrawTextAtPoint(CGContext context, PointF pt, string text, string fontName, float fontSize, CGColor fontColor)
+        public static CGSize DrawTextAtPoint(CGContext context, CGPoint pt, string text, string fontName, float fontSize, CGColor fontColor)
         {
             //context.SaveState();
             context.SetFillColor(fontColor);
             NSString str = new NSString(text);
-            SizeF size = str.DrawString(pt, UIFont.FromName(fontName, fontSize));
+            CGSize size = str.DrawString(pt, UIFont.FromName(fontName, fontSize));
             //context.RestoreState();
             return size;
         }
 
-        public static SizeF DrawTextInRect(CGContext context, RectangleF rect, string text, string fontName, float fontSize, CGColor fontColor, UILineBreakMode breakMode, UITextAlignment alignment)
+        public static CGSize DrawTextInRect(CGContext context, CGRect rect, string text, string fontName, float fontSize, CGColor fontColor, UILineBreakMode breakMode, UITextAlignment alignment)
         {
             //context.SaveState();
             context.SetFillColor(fontColor);
             NSString str = new NSString(text);
-            SizeF size = str.DrawString(rect, UIFont.FromName(fontName, fontSize), breakMode, alignment);
+            CGSize size = str.DrawString(rect, UIFont.FromName(fontName, fontSize), breakMode, alignment);
             //context.RestoreState();
             return size;
         }
 
-        public static SizeF MeasureText(CGContext context, string text, string fontName, float fontSize)
+        public static CGSize MeasureText(CGContext context, string text, string fontName, nfloat fontSize)
         {
             NSString str = new NSString(text);
-            SizeF size = str.StringSize(UIFont.FromName(fontName, fontSize));
+            CGSize size = str.StringSize(UIFont.FromName(fontName, fontSize));
             return size;
         }
 
-        public static SizeF MeasureTextWithConstraint(CGContext context, string text, string fontName, float fontSize, UILineBreakMode breakMode, SizeF constraint)
+        public static CGSize MeasureTextWithConstraint(CGContext context, string text, string fontName, float fontSize, UILineBreakMode breakMode, CGSize constraint)
         {
             NSString str = new NSString(text);
-            SizeF size = str.StringSize(UIFont.FromName(fontName, fontSize), constraint, breakMode);
+            CGSize size = str.StringSize(UIFont.FromName(fontName, fontSize), constraint, breakMode);
             return size;
         }
 
@@ -268,7 +267,7 @@ namespace Sessions.iOS.Helpers
                         bitmap.RotateCTM(-(float)Math.PI);
                         break;
                 }
-                bitmap.DrawImage(new Rectangle(0, 0, width, height), imageRef);
+                bitmap.DrawImage(new CGRect(0, 0, width, height), imageRef);
                 newImage = UIImage.FromImage(bitmap.ToImage());
                 bitmap.Dispose();
                 bitmap = null;

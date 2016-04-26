@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -16,16 +16,16 @@ namespace Sessions.iOS.Classes.Controllers
         Sessions.iOS.Classes.Controls.Buttons.SessionsSemiTransparentRoundButton btnAddMarker { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
 		Sessions.iOS.Classes.Controls.SessionsTableView tableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewBackground { get; set; }
+		UIKit.UIView viewBackground { get; set; }
 
 		[Action ("actionAddMarker:")]
-		partial void actionAddMarker (MonoTouch.Foundation.NSObject sender);
+		partial void actionAddMarker (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

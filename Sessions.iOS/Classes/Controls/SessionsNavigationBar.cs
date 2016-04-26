@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -32,13 +32,13 @@ namespace Sessions.iOS.Classes.Controls
         {
         }
 
-        public override void Draw(RectangleF rect)
+        public override void Draw(CGRect rect)
         {
             var screenSize = UIKitHelper.GetDeviceSize();
             var context = UIGraphics.GetCurrentContext();
             context.SaveState();
 			CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainColor.CGColor);
-            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 42, screenSize.Width, 2), GlobalTheme.MainLightColor.CGColor);
+            CoreGraphicsHelper.FillRect(context, new CGRect(0, 42, screenSize.Width, 2), GlobalTheme.MainLightColor.CGColor);
             context.RestoreState();
         }
 

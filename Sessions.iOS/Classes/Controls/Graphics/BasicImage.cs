@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using Sessions.GenericControls.Graphics;
@@ -48,7 +48,7 @@ namespace Sessions.iOS.Classes.Controls.Graphics
 		{
 			get
 			{
-				return new BasicRectangle(0, 0, _image.Size.Width, _image.Size.Height);
+                return new BasicRectangle(0, 0, (float)_image.Size.Width, (float)_image.Size.Height);
 			}
 		}
 

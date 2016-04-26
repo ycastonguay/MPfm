@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -40,7 +40,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
             Initialize();
         }
 
-		public SessionsButton(RectangleF frame)
+		public SessionsButton(CGRect frame)
 			: base(frame)
 		{
 			Initialize();
@@ -69,7 +69,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
 
             Image = new UIImageView();
             Image.BackgroundColor = UIColor.Clear;
-            Image.Frame = new RectangleF(9, 9, 26, 26);
+            Image.Frame = new CGRect(9, 9, 26, 26);
             AddSubview(Image);
 
             UpdateLayout();
@@ -84,7 +84,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
             var context = UIGraphics.GetCurrentContext();
             if (context == null)
             {   // When added to a toolbar, the button returns a null context. Take full width for text and center horizontally.
-                TitleLabel.Frame = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+                TitleLabel.Frame = new CGRect(0, 0, Bounds.Width, Bounds.Height);
                 TitleLabel.TextAlignment = UITextAlignment.Center;
                 return;
             }
@@ -93,17 +93,17 @@ namespace Sessions.iOS.Classes.Controls.Buttons
                 TitleLabel.TextAlignment = UITextAlignment.Left;
             }
 
-            float width = CoreGraphicsHelper.MeasureStringWidth(context, title, TitleLabel.Font.Name, TitleLabel.Font.PointSize);
+            nfloat width = CoreGraphicsHelper.MeasureStringWidth(context, title, TitleLabel.Font.Name, TitleLabel.Font.PointSize);
             UIGraphics.EndImageContext();
 
-            float totalWidth = width + padding;
+            nfloat totalWidth = width + padding;
             if (Image.Image != null)
                 totalWidth += Image.Bounds.Width + padding;
-            float imageX = (Bounds.Width - totalWidth) / 2;
-            float textX = Image.Image == null ? imageX : imageX + Image.Bounds.Width + padding;
+            nfloat imageX = (Bounds.Width - totalWidth) / 2;
+            nfloat textX = Image.Image == null ? imageX : imageX + Image.Bounds.Width + padding;
 
-            Image.Frame = new RectangleF(imageX, 10, 24, 24);
-            TitleLabel.Frame = new RectangleF(textX, 0, width, Bounds.Height);
+            Image.Frame = new CGRect(imageX, 10, 24, 24);
+            TitleLabel.Frame = new CGRect(textX, 0, width, Bounds.Height);
 
             //Console.WriteLine("SessionsButton - UpdateLayout - title: {0} width: {1} totalWidth: {2} x: {3}", TitleLabel.Text, width, totalWidth, x);
         }

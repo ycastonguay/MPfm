@@ -16,7 +16,7 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using DropBoxSync.iOS;
 using Sessions.Library;
@@ -24,8 +24,8 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
@@ -105,20 +105,20 @@ namespace Sessions.iOS.Classes.Controllers
 
         partial void actionEnableSync(NSObject sender)
         {
-            try
-            {
-                var account = DBAccountManager.SharedManager.LinkedAccount;
-                if(account == null)
-                {
-                    var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
-					DBAccountManager.SharedManager.LinkFromController(appDelegate.MainViewController);
-                }
-            }
-            catch(Exception ex)
-            {
-                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            }
+//            try
+//            {
+//                var account = DBAccountManager.SharedManager.LinkedAccount;
+//                if(account == null)
+//                {
+//                    var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+//					DBAccountManager.SharedManager.LinkFromController(appDelegate.MainViewController);
+//                }
+//            }
+//            catch(Exception ex)
+//            {
+//                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
+//                alertView.Show();
+//            }
         }
 
         partial void actionDisableSync(NSObject sender)

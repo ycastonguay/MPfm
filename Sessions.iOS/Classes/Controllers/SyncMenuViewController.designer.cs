@@ -4,7 +4,7 @@
 // actions made in the Xcode designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace Sessions.iOS.Classes.Controllers
 {
@@ -12,31 +12,31 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class SyncMenuViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIView viewLoading { get; set; }
+		UIKit.UIView viewLoading { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTotal { get; set; }
+		UIKit.UILabel lblTotal { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblFreeSpace { get; set; }
+		UIKit.UILabel lblFreeSpace { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewSync { get; set; }
+		UIKit.UIView viewSync { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+		UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblLoading { get; set; }
+		UIKit.UILabel lblLoading { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
+		UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnSelect { get; set; }
+		UIKit.UIButton btnSelect { get; set; }
 
 		[Action ("actionSelect:")]
-		partial void actionSelect (MonoTouch.Foundation.NSObject sender);
+		partial void actionSelect (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

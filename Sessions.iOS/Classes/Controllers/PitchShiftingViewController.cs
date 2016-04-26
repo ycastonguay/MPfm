@@ -16,9 +16,9 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Objects;
@@ -62,7 +62,7 @@ namespace Sessions.iOS.Classes.Controllers
 			base.ViewDidLayoutSubviews();
 
 			if(viewButtons != null)
-				viewButtons.Frame = new RectangleF((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
+				viewButtons.Frame = new CGRect((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
 		}
 
         void HandleSliderValueChanged(object sender, EventArgs e)
@@ -89,11 +89,11 @@ namespace Sessions.iOS.Classes.Controllers
         {
             _actionSheet = new UIActionSheet("Title", null, string.Empty, string.Empty, null);
 
-            var pickerView = new UIPickerView(new RectangleF(0, 44, 320, 300));
+            var pickerView = new UIPickerView(new CGRect(0, 44, 320, 300));
             pickerView.ShowSelectionIndicator = true;
             pickerView.WeakDelegate = this;
 
-            var toolbar = new UIToolbar(new RectangleF(0, 0, 320, 44));
+            var toolbar = new UIToolbar(new CGRect(0, 0, 320, 44));
             toolbar.BarStyle = UIBarStyle.Black;
 
             UIBarButtonItem flexSpace = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
@@ -103,9 +103,9 @@ namespace Sessions.iOS.Classes.Controllers
             button.Layer.CornerRadius = 8;
             button.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             button.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            button.Frame = new RectangleF(0, 20, 60, 30);
+            button.Frame = new CGRect(0, 20, 60, 30);
             button.TouchUpInside += (sender2, e) => {
-                int key = _keys[pickerView.SelectedRowInComponent(0)].Item1;
+                int key = _keys[(int)pickerView.SelectedRowInComponent(0)].Item1;
                 OnChangeKey(key);
                 _actionSheet.DismissWithClickedButtonIndex(0, true);
             };
@@ -115,7 +115,7 @@ namespace Sessions.iOS.Classes.Controllers
             _actionSheet.AddSubview(toolbar);
             _actionSheet.AddSubview(pickerView);
             _actionSheet.ShowInView(UIApplication.SharedApplication.KeyWindow);
-            _actionSheet.Bounds = new RectangleF(0, 0, 320, 344);
+            _actionSheet.Bounds = new CGRect(0, 0, 320, 344);
 
             int index = _keys.IndexOf(_currentKey);
             pickerView.Select(index, 0, false);

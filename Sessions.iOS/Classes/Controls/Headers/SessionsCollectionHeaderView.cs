@@ -17,14 +17,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Classes.Controls.Buttons;
 
@@ -51,7 +50,7 @@ namespace Sessions.iOS.Classes.Controls.Headers
         }
 
         [Export ("initWithFrame:")]
-		public SessionsCollectionHeaderView(RectangleF frame) : base(frame)
+		public SessionsCollectionHeaderView(CGRect frame) : base(frame)
         {
             Initialize();
         }
@@ -74,19 +73,19 @@ namespace Sessions.iOS.Classes.Controls.Headers
 			//PlayButton.TouchUpInside += HandleOnPlayButtonClick;
 			PlayButton.LabelAlignment = UIControlContentHorizontalAlignment.Right;
 			PlayButton.Label.TextAlignment = UITextAlignment.Right;
-			PlayButton.Label.Frame = new RectangleF(0, 0, 54, 44);
+			PlayButton.Label.Frame = new CGRect(0, 0, 54, 44);
 			PlayButton.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
-			PlayButton.ImageChevron.Frame = new RectangleF(80 - 22, 0, 22, 44);
+			PlayButton.ImageChevron.Frame = new CGRect(80 - 22, 0, 22, 44);
             PlayButton.OnButtonClick += PlayButton_OnButtonClick;
 			AddSubview(PlayButton);
         }
 
         public override void LayoutSubviews()
         {
-			float y = (Bounds.Height - 44) / 2f;
-			TextLabel.Frame = new RectangleF(y * 2, 0, Bounds.Width - 80 - 12, Bounds.Height);
+			nfloat y = (Bounds.Height - 44) / 2f;
+			TextLabel.Frame = new CGRect(y * 2, 0, Bounds.Width - 80 - 12, Bounds.Height);
 			//PlayButton.Frame = new RectangleF(Bounds.Width - 44 - y, y, 44, 44);
-			PlayButton.Frame = new RectangleF(Bounds.Width - 80, y, 80, 44);
+			PlayButton.Frame = new CGRect(Bounds.Width - 80, y, 80, 44);
         }
 
         private void PlayButton_OnButtonClick()

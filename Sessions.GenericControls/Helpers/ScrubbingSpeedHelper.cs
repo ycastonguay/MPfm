@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// Copyright ï¿½ 2011-2013 Yanick Castonguay
 //
 // This file is part of Sessions.
 //
@@ -40,7 +40,7 @@ namespace Sessions.GenericControls.Helpers
             return scrubbingSpeeds;
         }
 
-        public static ScrubbingSpeed IdentifyScrubbingSpeed(float deltaY, IEnumerable<ScrubbingSpeed> scrubbingSpeeds)
+        public static ScrubbingSpeed IdentifyScrubbingSpeed(nfloat deltaY, IEnumerable<ScrubbingSpeed> scrubbingSpeeds)
         {
             foreach (var scrubbingSpeed in scrubbingSpeeds)
             {

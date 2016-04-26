@@ -17,9 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.GenericControls.Controls.Interfaces;
 using Sessions.GenericControls.Controls.Items;
 using Sessions.GenericControls.Helpers;
@@ -30,10 +30,10 @@ namespace Sessions.iOS.Classes.Controls
     public class SessionsSlider : UISlider, IScrubbingSpeedSupport
     {
         private bool _isTouchDown = false;
-        private float _touchDownScrubbingValue;
-        private float _touchDownScrubbingX;
-        private float _touchDownY;
-        private PointF _beginTrackingPosition;
+        private nfloat _touchDownScrubbingValue;
+        private nfloat _touchDownScrubbingX;
+        private nfloat _touchDownY;
+        private CGPoint _beginTrackingPosition;
         private List<ScrubbingSpeed> _scrubbingSpeeds;
 
         public event EventHandler TouchesBeganEvent;
@@ -63,7 +63,7 @@ namespace Sessions.iOS.Classes.Controls
             CreateScrubbingSpeeds();
         }
 
-        public SessionsSlider(RectangleF frame) 
+        public SessionsSlider(CGRect frame) 
             : base (frame)
         {
             this.Continuous = true;
@@ -155,9 +155,9 @@ namespace Sessions.iOS.Classes.Controls
         public override bool ContinueTracking(UITouch uitouch, UIEvent uievent)
         {
             //PointF ptPrev = uitouch.PreviousLocationInView(this);
-            PointF pt = uitouch.LocationInView(this);
+            CGPoint pt = uitouch.LocationInView(this);
 
-            float deltaY = pt.Y - _beginTrackingPosition.Y;
+            nfloat deltaY = pt.Y - _beginTrackingPosition.Y;
             var scrubbingSpeed = ScrubbingSpeedHelper.IdentifyScrubbingSpeed(deltaY, _scrubbingSpeeds);
             if (_currentScrubbingSpeed != scrubbingSpeed)
             {
@@ -171,11 +171,11 @@ namespace Sessions.iOS.Classes.Controls
 
             // Calculate new value
             float valueRange = (MaxValue - MinValue) + 1;
-            float trackWidth = Bounds.Width; // in fact it should include the padding...
-            float valuePerPixel = (valueRange / trackWidth) * _currentScrubbingSpeed.Speed * ScrubbingSpeedAdjustmentFactor;
-            float value = _touchDownScrubbingValue + (pt.X - _touchDownScrubbingX) * valuePerPixel;
-            value = Math.Max(value, MinValue);
-            value = Math.Min(value, MaxValue);
+            nfloat trackWidth = Bounds.Width; // in fact it should include the padding...
+            nfloat valuePerPixel = (valueRange / trackWidth) * _currentScrubbingSpeed.Speed * ScrubbingSpeedAdjustmentFactor;
+            nfloat value = _touchDownScrubbingValue + (pt.X - _touchDownScrubbingX) * valuePerPixel;
+            value = (nfloat)Math.Max(value, MinValue);
+            value = (nfloat)Math.Min(value, MaxValue);
             if (value != Value)
             {
                 Value = (int) value;
@@ -203,12 +203,12 @@ namespace Sessions.iOS.Classes.Controls
             base.CancelTracking(uievent);
         }
 
-        public override UIView HitTest(PointF point, UIEvent uievent)
+        public override UIView HitTest(CGPoint point, UIEvent uievent)
         {
             // This trick makes it easier to use the thumb button of a slider inside a scroll view
             // http://stackoverflow.com/questions/4600290/uislider-and-uiscrollview
-            RectangleF trackRect = TrackRectForBounds(Bounds);
-            RectangleF thumbRect = ThumbRectForBounds(Bounds, trackRect, Value);
+            CGRect trackRect = TrackRectForBounds(Bounds);
+            CGRect thumbRect = ThumbRectForBounds(Bounds, trackRect, Value);
 
             if (thumbRect.Contains(point))
                 return base.HitTest(point, uievent);

@@ -17,13 +17,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.Core;
 
@@ -57,28 +57,28 @@ namespace Sessions.iOS.Classes.Controls.Headers
 			BackgroundView = view;
 
 			ArtistNameLabel = new UILabel();
-			ArtistNameLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			ArtistNameLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
 			ArtistNameLabel.BackgroundColor = UIColor.Clear;
 			ArtistNameLabel.TextColor = UIColor.White;
 			ArtistNameLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(ArtistNameLabel);
 
 			AlbumTitleLabel = new UILabel();
-			AlbumTitleLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			AlbumTitleLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
 			AlbumTitleLabel.BackgroundColor = UIColor.Clear;
 			AlbumTitleLabel.TextColor = UIColor.White;
 			AlbumTitleLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(AlbumTitleLabel);
 
 			TotalTimeLabel = new UILabel();
-			TotalTimeLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			TotalTimeLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
 			TotalTimeLabel.BackgroundColor = UIColor.Clear;
 			TotalTimeLabel.TextColor = UIColor.White;
 			TotalTimeLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(TotalTimeLabel);
 
 			SongCountLabel = new UILabel();
-			SongCountLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			SongCountLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
 			SongCountLabel.BackgroundColor = UIColor.Clear;
 			SongCountLabel.TextColor = UIColor.White;
 			SongCountLabel.HighlightedTextColor = UIColor.White;
@@ -117,21 +117,21 @@ namespace Sessions.iOS.Classes.Controls.Headers
 			{
 				//float x = AlbumImageView.Image == null ? 4 : 92;
 				float x = 104;
-				ArtistNameLabel.Frame = new RectangleF(x, 4, Bounds.Width - 80 - 28, 24);
-				AlbumTitleLabel.Frame = new RectangleF(x, 29, Bounds.Width - 80 - 28, 22);
-				SongCountLabel.Frame = new RectangleF(x, 52, Bounds.Width - 80 - 28, 18);
-				TotalTimeLabel.Frame = new RectangleF(x, 72, Bounds.Width - 80 - 28, 18);
-				AlbumImageView.Frame = new RectangleF(0, 0, 96, 96);
+				ArtistNameLabel.Frame = new CGRect(x, 4, Bounds.Width - 80 - 28, 24);
+				AlbumTitleLabel.Frame = new CGRect(x, 29, Bounds.Width - 80 - 28, 22);
+				SongCountLabel.Frame = new CGRect(x, 52, Bounds.Width - 80 - 28, 18);
+				TotalTimeLabel.Frame = new CGRect(x, 72, Bounds.Width - 80 - 28, 18);
+				AlbumImageView.Frame = new CGRect(0, 0, 96, 96);
 			}
 			else
 			{
 				//float x = AlbumImageView.Image == null ? 4 : 92;
 				float x = 92;
-				ArtistNameLabel.Frame = new RectangleF(x, 4, Bounds.Width - 80 - 28, 18);
-				AlbumTitleLabel.Frame = new RectangleF(x, 23, Bounds.Width - 80 - 28, 18);
-				SongCountLabel.Frame = new RectangleF(x, 42, Bounds.Width - 80 - 28, 18);
-				TotalTimeLabel.Frame = new RectangleF(x, 60, Bounds.Width - 80 - 28, 18);
-				AlbumImageView.Frame = new RectangleF(0, 0, 84, 84);
+				ArtistNameLabel.Frame = new CGRect(x, 4, Bounds.Width - 80 - 28, 18);
+				AlbumTitleLabel.Frame = new CGRect(x, 23, Bounds.Width - 80 - 28, 18);
+				SongCountLabel.Frame = new CGRect(x, 42, Bounds.Width - 80 - 28, 18);
+				TotalTimeLabel.Frame = new CGRect(x, 60, Bounds.Width - 80 - 28, 18);
+				AlbumImageView.Frame = new CGRect(0, 0, 84, 84);
 			}
 		}
     }

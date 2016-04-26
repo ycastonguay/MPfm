@@ -16,9 +16,9 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Views;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Objects;
@@ -104,7 +104,7 @@ namespace Sessions.iOS.Classes.Controllers
                 var alertView = new UIAlertView("Sync", "Sync completed successfully.", null, "OK", null);
                 alertView.Clicked += (sender, e) => { 
                     Console.WriteLine("SyncDownloadViewController - Sync completed; dismissing views");
-                    NavigationController.PopViewControllerAnimated(true);
+                    NavigationController.PopViewController(true);
                 };
                 alertView.Show();
             });

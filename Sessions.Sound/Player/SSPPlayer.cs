@@ -21,6 +21,7 @@ using System.Reflection;
 using Sessions.Core;
 using org.sessionsapp.player;
 using System.Collections.Generic;
+using ObjCRuntime;
 
 #if IOS
 using MonoTouch;

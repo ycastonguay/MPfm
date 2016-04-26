@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.MVP.Views;
 using Sessions.Sound.AudioFiles;
-using MonoTouch.UIKit;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Objects;
 using Sessions.MVP.Bootstrap;
@@ -58,7 +58,7 @@ namespace Sessions.iOS.Classes.Controllers
         {
             if (show && !swipeUp)
             {
-                viewBackground.Frame = new RectangleF(viewBackground.Frame.X, View.Bounds.Height - viewBackground.Frame.Height, viewBackground.Frame.Width, viewBackground.Frame.Height);
+                viewBackground.Frame = new CGRect(viewBackground.Frame.X, View.Bounds.Height - viewBackground.Frame.Height, viewBackground.Frame.Width, viewBackground.Frame.Height);
                 UIView.Animate(0.2f, () => {
                     viewBackground.Alpha = 1;
                 });
@@ -66,14 +66,14 @@ namespace Sessions.iOS.Classes.Controllers
             else if (show && swipeUp)
             {
                 UIView.Animate(0.4f, () => {
-                    viewBackground.Frame = new RectangleF(viewBackground.Frame.X, View.Bounds.Height - viewBackground.Frame.Height, viewBackground.Frame.Width, viewBackground.Frame.Height);
+                    viewBackground.Frame = new CGRect(viewBackground.Frame.X, View.Bounds.Height - viewBackground.Frame.Height, viewBackground.Frame.Width, viewBackground.Frame.Height);
                     viewBackground.Alpha = 1;
                 });
             }
             else
             {
                 UIView.Animate(0.4f, () => {
-                    viewBackground.Frame = new RectangleF(viewBackground.Frame.X, View.Bounds.Height, viewBackground.Frame.Width, viewBackground.Frame.Height);
+                    viewBackground.Frame = new CGRect(viewBackground.Frame.X, View.Bounds.Height, viewBackground.Frame.Width, viewBackground.Frame.Height);
                     viewBackground.Alpha = 0;
                 });
             }

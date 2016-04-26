@@ -17,11 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.Sound.AudioFiles;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Helpers;
 using Sessions.iOS.Classes.Objects;
 using Sessions.GenericControls.Basics;
@@ -94,7 +94,7 @@ namespace Sessions.iOS.Classes.Controls
             Initialize();
         }
         
-        public SessionsWaveFormScrollView(RectangleF frame) 
+        public SessionsWaveFormScrollView(CGRect frame) 
             : base(frame)
         {
             Initialize();
@@ -119,15 +119,15 @@ namespace Sessions.iOS.Classes.Controls
 			_panGesture.MaximumNumberOfTouches = 1;
 			AddGestureRecognizer(_panGesture);
 
-            WaveFormView = new SessionsWaveFormView(new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
+            WaveFormView = new SessionsWaveFormView(new CGRect(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
             AddSubview(WaveFormView);
 
-            WaveFormScaleView = new SessionsWaveFormScaleView(new RectangleF(0, 0, Bounds.Width, _scaleHeight));
+            WaveFormScaleView = new SessionsWaveFormScaleView(new CGRect(0, 0, Bounds.Width, _scaleHeight));
             AddSubview(WaveFormScaleView);
 
 			WaveFormView.AddGestureRecognizer(_doubleTapGesture);
 
-            _lblZoom = new UILabel(new RectangleF(0, 0, 60, 20));
+            _lblZoom = new UILabel(new CGRect(0, 0, 60, 20));
             _lblZoom.BackgroundColor = GlobalTheme.BackgroundColor;
             _lblZoom.TextColor = UIColor.White;
 			_lblZoom.Font = UIFont.FromName("HelveticaNeue", 11);
@@ -136,7 +136,7 @@ namespace Sessions.iOS.Classes.Controls
             _lblZoom.Alpha = 0;
             AddSubview(_lblZoom);
 
-            _viewCenterLine = new UIView(new RectangleF(Bounds.Width / 2, 0, 1, Bounds.Height));
+            _viewCenterLine = new UIView(new CGRect(Bounds.Width / 2, 0, 1, Bounds.Height));
             _viewCenterLine.BackgroundColor = GlobalTheme.LightColor;
             _viewCenterLine.Alpha = 0;
             AddSubview(_viewCenterLine);
@@ -182,12 +182,12 @@ namespace Sessions.iOS.Classes.Controls
 			}
 
 			var location = sender.LocationInView(this);
-			float newZoom = _initialZoom * _pinchGesture.Scale;
-			float deltaZoom = newZoom / Zoom;
-			float originPointX = IsAutoScrollEnabled ? WaveFormView.ContentOffset.X + (Frame.Width / 2) : location.X + WaveFormView.ContentOffset.X;
-			float distanceToOffsetX = originPointX - WaveFormView.ContentOffset.X;
-			float contentOffsetX = (originPointX * deltaZoom) - distanceToOffsetX;
-			Zoom = Math.Max(1, newZoom);
+			nfloat newZoom = _initialZoom * _pinchGesture.Scale;
+			nfloat deltaZoom = newZoom / Zoom;
+			nfloat originPointX = IsAutoScrollEnabled ? WaveFormView.ContentOffset.X + (Frame.Width / 2) : location.X + WaveFormView.ContentOffset.X;
+			nfloat distanceToOffsetX = originPointX - WaveFormView.ContentOffset.X;
+			nfloat contentOffsetX = (originPointX * deltaZoom) - distanceToOffsetX;
+            Zoom = (float)Math.Max(1, newZoom);
 			SetContentOffsetX(contentOffsetX);
 			_lblZoom.Text = (Zoom * 100).ToString("0") + "%";
 			//Console.WriteLine("HandlePinchGestureRecognizer - initialZoom: {0} newZoom: {1}", _initialZoom, newZoom);
@@ -214,24 +214,24 @@ namespace Sessions.iOS.Classes.Controls
 			//Console.WriteLine("HandlePanGestureRecognizer - state: {0} initialContentOffset: {1} ptPan: {2}", _panGesture.State, _initialContentOffset, ptPan);
 		}
 
-		private void SetContentOffsetX(float x)
+		private void SetContentOffsetX(nfloat x)
 		{
-			float contentOffsetX = x;
-			float maxX = (Frame.Width * Zoom) - Frame.Width;
-			contentOffsetX = Math.Max(contentOffsetX, 0);
-			contentOffsetX = Math.Min(contentOffsetX, maxX);
-			WaveFormView.ContentOffset = new BasicPoint(contentOffsetX, 0);
-			WaveFormScaleView.ContentOffset = new BasicPoint(contentOffsetX, 0);
+			nfloat contentOffsetX = x;
+			nfloat maxX = (Frame.Width * Zoom) - Frame.Width;
+            contentOffsetX = (nfloat)Math.Max(contentOffsetX, 0);
+            contentOffsetX = (nfloat)Math.Min(contentOffsetX, maxX);
+            WaveFormView.ContentOffset = new BasicPoint((float)contentOffsetX, 0);
+            WaveFormScaleView.ContentOffset = new BasicPoint((float)contentOffsetX, 0);
 		}
 
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
 
-			WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
-			WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
-            _lblZoom.Frame = new RectangleF(((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
-            _viewCenterLine.Frame = new RectangleF((Bounds.Width / 2), 0, 1, Bounds.Height);
+			WaveFormView.Frame = new CGRect(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
+			WaveFormScaleView.Frame = new CGRect(0, 0, Bounds.Width, _scaleHeight);
+            _lblZoom.Frame = new CGRect(((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
+            _viewCenterLine.Frame = new CGRect((Bounds.Width / 2), 0, 1, Bounds.Height);
 
 			//Console.WriteLine("=========>>>>>>>> WaveFormScrollView - LayoutSubviews - frame: {0} orientation: {1}", Frame, UIDevice.CurrentDevice.Orientation);
 			WaveFormScaleView.SetNeedsDisplay();
@@ -243,13 +243,13 @@ namespace Sessions.iOS.Classes.Controls
 			//UserInteractionEnabled = false;
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
-                WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
-                WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
+                WaveFormView.Frame = new CGRect(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
+                WaveFormScaleView.Frame = new CGRect(0, 0, Bounds.Width, _scaleHeight);
             }
             else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
             {
-                WaveFormView.Frame = new RectangleF(Bounds.Width / 2, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
-                WaveFormScaleView.Frame = new RectangleF(Bounds.Width / 2, 0, Bounds.Width, _scaleHeight);
+                WaveFormView.Frame = new CGRect(Bounds.Width / 2, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
+                WaveFormScaleView.Frame = new CGRect(Bounds.Width / 2, 0, Bounds.Width, _scaleHeight);
             }
             WaveFormView.LoadPeakFile(audioFile);
             WaveFormScaleView.AudioFile = audioFile;

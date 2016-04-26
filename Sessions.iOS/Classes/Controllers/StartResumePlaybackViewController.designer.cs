@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -19,37 +19,37 @@ namespace Sessions.iOS.Classes.Controllers
         Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnResume { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageAlbum { get; set; }
+		UIKit.UIImageView imageAlbum { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageIcon { get; set; }
+		UIKit.UIImageView imageIcon { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblAlbumTitle { get; set; }
+		UIKit.UILabel lblAlbumTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblArtistName { get; set; }
+		UIKit.UILabel lblArtistName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDeviceName { get; set; }
+		UIKit.UILabel lblDeviceName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPlaylistName { get; set; }
+		UIKit.UILabel lblPlaylistName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblSongTitle { get; set; }
+		UIKit.UILabel lblSongTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTimestamp { get; set; }
+		UIKit.UILabel lblTimestamp { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPanel { get; set; }
+		UIKit.UIView viewPanel { get; set; }
 
 		[Action ("actionCancel:")]
-		partial void actionCancel (MonoTouch.Foundation.NSObject sender);
+		partial void actionCancel (Foundation.NSObject sender);
 
 		[Action ("actionResume:")]
-		partial void actionResume (MonoTouch.Foundation.NSObject sender);
+		partial void actionResume (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

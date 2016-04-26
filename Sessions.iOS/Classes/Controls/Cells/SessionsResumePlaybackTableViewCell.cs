@@ -17,14 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
+using CoreAnimation;
+using CoreGraphics;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -50,7 +50,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             Initialize();
         }
 
-		public SessionsResumePlaybackTableViewCell(RectangleF frame) : base(frame)
+		public SessionsResumePlaybackTableViewCell(CGRect frame) : base(frame)
         {
             Initialize();
         }
@@ -81,12 +81,12 @@ namespace Sessions.iOS.Classes.Controls.Cells
             ImageIcon.BackgroundColor = UIColor.Clear;
             AddSubview(ImageIcon);
 
-            TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             TextLabel.BackgroundColor = UIColor.Clear;
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            DetailTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             DetailTextLabel.TextColor = UIColor.DarkGray;
             DetailTextLabel.BackgroundColor = UIColor.Clear;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
@@ -100,7 +100,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddSubview(ImageView);
 
             LabelLastUpdated = new UILabel();
-            LabelLastUpdated.Layer.AnchorPoint = new PointF(0, 0.5f);
+            LabelLastUpdated.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             LabelLastUpdated.BackgroundColor = UIColor.Clear;
             LabelLastUpdated.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             LabelLastUpdated.TextColor = UIColor.Gray;
@@ -109,7 +109,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddSubview(LabelLastUpdated);
 
             LabelArtistName = new UILabel();
-            LabelArtistName.Layer.AnchorPoint = new PointF(0, 0.5f);
+            LabelArtistName.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             LabelArtistName.BackgroundColor = UIColor.Clear;
             LabelArtistName.Font = UIFont.FromName("HelveticaNeue", 13);
             LabelArtistName.TextColor = UIColor.Black;
@@ -118,7 +118,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddSubview(LabelArtistName);
 
             LabelAlbumTitle = new UILabel();
-            LabelAlbumTitle.Layer.AnchorPoint = new PointF(0, 0.5f);
+            LabelAlbumTitle.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             LabelAlbumTitle.BackgroundColor = UIColor.Clear;
             LabelAlbumTitle.Font = UIFont.FromName("HelveticaNeue", 12);
             LabelAlbumTitle.TextColor = UIColor.FromRGBA(0.1f, 0.1f, 0.1f, 1);
@@ -127,7 +127,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddSubview(LabelAlbumTitle);
 
             LabelSongTitle = new UILabel();
-            LabelSongTitle.Layer.AnchorPoint = new PointF(0, 0.5f);
+            LabelSongTitle.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             LabelSongTitle.BackgroundColor = UIColor.Clear;
             LabelSongTitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             LabelSongTitle.TextColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
@@ -168,21 +168,21 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
             //base.LayoutSubviews();
 
-            BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
-            SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+            BackgroundView.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
+            SelectedBackgroundView.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
 
-            TextLabel.Frame = new RectangleF(44, 6, Frame.Width - 60, 20);
-            DetailTextLabel.Frame = new RectangleF(44, 24, Frame.Width - 60, 20);
-            LabelArtistName.Frame = new RectangleF(74, 52, Frame.Width - 90, 18);
-            LabelAlbumTitle.Frame = new RectangleF(74, 68, Frame.Width - 90, 18);
-            LabelSongTitle.Frame = new RectangleF(74, 84, Frame.Width - 90, 18);
-            LabelLastUpdated.Frame = new RectangleF(12, 106, Frame.Width - 24, 20);
-            ImageIcon.Frame = new RectangleF(12, 12, 30, 30);
-            ImageAlbum.Frame = new RectangleF(12, 50, 54, 54);
-            ImageChevron.Frame = new RectangleF(Frame.Width - 22, 43, 22, 44);
-            ViewOverlay.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
-            ViewSeparator.Frame = new RectangleF(0, Frame.Height - 1, Frame.Width, 1);
-            LabelCellDisabled.Frame = new RectangleF(12, 0, Frame.Width - 24, Frame.Height);
+            TextLabel.Frame = new CGRect(44, 6, Frame.Width - 60, 20);
+            DetailTextLabel.Frame = new CGRect(44, 24, Frame.Width - 60, 20);
+            LabelArtistName.Frame = new CGRect(74, 52, Frame.Width - 90, 18);
+            LabelAlbumTitle.Frame = new CGRect(74, 68, Frame.Width - 90, 18);
+            LabelSongTitle.Frame = new CGRect(74, 84, Frame.Width - 90, 18);
+            LabelLastUpdated.Frame = new CGRect(12, 106, Frame.Width - 24, 20);
+            ImageIcon.Frame = new CGRect(12, 12, 30, 30);
+            ImageAlbum.Frame = new CGRect(12, 50, 54, 54);
+            ImageChevron.Frame = new CGRect(Frame.Width - 22, 43, 22, 44);
+            ViewOverlay.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
+            ViewSeparator.Frame = new CGRect(0, Frame.Height - 1, Frame.Width, 1);
+            LabelCellDisabled.Frame = new CGRect(12, 0, Frame.Width - 24, Frame.Height);
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)

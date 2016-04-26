@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -13,16 +13,16 @@ namespace Sessions.iOS.Classes.Controllers
 	partial class SplashViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
+		UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageView { get; set; }
+		UIKit.UIImageView imageView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageViewOverlay { get; set; }
+		UIKit.UIImageView imageViewOverlay { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStatus { get; set; }
+		UIKit.UILabel lblStatus { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

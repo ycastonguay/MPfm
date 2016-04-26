@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controls.Cells.Base;
 using Sessions.iOS.Helpers;
 using Sessions.iOS.Classes.Controls.Buttons;
@@ -68,7 +68,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 		{
 		}
 
-        public SessionsLibraryTableViewCell(RectangleF frame) : base(frame)
+        public SessionsLibraryTableViewCell(CGRect frame) : base(frame)
         {
         }
 
@@ -95,25 +95,25 @@ namespace Sessions.iOS.Classes.Controls.Cells
             ImageAlbum1.BackgroundColor = UIColor.Clear;
             ImageAlbum1.Hidden = true;
             ImageAlbum1.Alpha = 0.75f;
-            ImageAlbum1.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
+            ImageAlbum1.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
             AddView(ImageAlbum1);
 
             ImageAlbum2 = new UIImageView();
             ImageAlbum2.BackgroundColor = UIColor.Clear;
             ImageAlbum2.Hidden = true;
             ImageAlbum2.Alpha = 0.4f;
-            ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
+            ImageAlbum2.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
             AddView(ImageAlbum2);
 
             ImageAlbum3 = new UIImageView();
             ImageAlbum3.BackgroundColor = UIColor.Clear;
             ImageAlbum3.Hidden = true;
             ImageAlbum3.Alpha = 0.2f;
-            ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
+            ImageAlbum3.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
             AddView(ImageAlbum3);
 
             AlbumCountLabel = new UILabel();
-            AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
+            AlbumCountLabel.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
             AlbumCountLabel.Alpha = 0.75f;
             AlbumCountLabel.BackgroundColor = UIColor.Clear;
             AlbumCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
@@ -125,14 +125,14 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddView(AlbumCountLabel);
 
             TitleTextLabel = new UILabel();
-            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             TitleTextLabel.BackgroundColor = UIColor.Clear;
             TitleTextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
             TitleTextLabel.TextColor = UIColor.Black;
             TitleTextLabel.HighlightedTextColor = UIColor.White;
 
             SubtitleTextLabel = new UILabel();
-            SubtitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            SubtitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             SubtitleTextLabel.TextColor = UIColor.Gray;
             SubtitleTextLabel.HighlightedTextColor = UIColor.White;
             SubtitleTextLabel.BackgroundColor = UIColor.Clear;
@@ -157,21 +157,21 @@ namespace Sessions.iOS.Classes.Controls.Cells
 
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
-            RightButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
+            RightButton.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
             AddView(RightButton);
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
+            ImageChevron.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
             AddView(ImageChevron);           
 
             RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
             RightImage.Alpha = 0.7f;
             RightImage.BackgroundColor = UIColor.Clear;
             RightImage.Hidden = true;
-            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
+            RightImage.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
             AddView(RightImage);
 
             // Make sure the text label is over all other subviews
@@ -181,36 +181,36 @@ namespace Sessions.iOS.Classes.Controls.Cells
         private void CreateBehindViewControls()
         {
             ImageAddToPlaylist = new UIImageView();
-            ImageAddToPlaylist.Frame = new RectangleF(10, 14, 24, 24);
+            ImageAddToPlaylist.Frame = new CGRect(10, 14, 24, 24);
             ImageAddToPlaylist.Image = UIImage.FromBundle("Images/ContextualButtons/add");
             ImageAddToPlaylist.BackgroundColor = UIColor.Clear;
             ImageAddToPlaylist.Alpha = 0.1f;
             BehindView.AddSubview(ImageAddToPlaylist);
 
             ImageAddedToPlaylist = new UIImageView();
-            ImageAddedToPlaylist.Frame = new RectangleF(10, 14, 24, 24);
+            ImageAddedToPlaylist.Frame = new CGRect(10, 14, 24, 24);
             ImageAddedToPlaylist.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark");
             ImageAddedToPlaylist.BackgroundColor = UIColor.Clear;
             ImageAddedToPlaylist.Alpha = 0f;
             //BehindView.AddSubview(ImageAddedToPlaylist);
 
             ImageCheckmark = new UIImageView();
-            ImageCheckmark.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
+            ImageCheckmark.Frame = new CGRect((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
             ImageCheckmark.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark");
             ImageCheckmark.BackgroundColor = UIColor.Clear;
             ImageCheckmark.Alpha = 1f;
             BehindView.AddSubview(ImageCheckmark);
 
             ImageCheckmarkConfirm = new UIImageView();
-            ImageCheckmarkConfirm.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
+            ImageCheckmarkConfirm.Frame = new CGRect((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
             ImageCheckmarkConfirm.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark_nobg");
             ImageCheckmarkConfirm.BackgroundColor = UIColor.Clear;
             ImageCheckmarkConfirm.Alpha = 0f;
             BehindView.AddSubview(ImageCheckmarkConfirm);
 
             AddToPlaylistLabel = new UILabel();
-            AddToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            AddToPlaylistLabel.Frame = new RectangleF(40, 10, 150, 32);
+            AddToPlaylistLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
+            AddToPlaylistLabel.Frame = new CGRect(40, 10, 150, 32);
             AddToPlaylistLabel.Text = "Add to queue";
             AddToPlaylistLabel.BackgroundColor = UIColor.Clear;
             AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
@@ -220,8 +220,8 @@ namespace Sessions.iOS.Classes.Controls.Cells
             BehindView.AddSubview(AddToPlaylistLabel);
 
             AddedToPlaylistLabel = new UILabel();
-            AddedToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            AddedToPlaylistLabel.Frame = new RectangleF(12, 62, 150, 32);
+            AddedToPlaylistLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
+            AddedToPlaylistLabel.Frame = new CGRect(12, 62, 150, 32);
             AddedToPlaylistLabel.Alpha = 0;
             AddedToPlaylistLabel.Text = "Added to queue!";
             AddedToPlaylistLabel.BackgroundColor = UIColor.Clear;
@@ -236,7 +236,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
             // Maybe add icons only to iPad where there is enough space
             PlayButton = new SessionsSecondaryMenuButton();
-            PlayButton.Frame = new RectangleF(4, 53, 100, 64);
+            PlayButton.Frame = new CGRect(4, 53, 100, 64);
             PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
             PlayButton.SetTitle("Play", UIControlState.Normal); 
             PlayButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
@@ -244,7 +244,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             ContainerView.AddSubview(PlayButton);
 
             AddButton = new SessionsSecondaryMenuButton();
-            AddButton.Frame = new RectangleF(108, 53, 100, 64);
+            AddButton.Frame = new CGRect(108, 53, 100, 64);
             AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
             AddButton.SetTitle("Add to playlist", UIControlState.Normal);
             AddButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
@@ -252,7 +252,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             ContainerView.AddSubview(AddButton);
 
             DeleteButton = new SessionsSecondaryMenuButton();
-            DeleteButton.Frame = new RectangleF(212, 53, 100, 64);
+            DeleteButton.Frame = new CGRect(212, 53, 100, 64);
             DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
             DeleteButton.SetTitle("Delete", UIControlState.Normal);
             DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
@@ -279,10 +279,10 @@ namespace Sessions.iOS.Classes.Controls.Cells
             const float padding = 8;
             var screenSize = UIKitHelper.GetDeviceSize();
 
-			ContainerBackgroundView.Frame = new RectangleF(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
+			ContainerBackgroundView.Frame = new CGRect(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
 
             // Determine width available for text
-            float textWidth = Bounds.Width;
+            nfloat textWidth = Bounds.Width;
             if (Accessory != UITableViewCellAccessory.None)
                 textWidth -= 44;
             if (ImageView.Image != null && !ImageView.Hidden)
@@ -299,13 +299,13 @@ namespace Sessions.iOS.Classes.Controls.Cells
             float x = 0;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 4, 44, 44);
+                ImageView.Frame = new CGRect(x, 4, 44, 44);
                 x += 44 + padding;
             } 
             else if (!string.IsNullOrEmpty(IndexTextLabel.Text))
             {
                 x += padding;
-                IndexTextLabel.Frame = new RectangleF(x, 6, 22, 38);
+                IndexTextLabel.Frame = new CGRect(x, 6, 22, 38);
                 x += 22 + padding;
             } 
             else
@@ -318,19 +318,19 @@ namespace Sessions.iOS.Classes.Controls.Cells
                 titleY = 2 + 4;
 
 			//if (_isTextLabelAllowedToChangeFrame)
-                TitleTextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
+                TitleTextLabel.Frame = new CGRect(x, titleY, textWidth, 22);
             if (!string.IsNullOrEmpty(SubtitleTextLabel.Text))
-                SubtitleTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
+                SubtitleTextLabel.Frame = new CGRect(x, 22 + 4, textWidth, 16);
 
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
-                RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
+                RightButton.Frame = new CGRect(screenSize.Width - 44, 4, 44, 44);
 
-            ImageChevron.Frame = new RectangleF(screenSize.Width - 22 - RightOffset, 4, 22, 44);
+            ImageChevron.Frame = new CGRect(screenSize.Width - 22 - RightOffset, 4, 22, 44);
 
             if(ImageChevron.Hidden)
-                RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 4, 44, 44);
+                RightImage.Frame = new CGRect(screenSize.Width - 44 - RightOffset, 4, 44, 44);
             else
-                RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
+                RightImage.Frame = new CGRect(screenSize.Width - 66 - RightOffset, 4, 44, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)

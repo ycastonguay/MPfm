@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controls.Cells.Base;
 using Sessions.iOS.Classes.Controls.Buttons;
 
@@ -61,7 +61,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
         }
 
-        public SessionsMarkerTableViewCell(RectangleF frame) : base(frame)
+        public SessionsMarkerTableViewCell(CGRect frame) : base(frame)
         {
         }
 
@@ -84,7 +84,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 			BackgroundView.AddGestureRecognizer(longPress);
 
             TitleTextLabel = new UILabel();
-            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             TitleTextLabel.BackgroundColor = UIColor.Clear;
             TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TitleTextLabel.TextColor = UIColor.White;
@@ -92,7 +92,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             TitleTextLabel.Alpha = 1;
 
             PositionTextLabel = new UILabel();
-            PositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            PositionTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
 			PositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 15);
 			PositionTextLabel.TextColor = UIColor.White;
 			PositionTextLabel.HighlightedTextColor = UIColor.White;
@@ -122,7 +122,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddView(PositionTitleLabel);
 
 			// Add padding to text field
-			var paddingView = new UIView(new RectangleF(0, 0, 4, 20));
+			var paddingView = new UIView(new CGRect(0, 0, 4, 20));
 			TextField.LeftView = paddingView;
 			TextField.LeftViewMode = UITextFieldViewMode.Always;
 
@@ -156,7 +156,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
             AddView(PunchInButton);
 
-			Slider = new UISlider(new RectangleF(0, 0, 10, 10));
+			Slider = new UISlider(new CGRect(0, 0, 10, 10));
 			Slider.ExclusiveTouch = true;
 			Slider.Alpha = 0;
 			Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
@@ -213,24 +213,24 @@ namespace Sessions.iOS.Classes.Controls.Cells
             const float textHeight = 38;
 
             float x = leftPadding;
-            IndexTextLabel.Frame = new RectangleF(x, 6, 22, textHeight);
+            IndexTextLabel.Frame = new CGRect(x, 6, 22, textHeight);
             x += 22 + leftPadding;
 
 			if (IsTextLabelAllowedToChangeFrame)
 			{
-                float positionTextLabelX = Bounds.Width - 128;
+                nfloat positionTextLabelX = Bounds.Width - 128;
 				if (PunchInButton.Alpha > 0)
                     positionTextLabelX -= 48;
 
-                PositionTextLabel.Frame = new RectangleF(positionTextLabelX, topPadding, 120, textHeight);
-                PositionTitleLabel.Frame = new RectangleF(leftPadding, topPadding + 35, Bounds.Width, textHeight);
-                TitleTextLabel.Frame = new RectangleF(x, topPadding, Bounds.Width - 120, textHeight);
+                PositionTextLabel.Frame = new CGRect(positionTextLabelX, topPadding, 120, textHeight);
+                PositionTitleLabel.Frame = new CGRect(leftPadding, topPadding + 35, Bounds.Width, textHeight);
+                TitleTextLabel.Frame = new CGRect(x, topPadding, Bounds.Width - 120, textHeight);
 			}
 
-			TextField.Frame = new RectangleF(x - 4, topPadding + 1, Bounds.Width - 120 - 48, 38);
-            Slider.Frame = new RectangleF(leftPadding, textHeight + 34, Bounds.Width - 12 - buttonSize - 12, 36);
-            DeleteButton.Frame = new RectangleF(Bounds.Width - buttonSize, topPadding, buttonSize, buttonSize);
-            PunchInButton.Frame = new RectangleF(Bounds.Width - buttonSize, 68, buttonSize, buttonSize);
+			TextField.Frame = new CGRect(x - 4, topPadding + 1, Bounds.Width - 120 - 48, 38);
+            Slider.Frame = new CGRect(leftPadding, textHeight + 34, Bounds.Width - 12 - buttonSize - 12, 36);
+            DeleteButton.Frame = new CGRect(Bounds.Width - buttonSize, topPadding, buttonSize, buttonSize);
+            PunchInButton.Frame = new CGRect(Bounds.Width - buttonSize, 68, buttonSize, buttonSize);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
@@ -259,7 +259,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             PunchInButton.Alpha = isExpanded ? 1 : 0;
 
             float padding = isExpanded ? 0 : 48f;
-            PositionTextLabel.Frame = new RectangleF(Bounds.Width - 128 - padding, 6, 120, 38);
+            PositionTextLabel.Frame = new CGRect(Bounds.Width - 128 - padding, 6, 120, 38);
         }
 
         protected override void SetControlScaleForTouchAnimation(float scale)

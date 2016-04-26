@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace Sessions.iOS.Classes.Controls
 {
@@ -44,7 +44,7 @@ namespace Sessions.iOS.Classes.Controls
             Initialize();
         }
 
-        public SessionsAlbumArtPopupView(RectangleF frame)
+        public SessionsAlbumArtPopupView(CGRect frame)
             : base(frame)
         {
             Initialize();
@@ -57,14 +57,14 @@ namespace Sessions.iOS.Classes.Controls
             UserInteractionEnabled = true;
 
             // Background + indicator + label
-            _viewImageDownloading = new SessionsPopupView(new RectangleF(0, 0, Frame.Width, 60));
+            _viewImageDownloading = new SessionsPopupView(new CGRect(0, 0, Frame.Width, 60));
             _viewImageDownloading.SetTheme(SessionsPopupView.ThemeType.LabelWithActivityIndicator);
             _viewImageDownloading.LabelTitle = "Downloading image from the internet...";
             _viewImageDownloading.Alpha = 0;
             AddSubview(_viewImageDownloading);
 
             // Background + label + 2 buttons
-            _viewImageDownloaded = new SessionsPopupView(new RectangleF(0, 0, Frame.Width, 60));
+            _viewImageDownloaded = new SessionsPopupView(new CGRect(0, 0, Frame.Width, 60));
             _viewImageDownloaded.SetTheme(SessionsPopupView.ThemeType.LabelWithButtons);
             _viewImageDownloaded.LabelTitle = "This image has been downloaded from the internet.";
             _viewImageDownloaded.Alpha = 0;
@@ -72,7 +72,7 @@ namespace Sessions.iOS.Classes.Controls
             AddSubview(_viewImageDownloaded);
 
             // Background + label
-            _viewImageDownloadError = new SessionsPopupView(new RectangleF(0, 0, Frame.Width, 60));
+            _viewImageDownloadError = new SessionsPopupView(new CGRect(0, 0, Frame.Width, 60));
             _viewImageDownloadError.SetTheme(SessionsPopupView.ThemeType.Label);
             _viewImageDownloadError.LabelTitle = "Error downloading image from the internet.";
             _viewImageDownloadError.Alpha = 0;            
@@ -126,13 +126,13 @@ namespace Sessions.iOS.Classes.Controls
             base.LayoutSubviews();
 
             float padding = 4;
-            float popupWidth = Frame.Width - (padding * 2);
+            nfloat popupWidth = Frame.Width - (padding * 2);
             float popupSmallHeight = 32;
             float popupLargeHeight = 48;
 
-            _viewImageDownloading.Frame = new RectangleF(padding, padding, popupWidth, popupSmallHeight);
-            _viewImageDownloaded.Frame = new RectangleF(padding, padding, popupWidth, popupLargeHeight);
-            _viewImageDownloadError.Frame = new RectangleF(padding, padding, popupWidth, popupSmallHeight);
+            _viewImageDownloading.Frame = new CGRect(padding, padding, popupWidth, popupSmallHeight);
+            _viewImageDownloaded.Frame = new CGRect(padding, padding, popupWidth, popupLargeHeight);
+            _viewImageDownloadError.Frame = new CGRect(padding, padding, popupWidth, popupSmallHeight);
         }
     }
 }

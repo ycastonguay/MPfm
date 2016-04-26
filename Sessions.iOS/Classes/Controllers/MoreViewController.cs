@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
@@ -146,7 +146,7 @@ namespace Sessions.iOS.Classes.Controllers
                 return null;
 
             var label = new UILabel();
-            label.Frame = new RectangleF(12, 18, View.Frame.Width, 34);
+            label.Frame = new CGRect(12, 18, View.Frame.Width, 34);
             label.BackgroundColor = UIColor.Clear;
             label.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
             label.Font = UIFont.FromName("HelveticaNeue", 14);

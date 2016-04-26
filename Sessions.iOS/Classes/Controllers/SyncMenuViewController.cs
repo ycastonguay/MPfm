@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
+using CoreGraphics;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Objects;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace Sessions.iOS.Classes.Controllers
         string _cellIdentifier = "SyncMenuCell";
         UIBarButtonItem _btnSync;
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
-        float _nowPlayingButtonPreviousAlpha = 0;
+        nfloat _nowPlayingButtonPreviousAlpha = 0;
 
         public SyncMenuViewController(SyncDevice device)
             : base (UserInterfaceIdiomIsPhone ? "SyncMenuViewController_iPhone" : "SyncMenuViewController_iPad", null)
@@ -68,13 +68,13 @@ namespace Sessions.iOS.Classes.Controllers
             btnSync.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnSync.Label.Text = "Sync";
             btnSync.Label.TextAlignment = UITextAlignment.Right;
-            btnSync.Label.Frame = new RectangleF(0, 0, 44, 44);
+            btnSync.Label.Frame = new CGRect(0, 0, 44, 44);
             btnSync.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
-            btnSync.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
-            btnSync.Frame = new RectangleF(0, 0, 70, 44);
+            btnSync.ImageChevron.Frame = new CGRect(70 - 22, 0, 22, 44);
+            btnSync.Frame = new CGRect(0, 0, 70, 44);
             btnSync.OnButtonClick += HandleButtonSyncTouchUpInside;
-            var btnSyncView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
-            var rect2 = new RectangleF(btnSyncView.Bounds.X - 16, btnSyncView.Bounds.Y, btnSyncView.Bounds.Width, btnSyncView.Bounds.Height);
+            var btnSyncView = new UIView(new CGRect(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
+            var rect2 = new CGRect(btnSyncView.Bounds.X - 16, btnSyncView.Bounds.Y, btnSyncView.Bounds.Width, btnSyncView.Bounds.Height);
             btnSyncView.Bounds = rect2;
             btnSyncView.AddSubview(btnSync);
             _btnSync = new UIBarButtonItem(btnSyncView);
@@ -142,7 +142,7 @@ namespace Sessions.iOS.Classes.Controllers
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
                 return;
 
-            PointF pt = gestureRecognizer.LocationInView(tableView);
+            CGPoint pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
             if (indexPath != null)
             {
@@ -226,7 +226,7 @@ namespace Sessions.iOS.Classes.Controllers
         private void HandleOnRightButtonTap(SessionsLibraryTableViewCell cell)
         {
             Console.WriteLine("SyncMenuViewController - HandleOnRightButtonTap");
-            int row = cell.Tag;
+            int row = (int)cell.Tag;
             OnSelectItems(new List<SyncMenuItemEntity>() { _items[row] });
 
             tableView.BeginUpdates();

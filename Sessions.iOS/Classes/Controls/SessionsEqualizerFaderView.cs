@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -60,19 +60,19 @@ namespace Sessions.iOS.Classes.Controls
         {
 			BackgroundColor = GlobalTheme.BackgroundColor;
 
-            _lblFrequency = new UILabel(new RectangleF(12, 4, 60, 36));
+            _lblFrequency = new UILabel(new CGRect(12, 4, 60, 36));
             _lblFrequency.BackgroundColor = UIColor.Clear;
             _lblFrequency.TextColor = UIColor.White;
             _lblFrequency.Font = UIFont.FromName("HelveticaNeue-Light", 12.0f);
 
-            _lblValue = new UILabel(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60 - 14, 4, 60, 36));
+            _lblValue = new UILabel(new CGRect(UIScreen.MainScreen.Bounds.Width - 60 - 14, 4, 60, 36));
             _lblValue.BackgroundColor = UIColor.Clear;
             _lblValue.Text = "0.0 dB";
             _lblValue.TextColor = UIColor.White;
             _lblValue.TextAlignment = UITextAlignment.Right;
             _lblValue.Font = UIFont.FromName("HelveticaNeue-Light", 12.0f);
 
-            _slider = new UISlider(new RectangleF(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
+            _slider = new UISlider(new CGRect(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
             _slider.MinValue = -6;
             _slider.MaxValue = 6;
             _slider.Value = 0;
@@ -91,9 +91,9 @@ namespace Sessions.iOS.Classes.Controls
 			base.LayoutSubviews();
 
 			var screenSize = UIKitHelper.GetDeviceSize();
-			_lblFrequency.Frame = new RectangleF(12, 4, 60, 36);
-			_lblValue.Frame = new RectangleF(screenSize.Width - 60 - 14, 4, 60, 36);
-			_slider.Frame = new RectangleF(62, 4, screenSize.Width - 120 - 14, 36);
+			_lblFrequency.Frame = new CGRect(12, 4, 60, 36);
+			_lblValue.Frame = new CGRect(screenSize.Width - 60 - 14, 4, 60, 36);
+			_slider.Frame = new CGRect(62, 4, screenSize.Width - 120 - 14, 36);
 		}
 
         protected virtual void OnValueChanged(SessionsEqualizerFaderValueChangedEventArgs e)

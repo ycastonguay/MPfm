@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
 using Sessions.GenericControls.Graphics;
-using MonoTouch.UIKit;
-using System.Drawing;
+using UIKit;
+using CoreGraphics;
 using Sessions.GenericControls.Basics;
 
 namespace Sessions.iOS.Classes.Controls.Graphics

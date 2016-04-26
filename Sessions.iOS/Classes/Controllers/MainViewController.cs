@@ -21,12 +21,12 @@ using Sessions.Library.Objects;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Delegates;
 using Sessions.iOS.Classes.Objects;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -77,9 +77,9 @@ namespace Sessions.iOS.Classes.Controllers
 			{
 				var viewCtrl = notificationViews[i].Item1;
 				float height = (i + 1) * 54;
-				viewCtrl.View.Frame = new RectangleF(0, View.Bounds.Height - height, View.Bounds.Width, 54);
+				viewCtrl.View.Frame = new CGRect(0, View.Bounds.Height - height, View.Bounds.Width, 54);
 			}
-			TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViews.Count * 54));
+			TabBarController.View.Frame = new CGRect(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViews.Count * 54));
 		}
 
 		public void AddViewController(UIViewController viewController, MobileDialogPresentationType presentationType)
@@ -119,15 +119,15 @@ namespace Sessions.iOS.Classes.Controllers
 			switch (presentationType)
 			{
 				case MobileDialogPresentationType.Overlay:
-					view.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height);
+					view.Frame = new CGRect(0, 0, View.Bounds.Width, View.Bounds.Height);
 					break;
 				case MobileDialogPresentationType.NotificationBar:
-					view.Frame = new RectangleF(0, View.Bounds.Height, View.Bounds.Width, 54);
+					view.Frame = new CGRect(0, View.Bounds.Height, View.Bounds.Width, 54);
 					break;
 				case MobileDialogPresentationType.TabBar:
 					//view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height, TabBarController.View.Bounds.Width, 54);
 					float tabBarHeight = 49;
-					view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
+					view.Frame = new CGRect(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
 					view.Alpha = 1;
 					break;
 			}
@@ -143,14 +143,14 @@ namespace Sessions.iOS.Classes.Controllers
 						{
 							_isAnimating = true;
 							view.Alpha = 1;
-							view.Frame = new RectangleF(0, View.Bounds.Height - (notificationViewCount * 54), View.Bounds.Width, 54);
-							TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViewCount * 54));
+							view.Frame = new CGRect(0, View.Bounds.Height - (notificationViewCount * 54), View.Bounds.Width, 54);
+							TabBarController.View.Frame = new CGRect(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViewCount * 54));
 						}, () => _isAnimating = false);
 					break;
 				case MobileDialogPresentationType.TabBar:
 							float tabBarHeight = 49;
 							view.Alpha = 1;
-							view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
+							view.Frame = new CGRect(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
 
 //					UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
 //						{
@@ -173,8 +173,8 @@ namespace Sessions.iOS.Classes.Controllers
 			UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 				_isAnimating = true;
 				//viewController.View.Alpha = 0;
-				viewController.View.Frame = new RectangleF(0, View.Bounds.Height, View.Bounds.Width, 54);
-				TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height);
+				viewController.View.Frame = new CGRect(0, View.Bounds.Height, View.Bounds.Width, 54);
+				TabBarController.View.Frame = new CGRect(0, 0, View.Bounds.Width, View.Bounds.Height);
 			}, () => {
 				_isAnimating = false;
 				_viewControllers.Remove(item);

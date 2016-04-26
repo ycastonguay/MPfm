@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using DropBoxSync.iOS;
+//using DropBoxSync.iOS;
 using Sessions.Core;
 using Sessions.Library;
 using Sessions.Library.Objects;
@@ -28,8 +28,8 @@ using Sessions.Library.Services.Interfaces;
 using Sessions.MVP.Bootstrap;
 using Sessions.Sound.AudioFiles;
 using Sessions.Sound.Playlists;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,8 +45,8 @@ namespace Sessions.iOS.Classes.Services
         private string _dropboxAppSecret = "2azbuj2eelkranm";
 
 		//private DBDatastore _store;
-        private DBFilesystem _fileSystem;
-		private List<DBFile> _watchedFiles;
+        //private DBFilesystem _fileSystem;
+		//private List<DBFile> _watchedFiles;
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
@@ -57,7 +57,8 @@ namespace Sessions.iOS.Classes.Services
         {
             get
             {
-                return DBAccountManager.SharedManager.LinkedAccount != null;
+                return false;
+                //return DBAccountManager.SharedManager.LinkedAccount != null;
             }
         }
 
@@ -68,87 +69,87 @@ namespace Sessions.iOS.Classes.Services
 
         private void Initialize()
         {
-			_watchedFiles = new List<DBFile>();
-
-            var manager = new DBAccountManager(_dropboxAppKey, _dropboxAppSecret);
-            DBAccountManager.SharedManager = manager;
-
-            // Check if user is logged in 
-            var account = DBAccountManager.SharedManager.LinkedAccount;
-            if (account == null)
-                return;
-
-//            if (_store != null && _store.Open)
+//			_watchedFiles = new List<DBFile>();
+//
+//            var manager = new DBAccountManager(_dropboxAppKey, _dropboxAppSecret);
+//            DBAccountManager.SharedManager = manager;
+//
+//            // Check if user is logged in 
+//            var account = DBAccountManager.SharedManager.LinkedAccount;
+//            if (account == null)
 //                return;
 //
-//            DBError error = null;
-//            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
-//            if(error != null)
-//                throw new Exception(error.Description);
-
-            _fileSystem = new DBFilesystem(account);
-            DBFilesystem.SharedFilesystem = _fileSystem;
-
-//			_fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
-//				Console.WriteLine("iOSDropboxService - FileSystem - Data changed!");
-////                if(OnCloudDataChanged != null)
-////                    OnCloudDataChanged(string.Empty);
-//            });
-
-//            _store.AddObserver (_store, () => {
-//                Console.WriteLine("SyncCloudViewController - DBDatastore - Data changed!");
-//                if (_store.Status.HasFlag(DBDatastoreStatus.Incoming)) {
-//                    // Handle the updated data
-//                    Console.WriteLine("SyncCloudViewController - DBDatastore - Incoming data!");
-//                    try
-//                    {
-//                        DBError error2 = null;
-//                        var changes = _store.Sync(error2);
-//                        if(error2 != null)
-//                            throw new Exception(error2.Description);
+////            if (_store != null && _store.Open)
+////                return;
+////
+////            DBError error = null;
+////            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
+////            if(error != null)
+////                throw new Exception(error.Description);
 //
-//                        if (!changes.ContainsKey(new NSString("stuff")))
-//                            return;
+//            _fileSystem = new DBFilesystem(account);
+//            DBFilesystem.SharedFilesystem = _fileSystem;
 //
-//                        var records = (NSSet)changes["stuff"];
-//                        foreach(var record in records)
-//                        {
-//                            var theRecord = (DBRecord)record;
-//                            var timestamp = theRecord.ObjectForKey("timestamp");
-//                            var deviceType = theRecord.ObjectForKey("deviceType");
-//                            var deviceName = theRecord.ObjectForKey("deviceName");
-//                            //lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
-//                        }
-//                    }
-//                    catch (Exception ex)
-//                    {
-//                        Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
-//                        //lblValue.Text = string.Format("Error: {0}", ex);
-//                    }
-//                }
-//            });
+////			_fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
+////				Console.WriteLine("iOSDropboxService - FileSystem - Data changed!");
+//////                if(OnCloudDataChanged != null)
+//////                    OnCloudDataChanged(string.Empty);
+////            });
+//
+////            _store.AddObserver (_store, () => {
+////                Console.WriteLine("SyncCloudViewController - DBDatastore - Data changed!");
+////                if (_store.Status.HasFlag(DBDatastoreStatus.Incoming)) {
+////                    // Handle the updated data
+////                    Console.WriteLine("SyncCloudViewController - DBDatastore - Incoming data!");
+////                    try
+////                    {
+////                        DBError error2 = null;
+////                        var changes = _store.Sync(error2);
+////                        if(error2 != null)
+////                            throw new Exception(error2.Description);
+////
+////                        if (!changes.ContainsKey(new NSString("stuff")))
+////                            return;
+////
+////                        var records = (NSSet)changes["stuff"];
+////                        foreach(var record in records)
+////                        {
+////                            var theRecord = (DBRecord)record;
+////                            var timestamp = theRecord.ObjectForKey("timestamp");
+////                            var deviceType = theRecord.ObjectForKey("deviceType");
+////                            var deviceName = theRecord.ObjectForKey("deviceName");
+////                            //lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
+////                        }
+////                    }
+////                    catch (Exception ex)
+////                    {
+////                        Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
+////                        //lblValue.Text = string.Format("Error: {0}", ex);
+////                    }
+////                }
+////            });
         }
 
         public void LinkApp(object view)
         {
-            using (NSAutoreleasePool pool = new NSAutoreleasePool())
-            {
-                pool.InvokeOnMainThread(() =>
-                {
-                    var account = DBAccountManager.SharedManager.LinkedAccount;
-                    if (account == null)
-                    {
-                        DBAccountManager.SharedManager.LinkFromController((UIViewController)view);
-                    }
-                });
-            }
+//            using (NSAutoreleasePool pool = new NSAutoreleasePool())
+//            {
+//                pool.InvokeOnMainThread(() =>
+//                {
+//                    var account = DBAccountManager.SharedManager.LinkedAccount;
+//                    if (account == null)
+//                    {
+//                        DBAccountManager.SharedManager.LinkFromController((UIViewController)view);
+//                    }
+//                });
+//            }
         }
 
         public void UnlinkApp()
         {
-            var account = DBAccountManager.SharedManager.LinkedAccount;
-            if (account.Linked)
-                account.Unlink();
+//            var account = DBAccountManager.SharedManager.LinkedAccount;
+//            if (account.Linked)
+//                account.Unlink();
         }
 
         public void ContinueLinkApp()
@@ -165,86 +166,90 @@ namespace Sessions.iOS.Classes.Services
             }
         }
 
-        public static DateTime NSDateToDateTime(MonoTouch.Foundation.NSDate date)
+        public static DateTime NSDateToDateTime(Foundation.NSDate date)
         {
             return (new DateTime(2001,1,1,0,0,0)).AddSeconds(date.SecondsSinceReferenceDate);
         }
 
 		public void CreateFolder(string path)
 		{
-			ThrowExceptionIfAppNotLinked();
-
-			DBError error = null;
-			var dbPath = new DBPath(path);
-			_fileSystem.CreateFolder(dbPath, out error);
-			if(error != null)
-				throw new Exception(error.Description);
+//			ThrowExceptionIfAppNotLinked();
+//
+//			DBError error = null;
+//			var dbPath = new DBPath(path);
+//			_fileSystem.CreateFolder(dbPath, out error);
+//			if(error != null)
+//				throw new Exception(error.Description);
 		}
 
 		public bool FileExists(string path)
 		{
-			ThrowExceptionIfAppNotLinked();
+//			ThrowExceptionIfAppNotLinked();
+//
+//			// Unlike the Android SDK, there is no method to check if a file exists... 
+//			DBError error = null;
+//			DBPath dbPath = new DBPath(path);
+//			var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
+//			if(error != null)
+//				throw new Exception(error.Description);
+//
+//			return fileInfo != null;
 
-			// Unlike the Android SDK, there is no method to check if a file exists... 
-			DBError error = null;
-			DBPath dbPath = new DBPath(path);
-			var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
-			if(error != null)
-				throw new Exception(error.Description);
-
-			return fileInfo != null;
+            return false;
 		}
 
 		public List<string> ListFiles(string path, string extension)
 		{
-			ThrowExceptionIfAppNotLinked();
+//			ThrowExceptionIfAppNotLinked();
+//
+//			DBError error = null;
+//			var fileInfos = _fileSystem.ListFolder(new DBPath("/Devices"), out error);
+//			if(error != null)
+//				throw new Exception(error.Description);
+//
+//			var files = fileInfos.Select(x => x.Path.Name).ToList();
+//			return files;
 
-			DBError error = null;
-			var fileInfos = _fileSystem.ListFolder(new DBPath("/Devices"), out error);
-			if(error != null)
-				throw new Exception(error.Description);
-
-			var files = fileInfos.Select(x => x.Path.Name).ToList();
-			return files;
+            return new List<string>();
 		}
 
 		public void WatchFolder(string path)
 		{
-			ThrowExceptionIfAppNotLinked();
-
-			//Console.WriteLine("iOSDropboxService - Watching folder {0}", path);
-			_fileSystem.AddObserverForPathAndChildren(this, new DBPath(path), () => {
-				//Console.WriteLine("iOSDropboxService - FileSystem - Data changed on {0}", path);
-				if(OnCloudPathChanged != null)
-					OnCloudPathChanged(path);
-			});
+//			ThrowExceptionIfAppNotLinked();
+//
+//			//Console.WriteLine("iOSDropboxService - Watching folder {0}", path);
+//			_fileSystem.AddObserverForPathAndChildren(this, new DBPath(path), () => {
+//				//Console.WriteLine("iOSDropboxService - FileSystem - Data changed on {0}", path);
+//				if(OnCloudPathChanged != null)
+//					OnCloudPathChanged(path);
+//			});
 		}
 
 		public void StopWatchFolder(string path)
 		{
-			ThrowExceptionIfAppNotLinked();
-
-			//Console.WriteLine("iOSDropboxService - Removing watch on folder {0}", path);
-			//_fileSystem.RemoveObserver(_fileSystem, new NSString(path));
-			_fileSystem.RemoveObserver(this);
+//			ThrowExceptionIfAppNotLinked();
+//
+//			//Console.WriteLine("iOSDropboxService - Removing watch on folder {0}", path);
+//			//_fileSystem.RemoveObserver(_fileSystem, new NSString(path));
+//			_fileSystem.RemoveObserver(this);
 		}
 
 		public void WatchFile(string path)
 		{
-			ThrowExceptionIfAppNotLinked();
-
-			DBError error = null;
-			var dbPath = new DBPath(path);
-			var file = _fileSystem.OpenFile(dbPath, out error);
-			if (error != null)
-				throw new Exception(error.Description);
-			if (file == null)
-				return;
-
-			file.AddObserver(this, () => {
-				ProcessWatchedFile(file, path);
-			});
-			_watchedFiles.Add(file);
+//			ThrowExceptionIfAppNotLinked();
+//
+//			DBError error = null;
+//			var dbPath = new DBPath(path);
+//			var file = _fileSystem.OpenFile(dbPath, out error);
+//			if (error != null)
+//				throw new Exception(error.Description);
+//			if (file == null)
+//				return;
+//
+//			file.AddObserver(this, () => {
+//				ProcessWatchedFile(file, path);
+//			});
+//			_watchedFiles.Add(file);
 
 		}
 
@@ -254,166 +259,166 @@ namespace Sessions.iOS.Classes.Services
 
 		public void DownloadFile(string path)
 		{
-			ThrowExceptionIfAppNotLinked();
-
-			try
-			{
-				Task.Factory.StartNew(() =>
-				{
-					DBError error = null;
-					DBFile file = null;
-					var dbPath = new DBPath(path);
-
-					file = _fileSystem.OpenFile(dbPath, out error);
-					if (error != null)
-						throw new Exception(error.Description);
-
-						if(file.NewerStatus == null)
-						{
-							byte[] bytes = null;
-							try
-							{
-								//Tracing.Log("iOSDropboxService - DownloadFile - File is already latest version; getting {0}", path);
-								var data = file.ReadData(out error);
-								if (error != null)
-									throw new Exception(error.Description);
-
-								bytes = new byte[data.Length];
-								System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
-							}
-							finally
-							{
-								if (file != null)
-									file.Close();
-							}
-
-							if (OnCloudFileDownloaded != null)
-								OnCloudFileDownloaded(path, bytes);
-						}
-						else
-						{
-							//Tracing.Log("iOSDropboxService - DownloadFile - File needs to be updated; adding observer to {0}", path);
-							_watchedFiles.Add(file);
-							file.AddObserver(this, () => {
-								ProcessWatchedFile(file, path);
-							});
-						}
-				});
-			}
-			catch(AggregateException ae)
-			{
-				ae.Handle((ex) =>
-				{
-					return false;
-				});
-			}
+//			ThrowExceptionIfAppNotLinked();
+//
+//			try
+//			{
+//				Task.Factory.StartNew(() =>
+//				{
+//					DBError error = null;
+//					DBFile file = null;
+//					var dbPath = new DBPath(path);
+//
+//					file = _fileSystem.OpenFile(dbPath, out error);
+//					if (error != null)
+//						throw new Exception(error.Description);
+//
+//						if(file.NewerStatus == null)
+//						{
+//							byte[] bytes = null;
+//							try
+//							{
+//								//Tracing.Log("iOSDropboxService - DownloadFile - File is already latest version; getting {0}", path);
+//								var data = file.ReadData(out error);
+//								if (error != null)
+//									throw new Exception(error.Description);
+//
+//								bytes = new byte[data.Length];
+//								System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+//							}
+//							finally
+//							{
+//								if (file != null)
+//									file.Close();
+//							}
+//
+//							if (OnCloudFileDownloaded != null)
+//								OnCloudFileDownloaded(path, bytes);
+//						}
+//						else
+//						{
+//							//Tracing.Log("iOSDropboxService - DownloadFile - File needs to be updated; adding observer to {0}", path);
+//							_watchedFiles.Add(file);
+//							file.AddObserver(this, () => {
+//								ProcessWatchedFile(file, path);
+//							});
+//						}
+//				});
+//			}
+//			catch(AggregateException ae)
+//			{
+//				ae.Handle((ex) =>
+//				{
+//					return false;
+//				});
+//			}
 		}
 
-		private void ProcessWatchedFile(DBFile file, string filePath)
-		{
-			//Tracing.Log("iOSDropboxService - DownloadFile - File changed - {0}", filePath);
-			DBError error = null;
-			DBFileStatus status = file.NewerStatus;
-
-			// If file.NewerStatus is null, the file hasn't changed.
-			if (status == null) return;
-
-			if (status.Cached) 
-			{
-				//Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is cached; updating {0}", filePath);
-				file.Update(out error);
-				if (error != null)
-					throw new Exception(error.Description);
-
-				byte[] bytes = null;
-				try
-				{
-					var data = file.ReadData(out error);
-					if (error != null)
-						throw new Exception(error.Description);
-
-					bytes = new byte[data.Length];
-					System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
-				}
-				finally
-				{
-					// Do we really need to close here? Or CloseAllFiles?
-					if (file != null)
-						file.Close();
-				}
-
-				if (OnCloudFileDownloaded != null)
-					OnCloudFileDownloaded(filePath, bytes);
-			} 
-			else
-			{
-				// The file is still downloading
-				//Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is still downloading {0}", filePath);
-			}
-		}
+//		private void ProcessWatchedFile(DBFile file, string filePath)
+//		{
+//			//Tracing.Log("iOSDropboxService - DownloadFile - File changed - {0}", filePath);
+//			DBError error = null;
+//			DBFileStatus status = file.NewerStatus;
+//
+//			// If file.NewerStatus is null, the file hasn't changed.
+//			if (status == null) return;
+//
+//			if (status.Cached) 
+//			{
+//				//Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is cached; updating {0}", filePath);
+//				file.Update(out error);
+//				if (error != null)
+//					throw new Exception(error.Description);
+//
+//				byte[] bytes = null;
+//				try
+//				{
+//					var data = file.ReadData(out error);
+//					if (error != null)
+//						throw new Exception(error.Description);
+//
+//					bytes = new byte[data.Length];
+//					System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+//				}
+//				finally
+//				{
+//					// Do we really need to close here? Or CloseAllFiles?
+//					if (file != null)
+//						file.Close();
+//				}
+//
+//				if (OnCloudFileDownloaded != null)
+//					OnCloudFileDownloaded(filePath, bytes);
+//			} 
+//			else
+//			{
+//				// The file is still downloading
+//				//Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is still downloading {0}", filePath);
+//			}
+//		}
 
 		public void UploadFile(string path, byte[] data)
 		{
-			ThrowExceptionIfAppNotLinked();
-
-			try
-			{
-				Task.Factory.StartNew(() =>
-				{
-					DBError error = null;
-					DBFile file = null;
-					var dbPath = new DBPath(path);
-
-					try
-					{
-						// Unlike the Android SDK, there is no method to check if a file exists... 
-						var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
-//						if (error != null) // Ignore error; API always returns 2002 error when the file doesn't exist
+//			ThrowExceptionIfAppNotLinked();
+//
+//			try
+//			{
+//				Task.Factory.StartNew(() =>
+//				{
+//					DBError error = null;
+//					DBFile file = null;
+//					var dbPath = new DBPath(path);
+//
+//					try
+//					{
+//						// Unlike the Android SDK, there is no method to check if a file exists... 
+//						var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
+////						if (error != null) // Ignore error; API always returns 2002 error when the file doesn't exist
+////							throw new Exception(error.Description);
+//
+//						if (fileInfo == null)
+//							file = _fileSystem.CreateFile(dbPath, out error);
+//						else
+//							file = _fileSystem.OpenFile(dbPath, out error);
+//						if (error != null)
 //							throw new Exception(error.Description);
-
-						if (fileInfo == null)
-							file = _fileSystem.CreateFile(dbPath, out error);
-						else
-							file = _fileSystem.OpenFile(dbPath, out error);
-						if (error != null)
-							throw new Exception(error.Description);
-
-						NSData nsData = NSData.FromArray(data);
-						file.WriteData(nsData, out error);
-						if (error != null)
-							throw new Exception(error.Description);
-					}
-					finally
-					{
-						if (file != null)
-							file.Close();
-					}
-				});
-			}
-			catch(AggregateException ae)
-			{
-				ae.Handle((ex) =>
-				{
-					return false;
-				});
-			}
+//
+//						NSData nsData = NSData.FromArray(data);
+//						file.WriteData(nsData, out error);
+//						if (error != null)
+//							throw new Exception(error.Description);
+//					}
+//					finally
+//					{
+//						if (file != null)
+//							file.Close();
+//					}
+//				});
+//			}
+//			catch(AggregateException ae)
+//			{
+//				ae.Handle((ex) =>
+//				{
+//					return false;
+//				});
+//			}
 
 		}
 
 		public void CloseAllFiles()
 		{
-			foreach (var file in _watchedFiles)
-			{
-				file.RemoveObserver(this);
-				file.Close();                
-			}
-			_watchedFiles.Clear();
+//			foreach (var file in _watchedFiles)
+//			{
+//				file.RemoveObserver(this);
+//				file.Close();                
+//			}
+//			_watchedFiles.Clear();
 		}
 
 		private void ThrowExceptionIfAppNotLinked()
 		{
-			if(_fileSystem == null)
-				throw new CloudAppNotLinkedException();
+//			if(_fileSystem == null)
+//				throw new CloudAppNotLinkedException();
 		}
 
 //        public IEnumerable<T> SyncFolder<T>(string path)

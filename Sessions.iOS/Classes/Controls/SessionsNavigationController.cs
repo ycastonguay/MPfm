@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using org.sessionsapp.player;
 using Sessions.iOS.Classes.Controllers;
 using Sessions.iOS.Classes.Controllers.Base;
@@ -76,7 +76,7 @@ namespace Sessions.iOS.Classes.Controls
             });
 
             // Create controls
-            _lblTitle = new UILabel(new RectangleF(60, 4, UIScreen.MainScreen.Bounds.Width - 120, 20));
+            _lblTitle = new UILabel(new CGRect(60, 4, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.BackgroundColor = UIColor.Clear;
             _lblTitle.Text = "";
@@ -91,7 +91,7 @@ namespace Sessions.iOS.Classes.Controls
 
             _btnBack = new SessionsFlatButton();
             _btnBack.Alpha = 0;
-            _btnBack.Frame = new RectangleF(0, 0, 70, 44);
+            _btnBack.Frame = new CGRect(0, 0, 70, 44);
             _btnBack.OnButtonClick += () =>  {
 
                 var viewController = (BaseViewController)VisibleViewController;
@@ -106,7 +106,7 @@ namespace Sessions.iOS.Classes.Controls
                                 viewController.ConfirmedBackButton();
                                 _confirmedViewPop = true;
 								Console.WriteLine("NavCtrl - PopViewController A");
-                                PopViewControllerAnimated(true);
+                                PopViewController(true);
                                 break;
                             default:
                                 break;
@@ -120,31 +120,31 @@ namespace Sessions.iOS.Classes.Controls
                 if(ViewControllers.Length > 1)
 				{
 					Console.WriteLine("NavCtrl - PopViewController B");
-                    PopViewControllerAnimated(true);
+                    PopViewController(true);
 				}
             };
 
             _btnPlaylist = new SessionsFlatButton();
             _btnPlaylist.LabelAlignment = UIControlContentHorizontalAlignment.Right;
-			_btnPlaylist.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 80, 0, 80, 44);
+			_btnPlaylist.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 80, 0, 80, 44);
             _btnPlaylist.Alpha = 0;
             _btnPlaylist.Label.TextAlignment = UITextAlignment.Right;
 			_btnPlaylist.Label.Text = "Playlist";
-			_btnPlaylist.Label.Frame = new RectangleF(0, 0, 54, 44);
+			_btnPlaylist.Label.Frame = new CGRect(0, 0, 54, 44);
             _btnPlaylist.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
-			_btnPlaylist.ImageChevron.Frame = new RectangleF(80 - 22, 0, 22, 44);
+			_btnPlaylist.ImageChevron.Frame = new CGRect(80 - 22, 0, 22, 44);
             _btnPlaylist.OnButtonClick += () => {
 				_messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlaylistView));
             };
 
             _btnNowPlaying = new SessionsFlatButton();
             _btnNowPlaying.LabelAlignment = UIControlContentHorizontalAlignment.Right;
-            _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
+            _btnNowPlaying.Frame = new CGRect(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
             _btnNowPlaying.Alpha = 0;
             _btnNowPlaying.Label.TextAlignment = UITextAlignment.Right;
-            _btnNowPlaying.Label.Frame = new RectangleF(0, 0, 44, 44);
+            _btnNowPlaying.Label.Frame = new CGRect(0, 0, 44, 44);
             _btnNowPlaying.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
-            _btnNowPlaying.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
+            _btnNowPlaying.ImageChevron.Frame = new CGRect(70 - 22, 0, 22, 44);
             _btnNowPlaying.Label.Text = "Player";
             _btnNowPlaying.OnButtonClick += () => {
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
@@ -162,9 +162,9 @@ namespace Sessions.iOS.Classes.Controls
             base.ViewDidLayoutSubviews();
 
             var screenSize = UIKitHelper.GetDeviceSize();
-            _btnBack.Frame = new RectangleF(0, 0, 70, 44);
-			_btnPlaylist.Frame = new RectangleF(screenSize.Width - 80, 0, 80, 44);
-            _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
+            _btnBack.Frame = new CGRect(0, 0, 70, 44);
+			_btnPlaylist.Frame = new CGRect(screenSize.Width - 80, 0, 80, 44);
+            _btnNowPlaying.Frame = new CGRect(screenSize.Width - 70, 0, 70, 44);
             SetTitleFrame();
         }
         
@@ -174,7 +174,7 @@ namespace Sessions.iOS.Classes.Controls
                 ViewDismissedEvent(this, e);
         }
 
-        public override void DismissViewController(bool animated, NSAction completionHandler)
+        public override void DismissViewController(bool animated, Action completionHandler)
         {
             base.DismissViewController(animated, completionHandler);
             OnViewDismissed(new EventArgs());
@@ -188,14 +188,14 @@ namespace Sessions.iOS.Classes.Controls
                 if(_isPlayerPlaying && _viewShouldShowPlayerButton)
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
+                        _btnNowPlaying.Frame = new CGRect(screenSize.Width - 70, 0, 70, 44);
                         _btnNowPlaying.Alpha = 1;
                     });
                 }
                 else if(!_viewShouldShowPlayerButton)
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnNowPlaying.Frame = new RectangleF(screenSize.Width, 0, 70, 44);
+                        _btnNowPlaying.Frame = new CGRect(screenSize.Width, 0, 70, 44);
                         _btnNowPlaying.Alpha = 0;
                     });
                 }
@@ -203,14 +203,14 @@ namespace Sessions.iOS.Classes.Controls
                 if(_viewShouldShowEffectsButton)
                 {
                     UIView.Animate(0.2f, () => {
-						_btnPlaylist.Frame = new RectangleF(screenSize.Width - 80, 0, 80, 44);
+						_btnPlaylist.Frame = new CGRect(screenSize.Width - 80, 0, 80, 44);
                         _btnPlaylist.Alpha = 1;
                     });
                 }
                 else
                 {
                     UIView.Animate(0.2f, () => {
-						_btnPlaylist.Frame = new RectangleF(screenSize.Width, 0, 80, 44);
+						_btnPlaylist.Frame = new CGRect(screenSize.Width, 0, 80, 44);
                         _btnPlaylist.Alpha = 0;
                     });
                 }
@@ -248,9 +248,9 @@ namespace Sessions.iOS.Classes.Controls
 
             if (ViewControllers.Length == 2)
             {
-                _btnBack.Frame = new RectangleF(50, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                _btnBack.Frame = new CGRect(50, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                 UIView.Animate(0.2, () => { 
-                    _btnBack.Frame = new RectangleF(0, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                    _btnBack.Frame = new CGRect(0, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                     _btnBack.Alpha = 1;
                 });
             }
@@ -267,9 +267,9 @@ namespace Sessions.iOS.Classes.Controls
 
             if (ViewControllers.Length == 1)
             {
-                _btnBack.Frame = new RectangleF(0, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                _btnBack.Frame = new CGRect(0, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                 UIView.Animate(0.2, () => { 
-                    _btnBack.Frame = new RectangleF(50, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                    _btnBack.Frame = new CGRect(50, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                     _btnBack.Alpha = 0;
                 });
             }
@@ -317,7 +317,7 @@ namespace Sessions.iOS.Classes.Controls
 
             if (string.IsNullOrEmpty(iconName))
             {
-                _lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
+                _lblTitle.Frame = new CGRect(78, 0, screenSize.Width - 156, 44);
                 _imageViewIcon.Image = null;
             }
             else
@@ -343,18 +343,18 @@ namespace Sessions.iOS.Classes.Controls
 
             if (_imageViewIcon.Image == null)
             {
-                _lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
+                _lblTitle.Frame = new CGRect(78, 0, screenSize.Width - 156, 44);
             }
             else
             {
                 UIGraphics.BeginImageContextWithOptions(View.Frame.Size, true, 0);
                 var context = UIGraphics.GetCurrentContext();
-                float width = CoreGraphicsHelper.MeasureStringWidth(context, _lblTitle.Text, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
+                nfloat width = CoreGraphicsHelper.MeasureStringWidth(context, _lblTitle.Text, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
                 UIGraphics.EndImageContext();
 
-                float titleWidth = width > screenSize.Width - 156 - 24 ? screenSize.Width - 156 - 24 : width;
-                _lblTitle.Frame = new RectangleF((screenSize.Width - titleWidth + 24) / 2, 0, titleWidth, 44);
-                _imageViewIcon.Frame = new RectangleF(((screenSize.Width - titleWidth + 24) / 2) - 24, 14, 16, 16);
+                nfloat titleWidth = width > screenSize.Width - 156 - 24 ? screenSize.Width - 156 - 24 : width;
+                _lblTitle.Frame = new CGRect((screenSize.Width - titleWidth + 24) / 2, 0, titleWidth, 44);
+                _imageViewIcon.Frame = new CGRect(((screenSize.Width - titleWidth + 24) / 2) - 24, 14, 16, 16);
             }
         }
     }

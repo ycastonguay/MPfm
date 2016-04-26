@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 
@@ -41,7 +41,7 @@ namespace Sessions.iOS.Classes.Controls.Buttons
             Initialize();
         }
 
-		public SessionsSecondaryMenuButton(RectangleF frame)
+		public SessionsSecondaryMenuButton(CGRect frame)
 			: base(frame)
 		{
 			Initialize();
@@ -83,8 +83,8 @@ namespace Sessions.iOS.Classes.Controls.Buttons
 
 			if (_isTextLabelAllowedToChangeFrame)
 			{
-				ImageView.Frame = new RectangleF((Bounds.Width - 30f) / 2f, 8, 30, 30);
-				TitleLabel.Frame = new RectangleF(0, Bounds.Height - 30, Bounds.Width, 30);
+				ImageView.Frame = new CGRect((Bounds.Width - 30f) / 2f, 8, 30, 30);
+				TitleLabel.Frame = new CGRect(0, Bounds.Height - 30, Bounds.Width, 30);
 			}
         }
 

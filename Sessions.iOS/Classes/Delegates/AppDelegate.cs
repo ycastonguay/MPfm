@@ -19,8 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DropBoxSync.iOS;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using Sessions.GenericControls.Graphics;
 using Sessions.GenericControls.Services;
 using Sessions.GenericControls.Services.Interfaces;
@@ -39,7 +39,7 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
 using TinyMessenger;
-using System.Drawing;
+using CoreGraphics;
 
 namespace Sessions.iOS.Classes.Delegates
 {
@@ -82,6 +82,9 @@ namespace Sessions.iOS.Classes.Delegates
 				_window.TintColor = GlobalTheme.SecondaryColor;
 			}
 
+            var testVC = new UIViewController();
+            _window.RootViewController = testVC;
+
 			// Start navigation manager
 			_navigationManager = (iOSNavigationManager)container.Resolve<MobileNavigationManager>();
 			_navigationManager.AppDelegate = this;
@@ -99,7 +102,8 @@ namespace Sessions.iOS.Classes.Delegates
         {
             // Complete IoC configuration
             var container = Bootstrapper.GetContainer();
-            _messageHub = container.Resolve<ITinyMessengerHub>();
+            container.Register<ITinyMessengerHub, TinyMessengerHub>().AsSingleton();
+            container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
 			container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
             container.Register<NowPlayingInfoService>().AsSingleton();
@@ -147,6 +151,9 @@ namespace Sessions.iOS.Classes.Delegates
 			container.Register<IQueueView, QueueViewController>().AsMultiInstance();
             container.Register<ISelectAlbumArtView, SelectAlbumArtViewController>().AsMultiInstance();
             container.Register<IFirstRunView, FirstRunViewController>().AsMultiInstance();
+
+            //var testy = container.Resolve<NowPlayingInfoService>();
+            _messageHub = container.Resolve<ITinyMessengerHub>();
         }
 
         public void ShowFirstRun(FirstRunViewController viewController)
@@ -287,26 +294,26 @@ namespace Sessions.iOS.Classes.Delegates
 			_mainViewController.RemoveViewController(viewController);
 		}
 
-        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
-        {
-            Console.WriteLine("AppDelegate - OpenUrl");
-            var cloudService = Bootstrapper.GetContainer().Resolve<ICloudService>();
-            var account = DBAccountManager.SharedManager.HandleOpenURL(url);
-            if (account != null) 
-            {
-                Console.WriteLine("AppDelegate - OpenUrl - Dropbox linked successfully!");
-                var filesystem = new DBFilesystem(account);
-                DBFilesystem.SharedFilesystem = filesystem;
-                cloudService.ContinueLinkApp();
-                return true;
-            } 
-            else 
-            {
-                Console.WriteLine("AppDelegate - OpenUrl - Dropbox is not linked!");
-                cloudService.ContinueLinkApp();
-                return false;
-            }
-        }
+//        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+//        {
+//            Console.WriteLine("AppDelegate - OpenUrl");
+////            var cloudService = Bootstrapper.GetContainer().Resolve<ICloudService>();
+////            var account = DBAccountManager.SharedManager.HandleOpenURL(url);
+////            if (account != null) 
+////            {
+////                Console.WriteLine("AppDelegate - OpenUrl - Dropbox linked successfully!");
+////                var filesystem = new DBFilesystem(account);
+////                DBFilesystem.SharedFilesystem = filesystem;
+////                cloudService.ContinueLinkApp();
+////                return true;
+////            } 
+////            else 
+////            {
+////                Console.WriteLine("AppDelegate - OpenUrl - Dropbox is not linked!");
+////                cloudService.ContinueLinkApp();
+////                return false;
+////            }
+//        }
 
         public override void OnActivated(UIApplication application)
         {

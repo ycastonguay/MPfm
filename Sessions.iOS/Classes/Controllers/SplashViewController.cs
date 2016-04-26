@@ -16,15 +16,15 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
 using Sessions.iOS.Helpers;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
 using System.IO;
 using Sessions.Core.Helpers;
 using System.Collections.Generic;
@@ -57,8 +57,8 @@ namespace Sessions.iOS.Classes.Controllers
             lblStatus.Alpha = 0;
             activityIndicator.Alpha = 0;
             activityIndicator.StartAnimating();
-			activityIndicator.Frame = new RectangleF(activityIndicator.Frame.X, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
-            lblStatus.Frame = new RectangleF(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
+			activityIndicator.Frame = new CGRect(activityIndicator.Frame.X, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
+            lblStatus.Frame = new CGRect(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
 
 			LoadBackgroundImages();
 			BuildAlbumArtBackground();
@@ -111,7 +111,7 @@ namespace Sessions.iOS.Classes.Controllers
 				for (int b = 0; b < numberOfItemsWidth; b++)
 				{
 					var view = new UIImageView();
-					view.Frame = new RectangleF(width * 2, height, albumSize, albumSize);
+					view.Frame = new CGRect(width * 2, height, albumSize, albumSize);
 					view.Alpha = 0;
 					View.AddSubview(view);
 					View.BringSubviewToFront(activityIndicator);
@@ -142,7 +142,7 @@ namespace Sessions.iOS.Classes.Controllers
 				UIView.Animate(0.2, delay, UIViewAnimationOptions.CurveEaseIn, () =>
 					{
 						view.Transform = CGAffineTransform.MakeRotation((float)Math.PI / 4f);
-						view.Center = new PointF(x, y);
+						view.Center = new CGPoint(x, y);
 						view.Alpha = 0.125f;
 					}, null);		
 			});
@@ -169,15 +169,15 @@ namespace Sessions.iOS.Classes.Controllers
 				float padding = 10;
 				UIGraphics.BeginImageContextWithOptions(lblStatus.Bounds.Size, true, 0);
 	            var context = UIGraphics.GetCurrentContext();
-				float width = CoreGraphicsHelper.MeasureStringWidth(context, message, lblStatus.Font.Name, lblStatus.Font.PointSize);
+				nfloat width = CoreGraphicsHelper.MeasureStringWidth(context, message, lblStatus.Font.Name, lblStatus.Font.PointSize);
 	            UIGraphics.EndImageContext();
 
-				float totalWidth = width + activityIndicator.Bounds.Width + padding;
-				float spinnerX = (UIScreen.MainScreen.Bounds.Width - totalWidth) / 2;
-				float textX = spinnerX + activityIndicator.Bounds.Width + padding;
+				nfloat totalWidth = width + activityIndicator.Bounds.Width + padding;
+				nfloat spinnerX = (UIScreen.MainScreen.Bounds.Width - totalWidth) / 2;
+				nfloat textX = spinnerX + activityIndicator.Bounds.Width + padding;
 
-				activityIndicator.Frame = new RectangleF(spinnerX, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
-				lblStatus.Frame = new RectangleF(textX, lblStatus.Frame.Y, width, lblStatus.Frame.Height);
+				activityIndicator.Frame = new CGRect(spinnerX, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
+				lblStatus.Frame = new CGRect(textX, lblStatus.Frame.Y, width, lblStatus.Frame.Height);
             });
         }
         

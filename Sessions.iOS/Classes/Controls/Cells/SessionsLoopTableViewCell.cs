@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controls.Cells.Base;
 using Sessions.iOS.Classes.Controls.Buttons;
 using org.sessionsapp.player;
@@ -68,7 +68,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         {
         }
 
-        public SessionsLoopTableViewCell(RectangleF frame) : base(frame)
+        public SessionsLoopTableViewCell(CGRect frame) : base(frame)
         {
         }
 
@@ -91,7 +91,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 			BackgroundView.AddGestureRecognizer(longPress);
 
             TitleTextLabel = new UILabel();
-            TitleTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TitleTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             TitleTextLabel.BackgroundColor = UIColor.Clear;
             TitleTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TitleTextLabel.TextColor = UIColor.White;
@@ -99,14 +99,14 @@ namespace Sessions.iOS.Classes.Controls.Cells
             TitleTextLabel.Alpha = 1;
 
             PositionTextLabel = new UILabel();
-            PositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            PositionTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             PositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             PositionTextLabel.TextColor = UIColor.White;
             PositionTextLabel.HighlightedTextColor = UIColor.White;
             PositionTextLabel.TextAlignment = UITextAlignment.Right;
 
             StartPositionTextLabel = new UILabel();
-            StartPositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            StartPositionTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             StartPositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 13);
             StartPositionTextLabel.TextColor = UIColor.White;
             StartPositionTextLabel.HighlightedTextColor = UIColor.White;
@@ -114,7 +114,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             StartPositionTextLabel.Alpha = 0;
 
             EndPositionTextLabel = new UILabel();
-            EndPositionTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            EndPositionTextLabel.Layer.AnchorPoint = new CGPoint(0, 0.5f);
             EndPositionTextLabel.Font = UIFont.FromName("HelveticaNeue", 13);
             EndPositionTextLabel.TextColor = UIColor.White;
             EndPositionTextLabel.HighlightedTextColor = UIColor.White;
@@ -154,7 +154,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             AddView(EndPositionTitleLabel);
 
 			// Add padding to text field
-			var paddingView = new UIView(new RectangleF(0, 0, 4, 20));
+			var paddingView = new UIView(new CGRect(0, 0, 4, 20));
 			TextField.LeftView = paddingView;
 			TextField.LeftViewMode = UITextFieldViewMode.Always;
 
@@ -199,7 +199,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             EndPositionPunchInButton.TouchUpInside += HandleOnEndPositionPunchInButtonClick;
             AddView(EndPositionPunchInButton);
 
-			StartPositionSlider = new UISlider(new RectangleF(0, 0, 10, 10));
+			StartPositionSlider = new UISlider(new CGRect(0, 0, 10, 10));
             StartPositionSlider.ExclusiveTouch = true;
             StartPositionSlider.Alpha = 0;
             StartPositionSlider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
@@ -224,7 +224,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
 			};
             AddView(StartPositionSlider);
 
-            EndPositionSlider = new UISlider(new RectangleF(0, 0, 10, 10));
+            EndPositionSlider = new UISlider(new CGRect(0, 0, 10, 10));
             EndPositionSlider.ExclusiveTouch = true;
             EndPositionSlider.Alpha = 0;
             EndPositionSlider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
@@ -286,11 +286,11 @@ namespace Sessions.iOS.Classes.Controls.Cells
             EndPositionTextLabel.Text = loop.EndPosition;
             LoopId = loop.LoopId;
 
-            if (setSliderValues)
-            {
-                StartPositionSlider.Value = loop.StartPositionPercentage;
-                EndPositionSlider.Value = loop.EndPositionPercentage;
-            }
+//            if (setSliderValues)
+//            {
+//                StartPositionSlider.Value = loop.StartPositionPercentage;
+//                EndPositionSlider.Value = loop.EndPositionPercentage;
+//            }
         }
 
         public void SetLoopPlaying(bool isPlaying)
@@ -310,33 +310,33 @@ namespace Sessions.iOS.Classes.Controls.Cells
             const float loopIconSize = 26;
 
             float x = leftPadding;
-            IndexTextLabel.Frame = new RectangleF(x, 6, 22, textHeight);
+            IndexTextLabel.Frame = new CGRect(x, 6, 22, textHeight);
             x += 22 + leftPadding;
-            PlayImageView.Frame = new RectangleF(x, 12, loopIconSize, loopIconSize);
+            PlayImageView.Frame = new CGRect(x, 12, loopIconSize, loopIconSize);
             x += loopIconSize + leftPadding;
 
 			if (IsTextLabelAllowedToChangeFrame)
 			{
-                float positionTextLabelX = Bounds.Width - 128;
-                PositionTextLabel.Frame = new RectangleF(positionTextLabelX, topPadding, 120, textHeight);
+                nfloat positionTextLabelX = Bounds.Width - 128;
+                PositionTextLabel.Frame = new CGRect(positionTextLabelX, topPadding, 120, textHeight);
 
-                StartPositionTitleLabel.Frame = new RectangleF(leftPadding, topPadding + 35, Bounds.Width, textHeight);
-                StartPositionTextLabel.Frame = new RectangleF(positionTextLabelX - 48, topPadding + 35, 120, textHeight);
-                EndPositionTitleLabel.Frame = new RectangleF(leftPadding, topPadding + 35 + sliderAndTextHeight, Bounds.Width, textHeight);
-                EndPositionTextLabel.Frame = new RectangleF(positionTextLabelX - 48, topPadding + 35 + sliderAndTextHeight, 120, textHeight);
+                StartPositionTitleLabel.Frame = new CGRect(leftPadding, topPadding + 35, Bounds.Width, textHeight);
+                StartPositionTextLabel.Frame = new CGRect(positionTextLabelX - 48, topPadding + 35, 120, textHeight);
+                EndPositionTitleLabel.Frame = new CGRect(leftPadding, topPadding + 35 + sliderAndTextHeight, Bounds.Width, textHeight);
+                EndPositionTextLabel.Frame = new CGRect(positionTextLabelX - 48, topPadding + 35 + sliderAndTextHeight, 120, textHeight);
 
-                TitleTextLabel.Frame = new RectangleF(x, topPadding, Bounds.Width - 120, textHeight);
+                TitleTextLabel.Frame = new CGRect(x, topPadding, Bounds.Width - 120, textHeight);
 			}
 
-			TextField.Frame = new RectangleF(x - 4, topPadding + 1, Bounds.Width - 120 - 48, 38);
+			TextField.Frame = new CGRect(x - 4, topPadding + 1, Bounds.Width - 120 - 48, 38);
 
-            StartPositionSlider.Frame = new RectangleF(leftPadding, textHeight + 34, Bounds.Width - 12 - buttonSize - 12, 36);
-            EndPositionSlider.Frame = new RectangleF(leftPadding, textHeight + 34 + sliderAndTextHeight, Bounds.Width - 12 - buttonSize - 12, 36);
+            StartPositionSlider.Frame = new CGRect(leftPadding, textHeight + 34, Bounds.Width - 12 - buttonSize - 12, 36);
+            EndPositionSlider.Frame = new CGRect(leftPadding, textHeight + 34 + sliderAndTextHeight, Bounds.Width - 12 - buttonSize - 12, 36);
 
-            DeleteButton.Frame = new RectangleF(Bounds.Width - buttonSize, topPadding, buttonSize, buttonSize);
+            DeleteButton.Frame = new CGRect(Bounds.Width - buttonSize, topPadding, buttonSize, buttonSize);
 
-            StartPositionPunchInButton.Frame = new RectangleF(Bounds.Width - buttonSize, 68, buttonSize, buttonSize);
-            EndPositionPunchInButton.Frame = new RectangleF(Bounds.Width - buttonSize, 68 + sliderAndTextHeight, buttonSize, buttonSize);
+            StartPositionPunchInButton.Frame = new CGRect(Bounds.Width - buttonSize, 68, buttonSize, buttonSize);
+            EndPositionPunchInButton.Frame = new CGRect(Bounds.Width - buttonSize, 68 + sliderAndTextHeight, buttonSize, buttonSize);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)

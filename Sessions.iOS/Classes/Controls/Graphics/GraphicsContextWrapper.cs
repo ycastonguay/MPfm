@@ -16,10 +16,9 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 using Sessions.iOS.Helpers;
 using Sessions.GenericControls.Graphics;
@@ -33,11 +32,11 @@ namespace Sessions.iOS.Classes.Controls.Graphics
 	{
 		protected CGContext Context;
 
-		public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight, BasicRectangle dirtyRect)
+		public GraphicsContextWrapper(CGContext context, nfloat boundsWidth, nfloat boundsHeight, BasicRectangle dirtyRect)
 		{
 			Context = context;
-			BoundsWidth = boundsWidth;
-			BoundsHeight = boundsHeight;
+            BoundsWidth = (float)boundsWidth;
+            BoundsHeight = (float)boundsHeight;
 			DirtyRect = dirtyRect;
 		}
 
@@ -70,12 +69,12 @@ namespace Sessions.iOS.Classes.Controls.Graphics
 
 		public void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen)
 		{
-			CoreGraphicsHelper.DrawLine(Context, new List<PointF>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness, true, false);
+			CoreGraphicsHelper.DrawLine(Context, new List<CGPoint>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness, true, false);
 		}
 
         public void DrawLine(List<BasicPoint> points, BasicPen pen, bool isRounded, bool closePath, bool isDashed)
         {
-            var pts = new List<PointF>();
+            var pts = new List<CGPoint>();
             foreach (var point in points)
             {
                 pts.Add(GenericControlHelper.ToPoint(point));
@@ -106,7 +105,7 @@ namespace Sessions.iOS.Classes.Controls.Graphics
 		public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
 		{
 			var size = CoreGraphicsHelper.MeasureText(Context, text, fontFace, fontSize);
-			return new BasicRectangle(0, 0, size.Width, size.Height);
+            return new BasicRectangle(0, 0, (float)size.Width, (float)size.Height);
 		}
 
 		public void SetPen(BasicPen pen)
@@ -117,7 +116,7 @@ namespace Sessions.iOS.Classes.Controls.Graphics
 
 		public void StrokeLine(BasicPoint point, BasicPoint point2)
 		{
-			Context.StrokeLineSegments(new PointF[2] { GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) });
+			Context.StrokeLineSegments(new CGPoint[2] { GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) });
 		}
 
 		public void SaveState()

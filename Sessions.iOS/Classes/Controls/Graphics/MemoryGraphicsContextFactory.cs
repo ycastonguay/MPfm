@@ -16,10 +16,10 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MonoTouch.CoreGraphics;
+using CoreGraphics;
 using Sessions.GenericControls.Graphics;
-using MonoTouch.UIKit;
-using System.Drawing;
+using UIKit;
+using CoreGraphics;
 
 namespace Sessions.iOS.Classes.Controls.Graphics
 {
@@ -28,7 +28,7 @@ namespace Sessions.iOS.Classes.Controls.Graphics
 		public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
 		{
 			//Console.WriteLine("MemoryGraphicsContextFactory - CreateMemoryGraphicsContext - width: {0} height: {1}", width, height);
-			UIGraphics.BeginImageContextWithOptions(new SizeF(width, height), false, 0);
+			UIGraphics.BeginImageContextWithOptions(new CGSize(width, height), false, 0);
 			var context = UIGraphics.GetCurrentContext();
 
 			// Quartz2D uses a different coordinate system; the origin is in the lower left corner. Change origin to top left corner.

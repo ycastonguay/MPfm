@@ -17,15 +17,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.MediaPlayer;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using CoreGraphics;
+using Foundation;
+using MediaPlayer;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.iOS.Classes.Controls;
 using Sessions.iOS.Classes.Objects;
@@ -72,12 +72,12 @@ namespace Sessions.iOS.Classes.Controllers
 
             var btnDone = new SessionsFlatButton();
             btnDone.Label.Text = "Done";
-            btnDone.Frame = new RectangleF(0, 0, 70, 44);
+            btnDone.Frame = new CGRect(0, 0, 70, 44);
             btnDone.OnButtonClick += () => {
                 NavigationController.DismissViewController(true, null);
             };
-            var btnDoneView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnDoneView.Bounds.X + 16, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
+            var btnDoneView = new UIView(new CGRect(0, 0, 70, 44));
+            var rect = new CGRect(btnDoneView.Bounds.X + 16, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
             btnDoneView.Bounds = rect;
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
@@ -86,13 +86,13 @@ namespace Sessions.iOS.Classes.Controllers
             btnAdd.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnAdd.Label.Text = "Add";
             btnAdd.Label.TextAlignment = UITextAlignment.Right;
-            btnAdd.Label.Frame = new RectangleF(0, 0, 44, 44);
+            btnAdd.Label.Frame = new CGRect(0, 0, 44, 44);
             btnAdd.ImageChevron.Image = UIImage.FromBundle("Images/Tables/plus_blue");
-            btnAdd.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
-            btnAdd.Frame = new RectangleF(0, 0, 70, 44);
+            btnAdd.ImageChevron.Frame = new CGRect(70 - 22, 0, 22, 44);
+            btnAdd.Frame = new CGRect(0, 0, 70, 44);
             btnAdd.OnButtonClick += HandleButtonAddTouchUpInside;
-            var btnAddView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
-            var rect2 = new RectangleF(btnAddView.Bounds.X - 16, btnAddView.Bounds.Y, btnAddView.Bounds.Width, btnAddView.Bounds.Height);
+            var btnAddView = new UIView(new CGRect(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
+            var rect2 = new CGRect(btnAddView.Bounds.X - 16, btnAddView.Bounds.Y, btnAddView.Bounds.Width, btnAddView.Bounds.Height);
             btnAddView.Bounds = rect2;
             btnAddView.AddSubview(btnAdd);
             _btnAdd = new UIBarButtonItem(btnAddView);
@@ -104,11 +104,11 @@ namespace Sessions.iOS.Classes.Controllers
             navCtrl.SetBackButtonVisible(false);
 
             // Create MPVolumeView (only visible on physical iOS device)
-            RectangleF rectVolume;
+            CGRect rectVolume;
             if (UserInterfaceIdiomIsPhone)
-                rectVolume = new RectangleF(74, 25, 236, 46);
+                rectVolume = new CGRect(74, 25, 236, 46);
             else
-                rectVolume = new RectangleF(74, 25, 236, 46);
+                rectVolume = new CGRect(74, 25, 236, 46);
             _volumeView = new MPVolumeView(rectVolume);
             _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             _volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
@@ -160,9 +160,9 @@ namespace Sessions.iOS.Classes.Controllers
 
 			var screenSize = UIKitHelper.GetDeviceSize();
 			if (UserInterfaceIdiomIsPhone)
-				_volumeView.Frame = new RectangleF(74, 25, 236, 46);
+				_volumeView.Frame = new CGRect(74, 25, 236, 46);
 			else
-				_volumeView.Frame = new RectangleF(100, 58, screenSize.Width - 112, 46);
+				_volumeView.Frame = new CGRect(100, 58, screenSize.Width - 112, 46);
 		}
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)

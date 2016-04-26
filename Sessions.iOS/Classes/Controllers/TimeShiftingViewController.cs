@@ -16,9 +16,9 @@
 // along with Sessions. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Controllers.Base;
 using Sessions.MVP.Views;
 using Sessions.MVP.Presenters;
@@ -58,7 +58,7 @@ namespace Sessions.iOS.Classes.Controllers
 			base.ViewDidLayoutSubviews();
 
 			if(viewButtons != null)
-				viewButtons.Frame = new RectangleF((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
+				viewButtons.Frame = new CGRect((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
 		}
 
         void HandleSliderValueChanged(object sender, EventArgs e)

@@ -17,14 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using CoreGraphics;
 using System.Linq;
 using Sessions.MVP.Bootstrap;
 using Sessions.MVP.Navigation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreAnimation;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 using Sessions.iOS.Classes.Objects;
 
 namespace Sessions.iOS.Classes.Controls.Cells
@@ -57,7 +57,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
         }
 
         [Export ("initWithFrame:")]
-        public SessionsCollectionArtistViewCell(RectangleF frame) : base(frame)
+        public SessionsCollectionArtistViewCell(CGRect frame) : base(frame)
         {
             Initialize();
         }
@@ -69,7 +69,7 @@ namespace Sessions.iOS.Classes.Controls.Cells
             SelectedBackgroundView = new UIView{BackgroundColor = UIColor.Blue};
             ContentView.BackgroundColor = UIColor.Yellow;
 
-            _imageView = new UIImageView(new RectangleF(0, 0, Frame.Width, Frame.Height));
+            _imageView = new UIImageView(new CGRect(0, 0, Frame.Width, Frame.Height));
             _imageView.BackgroundColor = GlobalTheme.MainDarkColor;
             //_imageView.Image = UIImage.FromBundle("Images/Icons/app_icon_114");
             _imageView.Center = ContentView.Center;

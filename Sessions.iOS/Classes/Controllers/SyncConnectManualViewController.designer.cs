@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace Sessions.iOS.Classes.Controllers
@@ -19,16 +19,16 @@ namespace Sessions.iOS.Classes.Controllers
         Sessions.iOS.Classes.Controls.Buttons.SessionsButton btnConnect { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField txtUrl { get; set; }
+		UIKit.UITextField txtUrl { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPanel { get; set; }
+		UIKit.UIView viewPanel { get; set; }
 
 		[Action ("actionCancel:")]
-		partial void actionCancel (MonoTouch.Foundation.NSObject sender);
+		partial void actionCancel (Foundation.NSObject sender);
 
 		[Action ("actionConnect:")]
-		partial void actionConnect (MonoTouch.Foundation.NSObject sender);
+		partial void actionConnect (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
