@@ -51,9 +51,16 @@ namespace Sessions.Library.Services
 		{
             // Warn any subscribers that the audio file cache has been updated (i.e. library/song browser presenters)
             Tracing.Log("AudioFileCacheService - Refreshing cache...");
-            AudioFiles = _libraryService.SelectAudioFiles().ToList();
-            Tracing.Log(string.Format("AudioFileCacheService - Cache has {0} files.", AudioFiles.Count));
-            _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
+            try
+            {
+                AudioFiles = _libraryService.SelectAudioFiles().ToList();
+                Tracing.Log(string.Format("AudioFileCacheService - Cache has {0} files.", AudioFiles.Count));
+                _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 		}
 
         /// <summary>

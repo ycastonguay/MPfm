@@ -23,7 +23,7 @@ using Sessions.Core.Attributes;
 using Sessions.Sound.CueFiles;
 
 #if !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-using CoreGraphics;
+//using CoreGraphics;
 #endif
 
 #if (MACOSX || LINUX)

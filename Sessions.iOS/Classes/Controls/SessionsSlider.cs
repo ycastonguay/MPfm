@@ -158,7 +158,7 @@ namespace Sessions.iOS.Classes.Controls
             CGPoint pt = uitouch.LocationInView(this);
 
             nfloat deltaY = pt.Y - _beginTrackingPosition.Y;
-            var scrubbingSpeed = ScrubbingSpeedHelper.IdentifyScrubbingSpeed(deltaY, _scrubbingSpeeds);
+            var scrubbingSpeed = ScrubbingSpeedHelper.IdentifyScrubbingSpeed((float)deltaY, _scrubbingSpeeds);
             if (_currentScrubbingSpeed != scrubbingSpeed)
             {
                 _currentScrubbingSpeed = scrubbingSpeed;

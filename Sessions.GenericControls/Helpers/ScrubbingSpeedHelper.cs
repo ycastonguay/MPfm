@@ -40,7 +40,7 @@ namespace Sessions.GenericControls.Helpers
             return scrubbingSpeeds;
         }
 
-        public static ScrubbingSpeed IdentifyScrubbingSpeed(nfloat deltaY, IEnumerable<ScrubbingSpeed> scrubbingSpeeds)
+        public static ScrubbingSpeed IdentifyScrubbingSpeed(float deltaY, IEnumerable<ScrubbingSpeed> scrubbingSpeeds)
         {
             foreach (var scrubbingSpeed in scrubbingSpeeds)
             {
