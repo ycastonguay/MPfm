@@ -71,7 +71,7 @@ namespace Sessions.iOS.Classes.Controllers
             SessionsNavigationController navCtrl = (SessionsNavigationController)this.NavigationController;
             navCtrl.SetTitle("Sync (Nearby Devices)");
 
-            OnStartDiscovery();
+            //OnStartDiscovery();
             activityIndicator.StartAnimating();
         }
 

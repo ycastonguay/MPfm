@@ -481,8 +481,9 @@ namespace Sessions.Library.Database
                         Type fieldType = reader.GetFieldType(a);
                         object fieldValue = reader.GetValue(a);
 
-						PropertyInfo info = propertyInfos[a].Item1;
-						var delSet = propertyInfos[a].Item2;
+                        PropertyInfo info = propertyInfos[a].Item1;
+                        var delSet = propertyInfos[a].Item2;
+
 						if (info != null)
                         {
                             if (fieldValue is System.DBNull)
@@ -505,7 +506,15 @@ namespace Sessions.Library.Database
                             }
 
 							// This is actually faster than dynamic invoke
-							info.SetValue(data, fieldValue, null);
+                            try
+                            {
+							    info.SetValue(data, fieldValue, null);
+                            }
+                            catch(Exception ex)
+                            {
+                                // TODO: Manage to convert Int64 to UInt32. This is probably caused by using the new nint type from Xamarin.iOS
+                                Console.WriteLine("WARNING: Select could not convert a value from {0} into {1}", fieldType, info.PropertyType);                                       
+                            }
 //							if(delSet != null)
 //								delSet.DynamicInvoke(new object[3] { data, fieldValue, null });
 						}
