@@ -163,9 +163,9 @@ namespace Sessions.Android
 
         #region IPlaylistView implementation
 
-        public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
-        public Action<Guid> OnSelectPlaylistItem { get; set; }
-        public Action<List<Guid>> OnRemovePlaylistItems { get; set; }
+        public Action<int, int> OnChangePlaylistItemOrder { get; set; }
+        public Action<int> OnSelectPlaylistItem { get; set; }
+        public Action<List<int>> OnRemovePlaylistItems { get; set; }
         public Action OnNewPlaylist { get; set; }
         public Action<string> OnLoadPlaylist { get; set; }
         public Action OnSavePlaylist { get; set; }

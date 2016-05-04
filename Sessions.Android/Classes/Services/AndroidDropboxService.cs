@@ -127,12 +127,12 @@ namespace Sessions.Android.Classes.Services
                 if (view is Fragment)
                 {
                     var fragment = (Fragment) view;
-                    _accountManager.StartLink(fragment, 0);
+                    //_accountManager.StartLink(fragment, 0);
                 }
                 else if (view is Activity)
                 {
                     var activity = (Activity)view;
-                    _accountManager.StartLink(activity, 0);                        
+                    //_accountManager.StartLink(activity, 0);                        
                 }
             }
         }

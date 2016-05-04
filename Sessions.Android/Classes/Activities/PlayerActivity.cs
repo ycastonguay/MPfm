@@ -35,13 +35,13 @@ using Sessions.MVP.Messages;
 using Sessions.MVP.Models;
 using Sessions.MVP.Navigation;
 using Sessions.MVP.Views;
-using Sessions.Sound.AudioFiles;
 using TinyMessenger;
 using org.sessionsapp.android;
 using Exception = System.Exception;
-using org.sessionsapp.player;
 using Sessions.Sound.Objects;
+using org.sessionsapp.player;
 using Sessions.Sound.Player;
+using Sessions.Sound.AudioFiles;
 
 namespace Sessions.Android
 {
@@ -518,6 +518,10 @@ namespace Sessions.Android
         }
 
         public void RefreshLoops(IEnumerable<SSPLoop> loops)
+        {
+        }
+
+        public void RefreshCurrentLoop(SSPLoop loop)
         {
         }
 

@@ -61,12 +61,22 @@ namespace Sessions.Android.Classes.Fragments
         public Action<SSPLoopSegmentType, float> OnChangingLoopSegmentPosition { get; set; }
         public Action<SSPLoopSegmentType, float> OnChangedLoopSegmentPosition { get; set; }
 
+        public Action<Guid, string> OnChangeLoopName { get; set; }
+
         public void LoopError(Exception ex)
         {
             ShowErrorDialog(ex);
         }
 
+        public void RefreshPlayingLoop(SSPLoop loop, bool isPlaying)
+        {
+        }
+
         public void RefreshCurrentlyPlayingLoop(SSPLoop loop)
+        {
+        }
+
+        public void RefreshCurrentlyEditedLoop(SSPLoop loop)
         {
         }
 

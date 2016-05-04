@@ -215,6 +215,7 @@ namespace Sessions.Android.Classes.Fragments
         public Action<Guid> OnPlayItem { get; set; }
         public Action<Guid> OnAddItemToPlaylist { get; set; }
         public Action<Guid> OnAddRemoveItemQueue { get; set; }
+        public Action<string, string> OnPlayAll { get; set; }
         public Action<string, string, object> OnRequestAlbumArt { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 

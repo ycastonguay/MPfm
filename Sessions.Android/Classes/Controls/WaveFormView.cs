@@ -40,7 +40,7 @@ namespace org.sessionsapp.android
         public bool ShowSecondaryPosition { get { return _control.ShowSecondaryPosition; } set { _control.ShowSecondaryPosition = value; } }
         public float Zoom { get { return _control.Zoom; } set { _control.Zoom = value; } }
         public BasicPoint ContentOffset { get { return _control.ContentOffset; } set { _control.ContentOffset = value; } }
-        public bool IsLoading { get { return _control.IsLoading; } }
+        public bool IsLoading { get { return _control.IsGeneratingPeakFile; } }
 
         public WaveFormView(Context context) : base(context)
         {
