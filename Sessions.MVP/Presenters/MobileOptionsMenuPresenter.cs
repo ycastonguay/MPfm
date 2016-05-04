@@ -60,7 +60,11 @@ namespace Sessions.MVP.Presenters
                 HeaderTitle = "Player",
                 MenuType = MobileOptionsMenuType.EqualizerPresets
             });
-
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Update Library",
+                HeaderTitle = "Sync",
+                MenuType = MobileOptionsMenuType.UpdateLibrary
+            });
              _items.Add(new MobileOptionsMenuEntity() { 
                 Title = "Nearby Devices",
                 HeaderTitle = "Sync",
