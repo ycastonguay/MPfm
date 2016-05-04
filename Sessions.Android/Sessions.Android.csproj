@@ -61,9 +61,6 @@
     <Reference Include="TinyIoC">
       <HintPath>..\Sessions.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
-    <Reference Include="Dropbox.Android">
-      <HintPath>Lib\Dropbox.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Sessions.Library\Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
